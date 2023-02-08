@@ -23,20 +23,21 @@ class Home extends StatefulWidget{
 }
 
 class _Home extends State<Home>{
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return SingleChildScrollView(
-      child: FutureBuilder<List<PostInfo>?>(
+      child: FutureBuilder<Map<String,List<PostInfo>?>>(
         future: getHome(),
-        builder: (context, AsyncSnapshot<List<PostInfo>?> snapshot) {
+        builder: (context, AsyncSnapshot<Map<String,List<PostInfo>?>> snapshot) {
           if(snapshot.hasError){
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Error: ${snapshot.error}',
-                  style: TextStyle(fontSize: 15,color: Palette.dark),
+                  style: TextStyle(fontSize: 15)
                 ),
               ),
             );
@@ -113,11 +114,11 @@ class _Home extends State<Home>{
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           padding: const EdgeInsets.all(8),
-                          itemCount: 3,
+                          itemCount: snapshot.data!["popularBoard"]!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               dense: true,
-                              title: Text("새로운 총학생회 부원을 뽑습니다."),
+                              title: Text(snapshot.data!["popularBoard"]![index].title),
                               subtitle: Text("익명"),
                             );
                           }
@@ -146,11 +147,11 @@ class _Home extends State<Home>{
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           padding: const EdgeInsets.all(8),
-                          itemCount: snapshot.data!.length,
+                          itemCount: snapshot.data!["freeBoard"]!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               dense: true,
-                              title: Text(snapshot.data![index].title),
+                              title: Text(snapshot.data!["freeBoard"]![index].title),
                               subtitle: Text("익명"),
                             );
                           }
@@ -166,22 +167,50 @@ class _Home extends State<Home>{
     );
   }
 
-  Future<List<PostInfo>?> getHome() async{
+  Future<Map<String,List<PostInfo>?>> getHome() async{
 
+    Map<String,List<PostInfo>?> postList = {
+      "freeBoard": await getFreeBoard(),
+      "popularBoard": await getPopularBoard()
+    };
+
+    return postList;
+  }
+
+  Future<List<PostInfo>?> getFreeBoard() async {
     http.Response postInfoResponse = await http.get(
-      Uri.parse('$apiHost/api/suggestion?page=0&size=5'),
+      Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=createDate,desc'),
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": widget.loginInfo.accessToken
       },
     );
+
     print(postInfoResponse.statusCode);
     if(postInfoResponse.statusCode == 200){
-      final List<PostInfo> postList = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
+      final List<PostInfo> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
           .map<PostInfo>((json) => PostInfo.fromJson(json)).toList();
-      return postList;
+      return response;
     }
+    return null;
+  }
 
+  Future<List<PostInfo>?> getPopularBoard() async {
+    http.Response postInfoResponse = await http.get(
+      Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=hitCount,desc'),
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": widget.loginInfo.accessToken
+      },
+    );
+
+    print(postInfoResponse.statusCode);
+    if(postInfoResponse.statusCode == 200){
+      //print(json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]);
+      final List<PostInfo> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
+          .map<PostInfo>((json) => PostInfo.fromJson(json)).toList();
+      return response;
+    }
     return null;
   }
 

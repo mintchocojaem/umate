@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:danvery/model/login_info.dart';
 import 'package:danvery/pages/home.dart';
 import 'package:danvery/palette/palette.dart';
@@ -7,10 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 
-const apiHost = 'https:/api.dku54play.site';
-  //'http://133.186.150.61:8080'
-  //'https:/api.dku54play.site'
+const apiHost = 'https://api.dku54play.site';
+  //'http://133.186.218.8:8080'
+  //'https://api.dku54play.site'
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
 void main() {
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -53,7 +64,7 @@ class _MyApp extends State<MyApp>{
             return Center(
               child: Text(
                 'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15,color: Palette.dark),
+                style: TextStyle(fontSize: 15),
               ),
             );
           }else if(snapshot.hasData == false){
@@ -107,23 +118,13 @@ class _MyApp extends State<MyApp>{
     http.Response loginInfoResponse = await http.post(
         Uri.parse('$apiHost/api/users/login'),
         headers: {"Content-Type": "application/json"},
-        body: '''{\n        "classId":"20220914",\n        "password":"p@ssw0rdplay54!@"\n}''',
+        body: '''{\n        "classId":"17011092",\n        "password":"99730567"\n}''',
     );
 
     if(loginInfoResponse.statusCode == 200){
       print(loginInfoResponse.statusCode);
       final loginInfoParsed = json.decode(loginInfoResponse.body);
       final LoginInfo loginInfo = LoginInfo.formJson(loginInfoParsed);
-
-      /*http.Response userInfoResponse = await http.get(
-        Uri.parse('$apiHost/api/users/major'),
-        headers: {"Content-Type": "application/json"},
-        body: '''{\n        "classId":"20220914",\n        "password":"p@ssw0rdplay54!@"\n}''',
-      );
-
-       */
-      //final userInfoParsed = json.decode(userInfoResponse.body);
-      //print(userInfoResponse.body);
       return loginInfo;
     }
 
