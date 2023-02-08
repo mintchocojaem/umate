@@ -21,7 +21,7 @@ class MyHttpOverrides extends HttpOverrides{
 }
 
 void main() {
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -43,6 +43,7 @@ class _MyApp extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData(
+        fontFamily: 'NotoSansKR',
         brightness: Brightness.light,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           unselectedItemColor: Palette.dark,
