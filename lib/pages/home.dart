@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:danvery/model/login_info.dart';
 import 'package:danvery/model/post_info.dart';
+import 'package:danvery/model/user_info.dart';
+import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,8 +12,9 @@ import '../palette/palette.dart';
 
 class Home extends StatefulWidget{
   final LoginInfo loginInfo;
+  final UserInfo userInfo;
 
-  const Home({super.key, required this.loginInfo});
+  const Home({super.key, required this.loginInfo, required this.userInfo});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,6 +28,10 @@ class _Home extends State<Home>{
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     // TODO: implement build
     return SingleChildScrollView(
       child: FutureBuilder<Map<String,List<PostInfo>?>>(
@@ -47,13 +54,76 @@ class _Home extends State<Home>{
           }else{
             return Stack(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  color: Color(0xff0D6EFA).withOpacity(0.9),
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: height * 0.4,
+                      color: Palette.blue,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: height * 0.05, left:  width * 0.1, right:  width * 0.1),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                style: TextStyle(color: Palette.white),
+                                text: '안녕하세요,\n', // default text style
+                                children: <TextSpan>[
+                                  TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}",
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                  const TextSpan(text: " 학번\n"),
+                                  TextSpan(text: '${widget.userInfo.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                  const TextSpan(text: " 님")
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: height * 0.03,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MainButton(
+                                  imagePath: "assets/icons/main_btn_list/school_home_btn.png",
+                                  text: "학교 홈",
+                                  onPressed: (){
+                                  },
+                                ),
+                                MainButton(
+                                  imagePath: "assets/icons/main_btn_list/reading_room_btn.png",
+                                  text: "열람실",
+                                  onPressed: (){
+                                  },
+                                ),
+                                MainButton(
+                                  imagePath: "assets/icons/main_btn_list/web_info_btn.png",
+                                  text: "웹 정보",
+                                  onPressed: (){
+                                  },
+                                ),
+                                MainButton(
+                                  imagePath: "assets/icons/main_btn_list/school_schedule_btn.png",
+                                  text: "학사일정",
+                                  onPressed: (){
+                                  },
+                                ),
+                                MainButton(
+                                  imagePath: "assets/icons/main_btn_list/students_council_btn.png",
+                                  text: "총학생회\nVOC",
+                                  onPressed: (){
+                                  },
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+                    SizedBox(height: height * 0.3),
                     Padding(
                       padding: const EdgeInsets.only(right: 16, left: 16, top: 8,bottom: 8),
                       child: Container(

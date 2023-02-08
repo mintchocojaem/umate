@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:danvery/model/login_info.dart';
+import 'package:danvery/model/user_info.dart';
 import 'package:danvery/pages/home.dart';
 import 'package:danvery/palette/palette.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class _MyApp extends State<MyApp>{
             return Center(
               child: Text(
                 'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
             );
           }else if(snapshot.hasData == false){
@@ -78,7 +79,10 @@ class _MyApp extends State<MyApp>{
                   child: IndexedStack(
                     index: page,
                     children: [
-                      Home(loginInfo: snapshot.data!),
+                      Home(
+                        loginInfo: snapshot.data!,
+                        userInfo: UserInfo(name: "이재민", major: "소프트웨어학과",studentNumber: "32193419"),
+                      ),
                     ],
                   )
               ),
