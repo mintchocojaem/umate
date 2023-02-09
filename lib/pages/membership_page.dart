@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-class Timetable extends StatefulWidget{
-  const Timetable({super.key});
+class MembershipPage extends StatefulWidget{
+  const MembershipPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _Timetable();
+    return _MembershipPage();
   }
 
 }
 
-class _Timetable extends State<Timetable>{
+class _MembershipPage extends State<MembershipPage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

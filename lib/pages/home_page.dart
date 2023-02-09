@@ -10,21 +10,21 @@ import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../palette/palette.dart';
 
-class Home extends StatefulWidget{
+class HomePage extends StatefulWidget{
   final LoginInfo loginInfo;
   final UserInfo userInfo;
 
-  const Home({super.key, required this.loginInfo, required this.userInfo});
+  const HomePage({super.key, required this.loginInfo, required this.userInfo});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _Home();
+    return _HomePage();
   }
 
 }
 
-class _Home extends State<Home>{
+class _HomePage extends State<HomePage>{
 
   @override
   Widget build(BuildContext context) {
@@ -65,18 +65,31 @@ class _Home extends State<Home>{
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text.rich(
-                              TextSpan(
-                                style: TextStyle(color: Palette.white),
-                                text: '안녕하세요,\n', // default text style
-                                children: <TextSpan>[
-                                  TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}",
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                  const TextSpan(text: " 학번\n"),
-                                  TextSpan(text: '${widget.userInfo.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                  const TextSpan(text: " 님")
-                                ],
-                              ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(color: Palette.white),
+                                    text: '안녕하세요,\n', // default text style
+                                    children: <TextSpan>[
+                                      TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}",
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                      const TextSpan(text: " 학번\n"),
+                                      TextSpan(text: '${widget.userInfo.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                      const TextSpan(text: " 님")
+                                    ],
+                                  ),
+                                ),
+                                /*
+                                CircleAvatar(
+                                  backgroundColor: Palette.white,
+                                  minRadius: 30,
+                                  child: Image.asset("assets/icons/main_header/bear_icon.png",scale: 1.5,),
+                                )
+                                 */
+                              ],
                             ),
                             SizedBox(height: height * 0.03,),
                             Row(
@@ -217,7 +230,7 @@ class _Home extends State<Home>{
                                     return ListTile(
                                       dense: true,
                                       title: Text(snapshot.data!["popularBoard"]![index].title),
-                                      subtitle: Text("익명"),
+                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
                                     );
                                   }
                               )
@@ -267,7 +280,7 @@ class _Home extends State<Home>{
                                     return ListTile(
                                       dense: true,
                                       title: Text(snapshot.data!["freeBoard"]![index].title),
-                                      subtitle: Text("익명"),
+                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
                                     );
                                   }
                               )
@@ -275,7 +288,7 @@ class _Home extends State<Home>{
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -298,7 +311,7 @@ class _Home extends State<Home>{
 
   Future<List<PostInfo>?> getFreeBoard() async {
     http.Response postInfoResponse = await http.get(
-      Uri.parse('$apiHost/api/suggestion?page=0&size=3&sort=createDate,desc'),
+      Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=createDate,desc'),
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": widget.loginInfo.accessToken
@@ -316,7 +329,7 @@ class _Home extends State<Home>{
 
   Future<List<PostInfo>?> getPopularBoard() async {
     http.Response postInfoResponse = await http.get(
-      Uri.parse('$apiHost/api/suggestion?page=0&size=3&sort=hitCount,desc'),
+      Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=hitCount,desc'),
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": widget.loginInfo.accessToken

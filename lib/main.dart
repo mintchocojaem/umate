@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:danvery/model/login_info.dart';
 import 'package:danvery/model/user_info.dart';
-import 'package:danvery/pages/home.dart';
+import 'package:danvery/pages/home_page.dart';
+import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/palette/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,14 +38,13 @@ class MyApp extends StatefulWidget{
 class _MyApp extends State<MyApp>{
 
   int page = 0;
-
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        fontFamily: 'NotoSansKR',
         brightness: Brightness.light,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           unselectedItemColor: Palette.dark,
@@ -74,43 +74,73 @@ class _MyApp extends State<MyApp>{
           }else if(snapshot.data == null){
             return Container();
           }else{
-            return Scaffold(
-              body: SafeArea(
+            return SafeArea(
+              child: Scaffold(
+                backgroundColor: Palette.white,
+                body: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                   child: IndexedStack(
                     index: page,
                     children: [
-                      Home(
+                      HomePage(
                         loginInfo: snapshot.data!,
                         userInfo: UserInfo(name: "이재민", major: "소프트웨어학과",studentNumber: "32193419"),
                       ),
+                      TimetablePage(
+
+                      )
                     ],
-                  )
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: "홈"
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.calendar_today),
-                      label: "시간표"
+                ),
+                bottomNavigationBar: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 1),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bus_alert),
-                      label: "버스"
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20)
+                    ),
+                    child: BottomNavigationBar(
+                      onTap: (value){
+                        setState(() {
+                          page = value;
+                        });
+                      },
+                      //currentIndex: page,
+                      backgroundColor: Palette.white,
+                      showSelectedLabels: false,
+                      showUnselectedLabels: false,
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: Image.asset("assets/icons/bottom_nav/home_icon.png",scale: 2,),
+                          label: "홈",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Image.asset("assets/icons/bottom_nav/timetable_icon.png",scale: 2),
+                          label: "시간표"
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Image.asset("assets/icons/bottom_nav/bus_icon.png",scale: 2),
+                          label: "버스"
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Image.asset("assets/icons/bottom_nav/board_icon.png",scale: 2),
+                          label: "게시판"
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Image.asset("assets/icons/bottom_nav/setting_icon.png",scale: 2),
+                          label: "설정"
+                        ),
+                      ],
+                    ),
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.border_color_rounded),
-                      label: "게시판"
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      label: "설정"
-                  ),
-                ],
+                ),
+                extendBody: true,
               ),
             );
           }

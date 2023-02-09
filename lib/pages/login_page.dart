@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-class Board extends StatefulWidget{
-  const Board({super.key});
+class LoginPage extends StatefulWidget{
+  const LoginPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _Board();
+    return _LoginPage();
   }
 
 }
 
-class _Board extends State<Board>{
+class _LoginPage extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
