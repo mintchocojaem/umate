@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:danvery/model/login_info.dart';
+import 'package:danvery/model/petition_info.dart';
 import 'package:danvery/model/post_info.dart';
 import 'package:danvery/model/user_info.dart';
 import 'package:danvery/widgets/main_button.dart';
@@ -34,9 +35,9 @@ class _HomePage extends State<HomePage>{
 
     // TODO: implement build
     return SingleChildScrollView(
-      child: FutureBuilder<Map<String,List<PostInfo>?>>(
+      child: FutureBuilder<Map<String,List?>>(
         future: getHome(),
-        builder: (context, AsyncSnapshot<Map<String,List<PostInfo>?>> snapshot) {
+        builder: (context, AsyncSnapshot<Map<String,List?>> snapshot) {
           if(snapshot.hasError){
             return Center(
               child: Padding(
@@ -74,9 +75,8 @@ class _HomePage extends State<HomePage>{
                                     style: TextStyle(color: Palette.white),
                                     text: '안녕하세요,\n', // default text style
                                     children: <TextSpan>[
-                                      TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}",
+                                      TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}학번\n",
                                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                      const TextSpan(text: " 학번\n"),
                                       TextSpan(text: '${widget.userInfo.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                                       const TextSpan(text: " 님")
                                     ],
@@ -162,25 +162,101 @@ class _HomePage extends State<HomePage>{
                                   Text("버스 정보",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
                                   Row(
                                     children: [
-                                      Text("더보기",style: TextStyle(fontSize: 14),),
+                                      Text("더보기",style: TextStyle(fontSize: 14,color: Palette.grey),),
                                       Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 16,),
+                              SizedBox(height: 8,),
+                              ListTile(
+                                dense: true,
+                                title: Text("단국대학교 정문 승차"),
+                                leading: SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: Image.asset("assets/icons/bus_list/bus_102.png")
+                                ),
+                                trailing: Text("17분 후 도착"),
+                              ),
+                              ListTile(
+                                dense: true,
+                                title: Text("단국대학교 정문 승차"),
+                                leading: SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: Image.asset("assets/icons/bus_list/bus_720_3.png")
+                                ),
+                                trailing: Text("17분 후 도착"),
+                              ),
+                              ListTile(
+                                dense: true,
+                                title: Text("단국대학교 정문 승차"),
+                                leading: SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: Image.asset("assets/icons/bus_list/bus_24.png")
+                                ),
+                                trailing: Text("17분 후 도착"),
+                              ),
+                              ListTile(
+                                dense: true,
+                                title: Text("단국대학교 정문 승차"),
+                                leading: SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: Image.asset("assets/icons/bus_list/bus_school.png")
+                                ),
+                                trailing: Text("17분 후 도착"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16, left: 16,top: 8,bottom: 8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20.0, left: 20, top: 20,bottom: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("자유게시판",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                                  Row(
+                                    children: [
+                                      Text("더보기",style: TextStyle(fontSize: 14, color: Palette.grey),),
+                                      Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
+                                    ],
+                                  ),
+                                ],
+                              ),
                               ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.all(8),
-                                  itemCount: 3,
+                                  itemCount: snapshot.data!["freeBoard"]!.length,
                                   itemBuilder: (BuildContext context, int index) {
                                     return ListTile(
+                                      contentPadding: EdgeInsets.all(0),
+                                      visualDensity: VisualDensity(vertical: -3),
                                       dense: true,
-                                      title: Text("720-3"),
-                                      subtitle: Text("단국대학교 곰상 승차"),
-                                      leading: Icon(Icons.directions_bus),
-                                      trailing: Text("17분 후 도착"),
+                                      title: Text(snapshot.data!["freeBoard"]![index].title),
+                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
                                     );
                                   }
                               )
@@ -205,81 +281,32 @@ class _HomePage extends State<HomePage>{
                           ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("실시간 인기글",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                                  Text("청원게시판",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
                                   Row(
                                     children: [
-                                      Text("더보기",style: TextStyle(fontSize: 14),),
+                                      Text("더보기",style: TextStyle(fontSize: 14,color: Palette.grey),),
                                       Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 16,),
                               ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data!["popularBoard"]!.length,
+                                  itemCount: snapshot.data!["petitionBoard"]!.length,
                                   itemBuilder: (BuildContext context, int index) {
                                     return ListTile(
+                                      contentPadding: EdgeInsets.all(0),
                                       dense: true,
-                                      title: Text(snapshot.data!["popularBoard"]![index].title),
-                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
-                                    );
-                                  }
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16, left: 16,top: 8,bottom: 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("자유 게시판",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                  Row(
-                                    children: [
-                                      Text("게시글 더보기",style: TextStyle(fontSize: 14),),
-                                      Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16,),
-                              ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data!["freeBoard"]!.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ListTile(
-                                      dense: true,
-                                      title: Text(snapshot.data!["freeBoard"]![index].title),
+                                      visualDensity: VisualDensity(vertical: -3),
+                                      title: Text(snapshot.data!["petitionBoard"]![index].title),
                                       leading: Text("익명",style: TextStyle(color: Palette.grey),),
                                     );
                                   }
@@ -299,11 +326,11 @@ class _HomePage extends State<HomePage>{
     );
   }
 
-  Future<Map<String,List<PostInfo>?>> getHome() async{
+  Future<Map<String,List?>> getHome() async{
 
-    Map<String,List<PostInfo>?> postList = {
+    Map<String,List?> postList = {
       "freeBoard": await getFreeBoard(),
-      "popularBoard": await getPopularBoard()
+      "petitionBoard": await getPetitionBoard()
     };
 
     return postList;
@@ -327,20 +354,20 @@ class _HomePage extends State<HomePage>{
     return null;
   }
 
-  Future<List<PostInfo>?> getPopularBoard() async {
-    http.Response postInfoResponse = await http.get(
-      Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=hitCount,desc'),
+  Future<List<PetitionInfo>?> getPetitionBoard() async {
+    http.Response petitionInfoResponse = await http.get(
+      Uri.parse('$apiHost/api/petition/'),
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": widget.loginInfo.accessToken
       },
     );
 
-    print(postInfoResponse.statusCode);
-    if(postInfoResponse.statusCode == 200){
+    print(petitionInfoResponse.statusCode);
+    if(petitionInfoResponse.statusCode == 200){
       //print(json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]);
-      final List<PostInfo> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
-          .map<PostInfo>((json) => PostInfo.fromJson(json)).toList();
+      final List<PetitionInfo> response = json.decode(utf8.decode(petitionInfoResponse.bodyBytes))["content"]
+          .map<PetitionInfo>((json) => PetitionInfo.fromJson(json)).toList();
       return response;
     }
     return null;
