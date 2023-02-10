@@ -1,10 +1,15 @@
+import 'package:danvery/model/subject_model.dart';
+import 'package:danvery/model/user_model.dart';
 import 'package:danvery/palette/palette.dart';
 import 'package:danvery/widgets/timetable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TimetablePage extends StatefulWidget{
-  const TimetablePage({super.key});
+
+  final UserModel userModel;
+
+  const TimetablePage({super.key, required this.userModel});
 
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +23,8 @@ class _TimetablePage extends State<TimetablePage>{
 
   @override
   Widget build(BuildContext context) {
+
+    final List<SubjectModel>? subjects = widget.userModel.subjects;
 
     final double height = MediaQuery.of(context).size.height;
 
@@ -34,7 +41,7 @@ class _TimetablePage extends State<TimetablePage>{
           ),
          Padding(
            padding: const EdgeInsets.all(8.0),
-           child: Timetable(),
+           child: Timetable(subjects: subjects,tableStartTime: 9, tableEndTime: 18,),
          )
         ],
       ),

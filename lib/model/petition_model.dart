@@ -1,5 +1,5 @@
 
-class PetitionInfo{
+class PetitionModel{
   final int id;
   final String title;
   final String petitionStatus;
@@ -7,7 +7,7 @@ class PetitionInfo{
   final bool blind;
   final int postHits;
 
-  PetitionInfo({
+  PetitionModel({
     required this.title,
     required this.id,
     required this.petitionStatus,
@@ -16,8 +16,8 @@ class PetitionInfo{
     required this.postHits
   });
 
-  factory PetitionInfo.fromJson(Map<String, dynamic> json){
-    return PetitionInfo(
+  factory PetitionModel.fromJson(Map<String, dynamic> json){
+    return PetitionModel(
         id: json["id"] as int,
         title: json["title"] as String,
         postHits: json["postHits"] as int,

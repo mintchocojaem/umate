@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:danvery/model/login_info.dart';
-import 'package:danvery/model/petition_info.dart';
-import 'package:danvery/model/post_info.dart';
-import 'package:danvery/model/user_info.dart';
+import 'package:danvery/model/login_model.dart';
+import 'package:danvery/model/petition_model.dart';
+import 'package:danvery/model/post_model.dart';
+import 'package:danvery/model/user_model.dart';
 import 'package:danvery/widgets/board_list.dart';
 import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,10 +13,10 @@ import '../main.dart';
 import '../palette/palette.dart';
 
 class HomePage extends StatefulWidget{
-  final LoginInfo loginInfo;
-  final UserInfo userInfo;
+  final LoginModel loginModel;
+  final UserModel userModel;
 
-  const HomePage({super.key, required this.loginInfo, required this.userInfo});
+  const HomePage({super.key, required this.loginModel, required this.userModel});
 
   @override
   State<StatefulWidget> createState() {
@@ -76,9 +76,9 @@ class _HomePage extends State<HomePage>{
                                     style: TextStyle(color: Palette.white),
                                     text: '안녕하세요,\n', // default text style
                                     children: <TextSpan>[
-                                      TextSpan(text: "${widget.userInfo.major} ${widget.userInfo.studentNumber.substring(2,4)}학번\n",
+                                      TextSpan(text: "${widget.userModel.major} ${widget.userModel.studentNumber.substring(2,4)}학번\n",
                                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                      TextSpan(text: '${widget.userInfo.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                      TextSpan(text: '${widget.userModel.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                                       const TextSpan(text: " 님")
                                     ],
                                   ),
@@ -271,38 +271,38 @@ class _HomePage extends State<HomePage>{
     return postList;
   }
 
-  Future<List<PostInfo>?> getFreeBoard() async {
+  Future<List<PostModel>?> getFreeBoard() async {
     http.Response postInfoResponse = await http.get(
       Uri.parse('$apiHost/api/suggestion?page=0&size=5&sort=createDate,desc'),
       headers: {
         "Content-Type": "application/json",
-        "x-auth-token": widget.loginInfo.accessToken
+        "x-auth-token": widget.loginModel.accessToken
       },
     );
 
     print(postInfoResponse.statusCode);
     if(postInfoResponse.statusCode == 200){
-      final List<PostInfo> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
-          .map<PostInfo>((json) => PostInfo.fromJson(json)).toList();
+      final List<PostModel> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
+          .map<PostModel>((json) => PostModel.fromJson(json)).toList();
       return response;
     }
     return null;
   }
 
-  Future<List<PetitionInfo>?> getPetitionBoard() async {
+  Future<List<PetitionModel>?> getPetitionBoard() async {
     http.Response petitionInfoResponse = await http.get(
       Uri.parse('$apiHost/api/petition/'),
       headers: {
         "Content-Type": "application/json",
-        "x-auth-token": widget.loginInfo.accessToken
+        "x-auth-token": widget.loginModel.accessToken
       },
     );
 
     print(petitionInfoResponse.statusCode);
     if(petitionInfoResponse.statusCode == 200){
       //print(json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]);
-      final List<PetitionInfo> response = json.decode(utf8.decode(petitionInfoResponse.bodyBytes))["content"]
-          .map<PetitionInfo>((json) => PetitionInfo.fromJson(json)).toList();
+      final List<PetitionModel> response = json.decode(utf8.decode(petitionInfoResponse.bodyBytes))["content"]
+          .map<PetitionModel>((json) => PetitionModel.fromJson(json)).toList();
       return response;
     }
     return null;

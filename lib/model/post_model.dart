@@ -1,4 +1,4 @@
-class PostInfo{
+class PostModel{
   final int id;
   final String title;
   final int postHits;
@@ -7,7 +7,7 @@ class PostInfo{
   final String status;
   final int likeCount;
 
-  PostInfo({
+  PostModel({
     required this.id,
     required this.title,
     required this.postHits,
@@ -17,8 +17,8 @@ class PostInfo{
     required this.likeCount
   });
 
-  factory PostInfo.fromJson(Map<String, dynamic> json){
-    return PostInfo(
+  factory PostModel.fromJson(Map<String, dynamic> json){
+    return PostModel(
         id: json["id"] as int,
         title: json["title"] as String,
         postHits: json["postHits"] as int,

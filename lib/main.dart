@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:danvery/model/login_info.dart';
-import 'package:danvery/model/user_info.dart';
+import 'package:danvery/model/login_model.dart';
+import 'package:danvery/model/subject_model.dart';
+import 'package:danvery/model/user_model.dart';
 import 'package:danvery/pages/home_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/palette/palette.dart';
@@ -36,6 +37,16 @@ class MyApp extends StatefulWidget{
 
 class _MyApp extends State<MyApp>{
 
+  static UserModel userModel = UserModel(
+      subjects: [
+        SubjectModel(name: "확률과 통계", startTime: '09:00', endTime: '10:30', days: ["월", "화"]),
+        SubjectModel(name: "선형 대수", startTime: '11:00', endTime: '12:30', days: ["수"]),
+      ],
+      name: "이재민",
+      major: "소프트웨어학과",
+      studentNumber: "32193419"
+  );
+
   int page = 0;
 
   @override
@@ -60,9 +71,9 @@ class _MyApp extends State<MyApp>{
           bodyText1: TextStyle(fontSize: 14),
         ),
       ),
-      home: FutureBuilder<LoginInfo?>(
+      home: FutureBuilder<LoginModel?>(
         future: login(),
-        builder: (BuildContext context, AsyncSnapshot<LoginInfo?> snapshot){
+        builder: (BuildContext context, AsyncSnapshot<LoginModel?> snapshot){
           if(snapshot.hasError){
             return Center(
               child: Text(
@@ -84,12 +95,12 @@ class _MyApp extends State<MyApp>{
                     index: page,
                     children: [
                       HomePage(
-                        loginInfo: snapshot.data!,
-                        userInfo: UserInfo(name: "이재민", major: "소프트웨어학과",studentNumber: "32193419"),
+                        loginModel: snapshot.data!,
+                        userModel: userModel,
                       ),
                       TimetablePage(
-
-                      )
+                        userModel: userModel
+                      ),
                     ],
                   ),
                 ),
@@ -151,7 +162,8 @@ class _MyApp extends State<MyApp>{
     );
   }
 
-  Future<LoginInfo?> login() async {
+  Future<LoginModel?> login() async {
+
     http.Response loginInfoResponse = await http.post(
         Uri.parse('$apiHost/api/users/login'),
         headers: {"Content-Type": "application/json"},
@@ -161,7 +173,7 @@ class _MyApp extends State<MyApp>{
     if(loginInfoResponse.statusCode == 200){
       print(loginInfoResponse.statusCode);
       final loginInfoParsed = json.decode(loginInfoResponse.body);
-      final LoginInfo loginInfo = LoginInfo.formJson(loginInfoParsed);
+      final LoginModel loginInfo = LoginModel.formJson(loginInfoParsed);
       return loginInfo;
     }
 
