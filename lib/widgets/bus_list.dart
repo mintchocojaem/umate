@@ -54,11 +54,11 @@ class _BusList extends State<BusList>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                  Text(widget.title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 17),),
                   Row(
                     children: [
-                      Text(widget.actionTitle,style: TextStyle(fontSize: 14, color: Palette.grey),),
-                      widget.showAction ? Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,) :
+                      Text(widget.actionTitle,style: TextStyle(fontSize: 15, color: Palette.grey),),
+                      widget.showAction ? Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 15,) :
                           Container()
                     ],
                   ),
@@ -74,13 +74,13 @@ class _BusList extends State<BusList>{
                       contentPadding: EdgeInsets.all(0),
                       visualDensity: VisualDensity(vertical: -2),
                       dense: true,
-                      title: Text(widget.data[index].station),
+                      title: SizedBox(height: 24,child: Text(widget.data[index].station, style: TextStyle(fontSize: 14))),
                       leading: SizedBox(
                           width: 32,
                           height: 32,
                           child: Image.asset(widget.data[index].imagePath)
                       ),
-                      trailing: Text("${widget.data[index].arrivalTime}분 후 도착"),
+                      trailing: SizedBox(height: 24,child: Text("${widget.data[index].arrivalTime}분 후 도착", style: TextStyle(fontSize: 14))),
                     );
                   }
               )

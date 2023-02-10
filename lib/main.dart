@@ -8,7 +8,10 @@ import 'package:danvery/pages/home_page.dart';
 import 'package:danvery/pages/login_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/palette/palette.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 const apiHost = 'https://api.dku54play.site';
@@ -57,7 +60,6 @@ class _MyApp extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        fontFamily: 'Noto_Sans_KR',
         brightness: Brightness.light,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           unselectedItemColor: Palette.dark,
@@ -65,11 +67,6 @@ class _MyApp extends State<MyApp>{
         ),
         iconTheme: IconThemeData(
             color: Palette.dark,
-        ),
-        textTheme: const TextTheme(
-          headline1: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          headline2: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
-          bodyText1: TextStyle(fontSize: 14),
         ),
       ),
       home: FutureBuilder<LoginModel?>(

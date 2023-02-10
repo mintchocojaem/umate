@@ -47,11 +47,11 @@ class _BoardList extends State<BoardList>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                  Text(widget.title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 17),),
                   Row(
                     children: [
-                      Text(widget.actionTitle,style: TextStyle(fontSize: 14, color: Palette.grey),),
-                      widget.showAction ? Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,) :
+                      Text(widget.actionTitle,style: TextStyle(fontSize: 15, color: Palette.grey),),
+                      widget.showAction ? Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 15,) :
                           Container()
                     ],
                   ),
@@ -67,8 +67,8 @@ class _BoardList extends State<BoardList>{
                       contentPadding: EdgeInsets.all(0),
                       visualDensity: VisualDensity(vertical: -3),
                       dense: true,
-                      title: Text(widget.data[index].title),
-                      leading: SizedBox(width: 32, child: Center(child: Text(widget.data[index].leading,style: TextStyle(color: Palette.grey),))),
+                      title: SizedBox(height: 24, child: Text(widget.data[index].title,style: TextStyle(fontSize: 14))),
+                      leading: SizedBox(height: 24, child: Text(widget.data[index].leading,style: TextStyle(color: Palette.grey, fontSize: 14),)),
                     );
                   }
               )
