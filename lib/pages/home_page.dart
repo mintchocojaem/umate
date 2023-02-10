@@ -4,6 +4,7 @@ import 'package:danvery/model/login_info.dart';
 import 'package:danvery/model/petition_info.dart';
 import 'package:danvery/model/post_info.dart';
 import 'package:danvery/model/user_info.dart';
+import 'package:danvery/widgets/board_list.dart';
 import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -229,40 +230,7 @@ class _HomePage extends State<HomePage>{
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 20.0, left: 20, top: 20,bottom: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("자유게시판",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                  Row(
-                                    children: [
-                                      Text("더보기",style: TextStyle(fontSize: 14, color: Palette.grey),),
-                                      Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data!["freeBoard"]!.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.all(0),
-                                      visualDensity: VisualDensity(vertical: -3),
-                                      dense: true,
-                                      title: Text(snapshot.data!["freeBoard"]![index].title),
-                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
-                                    );
-                                  }
-                              )
-                            ],
-                          ),
-                        ),
+                        child: BoardList(title: "자유게시판", actionTitle: "더보기", data: snapshot.data!["freeBoard"]!)
                       ),
                     ),
                     Padding(
@@ -280,40 +248,7 @@ class _HomePage extends State<HomePage>{
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("청원게시판",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                  Row(
-                                    children: [
-                                      Text("더보기",style: TextStyle(fontSize: 14,color: Palette.grey),),
-                                      Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data!["petitionBoard"]!.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.all(0),
-                                      dense: true,
-                                      visualDensity: VisualDensity(vertical: -3),
-                                      title: Text(snapshot.data!["petitionBoard"]![index].title),
-                                      leading: Text("익명",style: TextStyle(color: Palette.grey),),
-                                    );
-                                  }
-                              )
-                            ],
-                          ),
-                        ),
+                        child: BoardList(title: "청원게시판", actionTitle: "더보기", data: snapshot.data!["petitionBoard"]!,)
                       ),
                     ),
                   ],

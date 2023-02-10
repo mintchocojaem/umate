@@ -96,3 +96,18 @@ flutter:
     - assets/icons/main_header/
     - assets/icons/bus_list/
 
+  fonts:
+    - family: Noto_Sans_KR
+      fonts:
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.ttf
+          weight: 300
