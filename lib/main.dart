@@ -5,6 +5,7 @@ import 'package:danvery/model/login_model.dart';
 import 'package:danvery/model/subject_model.dart';
 import 'package:danvery/model/user_model.dart';
 import 'package:danvery/pages/home_page.dart';
+import 'package:danvery/pages/login_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/palette/palette.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,7 @@ class _MyApp extends State<MyApp>{
                       TimetablePage(
                         userModel: userModel
                       ),
+                      LoginPage()
                     ],
                   ),
                 ),

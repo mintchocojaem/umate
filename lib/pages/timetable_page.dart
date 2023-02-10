@@ -1,6 +1,8 @@
+import 'package:danvery/dto/board_list_dto.dart';
 import 'package:danvery/model/subject_model.dart';
 import 'package:danvery/model/user_model.dart';
 import 'package:danvery/palette/palette.dart';
+import 'package:danvery/widgets/board_list.dart';
 import 'package:danvery/widgets/timetable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,23 +28,24 @@ class _TimetablePage extends State<TimetablePage>{
 
     final List<SubjectModel>? subjects = widget.userModel.subjects;
 
-    final double height = MediaQuery.of(context).size.height;
-
     // TODO: implement build
-    return Container(
-      color: Palette.white,
+    return SingleChildScrollView(
       child: Column(
         children: [
+          /*
           AppBar(
             title: Text("시간표", style: TextStyle(color: Palette.black),),
             centerTitle: true,
             backgroundColor: Palette.white,
             elevation: 0,
           ),
-         Padding(
+          */
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+          Padding(
            padding: const EdgeInsets.all(8.0),
-           child: Timetable(subjects: subjects,tableStartTime: 9, tableEndTime: 18,),
-         )
+           child: Timetable(subjects: subjects,tableStartTime: 9, tableEndTime: 18,discription: "2023-1",tableName: "시간표1"),
+          ),
+          BoardList(data: [BoardListDTO(leading: "", title: "이관현")], title: "친구", actionTitle: "",showAction: false,)
         ],
       ),
     );

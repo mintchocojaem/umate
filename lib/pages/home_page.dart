@@ -9,6 +9,7 @@ import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../dto/board_list_dto.dart';
 import '../main.dart';
 import '../palette/palette.dart';
 
@@ -215,41 +216,15 @@ class _HomePage extends State<HomePage>{
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16, left: 16,top: 8,bottom: 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: BoardList(title: "자유게시판", actionTitle: "더보기", data: snapshot.data!["freeBoard"]!)
-                      ),
+                    BoardList(
+                        title: "자유게시판",
+                        actionTitle: "더보기",
+                        data: getBoardList(snapshot.data!["freeBoard"])
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16, left: 16, top: 8,bottom: 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: BoardList(title: "청원게시판", actionTitle: "더보기", data: snapshot.data!["petitionBoard"]!,)
-                      ),
+                    BoardList(
+                      title: "청원게시판",
+                      actionTitle: "더보기",
+                      data: getBoardList(snapshot.data!["petitionBoard"]),
                     ),
                   ],
                 ),
@@ -306,6 +281,15 @@ class _HomePage extends State<HomePage>{
       return response;
     }
     return null;
+  }
+
+  List<BoardListDTO> getBoardList(dynamic data){
+
+    List<BoardListDTO> result = [];
+    for(dynamic i in data){
+      result.add(BoardListDTO(leading: "익명", title: i.title));
+    }
+    return result;
   }
 
 }
