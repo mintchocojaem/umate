@@ -91,7 +91,12 @@ class _Timetable extends State<Timetable>{
               }
               return SizedBox(
                 height: cellWidth,
-                child: Center(child: Text('${(index ~/ 2) + widget.tableStartTime}')),
+                child: Center(
+                    child: Text(
+                      '${(index ~/ 2) + widget.tableStartTime}',
+                      style: TextStyle(fontSize: 12),
+                    )
+                ),
               );
             },
           ),
@@ -154,7 +159,7 @@ class _Timetable extends State<Timetable>{
     DateTime startTableTime = DateFormat('HH').parse(widget.tableStartTime.toString());
     Duration startTableDuration = Duration(hours: startTableTime.hour);
 
-    Color randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+    Color randomColor = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
 
     List<Widget> result = [];
     if(subjects != null){
@@ -179,7 +184,7 @@ class _Timetable extends State<Timetable>{
               ),
               child: Padding(
                 padding: EdgeInsets.all(2),
-                child: Text(i.name, style: TextStyle(color: Palette.white),),
+                child: Text(i.name, style: TextStyle(color: Palette.white, fontSize: 13),),
               ),
             ),
           ),
