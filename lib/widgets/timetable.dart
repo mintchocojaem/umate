@@ -69,42 +69,45 @@ class _Timetable extends State<Timetable>{
     }
 
     // TODO: implement build
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.discription, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
-                  Text(widget.tableName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.add_box_outlined)),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
-                ],
-              )
-            ],
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IntrinsicHeight(
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
             child: Row(
-              children: table
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.discription, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
+                    Text(widget.tableName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(onPressed: (){}, icon: Icon(Icons.add_box_outlined)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
+                  ],
+                )
+              ],
             ),
           ),
-        ),
-      ],
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                children: table
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

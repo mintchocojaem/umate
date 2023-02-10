@@ -5,11 +5,13 @@ import 'package:danvery/model/petition_model.dart';
 import 'package:danvery/model/post_model.dart';
 import 'package:danvery/model/user_model.dart';
 import 'package:danvery/widgets/board_list.dart';
+import 'package:danvery/widgets/bus_list.dart';
 import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../dto/board_list_dto.dart';
+import '../dto/bus_list_dto.dart';
 import '../main.dart';
 import '../palette/palette.dart';
 
@@ -28,6 +30,13 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePage extends State<HomePage>{
+
+  List<BusListDTO> busList = [
+    BusListDTO(name: "24", imagePath: "assets/icons/bus_list/bus_24.png", arrivalTime: "17", station: "단국대학교 정문"),
+    BusListDTO(name: "102", imagePath: "assets/icons/bus_list/bus_102.png", arrivalTime: "2", station: "단국대학교 정문"),
+    BusListDTO(name: "720-3", imagePath: "assets/icons/bus_list/bus_720_3.png", arrivalTime: "8", station: "단국대학교 정문"),
+    BusListDTO(name: "셔틀", imagePath: "assets/icons/bus_list/bus_school.png", arrivalTime: "20", station: "단국대학교 정문"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -139,82 +148,10 @@ class _HomePage extends State<HomePage>{
                 Column(
                   children: [
                     SizedBox(height: height * 0.3),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16, left: 16, top: 8,bottom: 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("버스 정보",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                  Row(
-                                    children: [
-                                      Text("더보기",style: TextStyle(fontSize: 14,color: Palette.grey),),
-                                      Icon(Icons.arrow_forward_ios_outlined,color: Palette.grey,size: 14,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8,),
-                              ListTile(
-                                dense: true,
-                                title: Text("단국대학교 정문 승차"),
-                                leading: SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: Image.asset("assets/icons/bus_list/bus_102.png")
-                                ),
-                                trailing: Text("17분 후 도착"),
-                              ),
-                              ListTile(
-                                dense: true,
-                                title: Text("단국대학교 정문 승차"),
-                                leading: SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: Image.asset("assets/icons/bus_list/bus_720_3.png")
-                                ),
-                                trailing: Text("17분 후 도착"),
-                              ),
-                              ListTile(
-                                dense: true,
-                                title: Text("단국대학교 정문 승차"),
-                                leading: SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: Image.asset("assets/icons/bus_list/bus_24.png")
-                                ),
-                                trailing: Text("17분 후 도착"),
-                              ),
-                              ListTile(
-                                dense: true,
-                                title: Text("단국대학교 정문 승차"),
-                                leading: SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: Image.asset("assets/icons/bus_list/bus_school.png")
-                                ),
-                                trailing: Text("17분 후 도착"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    BusList(
+                        data: busList,
+                        title: "버스 정보",
+                        actionTitle: "더보기"
                     ),
                     BoardList(
                         title: "자유게시판",

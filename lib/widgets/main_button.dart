@@ -18,7 +18,7 @@ class MainButton extends StatelessWidget{
     return Column(
       children: [
         IconButton(
-            iconSize: 36,
+            iconSize: 42,
             onPressed: onPressed,
             icon: Image.asset(
               imagePath,

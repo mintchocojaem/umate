@@ -1,27 +1,34 @@
 import 'package:danvery/dto/board_list_dto.dart';
+import 'package:danvery/dto/bus_list_dto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../palette/palette.dart';
 
-class BoardList extends StatefulWidget{
+class BusList extends StatefulWidget{
 
-  final List<BoardListDTO> data;
+  final List<BusListDTO> data;
   final String title;
   final String actionTitle;
   final bool showAction;
 
-  const BoardList({super.key, required this.data, required this.title, required this.actionTitle, this.showAction = true});
+  const BusList({
+    super.key,
+    required this.data,
+    required this.title,
+    required this.actionTitle,
+    this.showAction = true,
+  });
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _BoardList();
+    return _BusList();
   }
 
 }
 
-class _BoardList extends State<BoardList>{
+class _BusList extends State<BusList>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -65,10 +72,15 @@ class _BoardList extends State<BoardList>{
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.all(0),
-                      visualDensity: VisualDensity(vertical: -3),
+                      visualDensity: VisualDensity(vertical: -2),
                       dense: true,
-                      title: Text(widget.data[index].title),
-                      leading: SizedBox(width: 32, child: Center(child: Text(widget.data[index].leading,style: TextStyle(color: Palette.grey),))),
+                      title: Text(widget.data[index].station),
+                      leading: SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: Image.asset(widget.data[index].imagePath)
+                      ),
+                      trailing: Text("${widget.data[index].arrivalTime}분 후 도착"),
                     );
                   }
               )
