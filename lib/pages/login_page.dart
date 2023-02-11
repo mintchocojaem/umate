@@ -1,3 +1,4 @@
+import 'package:danvery/widgets/login_form_field.dart';
 import 'package:flutter/cupertino.dart';
 
 class LoginPage extends StatefulWidget{
@@ -16,7 +17,7 @@ class _LoginPage extends State<LoginPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-
+      child: LoginFormField(hint: '이메일 입력하세요',),
     );
   }
 

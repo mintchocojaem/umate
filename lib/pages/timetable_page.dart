@@ -1,7 +1,6 @@
 import 'package:danvery/dto/board_list_dto.dart';
 import 'package:danvery/model/subject_model.dart';
 import 'package:danvery/model/user_model.dart';
-import 'package:danvery/palette/palette.dart';
 import 'package:danvery/widgets/board_list.dart';
 import 'package:danvery/widgets/timetable.dart';
 import 'package:flutter/cupertino.dart';

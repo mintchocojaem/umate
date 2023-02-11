@@ -4,6 +4,7 @@ import 'package:danvery/model/login_model.dart';
 import 'package:danvery/model/petition_model.dart';
 import 'package:danvery/model/post_model.dart';
 import 'package:danvery/model/user_model.dart';
+import 'package:danvery/settings/font_size.dart';
 import 'package:danvery/widgets/board_list.dart';
 import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../dto/board_list_dto.dart';
 import '../main.dart';
-import '../palette/palette.dart';
+import '../settings/palette.dart';
 
 class HomePage extends StatefulWidget{
   final LoginModel loginModel;
@@ -71,7 +72,7 @@ class _HomePage extends State<HomePage>{
                       height: height * 0.4,
                       color: Palette.blue,
                       child: Padding(
-                        padding: EdgeInsets.only(top: height * 0.05, left:  width * 0.1, right:  width * 0.1),
+                        padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -81,13 +82,13 @@ class _HomePage extends State<HomePage>{
                               children: [
                                 Text.rich(
                                   TextSpan(
-                                    style: TextStyle(color: Palette.white),
+                                    style: TextStyle(color: Palette.white, fontSize: FontSize.regularFont),
                                     text: '안녕하세요,\n', // default text style
                                     children: <TextSpan>[
                                       TextSpan(text: "${widget.userModel.major} ${widget.userModel.studentNumber.substring(2,4)}학번\n",
-                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                      TextSpan(text: '${widget.userModel.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                      const TextSpan(text: " 님")
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: FontSize.titleFont)),
+                                      TextSpan(text: '${widget.userModel.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: FontSize.titleFont)),
+                                      TextSpan(text: " 님", style: TextStyle(fontSize: FontSize.regularFont))
                                     ],
                                   ),
                                 ),

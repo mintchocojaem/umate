@@ -7,7 +7,7 @@ import 'package:danvery/model/user_model.dart';
 import 'package:danvery/pages/home_page.dart';
 import 'package:danvery/pages/login_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
-import 'package:danvery/palette/palette.dart';
+import 'package:danvery/settings/palette.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:danvery/model/user_model.dart';
-import 'package:danvery/palette/palette.dart';
+import 'package:danvery/settings/font_size.dart';
 import 'package:danvery/widgets/board_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../model/subject_model.dart';
+import '../settings/palette.dart';
 
 class Timetable extends StatefulWidget{
 
@@ -81,8 +82,8 @@ class _Timetable extends State<Timetable>{
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.discription, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
-                    Text(widget.tableName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
+                    Text(widget.discription, style: TextStyle(fontSize: FontSize.regularFont, fontWeight: FontWeight.w600),),
+                    Text(widget.tableName, style: TextStyle(fontSize: FontSize.titleFont, fontWeight: FontWeight.bold),)
                   ],
                 ),
                 Row(
@@ -133,7 +134,7 @@ class _Timetable extends State<Timetable>{
                 child: Center(
                     child: Text(
                       '${(index ~/ 2) + widget.tableStartTime}',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: FontSize.lightFont),
                     )
                 ),
               );
@@ -165,8 +166,10 @@ class _Timetable extends State<Timetable>{
               children: [
                 SizedBox(
                   height: dayCellHeight,
-                  child: Text(
-                    week[index],
+                  child: Center(
+                    child: Text(
+                      week[index],style: TextStyle(fontSize: FontSize.regularFont),
+                    ),
                   ),
                 ),
                 ...List.generate(
@@ -223,7 +226,7 @@ class _Timetable extends State<Timetable>{
               ),
               child: Padding(
                 padding: EdgeInsets.all(2),
-                child: Text(i.name, style: TextStyle(color: Palette.white, fontSize: 13),),
+                child: Text(i.name, style: TextStyle(color: Palette.white, fontSize: FontSize.regularFont),),
               ),
             ),
           ),
