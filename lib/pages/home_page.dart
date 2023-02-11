@@ -5,13 +5,11 @@ import 'package:danvery/model/petition_model.dart';
 import 'package:danvery/model/post_model.dart';
 import 'package:danvery/model/user_model.dart';
 import 'package:danvery/widgets/board_list.dart';
-import 'package:danvery/widgets/bus_list.dart';
 import 'package:danvery/widgets/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../dto/board_list_dto.dart';
-import '../dto/bus_list_dto.dart';
 import '../main.dart';
 import '../palette/palette.dart';
 
@@ -31,11 +29,11 @@ class HomePage extends StatefulWidget{
 
 class _HomePage extends State<HomePage>{
 
-  List<BusListDTO> busList = [
-    BusListDTO(name: "24", imagePath: "assets/icons/bus_list/bus_24.png", arrivalTime: "17", station: "단국대학교 정문"),
-    BusListDTO(name: "102", imagePath: "assets/icons/bus_list/bus_102.png", arrivalTime: "2", station: "단국대학교 정문"),
-    BusListDTO(name: "720-3", imagePath: "assets/icons/bus_list/bus_720_3.png", arrivalTime: "8", station: "단국대학교 정문"),
-    BusListDTO(name: "셔틀", imagePath: "assets/icons/bus_list/bus_school.png", arrivalTime: "20", station: "단국대학교 정문"),
+  List<BoardListDTO> busList = [
+    BoardListDTO(leadingImagePath: "assets/icons/bus_list/bus_24.png", trailingText: "17분 후 도착", title: "단국대학교 정문 승차"),
+    BoardListDTO(leadingImagePath: "assets/icons/bus_list/bus_102.png", trailingText: "2분 후 도착", title: "단국대학교 정문 승차"),
+    BoardListDTO(leadingImagePath: "assets/icons/bus_list/bus_720_3.png", trailingText: "8분 후 도착", title: "단국대학교 정문 승차"),
+    BoardListDTO(leadingImagePath: "assets/icons/bus_list/bus_school.png", trailingText: "20분 후 도착", title: "단국대학교 정문 승차"),
   ];
 
   @override
@@ -148,7 +146,7 @@ class _HomePage extends State<HomePage>{
                 Column(
                   children: [
                     SizedBox(height: height * 0.3),
-                    BusList(
+                    BoardList(
                         data: busList,
                         title: "버스 정보",
                         actionTitle: "더보기"
@@ -193,6 +191,7 @@ class _HomePage extends State<HomePage>{
     );
 
     print(postInfoResponse.statusCode);
+    //print(json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]);
     if(postInfoResponse.statusCode == 200){
       final List<PostModel> response = json.decode(utf8.decode(postInfoResponse.bodyBytes))["content"]
           .map<PostModel>((json) => PostModel.fromJson(json)).toList();
@@ -224,7 +223,7 @@ class _HomePage extends State<HomePage>{
 
     List<BoardListDTO> result = [];
     for(dynamic i in data){
-      result.add(BoardListDTO(leading: "익명", title: i.title));
+      result.add(BoardListDTO(leadingText: "익명", title: i.title));
     }
     return result;
   }

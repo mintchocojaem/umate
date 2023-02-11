@@ -63,12 +63,28 @@ class _BoardList extends State<BoardList>{
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   itemCount: widget.data.length,
                   itemBuilder: (BuildContext context, int index) {
+
+                    String title = widget.data[index].title;
+                    String? leadingImagePath = widget.data[index].leadingImagePath;
+                    String? leadingText = widget.data[index].leadingText;
+                    String? trailingText = widget.data[index].trailingText;
+
                     return ListTile(
                       contentPadding: EdgeInsets.all(0),
                       visualDensity: VisualDensity(vertical: -3),
                       dense: true,
-                      title: SizedBox(height: 24, child: Text(widget.data[index].title,style: TextStyle(fontSize: 14))),
-                      leading: SizedBox(height: 24, child: Text(widget.data[index].leading,style: TextStyle(color: Palette.grey, fontSize: 14),)),
+                      title: SizedBox(
+                          height: 24,
+                          child: Text(title,style: TextStyle(fontSize: 14))
+                      ),
+                      leading: leadingImagePath == null
+                          ? leadingText == null
+                          ? Container()
+                          : SizedBox(height: 24, child: Text(leadingText, style: TextStyle(color: Palette.grey, fontSize: 14),))
+                          : SizedBox(height: 32, width: 32, child: Image.asset(leadingImagePath)),
+                      trailing: trailingText == null
+                          ? const SizedBox()
+                          : Text(trailingText),
                     );
                   }
               )

@@ -1,6 +1,8 @@
 class BoardListDTO{
   final String title;
-  final String leading;
+  final String? leadingText;
+  final String? leadingImagePath;
+  final String? trailingText;
 
-  BoardListDTO({required this.leading, required this.title});
+  BoardListDTO({this.leadingText, this.leadingImagePath, required this.title, this.trailingText});
 }
