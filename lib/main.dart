@@ -88,7 +88,7 @@ class _MyApp extends State<MyApp>{
               child: Scaffold(
                 backgroundColor: Palette.white,
                 body: Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.08),
+                  padding: EdgeInsets.only(bottom: 60),
                   child: IndexedStack(
                     index: page,
                     children: [
@@ -104,7 +104,7 @@ class _MyApp extends State<MyApp>{
                   ),
                 ),
                 bottomNavigationBar: Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: 60,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20), topLeft: Radius.circular(20)),

@@ -40,8 +40,7 @@ class _HomePage extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
 
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    //double height = MediaQuery.of(context).size.height;
 
     // TODO: implement build
     return SingleChildScrollView(
@@ -69,10 +68,10 @@ class _HomePage extends State<HomePage>{
                   children: [
                     Container(
                       width: double.infinity,
-                      height: height * 0.4,
+                      height: 300,
                       color: Palette.blue,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
+                        padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -101,7 +100,7 @@ class _HomePage extends State<HomePage>{
                                  */
                               ],
                             ),
-                            SizedBox(height: height * 0.03,),
+                            SizedBox(height: 20,),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,25 +143,37 @@ class _HomePage extends State<HomePage>{
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    SizedBox(height: height * 0.3),
-                    BoardList(
-                        data: busList,
-                        title: "버스 정보",
-                        actionTitle: "더보기"
-                    ),
-                    BoardList(
-                        title: "자유게시판",
-                        actionTitle: "더보기",
-                        data: getBoardList(snapshot.data!["freeBoard"])
-                    ),
-                    BoardList(
-                      title: "청원게시판",
-                      actionTitle: "더보기",
-                      data: getBoardList(snapshot.data!["petitionBoard"]),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 16, left: 16, top: 8, bottom: 16),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 200),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: BoardList(
+                            data: busList,
+                            title: "버스 정보",
+                            actionTitle: "더보기"
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: BoardList(
+                            title: "자유게시판",
+                            actionTitle: "더보기",
+                            data: getBoardList(snapshot.data!["freeBoard"])
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: BoardList(
+                          title: "청원게시판",
+                          actionTitle: "더보기",
+                          data: getBoardList(snapshot.data!["petitionBoard"]),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );
