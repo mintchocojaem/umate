@@ -200,7 +200,7 @@ class PostCard extends StatelessWidget {
       child: ListTile(
           shape: Border(
             bottom: BorderSide(
-              width: 0.5,
+              width: 1,
               color: Palette.lightGrey,
             ),
           ),

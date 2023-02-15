@@ -8,6 +8,7 @@ import 'package:danvery/pages/home_page.dart';
 import 'package:danvery/pages/login_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/pages/board_page.dart';
+import 'package:danvery/pages/posting_page.dart';
 import 'package:danvery/settings/palette.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +97,7 @@ class _MyApp extends State<MyApp> {
                         TimetablePage(userModel: userModel),
                         LoginPage(),
                         BoardPage(),
+                        PostingPage()
                       ],
                     ),
                   ),
