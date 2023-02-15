@@ -18,74 +18,8 @@ class PostingPage extends StatelessWidget {
   }
 }
 
-class _PostingPage extends StatelessWidget {
-  const _PostingPage({
-    required this.title,
-    required this.subtitle,
-    required this.author,
-    required this.publishDate,
-    required this.readDuration,
-  });
-
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-              Text(
-                subtitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                author,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class CustomListItemTwo extends StatelessWidget {
-  const CustomListItemTwo(
+class PostCard extends StatelessWidget {
+  const PostCard(
       {super.key,
       required this.title,
       required this.subtitle,
@@ -202,7 +136,7 @@ class PostingPageWidget extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(10.0),
       children: <Widget>[
-        CustomListItemTwo(
+        PostCard(
           title: '여기는 제목 1',
           subtitle: '여기는 내용이 나올 곳 ',
           publishDate: '시간이 나올곳 - 데이터 타입은?',
@@ -212,7 +146,7 @@ class PostingPageWidget extends StatelessWidget {
           commentCnt: 3,
           likeCnt: 10,
         ),
-        CustomListItemTwo(
+        PostCard(
           title: '제목123',
           subtitle: '부제목인데 만약에 길게 나온다면??? 내용이 나와서 길게 나올 수 있음',
           publishDate: 'Feb 26',
