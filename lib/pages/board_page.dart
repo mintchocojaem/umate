@@ -6,6 +6,7 @@ import 'package:danvery/model/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:danvery/pages/posting_page.dart';
 import 'package:http/http.dart' as http;
 import '../dto/board_list_dto.dart';
 import '../main.dart';
@@ -27,19 +28,27 @@ class _BoardPage extends State<BoardPage> {
     // TODO: implement build
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: ()=>{Navigator.pop()})),
-        title: Text(
-          '자유게시판',
-          style: TextStyle(fontSize: 20, color: Palette.black),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Palette.black,
+              ),
+              onPressed: () => {Navigator.pop(context)}),
+          title: Text(
+            '자유게시판',
+            style: TextStyle(fontSize: 20, color: Palette.black),
+          ),
+          actions: [
+            IconButton(icon: Icon(Icons.search), onPressed: null),
+            IconButton(icon: Icon(Icons.mode_edit_outline), onPressed: null),
+          ],
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: null),
-          IconButton(icon: Icon(Icons.mode_edit_outline), onPressed: null),
-        ],
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: ListView(
         children: <Widget>[
@@ -94,7 +103,11 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PostingPage()))
+      },
       child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),

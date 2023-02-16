@@ -9,5 +9,6 @@ class Palette {
   static Color sky = const Color(0xff0D6EFA).withOpacity(0.07);
   static Color lightBlue = const Color(0xff0D6EFA).withOpacity(0.5);
   static Color lightGrey = const Color(0xff000000).withOpacity(0.3);
+  static Color brightGrey = const Color(0xff000000).withOpacity(0.1);
   static Color whiteGrey = const Color(0xff000000).withOpacity(0.03);
 }
