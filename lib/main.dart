@@ -177,8 +177,8 @@ class _MyApp extends State<MyApp> {
     );
 
     if (loginInfoResponse.statusCode == 200) {
-      print(loginInfoResponse.statusCode);
       final loginInfoParsed = json.decode(loginInfoResponse.body);
+      print(loginInfoParsed);
       final LoginModel loginInfo = LoginModel.formJson(loginInfoParsed);
       return loginInfo;
     }

@@ -28,11 +28,11 @@ class _BoardPage extends State<BoardPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: ()=>{Navigator.pop()})),
         title: Text(
           '자유게시판',
           style: TextStyle(fontSize: 20, color: Palette.black),
         ),
-        leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: null),
         actions: [
           IconButton(icon: Icon(Icons.search), onPressed: null),
           IconButton(icon: Icon(Icons.mode_edit_outline), onPressed: null),
