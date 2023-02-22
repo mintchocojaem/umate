@@ -14,6 +14,7 @@ class LoginFormField extends StatefulWidget{
   final bool dropdown;
   final List<String>? dropdownData;
   final String? checkButtonText;
+  final bool readOnly;
 
   const LoginFormField({
     super.key,
@@ -25,6 +26,7 @@ class LoginFormField extends StatefulWidget{
     this.dropdown = false,
     this.dropdownData,
     this.checkButtonText,
+    this.readOnly = false,
   });
 
   @override
@@ -98,6 +100,7 @@ class _LoginFormField extends State<LoginFormField> {
                     );
                   }).toList(),
                 ) : TextField(
+                  readOnly: widget.readOnly,
                   controller: textController,
                   decoration: InputDecoration(
                     filled: true,
@@ -145,6 +148,7 @@ class _LoginFormField extends State<LoginFormField> {
           child: SizedBox(
             height: 48,
             child: TextField(
+              readOnly: widget.readOnly,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Palette.whiteGrey,

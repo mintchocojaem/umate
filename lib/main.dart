@@ -5,7 +5,7 @@ import 'package:danvery/model/login_model.dart';
 import 'package:danvery/model/subject_model.dart';
 import 'package:danvery/model/user_model.dart';
 import 'package:danvery/pages/home_page.dart';
-import 'package:danvery/pages/login_page.dart';
+import 'package:danvery/pages/school_login_page.dart';
 import 'package:danvery/pages/membership_page.dart';
 import 'package:danvery/pages/timetable_page.dart';
 import 'package:danvery/pages/board_page.dart';
@@ -91,13 +91,14 @@ class _MyApp extends State<MyApp> {
                     child: IndexedStack(
                       index: page,
                       children: [
-                        //모든 페이지는 SinglechildScrollview로 시작해야함
+                        //모든 페이지는 SinglechildScrollview가 포함되어 있어야 함
                         HomePage(
                           loginModel: snapshot.data!,
                           userModel: userModel,
                         ),
                         TimetablePage(userModel: userModel),
-                        MembershipPage(),
+                        //MembershipPage(),
+                        SchoolLoginPage(),
                         BoardPage(),
                         PostingPage()
                       ],

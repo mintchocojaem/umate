@@ -35,16 +35,17 @@ class _MembershipPage extends State<MembershipPage>{
                       Padding(
                         padding: EdgeInsets.only(bottom: 8),
                         child: LoginFormField(
-                          hint: '이메일 입력하세요',
-                          title: "단국대학교 이메일",
-                          checkButton: true,
+                          hint: '32XXXXXX' "@dankook.ac.kr",
+                          title: "아이디",
+                          readOnly: true,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 8, bottom: 8),
                         child: LoginFormField(
-                          hint: "이름을 입력하세요",
+                          hint: "홍길동",
                           title: "이름",
+                          readOnly: true,
                         ),
                       ),
                       Padding(
