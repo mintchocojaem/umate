@@ -1,4 +1,4 @@
-import 'package:danvery/model/subject_model.dart';
+import 'package:danvery/app/data/model/subject_model.dart';
 
 class UserModel{
   final String name;

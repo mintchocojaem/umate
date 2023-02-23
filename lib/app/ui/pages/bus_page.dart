@@ -1,4 +1,3 @@
-import 'package:danvery/settings/palette.dart';
 import 'package:flutter/material.dart';
 
 class BusPage extends StatelessWidget {

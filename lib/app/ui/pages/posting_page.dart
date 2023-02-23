@@ -1,10 +1,9 @@
-import 'package:danvery/settings/palette.dart';
 import 'package:flutter/material.dart';
+
+import '../theme/app_colors.dart';
 
 class PostingPage extends StatelessWidget {
   const PostingPage({super.key});
-
-  static const String _title = 'Flutter Code Sample';
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +16,12 @@ class PostingPage extends StatelessWidget {
             leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Palette.black,
+                  color: black,
                 ),
                 onPressed: () => {Navigator.pop(context)}),
             title: Text(
               '자유게시판',
-              style: TextStyle(fontSize: 20, color: Palette.black),
+              style: TextStyle(fontSize: 20, color: black),
             ),
             centerTitle: true,
             backgroundColor: Colors.transparent,
@@ -75,7 +74,7 @@ class PostingView extends StatelessWidget {
             shape: Border(
               bottom: BorderSide(
                 width: 0.5,
-                color: Palette.lightGrey,
+                color: lightGrey,
               ),
             ),
             title: Text(title),
@@ -101,7 +100,7 @@ class PostingView extends StatelessWidget {
                           Text(
                             imageCnt.toString(),
                             style: TextStyle(
-                                fontSize: 20, color: Palette.lightGrey),
+                                fontSize: 20, color: lightGrey),
                           ),
                         ],
                       )
@@ -113,7 +112,7 @@ class PostingView extends StatelessWidget {
                           Text(
                             commentCnt.toString(),
                             style: TextStyle(
-                                fontSize: 20, color: Palette.lightGrey),
+                                fontSize: 20, color: lightGrey),
                           ),
                         ],
                       )
@@ -125,7 +124,7 @@ class PostingView extends StatelessWidget {
                           Text(
                             likeCnt.toString(),
                             style: TextStyle(
-                                fontSize: 20, color: Palette.lightGrey),
+                                fontSize: 20, color: lightGrey),
                           ),
                         ],
                       )
@@ -134,7 +133,7 @@ class PostingView extends StatelessWidget {
             ),
           ],
         ),
-        Divider(thickness: 5, color: Palette.brightGrey)
+        Divider(thickness: 5, color: brightGrey)
       ],
     );
   }

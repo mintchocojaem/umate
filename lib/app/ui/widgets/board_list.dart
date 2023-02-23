@@ -1,7 +1,7 @@
-import 'package:danvery/dto/board_list_dto.dart';
-import 'package:danvery/settings/font_size.dart';
+import 'package:danvery/app/ui/theme/app_colors.dart';
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
-import '../settings/palette.dart';
+import '../../data/dto/board_list_dto.dart';
 
 class BoardList extends StatefulWidget{
 
@@ -44,11 +44,11 @@ class _BoardList extends State<BoardList>{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.title, style: const TextStyle(fontSize: FontSize.titleFont, fontWeight: FontWeight.w600),),
+                Text(widget.title, style: titleStyle,),
                 Row(
                   children: [
-                    Text(widget.actionTitle,style: TextStyle(fontSize: FontSize.regularFont, color: Palette.grey),),
-                    widget.showAction ? Icon(Icons.arrow_forward_ios_outlined, color: Palette.grey, size: FontSize.regularFont,) :
+                    Text(widget.actionTitle,style: regularStyle.copyWith(color: grey),),
+                    widget.showAction ? Icon(Icons.arrow_forward_ios_outlined, color: grey, size: regularStyle.fontSize,) :
                         Container()
                   ],
                 ),
@@ -72,12 +72,12 @@ class _BoardList extends State<BoardList>{
                     dense: true,
                     title: SizedBox(
                         height: 24,
-                        child: Text(title,style: const TextStyle(fontSize: FontSize.regularFont))
+                        child: Text(title,style: regularStyle)
                     ),
                     leading: leadingImagePath == null ? leadingText == null ? Container() :
-                    SizedBox(height: 24, child: Text(leadingText, style: TextStyle(color: Palette.grey, fontSize: FontSize.regularFont),)) :
+                    SizedBox(height: 24, child: Text(leadingText, style: regularStyle.copyWith(color: grey),)) :
                     SizedBox(height: 32, width: 32, child: Image.asset(leadingImagePath)), trailing: trailingText == null ? const SizedBox() :
-                    Text(trailingText, style: TextStyle(fontSize: FontSize.regularFont),),
+                    Text(trailingText, style: regularStyle,),
                   );
                 }
             )

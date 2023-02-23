@@ -1,8 +1,8 @@
-import 'package:danvery/settings/font_size.dart';
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../settings/palette.dart';
+import '../theme/app_colors.dart';
 
 class MainButton extends StatelessWidget{
 
@@ -25,7 +25,7 @@ class MainButton extends StatelessWidget{
             )
         ),
         Text(text,
-          style: TextStyle(color: Palette.white, fontSize: FontSize.lightFont,),
+          style: lightStyle.copyWith(color: white),
           textAlign: TextAlign.center,
         )
       ],

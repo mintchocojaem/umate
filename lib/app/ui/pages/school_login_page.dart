@@ -1,7 +1,9 @@
-import 'package:danvery/settings/font_size.dart';
-import 'package:danvery/settings/palette.dart';
-import 'package:danvery/widgets/login_form_field.dart';
+
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../theme/app_colors.dart';
+import '../widgets/login_form_field.dart';
 
 class SchoolLoginPage extends StatefulWidget{
   const SchoolLoginPage({super.key});
@@ -54,13 +56,13 @@ class _SchoolLoginPage extends State<SchoolLoginPage>{
               width: double.infinity,
               height: 48,
               child: CupertinoButton(
-                color: Palette.blue,
+                color: blue,
                 onPressed: () {},
-                child: const Text(
+                child: Text(
                   "인증",
-                  style: TextStyle(
-                    fontSize: FontSize.regularFont,
-                  )
+                  style: regularStyle.copyWith(
+                    color: white,
+                  ),
                 ),
               ),
             ),

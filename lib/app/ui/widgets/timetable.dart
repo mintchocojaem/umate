@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:danvery/model/user_model.dart';
-import 'package:danvery/settings/font_size.dart';
-import 'package:danvery/widgets/board_list.dart';
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../model/subject_model.dart';
-import '../settings/palette.dart';
+import '../../data/model/subject_model.dart';
+import '../theme/app_colors.dart';
 
 class Timetable extends StatefulWidget{
 
@@ -16,7 +14,7 @@ class Timetable extends StatefulWidget{
   final int tableStartTime;
   final int tableEndTime;
   final String tableName;
-  final String discription;
+  final String description;
 
   const Timetable({
     super.key,
@@ -24,7 +22,7 @@ class Timetable extends StatefulWidget{
     required this.tableStartTime,
     required this.tableEndTime,
     required this.tableName,
-    required this.discription
+    required this.description
   });
 
   @override
@@ -80,8 +78,8 @@ class _Timetable extends State<Timetable>{
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.discription, style: TextStyle(fontSize: FontSize.regularFont, fontWeight: FontWeight.w600),),
-                  Text(widget.tableName, style: TextStyle(fontSize: FontSize.titleFont, fontWeight: FontWeight.bold),)
+                  Text(widget.description, style: regularStyle,),
+                  Text(widget.tableName, style: titleStyle)
                 ],
               ),
               Row(
@@ -131,7 +129,7 @@ class _Timetable extends State<Timetable>{
                 child: Center(
                     child: Text(
                       '${(index ~/ 2) + widget.tableStartTime}',
-                      style: TextStyle(fontSize: FontSize.lightFont),
+                      style: lightStyle,
                     )
                 ),
               );
@@ -165,7 +163,7 @@ class _Timetable extends State<Timetable>{
                   height: dayCellHeight,
                   child: Center(
                     child: Text(
-                      week[index],style: TextStyle(fontSize: FontSize.regularFont),
+                      week[index],style: regularStyle,
                     ),
                   ),
                 ),
@@ -223,7 +221,7 @@ class _Timetable extends State<Timetable>{
               ),
               child: Padding(
                 padding: EdgeInsets.all(2),
-                child: Text(i.name, style: TextStyle(color: Palette.white, fontSize: FontSize.regularFont),),
+                child: Text(i.name, style: regularStyle.copyWith(color: white),),
               ),
             ),
           ),

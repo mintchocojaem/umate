@@ -1,16 +1,7 @@
-import 'dart:convert';
-import 'package:danvery/model/login_model.dart';
-import 'package:danvery/model/petition_model.dart';
-import 'package:danvery/model/post_model.dart';
-import 'package:danvery/model/user_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:danvery/app/ui/pages/posting_page.dart';
 import 'package:flutter/material.dart';
-import 'package:danvery/pages/posting_page.dart';
-import 'package:http/http.dart' as http;
-import '../dto/board_list_dto.dart';
-import '../main.dart';
-import '../settings/palette.dart';
+
+import '../theme/app_colors.dart';
 
 class BoardPage extends StatefulWidget {
   const BoardPage({super.key});
@@ -32,16 +23,16 @@ class _BoardPage extends State<BoardPage> {
         preferredSize: Size.fromHeight(100.0),
         child: AppBar(
           leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
-                color: Palette.black,
+                color: black,
               ),
               onPressed: () => {Navigator.pop(context)}),
-          title: Text(
+          title: const Text(
             '자유게시판',
-            style: TextStyle(fontSize: 20, color: Palette.black),
+            style: TextStyle(fontSize: 20, color: black),
           ),
-          actions: [
+          actions: const [
             IconButton(icon: Icon(Icons.search), onPressed: null),
             IconButton(icon: Icon(Icons.mode_edit_outline), onPressed: null),
           ],
@@ -51,7 +42,7 @@ class _BoardPage extends State<BoardPage> {
         ),
       ),
       body: ListView(
-        children: <Widget>[
+        children: const <Widget>[
           NoticeCard(
               category: "공지",
               title: "셔틀버스 시간 변경 안내",
@@ -121,19 +112,19 @@ class NoticeCard extends StatelessWidget {
                 category,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Palette.blue),
+                    color: blue),
               ),
               title: Text(
                 title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Palette.black),
+                    color: black),
               ),
               trailing: FittedBox(
                 fit: BoxFit.fill,
@@ -149,7 +140,7 @@ class NoticeCard extends StatelessWidget {
                                   Text(
                                     imageCnt.toString(),
                                     style: TextStyle(
-                                        fontSize: 20, color: Palette.grey),
+                                        fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -161,7 +152,7 @@ class NoticeCard extends StatelessWidget {
                                   Text(
                                     commentCnt.toString(),
                                     style: TextStyle(
-                                        fontSize: 20, color: Palette.grey),
+                                        fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -173,7 +164,7 @@ class NoticeCard extends StatelessWidget {
                                   Text(
                                     likeCnt.toString(),
                                     style: TextStyle(
-                                        fontSize: 20, color: Palette.grey),
+                                        fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -238,14 +229,14 @@ class PostCard extends StatelessWidget {
             shape: Border(
               bottom: BorderSide(
                 width: 0.5,
-                color: Palette.lightGrey,
+                color: lightGrey,
               ),
             ),
             title: Text(
               publishDate,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Palette.grey, fontSize: 15.0),
+              style: TextStyle(color: grey, fontSize: 15.0),
             ),
             trailing: FittedBox(
               fit: BoxFit.fill,
@@ -261,7 +252,7 @@ class PostCard extends StatelessWidget {
                                 Text(
                                   imageCnt.toString(),
                                   style: TextStyle(
-                                      fontSize: 15.0, color: Palette.grey),
+                                      fontSize: 15.0, color: grey),
                                 ),
                               ],
                             )
@@ -273,7 +264,7 @@ class PostCard extends StatelessWidget {
                                 Text(
                                   commentCnt.toString(),
                                   style: TextStyle(
-                                      fontSize: 15.0, color: Palette.grey),
+                                      fontSize: 15.0, color: grey),
                                 ),
                               ],
                             )
@@ -285,7 +276,7 @@ class PostCard extends StatelessWidget {
                                 Text(
                                   likeCnt.toString(),
                                   style: TextStyle(
-                                      fontSize: 15.0, color: Palette.grey),
+                                      fontSize: 15.0, color: grey),
                                 ),
                               ],
                             )
