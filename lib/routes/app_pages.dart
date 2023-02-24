@@ -1,5 +1,6 @@
-import 'package:danvery/app/ui/pages/board_page.dart';
 import 'package:danvery/app/ui/pages/home_page.dart';
+import 'package:danvery/app/ui/pages/free_board_page.dart';
+import 'package:danvery/app/ui/pages/petition_board_page.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -20,8 +21,12 @@ class AppPages {
       page: () => const TimetablePage(),
     ),
     GetPage(
-      name: Routes.board,
-      page: () => const BoardPage(),
+      name: Routes.freeBoard,
+      page: () => const FreeBoardPage(),
+    ),
+    GetPage(
+      name: Routes.petitionBoard,
+      page: () => const PetitionBoardPage(),
     ),
   ];
 }
