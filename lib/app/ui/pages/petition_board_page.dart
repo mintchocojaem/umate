@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import './search_board_page.dart';
+import './new_post_page.dart';
+import './petition_post_page.dart';
 
+import '../widgets/category_button_bar.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_theme.dart';
 
@@ -52,7 +56,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewpostPage()))
+                                builder: (context) => NewPostPage()))
                       }),
             ],
             centerTitle: true,
@@ -66,7 +70,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              SlidingButtonBar(),
+              CategoryButtonBar(),
               PetitionCard(
                 title: "셔틀버스 실시간 위치 정보 공유 청원",
                 dueDate: "D - 30",
