@@ -8,6 +8,8 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_theme.dart';
 
 class PetitionBoardPage extends StatefulWidget {
+  const PetitionBoardPage({super.key});
+
   @override
   _PetitionBoardPageState createState() => _PetitionBoardPageState();
 }
@@ -33,7 +35,10 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
                 onPressed: () => {Navigator.pop(context)}),
             title: Text(
               '청원게시판',
-              style: titleStyle,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: black,
+              ),
             ),
             actions: [
               IconButton(

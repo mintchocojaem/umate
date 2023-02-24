@@ -80,61 +80,65 @@ class _NewPostPageState extends State<NewPostPage> {
           ),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-                decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-              hintText: '제목',
-            )),
-            Divider(thickness: 1, color: brightGrey),
-            TextField(
-                maxLines: 20,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderSide: BorderSide.none),
-                  hintText: '내용',
-                )),
-            Divider(thickness: 1, color: brightGrey),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "사진 첨부하기",
-                  style: TextStyle(
-                      fontSize: 16.0, fontWeight: FontWeight.bold, color: grey),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    width: 80,
-                    height: 80,
-                    margin:
-                        EdgeInsets.only(top: 10.0, right: 10.0, bottom: 30.0),
-                    decoration: BoxDecoration(
-                      color: whiteGrey,
-                    ),
-                    child: IconButton(
-                        onPressed: () => _pickImg(),
-                        icon: Icon(
-                          Icons.image_outlined,
-                          color: grey,
-                        ))),
-              ],
-            ),
-            ElevatedButton(
-              child: Text("게시글 업로드"),
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(screenWidth, 50),
-                  textStyle: const TextStyle(fontSize: 16.0),
-                  backgroundColor: blue),
-              onPressed: () {},
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                  decoration: InputDecoration(
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+                hintText: '제목',
+              )),
+              Divider(thickness: 1, color: brightGrey),
+              TextField(
+                  maxLines: 20,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                    hintText: '내용',
+                  )),
+              Divider(thickness: 1, color: brightGrey),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "사진 첨부하기",
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: grey),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 80,
+                      height: 80,
+                      margin:
+                          EdgeInsets.only(top: 10.0, right: 10.0, bottom: 30.0),
+                      decoration: BoxDecoration(
+                        color: whiteGrey,
+                      ),
+                      child: IconButton(
+                          onPressed: () => _pickImg(),
+                          icon: Icon(
+                            Icons.image_outlined,
+                            color: grey,
+                          ))),
+                ],
+              ),
+              ElevatedButton(
+                child: Text("게시글 업로드"),
+                style: ElevatedButton.styleFrom(
+                    fixedSize: Size(screenWidth, 50),
+                    textStyle: const TextStyle(fontSize: 16.0),
+                    backgroundColor: blue),
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
       ),
     );

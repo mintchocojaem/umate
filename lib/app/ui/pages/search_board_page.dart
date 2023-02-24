@@ -48,7 +48,7 @@ class _SearchBoardPageState extends State<SearchBoardPage> {
       ),
       body: Center(
         child: Text(
-          "자유게시판에서\n원하는 글을 검색해보세요",
+          "OO게시판에서\n원하는 글을 검색해보세요",
           style: TextStyle(
             color: lightGrey,
             fontSize: 18.0,

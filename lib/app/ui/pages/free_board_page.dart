@@ -1,19 +1,22 @@
-import 'package:danvery/app/ui/pages/posting_page.dart';
 import 'package:flutter/material.dart';
-
 import '../theme/app_colors.dart';
+import '../theme/app_text_theme.dart';
 
-class BoardPage extends StatefulWidget {
-  const BoardPage({super.key});
+import './search_board_page.dart';
+import './new_post_page.dart';
+import 'free_board_post_page.dart';
+
+class FreeBoardPage extends StatefulWidget {
+  const FreeBoardPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _BoardPage();
+    return _FreeBoardPage();
   }
 }
 
-class _BoardPage extends State<BoardPage> {
+class _FreeBoardPage extends State<FreeBoardPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -21,28 +24,51 @@ class _BoardPage extends State<BoardPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: black,
-              ),
-              onPressed: () => {Navigator.pop(context)}),
-          title: const Text(
-            '자유게시판',
-            style: TextStyle(fontSize: 20, color: black),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: AppBar(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: black,
+                ),
+                onPressed: () => {Navigator.pop(context)}),
+            title: Text(
+              '자유게시판',
+              style: TextStyle(fontSize: 20, color: black),
+            ),
+            actions: [
+              IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: grey,
+                  ),
+                  onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchBoardPage()))
+                      }),
+              IconButton(
+                  icon: Icon(
+                    Icons.mode_edit_outline,
+                    color: grey,
+                  ),
+                  onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewPostPage()))
+                      }),
+            ],
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
-          actions: const [
-            IconButton(icon: Icon(Icons.search), onPressed: null),
-            IconButton(icon: Icon(Icons.mode_edit_outline), onPressed: null),
-          ],
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
         ),
       ),
       body: ListView(
-        children: const <Widget>[
+        children: <Widget>[
           NoticeCard(
               category: "공지",
               title: "셔틀버스 시간 변경 안내",
@@ -84,20 +110,21 @@ class NoticeCard extends StatelessWidget {
   final int? commentCnt;
   final int? likeCnt;
 
-  const NoticeCard(
-      {super.key,
-      required this.category,
-      required this.title,
-      this.imageCnt,
-      this.commentCnt,
-      this.likeCnt});
+  const NoticeCard({
+    super.key,
+    required this.category,
+    required this.title,
+    this.imageCnt,
+    this.commentCnt,
+    this.likeCnt,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PostingPage()))
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => FreeBoardPostPage()))
       },
       child: Card(
           shape: RoundedRectangleBorder(
@@ -112,19 +139,15 @@ class NoticeCard extends StatelessWidget {
                 category,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: blue),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: blue),
               ),
               title: Text(
                 title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: black),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: black),
               ),
               trailing: FittedBox(
                 fit: BoxFit.fill,
@@ -139,8 +162,7 @@ class NoticeCard extends StatelessWidget {
                                   Icon(Icons.image_outlined),
                                   Text(
                                     imageCnt.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20, color: grey),
+                                    style: TextStyle(fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -151,8 +173,7 @@ class NoticeCard extends StatelessWidget {
                                   Icon(Icons.chat_outlined),
                                   Text(
                                     commentCnt.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20, color: grey),
+                                    style: TextStyle(fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -163,8 +184,7 @@ class NoticeCard extends StatelessWidget {
                                   Icon(Icons.thumb_up_off_alt),
                                   Text(
                                     likeCnt.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20, color: grey),
+                                    style: TextStyle(fontSize: 20, color: grey),
                                   ),
                                 ],
                               )
@@ -201,93 +221,99 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () => {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => FreeBoardPostPage()))
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                subtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.6), fontSize: 15.0),
+              ),
+              trailing:
+                  thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
+            ),
+            ListTile(
+              shape: Border(
+                bottom: BorderSide(
+                  width: 0.5,
+                  color: lightGrey,
+                ),
+              ),
+              title: Text(
+                publishDate,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: grey, fontSize: 15.0),
+              ),
+              trailing: FittedBox(
+                fit: BoxFit.fill,
+                child: Row(
+                  children: <Widget>[
+                    Wrap(
+                      spacing: 12,
+                      children: [
+                        imageCnt != null
+                            ? Row(
+                                children: [
+                                  Icon(Icons.image_outlined),
+                                  Text(
+                                    imageCnt.toString(),
+                                    style:
+                                        TextStyle(fontSize: 15.0, color: grey),
+                                  ),
+                                ],
+                              )
+                            : Row(),
+                        commentCnt != null
+                            ? Row(
+                                children: [
+                                  Icon(Icons.chat_outlined),
+                                  Text(
+                                    commentCnt.toString(),
+                                    style:
+                                        TextStyle(fontSize: 15.0, color: grey),
+                                  ),
+                                ],
+                              )
+                            : Row(),
+                        likeCnt != null
+                            ? Row(
+                                children: [
+                                  Icon(Icons.thumb_up_off_alt),
+                                  Text(
+                                    likeCnt.toString(),
+                                    style:
+                                        TextStyle(fontSize: 15.0, color: grey),
+                                  ),
+                                ],
+                              )
+                            : Row(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            subtitle: Text(
-              subtitle,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.black.withOpacity(0.6), fontSize: 15.0),
-            ),
-            trailing:
-                thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
-          ),
-          ListTile(
-            shape: Border(
-              bottom: BorderSide(
-                width: 0.5,
-                color: lightGrey,
-              ),
-            ),
-            title: Text(
-              publishDate,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: grey, fontSize: 15.0),
-            ),
-            trailing: FittedBox(
-              fit: BoxFit.fill,
-              child: Row(
-                children: <Widget>[
-                  Wrap(
-                    spacing: 12,
-                    children: [
-                      imageCnt != null
-                          ? Row(
-                              children: [
-                                Icon(Icons.image_outlined),
-                                Text(
-                                  imageCnt.toString(),
-                                  style: TextStyle(
-                                      fontSize: 15.0, color: grey),
-                                ),
-                              ],
-                            )
-                          : Row(),
-                      commentCnt != null
-                          ? Row(
-                              children: [
-                                Icon(Icons.chat_outlined),
-                                Text(
-                                  commentCnt.toString(),
-                                  style: TextStyle(
-                                      fontSize: 15.0, color: grey),
-                                ),
-                              ],
-                            )
-                          : Row(),
-                      likeCnt != null
-                          ? Row(
-                              children: [
-                                Icon(Icons.thumb_up_off_alt),
-                                Text(
-                                  likeCnt.toString(),
-                                  style: TextStyle(
-                                      fontSize: 15.0, color: grey),
-                                ),
-                              ],
-                            )
-                          : Row(),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
