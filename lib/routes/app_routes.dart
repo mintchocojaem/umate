@@ -1,7 +1,8 @@
-abstract class Routes{
+abstract class Routes {
   static const String main = '/';
   static const String timetable = '/timetable';
-  static const String board = '/board';
+  static const String freeBoard = '/free-board';
+  static const String petitionBoard = '/petition-board';
   static const String home = '/home';
   static const String login = '/login';
   static const String authentication = '/authentication';
