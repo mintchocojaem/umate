@@ -1,19 +1,10 @@
-import 'package:danvery/app/ui/pages/posting_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../theme/app_colors.dart';
 
-class BoardPage extends StatefulWidget {
+class BoardPage extends GetView {
   const BoardPage({super.key});
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _BoardPage();
-  }
-}
-
-class _BoardPage extends State<BoardPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -97,8 +88,6 @@ class NoticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PostingPage()))
       },
       child: Card(
           shape: RoundedRectangleBorder(
