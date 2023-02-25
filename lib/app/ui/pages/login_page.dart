@@ -18,7 +18,7 @@ class LoginPage extends GetView<AuthenticationController> {
     // TODO: implement build
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 100,
+          toolbarHeight: 80,
           backgroundColor: transparent,
           title: Text(
             "로그인",

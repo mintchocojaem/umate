@@ -17,7 +17,7 @@ class AuthenticationPage extends GetView<AuthenticationController> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 80,
         backgroundColor: transparent,
         title: Text(
           "학생 인증",

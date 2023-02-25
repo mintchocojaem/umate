@@ -8,13 +8,12 @@ import '../model/login_model.dart';
 class LoginProvider extends GetConnect {
   //get login
   Future<LoginModel> getLogin(String classId, String password) async {
-    String url = '$apiUrl/users/login';
+    String url = '$apiUrl/user/login';
     final body = {"studentId": classId, "password": password};
     final Response response =
         await post(url, body, contentType: "application/json");
 
     if (kDebugMode) {
-      print(response.statusCode);
       print("getLogin : ${response.statusCode}");
     }
 

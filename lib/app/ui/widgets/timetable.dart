@@ -71,7 +71,7 @@ class _Timetable extends State<Timetable>{
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

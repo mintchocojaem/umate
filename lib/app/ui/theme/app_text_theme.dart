@@ -13,3 +13,8 @@ const TextStyle regularStyle = TextStyle(
   fontSize: 14,
 );
 
+const TextStyle middleStyle = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold
+);
+
