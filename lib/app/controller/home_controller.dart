@@ -1,3 +1,4 @@
+import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/controller/main_controller.dart';
 import 'package:danvery/app/data/model/petition_model.dart';
 import 'package:get/get.dart';
@@ -6,16 +7,19 @@ import '../data/model/post_model.dart';
 import '../data/repository/board_repository.dart';
 
 class HomeController extends GetxController {
+
+  static HomeController get to => Get.find();
+
   final BoardRepository boardRepository;
 
-  final String accessToken = Get.find<MainController>().loginModel.accessToken;
+  //final String accessToken = Get.find<LoginController>().loginModel.accessToken;
 
   HomeController({required this.boardRepository});
 
   @override
   void onInit() {
-    getSuggestionBoardList(accessToken, 0, 5);
-    getPetitionBoardList(accessToken, 0, 5);
+    //getSuggestionBoardList(accessToken, 0, 5);
+    //getPetitionBoardList(accessToken, 0, 5);
     super.onInit();
   }
 

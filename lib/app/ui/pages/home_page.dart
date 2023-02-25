@@ -142,7 +142,7 @@ class HomePage extends GetView<HomeController> {
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
                             data: getBoardList(controller.suggestionBoard),
-                            title: "건의게시판",
+                            title: "자유 게시판",
                             actionTitle: "더보기"),
                       )
                     : const SizedBox(

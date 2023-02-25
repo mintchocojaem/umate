@@ -1,5 +1,8 @@
-import 'package:danvery/app/bindings/home_binding.dart';
+import 'dart:io';
+
 import 'package:danvery/app/bindings/main_binding.dart';
+import 'package:danvery/app/controller/authentication_controller.dart';
+import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -20,12 +23,8 @@ UserModel userModel = UserModel(subjects: [
 
 void main() async {
   runApp(GetMaterialApp(
-    initialBinding: BindingsBuilder(() {
-      MainBinding().dependencies();
-      HomeBinding().dependencies();
-    }),
-    home: const MyApp(),
-    initialRoute: Routes.main,
+    initialBinding: MainBinding(),
+    initialRoute: Routes.login,
     getPages: AppPages.pages,
     debugShowCheckedModeBanner: false,
     themeMode: ThemeMode.light,
@@ -33,21 +32,27 @@ void main() async {
   ));
 }
 
-class MyApp extends GetView<MainController> {
-  const MyApp({super.key});
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AppPages appPages = AppPages();
+
+    List<Widget> pages = [
+      appPages.findPage(Routes.home),
+      appPages.findPage(Routes.timetable),
+      appPages.findPage(Routes.board),
+      appPages.findPage(Routes.setting),
+    ];
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: white,
         body: Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: Obx(() => controller.isLogin
-              ? AppPages.pages[controller.selectedIndex].page()
-              : const Center(
-                child: CircularProgressIndicator(),
-              )),
+            padding: const EdgeInsets.only(bottom: 60),
+            child: Obx(() => pages[MainController.to.selectedIndex]
+            )
         ),
         bottomNavigationBar: Container(
           height: 60,
@@ -63,36 +68,25 @@ class MyApp extends GetView<MainController> {
                 topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             child: BottomNavigationBar(
               onTap: (value) {
-                controller.selectedIndex = value;
+                MainController.to.selectedIndex = value;
               },
+              type: BottomNavigationBarType.fixed,
               backgroundColor: white,
               showSelectedLabels: false,
               showUnselectedLabels: false,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
-                  icon: Image.asset(
-                    "assets/icons/bottom_nav/home_icon.png",
-                    scale: 2,
-                  ),
+                  icon: Icon(Icons.home),
                   label: "홈",
                 ),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                        "assets/icons/bottom_nav/timetable_icon.png",
-                        scale: 2),
+                    icon: Icon(Icons.calendar_today),
                     label: "시간표"),
                 BottomNavigationBarItem(
-                    icon: Image.asset("assets/icons/bottom_nav/bus_icon.png",
-                        scale: 2),
-                    label: "버스"),
-                BottomNavigationBarItem(
-                    icon: Image.asset("assets/icons/bottom_nav/board_icon.png",
-                        scale: 2),
+                    icon: Icon(Icons.event_note_outlined),
                     label: "게시판"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                        "assets/icons/bottom_nav/setting_icon.png",
-                        scale: 2),
+                    icon: Icon(Icons.settings),
                     label: "설정"),
               ],
             ),

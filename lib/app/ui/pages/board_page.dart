@@ -27,7 +27,8 @@ class _BoardPage extends State<BoardPage> {
                 Icons.arrow_back_ios,
                 color: black,
               ),
-              onPressed: () => {Navigator.pop(context)}),
+              onPressed: () => {}
+              ),
           title: const Text(
             '자유게시판',
             style: TextStyle(fontSize: 20, color: black),
