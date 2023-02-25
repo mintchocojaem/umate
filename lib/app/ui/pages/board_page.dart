@@ -1,9 +1,9 @@
+import 'package:danvery/app/data/dto/board_list_dto.dart';
+import 'package:danvery/app/ui/theme/app_colors.dart';
+import 'package:danvery/app/ui/widgets/board_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
-import '../widgets/notice_card.dart';
-import '../widgets/post_card.dart';
 
 class BoardPage extends GetView {
   const BoardPage({super.key});
@@ -11,64 +11,85 @@ class BoardPage extends GetView {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        centerTitle: true,
-        toolbarHeight: 80,
-        backgroundColor: transparent,
-        title: Text(
-          "자유게시판",
-          style: titleStyle.copyWith(color: black),
-        ),
-        elevation: 0,
-        actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search, color: grey,)),
-          const SizedBox(width: 8,),
-          IconButton(onPressed: (){}, icon: Icon(Icons.post_add_outlined, color: grey,)),
-          const SizedBox(width: 16,)
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
-          child: Column(
-            children: [
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const NoticeCard(
-                        category: "공지",
-                        title: "내용",
-                        commentCount: 0,
-                        likeCount: 0
-                    );
-                  }
-              ),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const PostCard(
-                      title: '제목',
-                      subtitle: '내용',
-                      publishDate: '1분 전',
-                      commentCount: 0,
-                      likeCount: 0,
-                    );
-                  }
-              )
-            ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(children: [
+          TextField(
+            cursorColor: Colors.grey,
+            decoration: InputDecoration(
+                fillColor: brightGrey,
+                filled: true,
+                hintText: "게시판 검색",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none),
+                prefixIcon: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Icon(Icons.search),
+                  width: 18,
+                )),
           ),
-        ),
+          const SizedBox(height: 16,),
+          BoardList(
+            data: [
+              BoardListDTO(
+                  title: "자유 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "취업 / 진로 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "졸업생 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "새내기 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "비밀 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "꿀팁 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+            ],
+            title: '자유 게시판',
+            showAction: false,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          BoardList(
+            data: [
+              BoardListDTO(
+                  title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "학교생활 게시판",
+                  leadingImage: Icon(Icons.push_pin_outlined)),
+              BoardListDTO(
+                  title: "기타 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
+            ],
+            title: '청원 게시판',
+            showAction: false,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          BoardList(
+            data: [
+              BoardListDTO(
+                  title: "단냥펀치 게시판",
+                  leadingImage: Icon(Icons.star_border_outlined)),
+              BoardListDTO(
+                  title: "동아리 게시판",
+                  leadingImage: Icon(Icons.star_border_outlined)),
+              BoardListDTO(
+                  title: "새내기 게시판",
+                  leadingImage: Icon(Icons.star_border_outlined)),
+            ],
+            title: '즐겨찾기',
+            showAction: false,
+          ),
+        ]),
       ),
     );
   }
 }
-

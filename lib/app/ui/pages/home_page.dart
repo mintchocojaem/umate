@@ -13,19 +13,19 @@ class HomePage extends GetView<HomeController> {
 
   static List<BoardListDTO> busList = [
     BoardListDTO(
-        leadingImagePath: "assets/icons/bus_list/bus_24.png",
+        leadingImage: Image.asset("assets/icons/bus_list/bus_24.png"),
         trailingText: "17분 후 도착",
         title: "단국대학교 정문 승차"),
     BoardListDTO(
-        leadingImagePath: "assets/icons/bus_list/bus_102.png",
+        leadingImage: Image.asset("assets/icons/bus_list/bus_102.png"),
         trailingText: "2분 후 도착",
         title: "단국대학교 정문 승차"),
     BoardListDTO(
-        leadingImagePath: "assets/icons/bus_list/bus_720_3.png",
+        leadingImage: Image.asset("assets/icons/bus_list/bus_720_3.png"),
         trailingText: "8분 후 도착",
         title: "단국대학교 정문 승차"),
     BoardListDTO(
-        leadingImagePath: "assets/icons/bus_list/bus_school.png",
+        leadingImage: Image.asset("assets/icons/bus_list/bus_school.png"),
         trailingText: "20분 후 도착",
         title: "단국대학교 정문 승차"),
   ];

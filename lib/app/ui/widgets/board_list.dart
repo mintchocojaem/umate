@@ -10,7 +10,7 @@ class BoardList extends StatefulWidget{
   final String actionTitle;
   final bool showAction;
 
-  const BoardList({super.key, required this.data, required this.title, required this.actionTitle, this.showAction = true});
+  const BoardList({super.key, required this.data, required this.title, this.actionTitle = '', this.showAction = true});
 
   @override
   State<StatefulWidget> createState() {
@@ -62,7 +62,7 @@ class _BoardList extends State<BoardList>{
                 itemBuilder: (BuildContext context, int index) {
 
                   String title = widget.data[index].title;
-                  String? leadingImagePath = widget.data[index].leadingImagePath;
+                  Widget? leadingImage = widget.data[index].leadingImage;
                   String? leadingText = widget.data[index].leadingText;
                   String? trailingText = widget.data[index].trailingText;
 
@@ -74,9 +74,9 @@ class _BoardList extends State<BoardList>{
                         height: 24,
                         child: Text(title,style: regularStyle)
                     ),
-                    leading: leadingImagePath == null ? leadingText == null ? Container() :
+                    leading: leadingImage == null ? leadingText == null ? const SizedBox() :
                     SizedBox(height: 24, child: Text(leadingText, style: regularStyle.copyWith(color: grey),)) :
-                    SizedBox(height: 32, width: 32, child: Image.asset(leadingImagePath)), trailing: trailingText == null ? const SizedBox() :
+                    SizedBox(height: 32, width: 32, child: leadingImage), trailing: trailingText == null ? const SizedBox() :
                     Text(trailingText, style: regularStyle,),
                   );
                 }

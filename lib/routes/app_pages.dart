@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/ui/pages/authentication_page.dart';
 import '../app/ui/pages/board_page.dart';
+import '../app/ui/pages/general_board_page.dart';
 import '../app/ui/pages/timetable_page.dart';
 
 class AppPages {
