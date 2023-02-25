@@ -55,7 +55,7 @@ class _BoardList extends State<BoardList>{
               ],
             ),
             ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 itemCount: widget.data.length,
