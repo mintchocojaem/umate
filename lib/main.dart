@@ -7,6 +7,7 @@ import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app/controller/main_controller.dart';
 import 'app/data/model/subject_model.dart';
@@ -20,7 +21,23 @@ UserModel userModel = UserModel(subjects: [
       name: "선형 대수", startTime: '11:00', endTime: '12:30', days: ["수"]),
 ], name: "이재민", major: "소프트웨어학과", studentNumber: "32193419");
 
+
+class NoCheckCertificateHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  HttpOverrides.global = NoCheckCertificateHttpOverrides();
+  // 디버깅 시에만 사용, 배포시 비활성화 (https SSL 인증서 오류)
+
   runApp(GetMaterialApp(
     initialBinding: MainBinding(),
     initialRoute: Routes.login,

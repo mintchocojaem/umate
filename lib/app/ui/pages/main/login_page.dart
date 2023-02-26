@@ -2,7 +2,6 @@ import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/app/ui/widgets/login_form/login_form_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +16,9 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        appBar: const TransparentAppBar(title: "로그인",),
+        appBar: const TransparentAppBar(
+          title: "로그인",
+        ),
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
@@ -48,10 +49,18 @@ class LoginPage extends GetView<LoginController> {
                   ),
                   LoginFormButton(
                       text: "로그인",
-                      onPressed: () async {
-                        await LoginController.to
-                            .login('32173582', '121212')
-                            .whenComplete(() => Get.toNamed(Routes.main));
+                      onPressed: () {
+                        LoginController.to
+                            .login('17011092',
+                                '99730567') //new: '32173582', '121212'
+                            .then((value) {
+                          if (value) {
+                            Get.toNamed(Routes.main);
+                          } else {
+                            Get.snackbar("로그인 실패", "로그인 실패");
+                            //여기서 로그인 오류 처리
+                          }
+                        });
                       }),
                   const SizedBox(
                     height: 24,

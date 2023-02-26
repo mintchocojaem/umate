@@ -1,26 +1,44 @@
+import 'dart:convert';
+
 import 'package:danvery/app/data/provider/url.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../model/login_model.dart';
+import 'package:http/http.dart' as http;
 
-class LoginProvider extends GetConnect {
+
+class LoginProvider {
+
   //get login
-  Future<LoginModel> getLogin(String classId, String password) async {
-    String url = '$apiUrl/user/login';
-    final body = {"studentId": classId, "password": password};
-    final Response response =
-        await post(url, body, contentType: "application/json");
+  Future<LoginModel?> getLogin(String classId, String password) async {
+    String url = '$apiUrl/api/users/login';
+    final body = {"classId": classId, "password": password};
+    final header =  {"Content-Type": "application/json"};
 
-    if (kDebugMode) {
-      print("getLogin : ${response.statusCode}");
+    //로그인 오류 처리
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(url), body: json.encode(body), headers: header);
+
+      if (kDebugMode) {
+        print("Login : ${response.statusCode}");
+      }
+
+      if (response.statusCode != 200) {
+        throw Exception('Login error');
+      } else {
+        return LoginModel.fromJson(json.decode(response.body));
+      }
+
+    } catch (e) {
+
+      //오류 내용 출력
+      if (kDebugMode) {
+        print(e);
+      }
+
+      return null;
     }
 
-    if (response.status.hasError) {
-      throw Exception('getLogin Error');
-    } else {
-      return LoginModel.fromJson(response.body);
-    }
   }
 }

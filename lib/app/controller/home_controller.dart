@@ -12,14 +12,14 @@ class HomeController extends GetxController {
 
   final BoardRepository boardRepository;
 
-  //final String accessToken = Get.find<LoginController>().loginModel.accessToken;
+  final String accessToken = Get.find<LoginController>().loginModel.accessToken;
 
   HomeController({required this.boardRepository});
 
   @override
   void onInit() {
-    //getSuggestionBoardList(accessToken, 0, 5);
-    //getPetitionBoardList(accessToken, 0, 5);
+    getSuggestionBoardList(accessToken, 0, 5);
+    getPetitionBoardList(accessToken, 0, 5);
     super.onInit();
   }
 

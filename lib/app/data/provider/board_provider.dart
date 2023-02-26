@@ -4,28 +4,30 @@ import 'package:danvery/app/data/model/petition_model.dart';
 import 'package:danvery/app/data/model/post_model.dart';
 import 'package:danvery/app/data/provider/url.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-class BoardProvider extends GetConnect {
+
+class BoardProvider{
   Future<List<PostModel>> getSuggestionBoardList(
       String accessToken, int page, int size) async {
     String url =
         '$apiUrl/api/suggestion?page=$page&size=$size&sort=createDate,desc';
     final headers = {
+      "Content-Type": "application/json",
       "x-aut-token": accessToken
     };
 
-    final Response response = await get(url, contentType: "application/json",headers: headers);
+    final http.Response response = await http.get(Uri.parse(url),headers: headers);
 
     if (kDebugMode) {
       print("getSuggestionBoardList : ${response.statusCode}");
     }
 
-    if (response.status.hasError || response.body == null) {
+    if (response.statusCode != 200) {
       throw Exception('GetSuggestionBoardList Error');
     } else {
 
-      return json.decode(utf8.decode(await response.bodyBytes!.elementAt(0)))["content"]
+      return json.decode(utf8.decode(response.bodyBytes))["content"]
           .map<PostModel>((json) => PostModel.fromJson(json))
           .toList();
     }
@@ -36,19 +38,20 @@ class BoardProvider extends GetConnect {
     String url =
         '$apiUrl/api/petition';
     final headers = {
+      "Content-Type": "application/json",
       "x-aut-token": accessToken
     };
 
-    final Response response = await get(url, contentType: "application/json",headers: headers);
+    final http.Response response = await http.get(Uri.parse(url),headers: headers);
 
     if (kDebugMode) {
       print('getPetitionBoardList : ${response.statusCode}');
     }
 
-    if (response.status.hasError || response.body == null) {
+    if (response.statusCode != 200) {
       throw Exception('GetPetitionBoardList Error');
     } else {
-      return json.decode(utf8.decode(await response.bodyBytes!.elementAt(0)))["content"]
+      return json.decode(utf8.decode(response.bodyBytes))["content"]
           .map<PetitionModel>((json) => PetitionModel.fromJson(json))
           .toList();
     }

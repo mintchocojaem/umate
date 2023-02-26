@@ -3,6 +3,7 @@ import 'package:danvery/app/data/model/post_model.dart';
 
 import '../provider/board_provider.dart';
 
+//로그인이랑 똑같이 리팩토링 할 것
 class BoardRepository {
   final BoardProvider boardProvider;
 

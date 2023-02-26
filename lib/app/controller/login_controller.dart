@@ -21,12 +21,18 @@ class LoginController extends GetxController{
   bool get isLogin => _isLogin.value;
   bool get isLoading => _isLoading.value;
 
-  Future<void> login(String classId, String password) async{
+  Future<bool> login(String classId, String password) async{
     await loginRepository.login(classId, password).then((value) {
-      _loginModel.value = value;
-      _isLogin.value = true;
-      _isLoading.value = false;
+      if(value == null){
+        _isLogin.value = false;
+        _isLoading.value = false;
+      }else{
+        _loginModel.value = value;
+        _isLogin.value = true;
+        _isLoading.value = false;
+      }
     });
+    return _isLogin.value;
   }
 
 }

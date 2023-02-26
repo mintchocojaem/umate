@@ -8,7 +8,7 @@ class LoginRepository {
   LoginRepository({required this.loginProvider});
 
   //get login
-  Future<LoginModel> login(String classId, String password) async{
+  Future<LoginModel?> login(String classId, String password) async{
     return await loginProvider.getLogin(classId, password);
   }
 
