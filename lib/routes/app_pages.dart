@@ -1,15 +1,14 @@
-import 'package:danvery/app/ui/pages/home_page.dart';
-import 'package:danvery/app/ui/pages/login_page.dart';
-import 'package:danvery/app/ui/pages/register_page.dart';
-import 'package:danvery/app/ui/pages/setting_page.dart';
+import 'package:danvery/app/ui/pages/home/home_page.dart';
+import 'package:danvery/app/ui/pages/main/login_page.dart';
+import 'package:danvery/app/ui/pages/main/register_page.dart';
+import 'package:danvery/app/ui/pages/setting/setting_page.dart';
 import 'package:danvery/main.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import '../app/ui/pages/authentication_page.dart';
-import '../app/ui/pages/board_page.dart';
-import '../app/ui/pages/general_board_page.dart';
-import '../app/ui/pages/timetable_page.dart';
+import '../app/ui/pages/board/board_page.dart';
+import '../app/ui/pages/board/general_board_page.dart';
+import '../app/ui/pages/timetable/timetable_page.dart';
 
 class AppPages {
 
@@ -31,10 +30,6 @@ class AppPages {
     GetPage(
       name: Routes.board,
       page: () => const BoardPage(),
-    ),
-    GetPage(
-        name: Routes.authentication,
-        page: () => const AuthenticationPage(),
     ),
     GetPage(
         name: Routes.register,

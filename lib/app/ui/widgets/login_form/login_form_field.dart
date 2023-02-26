@@ -63,7 +63,7 @@ class _LoginFormField extends State<LoginFormField> {
       children: [
         widget.title == null
             ? const SizedBox()
-            : Text(widget.title!, style: titleStyle.copyWith(color: lightGrey),),
+            : Text(widget.title!, style: titleStyle.copyWith(color: darkGrey),),
         const SizedBox(height: 8,),
         Row(
           children: [
@@ -77,7 +77,7 @@ class _LoginFormField extends State<LoginFormField> {
                     fillColor: whiteGrey,
                     border: const OutlineInputBorder(),
                     hintText: widget.validateHint ?? widget.hint,
-                    hintStyle: TextStyle(color: lightGrey),
+                    hintStyle: TextStyle(color: darkGrey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: BorderSide(
@@ -106,7 +106,7 @@ class _LoginFormField extends State<LoginFormField> {
                     fillColor: whiteGrey,
                     border: const OutlineInputBorder(),
                     hintText: widget.hint,
-                    hintStyle: TextStyle(color: lightGrey),
+                    hintStyle: TextStyle(color: darkGrey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: BorderSide(
@@ -126,7 +126,7 @@ class _LoginFormField extends State<LoginFormField> {
                 child: OutlinedButton(
                   onPressed: null,
                   style: ButtonStyle(
-                    side: MaterialStateProperty.all(BorderSide(color: lightGrey)),
+                    side: MaterialStateProperty.all(BorderSide(color: darkGrey)),
                     shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -135,7 +135,7 @@ class _LoginFormField extends State<LoginFormField> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Text(widget.checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: lightGrey),),
+                    child: Text(widget.checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: darkGrey),),
                   ),
                 )
               ),
@@ -153,7 +153,7 @@ class _LoginFormField extends State<LoginFormField> {
                 fillColor: whiteGrey,
                 border: const OutlineInputBorder(),
                 hintText: widget.validateHint ?? widget.hint,
-                hintStyle: TextStyle(color: lightGrey),
+                hintStyle: TextStyle(color: darkGrey),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(

@@ -1,12 +1,13 @@
-import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/controller/register_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_routes.dart';
-import '../widgets/login_form_button.dart';
-import '../widgets/login_form_field.dart';
+import '../../../../routes/app_routes.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_theme.dart';
+import '../../widgets/login_form/login_form_button.dart';
+import '../../widgets/login_form/login_form_field.dart';
 
 class RegisterPage extends GetView<RegisterController>{
   const RegisterPage({super.key});
@@ -16,12 +17,17 @@ class RegisterPage extends GetView<RegisterController>{
     // TODO: implement build
 
     return Scaffold(
+      appBar: TransparentAppBar(
+        title: '회원가입',
+        automaticallyImplyLeading: true,
+        onPressedLeading: () => Get.back(),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
         child: Stack(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height - (48 + 60 + 48),
+              height: Get.height - (48 + 60 + 48),
               //60 = bottom navigation bar height, 48 = login button height, 48 = padding bottom 16 top 16 + else(?) 16
               child: SingleChildScrollView(
                 child: Column(

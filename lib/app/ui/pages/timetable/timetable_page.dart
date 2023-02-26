@@ -1,11 +1,10 @@
+import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:danvery/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../data/dto/board_list_dto.dart';
-import '../widgets/board_list.dart';
-import '../widgets/timetable.dart';
+import '../../widgets/board/board_list.dart';
+import '../../widgets/timetable/timetable.dart';
 
 class TimetablePage extends GetView {
 
@@ -38,10 +37,10 @@ class TimetablePage extends GetView {
                   description: "2023-1",
                   tableName: "시간표1"),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
               child: BoardList(
-                data: [BoardListDTO(leadingText: "소프트웨어학과", title: "이관현")],
+                cards: [BoardCard(leadingText: "소프트웨어학과", title: "이관현")],
                 title: "친구",
                 actionTitle: "",
                 showAction: false,

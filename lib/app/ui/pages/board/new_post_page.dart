@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_theme.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 

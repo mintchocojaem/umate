@@ -1,6 +1,6 @@
-import 'package:danvery/app/data/dto/board_list_dto.dart';
 import 'package:danvery/app/ui/theme/app_colors.dart';
-import 'package:danvery/app/ui/widgets/board_list.dart';
+import 'package:danvery/app/ui/widgets/board/board_card.dart';
+import 'package:danvery/app/ui/widgets/board/board_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,23 +31,23 @@ class BoardPage extends GetView {
                 )),
           ),
           const SizedBox(height: 16,),
-          BoardList(
-            data: [
-              BoardListDTO(
+          const BoardList(
+            cards: [
+              BoardCard(
                   title: "자유 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "취업 / 진로 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "졸업생 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "새내기 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "비밀 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "꿀팁 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
             ],
@@ -57,14 +57,14 @@ class BoardPage extends GetView {
           const SizedBox(
             height: 16,
           ),
-          BoardList(
-            data: [
-              BoardListDTO(
+          const BoardList(
+            cards: [
+              BoardCard(
                   title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "학교생활 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "기타 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
             ],
             title: '청원 게시판',
@@ -73,15 +73,15 @@ class BoardPage extends GetView {
           const SizedBox(
             height: 16,
           ),
-          BoardList(
-            data: [
-              BoardListDTO(
+          const BoardList(
+            cards: [
+              BoardCard(
                   title: "단냥펀치 게시판",
                   leadingImage: Icon(Icons.star_border_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "동아리 게시판",
                   leadingImage: Icon(Icons.star_border_outlined)),
-              BoardListDTO(
+              BoardCard(
                   title: "새내기 게시판",
                   leadingImage: Icon(Icons.star_border_outlined)),
             ],

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:danvery/app/bindings/main_binding.dart';
-import 'package:danvery/app/controller/authentication_controller.dart';
 import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
@@ -27,8 +26,16 @@ void main() async {
     initialRoute: Routes.login,
     getPages: AppPages.pages,
     debugShowCheckedModeBanner: false,
-    themeMode: ThemeMode.light,
     theme: appThemeData,
+    darkTheme: ThemeData(
+      brightness: Brightness.light,
+      /* dark theme settings */
+    ),
+    themeMode: ThemeMode.light,
+    /* ThemeMode.system to follow system theme,
+         ThemeMode.light for light theme,
+         ThemeMode.dark for dark theme
+      */
   ));
 }
 
@@ -48,12 +55,9 @@ class MainPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: white,
         body: Padding(
             padding: const EdgeInsets.only(bottom: 60),
-            child: Obx(() => pages[MainController.to.selectedIndex]
-            )
-        ),
+            child: Obx(() => pages[MainController.to.selectedIndex])),
         bottomNavigationBar: Container(
           height: 60,
           decoration: const BoxDecoration(
@@ -64,33 +68,31 @@ class MainPage extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-            child: BottomNavigationBar(
-              onTap: (value) {
-                MainController.to.selectedIndex = value;
-              },
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: white,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "홈",
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+              child: Obx(
+                () => BottomNavigationBar(
+                  currentIndex: MainController.to.selectedIndex,
+                  onTap: (value) {
+                    MainController.to.selectedIndex = value;
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: "홈",
+                    ),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.calendar_today), label: "시간표"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.event_note_outlined), label: "게시판"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.settings), label: "설정"),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today),
-                    label: "시간표"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.event_note_outlined),
-                    label: "게시판"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: "설정"),
-              ],
-            ),
-          ),
+              )),
         ),
         extendBody: true,
       ),

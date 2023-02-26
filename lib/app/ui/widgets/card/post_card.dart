@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_theme.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -48,7 +48,7 @@ class PostCard extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: regularStyle.copyWith(color: lightGrey),
+                    style: regularStyle.copyWith(color: darkGrey),
                   ),
                 ),
                 trailing: thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
@@ -56,7 +56,7 @@ class PostCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(publishDate, style: regularStyle.copyWith(color: lightGrey),),
+                  Text(publishDate, style: regularStyle.copyWith(color: darkGrey),),
                   Wrap(
                     spacing: 12,
                     children: [

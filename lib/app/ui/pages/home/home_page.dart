@@ -1,39 +1,39 @@
 import 'package:danvery/app/controller/home_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../main.dart';
-import '../../data/dto/board_list_dto.dart';
-import '../theme/app_colors.dart';
-import '../widgets/board_list.dart';
-import '../widgets/main_button.dart';
+import '../../../../main.dart';
+import '../../theme/app_colors.dart';
+import '../../widgets/board/board_list.dart';
+import '../../widgets/button/main_button.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
-  static List<BoardListDTO> busList = [
-    BoardListDTO(
+  static List<BoardCard> busList = [
+    BoardCard(
         leadingImage: Image.asset("assets/icons/bus_list/bus_24.png"),
         trailingText: "17분 후 도착",
         title: "단국대학교 정문 승차"),
-    BoardListDTO(
+    BoardCard(
         leadingImage: Image.asset("assets/icons/bus_list/bus_102.png"),
         trailingText: "2분 후 도착",
         title: "단국대학교 정문 승차"),
-    BoardListDTO(
+    BoardCard(
         leadingImage: Image.asset("assets/icons/bus_list/bus_720_3.png"),
         trailingText: "8분 후 도착",
         title: "단국대학교 정문 승차"),
-    BoardListDTO(
+    BoardCard(
         leadingImage: Image.asset("assets/icons/bus_list/bus_school.png"),
         trailingText: "20분 후 도착",
         title: "단국대학교 정문 승차"),
   ];
 
-  List<BoardListDTO> getBoardList(dynamic data) {
-    List<BoardListDTO> result = [];
+  List<BoardCard> getBoardList(dynamic data) {
+    List<BoardCard> result = [];
     for (dynamic i in data) {
-      result.add(BoardListDTO(leadingText: "익명", title: i.title));
+      result.add(BoardCard(leadingText: "익명", title: i.title));
     }
     return result;
   }
@@ -134,14 +134,14 @@ class HomePage extends GetView<HomeController> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: BoardList(
-                      data: busList, title: "버스 정보", actionTitle: "더보기"),
+                      cards: busList, title: "버스 정보", actionTitle: "더보기"),
                 ),
                 //get suggestion board with Obx
                 Obx(() => controller.suggestionBoard.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            data: getBoardList(controller.suggestionBoard),
+                            cards: getBoardList(controller.suggestionBoard),
                             title: "자유 게시판",
                             actionTitle: "더보기"),
                       )
@@ -153,7 +153,7 @@ class HomePage extends GetView<HomeController> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            data: getBoardList(controller.petitionBoard),
+                            cards: getBoardList(controller.petitionBoard),
                             title: "청원게시판",
                             actionTitle: "더보기"),
                       )

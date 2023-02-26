@@ -1,16 +1,16 @@
 import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
-import '../../data/dto/board_list_dto.dart';
+import 'package:get/get.dart';
 
 class BoardList extends StatefulWidget{
 
-  final List<BoardListDTO> data;
+  final List<Widget> cards;
   final String title;
   final String actionTitle;
   final bool showAction;
 
-  const BoardList({super.key, required this.data, required this.title, this.actionTitle = '', this.showAction = true});
+  const BoardList({super.key, required this.cards, required this.title, this.actionTitle = '', this.showAction = true});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,14 +26,14 @@ class _BoardList extends State<BoardList>{
     // TODO: implement build
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.isDarkMode ? dark : white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+          context.isDarkMode ? const BoxShadow() : BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -58,27 +58,9 @@ class _BoardList extends State<BoardList>{
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
-                itemCount: widget.data.length,
+                itemCount: widget.cards.length,
                 itemBuilder: (BuildContext context, int index) {
-
-                  String title = widget.data[index].title;
-                  Widget? leadingImage = widget.data[index].leadingImage;
-                  String? leadingText = widget.data[index].leadingText;
-                  String? trailingText = widget.data[index].trailingText;
-
-                  return ListTile(
-                    contentPadding: EdgeInsets.all(0),
-                    visualDensity: VisualDensity(vertical: -3),
-                    dense: true,
-                    title: SizedBox(
-                        height: 24,
-                        child: Text(title,style: regularStyle)
-                    ),
-                    leading: leadingImage == null ? leadingText == null ? const SizedBox() :
-                    SizedBox(height: 24, child: Text(leadingText, style: regularStyle.copyWith(color: grey),)) :
-                    SizedBox(height: 32, width: 32, child: leadingImage), trailing: trailingText == null ? const SizedBox() :
-                    Text(trailingText, style: regularStyle,),
-                  );
+                  return widget.cards[index];
                 }
             )
           ],

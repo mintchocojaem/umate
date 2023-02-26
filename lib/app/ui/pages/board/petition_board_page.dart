@@ -1,11 +1,11 @@
+import 'package:danvery/app/ui/pages/board/petition_post_page.dart';
 import 'package:flutter/material.dart';
-import './search_board_page.dart';
-import './new_post_page.dart';
-import './petition_post_page.dart';
+import 'search_board_page.dart';
+import 'new_post_page.dart';
 
-import '../widgets/category_button_bar.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
+import '../../widgets/category_button_bar.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_theme.dart';
 
 class PetitionBoardPage extends StatefulWidget {
   const PetitionBoardPage({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
-import '../widgets/notice_card.dart';
-import '../widgets/post_card.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_theme.dart';
+import '../../widgets/card/notice_card.dart';
+import '../../widgets/card/post_card.dart';
 
 class GeneralBoardPage extends GetView {
   const GeneralBoardPage({super.key});

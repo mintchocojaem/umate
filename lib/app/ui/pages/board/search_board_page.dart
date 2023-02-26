@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../../theme/app_colors.dart';
 
 class SearchBoardPage extends StatefulWidget {
   @override
@@ -50,7 +50,7 @@ class _SearchBoardPageState extends State<SearchBoardPage> {
         child: Text(
           "OO게시판에서\n원하는 글을 검색해보세요",
           style: TextStyle(
-            color: lightGrey,
+            color: darkGrey,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
           ),
