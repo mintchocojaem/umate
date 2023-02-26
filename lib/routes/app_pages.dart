@@ -1,13 +1,13 @@
 import 'package:danvery/app/ui/pages/board/category_board_page.dart';
 import 'package:danvery/app/ui/pages/home/home_page.dart';
-import 'package:danvery/app/ui/pages/main/login_page.dart';
-import 'package:danvery/app/ui/pages/main/register_page.dart';
 import 'package:danvery/app/ui/pages/setting/setting_page.dart';
 import 'package:danvery/main.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/ui/pages/board/board_page.dart';
+import '../app/ui/pages/login/login_page.dart';
+import '../app/ui/pages/login/register_page.dart';
 import '../app/ui/pages/timetable/timetable_page.dart';
 
 class AppPages {

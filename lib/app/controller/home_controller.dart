@@ -12,14 +12,12 @@ class HomeController extends GetxController {
 
   final BoardRepository boardRepository;
 
-  final String accessToken = Get.find<LoginController>().loginModel.accessToken;
-
   HomeController({required this.boardRepository});
 
   @override
   void onInit() {
-    getSuggestionBoardList(accessToken, 0, 5);
-    getPetitionBoardList(accessToken, 0, 5);
+    getSuggestionBoardList(0, 5);
+    getPetitionBoardList(0, 5);
     super.onInit();
   }
 
@@ -31,15 +29,19 @@ class HomeController extends GetxController {
 
   List<PetitionModel> get petitionBoard => _petitionBoard;
 
-  void getSuggestionBoardList(String accessToken, int page , int size){
-    boardRepository.getSuggestionBoard(accessToken, page, size).then((value) {
-      _suggestionBoard.value = value;
+  void getSuggestionBoardList(int page , int size){
+    boardRepository.getSuggestionBoard(page, size).then((value) {
+      if (value != null) {
+        _suggestionBoard.value = value;
+      }
     });
   }
 
-  void getPetitionBoardList(String accessToken, int page , int size){
-    boardRepository.getPetitionBoard(accessToken, page, size).then((value) {
-      _petitionBoard.value = value;
+  void getPetitionBoardList(int page , int size){
+    boardRepository.getPetitionBoard(page, size).then((value) {
+      if (value != null) {
+        _petitionBoard.value = value;
+      }
     });
   }
 
