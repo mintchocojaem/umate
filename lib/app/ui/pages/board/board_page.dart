@@ -1,3 +1,4 @@
+import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:danvery/app/ui/widgets/board/board_list.dart';
@@ -30,26 +31,51 @@ class BoardPage extends GetView {
                   width: 18,
                 )),
           ),
-          const SizedBox(height: 16,),
-          const BoardList(
+          const SizedBox(
+            height: 16,
+          ),
+          BoardList(
             cards: [
               BoardCard(
-                  title: "자유 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
+                title: "자유 게시판",
+                leadingImage: Icon(Icons.push_pin_outlined),
+                onTap: () {
+                  Get.toNamed("/board/category",
+                      arguments: {"title": "자유 게시판"});
+                },
+              ),
               BoardCard(
-                  title: "취업 / 진로 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
+                title: "취업 / 진로 게시판",
+                leadingImage: Icon(Icons.push_pin_outlined),
+                onTap: () {
+                  Get.toNamed("/board/category",
+                      arguments: {"title": "취업 / 진로 게시판"});
+                },
+              ),
               BoardCard(
-                  title: "졸업생 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
+                title: "졸업생 게시판",
+                leadingImage: Icon(Icons.push_pin_outlined),
+                onTap: () {
+                  Get.toNamed("/board/category",
+                      arguments: {"title": "졸업생 게시판"});
+                },
+              ),
               BoardCard(
-                  title: "새내기 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
+                title: "새내기 게시판",
+                leadingImage: Icon(Icons.push_pin_outlined),
+                onTap: () {
+                  Get.toNamed("/board/category",
+                      arguments: {"title": "새내기 게시판"});
+                },
+              ),
               BoardCard(
-                  title: "비밀 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardCard(
-                  title: "꿀팁 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
+                title: "비밀 게시판",
+                leadingImage: Icon(Icons.push_pin_outlined),
+                onTap: () {
+                  Get.toNamed("/board/category",
+                      arguments: {"title": "비밀 게시판"});
+                },
+              ),
             ],
             title: '자유 게시판',
             showAction: false,
@@ -57,10 +83,15 @@ class BoardPage extends GetView {
           const SizedBox(
             height: 16,
           ),
-          const BoardList(
+          BoardList(
             cards: [
               BoardCard(
-                  title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
+                  title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PetitionBoardPage()));
+                  }
+              ),
               BoardCard(
                   title: "학교생활 게시판",
                   leadingImage: Icon(Icons.push_pin_outlined)),
@@ -73,11 +104,12 @@ class BoardPage extends GetView {
           const SizedBox(
             height: 16,
           ),
-          const BoardList(
+          BoardList(
             cards: [
               BoardCard(
                   title: "단냥펀치 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined)),
+                  leadingImage: Icon(Icons.star_border_outlined),
+              ),
               BoardCard(
                   title: "동아리 게시판",
                   leadingImage: Icon(Icons.star_border_outlined)),

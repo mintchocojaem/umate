@@ -1,3 +1,4 @@
+import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../theme/app_colors.dart';
@@ -5,24 +6,20 @@ import '../../theme/app_text_theme.dart';
 import '../../widgets/card/notice_card.dart';
 import '../../widgets/card/post_card.dart';
 
-class GeneralBoardPage extends GetView {
-  const GeneralBoardPage({super.key});
+class CategoryBoardPage extends GetView {
+  const CategoryBoardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        centerTitle: true,
-        toolbarHeight: 80,
-        backgroundColor: transparent,
-        title: Text(
-          "자유게시판",
-          style: titleStyle.copyWith(color: black),
-        ),
-        elevation: 0,
+      appBar: TransparentAppBar(
+        title: Get.arguments["title"] ?? "게시판",
+        automaticallyImplyLeading: true,
+        onPressedLeading: () {
+          Get.back();
+        },
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.search, color: grey,)),
           const SizedBox(width: 8,),

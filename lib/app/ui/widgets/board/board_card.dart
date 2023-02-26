@@ -8,7 +8,7 @@ class BoardCard extends StatelessWidget {
   final String? leadingText;
   final Widget? leadingImage;
   final String? trailingText;
-  final VoidCallback? onPressed;
+  final VoidCallback? onTap;
 
   const BoardCard(
       {super.key,
@@ -16,11 +16,12 @@ class BoardCard extends StatelessWidget {
       this.leadingImage,
       required this.title,
       this.trailingText,
-      this.onPressed});
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       contentPadding: EdgeInsets.all(0),
       visualDensity: VisualDensity(vertical: -3),
       dense: true,

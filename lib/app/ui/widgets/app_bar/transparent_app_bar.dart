@@ -9,17 +9,21 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
   final double height;
   final bool automaticallyImplyLeading;
   final VoidCallback? onPressedLeading;
+  final List<Widget>? actions;
+
   const TransparentAppBar({
     super.key,
     required this.title,
-    this.height = 80,
+    this.height = 60,
     this.automaticallyImplyLeading = false,
     this.onPressedLeading,
+    this.actions
   });
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
+      centerTitle: true,
       toolbarHeight: height,
       backgroundColor: transparent,
       leading: automaticallyImplyLeading ? IconButton(
@@ -31,6 +35,7 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
         style: titleStyle.copyWith(color: grey),
       ),
       elevation: 0,
+      actions: actions,
     );
   }
 

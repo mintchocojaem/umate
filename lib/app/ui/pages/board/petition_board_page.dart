@@ -1,6 +1,6 @@
 import 'package:danvery/app/ui/pages/board/petition_post_page.dart';
+import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:flutter/material.dart';
-import 'search_board_page.dart';
 import 'new_post_page.dart';
 
 import '../../widgets/category_button_bar.dart';
