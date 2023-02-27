@@ -13,56 +13,41 @@ class CategoryBoardPage extends GetView {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return Scaffold(
-      appBar: TransparentAppBar(
-        title: Get.arguments["title"] ?? "게시판",
-        automaticallyImplyLeading: true,
-        onPressedLeading: () {
-          Get.back();
-        },
-        actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search, color: grey,)),
-          const SizedBox(width: 8,),
-          IconButton(onPressed: (){}, icon: Icon(Icons.post_add_outlined, color: grey,)),
-          const SizedBox(width: 16,)
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
-          child: Column(
-            children: [
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const NoticeCard(
-                        category: "공지",
-                        title: "내용",
-                        commentCount: 0,
-                        likeCount: 0
-                    );
-                  }
-              ),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const PostCard(
-                      title: '제목',
-                      subtitle: '내용',
-                      publishDate: '1분 전',
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
+        child: Column(
+          children: [
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                itemCount: 2,
+                itemBuilder: (BuildContext context, int index) {
+                  return const NoticeCard(
+                      category: "공지",
+                      title: "내용",
                       commentCount: 0,
-                      likeCount: 0,
-                    );
-                  }
-              )
-            ],
-          ),
+                      likeCount: 0
+                  );
+                }
+            ),
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                itemCount: 10,
+                itemBuilder: (BuildContext context, int index) {
+                  return const PostCard(
+                    title: '제목',
+                    subtitle: '내용',
+                    publishDate: '1분 전',
+                    commentCount: 0,
+                    likeCount: 0,
+                  );
+                }
+            )
+          ],
         ),
       ),
     );

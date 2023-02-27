@@ -1,3 +1,4 @@
+import 'package:danvery/app/ui/pages/board/category_board_page.dart';
 import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
@@ -12,116 +13,81 @@ class BoardPage extends GetView {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(children: [
-          TextField(
-            cursorColor: Colors.grey,
-            decoration: InputDecoration(
-                fillColor: brightGrey,
-                filled: true,
-                hintText: "게시판 검색",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none),
-                prefixIcon: Container(
-                  padding: EdgeInsets.all(15),
-                  child: Icon(Icons.search),
-                  width: 18,
-                )),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          BoardList(
-            cards: [
-              BoardCard(
-                title: "자유 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed("/board/category",
-                      arguments: {"title": "자유 게시판"});
-                },
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            const SliverAppBar(
+              pinned: false,
+              backgroundColor: Colors.white,
+              title: Text(
+                "게시판",
+                style: TextStyle(color: Colors.black),
               ),
-              BoardCard(
-                title: "취업 / 진로 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed("/board/category",
-                      arguments: {"title": "취업 / 진로 게시판"});
-                },
-              ),
-              BoardCard(
-                title: "졸업생 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed("/board/category",
-                      arguments: {"title": "졸업생 게시판"});
-                },
-              ),
-              BoardCard(
-                title: "새내기 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed("/board/category",
-                      arguments: {"title": "새내기 게시판"});
-                },
-              ),
-              BoardCard(
-                title: "비밀 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed("/board/category",
-                      arguments: {"title": "비밀 게시판"});
-                },
-              ),
-            ],
-            title: '자유 게시판',
-            showAction: false,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          BoardList(
-            cards: [
-              BoardCard(
-                  title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PetitionBoardPage()));
-                  }
-              ),
-              BoardCard(
-                  title: "학교생활 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardCard(
-                  title: "기타 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
-            ],
-            title: '청원 게시판',
-            showAction: false,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          BoardList(
-            cards: [
-              BoardCard(
-                  title: "단냥펀치 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined),
-              ),
-              BoardCard(
-                  title: "동아리 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined)),
-              BoardCard(
-                  title: "새내기 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined)),
-            ],
-            title: '즐겨찾기',
-            showAction: false,
-          ),
-        ]),
+            ),
+            const SliverPersistentHeader(
+                pinned: true, delegate: TabBarDelegate()),
+          ];
+        },
+        body: TabBarView(
+          children: [
+            CategoryBoardPage(),
+            Container(),
+          ],
+        ),
       ),
     );
+  }
+}
+
+class TabBarDelegate extends SliverPersistentHeaderDelegate {
+  const TabBarDelegate();
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,
+      child: TabBar(
+        tabs: [
+          Tab(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              color: Colors.white,
+              child: const Text(
+                "자유게시판",
+              ),
+            ),
+          ),
+          Tab(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              color: Colors.white,
+              child: const Text(
+                "청원게시판",
+              ),
+            ),
+          ),
+        ],
+        indicatorWeight: 2,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        unselectedLabelColor: Colors.grey,
+        labelColor: Colors.black,
+        indicatorColor: Colors.black,
+        indicatorSize: TabBarIndicatorSize.label,
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 48;
+
+  @override
+  double get minExtent => 48;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
