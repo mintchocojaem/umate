@@ -1,4 +1,5 @@
 import 'package:danvery/app/ui/pages/board/category_board_page.dart';
+import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:danvery/app/ui/pages/home/home_page.dart';
 import 'package:danvery/app/ui/pages/setting/setting_page.dart';
 import 'package:danvery/main.dart';
@@ -47,6 +48,7 @@ class AppPages {
       name: Routes.categoryBoard,
       page: () => const CategoryBoardPage(),
     ),
+    GetPage(name: Routes.searchBoard, page: ()=> const SearchBoardPage())
   ];
 
   Widget findPage(String name) {

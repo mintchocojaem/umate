@@ -3,7 +3,7 @@ import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:flutter/material.dart';
 import 'post/new_post_page.dart';
 
-import '../../widgets/category_button_bar.dart';
+import '../../widgets/buttom_bar/category_button_bar.dart';
 import '../../theme/app_colors.dart';
 
 class PetitionBoardPage extends StatefulWidget {

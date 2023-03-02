@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 
 class SearchBoardPage extends StatefulWidget {
+  const SearchBoardPage({super.key});
+
   @override
-  _SearchBoardPageState createState() => _SearchBoardPageState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _SearchBoardPage();
+  }
+
 }
 
-class _SearchBoardPageState extends State<SearchBoardPage> {
+class _SearchBoardPage extends State<SearchBoardPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchTextController = TextEditingController();
@@ -18,12 +24,12 @@ class _SearchBoardPageState extends State<SearchBoardPage> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
+        preferredSize: Size.fromHeight(80.0),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(16.0),
           child: AppBar(
             leading: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios,
                   color: black,
                 ),
@@ -33,7 +39,9 @@ class _SearchBoardPageState extends State<SearchBoardPage> {
               decoration: InputDecoration(
                   filled: true,
                   fillColor: whiteGrey,
-                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none),
                   hintText: '글의 제목, 내용, 키워드를 입력하세요',
                   hintStyle: TextStyle(color: grey),
                   suffixIcon: IconButton(

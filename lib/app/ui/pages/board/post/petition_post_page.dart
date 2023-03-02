@@ -4,11 +4,17 @@ import 'package:flutter/cupertino.dart';
 import '../../../theme/app_colors.dart';
 
 class PetitionPostPage extends StatefulWidget {
+  const PetitionPostPage({super.key});
+
   @override
-  _PetitionPostPageState createState() => _PetitionPostPageState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _PetitionPostPage();
+  }
+
 }
 
-class _PetitionPostPageState extends State<PetitionPostPage> {
+class _PetitionPostPage extends State<PetitionPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

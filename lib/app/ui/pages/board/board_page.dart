@@ -2,7 +2,6 @@ import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:danvery/app/ui/widgets/board/board_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +28,8 @@ class BoardPage extends GetView {
                   padding: EdgeInsets.all(15),
                   child: Icon(Icons.search),
                   width: 18,
-                )),
+                )
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -104,7 +104,7 @@ class BoardPage extends GetView {
           const SizedBox(
             height: 16,
           ),
-          BoardList(
+          const BoardList(
             cards: [
               BoardCard(
                   title: "단냥펀치 게시판",

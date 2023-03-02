@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_theme.dart';
+import '../../theme/app_colors.dart';
 
 class CategoryButtonBar extends StatefulWidget {
+  const CategoryButtonBar({super.key});
+
   @override
-  _CategoryButtonBarState createState() => _CategoryButtonBarState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _CategoryButtonBar();
+  }
+
+
 }
 
-class _CategoryButtonBarState extends State<CategoryButtonBar> {
+class _CategoryButtonBar extends State<CategoryButtonBar> {
+
   int _currentIndex = 0;
 
-  List<String> _buttonTitles = [
+  final List<String> _buttonTitles = [
     "청원중",
     "답변대기중",
     "답변완료",
@@ -19,13 +26,14 @@ class _CategoryButtonBarState extends State<CategoryButtonBar> {
 
   @override
   Widget build(BuildContext context) {
+
     final deviceWidth = MediaQuery.of(context).size.width;
     final categoryButtonWidth = deviceWidth / 5.0;
     final categoryButtonPadding = (deviceWidth - 40.0) / 24.0;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 30.0),
-      child: Container(
+      child: SizedBox(
         height: 40,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -43,13 +51,6 @@ class _CategoryButtonBarState extends State<CategoryButtonBar> {
                       _currentIndex = index;
                     });
                   },
-                  child: Text(
-                    _buttonTitles[index],
-                    style: TextStyle(
-                      color: _currentIndex == index ? white : darkGrey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     backgroundColor: _currentIndex == index ? blue : white,
@@ -58,6 +59,13 @@ class _CategoryButtonBarState extends State<CategoryButtonBar> {
                         color: darkGrey,
                       ),
                       borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text(
+                    _buttonTitles[index],
+                    style: TextStyle(
+                      color: _currentIndex == index ? white : darkGrey,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

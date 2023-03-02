@@ -1,8 +1,8 @@
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../theme/app_colors.dart';
-import '../../theme/app_text_theme.dart';
 import '../../widgets/card/notice_card.dart';
 import '../../widgets/card/post_card.dart';
 
@@ -21,7 +21,9 @@ class CategoryBoardPage extends GetView {
           Get.back();
         },
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search, color: grey,)),
+          IconButton(onPressed: (){
+            Get.toNamed(Routes.searchBoard);
+          }, icon: Icon(Icons.search, color: grey,)),
           const SizedBox(width: 8,),
           IconButton(onPressed: (){}, icon: Icon(Icons.post_add_outlined, color: grey,)),
           const SizedBox(width: 16,)
