@@ -1,14 +1,17 @@
 import 'package:danvery/app/controller/home_controller.dart';
+import 'package:danvery/app/controller/login_controller.dart';
+import 'package:danvery/app/data/model/login_model.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../main.dart';
+import '../../../controller/home_controller.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/board/board_list.dart';
 import '../../widgets/button/main_button.dart';
 
-class HomePage extends GetView<HomeController> {
+class HomePage extends GetView {
   const HomePage({Key? key}) : super(key: key);
 
   static List<BoardCard> busList = [
@@ -40,6 +43,10 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+
+    final HomeController homeController = Get.find<HomeController>();
+    final LoginModel loginModel = Get.find<LoginController>().loginModel;
+
     // TODO: implement build
     return SingleChildScrollView(
       child: Stack(
@@ -60,17 +67,17 @@ class HomePage extends GetView<HomeController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text.rich(
+                           Text.rich(
                             TextSpan(
                               style: regularStyle.copyWith(color: white),
                               text: '안녕하세요,\n', // default text style
                               children: <TextSpan>[
                                 TextSpan(
                                     text:
-                                        "${userModel.major} ${userModel.studentNumber.substring(2, 4)}학번\n",
+                                        "${loginModel.major} ${loginModel.studentId.substring(2,4)}학번\n",
                                     style: titleStyle.copyWith(color: white)),
                                 TextSpan(
-                                    text: userModel.name,
+                                    text: loginModel.userName,
                                     style: titleStyle.copyWith(color: white)),
                                 TextSpan(
                                     text: " 님",
@@ -137,11 +144,11 @@ class HomePage extends GetView<HomeController> {
                       cards: busList, title: "버스 정보", actionTitle: "더보기"),
                 ),
                 //get suggestion board with Obx
-                Obx(() => controller.suggestionBoard.isNotEmpty
+                Obx(() => homeController.isLoadGeneralBoard
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            cards: getBoardList(controller.suggestionBoard),
+                            cards: getBoardList(homeController.generalBoard),
                             title: "자유 게시판",
                             actionTitle: "더보기"),
                       )
@@ -149,11 +156,11 @@ class HomePage extends GetView<HomeController> {
                         height: 200,
                         child: Center(child: CircularProgressIndicator()))),
                 //get petition board with Obx
-                Obx(() => controller.petitionBoard.isNotEmpty
+                Obx(() => homeController.isLoadPetitionBoard
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            cards: getBoardList(controller.petitionBoard),
+                            cards: getBoardList(homeController.petitionBoard),
                             title: "청원게시판",
                             actionTitle: "더보기"),
                       )

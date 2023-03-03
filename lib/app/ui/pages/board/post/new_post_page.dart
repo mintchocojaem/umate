@@ -1,33 +1,26 @@
+import 'package:danvery/app/controller/home_controller.dart';
+import 'package:danvery/app/controller/post_controller.dart';
+import 'package:danvery/app/data/model/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import '../../../../controller/login_controller.dart';
 import '../../../theme/app_colors.dart';
-import '../../../theme/app_text_theme.dart';
-import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
-class NewPostPage extends StatefulWidget {
-  @override
-  _NewPostPageState createState() => _NewPostPageState();
-}
-
-class _NewPostPageState extends State<NewPostPage> {
-  final changedContent = false; //변경된 내용이 있으면 true
-  final ImagePicker _picker = ImagePicker();
-  List<XFile> _pickedImgs = []; // 이미지 저장 배열
-
-  Future<void> _pickImg() async {
-    //이미지 업로드 함수
-    final List<XFile>? images = await _picker.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        _pickedImgs = images;
-      });
-    }
-  }
+class NewPostPage extends GetView {
+  const NewPostPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final PostController postController = Get.find<PostController>();
+
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController bodyController = TextEditingController();
+
+    final String token = Get.find<LoginController>().loginModel.accessToken;
+    //토큰 받아올때 이렇게 직접적으로 받아오지말고 null 주고 logincontroller is loaded 됐을때 받아와야함
 
     void backButtonDialog() {
       showDialog(
@@ -86,12 +79,14 @@ class _NewPostPageState extends State<NewPostPage> {
           child: Column(
             children: <Widget>[
               TextField(
+                  controller: titleController,
                   decoration: InputDecoration(
                 border: OutlineInputBorder(borderSide: BorderSide.none),
                 hintText: '제목',
               )),
               Divider(thickness: 1, color: brightGrey),
               TextField(
+                  controller: bodyController,
                   maxLines: 20,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -122,7 +117,9 @@ class _NewPostPageState extends State<NewPostPage> {
                         color: whiteGrey,
                       ),
                       child: IconButton(
-                          onPressed: () => _pickImg(),
+                          onPressed: (){
+
+                          },
                           icon: Icon(
                             Icons.image_outlined,
                             color: grey,
@@ -132,10 +129,21 @@ class _NewPostPageState extends State<NewPostPage> {
               ElevatedButton(
                 child: Text("게시글 업로드"),
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(screenWidth, 50),
+                    fixedSize: Size(Get.width, 50),
                     textStyle: const TextStyle(fontSize: 16.0),
                     backgroundColor: blue),
-                onPressed: () {},
+                onPressed: () {
+                  PostModel postModel = PostModel();
+                  postModel.title = titleController.text;
+                  postModel.body = bodyController.text;
+                  postController.createPost(token,postModel).then((value) {
+                    if (value) {
+                      Get.back();
+                    } else {
+                      Get.snackbar("Error", "게시글 업로드에 실패했습니다.");
+                    }
+                  });
+                },
               ),
             ],
           ),

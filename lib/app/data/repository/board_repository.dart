@@ -9,13 +9,13 @@ class BoardRepository {
   BoardRepository({required this.boardProvider});
 
   //get suggestion board list
-  Future<List<PostModel>?> getSuggestionBoard(int page, int size) async {
-    return await boardProvider.getSuggestionBoardList(page, size);
+  Future<List<PostModel>?> getGeneralBoard(int page, int size) async {
+    return await boardProvider.getGeneralBoard(page, size);
   }
 
   //get petition board list
   Future<List<PetitionModel>?> getPetitionBoard(int page, int size) async {
-    return await boardProvider.getPetitionBoardList(page, size);
+    return await boardProvider.getPetitionBoard(page, size);
   }
 
 }

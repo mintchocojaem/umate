@@ -9,11 +9,14 @@ import '../../../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/login_form/login_form_field.dart';
 
-class LoginPage extends GetView<LoginController> {
+class LoginPage extends GetView {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final LoginController loginController = Get.find<LoginController>();
+
     // TODO: implement build
     return Scaffold(
         appBar: const TransparentAppBar(
@@ -50,9 +53,9 @@ class LoginPage extends GetView<LoginController> {
                   LoginFormButton(
                       text: "로그인",
                       onPressed: () {
-                        LoginController.to
-                            .login('17011092',
-                                '99730567') //new: '32173582', '121212'
+                        loginController
+                            .login('12345678',
+                                '121212') //new: '12345678', '121212'
                             .then((value) {
                           if (value) {
                             Get.toNamed(Routes.main);

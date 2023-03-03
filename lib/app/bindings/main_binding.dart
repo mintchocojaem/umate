@@ -1,3 +1,4 @@
+import 'package:danvery/app/controller/post_controller.dart';
 import 'package:danvery/app/controller/register_controller.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +14,11 @@ class MainBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MainController>(() => MainController());
-    Get.lazyPut<HomeController>(() => HomeController(
-        boardRepository: BoardRepository(boardProvider: BoardProvider())));
     Get.lazyPut(() => LoginController(
         loginRepository: LoginRepository(loginProvider: LoginProvider())));
+    Get.lazyPut<HomeController>(() => HomeController(
+        boardRepository: BoardRepository(boardProvider: BoardProvider())));
     Get.lazyPut(() => RegisterController());
+    Get.lazyPut(() => PostController());
   }
 }

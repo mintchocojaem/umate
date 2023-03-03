@@ -3,6 +3,7 @@ import 'package:danvery/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/model/subject_model.dart';
 import '../../widgets/board/board_list.dart';
 import '../../widgets/timetable/timetable.dart';
 
@@ -31,7 +32,12 @@ class TimetablePage extends GetView {
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
               child: Timetable(
-                  subjects: userModel.subjects,
+                  subjects: [
+                    SubjectModel(
+                        name: "확률과 통계", startTime: '09:00', endTime: '10:30', days: ["월", "화"]),
+                    SubjectModel(
+                        name: "선형 대수", startTime: '11:00', endTime: '12:30', days: ["수"]),
+                  ],
                   tableStartTime: 9,
                   tableEndTime: 18,
                   description: "2023-1",

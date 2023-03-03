@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "46484074076",
+    "project_id": "danvery-54df1",
+    "storage_bucket": "danvery-54df1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46484074076:android:d6b94e672341f302f1c099",
+        "android_client_info": {
+          "package_name": "com.vanillajaem.danvery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46484074076-l6uku1ea5uaiiripti7nrot2j9vmqbef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATmV9Vw3QyJ8ZDJv0BxiWhxw8lv7fUsPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46484074076-l6uku1ea5uaiiripti7nrot2j9vmqbef.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "46484074076-3dgharsh580a3lpr63rt14cnc4m99nuc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vanillajaem.danvery"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

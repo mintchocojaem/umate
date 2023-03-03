@@ -1,30 +1,28 @@
 class PostModel{
   late int id;
   late String title;
-  late int postHits;
-  late int commentCount;
-  late String category;
-  late String status;
-  late int likeCount;
+  late String body;
+  late String createdDate;
+  //late files -> image
+  late int views;
+  late int comments;
 
   PostModel({
     id,
     title,
-    postHits,
-    commentCount,
-    category,
-    status,
-    likeCount
+    body,
+    createdDate,
+    views,
+    comments
   });
 
   PostModel.fromJson(Map<String, dynamic> json){
     id = json["id"] as int;
     title = json["title"] as String;
-    postHits = json["postHits"] as int;
-    commentCount = json["commentCount"] as int;
-    category = json["category"] as String;
-    status = json["status"] as String;
-    likeCount = json["likeCount"] as int;
+    body = json["body"] as String;
+    createdDate = json["createdDate"] as String;
+    views = json["views"] as int;
+    comments = json["comments"] as int;
   }
 
 }

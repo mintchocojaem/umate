@@ -8,39 +8,43 @@ import '../data/repository/board_repository.dart';
 
 class HomeController extends GetxController {
 
-  static HomeController get to => Get.find();
-
   final BoardRepository boardRepository;
 
   HomeController({required this.boardRepository});
 
   @override
   void onInit() {
-    getSuggestionBoardList(0, 5);
-    getPetitionBoardList(0, 5);
+    getGeneralBoard(0, 5);
+    getPetitionBoard(0, 5);
     super.onInit();
   }
 
-  final RxList<PostModel> _suggestionBoard = <PostModel>[].obs;
+  final RxList<PostModel> _generalBoard = <PostModel>[].obs;
+  final RxBool _isLoadGeneralBoard = false.obs;
 
   final RxList<PetitionModel> _petitionBoard = <PetitionModel>[].obs;
+  final RxBool _isLoadPetitionBoard = false.obs;
 
-  List<PostModel> get suggestionBoard => _suggestionBoard;
+  List<PostModel> get generalBoard => _generalBoard;
+  bool get isLoadGeneralBoard => _isLoadGeneralBoard.value;
 
   List<PetitionModel> get petitionBoard => _petitionBoard;
+  bool get isLoadPetitionBoard => _isLoadPetitionBoard.value;
 
-  void getSuggestionBoardList(int page , int size){
-    boardRepository.getSuggestionBoard(page, size).then((value) {
+  void getGeneralBoard(int page , int size){
+    boardRepository.getGeneralBoard(page, size).then((value) {
       if (value != null) {
-        _suggestionBoard.value = value;
+        _generalBoard.value = value;
+        _isLoadGeneralBoard.value = true;
       }
     });
   }
 
-  void getPetitionBoardList(int page , int size){
+  void getPetitionBoard(int page , int size){
     boardRepository.getPetitionBoard(page, size).then((value) {
       if (value != null) {
         _petitionBoard.value = value;
+        _isLoadPetitionBoard.value = true;
       }
     });
   }

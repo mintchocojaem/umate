@@ -1,24 +1,30 @@
 class LoginModel{
-  late String message;
   late String accessToken;
   late String refreshToken;
+  late String userName;
+  late String studentId;
+  late String major;
+  late String department;
   late bool admin;
-  late bool successful;
 
   LoginModel({
     accessToken,
     refreshToken,
-    admin,
-    successful,
-    message
+    userName,
+    studentId,
+    major,
+    department,
+    admin
   });
 
   LoginModel.fromJson(Map<String, dynamic> json){
-    accessToken = json["data"]["accessToken"] as String;
-    refreshToken = json["data"]["refreshToken"] as String;
-    admin = json["data"]["admin"] as bool;
-    successful = json["successful"] as bool;
-    message = json["message"] as String;
+    accessToken = json["accessToken"] as String;
+    refreshToken = json["refreshToken"] as String;
+    userName = json["userName"] as String;
+    studentId = json["studentId"] as String;
+    major = json["major"] as String;
+    department = json["department"] as String;
+    admin = json["admin"] as bool;
   }
 
 }

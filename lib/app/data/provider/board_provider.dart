@@ -3,32 +3,32 @@ import 'dart:convert';
 import 'package:danvery/app/data/model/petition_model.dart';
 import 'package:danvery/app/data/model/post_model.dart';
 import 'package:danvery/app/data/provider/url.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
 
 class BoardProvider{
-  Future<List<PostModel>?> getSuggestionBoardList(int page, int size) async {
+
+  final dio = Dio();
+
+  Future<List<PostModel>?> getGeneralBoard(int page, int size) async {
+
     String url =
-        '$apiUrl/api/suggestion?page=$page&size=$size&sort=createDate,desc';
-    final headers = {
-      "Content-Type": "application/json",
-    };
+        '$apiUrl/post/general-forum?page=$page&size=$size';
 
     try {
-      final http.Response response = await http.get(Uri.parse(url), headers:  headers);
+      final Response response = await dio.get(url,
+          options: Options(contentType: "application/json", responseType: ResponseType.bytes));
 
       if (kDebugMode) {
-        print("getSuggestionBoardList : ${response.statusCode}");
+        print("getGeneralBoard : ${response.statusCode}");
       }
 
       if (response.statusCode != 200) {
-        throw Exception('GetSuggestionBoardList Error');
+        throw Exception('GetGeneralBoard Error');
       } else {
 
-        return json.decode(utf8.decode(response.bodyBytes))["content"]
-            .map<PostModel>((json) => PostModel.fromJson(json))
-            .toList();
+        return json.decode(utf8.decode(response.data))["content"]
+            .map<PostModel>((json) => PostModel.fromJson(json)).toList();
       }
     } catch (e) {
       if (kDebugMode) {
@@ -38,24 +38,22 @@ class BoardProvider{
     }
   }
 
-  Future<List<PetitionModel>?> getPetitionBoardList(int page, int size) async {
+  Future<List<PetitionModel>?> getPetitionBoard(int page, int size) async {
     String url =
-        '$apiUrl/api/petition';
-    final headers = {
-      "Content-Type": "application/json",
-    };
+        '$apiUrl/post/petition?page=$page&size=$size';
 
     try {
-      final http.Response response = await http.get(Uri.parse(url),headers: headers);
+      final Response response = await dio.get(url,
+          options: Options(contentType: "application/json", responseType: ResponseType.bytes));
 
       if (kDebugMode) {
-        print('getPetitionBoardList : ${response.statusCode}');
+        print('getPetitionBoard : ${response.statusCode}');
       }
 
       if (response.statusCode != 200) {
-        throw Exception('GetPetitionBoardList Error');
+        throw Exception('GetPetitionBoard Error');
       } else {
-        return json.decode(utf8.decode(response.bodyBytes))["content"]
+        return json.decode(utf8.decode(response.data))["content"]
             .map<PetitionModel>((json) => PetitionModel.fromJson(json))
             .toList();
       }

@@ -1,6 +1,8 @@
 import 'package:danvery/app/ui/pages/board/post/petition_post_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'post/new_post_page.dart';
 
 import '../../widgets/buttom_bar/category_button_bar.dart';
@@ -46,10 +48,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
                     color: grey,
                   ),
                   onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchBoardPage()))
+                       Get.toNamed('/searchBoard')
                       }),
               IconButton(
                   icon: Icon(
@@ -73,7 +72,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            children: [
+            children: const [
               CategoryButtonBar(),
               PetitionCard(
                 title: "셔틀버스 실시간 위치 정보 공유 청원",

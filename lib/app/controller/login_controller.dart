@@ -6,8 +6,6 @@ import '../data/repository/login_repository.dart';
 
 class LoginController extends GetxController{
   // Path: lib/app/controller/login_controller.dart
-  static LoginController get to => Get.find();
-
   final LoginRepository loginRepository;
 
   LoginController({required this.loginRepository});

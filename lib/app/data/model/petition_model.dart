@@ -2,27 +2,22 @@
 class PetitionModel{
   late int id;
   late String title;
-  late String petitionStatus;
-  late int commentCount;
-  late bool blind;
-  late int postHits;
+  late String body;
+  late String createdDate;
+  //late file -> image
 
   PetitionModel({
     id,
     title,
-    petitionStatus,
-    commentCount,
-    blind,
-    postHits
+    body,
+    createdDate,
   });
 
   PetitionModel.fromJson(Map<String, dynamic> json){
     id = json["id"] as int;
     title = json["title"] as String;
-    petitionStatus = json["petitionStatus"] as String;
-    commentCount = json["commentCount"] as int;
-    blind = json["blind"] as bool;
-    postHits = json["postHits"] as int;
+    body = json["body"] as String;
+    createdDate = json["createdDate"] as String;
   }
 
 }
