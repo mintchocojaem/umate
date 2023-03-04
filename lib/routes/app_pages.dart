@@ -29,6 +29,7 @@ class AppPages {
     GetPage(
       name: Routes.generalBoard,
       page: () => const GeneralBoardPage(),
+      binding: BoardBinding(),
     ),
     GetPage(name: Routes.searchBoard,
         page: () => const SearchBoardPage()
