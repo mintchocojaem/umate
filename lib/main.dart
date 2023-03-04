@@ -1,13 +1,11 @@
-import 'package:danvery/app/data/provider/login_provider.dart';
+import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'app/bindings/login_binding.dart';
 import 'app/controller/login_controller.dart';
-import 'app/data/repository/login_repository.dart';
 
 void main() async{
 
@@ -20,6 +18,7 @@ void main() async{
         Get.toNamed(Routes.login);
       }
     },
+    initialBinding: LoginBinding(),
     initialRoute: Routes.login,
     getPages: AppPages.pages,
     debugShowCheckedModeBanner: false,

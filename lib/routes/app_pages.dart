@@ -17,7 +17,7 @@ class AppPages {
     GetPage(
       name: Routes.main,
       page: () => const MainPage(),
-      bindings: [MainBinding(), BoardBinding(), LoginBinding()],
+      bindings: [MainBinding(), BoardBinding(),],
     ),
     GetPage(
       name: Routes.register,
@@ -39,7 +39,6 @@ class AppPages {
         page: () => const PostCreatePage(),
         bindings: [
           PostBinding(),
-          LoginBinding(),
         ]
     ),
     GetPage(

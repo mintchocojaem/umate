@@ -1,6 +1,8 @@
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../theme/app_colors.dart';
 
@@ -18,7 +20,7 @@ class MainButton extends StatelessWidget{
     return Column(
       children: [
         IconButton(
-            iconSize: 42,
+            iconSize: Get.textScaleFactor * 50,
             onPressed: onPressed,
             icon: Image.asset(
               imagePath,
