@@ -3,9 +3,9 @@ import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'post/new_post_page.dart';
+import 'post/post_create_page.dart';
 
-import '../../widgets/buttom_bar/category_button_bar.dart';
+import '../../widgets/board/category_button_bar.dart';
 import '../../theme/app_colors.dart';
 
 class PetitionBoardPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewPostPage()))
+                                builder: (context) => PostCreatePage()))
                       }),
             ],
             centerTitle: true,

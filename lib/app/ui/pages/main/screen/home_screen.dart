@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/app_colors.dart';
 import '../../../widgets/board/board_list.dart';
-import '../../../widgets/button/main_button.dart';
+import '../../../widgets/main/main_button.dart';
 
 class HomeScreen extends GetView {
   const HomeScreen({Key? key}) : super(key: key);

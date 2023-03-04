@@ -7,15 +7,14 @@ import '../../../controller/main_controller.dart';
 import 'screen/home_screen.dart';
 import 'screen/timetable_screen.dart';
 
-class MainPage extends GetView{
+class MainPage extends GetView {
   const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final MainController mainController = Get.find<MainController>();
 
-    List<Widget> pages = const[
+    List<Widget> pages = const [
       HomeScreen(),
       TimetableScreen(),
       BoardScreen(),
@@ -40,8 +39,8 @@ class MainPage extends GetView{
               borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
               child: Obx(
-                    () => BottomNavigationBar(
-                  currentIndex:mainController.selectedIndex,
+                () => BottomNavigationBar(
+                  currentIndex: mainController.selectedIndex,
                   onTap: (value) {
                     mainController.selectedIndex = value;
                   },

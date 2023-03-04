@@ -13,12 +13,10 @@ class PostProvider {
 
   Future<bool> createPost(String token, PostModel postModel) async {
 
-    String url =
-        '$apiUrl/post/general-forum';
+    String url = '$apiUrl/post/general-forum';
     final data = FormData.fromMap({
       'title': postModel.title,
       'body': postModel.body,
-      //'files': await MultipartFile.fromFile(postModel.files.path, filename: postModel.files.path.split('/').last),
     });
     final headers = {
       'Authorization': "Bearer $token",
@@ -29,7 +27,7 @@ class PostProvider {
           options: Options(contentType: "multipart/form-data", headers: headers));
 
       if (kDebugMode) {
-        print('createPost : ${response.statusCode}');
+        print('CreatePost : ${response.statusCode}');
       }
 
       if (response.statusCode != 200) {
@@ -44,6 +42,34 @@ class PostProvider {
       return false;
     }
 
-
   }
+
+  Future<bool> deletePost(String token, int id) async{
+    String url = '$apiUrl/post/general-forum/$id';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await dio.delete(url,
+          options: Options(headers: headers));
+
+      if (kDebugMode) {
+        print('DeletePost : ${response.statusCode}');
+      }
+
+      if (response.statusCode != 200) {
+        throw Exception('DeletePost Error');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
+    }
+  }
+
 }

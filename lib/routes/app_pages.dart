@@ -2,13 +2,14 @@ import 'package:danvery/app/bindings/board_binding.dart';
 import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/bindings/post_binding.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
+import 'package:danvery/app/ui/pages/board/post/general_post_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/bindings/main_binding.dart';
-import '../app/ui/pages/board/post/new_post_page.dart';
+import '../app/ui/pages/board/post/post_create_page.dart';
 import '../app/ui/pages/login/login_page.dart';
-import '../app/ui/pages/register/register_page.dart';
+import '../app/ui/pages/login/register_page.dart';
 import '../app/ui/pages/main/main_page.dart';
 
 class AppPages {
@@ -16,7 +17,7 @@ class AppPages {
     GetPage(
       name: Routes.main,
       page: () => const MainPage(),
-      bindings: [MainBinding(), BoardBinding()],
+      bindings: [MainBinding(), BoardBinding(), LoginBinding()],
     ),
     GetPage(
       name: Routes.register,
@@ -34,8 +35,16 @@ class AppPages {
     GetPage(name: Routes.searchBoard,
         page: () => const SearchBoardPage()
     ),
-    GetPage(name: Routes.newPost,
-        page: () => const NewPostPage(),
+    GetPage(name: Routes.postCreate,
+        page: () => const PostCreatePage(),
+        bindings: [
+          PostBinding(),
+          LoginBinding(),
+        ]
+    ),
+    GetPage(
+        name: Routes.generalPost,
+        page: () => const GeneralPostPage(),
         binding: PostBinding()
     ),
   ];

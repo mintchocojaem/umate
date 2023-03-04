@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_theme.dart';
-import '../../widgets/login_form/login_form_button.dart';
-import '../../widgets/login_form/login_form_field.dart';
+import '../../widgets/login/login_form_button.dart';
+import '../../widgets/login/login_form_field.dart';
 
 class RegisterPage extends GetView<RegisterController>{
   const RegisterPage({super.key});
@@ -15,7 +13,6 @@ class RegisterPage extends GetView<RegisterController>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     return Scaffold(
       appBar: TransparentAppBar(
         title: '회원가입',
@@ -23,12 +20,10 @@ class RegisterPage extends GetView<RegisterController>{
         onPressedLeading: () => Get.back(),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
-        child: Stack(
+        padding: const EdgeInsets.all(16),
+        child: Column(
           children: [
-            SizedBox(
-              height: Get.height - (48 + 60 + 48),
-              //60 = bottom navigation bar height, 48 = login button height, 48 = padding bottom 16 top 16 + else(?) 16
+            Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -86,14 +81,17 @@ class RegisterPage extends GetView<RegisterController>{
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: LoginFormButton(text: "가입하기",
-                onPressed : (){
-                  Get.toNamed(Routes.login);
-                },
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: LoginFormButton(text: "가입하기",
+                  onPressed : (){
+                    Get.toNamed(Routes.login);
+                  },
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

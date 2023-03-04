@@ -1,7 +1,9 @@
 import 'package:danvery/app/data/model/post_model.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
 
+import '../../routes/app_routes.dart';
 import '../data/repository/post_repository.dart';
+import 'login_controller.dart';
 
 class PostController extends GetxController {
 
@@ -14,6 +16,10 @@ class PostController extends GetxController {
 
   Future<bool> createPost(String token, PostModel postModel) {
     return _postRepository.createPost(token, postModel);
+  }
+
+  Future<bool> deletePost(String token, int id) {
+    return _postRepository.deletePost(token, id);
   }
 
 }

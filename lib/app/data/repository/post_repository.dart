@@ -7,4 +7,6 @@ class PostRepository {
 
   Future<bool> createPost(String token, PostModel postModel) => _postProvider.createPost(token, postModel);
 
+  Future<bool> deletePost(String token, int id) => _postProvider.deletePost(token, id);
+
 }

@@ -4,8 +4,8 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/card/notice_card.dart';
-import '../../widgets/card/post_card.dart';
+import '../../widgets/board/card/notice_card.dart';
+import '../../widgets/board/card/post_card.dart';
 
 class GeneralBoardPage extends GetView {
   const GeneralBoardPage({super.key});
@@ -37,7 +37,7 @@ class GeneralBoardPage extends GetView {
           ),
           IconButton(
               onPressed: () {
-                Get.toNamed(Routes.newPost)?.then((value) => boardController.refreshGeneralBoard());
+                Get.toNamed(Routes.postCreate)?.then((value) => boardController.refreshGeneralBoard());
               },
               icon: Icon(
                 Icons.post_add_outlined,
@@ -80,6 +80,9 @@ class GeneralBoardPage extends GetView {
                                 boardController.generalBoard[index].createdDate,
                             commentCount: 0,
                             likeCount: 0,
+                            onTap: (){
+                              Get.toNamed(Routes.generalPost, arguments: boardController.generalBoard[index].id);
+                            },
                           );
                         }),
                   ],

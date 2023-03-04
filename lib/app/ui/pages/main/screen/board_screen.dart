@@ -97,25 +97,6 @@ class BoardScreen extends GetView {
             title: '청원 게시판',
             showAction: false,
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          const BoardList(
-            cards: [
-              BoardCard(
-                  title: "단냥펀치 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined),
-              ),
-              BoardCard(
-                  title: "동아리 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined)),
-              BoardCard(
-                  title: "새내기 게시판",
-                  leadingImage: Icon(Icons.star_border_outlined)),
-            ],
-            title: '즐겨찾기',
-            showAction: false,
-          ),
         ]),
       ),
     );

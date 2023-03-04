@@ -1,13 +1,13 @@
 import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
-import 'package:danvery/app/ui/widgets/login_form/login_form_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/login_form/login_form_field.dart';
+import '../../widgets/login/login_form_button.dart';
+import '../../widgets/login/login_form_field.dart';
 
 class LoginPage extends GetView {
   const LoginPage({super.key});

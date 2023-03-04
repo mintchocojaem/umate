@@ -20,7 +20,7 @@ class BoardProvider{
           options: Options(contentType: "application/json", responseType: ResponseType.bytes));
 
       if (kDebugMode) {
-        print("getGeneralBoard : ${response.statusCode}");
+        print("GetGeneralBoard : ${response.statusCode}");
       }
 
       if (response.statusCode != 200) {
@@ -47,7 +47,7 @@ class BoardProvider{
           options: Options(contentType: "application/json", responseType: ResponseType.bytes));
 
       if (kDebugMode) {
-        print('getPetitionBoard : ${response.statusCode}');
+        print('GetPetitionBoard : ${response.statusCode}');
       }
 
       if (response.statusCode != 200) {
@@ -65,4 +65,5 @@ class BoardProvider{
     }
 
   }
+
 }
