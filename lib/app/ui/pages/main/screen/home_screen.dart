@@ -1,18 +1,16 @@
-import 'package:danvery/app/controller/home_controller.dart';
+import 'package:danvery/app/controller/board_controller.dart';
 import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/data/model/login_model.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../main.dart';
-import '../../../controller/home_controller.dart';
-import '../../theme/app_colors.dart';
-import '../../widgets/board/board_list.dart';
-import '../../widgets/button/main_button.dart';
+import '../../../theme/app_colors.dart';
+import '../../../widgets/board/board_list.dart';
+import '../../../widgets/button/main_button.dart';
 
-class HomePage extends GetView {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends GetView {
+  const HomeScreen({Key? key}) : super(key: key);
 
   static List<BoardCard> busList = [
     BoardCard(
@@ -44,7 +42,7 @@ class HomePage extends GetView {
   @override
   Widget build(BuildContext context) {
 
-    final HomeController homeController = Get.find<HomeController>();
+    final BoardController boardController = Get.find<BoardController>();
     final LoginModel loginModel = Get.find<LoginController>().loginModel;
 
     // TODO: implement build
@@ -144,11 +142,11 @@ class HomePage extends GetView {
                       cards: busList, title: "버스 정보", actionTitle: "더보기"),
                 ),
                 //get suggestion board with Obx
-                Obx(() => homeController.isLoadGeneralBoard
+                Obx(() => boardController.isLoadGeneralBoard
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            cards: getBoardList(homeController.generalBoard),
+                            cards: getBoardList(boardController.generalBoard),
                             title: "자유 게시판",
                             actionTitle: "더보기"),
                       )
@@ -156,11 +154,11 @@ class HomePage extends GetView {
                         height: 200,
                         child: Center(child: CircularProgressIndicator()))),
                 //get petition board with Obx
-                Obx(() => homeController.isLoadPetitionBoard
+                Obx(() => boardController.isLoadPetitionBoard
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: BoardList(
-                            cards: getBoardList(homeController.petitionBoard),
+                            cards: getBoardList(boardController.petitionBoard),
                             title: "청원게시판",
                             actionTitle: "더보기"),
                       )

@@ -1,5 +1,4 @@
-import 'package:danvery/app/controller/home_controller.dart';
-import 'package:danvery/app/data/model/post_model.dart';
+import 'package:danvery/app/controller/board_controller.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class GeneralBoardPage extends GetView {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final List<PostModel> generalBoard = Get.find<HomeController>().generalBoard;
+    final BoardController boardController = Get.find<BoardController>();
 
     return Scaffold(
       appBar: TransparentAppBar(
@@ -38,7 +37,7 @@ class GeneralBoardPage extends GetView {
           ),
           IconButton(
               onPressed: () {
-                Get.toNamed(Routes.newPost);
+                Get.toNamed(Routes.newPost)?.then((value) => boardController.refreshGeneralBoard());
               },
               icon: Icon(
                 Icons.post_add_outlined,
@@ -53,36 +52,41 @@ class GeneralBoardPage extends GetView {
         child: Padding(
           padding:
               const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 16),
-          child: Column(
-            children: [
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const NoticeCard(
-                        category: "공지",
-                        title: "내용",
-                        commentCount: 0,
-                        likeCount: 0);
-                  }),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  itemCount: generalBoard.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PostCard(
-                      title: generalBoard[index].title,
-                      subtitle: generalBoard[index].body,
-                      publishDate: generalBoard[index].createdDate,
-                      commentCount: 0,
-                      likeCount: 0,
-                    );
-                  })
-            ],
-          ),
+          child: Obx(() => boardController.isLoadGeneralBoard
+              ? Column(
+                  children: [
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int index) {
+                          return const NoticeCard(
+                              category: "공지",
+                              title: "내용",
+                              commentCount: 0,
+                              likeCount: 0);
+                        }),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        itemCount: boardController.generalBoard.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return PostCard(
+                            title: boardController.generalBoard[index].title,
+                            subtitle: boardController.generalBoard[index].body,
+                            publishDate:
+                                boardController.generalBoard[index].createdDate,
+                            commentCount: 0,
+                            likeCount: 0,
+                          );
+                        }),
+                  ],
+                )
+              : const SizedBox(
+                  height: 200,
+                  child: Center(child: CircularProgressIndicator()))),
         ),
       ),
     );

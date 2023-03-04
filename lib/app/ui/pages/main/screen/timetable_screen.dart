@@ -3,13 +3,13 @@ import 'package:danvery/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/model/subject_model.dart';
-import '../../widgets/board/board_list.dart';
-import '../../widgets/timetable/timetable.dart';
+import '../../../../data/model/subject_model.dart';
+import '../../../widgets/board/board_list.dart';
+import '../../../widgets/timetable/timetable.dart';
 
-class TimetablePage extends GetView {
+class TimetableScreen extends GetView {
 
-  const TimetablePage({super.key});
+  const TimetableScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

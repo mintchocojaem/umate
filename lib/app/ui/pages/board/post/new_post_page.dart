@@ -1,4 +1,3 @@
-import 'package:danvery/app/controller/home_controller.dart';
 import 'package:danvery/app/controller/post_controller.dart';
 import 'package:danvery/app/data/model/post_model.dart';
 import 'package:flutter/material.dart';
@@ -138,6 +137,7 @@ class NewPostPage extends GetView {
                   postModel.body = bodyController.text;
                   postController.createPost(token,postModel).then((value) {
                     if (value) {
+
                       Get.back();
                     } else {
                       Get.snackbar("Error", "게시글 업로드에 실패했습니다.");

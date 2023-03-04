@@ -6,8 +6,8 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BoardPage extends GetView {
-  const BoardPage({super.key});
+class BoardScreen extends GetView {
+  const BoardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

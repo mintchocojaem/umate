@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class SettingPage extends GetView{
-  const SettingPage({super.key});
+class SettingScreen extends GetView{
+  const SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
