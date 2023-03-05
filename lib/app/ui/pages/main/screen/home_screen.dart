@@ -109,7 +109,7 @@ class HomeScreen extends GetView {
                                     "assets/icons/main_btn_list/school_home_btn.png",
                                 text: "학교 홈",
                                 onPressed: () {
-                                  launchUrlString("https://www.dankook.ac.kr");
+                                  launchUrlString("https://www.dankook.ac.kr/web");
                                 },
                               ),
                               MainButton(

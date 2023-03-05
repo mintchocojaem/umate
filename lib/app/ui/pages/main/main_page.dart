@@ -23,28 +23,44 @@ class MainPage extends GetView {
     ];
 
     return Scaffold(
+      backgroundColor: white,
       body: Obx(() => pages[mainController.selectedIndex]),
       bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: mainController.selectedIndex,
-          onTap: (value) {
-            mainController.selectedIndex = value;
-          },
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "홈",
+        () => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 3),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.0),
+              topRight: Radius.circular(30.0),
             ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today), label: "시간표"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.event_note_outlined), label: "게시판"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "설정"),
-          ],
+            child: BottomNavigationBar(
+              currentIndex: mainController.selectedIndex,
+              onTap: (value) {
+                mainController.selectedIndex = value;
+              },
+              type: BottomNavigationBarType.fixed,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "홈",
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_today), label: "시간표"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.event_note_outlined), label: "게시판"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings), label: "설정"),
+              ],
+            ),
+          ),
         ),
       ),
     );

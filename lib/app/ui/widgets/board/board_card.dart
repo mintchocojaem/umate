@@ -25,7 +25,7 @@ class BoardCard extends StatelessWidget {
       contentPadding: EdgeInsets.all(0),
       visualDensity: VisualDensity(vertical: -3),
       dense: true,
-      title: SizedBox(height: 24, child: Text(title, style: regularStyle)),
+      title: SizedBox(height: 24, child: Text(title, style: regularStyle, overflow: TextOverflow.ellipsis, maxLines: 1,)),
       leading: leadingImage == null
           ? leadingText == null
               ? const SizedBox()
