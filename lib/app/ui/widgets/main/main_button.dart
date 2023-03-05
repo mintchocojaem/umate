@@ -16,11 +16,12 @@ class MainButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return Column(
       children: [
         IconButton(
-            iconSize: Get.textScaleFactor * 50,
+            iconSize: 48,
             onPressed: onPressed,
             icon: Image.asset(
               imagePath,
