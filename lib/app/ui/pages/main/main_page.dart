@@ -1,5 +1,5 @@
 import 'package:danvery/app/ui/pages/main/screen/board_screen.dart';
-import 'package:danvery/app/ui/pages/main/screen/setting_screen.dart';
+import 'package:danvery/app/ui/pages/main/screen/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class MainPage extends GetView {
       HomeScreen(),
       TimetableScreen(),
       BoardScreen(),
-      SettingScreen()
+      MyPageScreen()
     ];
 
     return Scaffold(
@@ -47,17 +47,24 @@ class MainPage extends GetView {
               type: BottomNavigationBarType.fixed,
               showSelectedLabels: false,
               showUnselectedLabels: false,
-              items: const [
+              items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Image.asset("assets/icons/bottom_navigation_bar/unselected/home_unselected.png", width: 24, height: 24,),
+                  activeIcon: Image.asset("assets/icons/bottom_navigation_bar/selected/home_selected.png", width: 24, height: 24,),
                   label: "홈",
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today), label: "시간표"),
+                    icon: Image.asset("assets/icons/bottom_navigation_bar/unselected/timetable_unselected.png", width: 24, height: 24,),
+                    activeIcon: Image.asset("assets/icons/bottom_navigation_bar/selected/timetable_selected.png", width: 24, height: 24,),
+                    label: "시간표"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.event_note_outlined), label: "게시판"),
+                    icon: Image.asset("assets/icons/bottom_navigation_bar/unselected/board_unselected.png", width: 24, height: 24,),
+                    activeIcon: Image.asset("assets/icons/bottom_navigation_bar/selected/board_selected.png", width: 24, height: 24,),
+                    label: "게시판"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.settings), label: "설정"),
+                    icon: Image.asset("assets/icons/bottom_navigation_bar/unselected/my_unselected.png", width: 24, height: 24,),
+                    activeIcon: Image.asset("assets/icons/bottom_navigation_bar/selected/my_selected.png", width: 24, height: 24,),
+                    label: "마이"),
               ],
             ),
           ),

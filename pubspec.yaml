@@ -42,6 +42,7 @@ dependencies:
   get: ^4.6.5
   image_picker: ^0.8.6+3
   url_launcher: ^6.1.10
+  flutter_switch: ^0.3.2
   firebase_core: ^2.7.0
   firebase_messaging: ^14.2.5
   flutter_local_notifications: ^13.0.0
@@ -99,8 +100,10 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/icons/bottom_navigation_bar/
+    - assets/icons/bottom_navigation_bar/selected/
+    - assets/icons/bottom_navigation_bar/unselected/
     - assets/icons/main_btn_list/
     - assets/icons/main_header/
     - assets/icons/bus_list/
     - assets/icons/school_mark/
+    - assets/icons/user/
