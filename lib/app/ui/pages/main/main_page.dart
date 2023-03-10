@@ -41,8 +41,8 @@ class MainPage extends GetView {
               topRight: Radius.circular(10.0),
             ),
             child: BottomNavigationBar(
-              selectedFontSize: lightStyle.fontSize!,
-              unselectedFontSize: lightStyle.fontSize!,
+              selectedFontSize: tinyStyle.fontSize!,
+              unselectedFontSize: tinyStyle.fontSize!,
               selectedItemColor: Palette.blue,
               currentIndex: mainController.selectedIndex,
               onTap: (value) {

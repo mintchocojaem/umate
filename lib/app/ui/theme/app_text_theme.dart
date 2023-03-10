@@ -5,16 +5,16 @@ const TextStyle titleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const TextStyle lightStyle = TextStyle(
+const TextStyle tinyStyle = TextStyle(
   fontSize: 12,
 );
 
-const TextStyle regularStyle = TextStyle(
-  fontSize: 14,
+const TextStyle lightStyle = TextStyle(
+  fontSize: 13,
 );
 
-const TextStyle middleStyle = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.bold
+const TextStyle regularStyle = TextStyle(
+  fontSize: 15,
 );
+
 

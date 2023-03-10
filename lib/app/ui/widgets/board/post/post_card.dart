@@ -40,7 +40,7 @@ class PostCard extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: middleStyle
+                      style: regularStyle
                   ),
                 ),
                 subtitle: Padding(

@@ -80,20 +80,20 @@ class LoginPage extends GetView {
                         onPressed: () {},
                         child: Text(
                           "비밀번호 찾기",
-                          style: lightStyle.copyWith(color: Palette.grey),
+                          style: tinyStyle.copyWith(color: Palette.grey),
                         ),
                       ),
                       const Text(
                         "|",
-                        style: lightStyle,
+                        style: tinyStyle,
                       ),
                       TextButton(
                           onPressed: () {},
                           child: Text("아이디 찾기",
-                              style: lightStyle.copyWith(color: Palette.grey))),
+                              style: tinyStyle.copyWith(color: Palette.grey))),
                       const Text(
                         "|",
-                        style: lightStyle,
+                        style: tinyStyle,
                       ),
                       TextButton(
                           onPressed: () {
@@ -101,7 +101,7 @@ class LoginPage extends GetView {
                           },
                           child: const Text(
                             "회원가입",
-                            style: lightStyle,
+                            style: tinyStyle,
                           ))
                     ],
                   ),

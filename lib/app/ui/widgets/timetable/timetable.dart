@@ -137,7 +137,7 @@ class Timetable extends StatelessWidget{
                         child: Center(
                             child: Text(
                               '${(index) + tableStartTime}',
-                              style: lightStyle.copyWith(color: Palette.grey),
+                              style: tinyStyle.copyWith(color: Palette.grey),
                             )),
                       );
                 },
@@ -254,7 +254,7 @@ class Timetable extends StatelessWidget{
                           children: <Widget>[
                             Text(
                               i.name,
-                              style: regularStyle.copyWith(color: Palette.pureWhite),
+                              style: lightStyle.copyWith(color: Palette.pureWhite),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )

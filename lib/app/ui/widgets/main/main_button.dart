@@ -24,7 +24,7 @@ class MainButton extends StatelessWidget{
             )
         ),
         Text(text,
-          style: lightStyle.copyWith(color: Palette.pureWhite),
+          style: tinyStyle.copyWith(color: Palette.pureWhite),
           textAlign: TextAlign.center,
         )
       ],
