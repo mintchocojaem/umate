@@ -1,11 +1,11 @@
 import 'package:danvery/app/ui/pages/main/screen/board_screen.dart';
 import 'package:danvery/app/ui/pages/main/screen/mypage_screen.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/main_controller.dart';
-import '../../theme/app_colors.dart';
 import 'screen/home_screen.dart';
 import 'screen/timetable_screen.dart';
 
@@ -24,7 +24,7 @@ class MainPage extends GetView {
     ];
 
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: Palette.pureWhite,
       body: Obx(() => pages[mainController.selectedIndex]),
       bottomNavigationBar: Obx(
         () => Container(
@@ -43,7 +43,7 @@ class MainPage extends GetView {
             child: BottomNavigationBar(
               selectedFontSize: lightStyle.fontSize!,
               unselectedFontSize: lightStyle.fontSize!,
-              selectedItemColor: blue,
+              selectedItemColor: Palette.blue,
               currentIndex: mainController.selectedIndex,
               onTap: (value) {
                 mainController.selectedIndex = value;

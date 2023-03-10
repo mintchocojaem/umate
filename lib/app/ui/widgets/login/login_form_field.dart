@@ -1,6 +1,5 @@
-import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 class LoginFormField extends StatefulWidget{
@@ -63,7 +62,7 @@ class _LoginFormField extends State<LoginFormField> {
       children: [
         widget.title == null
             ? const SizedBox()
-            : Text(widget.title!, style: titleStyle.copyWith(color: darkGrey),),
+            : Text(widget.title!, style: titleStyle.copyWith(color: Palette.darkGrey),),
         const SizedBox(height: 8,),
         Row(
           children: [
@@ -74,14 +73,14 @@ class _LoginFormField extends State<LoginFormField> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: whiteGrey,
+                    fillColor: Palette.white,
                     border: const OutlineInputBorder(),
                     hintText: widget.validateHint ?? widget.hint,
-                    hintStyle: TextStyle(color: darkGrey),
+                    hintStyle: TextStyle(color: Palette.grey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: BorderSide(
-                        color: whiteGrey,
+                        color: Palette.white,
                         width: 1.0,
                       ),
                     ),
@@ -103,14 +102,14 @@ class _LoginFormField extends State<LoginFormField> {
                   controller: textController,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: whiteGrey,
+                    fillColor: Palette.white,
                     border: const OutlineInputBorder(),
                     hintText: widget.hint,
-                    hintStyle: TextStyle(color: darkGrey),
+                    hintStyle: TextStyle(color: Palette.grey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: BorderSide(
-                        color: whiteGrey,
+                        color: Palette.white,
                         width: 1.0,
                       ),
                     ),
@@ -126,7 +125,7 @@ class _LoginFormField extends State<LoginFormField> {
                 child: OutlinedButton(
                   onPressed: null,
                   style: ButtonStyle(
-                    side: MaterialStateProperty.all(BorderSide(color: darkGrey)),
+                    side: MaterialStateProperty.all(BorderSide(color: Palette.white)),
                     shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -135,7 +134,7 @@ class _LoginFormField extends State<LoginFormField> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Text(widget.checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: darkGrey),),
+                    child: Text(widget.checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: Palette.white),),
                   ),
                 )
               ),
@@ -150,14 +149,14 @@ class _LoginFormField extends State<LoginFormField> {
               readOnly: widget.readOnly,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: whiteGrey,
+                fillColor: Palette.white,
                 border: const OutlineInputBorder(),
                 hintText: widget.validateHint ?? widget.hint,
-                hintStyle: TextStyle(color: darkGrey),
+                hintStyle: TextStyle(color: Palette.grey),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
-                    color: whiteGrey,
+                    color: Palette.white,
                     width: 1.0,
                   ),
                 ),

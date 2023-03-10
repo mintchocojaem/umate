@@ -1,7 +1,6 @@
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../theme/app_colors.dart';
 
 class LoginFormButton extends StatelessWidget {
 
@@ -16,7 +15,8 @@ class LoginFormButton extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: CupertinoButton(
-        color: blue,
+        borderRadius: BorderRadius.circular(5),
+        color: Palette.blue,
         onPressed: onPressed,
         child: Text(
           text,

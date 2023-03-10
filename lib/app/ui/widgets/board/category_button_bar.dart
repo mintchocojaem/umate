@@ -1,5 +1,5 @@
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
 
 class CategoryButtonBar extends StatefulWidget {
   const CategoryButtonBar({super.key});
@@ -53,10 +53,10 @@ class _CategoryButtonBar extends State<CategoryButtonBar> {
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: _currentIndex == index ? blue : white,
+                    backgroundColor: _currentIndex == index ? Palette.blue : Palette.pureWhite,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: darkGrey,
+                        color: Palette.darkGrey,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -64,7 +64,7 @@ class _CategoryButtonBar extends State<CategoryButtonBar> {
                   child: Text(
                     _buttonTitles[index],
                     style: TextStyle(
-                      color: _currentIndex == index ? white : darkGrey,
+                      color: _currentIndex == index ? Palette.white : Palette.darkGrey,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

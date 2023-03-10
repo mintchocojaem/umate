@@ -2,8 +2,6 @@ import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../theme/app_colors.dart';
-
 class GeneralPostPage extends GetView{
   const GeneralPostPage({super.key});
 
@@ -22,7 +20,6 @@ class GeneralPostPage extends GetView{
               },
               icon: Icon(
                 Icons.edit,
-                color: grey,
               )),
           const SizedBox(
             width: 16,

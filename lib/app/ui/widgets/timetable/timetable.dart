@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/model/subject_model.dart';
-import '../../theme/app_colors.dart';
 
 class Timetable extends StatelessWidget{
 
@@ -91,16 +91,16 @@ class Timetable extends StatelessWidget{
                   return Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: index == today ? const BoxDecoration(
+                      decoration: index == today ? BoxDecoration(
                         shape: BoxShape.circle,
                         // You can use like this way or like the below line
                         //borderRadius: new BorderRadius.circular(30.0),
-                        color: blue,
+                        color: Palette.blue,
                       ) : const BoxDecoration(),
                       child: Center(
                         child: Text(
                           week[index],
-                          style: regularStyle.copyWith(color: index == today ? white : grey),
+                          style: regularStyle.copyWith(color: index == today ? Palette.pureWhite : Palette.grey),
                         )
                       ),
                     ),
@@ -137,7 +137,7 @@ class Timetable extends StatelessWidget{
                         child: Center(
                             child: Text(
                               '${(index) + tableStartTime}',
-                              style: lightStyle.copyWith(color: grey),
+                              style: lightStyle.copyWith(color: Palette.grey),
                             )),
                       );
                 },
@@ -254,7 +254,7 @@ class Timetable extends StatelessWidget{
                           children: <Widget>[
                             Text(
                               i.name,
-                              style: regularStyle.copyWith(color: white),
+                              style: regularStyle.copyWith(color: Palette.pureWhite),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )

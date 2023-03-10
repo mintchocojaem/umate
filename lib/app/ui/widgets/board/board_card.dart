@@ -1,6 +1,5 @@
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
-
-import '../../theme/app_colors.dart';
 import '../../theme/app_text_theme.dart';
 
 class BoardCard extends StatelessWidget {
@@ -33,7 +32,7 @@ class BoardCard extends StatelessWidget {
                   height: 24,
                   child: Text(
                     leadingText!,
-                    style: regularStyle.copyWith(color: grey),
+                    style: regularStyle.copyWith(color: Palette.grey),
                   ))
           : SizedBox(height: 32, width: 32, child: leadingImage),
       trailing: trailingText == null

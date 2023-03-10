@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../theme/app_colors.dart';
-
 class PetitionPostPage extends StatefulWidget {
   const PetitionPostPage({super.key});
 
@@ -26,14 +24,14 @@ class _PetitionPostPage extends State<PetitionPostPage> {
             leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: black,
+                  //color: black,
                 ),
                 onPressed: () => {Navigator.pop(context)}),
             title: Text(
               '청원게시판',
               style: TextStyle(
                 fontSize: 18.0,
-                color: black,
+                //color: black,
               ),
             ),
             centerTitle: true,
@@ -84,7 +82,7 @@ class PetitionPostView extends StatelessWidget {
             return AlertDialog(
               icon: Icon(
                 Icons.check_circle_outline,
-                color: blue,
+                //color: blue,
                 size: 30.0,
               ),
               title: Text(
@@ -110,14 +108,14 @@ class PetitionPostView extends StatelessWidget {
               Text(
                 "[학생복지]",
                 style: TextStyle(
-                  color: lightBlue,
+                  //color: lightBlue,
                   fontSize: 14.0,
                 ),
               ),
               Text(
                 "셔틀버스 실시간 위치 정보 공유 청원",
                 style: TextStyle(
-                  color: black,
+                  //color: black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -130,7 +128,7 @@ class PetitionPostView extends StatelessWidget {
                       child: Text(
                         "청원기간",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -141,7 +139,7 @@ class PetitionPostView extends StatelessWidget {
                       child: Text(
                         "2023-01-15 ~ 2023-02-15",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                         ),
                       ),
@@ -151,7 +149,7 @@ class PetitionPostView extends StatelessWidget {
                       child: Text(
                         "청원상태",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -162,7 +160,7 @@ class PetitionPostView extends StatelessWidget {
                       child: Text(
                         "답변완료",
                         style: TextStyle(
-                          color: blue,
+                          //color: blue,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -174,7 +172,10 @@ class PetitionPostView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(thickness: 1, color: brightGrey),
+                child: Divider(
+                    thickness: 1,
+                    //color: brightGrey
+                ),
               ),
               Container(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -186,7 +187,7 @@ class PetitionPostView extends StatelessWidget {
                   Text(
                     "참여인원 ",
                     style: TextStyle(
-                      color: grey,
+                      //color: grey,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -194,7 +195,7 @@ class PetitionPostView extends StatelessWidget {
                   Text(
                     "8명",
                     style: TextStyle(
-                      color: blue,
+                      //color: blue,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -216,18 +217,18 @@ class PetitionPostView extends StatelessWidget {
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 3,
-                                color: brightGrey,
+                                //color: brightGrey,
                               ),
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 3,
-                                color: brightGrey,
+                                //color: brightGrey,
                               ),
                             ),
                             hintText: '동의합니다.',
                             hintStyle: TextStyle(
-                              color: brightGrey,
+                              //color: brightGrey,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -248,8 +249,8 @@ class PetitionPostView extends StatelessWidget {
                           ),
                           onPressed: () => {dialog()},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: blue,
-                            foregroundColor: white,
+                            //backgroundColor: blue,
+                            //foregroundColor: white,
                           ),
                         ),
                       ),
@@ -260,7 +261,10 @@ class PetitionPostView extends StatelessWidget {
             ],
           ),
         ),
-        Divider(thickness: 5, color: brightGrey),
+        Divider(
+            thickness: 5,
+            //color: brightGrey
+        ),
 
         //댓글 위젯
         Comment(),
@@ -280,7 +284,7 @@ class PetitionAnswer extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
-          color: whiteGrey,
+          //color: whiteGrey,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +294,7 @@ class PetitionAnswer extends StatelessWidget {
               child: Text(
                 "답변",
                 style: TextStyle(
-                  color: grey,
+                  //color: grey,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -332,7 +336,7 @@ class Comment extends StatelessWidget {
                 title: Text(
                   _comments[index],
                   style: TextStyle(
-                    color: black,
+                    //color: black,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -340,21 +344,21 @@ class Comment extends StatelessWidget {
                 subtitle: Text(
                   "동의합니다.",
                   style: TextStyle(
-                    color: black,
+                    //color: black,
                     fontSize: 18.0,
                   ),
                 ),
                 trailing: Text(
                   "01/15 12:39",
                   style: TextStyle(
-                    color: darkGrey,
+                    //color: darkGrey,
                     fontSize: 18.0,
                   ),
                 ),
               ),
               Divider(
                 thickness: 1,
-                color: brightGrey,
+                //color: brightGrey,
               ),
             ],
           ),

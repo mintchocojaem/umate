@@ -1,10 +1,7 @@
 import 'package:danvery/app/controller/board_controller.dart';
-import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../theme/app_colors.dart';
-import '../../widgets/board/post/notice_card.dart';
 import '../../widgets/board/post/post_card.dart';
 
 class GeneralBoardPage extends GetView {

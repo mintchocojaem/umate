@@ -1,11 +1,11 @@
 import 'package:danvery/app/controller/login_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../theme/app_colors.dart';
 import '../../widgets/login/login_form_button.dart';
 import '../../widgets/login/login_form_field.dart';
 
@@ -63,8 +63,8 @@ class LoginPage extends GetView {
                             Get.snackbar(
                                 "Error", "로그인 중 오류가 발생했습니다.",
                                 snackPosition: SnackPosition.BOTTOM,
-                                colorText: white,
-                                backgroundColor: dark,
+                                colorText: Palette.white,
+                                backgroundColor: Palette.lightBlack,
                             );
                             //여기서 로그인 오류 처리
                           }
@@ -80,7 +80,7 @@ class LoginPage extends GetView {
                         onPressed: () {},
                         child: Text(
                           "비밀번호 찾기",
-                          style: lightStyle.copyWith(color: grey),
+                          style: lightStyle.copyWith(color: Palette.grey),
                         ),
                       ),
                       const Text(
@@ -90,7 +90,7 @@ class LoginPage extends GetView {
                       TextButton(
                           onPressed: () {},
                           child: Text("아이디 찾기",
-                              style: lightStyle.copyWith(color: grey))),
+                              style: lightStyle.copyWith(color: Palette.grey))),
                       const Text(
                         "|",
                         style: lightStyle,

@@ -1,12 +1,9 @@
 import 'package:danvery/app/controller/post_controller.dart';
 import 'package:danvery/app/data/model/post_model.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-import '../../../../../routes/app_routes.dart';
 import '../../../../controller/login_controller.dart';
-import '../../../theme/app_colors.dart';
 import '../../../widgets/app_bar/transparent_app_bar.dart';
 import '../../../widgets/login/login_form_button.dart';
 
@@ -45,7 +42,7 @@ class PostCreatePage extends GetView {
                                 OutlineInputBorder(borderSide: BorderSide.none),
                             hintText: '제목',
                           )),
-                      Divider(thickness: 1, color: brightGrey),
+                      Divider(thickness: 1, color: Palette.darkGrey),
                       TextField(
                           controller: bodyController,
                           minLines: 1,
@@ -55,7 +52,7 @@ class PostCreatePage extends GetView {
                                 OutlineInputBorder(borderSide: BorderSide.none),
                             hintText: '내용',
                           )),
-                      Divider(thickness: 1, color: brightGrey),
+                      Divider(thickness: 1, color: Palette.darkGrey),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -64,7 +61,7 @@ class PostCreatePage extends GetView {
                             style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
-                                color: grey),
+                                color: Palette.grey),
                           ),
                         ],
                       ),
@@ -74,16 +71,16 @@ class PostCreatePage extends GetView {
                           Container(
                               width: 80,
                               height: 80,
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   top: 10.0, right: 10.0, bottom: 30.0),
                               decoration: BoxDecoration(
-                                color: whiteGrey,
+                                color: Palette.white,
                               ),
                               child: IconButton(
                                   onPressed: () {},
                                   icon: Icon(
                                     Icons.image_outlined,
-                                    color: grey,
+                                    color: Palette.grey,
                                   ))),
                         ],
                       ),

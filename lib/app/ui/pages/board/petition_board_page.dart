@@ -1,12 +1,10 @@
 import 'package:danvery/app/ui/pages/board/post/petition_post_page.dart';
-import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import '../../theme/palette.dart';
 import 'post/post_create_page.dart';
 
 import '../../widgets/board/category_button_bar.dart';
-import '../../theme/app_colors.dart';
 
 class PetitionBoardPage extends StatefulWidget {
   const PetitionBoardPage({super.key});
@@ -31,21 +29,21 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
             leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: black,
+                  color: Palette.black,
                 ),
                 onPressed: () => {Navigator.pop(context)}),
             title: Text(
               '청원게시판',
               style: TextStyle(
                 fontSize: 20.0,
-                color: black,
+                color: Palette.black,
               ),
             ),
             actions: [
               IconButton(
                   icon: Icon(
                     Icons.search,
-                    color: grey,
+                    color: Palette.black,
                   ),
                   onPressed: () => {
                        Get.toNamed('/searchBoard')
@@ -53,7 +51,7 @@ class _PetitionBoardPageState extends State<PetitionBoardPage> {
               IconButton(
                   icon: Icon(
                     Icons.mode_edit_outline,
-                    color: grey,
+                    color: Palette.black,
                   ),
                   onPressed: () => {
                         Navigator.push(
@@ -144,8 +142,8 @@ class StatusFillter extends StatelessWidget {
             ),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: blue,
-            foregroundColor: white,
+            //backgroundColor: blue,
+            //foregroundColor: white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
@@ -187,7 +185,7 @@ class PetitionCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             side: petitionStatus == "답변완료" // 답변완료의 경우 테두리가 파란색으로 강조
                 ? BorderSide(
-                    color: lightBlue,
+                    //color: lightBlue,
                   )
                 : BorderSide.none,
           ),
@@ -201,14 +199,14 @@ class PetitionCard extends StatelessWidget {
                 Text(
                   "[학생복지]",
                   style: TextStyle(
-                    color: lightBlue,
+                    //color: lightBlue,
                     fontSize: 12.0,
                   ),
                 ),
                 Text(
                   title,
                   style: TextStyle(
-                    color: black,
+                    //color: black,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -218,7 +216,7 @@ class PetitionCard extends StatelessWidget {
                   child: Text(
                     dueDate,
                     style: TextStyle(
-                      color: grey,
+                      //color: grey,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -230,7 +228,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         "청원기간",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -241,7 +239,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         "참여인원",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -252,7 +250,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         numberOfPeople + "명",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                         ),
                       ),
@@ -266,7 +264,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         petitionPeriod,
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                         ),
                       ),
@@ -276,7 +274,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         "청원상태",
                         style: TextStyle(
-                          color: grey,
+                          //color: grey,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -287,7 +285,7 @@ class PetitionCard extends StatelessWidget {
                       child: Text(
                         petitionStatus,
                         style: TextStyle(
-                          color: blue,
+                          //color: blue,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,6 +1,5 @@
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
-
-import '../../theme/app_colors.dart';
 
 class SearchBoardPage extends StatefulWidget {
   const SearchBoardPage({super.key});
@@ -29,21 +28,21 @@ class _SearchBoardPage extends State<SearchBoardPage> {
           padding: const EdgeInsets.all(16.0),
           child: AppBar(
             leading: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_ios,
-                  color: black,
+                  color: Palette.black,
                 ),
                 onPressed: () => {Navigator.pop(context)}),
             title: TextFormField(
               controller: searchTextController,
               decoration: InputDecoration(
                   filled: true,
-                  fillColor: whiteGrey,
+                  fillColor: Palette.white,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none),
                   hintText: '글의 제목, 내용, 키워드를 입력하세요',
-                  hintStyle: TextStyle(color: grey),
+                  hintStyle: TextStyle(color: Palette.grey),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.cancel),
                     onPressed: () => {clearSearchText()},
@@ -58,7 +57,7 @@ class _SearchBoardPage extends State<SearchBoardPage> {
         child: Text(
           "OO게시판에서\n원하는 글을 검색해보세요",
           style: TextStyle(
-            color: darkGrey,
+            color: Palette.darkGrey,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
           ),

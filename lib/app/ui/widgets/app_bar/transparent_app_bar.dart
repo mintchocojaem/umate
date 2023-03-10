@@ -1,7 +1,7 @@
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/app_colors.dart';
 import '../../theme/app_text_theme.dart';
 
 class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
@@ -25,14 +25,14 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
     return AppBar(
       centerTitle: true,
       toolbarHeight: height,
-      backgroundColor: transparent,
+      backgroundColor: Colors.transparent,
       leading: automaticallyImplyLeading ? IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: grey,),
+        icon: Icon(Icons.arrow_back_ios, color: Palette.black,),
         onPressed: onPressedLeading,
       ) : null,
       title: Text(
         title,
-        style: titleStyle.copyWith(color: grey),
+        style: titleStyle.copyWith(color: Palette.black),
       ),
       elevation: 0,
       actions: actions,

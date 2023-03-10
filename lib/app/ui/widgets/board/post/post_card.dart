@@ -1,6 +1,5 @@
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
-
-import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_theme.dart';
 
 class PostCard extends StatelessWidget {
@@ -50,7 +49,7 @@ class PostCard extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: regularStyle.copyWith(color: darkGrey),
+                    style: regularStyle.copyWith(color: Palette.black),
                   ),
                 ),
                 trailing: thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
@@ -58,29 +57,29 @@ class PostCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(publishDate, style: regularStyle.copyWith(color: darkGrey),),
+                  Text(publishDate, style: regularStyle.copyWith(color: Palette.black),),
                   Wrap(
                     spacing: 12,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.image_outlined, color: grey, size: regularStyle.fontSize),
+                          Icon(Icons.image_outlined, color: Palette.grey, size: regularStyle.fontSize),
                           const SizedBox(width: 2,),
-                          Text(imageCount.toString(), style: regularStyle.copyWith(color: grey),)
+                          Text(imageCount.toString(), style: regularStyle.copyWith(color: Palette.grey),)
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(Icons.message_outlined , color: grey, size: regularStyle.fontSize),
+                          Icon(Icons.message_outlined , color: Palette.grey, size: regularStyle.fontSize),
                           const SizedBox(width: 2,),
-                          Text(commentCount.toString(), style: regularStyle.copyWith(color: grey),)
+                          Text(commentCount.toString(), style: regularStyle.copyWith(color: Palette.grey),)
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(Icons.thumb_up_alt_outlined, color: grey, size: regularStyle.fontSize,),
+                          Icon(Icons.thumb_up_alt_outlined, color: Palette.grey, size: regularStyle.fontSize,),
                           const SizedBox(width: 2,),
-                          Text(likeCount.toString(), style: regularStyle.copyWith(color: grey),)
+                          Text(likeCount.toString(), style: regularStyle.copyWith(color: Palette.grey),)
                         ],
                       )
                     ],

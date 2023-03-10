@@ -1,5 +1,5 @@
-import 'package:danvery/app/ui/theme/app_colors.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -19,7 +19,7 @@ class MyPageScreen extends GetView {
         children: [
           Container(
             height: 300,
-            color: blue,
+            color: Palette.blue,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,17 +51,17 @@ class MyPageScreen extends GetView {
                               ),
                               Text.rich(
                                 TextSpan(
-                                  style: titleStyle.copyWith(color: white),
+                                  style: titleStyle.copyWith(color: Palette.pureWhite),
                                   text: '김단국\n', // default text style
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: "경영경제대학 경영학과\n",
                                         style: regularStyle.copyWith(
-                                            color: white)),
+                                            color: Palette.pureWhite)),
                                     TextSpan(
                                         text: "32XXXXXX",
                                         style: regularStyle.copyWith(
-                                            color: white)),
+                                            color: Palette.pureWhite)),
                                   ],
                                 ),
                               ),
@@ -69,7 +69,7 @@ class MyPageScreen extends GetView {
                           ),
                           TextButton(
                               style: TextButton.styleFrom(
-                                backgroundColor: grey,
+                                backgroundColor: Palette.grey,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -80,7 +80,7 @@ class MyPageScreen extends GetView {
                                     const EdgeInsets.only(left: 8, right: 8),
                                 child: Text(
                                   "프로필 수정",
-                                  style: regularStyle.copyWith(color: white),
+                                  style: regularStyle.copyWith(color: Palette.pureWhite),
                                 ),
                               )),
                         ],
@@ -96,11 +96,11 @@ class MyPageScreen extends GetView {
                                 children: [
                                   Text(
                                     "0",
-                                    style: titleStyle.copyWith(color: black),
+                                    style: titleStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                   Text(
                                     "내가 쓴 글",
-                                    style: regularStyle.copyWith(color: black),
+                                    style: regularStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                 ],
                               ),
@@ -111,11 +111,11 @@ class MyPageScreen extends GetView {
                                 children: [
                                   Text(
                                     "0",
-                                    style: titleStyle.copyWith(color: black),
+                                    style: titleStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                   Text(
                                     "내가 쓴 댓글",
-                                    style: regularStyle.copyWith(color: black),
+                                    style: regularStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                 ],
                               ),
@@ -126,11 +126,11 @@ class MyPageScreen extends GetView {
                                 children: [
                                   Text(
                                     "0",
-                                    style: titleStyle.copyWith(color: black),
+                                    style: titleStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                   Text(
                                     "내가 좋아요한 글",
-                                    style: regularStyle.copyWith(color: black),
+                                    style: regularStyle.copyWith(color: Palette.darkGrey),
                                   ),
                                 ],
                               ),
@@ -168,7 +168,7 @@ class MyPageScreen extends GetView {
                             onPressed: () {},
                             child: Text(
                               "디스플레이 설정",
-                              style: regularStyle.copyWith(color: black),
+                              style: regularStyle.copyWith(color: Palette.darkGrey),
                             )
                         ),
                       ),
@@ -181,7 +181,7 @@ class MyPageScreen extends GetView {
                             onPressed: () {},
                             child: Text(
                               "로그아웃",
-                              style: regularStyle.copyWith(color: black),
+                              style: regularStyle.copyWith(color: Palette.darkGrey),
                             )
                         ),
                       ),
@@ -194,7 +194,7 @@ class MyPageScreen extends GetView {
                             onPressed: () {},
                             child: Text(
                               "회원탈퇴",
-                              style: regularStyle.copyWith(color: black),
+                              style: regularStyle.copyWith(color: Palette.darkGrey),
                             )
                         ),
                       ),
