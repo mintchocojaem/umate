@@ -1,5 +1,8 @@
+import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_colors.dart';
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
 import 'package:danvery/app/ui/widgets/board/board_list.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -12,92 +15,46 @@ class BoardScreen extends GetView {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(children: [
-          TextField(
-            cursorColor: Colors.grey,
-            decoration: InputDecoration(
-                fillColor: brightGrey,
-                filled: true,
-                hintText: "게시판 검색",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none),
-                prefixIcon: Container(
-                  padding: EdgeInsets.all(15),
-                  child: Icon(Icons.search),
-                  width: 18,
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: white,
+          elevation: 0,
+          title: Text("Danvery",style: titleStyle.copyWith(color: blue),),
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(Routes.searchBoard);
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: grey,
                 )
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          BoardList(
-            cards: [
-              BoardCard(
-                title: "자유 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-                  Get.toNamed(Routes.generalBoard);
-                },
+            SizedBox(width: 8,)
+          ],
+          bottom: TabBar(
+            indicatorColor: blue,
+            tabs: [
+              Tab(
+                child: Text("자유게시판",style: regularStyle.copyWith(color: blue),),
               ),
-              BoardCard(
-                title: "취업 / 진로 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-
-                },
-              ),
-              BoardCard(
-                title: "졸업생 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-
-                },
-              ),
-              BoardCard(
-                title: "새내기 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-
-                },
-              ),
-              BoardCard(
-                title: "비밀 게시판",
-                leadingImage: Icon(Icons.push_pin_outlined),
-                onTap: () {
-
-                },
+              Tab(
+                child: Text("청원게시판",style: regularStyle.copyWith(color: blue),),
               ),
             ],
-            title: '자유 게시판',
-            showAction: false,
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          BoardList(
-            cards: [
-              BoardCard(
-                  title: "시설 게시판", leadingImage: Icon(Icons.push_pin_outlined),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PetitionBoardPage()));
-                  }
-              ),
-              BoardCard(
-                  title: "학교생활 게시판",
-                  leadingImage: Icon(Icons.push_pin_outlined)),
-              BoardCard(
-                  title: "기타 게시판", leadingImage: Icon(Icons.push_pin_outlined)),
-            ],
-            title: '청원 게시판',
-            showAction: false,
-          ),
-        ]),
+        ),
+        body: TabBarView(
+         children: [
+           GeneralBoardPage(),
+           Container()
+         ],
+        )
       ),
     );
   }

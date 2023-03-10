@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
@@ -13,24 +15,15 @@ import 'app/controller/login_controller.dart';
 import 'app/notification/setup_notification.dart';
 import 'firebase_options.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
-}
-
-late AndroidNotificationChannel channel;
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  if (!kIsWeb) {
-    await setupFlutterNotifications();
-  }
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // setting 함수
+  await setupFlutterNotifications();
+  FirebaseMessaging.onMessage.listen(showFlutterNotification);
+  // background 수신처리
 
 
   runApp(GetMaterialApp(
@@ -40,7 +33,12 @@ void main() async{
         Get.toNamed(Routes.login);
       }
 
-      FirebaseMessaging.instance.getToken().then((value) => print(value));
+      FirebaseMessaging.instance.getToken().then((value) {
+        //debug mode print
+        if (kDebugMode) {
+          print("FCM Token : $value");
+        }
+      });
 
     },
     initialBinding: LoginBinding(),
@@ -58,4 +56,6 @@ void main() async{
          ThemeMode.dark for dark theme
       */
   ));
+
 }
+

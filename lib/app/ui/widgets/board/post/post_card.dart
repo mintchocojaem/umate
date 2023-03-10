@@ -31,66 +31,63 @@ class PostCard extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16, left: 16),
-            child: Column(
-              children: [
-                ListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  title: Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: middleStyle
-                    ),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      subtitle,
+          Column(
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.all(0),
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                      title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: regularStyle.copyWith(color: darkGrey),
-                    ),
+                      style: middleStyle
                   ),
-                  trailing: thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(publishDate, style: regularStyle.copyWith(color: darkGrey),),
-                    Wrap(
-                      spacing: 12,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.image_outlined, color: grey, size: regularStyle.fontSize),
-                            const SizedBox(width: 2,),
-                            Text(imageCount.toString(), style: regularStyle.copyWith(color: grey),)
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.message_outlined , color: grey, size: regularStyle.fontSize),
-                            const SizedBox(width: 2,),
-                            Text(commentCount.toString(), style: regularStyle.copyWith(color: grey),)
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.thumb_up_alt_outlined, color: grey, size: regularStyle.fontSize,),
-                            const SizedBox(width: 2,),
-                            Text(likeCount.toString(), style: regularStyle.copyWith(color: grey),)
-                          ],
-                        )
-                      ],
-                    )
-                  ],
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: regularStyle.copyWith(color: darkGrey),
+                  ),
                 ),
-              ],
-            ),
+                trailing: thumbnailUrl != null ? Image.network(thumbnailUrl!) : null,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(publishDate, style: regularStyle.copyWith(color: darkGrey),),
+                  Wrap(
+                    spacing: 12,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.image_outlined, color: grey, size: regularStyle.fontSize),
+                          const SizedBox(width: 2,),
+                          Text(imageCount.toString(), style: regularStyle.copyWith(color: grey),)
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.message_outlined , color: grey, size: regularStyle.fontSize),
+                          const SizedBox(width: 2,),
+                          Text(commentCount.toString(), style: regularStyle.copyWith(color: grey),)
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.thumb_up_alt_outlined, color: grey, size: regularStyle.fontSize,),
+                          const SizedBox(width: 2,),
+                          Text(likeCount.toString(), style: regularStyle.copyWith(color: grey),)
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ],
           ),
           Divider(),
         ],
