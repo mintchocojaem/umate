@@ -38,10 +38,11 @@ class BoardPage extends GetView {
             ),
             Expanded(
               child: TabBarView(
-               children: [
-                 GeneralBoardPage(),
-                 Container()
-               ],
+                physics: NeverScrollableScrollPhysics(),
+                 children: [
+                   GeneralBoardPage(),
+                   Container()
+                 ],
               ),
             ),
           ],

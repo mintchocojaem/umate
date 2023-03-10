@@ -1,13 +1,12 @@
 import 'package:danvery/app/controller/board_controller.dart';
 import 'package:danvery/app/controller/login_controller.dart';
-import 'package:danvery/app/controller/main_controller.dart';
 import 'package:danvery/app/data/model/login_model.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:danvery/app/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/app/ui/widgets/board/board_card.dart';
+import 'package:danvery/app/ui/widgets/main/banner_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../widgets/board/board_list.dart';
@@ -96,6 +95,13 @@ class HomePage extends GetView {
                               ],
                             ),
                           ),
+                          CircleAvatar(
+                            radius: 32,
+                            backgroundImage: Image.asset(
+                                "assets/icons/user/default_user_icon.png")
+                                .image,
+                            backgroundColor: Colors.transparent,
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -154,12 +160,16 @@ class HomePage extends GetView {
                 Padding(
                   padding: const EdgeInsets.only(top: 200),
                   child: Container(
-                    color: Palette.pureWhite,
+                    decoration: BoxDecoration(
+                      color: Palette.pureWhite,
+                      borderRadius: const BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 16, right: 16, top: 16, bottom: 16),
                       child: Column(
                         children: [
+                          const BannerCard(title: '장애인 인권의 날 새로운 포토존 등장!', content: '지금 대면행사 보러가기',),
                           Padding(
                             padding: const EdgeInsets.only(top: 8, bottom: 8),
                             child: BoardList(
