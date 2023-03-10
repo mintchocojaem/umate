@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
-class MyPageScreen extends GetView {
-  const MyPageScreen({super.key});
+import '../../widgets/app_bar/main_app_bar.dart';
+
+class MyPagePage extends GetView {
+  const MyPagePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +16,17 @@ class MyPageScreen extends GetView {
 
     bool notification = true;
 
-    return SafeArea(
-      child: Stack(
+    return Scaffold(
+      backgroundColor: Palette.pureWhite,
+      appBar: MainAppBar(
+        title: "Danvery",
+        titleColor: Palette.pureWhite,
+        backGroundColor: Palette.blue,
+      ),
+      body: Stack(
         children: [
           Container(
-            height: 300,
+            height: 200,
             color: Palette.blue,
           ),
           Row(
@@ -26,7 +34,7 @@ class MyPageScreen extends GetView {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12, top: 36),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -85,7 +93,7 @@ class MyPageScreen extends GetView {
                               )),
                         ],
                       ),
-                      const SizedBox(height: 36,),
+                      const SizedBox(height: 20,),
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -139,7 +147,7 @@ class MyPageScreen extends GetView {
                         ),
                       ),
                       const SizedBox(
-                        height: 100,
+                        height: 40,
                       ),
                       SizedBox(
                         width: double.infinity,

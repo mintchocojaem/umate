@@ -1,0 +1,52 @@
+import 'package:danvery/app/ui/pages/board/general_board_page.dart';
+import 'package:danvery/app/ui/theme/app_text_theme.dart';
+import 'package:danvery/app/ui/theme/palette.dart';
+import 'package:danvery/app/ui/widgets/app_bar/main_app_bar.dart';
+import 'package:danvery/routes/app_routes.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class BoardPage extends GetView {
+  const BoardPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+        backgroundColor: Palette.pureWhite,
+        appBar: MainAppBar(
+          title: "Danvery",
+          titleColor: Palette.blue,
+          backGroundColor: Palette.pureWhite,
+          height: 60,
+        ),
+        body: Column(
+          children: [
+            TabBar(
+              indicatorColor: Palette.blue,
+              tabs: [
+                Tab(
+                  child: Text("자유게시판",style: regularStyle.copyWith(color: Palette.blue),),
+                ),
+                Tab(
+                  child: Text("청원게시판",style: regularStyle.copyWith(color: Palette.blue),),
+                ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+               children: [
+                 GeneralBoardPage(),
+                 Container()
+               ],
+              ),
+            ),
+          ],
+        )
+      ),
+    );
+  }
+}

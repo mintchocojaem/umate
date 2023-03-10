@@ -4,6 +4,10 @@ import 'package:danvery/app/bindings/post_binding.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/post/general_post_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
+import 'package:danvery/app/ui/pages/board/board_page.dart';
+import 'package:danvery/app/ui/pages/home/home_page.dart';
+import 'package:danvery/app/ui/pages/mypage/mypage_page.dart';
+import 'package:danvery/app/ui/pages/timetable/timetable_page.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/bindings/main_binding.dart';
@@ -46,5 +50,9 @@ class AppPages {
         page: () => const GeneralPostPage(),
         binding: PostBinding()
     ),
+    GetPage(name: Routes.home, page: () => const HomePage()),
+    GetPage(name: Routes.timetable, page: () => const TimetablePage()),
+    GetPage(name: Routes.board, page: () => const BoardPage()),
+    GetPage(name: Routes.myPage, page: () => const MyPagePage())
   ];
 }

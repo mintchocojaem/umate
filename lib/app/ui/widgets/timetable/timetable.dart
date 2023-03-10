@@ -13,7 +13,6 @@ class Timetable extends StatelessWidget{
 
   final int tableStartTime;
   final int tableEndTime;
-  final String description;
   final int today;
 
   const Timetable(
@@ -21,7 +20,6 @@ class Timetable extends StatelessWidget{
         required this.subjects,
         required this.tableStartTime,
         required this.tableEndTime,
-        required this.description,
         this.today = 0
       });
 
@@ -61,23 +59,6 @@ class Timetable extends StatelessWidget{
     // TODO: implement build
     return Column(
       children: [
-        SizedBox(
-          height: 60,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  description,
-                  style: titleStyle,
-                ),
-              ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(onPressed: () {}, icon: Icon(Icons.edit)))
-            ],
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
           child: Row(
