@@ -58,7 +58,7 @@ class LoginPage extends GetView {
                                 '121212') //new: '12345678', '121212'
                             .then((value) {
                           if (value) {
-                            Get.toNamed(Routes.main);
+                            Get.offAndToNamed(Routes.main);
                           } else {
                             Get.snackbar(
                                 "Error", "로그인 중 오류가 발생했습니다.",
