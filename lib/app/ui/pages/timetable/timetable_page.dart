@@ -45,6 +45,7 @@ class TimetablePage extends GetView {
                 tableStartTime: 9,
                 tableEndTime: 18,
             ),
+            /*
             const Padding(
               padding: EdgeInsets.only(top: 16, left: 16, right: 16),
               child: BoardList(
@@ -54,6 +55,8 @@ class TimetablePage extends GetView {
                 showAction: false,
               ),
             )
+
+             */
           ],
         ),
       ),

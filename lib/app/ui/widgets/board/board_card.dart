@@ -21,8 +21,8 @@ class BoardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      contentPadding: EdgeInsets.all(0),
-      visualDensity: VisualDensity(vertical: -3),
+      contentPadding: const EdgeInsets.all(0),
+      visualDensity: const VisualDensity(vertical: -3),
       dense: true,
       title: SizedBox(height: 24, child: Text(title, style: regularStyle, overflow: TextOverflow.ellipsis, maxLines: 1,)),
       leading: leadingImage == null

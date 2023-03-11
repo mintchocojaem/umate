@@ -24,26 +24,31 @@ class GeneralBoardPage extends GetView {
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     itemCount: boardController.generalBoard.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: PostCard(
-                              title: boardController.generalBoard[index].title,
-                              subtitle: boardController.generalBoard[index].body,
-                              publishDate:
-                                  boardController.generalBoard[index].createdDate,
-                              commentCount: 0,
-                              likeCount: 0,
-                              onTap: () {
-                                Get.toNamed(Routes.generalPost,
-                                    arguments:
-                                        boardController.generalBoard[index].id);
-                              },
-                            ),
+                      return GestureDetector(
+                        onTap: (){
+                          Get.toNamed(Routes.generalPost,
+                              arguments:
+                              boardController.generalBoard[index].id);
+                        },
+                        child: Container(
+                          color: Palette.pureWhite,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, right: 16),
+                                child: PostCard(
+                                  title: boardController.generalBoard[index].title,
+                                  subtitle: boardController.generalBoard[index].body,
+                                  publishDate:
+                                      boardController.generalBoard[index].createdDate,
+                                  commentCount: 0,
+                                  likeCount: 0,
+                                ),
+                              ),
+                              Divider(color: Palette.grey,height: 0,),
+                            ],
                           ),
-                          Divider(color: Palette.grey,height: 0,),
-                        ],
+                        ),
                       );
                     }),
               ],
