@@ -1,4 +1,5 @@
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
+import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:danvery/app/ui/widgets/app_bar/main_app_bar.dart';
@@ -27,21 +28,23 @@ class BoardPage extends GetView {
           children: [
             TabBar(
               indicatorColor: Palette.blue,
-              tabs: [
+              unselectedLabelColor: Palette.grey,
+              labelColor: Palette.blue,
+              tabs: const [
                 Tab(
-                  child: Text("자유게시판",style: regularStyle.copyWith(color: Palette.blue),),
+                  child: Text("자유게시판",style: regularStyle,),
                 ),
                 Tab(
-                  child: Text("청원게시판",style: regularStyle.copyWith(color: Palette.blue),),
+                  child: Text("청원게시판",style: regularStyle,),
                 ),
               ],
             ),
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                  children: [
                    GeneralBoardPage(),
-                   Container()
+                   PetitionBoardPage()
                  ],
               ),
             ),
