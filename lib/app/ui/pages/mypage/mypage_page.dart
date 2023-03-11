@@ -101,11 +101,12 @@ class MyPagePage extends GetView {
                       borderRadius: const BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 80.0, left: 16, right: 16),
+                      padding: const EdgeInsets.only(top: 60.0, left: 16, right: 16),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: double.infinity,
+                            height: 60,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -124,46 +125,49 @@ class MyPagePage extends GetView {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    alignment: Alignment.centerLeft),
-                                onPressed: () {},
-                                child: Text(
-                                  "디스플레이 설정",
-                                  style: titleStyle.copyWith(fontWeight: FontWeight.normal,
-                                      color: Palette.darkGrey),
+                          GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: SizedBox(
+                                height: 60,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "디스플레이 설정",
+                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                        color: Palette.darkGrey),
+                                  ),
                                 )),
                           ),
-                          SizedBox(height: 8,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    alignment: Alignment.centerLeft),
-                                onPressed: () {},
-                                child: Text(
-                                  "로그아웃",
-                                  style: titleStyle.copyWith(fontWeight: FontWeight.normal,
-                                      color: Palette.darkGrey),
+                          GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: SizedBox(
+                                height: 60,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "로그아웃",
+                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                        color: Palette.darkGrey),
+                                  ),
                                 )),
                           ),
-                          SizedBox(height: 8,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    alignment: Alignment.centerLeft),
-                                onPressed: () {},
-                                child: Text(
-                                  "회원탈퇴",
-                                  style: titleStyle.copyWith(fontWeight: FontWeight.normal,
-                                      color: Palette.darkGrey),
+                          GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: SizedBox(
+                              height: 60,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "회원탈퇴",
+                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                        color: Palette.darkGrey),
+                                  ),
                                 )),
                           ),
                         ],

@@ -1,6 +1,9 @@
 import 'package:danvery/app/bindings/board_binding.dart';
+import 'package:danvery/app/bindings/board_page_binding.dart';
+import 'package:danvery/app/bindings/bus_binding.dart';
 import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/bindings/post_binding.dart';
+import 'package:danvery/app/controller/board_page_controller.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/post/general_post_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
@@ -21,7 +24,7 @@ class AppPages {
     GetPage(
       name: Routes.main,
       page: () => const MainPage(),
-      bindings: [MainBinding(), BoardBinding(),],
+      bindings: [MainBinding(), BoardBinding(),BoardPageBinding(), BusBinding()],
     ),
     GetPage(
       name: Routes.register,

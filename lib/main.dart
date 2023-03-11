@@ -24,7 +24,6 @@ void main() async{
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
   // background 수신처리
 
-
   runApp(GetMaterialApp(
     onReady: (){
       final loginController = Get.find<LoginController>();

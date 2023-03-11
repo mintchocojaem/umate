@@ -4,27 +4,21 @@ import 'package:get/get.dart';
 
 import '../../theme/palette.dart';
 
-class BoardList extends StatefulWidget {
+class BoardList extends StatelessWidget {
   final List<Widget> cards;
   final String title;
   final String actionTitle;
   final bool showAction;
+  final VoidCallback? onTapAction;
 
   const BoardList(
       {super.key,
       required this.cards,
       required this.title,
-      this.actionTitle = '',
-      this.showAction = true});
+      required this.actionTitle,
+      this.showAction = true,
+      this.onTapAction});
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _BoardList();
-  }
-}
-
-class _BoardList extends State<BoardList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -44,41 +38,50 @@ class _BoardList extends State<BoardList> {
         ],
       ),
       child: Padding(
-        padding:
-            const EdgeInsets.only(right: 20.0, left: 20, top: 20, bottom: 10),
+        padding: const EdgeInsets.only(right: 20.0, left: 20, top: 10, bottom: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.title,
+                  title,
                   style: titleStyle,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      widget.actionTitle,
-                      style: regularStyle.copyWith(color: Palette.grey),
+                GestureDetector(
+                  onTap: onTapAction,
+                  child: SizedBox(
+                    height: 42,
+                    width: 80,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          actionTitle,
+                          style: regularStyle.copyWith(color: Palette.grey),
+                        ),
+                        showAction
+                            ? Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Palette.grey,
+                          size: regularStyle.fontSize,
+                        )
+                            : Container()
+                      ],
                     ),
-                    widget.showAction
-                        ? Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Palette.grey,
-                            size: regularStyle.fontSize,
-                          )
-                        : Container()
-                  ],
+                  ),
                 ),
               ],
             ),
             ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                itemCount: widget.cards.length,
+                padding: const EdgeInsets.only(bottom: 8),
+                itemCount: cards.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return widget.cards[index];
+                  return cards[index];
                 })
           ],
         ),

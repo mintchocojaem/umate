@@ -1,9 +1,10 @@
+import 'package:danvery/app/controller/board_page_controller.dart';
+import 'package:danvery/app/controller/main_controller.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:danvery/app/ui/widgets/app_bar/main_app_bar.dart';
-import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,7 @@ class BoardPage extends GetView {
     // TODO: implement build
     return DefaultTabController(
       length: 2,
-      initialIndex: 0,
+      initialIndex: Get.find<BoardPageController>().selectedTap,
       child: Scaffold(
         backgroundColor: Palette.pureWhite,
         appBar: MainAppBar(

@@ -22,7 +22,6 @@ class BoardProvider{
       if (kDebugMode) {
         print("GetGeneralBoard : ${response.statusCode}");
       }
-
       if (response.statusCode != 200) {
         throw Exception('GetGeneralBoard Error');
       } else {
