@@ -9,6 +9,8 @@ class BusController extends GetxController {
   BusController({required this.busRepository});
 
   final RxList<BusModel> busListOfJungMoon = <BusModel>[].obs;
+  final RxList<BusModel> busListOfGomSang = <BusModel>[].obs;
+
   final RxBool _isLoadBustList = false.obs;
 
   bool get isLoadBusList => _isLoadBustList.value;
@@ -17,22 +19,28 @@ class BusController extends GetxController {
     busRepository.getBusListFromStation("단국대정문").then((value) {
       if (value != null) {
         busListOfJungMoon.value = value;
-        _isLoadBustList.value = true;
-        /*
         busRepository.getBusListFromStation("곰상").then((value) {
           if(value != null){
-            _isLoadBustList.value = true;
+            busListOfGomSang.value = value;
+            if(busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty){
+              _isLoadBustList.value = true;
+            }
           }
         });
-
-         */
       }
     });
   }
 
-
   void refreshBusList(){
     getBustList();
+  }
+
+  BusModel findJungMoonBusByNo(String no){
+    return busListOfJungMoon.firstWhere((p0) => p0.busNo == no);
+  }
+
+  BusModel findGomSangBusByNo(String no){
+    return busListOfGomSang.firstWhere((p0) => p0.busNo == no);
   }
 
 }

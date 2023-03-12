@@ -41,14 +41,6 @@ class RegisterPage extends GetView<RegisterController>{
                           Padding(
                             padding: EdgeInsets.only(top: 8, bottom: 8),
                             child: LoginFormField(
-                              hint: "홍길동",
-                              title: "이름",
-                              readOnly: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
                               hint: "비밀번호를 입력하세요",
                               title: "비밀번호",
                               validateHint: "비밀번호를 재입력하세요",
@@ -58,10 +50,25 @@ class RegisterPage extends GetView<RegisterController>{
                           Padding(
                             padding: EdgeInsets.only(top: 8, bottom: 8),
                             child: LoginFormField(
+                              hint: "이름을 입력하세요",
+                              title: "이름",
+                              readOnly: true,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8, bottom: 8),
+                            child: LoginFormField(
+                              hint: "닉네임을 입력하세요",
+                              title: "닉네임",
+                              readOnly: false,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8, bottom: 8),
+                            child: LoginFormField(
                               hint: "전공을 선택하세요",
                               title: "전공",
-                              dropdown: true,
-                              dropdownData: ["경영학과","소프트웨어학과","국문어학과"],
+                              readOnly: true,
                             ),
                           ),
                           //휴대폰 번호 인증 필요

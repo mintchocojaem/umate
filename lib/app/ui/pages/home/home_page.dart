@@ -175,36 +175,29 @@ class HomePage extends GetView {
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_24.png"),
-                                            trailingText: busController
-                                                        .busListOfJungMoon
-                                                        .firstWhere((p0) =>
-                                                            p0.busNo == "24")
-                                                        .predictTime1 !=
-                                                    null
-                                                ? "${busController.busListOfJungMoon.firstWhere((p0) => p0.busNo == "24").predictTime1! ~/ 60}분 후 출발 예정"
+                                            trailingText: busController.findJungMoonBusByNo("24").predictTime1 != null
+                                                ? "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_102.png"),
-                                            trailingText: "도착정보 없음",
+                                            trailingText: busController.findJungMoonBusByNo("102").predictTime1 != null
+                                                ? "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후 출발 예정"
+                                                : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_720_3.png"),
-                                            trailingText: "도착정보 없음",
+                                            trailingText: busController.findJungMoonBusByNo("720-3").predictTime1 != null
+                                                ? "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후 출발 예정"
+                                                : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_school.png"),
-                                            trailingText: busController
-                                                        .busListOfJungMoon
-                                                        .firstWhere((p0) =>
-                                                            p0.busNo ==
-                                                            "shuttle")
-                                                        .predictTime1 !=
-                                                    null
-                                                ? "${busController.busListOfJungMoon.firstWhere((p0) => p0.busNo == "shuttle").predictTime1! ~/ 60}분 후 출발 예정"
+                                            trailingText: busController.findJungMoonBusByNo("shuttle-bus").predictTime1 != null
+                                                ? "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                       ],
