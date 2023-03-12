@@ -38,7 +38,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^5.0.1
   intl: ^0.18.0
-  google_fonts: ^4.0.3
   get: ^4.6.5
   image_picker: ^0.8.6+3
   url_launcher: ^6.1.10
@@ -108,3 +107,18 @@ flutter:
     - assets/icons/bus_list/
     - assets/icons/school_mark/
     - assets/icons/user/
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Thin.otf
+          weight: 100
+        - asset: assets/fonts/NotoSansKR-Light.otf
+          weight: 300
+        - asset: assets/fonts/NotoSansKR-Regular.otf
+          weight: 400
+        - asset: assets/fonts/NotoSansKR-Medium.otf
+          weight: 500
+        - asset: assets/fonts/NotoSansKR-Bold.otf
+          weight: 700
+        - asset: assets/fonts/NotoSansKR-Black.otf
+          weight: 900

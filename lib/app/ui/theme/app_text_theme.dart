@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const TextStyle bigTitleStyle = TextStyle(
+  fontSize: 24,
+);
+
 const TextStyle titleStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,

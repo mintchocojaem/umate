@@ -66,8 +66,8 @@ class PetitionCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("청원기간", style: tinyStyle.copyWith(fontWeight: FontWeight.bold),),
-                      const Text("2023-01-15 ~ 2023/02-15", style: tinyStyle,)
+                      Text("청원기간", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
+                      Text("2023-01-15 ~ 2023/02-15", style: tinyStyle.copyWith(color: Palette.darkGrey),)
                     ],
                   ),
                   const SizedBox(width: 32,),
@@ -76,14 +76,14 @@ class PetitionCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text("참여인원", style: tinyStyle.copyWith(fontWeight: FontWeight.bold),),
+                          Text("참여인원", style: tinyStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
                           const SizedBox(width: 8,),
-                          const Text("143명", style: tinyStyle,),
+                          Text("143명", style: tinyStyle.copyWith(color: Palette.darkGrey),),
                         ],
                       ),
                       Row(
                         children: [
-                          Text("청원상태", style: tinyStyle.copyWith(fontWeight: FontWeight.bold),),
+                          Text("청원상태", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
                           const SizedBox(width: 8,),
                           Text("청원 중",style: tinyStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
                         ],

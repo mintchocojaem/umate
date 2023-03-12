@@ -1,3 +1,4 @@
+import 'package:danvery/app/bindings/authentication_page_binding.dart';
 import 'package:danvery/app/bindings/board_binding.dart';
 import 'package:danvery/app/bindings/board_page_binding.dart';
 import 'package:danvery/app/bindings/bus_binding.dart';
@@ -9,9 +10,11 @@ import 'package:danvery/app/ui/pages/board/post/general_post_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:danvery/app/ui/pages/board/board_page.dart';
 import 'package:danvery/app/ui/pages/home/home_page.dart';
+import 'package:danvery/app/ui/pages/login/authentication_page.dart';
 import 'package:danvery/app/ui/pages/mypage/mypage_page.dart';
 import 'package:danvery/app/ui/pages/timetable/timetable_page.dart';
 import 'package:danvery/routes/app_routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/bindings/main_binding.dart';
 import '../app/ui/pages/board/post/post_create_page.dart';
@@ -24,7 +27,12 @@ class AppPages {
     GetPage(
       name: Routes.main,
       page: () => const MainPage(),
-      bindings: [MainBinding(), BoardBinding(),BoardPageBinding(), BusBinding()],
+      bindings: [
+        MainBinding(),
+        BoardBinding(),
+        BoardPageBinding(),
+        BusBinding(),
+      ],
     ),
     GetPage(
       name: Routes.register,
@@ -35,24 +43,23 @@ class AppPages {
         page: () => const LoginPage(),
         binding: LoginBinding()),
     GetPage(
+        name: Routes.authentication, page: () => const AuthenticationPage(), binding: AuthenticationPageBinding()),
+    GetPage(
       name: Routes.generalBoard,
       page: () => const GeneralBoardPage(),
       binding: BoardBinding(),
     ),
-    GetPage(name: Routes.searchBoard,
-        page: () => const SearchBoardPage()
-    ),
-    GetPage(name: Routes.postCreate,
+    GetPage(name: Routes.searchBoard, page: () => const SearchBoardPage()),
+    GetPage(
+        name: Routes.postCreate,
         page: () => const PostCreatePage(),
         bindings: [
           PostBinding(),
-        ]
-    ),
+        ]),
     GetPage(
         name: Routes.generalPost,
         page: () => const GeneralPostPage(),
-        binding: PostBinding()
-    ),
+        binding: PostBinding()),
     GetPage(name: Routes.home, page: () => const HomePage()),
     GetPage(name: Routes.timetable, page: () => const TimetablePage()),
     GetPage(name: Routes.board, page: () => const BoardPage()),

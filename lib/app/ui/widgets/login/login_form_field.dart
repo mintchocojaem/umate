@@ -47,7 +47,7 @@ class _LoginFormField extends State<LoginFormField> {
       children: [
         widget.title == null
             ? const SizedBox()
-            : Text(widget.title!, style: titleStyle.copyWith(color: Palette.darkGrey),),
+            : Text(widget.title!, style: titleStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),),
         const SizedBox(height: 8,),
         SizedBox(
           height: 48,
@@ -60,7 +60,7 @@ class _LoginFormField extends State<LoginFormField> {
               fillColor: Palette.lightGrey,
               border: const OutlineInputBorder(),
               hintText: widget.hint,
-              hintStyle: TextStyle(color: Palette.grey),
+              hintStyle: regularStyle.copyWith(color: Palette.grey),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
                 borderSide: BorderSide(
@@ -92,7 +92,7 @@ class _LoginFormField extends State<LoginFormField> {
                       fillColor: Palette.lightGrey,
                       border: const OutlineInputBorder(),
                       hintText: widget.validateHint ?? widget.hint,
-                      hintStyle: TextStyle(color: Palette.grey),
+                      hintStyle: regularStyle.copyWith(color: Palette.grey),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide: BorderSide(

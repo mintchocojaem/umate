@@ -97,7 +97,7 @@ class LoginPage extends GetView {
                       ),
                       TextButton(
                           onPressed: () {
-                            Get.toNamed(Routes.register);
+                            Get.toNamed(Routes.authentication);
                           },
                           child: const Text(
                             "회원가입",
