@@ -2,7 +2,6 @@ import 'package:danvery/app/controller/register_controller.dart';
 import 'package:danvery/app/controller/register_page_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
-import 'package:danvery/app/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,29 +13,40 @@ class AuthenticationScreen extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+
+    final RegisterPageController registerPageController =
+        Get.find<RegisterPageController>();
+
+    final registerController = Get.find<RegisterController>();
+
+    return SafeArea(
       child: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
+                        controller:
+                        registerPageController.studentIdController,
                         hint: '학번(ID)를 입력하세요',
                         title: "학번",
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
+                        controller:
+                        registerPageController.studentPasswordController,
                         hint: "비밀번호를 입력하세요",
                         title: "비밀번호",
+                        isPassword: true,
                       ),
                     ),
                     Padding(
@@ -53,7 +63,7 @@ class AuthenticationScreen extends GetView {
                           ),
                           Text(
                             "단국대학교 웹정보 로그인시 사용하는 ID/PW를 통해서 \n학생인증이 진행됩니다."
-                                " \n(단국대학교 웹정보 ID/PW는 학생인증 이후 바로 폐기됩니다.)",
+                            " \n(단국대학교 웹정보 ID/PW는 학생인증 이후 바로 폐기됩니다.)",
                             style: tinyStyle.copyWith(color: Palette.grey),
                           ),
                         ],
@@ -72,12 +82,12 @@ class AuthenticationScreen extends GetView {
                           context.isDarkMode
                               ? const BoxShadow()
                               : BoxShadow(
-                            color: Palette.grey.withOpacity(0.3),
-                            spreadRadius: 3,
-                            blurRadius: 4,
-                            offset: const Offset(
-                                0, 1), // changes position of shadow
-                          ),
+                                  color: Palette.grey.withOpacity(0.3),
+                                  spreadRadius: 3,
+                                  blurRadius: 4,
+                                  offset: const Offset(
+                                      0, 1), // changes position of shadow
+                                ),
                         ],
                       ),
                       child: Padding(
@@ -87,20 +97,17 @@ class AuthenticationScreen extends GetView {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Row(
                                 children: [
                                   Obx(
-                                        () => Container(
+                                    () => Container(
                                       width: 28,
                                       height: 28,
                                       decoration: BoxDecoration(
-                                          color: Get.find<RegisterPageController>()
-                                              .check1 &&
-                                              Get.find<
-                                                  RegisterPageController>()
-                                                  .check2
+                                          color: registerPageController
+                                                      .check1 &&
+                                                  registerPageController.check2
                                               ? Palette.blue
                                               : Palette.lightGrey,
                                           shape: BoxShape.circle),
@@ -109,23 +116,16 @@ class AuthenticationScreen extends GetView {
                                             color: Palette.lightGrey),
                                         checkColor: Palette.pureWhite,
                                         fillColor:
-                                        MaterialStateProperty.resolveWith(
+                                            MaterialStateProperty.resolveWith(
                                                 (states) => Palette.blue),
                                         shape: const CircleBorder(),
                                         onChanged: (bool? value) {
-                                          Get.find<
-                                              RegisterPageController>()
-                                              .check1 = value!;
-                                          Get.find<
-                                              RegisterPageController>()
-                                              .check2 = value;
+                                          registerPageController.check1 =
+                                              value!;
+                                          registerPageController.check2 = value;
                                         },
-                                        value: Get.find<
-                                            RegisterPageController>()
-                                            .check1 &&
-                                            Get.find<
-                                                RegisterPageController>()
-                                                .check2,
+                                        value: registerPageController.check1 &&
+                                            registerPageController.check2,
                                       ),
                                     ),
                                   ),
@@ -155,13 +155,11 @@ class AuthenticationScreen extends GetView {
                                 title: Row(
                                   children: [
                                     Obx(
-                                          () => Container(
+                                      () => Container(
                                         width: 28,
                                         height: 28,
                                         decoration: BoxDecoration(
-                                            color: Get.find<
-                                                RegisterPageController>()
-                                                .check1
+                                            color: registerPageController.check1
                                                 ? Palette.blue
                                                 : Palette.lightGrey,
                                             shape: BoxShape.circle),
@@ -169,18 +167,15 @@ class AuthenticationScreen extends GetView {
                                           side: BorderSide(
                                               color: Palette.lightGrey),
                                           checkColor: Palette.pureWhite,
-                                          fillColor: MaterialStateProperty
-                                              .resolveWith(
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            Get.find<
-                                                RegisterPageController>()
-                                                .check1 = value!;
+                                            registerPageController.check1 =
+                                                value!;
                                           },
-                                          value: Get.find<
-                                              RegisterPageController>()
-                                              .check1,
+                                          value: registerPageController.check1,
                                         ),
                                       ),
                                     ),
@@ -204,12 +199,11 @@ class AuthenticationScreen extends GetView {
                                 children: <Widget>[
                                   Text.rich(
                                     TextSpan(
-                                      style:
-                                      TextStyle(color: Palette.darkGrey),
+                                      style: TextStyle(color: Palette.darkGrey),
                                       children: <TextSpan>[
                                         const TextSpan(
                                             text:
-                                            '단국대학교 총학생회 홈페이지는 단국대학교 학생임을 인증하기 위하여 아래와 같이 단국대학교 홈페이지 내 개인정보를 수집, 이용합니다.\n\n',
+                                                '단국대학교 총학생회 홈페이지는 단국대학교 학생임을 인증하기 위하여 아래와 같이 단국대학교 홈페이지 내 개인정보를 수집, 이용합니다.\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집목적\n',
@@ -217,7 +211,7 @@ class AuthenticationScreen extends GetView {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 학생임을 인증, 학번, 이름, 학과, 재학 여부 인증\n\n',
+                                                '단국대학교 학생임을 인증, 학번, 이름, 학과, 재학 여부 인증\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집항목\n',
@@ -225,7 +219,7 @@ class AuthenticationScreen extends GetView {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 홈페이지 아이디 및 비밀번호, 단국대학교 홈페이지 내에 학번, 이름 학과 재학여부\n\n',
+                                                '단국대학교 홈페이지 아이디 및 비밀번호, 단국대학교 홈페이지 내에 학번, 이름 학과 재학여부\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집근거\n',
@@ -236,7 +230,7 @@ class AuthenticationScreen extends GetView {
                                             style: tinyStyle),
                                         const TextSpan(
                                             text:
-                                            '귀하는 단국대학교 총학생회 서비스 이용에 필요한 최소한의 개인정보 수집 및 이용에 동의하지 않을 수 있으나, '
+                                                '귀하는 단국대학교 총학생회 서비스 이용에 필요한 최소한의 개인정보 수집 및 이용에 동의하지 않을 수 있으나, '
                                                 '동의를 거부 할 경우 회원제 서비스 이용이 불가합니다. 단국대학교 홈페이지 아이디 및 비밀번호는 연동 즉시 폐기됩니다.',
                                             style: tinyStyle),
                                       ],
@@ -255,13 +249,11 @@ class AuthenticationScreen extends GetView {
                                 title: Row(
                                   children: [
                                     Obx(
-                                          () => Container(
+                                      () => Container(
                                         width: 28,
                                         height: 28,
                                         decoration: BoxDecoration(
-                                            color: Get.find<
-                                                RegisterPageController>()
-                                                .check2
+                                            color: registerPageController.check2
                                                 ? Palette.blue
                                                 : Palette.lightGrey,
                                             shape: BoxShape.circle),
@@ -269,18 +261,15 @@ class AuthenticationScreen extends GetView {
                                           side: BorderSide(
                                               color: Palette.lightGrey),
                                           checkColor: Palette.pureWhite,
-                                          fillColor: MaterialStateProperty
-                                              .resolveWith(
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            Get.find<
-                                                RegisterPageController>()
-                                                .check2 = value!;
+                                            registerPageController.check2 =
+                                                value!;
                                           },
-                                          value: Get.find<
-                                              RegisterPageController>()
-                                              .check2,
+                                          value: registerPageController.check2,
                                         ),
                                       ),
                                     ),
@@ -304,12 +293,11 @@ class AuthenticationScreen extends GetView {
                                 children: <Widget>[
                                   Text.rich(
                                     TextSpan(
-                                      style:
-                                      TextStyle(color: Palette.darkGrey),
+                                      style: TextStyle(color: Palette.darkGrey),
                                       children: <TextSpan>[
                                         const TextSpan(
                                             text:
-                                            '단국대학교 총학생회 홈페이지는 회원님의 개인정보를 개인정보 처리방침에서 고지한 제 3자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를 초과하여 제3자에게 제공하지 않습니다.\n\n',
+                                                '단국대학교 총학생회 홈페이지는 회원님의 개인정보를 개인정보 처리방침에서 고지한 제 3자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를 초과하여 제3자에게 제공하지 않습니다.\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '제공받는 자\n',
@@ -338,11 +326,11 @@ class AuthenticationScreen extends GetView {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 홈페이지 내 학번, 이름, 학과, 재학여부\n\n',
+                                                '단국대학교 홈페이지 내 학번, 이름, 학과, 재학여부\n\n',
                                             style: tinyStyle),
                                         const TextSpan(
                                             text:
-                                            '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 회원가입에 제한을 받습니다.',
+                                                '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 회원가입에 제한을 받습니다.',
                                             style: tinyStyle),
                                       ],
                                     ),
@@ -364,24 +352,38 @@ class AuthenticationScreen extends GetView {
             child: Row(
               children: [
                 Expanded(
-                  child: LoginFormButton(
-                    onPressed: () {
-                      final registerController =
-                      Get.find<RegisterController>();
-                      registerController
-                          .authenticate("32193419", "*Lee865050*")
-                          .then((value) {
-                        if (value) {
-                          Get.find<RegisterPageController>().currentStep = 2;
-                        } else {
-                          Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
+                  child: Obx(
+                    () => LoginFormButton(
+                      isEnabled: registerPageController.studentId.isNotEmpty &&
+                          registerPageController.studentPassword.isNotEmpty &&
+                          registerPageController.check1 &&
+                          registerPageController.check2,
+                      onPressed: () {
+                        if(registerPageController.studentIdController.text.length != 8){
+                          Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Palette.darkGrey,
                               colorText: Palette.pureWhite);
+                          return;
                         }
-                      });
-                    },
-                    text: '인증하기',
+                        registerController
+                            .authenticate(
+                                registerPageController.studentIdController.text,
+                                registerPageController
+                                    .studentPasswordController.text)
+                            .then((value) {
+                          if (value) {
+                            Get.find<RegisterPageController>().currentStep = 2;
+                          } else {
+                            Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Palette.darkGrey,
+                                colorText: Palette.pureWhite);
+                          }
+                        });
+                      },
+                      text: '인증하기',
+                    ),
                   ),
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:danvery/app/controller/register_controller.dart';
 import 'package:danvery/app/controller/register_page_controller.dart';
 import 'package:danvery/app/ui/pages/login/authentication_screen.dart';
 import 'package:danvery/app/ui/pages/login/member_info_screen.dart';
+import 'package:danvery/app/ui/pages/login/register_success_screen.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/app/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class RegisterPage extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    List<String> stepTitle = ["학생인증","회원 정보 입력"];
+    List<String> stepTitle = ["학생인증","회원 정보 입력", "가입이 \n완료되었습니다"];
 
     return Scaffold(
         appBar: TransparentAppBar(
@@ -51,6 +52,7 @@ class RegisterPage extends GetView<RegisterController> {
                   children: const [
                     AuthenticationScreen(),
                     MemberInfoScreen(),
+                    RegisterSuccessScreen()
                   ],
                 ),
               ),

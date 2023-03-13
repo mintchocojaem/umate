@@ -1,12 +1,9 @@
 import 'package:danvery/app/controller/register_controller.dart';
-import 'package:danvery/app/controller/register_page_controller.dart';
-import 'package:danvery/app/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../theme/app_text_theme.dart';
-import '../../theme/palette.dart';
+import '../../../controller/register_page_controller.dart';
 import '../../widgets/login/login_form_button.dart';
 import '../../widgets/login/login_form_field.dart';
 
@@ -108,7 +105,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
               child: LoginFormButton(
                 text: "가입하기",
                 onPressed: () {
-                  Get.toNamed(Routes.login);
+                  Get.find<RegisterPageController>().currentStep = 3;
                 },
               ),
             ),

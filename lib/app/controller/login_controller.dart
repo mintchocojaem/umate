@@ -6,7 +6,7 @@ import '../data/model/login_model.dart';
 import '../data/repository/login_repository.dart';
 
 class LoginController extends GetxController{
-  // Path: lib/app/controller/login_controller.dart
+
   final LoginRepository loginRepository;
 
   LoginController({required this.loginRepository});
@@ -33,5 +33,8 @@ class LoginController extends GetxController{
     });
     return _isLogin.value;
   }
+
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
 }

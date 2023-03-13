@@ -30,17 +30,19 @@ class LoginPage extends GetView {
               child: Column(
                 children: [
                   Column(
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(bottom: 8),
                         child: LoginFormField(
+                          controller: Get.find<LoginController>().idController,
                           hint: '32XXXXXX',
                           title: "학번",
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8, bottom: 8),
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: LoginFormField(
+                          controller: Get.find<LoginController>().passwordController,
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
                         ),
@@ -103,7 +105,8 @@ class LoginPage extends GetView {
                           child: const Text(
                             "회원가입",
                             style: tinyStyle,
-                          ))
+                          )
+                      )
                     ],
                   ),
                 ],

@@ -2,7 +2,7 @@ import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 
-class LoginFormField extends StatefulWidget{
+class LoginFormField extends StatelessWidget {
 
   final String? title;
   final String? hint;
@@ -12,6 +12,8 @@ class LoginFormField extends StatefulWidget{
   final List<String>? dropdownData;
   final String? checkButtonText;
   final bool readOnly;
+  final TextEditingController? controller;
+  final bool isPassword;
 
   const LoginFormField({
     super.key,
@@ -23,20 +25,9 @@ class LoginFormField extends StatefulWidget{
     this.dropdownData,
     this.checkButtonText,
     this.readOnly = false,
+    this.controller,
+    this.isPassword = false,
   });
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _LoginFormField();
-  }
-
-}
-
-class _LoginFormField extends State<LoginFormField> {
-
-  final TextEditingController textController = TextEditingController();
-  final TextEditingController dropdownController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +36,24 @@ class _LoginFormField extends State<LoginFormField> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.title == null
+        title == null
             ? const SizedBox()
-            : Text(widget.title!, style: titleStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),),
+            : Text(title!, style: titleStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),),
         const SizedBox(height: 8,),
         SizedBox(
           height: 48,
-          child: TextField(
-            enabled: !widget.readOnly,
-            readOnly: widget.readOnly,
-            controller: textController,
+          child: TextFormField(
+            obscureText: isPassword,
+            enableSuggestions: false,
+            autocorrect: false,
+            enabled: !readOnly,
+            readOnly: readOnly,
+            controller: controller,
             decoration: InputDecoration(
               filled: true,
               fillColor: Palette.lightGrey,
               border: const OutlineInputBorder(),
-              hintText: widget.hint,
+              hintText: hint,
               hintStyle: regularStyle.copyWith(color: Palette.grey),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -78,7 +72,7 @@ class _LoginFormField extends State<LoginFormField> {
             ),
           ),
         ),
-        widget.validate ? Padding(
+        validate ? Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 8),
           child: Row(
             children: [
@@ -86,12 +80,12 @@ class _LoginFormField extends State<LoginFormField> {
                 child: SizedBox(
                   height: 48,
                   child: TextField(
-                    readOnly: widget.readOnly,
+                    readOnly: readOnly,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Palette.lightGrey,
                       border: const OutlineInputBorder(),
-                      hintText: widget.validateHint ?? widget.hint,
+                      hintText: validateHint ?? hint,
                       hintStyle: regularStyle.copyWith(color: Palette.grey),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -104,7 +98,7 @@ class _LoginFormField extends State<LoginFormField> {
                   ),
                 ),
               ),
-              widget.checkButton ?
+              checkButton ?
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: SizedBox(
@@ -120,7 +114,7 @@ class _LoginFormField extends State<LoginFormField> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(widget.checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: Palette.grey),),
+                        child: Text(checkButtonText ?? "중복확인", style: regularStyle.copyWith(color: Palette.grey),),
                       ),
                     )
                 ),
