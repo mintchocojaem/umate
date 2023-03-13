@@ -12,11 +12,13 @@ import 'package:danvery/app/ui/pages/board/board_page.dart';
 import 'package:danvery/app/ui/pages/home/home_page.dart';
 import 'package:danvery/app/ui/pages/login/authentication_page.dart';
 import 'package:danvery/app/ui/pages/mypage/mypage_page.dart';
+import 'package:danvery/app/ui/pages/splash/splash_screen.dart';
 import 'package:danvery/app/ui/pages/timetable/timetable_page.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../app/bindings/main_binding.dart';
+import '../app/bindings/splash_screen_binding.dart';
 import '../app/ui/pages/board/post/post_create_page.dart';
 import '../app/ui/pages/login/login_page.dart';
 import '../app/ui/pages/login/register_page.dart';
@@ -43,7 +45,9 @@ class AppPages {
         page: () => const LoginPage(),
         binding: LoginBinding()),
     GetPage(
-        name: Routes.authentication, page: () => const AuthenticationPage(), binding: AuthenticationPageBinding()),
+        name: Routes.authentication,
+        page: () => const AuthenticationPage(),
+        binding: AuthenticationPageBinding()),
     GetPage(
       name: Routes.generalBoard,
       page: () => const GeneralBoardPage(),
@@ -63,6 +67,10 @@ class AppPages {
     GetPage(name: Routes.home, page: () => const HomePage()),
     GetPage(name: Routes.timetable, page: () => const TimetablePage()),
     GetPage(name: Routes.board, page: () => const BoardPage()),
-    GetPage(name: Routes.myPage, page: () => const MyPagePage())
+    GetPage(name: Routes.myPage, page: () => const MyPagePage()),
+    GetPage(
+        name: Routes.splashScreen,
+        page: () => const SplashScreen(),
+        bindings: [SplashScreenBinding(), LoginBinding()]),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
+import 'package:danvery/app/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,8 +34,10 @@ class AuthenticationPage extends GetView {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 32,),
+                          const StepGuide(step: ["1", "2", "3"], currentStep: 0),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
                               "학생인증",
                               style: bigTitleStyle.copyWith(

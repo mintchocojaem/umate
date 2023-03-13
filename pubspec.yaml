@@ -107,6 +107,7 @@ flutter:
     - assets/icons/bus_list/
     - assets/icons/school_mark/
     - assets/icons/user/
+    - assets/icons/splash/
   fonts:
     - family: NotoSansKR
       fonts:
