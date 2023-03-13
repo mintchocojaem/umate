@@ -3,9 +3,10 @@ import 'package:danvery/app/data/model/post_model.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../controller/login_controller.dart';
-import '../../../widgets/app_bar/transparent_app_bar.dart';
-import '../../../widgets/login/login_form_button.dart';
+
+import '../../../controller/login_controller.dart';
+import '../../widgets/app_bar/transparent_app_bar.dart';
+import '../../widgets/login/login_form_button.dart';
 
 class PostCreatePage extends GetView {
   const PostCreatePage({super.key});

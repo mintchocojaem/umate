@@ -42,6 +42,7 @@ class HomePage extends GetView {
         title: "Danvery",
         titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
+        isWhite: true,
       ),
       body: Stack(
         children: [

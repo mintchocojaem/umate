@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../routes/app_routes.dart';
 
-class SplashScreenController extends GetxController with GetSingleTickerProviderStateMixin{
+class SplashScreenPageController extends GetxController with GetSingleTickerProviderStateMixin{
   late AnimationController animationController;
   late Animation<double> animation;
 
@@ -15,7 +15,7 @@ class SplashScreenController extends GetxController with GetSingleTickerProvider
 
   Future<void> animationInit() async{
     animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeOut)
             .obs

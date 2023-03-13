@@ -1,110 +1,61 @@
 import 'package:danvery/app/controller/register_controller.dart';
+import 'package:danvery/app/controller/register_page_controller.dart';
+import 'package:danvery/app/ui/pages/login/authentication_screen.dart';
+import 'package:danvery/app/ui/pages/login/member_info_screen.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/app/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../routes/app_routes.dart';
-import '../../widgets/login/login_form_button.dart';
-import '../../widgets/login/login_form_field.dart';
+import '../../theme/app_text_theme.dart';
+import '../../theme/palette.dart';
 
-class RegisterPage extends GetView<RegisterController>{
+class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    List<String> stepTitle = ["학생인증","회원 정보 입력"];
+
     return Scaffold(
-      appBar: TransparentAppBar(
-        title: '회원가입',
-        automaticallyImplyLeading: true,
-        onPressedLeading: () => Get.back(),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Column(
+        appBar: TransparentAppBar(
+          title: "회원가입",
+          automaticallyImplyLeading: true,
+          onPressedLeading: () => Get.back(),
+        ),
+        body: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 8),
-                            child: LoginFormField(
-                              hint: '32XXXXXX' "@dankook.ac.kr",
-                              title: "아이디",
-                              readOnly: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
-                              hint: "비밀번호를 입력하세요",
-                              title: "비밀번호",
-                              validateHint: "비밀번호를 재입력하세요",
-                              validate: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
-                              hint: "이름을 입력하세요",
-                              title: "이름",
-                              readOnly: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
-                              hint: "닉네임을 입력하세요",
-                              title: "닉네임",
-                              readOnly: false,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
-                              hint: "전공을 선택하세요",
-                              title: "전공",
-                              readOnly: true,
-                            ),
-                          ),
-                          //휴대폰 번호 인증 필요
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            child: LoginFormField(
-                                hint: "- 는 제외하고 입력하세요",
-                                validate: true,
-                                validateHint: "인증번호 6자리를 입력하세요",
-                                title: "휴대폰 번호",
-                                checkButton: true,
-                                checkButtonText: "인증요청"
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                child: StepGuide(
+                    stepLength: 3,
+                    currentStep: Get.find<RegisterPageController>().currentStep),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: LoginFormButton(text: "가입하기",
-                    onPressed : (){
-                      Get.toNamed(Routes.login);
-                    },
-                  ),
+                padding:
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Text(
+                  stepTitle[Get.find<RegisterPageController>().currentStep -1],
+                  style: bigTitleStyle.copyWith(
+                      color: Palette.blue,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              Expanded(
+                child: IndexedStack(
+                  index: Get.find<RegisterPageController>().currentStep -1,
+                  children: const [
+                    AuthenticationScreen(),
+                    MemberInfoScreen(),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
-
 }

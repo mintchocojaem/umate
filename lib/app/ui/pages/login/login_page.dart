@@ -1,7 +1,4 @@
-import 'package:danvery/app/bindings/splash_screen_binding.dart';
 import 'package:danvery/app/controller/login_controller.dart';
-import 'package:danvery/app/controller/splash_screen_controller.dart';
-import 'package:danvery/app/ui/pages/splash/splash_screen.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:danvery/app/ui/widgets/app_bar/transparent_app_bar.dart';
@@ -101,7 +98,7 @@ class LoginPage extends GetView {
                       ),
                       TextButton(
                           onPressed: () {
-                            Get.toNamed(Routes.authentication);
+                            Get.toNamed(Routes.register);
                           },
                           child: const Text(
                             "회원가입",

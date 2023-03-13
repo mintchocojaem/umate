@@ -10,6 +10,7 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
     this.actions,
     this.height = 60,
     this.automaticallyImplyLeading = false,
+    this.isWhite = false,
   });
 
   final String title;
@@ -18,16 +19,24 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   final List<Widget>? actions;
   final double height;
   final bool automaticallyImplyLeading;
+  final bool isWhite;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
       centerTitle: false,
-      title: Text(
-        title,
-        style: titleStyle.copyWith(color: titleColor),
-      ),
+      title: isWhite
+          ? Image.asset(
+              'assets/icons/danvery/danvery_white.png',
+              width: 54,
+              height: 54,
+            )
+          : Image.asset(
+              'assets/icons/danvery/danvery_blue.png',
+              width: 54,
+              height: 54,
+            ),
       backgroundColor: backGroundColor,
       actions: [
         Padding(

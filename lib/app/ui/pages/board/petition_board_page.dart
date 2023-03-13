@@ -1,4 +1,3 @@
-import 'package:danvery/app/ui/pages/board/post/petition_post_page.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

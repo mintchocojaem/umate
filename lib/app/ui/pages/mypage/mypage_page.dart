@@ -1,6 +1,5 @@
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
@@ -21,6 +20,7 @@ class MyPagePage extends GetView {
         title: "Danvery",
         titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
+        isWhite: true,
       ),
       body: Stack(
         children: [

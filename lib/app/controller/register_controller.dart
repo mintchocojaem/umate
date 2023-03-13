@@ -1,19 +1,31 @@
+import 'package:danvery/app/data/model/register_model.dart';
+import 'package:danvery/app/data/repository/register_repository.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController{
 
-  final RxString _id = "".obs;
-  final RxString _password = "".obs;
-  final RxString _passwordCheck = "".obs;
-  final RxString _name = "".obs;
-  final RxString _nickname = "".obs;
-  final RxString _major = "".obs;
-  final RxString _phoneNumber = "".obs;
-  final RxString _authCode = "".obs;
+  final RegisterRepository registerRepository;
 
-  final RxBool _isIdValid = false.obs;
-  final RxBool _isPasswordValid = false.obs;
-  final RxBool _isPasswordCheckValid = false.obs;
-  final RxBool _isNicknameValid = false.obs;
+  RegisterController({required this.registerRepository});
 
+  final Rx<RegisterModel> _registerModel = RegisterModel().obs;
+  final RxBool _isAuthenticated = false.obs;
+
+  RegisterModel get registerModel => _registerModel.value;
+
+  bool get isAuthenticated => _isAuthenticated.value;
+
+  Future<bool> authenticate(String id, String password) async{
+    await registerRepository.authenticate(id: id, password: password).then((value) {
+
+      if(value == null){
+        _isAuthenticated.value = false;
+      }else{
+        _registerModel.value = value;
+        _isAuthenticated.value = true;
+      }
+
+    });
+    return _isAuthenticated.value;
+  }
 }

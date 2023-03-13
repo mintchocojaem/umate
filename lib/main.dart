@@ -1,8 +1,3 @@
-import 'dart:io';
-
-import 'package:danvery/app/bindings/login_binding.dart';
-import 'package:danvery/app/ui/pages/login/login_page.dart';
-import 'package:danvery/app/ui/pages/splash/splash_screen.dart';
 import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -12,8 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'app/bindings/splash_screen_binding.dart';
-import 'app/controller/login_controller.dart';
+import 'app/bindings/splash_screen_page_binding.dart';
 import 'app/notification/setup_notification.dart';
 import 'firebase_options.dart';
 
@@ -38,7 +32,7 @@ void main() async{
       });
 
     },
-    initialBinding: SplashScreenBinding(),
+    initialBinding: SplashScreenPageBinding(),
     initialRoute: Routes.splashScreen,
     getPages: AppPages.pages,
     debugShowCheckedModeBanner: false,

@@ -12,6 +12,5 @@ abstract class Routes {
   static const String generalPost = '/general/post';
   static const String login = '/login';
   static const String register = '/register';
-  static const String authentication = '/authentication';
   static const String splashScreen = '/splashScreen';
 }
