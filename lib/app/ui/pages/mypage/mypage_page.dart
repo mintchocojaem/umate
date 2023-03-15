@@ -94,12 +94,9 @@ class MyPagePage extends GetView {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 200),
+                  padding: const EdgeInsets.only(top: 244),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Palette.pureWhite,
-                      borderRadius: const BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                    ),
+                    color: Palette.pureWhite,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 60.0, left: 16, right: 16),
                       child: Column(
@@ -176,7 +173,7 @@ class MyPagePage extends GetView {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 150.0, left: 16, right: 16),
+                  padding: const EdgeInsets.only(top: 190.0, left: 16, right: 16),
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
