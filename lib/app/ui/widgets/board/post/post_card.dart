@@ -35,16 +35,16 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      radius: 16,
+                      radius: 20,
                       backgroundImage: Image.asset(
-                          "assets/icons/user/default_user_icon.png")
+                          "assets/icons/user/profile_icon.png")
                           .image,
                       backgroundColor: Colors.transparent,
                     ),
                     const SizedBox(width: 8,),
-                    Text("닉네임", style: regularStyle,),
+                    Text("닉네임", style: regularStyle.copyWith(color: Palette.darkGrey, fontWeight: FontWeight.w500),),
                     const SizedBox(width: 8,),
-                    Text(publishDate, style: tinyStyle.copyWith(color: Palette.black),),
+                    Text(publishDate, style: tinyStyle.copyWith(color: Palette.grey),),
                   ],
                 ),
                 Padding(
@@ -53,18 +53,18 @@ class PostCard extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: regularStyle.copyWith(fontWeight: FontWeight.bold)
+                      style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.lightBlack)
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4, bottom: 8),
                   child: SizedBox(
-                    height: regularStyle.fontSize! * 2,
+                    height: 42,
                     child: Text(
                       subtitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: tinyStyle.copyWith(color: Palette.black),
+                      style: lightStyle.copyWith(color: Palette.darkGrey),
                     ),
                   ),
                 ),
@@ -75,17 +75,19 @@ class PostCard extends StatelessWidget {
                       spacing: 12,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.thumb_up_alt_outlined, color: Palette.grey, size: regularStyle.fontSize,),
+                            Image.asset("assets/icons/post/like_unselected.png",width: 12,height: 12,color: Palette.grey,),
                             const SizedBox(width: 4,),
-                            Text(likeCount.toString(), style: regularStyle.copyWith(color: Palette.grey),)
+                            Text(likeCount.toString(), style: lightStyle.copyWith(color: Palette.grey),)
                           ],
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.message_outlined , color: Palette.grey, size: regularStyle.fontSize),
+                            Image.asset("assets/icons/post/comment_unselected.png",width: 12,height: 12, color: Palette.grey,),
                             const SizedBox(width: 4,),
-                            Text(commentCount.toString(), style: regularStyle.copyWith(color: Palette.grey),)
+                            Text(commentCount.toString(), style: lightStyle.copyWith(color: Palette.grey),)
                           ],
                         ),
                       ],

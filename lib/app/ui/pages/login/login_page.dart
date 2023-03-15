@@ -34,7 +34,7 @@ class LoginPage extends GetView {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: LoginFormField(
-                          controller: Get.find<LoginController>().idController,
+                          textController: Get.find<LoginController>().idController,
                           hint: '32XXXXXX',
                           title: "학번",
                         ),
@@ -42,7 +42,7 @@ class LoginPage extends GetView {
                       Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: LoginFormField(
-                          controller: Get.find<LoginController>().passwordController,
+                          textController: Get.find<LoginController>().passwordController,
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
                         ),
@@ -100,6 +100,7 @@ class LoginPage extends GetView {
                       ),
                       TextButton(
                           onPressed: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             Get.toNamed(Routes.register);
                           },
                           child: const Text(

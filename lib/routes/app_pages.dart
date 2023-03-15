@@ -4,6 +4,7 @@ import 'package:danvery/app/bindings/bus_binding.dart';
 import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/bindings/post_binding.dart';
 import 'package:danvery/app/bindings/register_binding.dart';
+import 'package:danvery/app/bindings/sms_auth_binding.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -34,6 +35,7 @@ class AppPages {
     GetPage(name: Routes.register, page: () => const RegisterPage(), bindings: [
       RegisterPageBinding(),
       RegisterBinding(),
+      SMSAuthBinding(),
     ]),
     GetPage(
         name: Routes.login,

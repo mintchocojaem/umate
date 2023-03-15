@@ -3,6 +3,9 @@ class RegisterModel {
   late String studentName;
   late String studentId;
   late String major;
+  late String nickname;
+  late String password;
+  late String phone;
 
   RegisterModel({signupToken,studentName, studentId, major});
 

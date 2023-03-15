@@ -46,7 +46,7 @@ class MyPagePage extends GetView {
                                 CircleAvatar(
                                   radius: 36,
                                   backgroundImage: Image.asset(
-                                      "assets/icons/user/default_user_icon.png")
+                                      "assets/icons/user/profile_icon.png")
                                       .image,
                                   backgroundColor: Colors.transparent,
                                 ),

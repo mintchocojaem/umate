@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import '../../widgets/login/login_form_button.dart';
 import '../../widgets/login/login_form_field.dart';
 
-class AuthenticationScreen extends GetView {
-  const AuthenticationScreen({super.key});
+class StudentAuthScreen extends GetView {
+  const StudentAuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class AuthenticationScreen extends GetView {
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
-                        controller:
+                        textController:
                         registerPageController.studentIdController,
                         hint: '학번(ID)를 입력하세요',
                         title: "학번",
@@ -42,7 +42,7 @@ class AuthenticationScreen extends GetView {
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
-                        controller:
+                        textController:
                         registerPageController.studentPasswordController,
                         hint: "비밀번호를 입력하세요",
                         title: "비밀번호",
@@ -348,7 +348,7 @@ class AuthenticationScreen extends GetView {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
             child: Row(
               children: [
                 Expanded(
@@ -367,12 +367,13 @@ class AuthenticationScreen extends GetView {
                           return;
                         }
                         registerController
-                            .authenticate(
+                            .studentAuthenticate(
                                 registerPageController.studentIdController.text,
                                 registerPageController
                                     .studentPasswordController.text)
                             .then((value) {
                           if (value) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             Get.find<RegisterPageController>().currentStep = 2;
                           } else {
                             Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",

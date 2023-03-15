@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'app/bindings/splash_screen_page_binding.dart';
@@ -20,6 +21,11 @@ void main() async{
   await setupFlutterNotifications();
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
   // background 수신처리
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(GetMaterialApp(
     onReady: (){

@@ -9,23 +9,40 @@ class RegisterController extends GetxController{
   RegisterController({required this.registerRepository});
 
   final Rx<RegisterModel> _registerModel = RegisterModel().obs;
-  final RxBool _isAuthenticated = false.obs;
+  final RxBool _isStudentAuthenticated = false.obs;
+  final RxBool _isRegistered = false.obs;
 
   RegisterModel get registerModel => _registerModel.value;
 
-  bool get isAuthenticated => _isAuthenticated.value;
+  bool get isStudentAuthenticated => _isStudentAuthenticated.value;
+  bool get isRegistered => _isRegistered.value;
 
-  Future<bool> authenticate(String id, String password) async{
-    await registerRepository.authenticate(id: id, password: password).then((value) {
+  Future<bool> studentAuthenticate(String id, String password) async{
+    await registerRepository.studentAuthenticate(id, password).then((value) {
 
       if(value == null){
-        _isAuthenticated.value = false;
+        _isStudentAuthenticated.value = false;
       }else{
         _registerModel.value = value;
-        _isAuthenticated.value = true;
+        _isStudentAuthenticated.value = true;
       }
 
     });
-    return _isAuthenticated.value;
+    return _isStudentAuthenticated.value;
   }
+
+  Future<bool> register(RegisterModel registerModel) async{
+    await registerRepository.register(registerModel).then((value) {
+
+      if(value == null){
+        _isRegistered.value = false;
+      }else{
+        _registerModel.value = value;
+        _isRegistered.value = true;
+      }
+
+    });
+    return _isStudentAuthenticated.value;
+  }
+
 }
