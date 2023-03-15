@@ -40,7 +40,8 @@ class AppPages {
     GetPage(
         name: Routes.login,
         page: () => const LoginPage(),
-        binding: LoginBinding()),
+        binding: LoginBinding()
+    ),
     GetPage(
       name: Routes.generalBoard,
       page: () => const GeneralBoardPage(),
