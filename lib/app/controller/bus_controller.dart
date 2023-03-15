@@ -15,7 +15,7 @@ class BusController extends GetxController {
 
   bool get isLoadBusList => _isLoadBustList.value;
 
-  void getBustList(){
+  void getBustList() {
     busRepository.getBusListFromStation("단국대정문").then((value) {
       if (value != null) {
         busListOfJungMoon.value = value;
