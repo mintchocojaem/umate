@@ -9,7 +9,9 @@ class SplashScreenPageController extends GetxController with GetSingleTickerProv
 
   @override
   onInit() async{
-    await animationInit().whenComplete(() => Get.offAndToNamed(Routes.login));
+    await animationInit().whenComplete(() {
+      Get.offAndToNamed(Routes.login);
+    });
     super.onInit();
   }
 

@@ -59,7 +59,8 @@ class HomePage extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16, left: 16,right: 16,bottom: 8),
+                      padding: const EdgeInsets.only(
+                          top: 16, left: 16, right: 16, bottom: 8),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +98,8 @@ class HomePage extends GetView {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16,top: 8,bottom: 8),
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 8, bottom: 8),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,37 +159,11 @@ class HomePage extends GetView {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16),
+                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16,),
                           child: Column(
                             children: [
-                              Obx(() {
-
-                                final BusModel busNo24JungMoon =
-                                    busController.findJungMoonBusByNo("24");
-                                final BusModel busNo24GomSang =
-                                    busController.findGomSangBusByNo("24");
-
-                                final BusModel busNo8100JungMoon =
-                                    busController.findJungMoonBusByNo("8100");
-
-                                final BusModel busNo720_3GomSang =
-                                    busController.findGomSangBusByNo("720-3");
-                                final BusModel busNo720_3JungMoon =
-                                    busController.findJungMoonBusByNo("720-3");
-
-                                final BusModel busNo1101JungMoon =
-                                    busController.findJungMoonBusByNo("1101");
-
-                                final BusModel busNoShuttleBusJungMoon =
-                                    busController
-                                        .findJungMoonBusByNo("shuttle-bus");
-                                final BusModel busNoShuttleBusGomSang =
-                                    busController.findGomSangBusByNo("shuttle-bus");
-
-                                final BusModel busNo102JungMoon =
-                                    busController.findJungMoonBusByNo("102");
-
-                                return BoardList(
+                              Obx(
+                                () => BoardList(
                                   cards: busController.isLoadBusList
                                       ? [
                                           Row(
@@ -197,29 +173,35 @@ class HomePage extends GetView {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               BusCard(
-                                                busNo: busNo24JungMoon.busNo,
+                                                busNo: "24",
                                                 busColor: Palette.lightGreen,
                                                 station1: "곰상 출발",
-                                                predictTime1: busNo24GomSang
+                                                predictTime1: busController
+                                                            .findGomSangBusByNo(
+                                                                "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo24GomSang.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busNo24JungMoon
+                                                predictTime2: busController
+                                                            .findJungMoonBusByNo(
+                                                                "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo24JungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
-                                                busNo: busNo8100JungMoon.busNo,
+                                                busNo: "8100",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busNo8100JungMoon
+                                                predictTime1: busController
+                                                            .findJungMoonBusByNo(
+                                                                "8100")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo8100JungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],
@@ -231,29 +213,35 @@ class HomePage extends GetView {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               BusCard(
-                                                busNo: busNo720_3GomSang.busNo,
+                                                busNo: "720-3",
                                                 busColor: Palette.lightGreen,
                                                 station1: "곰상 출발",
-                                                predictTime1: busNo720_3GomSang
+                                                predictTime1: busController
+                                                            .findGomSangBusByNo(
+                                                                "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo720_3GomSang.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busNo720_3JungMoon
+                                                predictTime2: busController
+                                                            .findJungMoonBusByNo(
+                                                                "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo720_3JungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
-                                                busNo: busNo1101JungMoon.busNo,
+                                                busNo: "1101",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busNo1101JungMoon
+                                                predictTime1: busController
+                                                            .findJungMoonBusByNo(
+                                                                "1101")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo1101JungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],
@@ -268,26 +256,32 @@ class HomePage extends GetView {
                                                 busNo: "셔틀",
                                                 busColor: Palette.lightBlue,
                                                 station1: "곰상 출발",
-                                                predictTime1: busNoShuttleBusGomSang
+                                                predictTime1: busController
+                                                            .findGomSangBusByNo(
+                                                                "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNoShuttleBusGomSang.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busNoShuttleBusJungMoon
+                                                predictTime2: busController
+                                                            .findJungMoonBusByNo(
+                                                                "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNoShuttleBusJungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
-                                                busNo: busNo102JungMoon.busNo,
+                                                busNo: "102",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busNo102JungMoon
+                                                predictTime1: busController
+                                                            .findJungMoonBusByNo(
+                                                                "102")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busNo102JungMoon.predictTime1! ~/ 60}분 후"
+                                                    ? "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],
@@ -297,20 +291,22 @@ class HomePage extends GetView {
                                           const SizedBox(
                                             height: 200,
                                             child: Center(
-                                              child: CircularProgressIndicator(),
+                                              child:
+                                                  CircularProgressIndicator(),
                                             ),
                                           ),
                                         ],
                                   title: "버스 정보",
                                   showAction: false,
                                   actionTitle: "",
-                                );
-                              }),
+                                ),
+                              ),
                               Column(
                                 children: [
                                   //Banner
                                   const Padding(
-                                    padding: EdgeInsets.only(bottom: 8, top: 16),
+                                    padding:
+                                        EdgeInsets.only(bottom: 8, top: 16),
                                     child: BannerCard(
                                       title: '장애인 인권의 날 새로운 포토존 등장!',
                                       content: '지금 대면행사 보러가기',
@@ -319,59 +315,66 @@ class HomePage extends GetView {
                                   //get suggestion board with Obx
                                   Obx(() => boardController.isLoadGeneralBoard
                                       ? Padding(
-                                    padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                    child: BoardList(
-                                      cards: getBoardList(
-                                          boardController.generalBoard),
-                                      title: "자유 게시판",
-                                      actionTitle: "더보기",
-                                      onTapAction: () {
-                                        final BoardPageController
-                                        boardPageController =
-                                        Get.find<BoardPageController>();
-                                        final MainController mainController =
-                                        Get.find<MainController>();
-                                        mainController.selectedIndex = 2;
-                                        boardPageController.selectedTap = 0;
-                                      },
-                                    ),
-                                  )
+                                          padding: const EdgeInsets.only(
+                                              top: 8, bottom: 8),
+                                          child: BoardList(
+                                            cards: getBoardList(
+                                                boardController.generalBoard),
+                                            title: "자유 게시판",
+                                            actionTitle: "더보기",
+                                            onTapAction: () {
+                                              final BoardPageController
+                                                  boardPageController =
+                                                  Get.find<
+                                                      BoardPageController>();
+                                              final MainController
+                                                  mainController =
+                                                  Get.find<MainController>();
+                                              mainController.selectedIndex = 2;
+                                              boardPageController.selectedTap =
+                                                  0;
+                                            },
+                                          ),
+                                        )
                                       : const SizedBox(
-                                      height: 200,
-                                      child: Center(
-                                          child: CircularProgressIndicator()))),
+                                          height: 200,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()))),
                                   //get petition board with Obx
                                   Obx(() => boardController.isLoadPetitionBoard
                                       ? Padding(
-                                    padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                    child: BoardList(
-                                      cards: getBoardList(
-                                          boardController.petitionBoard),
-                                      title: "청원게시판",
-                                      actionTitle: "더보기",
-                                      onTapAction: () {
-                                        final BoardPageController
-                                        boardPageController =
-                                        Get.find<BoardPageController>();
-                                        final MainController mainController =
-                                        Get.find<MainController>();
-                                        mainController.selectedIndex = 2;
-                                        boardPageController.selectedTap = 1;
-                                      },
-                                    ),
-                                  )
+                                          padding: const EdgeInsets.only(
+                                              top: 8, bottom: 8),
+                                          child: BoardList(
+                                            cards: getBoardList(
+                                                boardController.petitionBoard),
+                                            title: "청원게시판",
+                                            actionTitle: "더보기",
+                                            onTapAction: () {
+                                              final BoardPageController
+                                                  boardPageController =
+                                                  Get.find<
+                                                      BoardPageController>();
+                                              final MainController
+                                                  mainController =
+                                                  Get.find<MainController>();
+                                              mainController.selectedIndex = 2;
+                                              boardPageController.selectedTap =
+                                                  1;
+                                            },
+                                          ),
+                                        )
                                       : const SizedBox(
-                                      height: 200,
-                                      child: Center(
-                                          child: CircularProgressIndicator()))),
+                                          height: 200,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()))),
                                 ],
                               )
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ],
