@@ -27,7 +27,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
 
   //대시(-)를 포함하거나 포함하지 않는 11자리 010 휴대폰 번호
   bool isValidPhoneNumberFormat(String phoneNumber) {
-    return RegExp(r'^^010-?\d{4}-?\d{4}$').hasMatch(phoneNumber);
+    return RegExp(r'^010-?\d{4}-?\d{4}$').hasMatch(phoneNumber);
   }
 
   @override

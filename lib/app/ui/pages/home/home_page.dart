@@ -169,48 +169,70 @@ class HomePage extends GetView {
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(top: 8, bottom: 8),
-                              child: Obx(() => busController.isLoadBusList
-                                  ? BoardList(
-                                      cards: [
+                            padding: const EdgeInsets.only(top: 8, bottom: 8),
+                            child: Obx(
+                              () => BoardList(
+                                cards: busController.isLoadBusList
+                                    ? [
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_24.png"),
-                                            trailingText: busController.findJungMoonBusByNo("24").predictTime1 != null
+                                            trailingText: busController
+                                                        .findJungMoonBusByNo(
+                                                            "24")
+                                                        .predictTime1 !=
+                                                    null
                                                 ? "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_102.png"),
-                                            trailingText: busController.findJungMoonBusByNo("102").predictTime1 != null
+                                            trailingText: busController
+                                                        .findJungMoonBusByNo(
+                                                            "102")
+                                                        .predictTime1 !=
+                                                    null
                                                 ? "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_720_3.png"),
-                                            trailingText: busController.findJungMoonBusByNo("720-3").predictTime1 != null
+                                            trailingText: busController
+                                                        .findJungMoonBusByNo(
+                                                            "720-3")
+                                                        .predictTime1 !=
+                                                    null
                                                 ? "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
                                         BoardCard(
                                             leadingImage: Image.asset(
                                                 "assets/icons/bus_list/bus_school.png"),
-                                            trailingText: busController.findJungMoonBusByNo("shuttle-bus").predictTime1 != null
+                                            trailingText: busController
+                                                        .findJungMoonBusByNo(
+                                                            "shuttle-bus")
+                                                        .predictTime1 !=
+                                                    null
                                                 ? "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후 출발 예정"
                                                 : "도착정보 없음",
                                             title: "단국대학교 정문 승차"),
+                                      ]
+                                    : [
+                                        const SizedBox(
+                                          height: 200,
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        ),
                                       ],
-                                      title: "버스 정보",
-                                      showAction: false,
-                                      actionTitle: "",
-                                    )
-                                  : const SizedBox(
-                                      height: 200,
-                                      child: Center(
-                                          child:
-                                              CircularProgressIndicator())))),
+                                title: "버스 정보",
+                                showAction: false,
+                                actionTitle: "",
+                              ),
+                            ),
+                          ),
                           //get suggestion board with Obx
                           Obx(() => boardController.isLoadGeneralBoard
                               ? Padding(
