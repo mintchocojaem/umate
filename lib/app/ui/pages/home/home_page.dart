@@ -37,6 +37,8 @@ class HomePage extends GetView {
 
     final BusController busController = Get.find<BusController>();
 
+    busController.refreshBusList();
+
     // TODO: implement build
     return Scaffold(
       appBar: MainAppBar(
@@ -149,7 +151,7 @@ class HomePage extends GetView {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 200),
+                  padding: const EdgeInsets.only(top: 200 + 32),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Palette.pureWhite,
@@ -162,159 +164,157 @@ class HomePage extends GetView {
                           left: 16, right: 16, top: 16, bottom: 16),
                       child: Column(
                         children: [
+                          Obx(() {
+
+                            final BusModel busNo24JungMoon =
+                                busController.findJungMoonBusByNo("24");
+                            final BusModel busNo24GomSang =
+                                busController.findGomSangBusByNo("24");
+
+                            final BusModel busNo8100JungMoon =
+                                busController.findJungMoonBusByNo("8100");
+
+                            final BusModel busNo720_3GomSang =
+                                busController.findGomSangBusByNo("720-3");
+                            final BusModel busNo720_3JungMoon =
+                                busController.findJungMoonBusByNo("720-3");
+
+                            final BusModel busNo1101JungMoon =
+                                busController.findJungMoonBusByNo("1101");
+
+                            final BusModel busNoShuttleBusJungMoon =
+                                busController.findJungMoonBusByNo("shuttle-bus");
+                            final BusModel busNoShuttleBusGomSang =
+                                busController.findGomSangBusByNo("shuttle-bus");
+
+                            final BusModel busNo102JungMoon =
+                                busController.findJungMoonBusByNo("102");
+
+                            return BoardList(
+                              cards: busController.isLoadBusList
+                                  ? [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          BusCard(
+                                            busNo: busNo24JungMoon.busNo,
+                                            busColor: Palette.lightGreen,
+                                            station1: "곰상 출발",
+                                            predictTime1: busNo24GomSang
+                                                        .predictTime1 !=
+                                                    null
+                                                ? "${busNo24GomSang.predictTime1! ~/ 60}분 후"
+                                                : "도착정보 없음",
+                                            station2: "정문 출발",
+                                            predictTime2: busNo24JungMoon
+                                                        .predictTime1 !=
+                                                    null
+                                                ? "${busNo24JungMoon.predictTime1! ~/ 60}분 후"
+                                                : "도착정보 없음",
+                                          ),
+                                          BusCard(
+                                            busNo: busNo8100JungMoon.busNo,
+                                            busColor: Palette.lightRed,
+                                            station1: "정문 출발",
+                                            predictTime1: busNo8100JungMoon
+                                                        .predictTime1 !=
+                                                    null
+                                                ? "${busNo8100JungMoon.predictTime1! ~/ 60}분 후"
+                                                : "도착정보 없음",
+                                          ),
+                                        ],
+                                      ),
+                                Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BusCard(
+                                      busNo: busNo720_3GomSang.busNo,
+                                      busColor: Palette.lightGreen,
+                                      station1: "곰상 출발",
+                                      predictTime1: busNo720_3GomSang
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNo720_3GomSang.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                      station2: "정문 출발",
+                                      predictTime2: busNo720_3JungMoon
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNo720_3JungMoon.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                    ),
+                                    BusCard(
+                                      busNo: busNo1101JungMoon.busNo,
+                                      busColor: Palette.lightRed,
+                                      station1: "정문 출발",
+                                      predictTime1: busNo1101JungMoon
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNo1101JungMoon.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BusCard(
+                                      busNo: "셔틀",
+                                      busColor: Palette.lightBlue,
+                                      station1: "곰상 출발",
+                                      predictTime1: busNoShuttleBusGomSang
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNoShuttleBusGomSang.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                      station2: "정문 출발",
+                                      predictTime2: busNoShuttleBusJungMoon
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNoShuttleBusJungMoon.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                    ),
+                                    BusCard(
+                                      busNo: busNo102JungMoon.busNo,
+                                      busColor: Palette.lightRed,
+                                      station1: "정문 출발",
+                                      predictTime1: busNo102JungMoon
+                                          .predictTime1 !=
+                                          null
+                                          ? "${busNo102JungMoon.predictTime1! ~/ 60}분 후"
+                                          : "도착정보 없음",
+                                    ),
+                                  ],
+                                ),
+
+                                    ]
+                                  : [
+                                      const SizedBox(
+                                        height: 200,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
+                                    ],
+                              title: "버스 정보",
+                              showAction: false,
+                              actionTitle: "",
+                            );
+                          }),
+                          //Banner
                           const Padding(
-                            padding: EdgeInsets.only(bottom: 8),
+                            padding: EdgeInsets.only(bottom: 8, top: 8),
                             child: BannerCard(
                               title: '장애인 인권의 날 새로운 포토존 등장!',
                               content: '지금 대면행사 보러가기',
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
-                            child: Obx(() {
-
-                              final BusModel busNo24JungMoon =
-                                  busController.findJungMoonBusByNo("24");
-                              final BusModel busNo24GomSang =
-                                  busController.findGomSangBusByNo("24");
-
-                              final BusModel busNo8100JungMoon =
-                                  busController.findJungMoonBusByNo("8100");
-
-                              final BusModel busNo720_3GomSang =
-                                  busController.findGomSangBusByNo("720-3");
-                              final BusModel busNo720_3JungMoon =
-                                  busController.findJungMoonBusByNo("720-3");
-
-                              final BusModel busNo1101JungMoon =
-                                  busController.findJungMoonBusByNo("1101");
-
-                              final BusModel busNoShuttleBusJungMoon =
-                                  busController.findJungMoonBusByNo("shuttle-bus");
-                              final BusModel busNoShuttleBusGomSang =
-                                  busController.findGomSangBusByNo("shuttle-bus");
-
-                              final BusModel busNo102JungMoon =
-                                  busController.findJungMoonBusByNo("102");
-
-                              return BoardList(
-                                cards: busController.isLoadBusList
-                                    ? [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            BusCard(
-                                              busNo: busNo24JungMoon.busNo,
-                                              busColor: Palette.lightGreen,
-                                              station1: "곰상 출발",
-                                              predictTime1: busNo24GomSang
-                                                          .predictTime1 !=
-                                                      null
-                                                  ? "${busNo24GomSang.predictTime1! ~/ 60}분 후"
-                                                  : "도착정보 없음",
-                                              station2: "정문 출발",
-                                              predictTime2: busNo24JungMoon
-                                                          .predictTime1 !=
-                                                      null
-                                                  ? "${busNo24JungMoon.predictTime1! ~/ 60}분 후"
-                                                  : "도착정보 없음",
-                                            ),
-                                            BusCard(
-                                              busNo: busNo8100JungMoon.busNo,
-                                              busColor: Palette.lightRed,
-                                              station1: "정문 출발",
-                                              predictTime1: busNo8100JungMoon
-                                                          .predictTime1 !=
-                                                      null
-                                                  ? "${busNo8100JungMoon.predictTime1! ~/ 60}분 후"
-                                                  : "도착정보 없음",
-                                            ),
-                                          ],
-                                        ),
-                                  Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      BusCard(
-                                        busNo: busNo720_3GomSang.busNo,
-                                        busColor: Palette.lightGreen,
-                                        station1: "곰상 출발",
-                                        predictTime1: busNo720_3GomSang
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNo720_3GomSang.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                        station2: "정문 출발",
-                                        predictTime2: busNo720_3JungMoon
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNo720_3JungMoon.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                      ),
-                                      BusCard(
-                                        busNo: busNo1101JungMoon.busNo,
-                                        busColor: Palette.lightRed,
-                                        station1: "정문 출발",
-                                        predictTime1: busNo1101JungMoon
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNo1101JungMoon.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      BusCard(
-                                        busNo: "셔틀",
-                                        busColor: Palette.lightBlue,
-                                        station1: "곰상 출발",
-                                        predictTime1: busNoShuttleBusGomSang
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNoShuttleBusGomSang.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                        station2: "정문 출발",
-                                        predictTime2: busNoShuttleBusJungMoon
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNoShuttleBusJungMoon.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                      ),
-                                      BusCard(
-                                        busNo: busNo102JungMoon.busNo,
-                                        busColor: Palette.lightRed,
-                                        station1: "정문 출발",
-                                        predictTime1: busNo102JungMoon
-                                            .predictTime1 !=
-                                            null
-                                            ? "${busNo102JungMoon.predictTime1! ~/ 60}분 후"
-                                            : "도착정보 없음",
-                                      ),
-                                    ],
-                                  ),
-
-                                      ]
-                                    : [
-                                        const SizedBox(
-                                          height: 200,
-                                          child: Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        ),
-                                      ],
-                                title: "버스 정보",
-                                showAction: false,
-                                actionTitle: "",
-                              );
-                            }),
                           ),
                           //get suggestion board with Obx
                           Obx(() => boardController.isLoadGeneralBoard

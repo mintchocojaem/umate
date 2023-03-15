@@ -40,8 +40,7 @@ class AppPages {
     GetPage(
         name: Routes.login,
         page: () => const LoginPage(),
-        binding: LoginBinding()
-    ),
+        binding: LoginBinding()),
     GetPage(
       name: Routes.generalBoard,
       page: () => const GeneralBoardPage(),
@@ -61,6 +60,6 @@ class AppPages {
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),
-        bindings: [SplashScreenPageBinding(), LoginBinding()]),
+        bindings: [SplashScreenPageBinding()]),
   ];
 }
