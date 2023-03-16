@@ -1,3 +1,5 @@
+import 'package:danvery/app/bindings/board_page_binding.dart';
+import 'package:danvery/app/controller/board_page_controller.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +13,9 @@ class PetitionBoardPage extends GetView {
 
   @override
   Widget build(BuildContext context) {
+
     final BoardController boardController = Get.find<BoardController>();
+    final BoardPageController boardPageController = Get.find<BoardPageController>();
 
     return SingleChildScrollView(
       child: Obx(
@@ -21,13 +25,17 @@ class PetitionBoardPage extends GetView {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-                    child: CategoryButtonBar(
+                    child: Obx(()=>CategoryButtonBar(
+                      selectedIndex: boardPageController.selectedCategory,
                       categories: const ["청원중", "답변대기중", "답변완료", "기간만료"],
                       selectedBackGroundColor: Palette.blue,
                       unSelectedBackGroundColor: Palette.white,
                       selectedTextColor: Palette.pureWhite,
                       unSelectedTextColor: Palette.grey,
-                    ),
+                      onTap: (value) {
+                        boardPageController.selectedCategory = value;
+                      },
+                    ),)
                   ),
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),

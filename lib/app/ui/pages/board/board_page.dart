@@ -42,7 +42,8 @@ class BoardPage extends GetView {
             ),
             const Expanded(
               child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+                //physics: NeverScrollableScrollPhysics(),
+                // to disable TabBar scrolling
                  children: [
                    GeneralBoardPage(),
                    PetitionBoardPage()
