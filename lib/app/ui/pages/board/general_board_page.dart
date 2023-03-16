@@ -21,7 +21,7 @@ class GeneralBoardPage extends GetView {
                 ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(top: 8, bottom: 8),
                     itemCount: boardController.generalBoard.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(

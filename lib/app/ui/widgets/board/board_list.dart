@@ -31,9 +31,9 @@ class BoardList extends StatelessWidget {
               ? const BoxShadow()
               : BoxShadow(
                   color: Palette.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3), // changes position of shadow
+                  spreadRadius: 2,
+                  blurRadius: 2,
+                  offset: const Offset(0, 2), // changes position of shadow
                 ),
         ],
       ),

@@ -35,7 +35,7 @@ class LoginPage extends GetView {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: LoginFormField(
                           textController: Get.find<LoginController>().idController,
-                          hint: '32XXXXXX',
+                          hint: '학번(ID)을 입력하세요',
                           title: "학번",
                         ),
                       ),
@@ -45,6 +45,7 @@ class LoginPage extends GetView {
                           textController: Get.find<LoginController>().passwordController,
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
+                          isPassword: true,
                         ),
                       ),
                     ],

@@ -159,7 +159,11 @@ class HomePage extends GetView {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16,),
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            bottom: 16,
+                          ),
                           child: Column(
                             children: [
                               Obx(
@@ -181,7 +185,14 @@ class HomePage extends GetView {
                                                                 "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findGomSangBusByNo(
+                                                                        "24")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
                                                 predictTime2: busController
@@ -189,7 +200,14 @@ class HomePage extends GetView {
                                                                 "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "24")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
@@ -201,7 +219,14 @@ class HomePage extends GetView {
                                                                 "8100")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "8100")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],
@@ -221,7 +246,14 @@ class HomePage extends GetView {
                                                                 "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findGomSangBusByNo(
+                                                                        "720-3")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
                                                 predictTime2: busController
@@ -229,7 +261,14 @@ class HomePage extends GetView {
                                                                 "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "720-3")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
@@ -241,7 +280,14 @@ class HomePage extends GetView {
                                                                 "1101")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "1101")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],
@@ -261,7 +307,14 @@ class HomePage extends GetView {
                                                                 "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findGomSangBusByNo(
+                                                                        "shuttle-bus")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                                 station2: "정문 출발",
                                                 predictTime2: busController
@@ -269,7 +322,14 @@ class HomePage extends GetView {
                                                                 "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "shuttle-bus")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                               BusCard(
@@ -281,7 +341,14 @@ class HomePage extends GetView {
                                                                 "102")
                                                             .predictTime1 !=
                                                         null
-                                                    ? "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
+                                                    ? busController
+                                                                    .findJungMoonBusByNo(
+                                                                        "102")
+                                                                    .predictTime1! ~/
+                                                                60 ==
+                                                            0
+                                                        ? "곧 도착"
+                                                        : "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
                                                     : "도착정보 없음",
                                               ),
                                             ],

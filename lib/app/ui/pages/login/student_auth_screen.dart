@@ -35,7 +35,7 @@ class StudentAuthScreen extends GetView {
                       child: LoginFormField(
                         textController:
                         registerPageController.studentIdController,
-                        hint: '학번(ID)를 입력하세요',
+                        hint: '학번(ID)을 입력하세요',
                         title: "학번",
                       ),
                     ),
