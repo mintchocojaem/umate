@@ -5,7 +5,7 @@ class PostModel{
   //late String createdAt;
   //late files -> image
   late int views;
-  //late int comments;
+  late int? comments;
 
   PostModel({
     id,
@@ -22,7 +22,7 @@ class PostModel{
     body = json["body"] as String;
     //createdAt = json["createdAt"] as String;
     views = json["views"] as int;
-    //comments = json["comments"] as int;
+    comments = json["comments"] as int? ?? 0;
   }
 
 }
