@@ -1,4 +1,4 @@
-import 'package:danvery/app/controller/splash_screen_page_controller.dart';
+import 'package:danvery/app/controller/page/splash_screen_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

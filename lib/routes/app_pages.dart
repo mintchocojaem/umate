@@ -1,5 +1,5 @@
 import 'package:danvery/app/bindings/board_binding.dart';
-import 'package:danvery/app/bindings/board_page_binding.dart';
+import 'package:danvery/app/bindings/page/board_page_binding.dart';
 import 'package:danvery/app/bindings/bus_binding.dart';
 import 'package:danvery/app/bindings/login_binding.dart';
 import 'package:danvery/app/bindings/post_binding.dart';
@@ -10,14 +10,15 @@ import 'package:danvery/app/ui/pages/board/search_baord_page.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
-import '../app/bindings/main_binding.dart';
-import '../app/bindings/register_page_binding.dart';
-import '../app/bindings/splash_screen_page_binding.dart';
+import '../app/bindings/page/main_page_binding.dart';
+import '../app/bindings/page/post_page_binding.dart';
+import '../app/bindings/page/register_page_binding.dart';
+import '../app/bindings/page/splash_screen_page_binding.dart';
 import '../app/ui/pages/login/login_page.dart';
 import '../app/ui/pages/login/register_page.dart';
 import '../app/ui/pages/main/main_page.dart';
-import '../app/ui/pages/post/general_post_page.dart';
 import '../app/ui/pages/post/post_create_page.dart';
+import '../app/ui/pages/post/post_page.dart';
 import '../app/ui/pages/splash/splash_screen_page.dart';
 
 class AppPages {
@@ -26,7 +27,7 @@ class AppPages {
       name: Routes.main,
       page: () => const MainPage(),
       bindings: [
-        MainBinding(),
+        MainPageBinding(),
         BoardBinding(),
         BoardPageBinding(),
         BusBinding(),
@@ -55,9 +56,10 @@ class AppPages {
           PostBinding(),
         ]),
     GetPage(
-        name: Routes.generalPost,
-        page: () => const GeneralPostPage(),
-        binding: PostBinding()),
+        name: Routes.post,
+        page: () => const PostPage(),
+        bindings: [PostBinding(), PostPageBinding()],
+    ),
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),

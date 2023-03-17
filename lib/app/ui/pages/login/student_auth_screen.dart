@@ -1,5 +1,5 @@
 import 'package:danvery/app/controller/register_controller.dart';
-import 'package:danvery/app/controller/register_page_controller.dart';
+import 'package:danvery/app/controller/page/register_page_controller.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';

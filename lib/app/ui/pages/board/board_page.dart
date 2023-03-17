@@ -1,5 +1,4 @@
-import 'package:danvery/app/controller/board_page_controller.dart';
-import 'package:danvery/app/controller/main_controller.dart';
+import 'package:danvery/app/controller/page/board_page_controller.dart';
 import 'package:danvery/app/ui/pages/board/general_board_page.dart';
 import 'package:danvery/app/ui/pages/board/petition_board_page.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';

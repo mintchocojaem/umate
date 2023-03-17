@@ -1,5 +1,5 @@
-import 'package:danvery/app/bindings/board_page_binding.dart';
-import 'package:danvery/app/controller/board_page_controller.dart';
+import 'package:danvery/app/bindings/page/board_page_binding.dart';
+import 'package:danvery/app/controller/page/board_page_controller.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

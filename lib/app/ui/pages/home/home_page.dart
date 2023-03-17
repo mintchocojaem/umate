@@ -1,8 +1,8 @@
 import 'package:danvery/app/controller/board_controller.dart';
-import 'package:danvery/app/controller/board_page_controller.dart';
+import 'package:danvery/app/controller/page/board_page_controller.dart';
 import 'package:danvery/app/controller/bus_controller.dart';
 import 'package:danvery/app/controller/login_controller.dart';
-import 'package:danvery/app/controller/main_controller.dart';
+import 'package:danvery/app/controller/page/main_page_controller.dart';
 import 'package:danvery/app/data/model/login_model.dart';
 import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
@@ -13,8 +13,6 @@ import 'package:danvery/app/ui/widgets/main/banner_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../../../../routes/app_routes.dart';
-import '../../../data/model/bus_model.dart';
 import '../../widgets/board/board_list.dart';
 import '../../widgets/main/main_button.dart';
 
@@ -394,9 +392,9 @@ class HomePage extends GetView {
                                                   boardPageController =
                                                   Get.find<
                                                       BoardPageController>();
-                                              final MainController
+                                              final MainPageController
                                                   mainController =
-                                                  Get.find<MainController>();
+                                                  Get.find<MainPageController>();
                                               mainController.selectedIndex = 2;
                                               boardPageController.selectedTap =
                                                   0;
@@ -423,9 +421,9 @@ class HomePage extends GetView {
                                                   boardPageController =
                                                   Get.find<
                                                       BoardPageController>();
-                                              final MainController
+                                              final MainPageController
                                                   mainController =
-                                                  Get.find<MainController>();
+                                                  Get.find<MainPageController>();
                                               mainController.selectedIndex = 2;
                                               boardPageController.selectedTap =
                                                   1;

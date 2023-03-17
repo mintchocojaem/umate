@@ -1,7 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 
-import '../../routes/app_routes.dart';
+import '../../../routes/app_routes.dart';
 
 class SplashScreenPageController extends GetxController with GetSingleTickerProviderStateMixin{
   late AnimationController animationController;

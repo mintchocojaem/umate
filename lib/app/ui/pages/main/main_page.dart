@@ -1,3 +1,4 @@
+import 'package:danvery/app/controller/page/main_page_controller.dart';
 import 'package:danvery/app/ui/pages/board/board_page.dart';
 import 'package:danvery/app/ui/pages/mypage/mypage_page.dart';
 import 'package:danvery/app/ui/pages/home/home_page.dart';
@@ -6,14 +7,13 @@ import 'package:danvery/app/ui/theme/app_text_theme.dart';
 import 'package:danvery/app/ui/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controller/main_controller.dart';
 
 class MainPage extends GetView {
   const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MainController mainController = Get.find<MainController>();
+    final MainPageController mainController = Get.find<MainPageController>();
 
     List<Widget> pages = const[
       HomePage(),

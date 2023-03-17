@@ -4,7 +4,7 @@ import 'package:danvery/app/data/model/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/register_page_controller.dart';
+import '../../../controller/page/register_page_controller.dart';
 import '../../theme/palette.dart';
 import '../../widgets/login/login_form_button.dart';
 import '../../widgets/login/login_form_field.dart';

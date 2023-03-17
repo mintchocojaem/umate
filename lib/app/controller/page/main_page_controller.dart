@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class MainController extends GetxController{
+class MainPageController extends GetxController{
 
   final RxInt _selectedIndex = 0.obs;
 

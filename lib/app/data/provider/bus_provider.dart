@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:danvery/app/data/model/petition_model.dart';
 import 'package:danvery/app/data/model/post_model.dart';
-import 'package:danvery/app/data/provider/url.dart';
+import 'package:danvery/app/data/provider/url/url.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 

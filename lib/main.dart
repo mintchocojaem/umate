@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'app/bindings/splash_screen_page_binding.dart';
+import 'app/bindings/page/splash_screen_page_binding.dart';
 import 'app/notification/setup_notification.dart';
 import 'firebase_options.dart';
 
