@@ -20,8 +20,8 @@ class BusController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     getBustList();
+    super.onInit();
   }
 
   void getBustList() {

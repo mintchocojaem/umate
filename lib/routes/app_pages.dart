@@ -22,6 +22,10 @@ import '../domain/auth/login/binding/login_binding.dart';
 import '../domain/auth/reigster/binding/register_binding.dart';
 import '../domain/board/petition/binding/petition_binding.dart';
 import '../domain/board/post/binding/post_binding.dart';
+import '../ui/pages/main/board/board_page/views/board_page.dart';
+import '../ui/pages/main/home_page/views/home_page.dart';
+import '../ui/pages/main/my_page/views/mypage_page.dart';
+import '../ui/pages/main/timetable_page/views/timetable_page.dart';
 
 class AppPages {
   static final List<GetPage> pages = [
@@ -33,18 +37,22 @@ class AppPages {
         HomePageBinding(),
         PostBinding(),
         PetitionBinding(),
-        BoardPageBinding(),
         BusBinding(),
+        TimetablePageBinding(),
+        BoardPageBinding(),
         MyPagePageBinding(),
-        TimetablePageBinding()
       ],
     ),
-    GetPage(name: Routes.register,
-        page: () => const RegisterPage(),
-        bindings: [
-          RegisterPageBinding(),
-          RegisterBinding(),
-        ],
+    GetPage(
+      name: Routes.postCreate,
+      page: () => const PostCreatePage(),
+    ),
+    GetPage(
+      name: Routes.post,
+      page: () => const PostPage(),
+      bindings: [
+        PostPageBinding()
+      ],
     ),
     GetPage(
         name: Routes.login,
@@ -52,22 +60,15 @@ class AppPages {
         bindings: [
           LoginBinding(),
           LoginPageBinding(),
-        ]
-    ),
-    GetPage(
-        name: Routes.postCreate,
-        page: () => const PostCreatePage(),
-        bindings: [
-          PostBinding(),
-        ]
-    ),
-    GetPage(
-        name: Routes.post,
-        page: () => const PostPage(),
-        bindings: [
-          PostBinding(),
-          PostPageBinding()
         ],
+    ),
+    GetPage(
+      name: Routes.register,
+      page: () => const RegisterPage(),
+      bindings: [
+        RegisterPageBinding(),
+        RegisterBinding(),
+      ],
     ),
     GetPage(
         name: Routes.splashScreen,
