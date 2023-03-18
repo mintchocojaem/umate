@@ -1,6 +1,8 @@
-import 'package:danvery/app/ui/theme/app_theme.dart';
 import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
+import 'package:danvery/utils/notification/setup_notification.dart';
+import 'package:danvery/utils/theme/app_theme.dart';
+import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -8,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'app/bindings/page/splash_screen_page_binding.dart';
-import 'app/notification/setup_notification.dart';
 import 'firebase_options.dart';
 
 void main() async{
