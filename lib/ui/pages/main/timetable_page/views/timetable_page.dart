@@ -6,7 +6,7 @@ import 'package:danvery/ui/widgets/timetable/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/subject_model.dart';
+import '../model/subject_model.dart';
 
 class TimetablePage extends GetView{
   const TimetablePage({super.key});

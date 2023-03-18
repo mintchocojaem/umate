@@ -2,13 +2,13 @@
 import 'package:danvery/domain/bus/binding/bus_binding.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
-import 'package:danvery/ui/pages/auth/register_page/bindings/register_page_binding.dart';
+import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
-import 'package:danvery/ui/pages/main/board/board_page/bindings/board_page_binding.dart';
-import 'package:danvery/ui/pages/main/board/post_page/bindings/post_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/post_page/binding/post_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_create_page.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_page.dart';
-import 'package:danvery/ui/pages/main/main_page/bindings/main_page_binding.dart';
+import 'package:danvery/ui/pages/main/main_page/binding/main_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/views/main_page.dart';
 import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/views/splash_screen_page.dart';

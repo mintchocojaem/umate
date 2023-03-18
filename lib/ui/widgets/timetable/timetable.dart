@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:danvery/ui/pages/main/timetable_page/models/subject_model.dart';
+import 'package:danvery/ui/pages/main/timetable_page/model/subject_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

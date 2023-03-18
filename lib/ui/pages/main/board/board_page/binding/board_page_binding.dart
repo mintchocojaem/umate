@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../controllers/board_page_controller.dart';
+import '../controller/board_page_controller.dart';
 
 class BoardPageBinding extends Bindings {
   @override

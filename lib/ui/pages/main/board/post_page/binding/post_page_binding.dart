@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/post_page_controller.dart';
+import '../controller/post_page_controller.dart';
 
 class PostPageBinding extends Bindings {
   @override

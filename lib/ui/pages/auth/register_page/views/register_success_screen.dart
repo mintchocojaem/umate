@@ -1,4 +1,4 @@
-import 'package:danvery/ui/pages/auth/register_page/controllers/register_page_controller.dart';
+import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/login/login_form_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

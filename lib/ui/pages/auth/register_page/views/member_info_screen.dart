@@ -7,7 +7,7 @@ import 'package:danvery/ui/widgets/login/login_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/register_page_controller.dart';
+import '../controller/register_page_controller.dart';
 
 
 class MemberInfoScreen extends GetView<RegisterController> {

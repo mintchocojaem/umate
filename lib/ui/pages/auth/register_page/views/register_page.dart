@@ -2,7 +2,7 @@
 import 'package:danvery/domain/auth/reigster/controller/register_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/auth/register_page/controllers/register_page_controller.dart';
+import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/login/step_guide.dart';
 import 'package:flutter/material.dart';

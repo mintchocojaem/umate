@@ -1,5 +1,5 @@
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/main/board/board_page/controllers/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/board/category_button_bar.dart';
 import 'package:danvery/ui/widgets/board/post/pettition_card.dart';
 import 'package:flutter/material.dart';

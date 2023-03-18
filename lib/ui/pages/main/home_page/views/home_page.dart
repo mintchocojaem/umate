@@ -3,7 +3,7 @@ import 'package:danvery/domain/auth/login/model/login_model.dart';
 import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/main/board/board_page/controllers/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/board/board_card.dart';
 import 'package:danvery/ui/widgets/board/board_list.dart';
@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../domain/board/petition/controller/petition_controller.dart';
 import '../../../../../domain/board/petition/controller/post_controller.dart';
 import '../../../../../domain/bus/controller/bus_controller.dart';
-import '../../main_page/controllers/main_page_controller.dart';
+import '../../main_page/controller/main_page_controller.dart';
 
 
 

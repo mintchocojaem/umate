@@ -1,7 +1,7 @@
 
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/main/board/board_page/controllers/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/pages/main/board/board_page/views/petition_board_page.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:flutter/material.dart';

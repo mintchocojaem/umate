@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 import '../../home_page/views/home_page.dart';
 import '../../my_page/views/mypage_page.dart';
-import '../controllers/main_page_controller.dart';
+import '../controller/main_page_controller.dart';
 
 class MainPage extends GetView {
   const MainPage({super.key});

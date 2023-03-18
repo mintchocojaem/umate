@@ -4,7 +4,7 @@ import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/post_page_controller.dart';
+import '../controller/post_page_controller.dart';
 
 
 class PostPage extends GetView<PostPageController> {
