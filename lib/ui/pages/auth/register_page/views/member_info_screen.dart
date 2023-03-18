@@ -1,43 +1,20 @@
 
 import 'package:danvery/domain/auth/reigster/controller/register_controller.dart';
 import 'package:danvery/domain/auth/reigster/model/register_model.dart';
+import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/widgets/login/login_form_button.dart';
 import 'package:danvery/ui/widgets/login/login_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/register_page_controller.dart';
 
-
-class MemberInfoScreen extends GetView<RegisterController> {
+class MemberInfoScreen extends GetView<RegisterPageController> {
   const MemberInfoScreen({super.key});
-
-  // 3~16자 영문 대소문자, 한글, 숫자, 특수문자(_), 공백 조합
-  bool isValidNicknameFormat(String nickname) {
-    return RegExp(r"^(?!.*\s{2,})[A-Za-z\dㄱ-ㅎㅏ-ㅣ가-힣_ ]{3,16}$")
-        .hasMatch(nickname);
-  }
-
-  // 8~16자 영문 대소문자, 숫자, 특수문자(!@#$%^&*+=\-_(){}[\]:;<>,.?~) 조합
-  bool isValidPasswordFormat(String password) {
-    return RegExp(
-        r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*+=\-_(){}[\]:;<>,.?~]{8,16}$")
-        .hasMatch(password);
-  }
-
-  //대시(-)를 포함하거나 포함하지 않는 11자리 010 휴대폰 번호
-  bool isValidPhoneNumberFormat(String phoneNumber) {
-    return RegExp(r'^010-?\d{4}-?\d{4}$').hasMatch(phoneNumber);
-  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final RegisterController registerController =
-        Get.find<RegisterController>();
-    final RegisterPageController registerPageController =
-        Get.find<RegisterPageController>();
 
     return SafeArea(
       child: Column(
@@ -60,7 +37,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: LoginFormField(
                                     hint:
-                                        "${registerController.registerModel.studentId}@dankook.ac.kr",
+                                        "${controller.registerController.registerModel.studentId}@dankook.ac.kr",
                                     title: "아이디",
                                     readOnly: true,
                                   ),
@@ -73,16 +50,16 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                     validateHint: "비밀번호를 재입력하세요",
                                     validate: true,
                                     isPassword: true,
-                                    textController: registerPageController
+                                    textController: controller
                                         .passwordController,
-                                    validateController: registerPageController
+                                    validateController: controller
                                         .passwordValidateController,
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(top: 8, bottom: 8),
                                   child: LoginFormField(
-                                    hint: registerController
+                                    hint: controller.registerController
                                         .registerModel.studentName,
                                     title: "이름",
                                     readOnly: true,
@@ -94,7 +71,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
                                     readOnly: false,
-                                    textController: registerPageController
+                                    textController: controller
                                         .nicknameController,
                                   ),
                                 ),
@@ -102,7 +79,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                   padding: EdgeInsets.only(top: 8, bottom: 8),
                                   child: LoginFormField(
                                     hint:
-                                        registerController.registerModel.major,
+                                    controller.registerController.registerModel.major,
                                     title: "전공",
                                     readOnly: true,
                                   ),
@@ -111,9 +88,9 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 8, bottom: 8),
                                   child: LoginFormField(
-                                    textController: registerPageController
+                                    textController: controller
                                         .phoneNumberController,
-                                    validateController: registerPageController
+                                    validateController: controller
                                         .phoneAuthenticationNumberController,
                                     hint: "- 는 제외하고 입력하세요",
                                     validate: true,
@@ -122,9 +99,8 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                     checkButton: true,
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
-                                      if (isValidPhoneNumberFormat(
-                                              registerPageController
-                                                  .phoneNumber) ==
+                                      if (controller.isValidPhoneNumberFormat(
+                                          controller.phoneNumber) ==
                                           false) {
                                         Get.snackbar(
                                             "휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
@@ -134,11 +110,11 @@ class MemberInfoScreen extends GetView<RegisterController> {
                                         return false;
                                       }
 
-                                      registerController
+                                      controller.registerController
                                           .sendSMSAuth(
-                                              registerController
+                                          controller.registerController
                                                   .registerModel.signupToken,
-                                              registerPageController
+                                          controller
                                                   .phoneNumber)
                                           .then((value) {
                                         if (!value) {
@@ -174,8 +150,8 @@ class MemberInfoScreen extends GetView<RegisterController> {
               child: LoginFormButton(
                 text: "가입하기",
                 onPressed: () async {
-                  if (registerPageController.nickname.length < 2 ||
-                      isValidNicknameFormat(registerPageController.nickname) ==
+                  if (controller.nickname.length < 2 ||
+                      controller.isValidNicknameFormat(controller.nickname) ==
                           false) {
                     Get.snackbar("닉네임 오류", "닉네임은 3~8자리의 한글, 영문, 숫자, _, 공백만 사용할 수 있습니다.",
                         snackPosition: SnackPosition.BOTTOM,
@@ -184,7 +160,7 @@ class MemberInfoScreen extends GetView<RegisterController> {
                     return;
                   }
 
-                  if( isValidPasswordFormat(registerPageController.password) == false){
+                  if( controller.isValidPasswordFormat(controller.password) == false){
                     Get.snackbar("비밀번호 오류", "비밀번호는 영문, 숫자를 포함한 8~16자리만 사용할 수 있습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -192,8 +168,8 @@ class MemberInfoScreen extends GetView<RegisterController> {
                     return;
                   }
 
-                  if (registerPageController.passwordValidate !=
-                      registerPageController.password) {
+                  if (controller.passwordValidate !=
+                      controller.password) {
                     Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -201,9 +177,9 @@ class MemberInfoScreen extends GetView<RegisterController> {
                     return;
                   }
 
-                  if (!await registerController.verifySMSAuth(
-                      registerController.registerModel.signupToken,
-                      registerPageController.phoneAuthenticationNumber)) {
+                  if (!await controller.registerController.verifySMSAuth(
+                      controller.registerController.registerModel.signupToken,
+                      controller.phoneAuthenticationNumber)) {
                     Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -212,11 +188,11 @@ class MemberInfoScreen extends GetView<RegisterController> {
                   }
 
                   final RegisterModel registerModel =
-                      registerController.registerModel;
+                      controller.registerController.registerModel;
                   registerModel.nickname =
-                      registerPageController.nicknameController.text;
+                      controller.nicknameController.text;
                   registerModel.password =
-                      registerPageController.passwordController.text;
+                      controller.passwordController.text;
 
                   /*
                   registerController.register(registerModel).then((value) {

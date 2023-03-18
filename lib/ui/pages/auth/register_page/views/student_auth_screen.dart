@@ -8,16 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class StudentAuthScreen extends GetView {
+class StudentAuthScreen extends GetView<RegisterPageController> {
   const StudentAuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final RegisterPageController registerPageController =
-        Get.find<RegisterPageController>();
-
-    final registerController = Get.find<RegisterController>();
 
     return SafeArea(
       child: Column(
@@ -34,7 +29,7 @@ class StudentAuthScreen extends GetView {
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
                         textController:
-                        registerPageController.studentIdController,
+                        controller.studentIdController,
                         hint: '학번(ID)을 입력하세요',
                         title: "학번",
                       ),
@@ -43,7 +38,7 @@ class StudentAuthScreen extends GetView {
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: LoginFormField(
                         textController:
-                        registerPageController.studentPasswordController,
+                        controller.studentPasswordController,
                         hint: "비밀번호를 입력하세요",
                         title: "비밀번호",
                         isPassword: true,
@@ -105,9 +100,9 @@ class StudentAuthScreen extends GetView {
                                       width: 28,
                                       height: 28,
                                       decoration: BoxDecoration(
-                                          color: registerPageController
+                                          color: controller
                                                       .check1 &&
-                                                  registerPageController.check2
+                                              controller.check2
                                               ? Palette.blue
                                               : Palette.lightGrey,
                                           shape: BoxShape.circle),
@@ -120,12 +115,12 @@ class StudentAuthScreen extends GetView {
                                                 (states) => Palette.blue),
                                         shape: const CircleBorder(),
                                         onChanged: (bool? value) {
-                                          registerPageController.check1 =
+                                          controller.check1 =
                                               value!;
-                                          registerPageController.check2 = value;
+                                          controller.check2 = value;
                                         },
-                                        value: registerPageController.check1 &&
-                                            registerPageController.check2,
+                                        value: controller.check1 &&
+                                            controller.check2,
                                       ),
                                     ),
                                   ),
@@ -159,7 +154,7 @@ class StudentAuthScreen extends GetView {
                                         width: 28,
                                         height: 28,
                                         decoration: BoxDecoration(
-                                            color: registerPageController.check1
+                                            color: controller.check1
                                                 ? Palette.blue
                                                 : Palette.lightGrey,
                                             shape: BoxShape.circle),
@@ -172,10 +167,10 @@ class StudentAuthScreen extends GetView {
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            registerPageController.check1 =
+                                            controller.check1 =
                                                 value!;
                                           },
-                                          value: registerPageController.check1,
+                                          value: controller.check1,
                                         ),
                                       ),
                                     ),
@@ -253,7 +248,7 @@ class StudentAuthScreen extends GetView {
                                         width: 28,
                                         height: 28,
                                         decoration: BoxDecoration(
-                                            color: registerPageController.check2
+                                            color: controller.check2
                                                 ? Palette.blue
                                                 : Palette.lightGrey,
                                             shape: BoxShape.circle),
@@ -266,10 +261,10 @@ class StudentAuthScreen extends GetView {
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            registerPageController.check2 =
+                                            controller.check2 =
                                                 value!;
                                           },
-                                          value: registerPageController.check2,
+                                          value: controller.check2,
                                         ),
                                       ),
                                     ),
@@ -354,23 +349,22 @@ class StudentAuthScreen extends GetView {
                 Expanded(
                   child: Obx(
                     () => LoginFormButton(
-                      isEnabled: registerPageController.studentId.isNotEmpty &&
-                          registerPageController.studentPassword.isNotEmpty &&
-                          registerPageController.check1 &&
-                          registerPageController.check2,
+                      isEnabled: controller.studentId.isNotEmpty &&
+                          controller.studentPassword.isNotEmpty &&
+                          controller.check1 &&
+                          controller.check2,
                       onPressed: () {
-                        if(registerPageController.studentIdController.text.length != 8){
+                        if(controller.studentIdController.text.length != 8){
                           Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Palette.darkGrey,
                               colorText: Palette.pureWhite);
                           return;
                         }
-                        registerController
+                        controller.registerController
                             .studentAuthenticate(
-                                registerPageController.studentIdController.text,
-                                registerPageController
-                                    .studentPasswordController.text)
+                            controller.studentIdController.text,
+                            controller.studentPasswordController.text)
                             .then((value) {
                           if (value) {
                             FocusManager.instance.primaryFocus?.unfocus();

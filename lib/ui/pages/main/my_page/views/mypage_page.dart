@@ -1,4 +1,5 @@
 
+import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
@@ -6,14 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
-class MyPagePage extends GetView {
+class MyPagePage extends GetView<MyPagePageController> {
   const MyPagePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    bool notification = true;
 
     return Scaffold(
       appBar: MainAppBar(
@@ -115,7 +114,7 @@ class MyPagePage extends GetView {
                                   activeToggleColor: Palette.blue,
                                   width: 60.0,
                                   toggleSize: 24.0,
-                                  value: notification,
+                                  value: controller.notification,
                                   borderRadius: 30.0,
                                   onToggle: (val) {},
                                 ),

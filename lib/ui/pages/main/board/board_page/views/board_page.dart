@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 import 'general_board_page.dart';
 
-class BoardPage extends GetView {
+class BoardPage extends GetView<BoardPageController> {
   const BoardPage({super.key});
 
   @override
@@ -18,7 +18,7 @@ class BoardPage extends GetView {
     // TODO: implement build
     return DefaultTabController(
       length: 2,
-      initialIndex: Get.find<BoardPageController>().selectedTap,
+      initialIndex: controller.selectedTap,
       child: Scaffold(
         backgroundColor: Palette.pureWhite,
         appBar: MainAppBar(

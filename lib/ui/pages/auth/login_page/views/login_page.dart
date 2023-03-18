@@ -1,6 +1,7 @@
 
 import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:danvery/routes/app_routes.dart';
+import 'package:danvery/ui/pages/auth/login_page/controller/login_page_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
@@ -10,13 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class LoginPage extends GetView {
+class LoginPage extends GetView<LoginPageController> {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final LoginService loginController = Get.find<LoginService>();
 
     // TODO: implement build
     return Scaffold(
@@ -36,7 +35,7 @@ class LoginPage extends GetView {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: LoginFormField(
-                          textController: Get.find<LoginService>().idController,
+                          textController: controller.loginService.idController,
                           hint: '학번(ID)을 입력하세요',
                           title: "학번",
                         ),
@@ -44,7 +43,7 @@ class LoginPage extends GetView {
                       Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: LoginFormField(
-                          textController: Get.find<LoginService>().passwordController,
+                          textController: controller.loginService.passwordController,
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
                           isPassword: true,
@@ -58,7 +57,7 @@ class LoginPage extends GetView {
                   LoginFormButton(
                       text: "로그인",
                       onPressed: () {
-                        loginController
+                        controller.loginService
                             .login('12345678',
                                 '121212') //new: '12345678', '121212'
                             .then((value) {

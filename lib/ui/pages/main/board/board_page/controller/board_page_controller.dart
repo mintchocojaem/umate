@@ -1,5 +1,7 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
+
+import '../../../../../../domain/board/petition/controller/petition_controller.dart';
+import '../../../../../../domain/board/petition/controller/post_controller.dart';
 
 class BoardPageController extends GetxController{
 
@@ -11,4 +13,6 @@ class BoardPageController extends GetxController{
   int get selectedCategory => _selectedCategory.value;
   set selectedCategory(index) => _selectedCategory.value = index;
 
+  final PostController postController = Get.find<PostController>();
+  final PetitionController petitionController = Get.find<PetitionController>();
 }

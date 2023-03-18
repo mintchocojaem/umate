@@ -1,6 +1,7 @@
 
 import 'package:danvery/domain/bus/binding/bus_binding.dart';
 import 'package:danvery/routes/app_routes.dart';
+import 'package:danvery/ui/pages/auth/login_page/binding/login_page_binding.dart';
 import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
 import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
@@ -8,8 +9,11 @@ import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_bindin
 import 'package:danvery/ui/pages/main/board/post_page/binding/post_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_create_page.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_page.dart';
+import 'package:danvery/ui/pages/main/home_page/binding/home_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/binding/main_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/views/main_page.dart';
+import 'package:danvery/ui/pages/main/my_page/binding/mypage_page_binding.dart';
+import 'package:danvery/ui/pages/main/timetable_page/binding/timetable_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/views/splash_screen_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -26,10 +30,13 @@ class AppPages {
       page: () => const MainPage(),
       bindings: [
         MainPageBinding(),
+        HomePageBinding(),
         PostBinding(),
         PetitionBinding(),
         BoardPageBinding(),
         BusBinding(),
+        MyPagePageBinding(),
+        TimetablePageBinding()
       ],
     ),
     GetPage(name: Routes.register,
@@ -42,7 +49,10 @@ class AppPages {
     GetPage(
         name: Routes.login,
         page: () => const LoginPage(),
-        binding: LoginBinding()
+        bindings: [
+          LoginBinding(),
+          LoginPageBinding(),
+        ]
     ),
     GetPage(
         name: Routes.postCreate,

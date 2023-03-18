@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class RegisterSuccessScreen extends GetView {
+class RegisterSuccessScreen extends GetView<RegisterPageController> {
   const RegisterSuccessScreen({super.key});
 
   @override

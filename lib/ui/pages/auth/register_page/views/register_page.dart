@@ -14,20 +14,12 @@ import 'student_auth_screen.dart';
 
 
 
-class RegisterPage extends GetView<RegisterController> {
+class RegisterPage extends GetView<RegisterPageController> {
   const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    List<Widget> pages = [
-      StudentAuthScreen(),
-      MemberInfoScreen(),
-      RegisterSuccessScreen()
-    ];
-
-    List<String> stepTitle = ["학생인증", "회원 정보 입력", "가입이 \n완료되었습니다"];
 
     return Scaffold(
         appBar: TransparentAppBar(
@@ -52,14 +44,14 @@ class RegisterPage extends GetView<RegisterController> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
-                  stepTitle[Get.find<RegisterPageController>().currentStep - 1],
+                  controller.stepTitle[Get.find<RegisterPageController>().currentStep - 1],
                   style: bigTitleStyle.copyWith(
                       color: Palette.blue, fontWeight: FontWeight.w500),
                 ),
               ),
               Expanded(
                 child: Obx(
-                  () => pages[Get.find<RegisterPageController>().currentStep -
+                  () => controller.pages[Get.find<RegisterPageController>().currentStep -
                       1], // TODO: Obx로 감싸야 하는지 확인
                 ),
               ),

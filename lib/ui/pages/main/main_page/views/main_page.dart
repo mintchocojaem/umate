@@ -1,32 +1,19 @@
 
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/main/board/board_page/views/board_page.dart';
-import 'package:danvery/ui/pages/main/timetable_page/views/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../home_page/views/home_page.dart';
-import '../../my_page/views/mypage_page.dart';
 import '../controller/main_page_controller.dart';
 
-class MainPage extends GetView {
+class MainPage extends GetView<MainPageController> {
   const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MainPageController mainController = Get.find<MainPageController>();
-
-    List<Widget> pages = const[
-      HomePage(),
-      TimetablePage(),
-      BoardPage(),
-      MyPagePage()
-    ];
 
     return Scaffold(
       backgroundColor: Palette.pureWhite,
-      body: Obx(() => pages[mainController.selectedIndex]),
+      body: Obx(() => controller.pages[controller.selectedIndex]),
       bottomNavigationBar: Obx(
         () => Container(
           decoration: const BoxDecoration(
@@ -45,9 +32,9 @@ class MainPage extends GetView {
               selectedFontSize: tinyStyle.fontSize!,
               unselectedFontSize: tinyStyle.fontSize!,
               selectedItemColor: Palette.blue,
-              currentIndex: mainController.selectedIndex,
+              currentIndex: controller.selectedIndex,
               onTap: (value) {
-                mainController.selectedIndex = value;
+                controller.selectedIndex = value;
               },
               type: BottomNavigationBarType.fixed,
               showSelectedLabels: true,

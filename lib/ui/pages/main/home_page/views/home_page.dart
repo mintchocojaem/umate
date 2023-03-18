@@ -1,6 +1,6 @@
-
 import 'package:danvery/domain/auth/login/model/login_model.dart';
 import 'package:danvery/domain/auth/login/services/login_service.dart';
+import 'package:danvery/ui/pages/main/home_page/controller/home_page_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
@@ -14,32 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../domain/board/petition/controller/petition_controller.dart';
-import '../../../../../domain/board/petition/controller/post_controller.dart';
-import '../../../../../domain/bus/controller/bus_controller.dart';
 import '../../main_page/controller/main_page_controller.dart';
 
-
-
-class HomePage extends GetView {
+class HomePage extends GetView<HomePageController> {
   const HomePage({Key? key}) : super(key: key);
-
-  List<BoardCard> getBoardList(dynamic data) {
-    List<BoardCard> result = [];
-    for (dynamic i in data) {
-      result.add(BoardCard(leadingText: "익명", title: i.title));
-    }
-    return result;
-  }
 
   @override
   Widget build(BuildContext context) {
-    final PostController postController = Get.find<PostController>();
-    final PetitionController petitionController = Get.find<PetitionController>();
-    final LoginModel loginModel = Get.find<LoginService>().loginModel;
-
-    final BusController busController = Get.find<BusController>();
-
     // TODO: implement build
     return Scaffold(
       appBar: MainAppBar(
@@ -75,11 +56,12 @@ class HomePage extends GetView {
                               children: <TextSpan>[
                                 TextSpan(
                                     text:
-                                        "${loginModel.major} ${loginModel.studentId.substring(2, 4)}학번\n",
+                                        "${controller.loginService.loginModel.major} ${controller.loginService.loginModel.studentId.substring(2, 4)}학번\n",
                                     style: titleStyle.copyWith(
                                         color: Palette.pureWhite)),
                                 TextSpan(
-                                    text: loginModel.userName,
+                                    text: controller
+                                        .loginService.loginModel.userName,
                                     style: titleStyle.copyWith(
                                         color: Palette.pureWhite)),
                                 TextSpan(
@@ -170,7 +152,7 @@ class HomePage extends GetView {
                             children: [
                               Obx(
                                 () => BoardList(
-                                  cards: busController.isLoadBusList
+                                  cards: controller.busController.isLoadBusList
                                       ? [
                                           Row(
                                             crossAxisAlignment:
@@ -182,53 +164,56 @@ class HomePage extends GetView {
                                                 busNo: "24",
                                                 busColor: Palette.lightGreen,
                                                 station1: "곰상 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findGomSangBusByNo(
                                                                 "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findGomSangBusByNo(
                                                                         "24")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busController
+                                                predictTime2: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "24")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "24")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                               BusCard(
                                                 busNo: "8100",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "8100")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "8100")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                             ],
@@ -243,53 +228,56 @@ class HomePage extends GetView {
                                                 busNo: "720-3",
                                                 busColor: Palette.lightGreen,
                                                 station1: "곰상 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findGomSangBusByNo(
                                                                 "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findGomSangBusByNo(
                                                                         "720-3")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busController
+                                                predictTime2: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "720-3")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "720-3")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                               BusCard(
                                                 busNo: "1101",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "1101")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "1101")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                             ],
@@ -304,53 +292,56 @@ class HomePage extends GetView {
                                                 busNo: "셔틀",
                                                 busColor: Palette.lightBlue,
                                                 station1: "곰상 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findGomSangBusByNo(
                                                                 "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findGomSangBusByNo(
                                                                         "shuttle-bus")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                                 station2: "정문 출발",
-                                                predictTime2: busController
+                                                predictTime2: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "shuttle-bus")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "shuttle-bus")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                               BusCard(
                                                 busNo: "102",
                                                 busColor: Palette.lightRed,
                                                 station1: "정문 출발",
-                                                predictTime1: busController
+                                                predictTime1: controller
+                                                            .busController
                                                             .findJungMoonBusByNo(
                                                                 "102")
                                                             .predictTime1 !=
                                                         null
-                                                    ? busController
+                                                    ? controller.busController
                                                                     .findJungMoonBusByNo(
                                                                         "102")
                                                                     .predictTime1! ~/
                                                                 60 ==
                                                             0
                                                         ? "곧 도착"
-                                                        : "${busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
+                                                        : "${controller.busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
                                                     : "정보 없음",
                                               ),
                                             ],
@@ -382,13 +373,15 @@ class HomePage extends GetView {
                                     ),
                                   ),
                                   //get suggestion board with Obx
-                                  Obx(() => postController.isLoadGeneralBoard
+                                  Obx(() => controller
+                                          .postController.isLoadGeneralBoard
                                       ? Padding(
                                           padding: const EdgeInsets.only(
                                               top: 8, bottom: 8),
                                           child: BoardList(
-                                            cards: getBoardList(
-                                                postController.generalBoard),
+                                            cards: controller.getBoardList(
+                                                controller.postController
+                                                    .generalBoard),
                                             title: "자유 게시판",
                                             actionTitle: "더보기",
                                             onTapAction: () {
@@ -397,8 +390,8 @@ class HomePage extends GetView {
                                                   Get.find<
                                                       BoardPageController>();
                                               final MainPageController
-                                                  mainController =
-                                                  Get.find<MainPageController>();
+                                                  mainController = Get.find<
+                                                      MainPageController>();
                                               mainController.selectedIndex = 2;
                                               boardPageController.selectedTap =
                                                   0;
@@ -411,13 +404,15 @@ class HomePage extends GetView {
                                               child:
                                                   CircularProgressIndicator()))),
                                   //get petition board with Obx
-                                  Obx(() => petitionController.isLoadPetitionBoard
+                                  Obx(() => controller.petitionController
+                                          .isLoadPetitionBoard
                                       ? Padding(
                                           padding: const EdgeInsets.only(
                                               top: 8, bottom: 8),
                                           child: BoardList(
-                                            cards: getBoardList(
-                                                petitionController.petitionBoard),
+                                            cards: controller.getBoardList(
+                                                controller.petitionController
+                                                    .petitionBoard),
                                             title: "청원게시판",
                                             actionTitle: "더보기",
                                             onTapAction: () {
@@ -426,8 +421,8 @@ class HomePage extends GetView {
                                                   Get.find<
                                                       BoardPageController>();
                                               final MainPageController
-                                                  mainController =
-                                                  Get.find<MainPageController>();
+                                                  mainController = Get.find<
+                                                      MainPageController>();
                                               mainController.selectedIndex = 2;
                                               boardPageController.selectedTap =
                                                   1;

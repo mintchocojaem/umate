@@ -6,6 +6,5 @@ class SplashScreenPageBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<SplashScreenPageController>(() => SplashScreenPageController());
-
   }
 }
