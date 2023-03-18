@@ -34,7 +34,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                 title: controller.postController.generalBoard[index].title,
                                 subtitle: controller.postController.generalBoard[index].body,
                                 publishDate:
-                                    "??",
+                                    controller.postController.generalBoard[index].createdAt,
                                 commentCount: 0,
                                 likeCount: 0,
                               ),

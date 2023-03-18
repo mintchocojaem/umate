@@ -379,9 +379,19 @@ class HomePage extends GetView<HomePageController> {
                                           padding: const EdgeInsets.only(
                                               top: 8, bottom: 8),
                                           child: BoardList(
-                                            cards: controller.getBoardList(
-                                                controller.postController
-                                                    .generalBoard),
+                                            cards: [
+                                              for (var i = 0; i < 5; i++)
+                                                BoardCard(
+                                                  title: controller
+                                                      .postController
+                                                      .generalBoard[i]
+                                                      .title,
+                                                  leadingText: controller
+                                                      .postController
+                                                      .generalBoard[i]
+                                                      .createdAt,
+                                                ),
+                                            ],
                                             title: "자유 게시판",
                                             actionTitle: "더보기",
                                             onTapAction: () {
@@ -410,9 +420,19 @@ class HomePage extends GetView<HomePageController> {
                                           padding: const EdgeInsets.only(
                                               top: 8, bottom: 8),
                                           child: BoardList(
-                                            cards: controller.getBoardList(
-                                                controller.petitionController
-                                                    .petitionBoard),
+                                            cards: [
+                                              for (var i = 0; i < 5; i++)
+                                                BoardCard(
+                                                  title: controller
+                                                      .petitionController
+                                                      .petitionBoard[i]
+                                                      .title,
+                                                  leadingText: controller
+                                                      .petitionController
+                                                      .petitionBoard[i]
+                                                      .createdAt,
+                                                ),
+                                            ],
                                             title: "청원게시판",
                                             actionTitle: "더보기",
                                             onTapAction: () {

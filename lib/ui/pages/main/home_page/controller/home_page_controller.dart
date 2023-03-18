@@ -13,12 +13,4 @@ class HomePageController extends GetxController{
   final LoginService loginService = Get.find<LoginService>();
   final BusController busController = Get.find<BusController>();
 
-  List<BoardCard> getBoardList(dynamic data) {
-    List<BoardCard> result = [];
-    for (dynamic i in data) {
-      result.add(BoardCard(leadingText: "익명", title: i.title));
-    }
-    return result;
-  }
-
 }
