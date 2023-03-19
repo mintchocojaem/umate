@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../../../domain/board/petition/controller/petition_controller.dart';
-import '../../../../../../domain/board/petition/controller/post_controller.dart';
+import '../../../../../../domain/board/post/controller/post_controller.dart';
 
 class BoardPageController extends GetxController{
 

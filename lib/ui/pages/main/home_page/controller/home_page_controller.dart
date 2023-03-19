@@ -2,9 +2,8 @@ import 'package:get/get.dart';
 
 import '../../../../../domain/auth/login/services/login_service.dart';
 import '../../../../../domain/board/petition/controller/petition_controller.dart';
-import '../../../../../domain/board/petition/controller/post_controller.dart';
+import '../../../../../domain/board/post/controller/post_controller.dart';
 import '../../../../../domain/bus/controller/bus_controller.dart';
-import '../../../../widgets/board/board_card.dart';
 
 class HomePageController extends GetxController{
 

@@ -2,7 +2,7 @@ import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../domain/board/petition/controller/post_controller.dart';
+import '../../../../../../domain/board/post/controller/post_controller.dart';
 import '../../../../../../domain/board/post/model/post_model.dart';
 
 class PostPageController extends GetxController {

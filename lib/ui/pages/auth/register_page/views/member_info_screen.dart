@@ -97,6 +97,7 @@ class MemberInfoScreen extends GetView<RegisterPageController> {
                                     validateHint: "인증번호 6자리를 입력하세요",
                                     title: "휴대폰 번호",
                                     checkButton: true,
+                                    isSMS: true,
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
                                       if (controller.isValidPhoneNumberFormat(
