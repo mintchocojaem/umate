@@ -5,17 +5,19 @@ import '../model/post_model.dart';
 import '../provider/post_provider.dart';
 
 class PostRepository {
-  final PostProvider _postProvider = PostProvider();
+  final PostProvider postProvider;
 
-  Future<bool> createPost(String token, PostModel postModel) => _postProvider.createPost(token, postModel);
+  PostRepository({required this.postProvider});
 
-  Future<bool> deletePost(String token, int id) => _postProvider.deletePost(token, id);
+  Future<bool> createPost(String token, PostModel postModel) => postProvider.createPost(token, postModel);
 
-  Future<PostModel?> getPost(String token, int id) => _postProvider.getPost(token, id);
+  Future<bool> deletePost(String token, int id) => postProvider.deletePost(token, id);
+
+  Future<PostModel?> getPost(String token, int id) => postProvider.getPost(token, id);
 
   //get suggestion board list
   Future<List<PostModel>?> getGeneralBoard(int page, int size) async {
-    return await _postProvider.getGeneralBoard(page, size);
+    return await postProvider.getGeneralBoard(page, size);
   }
 
 }

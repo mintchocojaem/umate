@@ -7,8 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
-class Timetable extends StatelessWidget{
-
+class Timetable extends StatelessWidget {
   final List<SubjectModel>? subjects;
 
   final int tableStartTime;
@@ -17,15 +16,13 @@ class Timetable extends StatelessWidget{
 
   const Timetable(
       {super.key,
-        required this.subjects,
-        required this.tableStartTime,
-        required this.tableEndTime,
-        this.today = 0
-      });
+      required this.subjects,
+      required this.tableStartTime,
+      required this.tableEndTime,
+      this.today = 0});
 
   @override
   Widget build(BuildContext context) {
-
     final double width = MediaQuery.of(context).size.width;
     final double cellHeight = (width - (width / 8)) / 7;
     final double dayCellHeight = cellHeight / 2;
@@ -64,26 +61,30 @@ class Timetable extends StatelessWidget{
           child: Row(
             children: [
               const SizedBox(
-                width: 36,
+                width: 35,
               ),
               ...List.generate(
                 week.length,
-                    (index) {
+                (index) {
                   return Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: index == today ? BoxDecoration(
-                        shape: BoxShape.circle,
-                        // You can use like this way or like the below line
-                        //borderRadius: new BorderRadius.circular(30.0),
-                        color: Palette.blue,
-                      ) : const BoxDecoration(),
+                      decoration: index == today
+                          ? BoxDecoration(
+                              shape: BoxShape.circle,
+                              // You can use like this way or like the below line
+                              //borderRadius: new BorderRadius.circular(30.0),
+                              color: Palette.blue,
+                            )
+                          : const BoxDecoration(),
                       child: Center(
-                        child: Text(
-                          week[index],
-                          style: regularStyle.copyWith(color: index == today ? Palette.pureWhite : Palette.grey),
-                        )
-                      ),
+                          child: Text(
+                        week[index],
+                        style: regularStyle.copyWith(
+                            color: index == today
+                                ? Palette.pureWhite
+                                : Palette.grey),
+                      )),
                     ),
                   );
                 },
@@ -101,33 +102,33 @@ class Timetable extends StatelessWidget{
   Widget buildTimeColumn(
       double dayCellHeight, double cellWidth, int columnLength) {
     return SizedBox(
-      width: 36,
+      width: 35,
       child: Column(
         children: [
           const Divider(
             color: Colors.grey,
-            height: 0,
+            height: 1,
           ),
           Column(
             children: [
               ...List.generate(
-                columnLength +1,
-                    (index) {
-                      return SizedBox(
-                        height: cellWidth,
-                        child: Center(
-                            child: Text(
-                              '${(index) + tableStartTime}',
-                              style: tinyStyle.copyWith(color: Palette.grey),
-                            )),
-                      );
+                columnLength + 1,
+                (index) {
+                  return SizedBox(
+                    height: cellWidth + 1,
+                    child: Center(
+                        child: Text(
+                      '${(index) + tableStartTime}',
+                      style: tinyStyle.copyWith(color: Palette.grey),
+                    )),
+                  );
                 },
               ),
             ],
           ),
           const Divider(
             color: Colors.grey,
-            height: 0,
+            height: 1,
           )
         ],
       ),
@@ -139,14 +140,14 @@ class Timetable extends StatelessWidget{
     return [
       const VerticalDivider(
         color: Colors.grey,
-        width: 0,
+        width: 1,
       ),
       Expanded(
         child: Column(
           children: [
             const Divider(
               color: Colors.grey,
-              height: 0,
+              height: 1,
             ),
             SizedBox(
               height: dayCellHeight,
@@ -162,7 +163,7 @@ class Timetable extends StatelessWidget{
                         if (index % 2 == 0) {
                           return const Divider(
                             color: Colors.grey,
-                            height: 0,
+                            height: 1,
                           );
                         }
                         return SizedBox(
@@ -177,14 +178,14 @@ class Timetable extends StatelessWidget{
             ),
             const Divider(
               color: Colors.grey,
-              height: 0,
+              height: 1,
             ),
             SizedBox(
               height: dayCellHeight,
             ),
             const Divider(
               color: Colors.grey,
-              height: 0,
+              height: 1,
             )
           ],
         ),
@@ -194,8 +195,7 @@ class Timetable extends StatelessWidget{
 
   List<Widget> buildColumnSubjects(
       List<SubjectModel>? subjects, double dayCellHeight, double cellWidth) {
-    DateTime startTableTime =
-        DateFormat('HH').parse(tableStartTime.toString());
+    DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
     Duration startTableDuration = Duration(hours: startTableTime.hour);
 
     Color randomColor =
@@ -212,11 +212,10 @@ class Timetable extends StatelessWidget{
 
         result.add(
           Positioned(
-            top: (startTime.subtract(startTableDuration).hour * cellWidth) +
-                (startTime.subtract(startTableDuration).minute *
-                    cellWidth / 60),
-            height: (endTime.subtract(startDuration).hour * cellWidth) +
-                (endTime.subtract(startDuration).minute * cellWidth / 60),
+            top: (startTime.subtract(startTableDuration).hour * (cellWidth +1)) +
+                (startTime.subtract(startTableDuration).minute * (cellWidth+1) / 60),
+            height: (endTime.subtract(startDuration).hour * (cellWidth +1)) +
+                (endTime.subtract(startDuration).minute * (cellWidth +1) / 60),
             width: cellWidth + dayCellHeight,
             child: Padding(
               padding: const EdgeInsets.only(left: 4, right: 4),
@@ -235,7 +234,8 @@ class Timetable extends StatelessWidget{
                           children: <Widget>[
                             Text(
                               i.name,
-                              style: lightStyle.copyWith(color: Palette.pureWhite),
+                              style:
+                                  lightStyle.copyWith(color: Palette.pureWhite),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )
