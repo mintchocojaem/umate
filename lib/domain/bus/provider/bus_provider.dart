@@ -14,8 +14,7 @@ class BusProvider{
 
   Future<List<BusModel>?> getBusListFromStation(String stationName) async {
 
-    String url =
-        '/bus?stationName=$stationName';
+    String url = '/bus?stationName=$stationName';
 
     try {
       final Response response = await dio.get(url);

@@ -55,7 +55,7 @@ class PostProvider {
   }
 
   Future<PostModel?> getPost(String token, int id) async {
-    String url = '$apiUrl/post/general-forum/$id';
+    String url = '/post/general-forum/$id';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -63,26 +63,13 @@ class PostProvider {
 
     try {
       final Response response = await dio.get(url,
-          options: Options(
-              contentType: "application/json",
-              headers: headers,
-              responseType: ResponseType.bytes));
+          options: Options(headers: headers,));
 
-      if (kDebugMode) {
-        print('getPost : ${response.statusCode}');
-      }
-
-      if (response.statusCode != 200) {
-        throw Exception('getPost Error');
-      } else {
-        return PostModel.fromJson(jsonDecode(utf8.decode(response.data)));
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      return PostModel.fromJson(response.data);
+    } catch (_) {
       return null;
     }
+
   }
 
   Future<List<PostModel>?> getGeneralBoard(int page, int size) async {
