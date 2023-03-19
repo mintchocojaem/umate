@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/theme/app_text_theme.dart';
-import '../../../../utils/theme/palette.dart';
+import '../../../utils/theme/app_text_theme.dart';
+import '../../../utils/theme/palette.dart';
 
 
 class PostCard extends StatelessWidget {
@@ -14,6 +14,7 @@ class PostCard extends StatelessWidget {
     this.imageCount = 0,
     this.commentCount = 0,
     this.likeCount = 0,
+    required this.nickname,
   });
 
   final String title;
@@ -23,6 +24,7 @@ class PostCard extends StatelessWidget {
   final int imageCount;
   final int commentCount;
   final int likeCount;
+  final String nickname;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class PostCard extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                     ),
                     const SizedBox(width: 8,),
-                    Text("닉네임", style: regularStyle.copyWith(color: Palette.darkGrey, fontWeight: FontWeight.w500),),
+                    Text(nickname, style: regularStyle.copyWith(color: Palette.darkGrey, fontWeight: FontWeight.w500),),
                     const SizedBox(width: 8,),
                     Text(publishDate, style: tinyStyle.copyWith(color: Palette.grey),),
                   ],

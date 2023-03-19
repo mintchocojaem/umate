@@ -6,6 +6,7 @@ import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
 import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
 import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/petition_page/binding/petition_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/post_page/binding/post_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_create_page.dart';
 import 'package:danvery/ui/pages/main/board/post_page/views/post_page.dart';
@@ -22,6 +23,7 @@ import '../domain/auth/login/binding/login_binding.dart';
 import '../domain/auth/reigster/binding/register_binding.dart';
 import '../domain/board/petition/binding/petition_binding.dart';
 import '../domain/board/post/binding/post_binding.dart';
+import '../ui/pages/main/board/petition_page/views/petition_page.dart';
 
 class AppPages {
   static final List<GetPage> pages = [
@@ -72,6 +74,14 @@ class AppPages {
         bindings: [
           SplashScreenPageBinding()
         ]
+    ),
+    GetPage(
+      name: Routes.petition,
+      page: () => const PetitionPage(),
+      bindings: [
+        PetitionBinding(),
+        PetitionPageBinding()
+      ],
     ),
   ];
 }

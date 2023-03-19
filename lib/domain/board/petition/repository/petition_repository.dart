@@ -11,4 +11,9 @@ class PetitionRepository {
     return await petitionProvider.getPetitionBoard(page, size);
   }
 
+  //get petition
+  Future<PetitionModel?> getPetition(String token, int id) async {
+    return await petitionProvider.getPetition(token, id);
+  }
+
 }

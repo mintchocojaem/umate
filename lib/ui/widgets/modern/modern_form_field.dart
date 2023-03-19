@@ -5,7 +5,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
-class LoginFormField extends StatefulWidget {
+class ModernFormField extends StatefulWidget {
   final String? title;
   final String? hint;
   final bool checkButton;
@@ -20,7 +20,7 @@ class LoginFormField extends StatefulWidget {
   final bool Function()? onCheckButtonPressed;
   final int checkButtonCoolDown;
 
-  const LoginFormField({
+  const ModernFormField({
     super.key,
     this.hint,
     this.title,
@@ -38,10 +38,10 @@ class LoginFormField extends StatefulWidget {
   });
 
   @override
-  createState() => _LoginFormField();
+  createState() => _ModernFormField();
 }
 
-class _LoginFormField extends State<LoginFormField> {
+class _ModernFormField extends State<ModernFormField> {
   late int _remainingTime;
   final FocusNode focusSMS = FocusNode();
   bool _isSend = false;

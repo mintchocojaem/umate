@@ -36,4 +36,8 @@ class PetitionController extends GetxController {
     getPetitionBoard(0, 5);
   }
 
+  Future<PetitionModel?> getPetition(String token, int id) {
+    return petitionRepository.getPetition(token, id);
+  }
+
 }

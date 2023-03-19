@@ -1,13 +1,11 @@
-import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:danvery/ui/pages/main/board/post_page/controller/post_page_controller.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
-import 'package:danvery/ui/widgets/login/login_form_button.dart';
-
+import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../domain/board/post/model/post_model.dart';
+import '../../../../../widgets/modern/modern_form_button.dart';
 
 class PostCreatePage extends GetView<PostPageController> {
   const PostCreatePage({super.key});
@@ -85,7 +83,7 @@ class PostCreatePage extends GetView<PostPageController> {
                 padding: const EdgeInsets.only(top: 16),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: LoginFormButton(
+                  child: ModernFormButton(
                     text: "글 올리기",
                     onPressed: () {
                       PostModel postModel = PostModel();

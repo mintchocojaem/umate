@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../../domain/auth/reigster/controller/register_controller.dart';
-import '../views/member_info_screen.dart';
-import '../views/register_success_screen.dart';
-import '../views/student_auth_screen.dart';
-
+import '../views/screens/member_info_screen.dart';
+import '../views/screens/register_success_screen.dart';
+import '../views/screens/student_auth_screen.dart';
 
 class RegisterPageController extends GetxController {
 

@@ -1,7 +1,7 @@
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/widgets/board/post/post_card.dart';
+import 'package:danvery/ui/widgets/board/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +31,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                           child: Column(
                             children: [
                               PostCard(
+                                nickname: controller.postController.generalBoard[index].author,
                                 title: controller.postController.generalBoard[index].title,
                                 subtitle: controller.postController.generalBoard[index].body,
                                 publishDate:
@@ -38,7 +39,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                 commentCount: 0,
                                 likeCount: 0,
                               ),
-                              Divider(color: Palette.grey,height: 0,),
+                              Divider(color: Palette.grey,height: 1,),
                             ],
                           ),
                         ),

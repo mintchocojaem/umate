@@ -1,18 +1,11 @@
-
-import 'package:danvery/domain/auth/reigster/controller/register_controller.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
-import 'package:danvery/ui/widgets/login/step_guide.dart';
+import 'package:danvery/utils/theme/app_text_theme.dart';
+import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'member_info_screen.dart';
-import 'register_success_screen.dart';
-import 'student_auth_screen.dart';
-
-
+import '../../../../widgets/modern/modern_step_guide.dart';
 
 class RegisterPage extends GetView<RegisterPageController> {
   const RegisterPage({super.key});
@@ -35,7 +28,7 @@ class RegisterPage extends GetView<RegisterPageController> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: StepGuide(
+                child: ModernStepGuide(
                     stepLength: 3,
                     currentStep:
                         Get.find<RegisterPageController>().currentStep),
@@ -44,15 +37,18 @@ class RegisterPage extends GetView<RegisterPageController> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
-                  controller.stepTitle[Get.find<RegisterPageController>().currentStep - 1],
+                  controller.stepTitle[
+                      Get.find<RegisterPageController>().currentStep - 1],
                   style: bigTitleStyle.copyWith(
                       color: Palette.blue, fontWeight: FontWeight.w500),
                 ),
               ),
               Expanded(
                 child: Obx(
-                  () => controller.pages[Get.find<RegisterPageController>().currentStep -
-                      1], // TODO: Obx로 감싸야 하는지 확인
+                  () => controller.pages[
+                      Get.find<RegisterPageController>().currentStep -
+                          1
+                  ], // TODO: Obx로 감싸야 하는지 확인
                 ),
               ),
             ],

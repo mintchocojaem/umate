@@ -29,18 +29,24 @@ class BoardPage extends GetView<BoardPageController> {
         ),
         body: Column(
           children: [
-            TabBar(
-              indicatorColor: Palette.blue,
-              unselectedLabelColor: Palette.grey,
-              labelColor: Palette.blue,
-              tabs: const [
-                Tab(
-                  child: Text("자유게시판",style: regularStyle,),
-                ),
-                Tab(
-                  child: Text("청원게시판",style: regularStyle,),
-                ),
-              ],
+            DecoratedBox(
+              decoration: BoxDecoration(
+                //This is for bottom border that is needed
+                border: Border(bottom: BorderSide(color: Palette.lightGrey, width: 2)),
+              ),
+              child: TabBar(
+                indicatorColor: Palette.blue,
+                unselectedLabelColor: Palette.grey,
+                labelColor: Palette.blue,
+                tabs: const [
+                  Tab(
+                    child: Text("자유게시판",style: regularStyle,),
+                  ),
+                  Tab(
+                    child: Text("청원게시판",style: regularStyle,),
+                  ),
+                ],
+              ),
             ),
             const Expanded(
               child: TabBarView(

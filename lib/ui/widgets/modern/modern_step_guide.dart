@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
-class StepGuide extends StatelessWidget {
+class ModernStepGuide extends StatelessWidget {
 
   final int stepLength;
   final int currentStep;
 
-  const StepGuide({super.key, required this.stepLength, required this.currentStep});
+  const ModernStepGuide({super.key, required this.stepLength, required this.currentStep});
 
   @override
   Widget build(BuildContext context) {

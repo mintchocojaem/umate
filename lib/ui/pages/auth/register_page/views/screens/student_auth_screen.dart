@@ -1,12 +1,10 @@
-import 'package:danvery/domain/auth/reigster/controller/register_controller.dart';
+import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
-import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
-import 'package:danvery/ui/widgets/login/login_form_button.dart';
-import 'package:danvery/ui/widgets/login/login_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class StudentAuthScreen extends GetView<RegisterPageController> {
   const StudentAuthScreen({super.key});
@@ -27,7 +25,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: LoginFormField(
+                      child: ModernFormField(
                         textController:
                         controller.studentIdController,
                         hint: '학번(ID)을 입력하세요',
@@ -36,7 +34,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: LoginFormField(
+                      child: ModernFormField(
                         textController:
                         controller.studentPasswordController,
                         hint: "비밀번호를 입력하세요",
@@ -343,45 +341,39 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Obx(
-                    () => LoginFormButton(
-                      isEnabled: controller.studentId.isNotEmpty &&
-                          controller.studentPassword.isNotEmpty &&
-                          controller.check1 &&
-                          controller.check2,
-                      onPressed: () {
-                        if(controller.studentIdController.text.length != 8){
-                          Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Palette.darkGrey,
-                              colorText: Palette.pureWhite);
-                          return;
-                        }
-                        controller.registerController
-                            .studentAuthenticate(
-                            controller.studentIdController.text,
-                            controller.studentPasswordController.text)
-                            .then((value) {
-                          if (value) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            Get.find<RegisterPageController>().currentStep = 2;
-                          } else {
-                            Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: Palette.darkGrey,
-                                colorText: Palette.pureWhite);
-                          }
-                        });
-                      },
-                      text: '인증하기',
-                    ),
-                  ),
-                ),
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Obx(
+              () => ModernFormButton(
+                isEnabled: controller.studentId.isNotEmpty &&
+                    controller.studentPassword.isNotEmpty &&
+                    controller.check1 &&
+                    controller.check2,
+                onPressed: () {
+                  if(controller.studentIdController.text.length != 8){
+                    Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Palette.darkGrey,
+                        colorText: Palette.pureWhite);
+                    return;
+                  }
+                  controller.registerController
+                      .studentAuthenticate(
+                      controller.studentIdController.text,
+                      controller.studentPasswordController.text)
+                      .then((value) {
+                    if (value) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      Get.find<RegisterPageController>().currentStep = 2;
+                    } else {
+                      Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Palette.darkGrey,
+                          colorText: Palette.pureWhite);
+                    }
+                  });
+                },
+                text: '인증하기',
+              ),
             ),
           ),
         ],
