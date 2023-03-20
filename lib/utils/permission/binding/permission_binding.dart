@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 
-import '../controller/permission_controller.dart';
+import '../service/permission_service.dart';
+
 
 class PermissionBinding extends Bindings{
   @override
   void dependencies() {
-    Get.lazyPut<PermissionController>(() => PermissionController());
+    Get.put<PermissionService>(PermissionService());
   }
 }

@@ -2,7 +2,8 @@ import 'package:danvery/domain/board/petition/controller/petition_controller.dar
 import 'package:danvery/domain/board/petition/model/petition_model.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../domain/auth/login/services/login_service.dart';
+import '../../../../../../domain/auth/login/service/login_service.dart';
+
 
 class PetitionPageController extends GetxController {
 

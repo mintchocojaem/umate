@@ -1,8 +1,9 @@
-import 'package:danvery/utils/permission/controller/permission_controller.dart';
-
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../../../../utils/permission/service/permission_service.dart';
 
 class MyPagePageController extends GetxController{
-  final PermissionController permissionController = Get.find<PermissionController>();
+  final PermissionService permissionService = Get.find<PermissionService>();
 
 }

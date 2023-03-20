@@ -17,11 +17,15 @@ Future<void> setupFlutterNotifications() async {
   channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.',
+    // description
     importance: Importance.high,
   );
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
   // iOS foreground notification 권한
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -43,25 +47,29 @@ Future<void> setupFlutterNotifications() async {
   // 셋팅flag 설정
   isFlutterLocalNotificationsInitialized = true;
 }
+
+Future<void> removeToken() async {
+  await FirebaseMessaging.instance.deleteToken().whenComplete((){
+    if (kDebugMode) {
+      print('FCM token removed');
+    }
+  });
+}
+
 Future<void> getToken() async {
-  // ios
-  String? token;
-  if(defaultTargetPlatform == TargetPlatform.iOS ||defaultTargetPlatform == TargetPlatform.macOS) {
-    token = await FirebaseMessaging.instance.getAPNSToken();
-  }
-  // aos
-  else{
-    token = await FirebaseMessaging.instance.getToken();
-  }
-  print('token: $token');
+  await FirebaseMessaging.instance.getToken().then((value) {
+    if (kDebugMode) {
+      print('FCM Token: $value');
+    }
+  });
 }
 
 /// fcm 배경 처리 (종료되어있거나, 백그라운드에 경우)
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await setupFlutterNotifications();  // 셋팅 메소드
-  showFlutterNotification(message);  // 로컬노티
+  await setupFlutterNotifications(); // 셋팅 메소드
+  showFlutterNotification(message);
 }
 
 /// fcm 전경 처리 - 로컬 알림 보이기

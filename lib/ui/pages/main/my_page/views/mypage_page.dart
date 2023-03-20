@@ -9,8 +9,6 @@ import 'package:get/get.dart';
 class MyPagePage extends GetView<MyPagePageController> {
   const MyPagePage({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -124,15 +122,15 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     activeToggleColor: Palette.blue,
                                     width: 60.0,
                                     toggleSize: 24.0,
-                                    value: controller.permissionController
+                                    value: controller.permissionService
                                         .notificationPermission,
                                     borderRadius: 30.0,
                                     onToggle: (val) async {
                                       if (val) {
-                                        await controller.permissionController
+                                        await controller.permissionService
                                             .getNotificationPermission();
                                       } else {
-                                        controller.permissionController
+                                        controller.permissionService
                                             .notificationPermission = false;
                                       }
                                     },

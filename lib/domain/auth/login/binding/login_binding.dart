@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/login/services/login_service.dart';
+import 'package:danvery/domain/auth/login/service/login_service.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:get/get.dart';
 

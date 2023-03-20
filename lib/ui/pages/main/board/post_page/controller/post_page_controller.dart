@@ -1,6 +1,6 @@
-import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../domain/auth/login/service/login_service.dart';
 import '../../../../../../domain/board/post/controller/post_controller.dart';
 import '../../../../../../domain/board/post/model/post_model.dart';
 

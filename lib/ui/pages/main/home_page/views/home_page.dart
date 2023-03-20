@@ -1,5 +1,3 @@
-import 'package:danvery/domain/auth/login/model/login_model.dart';
-import 'package:danvery/domain/auth/login/services/login_service.dart';
 import 'package:danvery/ui/pages/main/home_page/controller/home_page_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
@@ -398,7 +396,11 @@ class HomePage extends GetView<HomePageController> {
                                               top: 8, bottom: 8),
                                           child: BoardList(
                                             cards: [
-                                              for (var i = 0; i < 5; i++)
+                                              for (var i = 0;
+                                                  i <
+                                                      controller.postController
+                                                          .generalBoard.length;
+                                                  i++)
                                                 BoardCard(
                                                   title: controller
                                                       .postController
@@ -439,7 +441,11 @@ class HomePage extends GetView<HomePageController> {
                                               top: 8, bottom: 8),
                                           child: BoardList(
                                             cards: [
-                                              for (var i = 0; i < 5; i++)
+                                              for (var i = 0;
+                                                  i <
+                                                      controller.postController
+                                                          .generalBoard.length;
+                                                  i++)
                                                 BoardCard(
                                                   title: controller
                                                       .petitionController

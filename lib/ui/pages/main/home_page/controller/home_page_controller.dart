@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../../domain/auth/login/services/login_service.dart';
+import '../../../../../domain/auth/login/service/login_service.dart';
 import '../../../../../domain/board/petition/controller/petition_controller.dart';
 import '../../../../../domain/board/post/controller/post_controller.dart';
 import '../../../../../domain/bus/controller/bus_controller.dart';
