@@ -47,7 +47,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   firebase_analytics: ^10.1.5
   sms_autofill: ^2.3.0
-
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

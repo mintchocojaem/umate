@@ -1,4 +1,3 @@
-
 import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
@@ -9,6 +8,8 @@ import 'package:get/get.dart';
 
 class MyPagePage extends GetView<MyPagePageController> {
   const MyPagePage({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +46,18 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 CircleAvatar(
                                   radius: 36,
                                   backgroundImage: Image.asset(
-                                      "assets/icons/user/profile_icon.png")
+                                          "assets/icons/user/profile_icon.png")
                                       .image,
                                   backgroundColor: Colors.transparent,
                                 ),
                                 TextButton(
                                     style: TextButton.styleFrom(
-                                      minimumSize: const Size(32,16),
-                                      padding: EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
+                                      minimumSize: const Size(32, 16),
+                                      padding: EdgeInsets.only(
+                                          top: 4,
+                                          bottom: 4,
+                                          left: 16,
+                                          right: 16),
                                       backgroundColor: Palette.lightGrey,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
@@ -97,7 +102,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                   child: Container(
                     color: Palette.pureWhite,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 60.0, left: 16, right: 16),
+                      padding:
+                          const EdgeInsets.only(top: 60.0, left: 16, right: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -106,62 +112,73 @@ class MyPagePage extends GetView<MyPagePageController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("알림 설정", style: titleStyle.copyWith(fontWeight: FontWeight.normal,)),
-                                FlutterSwitch(
-                                  inactiveColor: Palette.lightGrey,
-                                  activeColor: Palette.lightGrey,
-                                  inactiveToggleColor: Palette.blue,
-                                  activeToggleColor: Palette.blue,
-                                  width: 60.0,
-                                  toggleSize: 24.0,
-                                  value: controller.notification,
-                                  borderRadius: 30.0,
-                                  onToggle: (val) {},
+                                Text("알림 설정",
+                                    style: titleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    )),
+                                Obx(
+                                  () => FlutterSwitch(
+                                    inactiveColor: Palette.lightGrey,
+                                    activeColor: Palette.lightGrey,
+                                    inactiveToggleColor: Palette.blue,
+                                    activeToggleColor: Palette.blue,
+                                    width: 60.0,
+                                    toggleSize: 24.0,
+                                    value: controller.permissionController
+                                        .notificationPermission,
+                                    borderRadius: 30.0,
+                                    onToggle: (val) async {
+                                      if (val) {
+                                        await controller.permissionController
+                                            .getNotificationPermission();
+                                      } else {
+                                        controller.permissionController
+                                            .notificationPermission = false;
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           GestureDetector(
-                            onTap: (){
-
-                            },
+                            onTap: () {},
                             child: SizedBox(
                                 height: 60,
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "디스플레이 설정",
-                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                    style: titleStyle.copyWith(
+                                        fontWeight: FontWeight.normal,
                                         color: Palette.darkGrey),
                                   ),
                                 )),
                           ),
                           GestureDetector(
-                            onTap: (){
-
-                            },
+                            onTap: () {},
                             child: SizedBox(
                                 height: 60,
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "로그아웃",
-                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                    style: titleStyle.copyWith(
+                                        fontWeight: FontWeight.normal,
                                         color: Palette.darkGrey),
                                   ),
                                 )),
                           ),
                           GestureDetector(
-                            onTap: (){
-
-                            },
+                            onTap: () {},
                             child: SizedBox(
-                              height: 60,
+                                height: 60,
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "회원탈퇴",
-                                    style: titleStyle.copyWith(fontWeight: FontWeight.normal,
+                                    style: titleStyle.copyWith(
+                                        fontWeight: FontWeight.normal,
                                         color: Palette.darkGrey),
                                   ),
                                 )),
@@ -172,10 +189,12 @@ class MyPagePage extends GetView<MyPagePageController> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 190.0, left: 16, right: 16),
+                  padding:
+                      const EdgeInsets.only(top: 190.0, left: 16, right: 16),
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
@@ -184,8 +203,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                             offset: Offset(0, 1), // changes position of shadow
                           ),
                         ],
-                      color: Palette.pureWhite
-                    ),
+                        color: Palette.pureWhite),
                     height: 100,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -200,7 +218,9 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 style: titleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
-                              SizedBox(height: 8,),
+                              SizedBox(
+                                height: 8,
+                              ),
                               Text(
                                 "내가 쓴 글",
                                 style: regularStyle.copyWith(
@@ -219,7 +239,9 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 style: titleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
-                              SizedBox(height: 8,),
+                              SizedBox(
+                                height: 8,
+                              ),
                               Text(
                                 "내가 쓴 댓글",
                                 style: regularStyle.copyWith(
@@ -238,7 +260,9 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 style: titleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
-                              SizedBox(height: 8,),
+                              SizedBox(
+                                height: 8,
+                              ),
                               Text(
                                 "좋아요한 글",
                                 style: regularStyle.copyWith(

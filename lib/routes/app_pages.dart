@@ -17,6 +17,8 @@ import 'package:danvery/ui/pages/main/my_page/binding/mypage_page_binding.dart';
 import 'package:danvery/ui/pages/main/timetable_page/binding/timetable_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/views/splash_screen_page.dart';
+import 'package:danvery/utils/permission/binding/permission_binding.dart';
+import 'package:danvery/utils/permission/controller/permission_controller.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../domain/auth/login/binding/login_binding.dart';
@@ -39,6 +41,7 @@ class AppPages {
         BusBinding(),
         PostBinding(),
         PetitionBinding(),
+        PermissionBinding(),
       ],
     ),
     GetPage(
