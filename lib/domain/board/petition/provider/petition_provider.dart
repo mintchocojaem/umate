@@ -25,8 +25,8 @@ class PetitionProvider{
 
   }
 
-  Future<List<PetitionModel>?> getPetitionBoard(int page, int size) async {
-    String url = '/post/petition?page=$page&size=$size';
+  Future<List<PetitionModel>?> getPetitionBoard(int page, int size, String status) async {
+    String url = '/post/petition?page=$page&size=$size&status=$status';
 
     try {
       final Response response = await dio.get(url);

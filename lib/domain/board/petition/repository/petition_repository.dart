@@ -7,8 +7,8 @@ class PetitionRepository {
   PetitionRepository({required this.petitionProvider});
 
   //get petition board list
-  Future<List<PetitionModel>?> getPetitionBoard(int page, int size) async {
-    return await petitionProvider.getPetitionBoard(page, size);
+  Future<List<PetitionModel>?> getPetitionBoard(int page, int size, String status) async {
+    return await petitionProvider.getPetitionBoard(page, size, status);
   }
 
   //get petition

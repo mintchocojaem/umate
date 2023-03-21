@@ -74,17 +74,18 @@ class MyPagePage extends GetView<MyPagePageController> {
                             ),
                             Text.rich(
                               TextSpan(
-                                style: titleStyle.copyWith(
+                                style: bigTitleStyle.copyWith(
+                                    fontWeight: FontWeight.bold,
                                     color: Palette.pureWhite),
-                                text: '김단국\n', // default text style
+                                text: '${controller.loginService.loginModel.userName}\n', // default text style
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: "경영경제대학 경영학과\n",
-                                      style: regularStyle.copyWith(
+                                      text: "${controller.loginService.loginModel.major}\n",
+                                      style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                   TextSpan(
-                                      text: "32XXXXXX",
-                                      style: regularStyle.copyWith(
+                                      text: controller.loginService.loginModel.studentId,
+                                      style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                 ],
                               ),
@@ -154,7 +155,9 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 )),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+
+                            },
                             child: SizedBox(
                                 height: 60,
                                 child: Align(

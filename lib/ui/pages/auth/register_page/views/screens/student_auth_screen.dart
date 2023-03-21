@@ -11,7 +11,6 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Column(
         children: [
@@ -26,8 +25,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: ModernFormField(
-                        textController:
-                        controller.studentIdController,
+                        textController: controller.studentIdController,
                         hint: '학번(ID)을 입력하세요',
                         title: "학번",
                       ),
@@ -35,8 +33,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: ModernFormField(
-                        textController:
-                        controller.studentPasswordController,
+                        textController: controller.studentPasswordController,
                         hint: "비밀번호를 입력하세요",
                         title: "비밀번호",
                         isPassword: true,
@@ -98,9 +95,8 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                                       width: 28,
                                       height: 28,
                                       decoration: BoxDecoration(
-                                          color: controller
-                                                      .check1 &&
-                                              controller.check2
+                                          color: controller.check1 &&
+                                                  controller.check2
                                               ? Palette.blue
                                               : Palette.lightGrey,
                                           shape: BoxShape.circle),
@@ -113,8 +109,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                                                 (states) => Palette.blue),
                                         shape: const CircleBorder(),
                                         onChanged: (bool? value) {
-                                          controller.check1 =
-                                              value!;
+                                          controller.check1 = value!;
                                           controller.check2 = value;
                                         },
                                         value: controller.check1 &&
@@ -142,6 +137,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                                 dividerColor: Colors.transparent,
                               ),
                               child: ExpansionTile(
+                                initiallyExpanded: true,
                                 iconColor: Palette.blue,
                                 childrenPadding: EdgeInsets.zero,
                                 tilePadding: EdgeInsets.zero,
@@ -165,8 +161,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            controller.check1 =
-                                                value!;
+                                            controller.check1 = value!;
                                           },
                                           value: controller.check1,
                                         ),
@@ -236,6 +231,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                               data: Theme.of(context)
                                   .copyWith(dividerColor: Colors.transparent),
                               child: ExpansionTile(
+                                initiallyExpanded: true,
                                 iconColor: Palette.blue,
                                 childrenPadding: EdgeInsets.zero,
                                 tilePadding: EdgeInsets.zero,
@@ -259,8 +255,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                                                   (states) => Palette.blue),
                                           shape: const CircleBorder(),
                                           onChanged: (bool? value) {
-                                            controller.check2 =
-                                                value!;
+                                            controller.check2 = value!;
                                           },
                                           value: controller.check2,
                                         ),
@@ -349,7 +344,7 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                     controller.check1 &&
                     controller.check2,
                 onPressed: () {
-                  if(controller.studentIdController.text.length != 8){
+                  if (controller.studentIdController.text.length != 8) {
                     Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -357,9 +352,8 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                     return;
                   }
                   controller.registerController
-                      .studentAuthenticate(
-                      controller.studentIdController.text,
-                      controller.studentPasswordController.text)
+                      .studentAuthenticate(controller.studentIdController.text,
+                          controller.studentPasswordController.text)
                       .then((value) {
                     if (value) {
                       FocusManager.instance.primaryFocus?.unfocus();

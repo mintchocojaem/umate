@@ -23,17 +23,19 @@ class PetitionController extends GetxController {
   List<PetitionModel> get petitionBoard => _petitionBoard;
   bool get isLoadPetitionBoard => _isLoadPetitionBoard.value;
 
-  void getPetitionBoard(int page , int size){
-    petitionRepository.getPetitionBoard(page, size).then((value) {
+  List<PetitionModel> getPetitionBoard(int page , int size, String status){
+    petitionRepository.getPetitionBoard(page, size, status).then((value) {
       if (value != null) {
         _petitionBoard.value = value;
         _isLoadPetitionBoard.value = true;
+        return value;
       }
     });
+    return [];
   }
 
-  void refreshPetitionBoard(){
-    getPetitionBoard(0, 5);
+  void refreshPetitionBoard({String? status}){
+    getPetitionBoard(0, 5, status ?? "ACTIVE");
   }
 
   Future<PetitionModel?> getPetition(String token, int id) {
