@@ -28,7 +28,7 @@ class PostModel{
     createdAt = json["createdAt"] as String;
     views = json["views"] as int;
     likes = json["likes"] as int;
-    comments = json["comments"] as int? ?? 0;
+    comments = json["commentCount"] as int? ?? 0;
   }
 
 }

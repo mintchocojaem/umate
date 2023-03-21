@@ -389,95 +389,107 @@ class HomePage extends GetView<HomePageController> {
                                     ),
                                   ),
                                   //get suggestion board with Obx
-                                  Obx(() => controller
-                                          .postController.isLoadGeneralBoard
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8, bottom: 8),
-                                          child: BoardList(
-                                            cards: [
-                                              for (var i = 0;
-                                                  i <
-                                                      controller.postController
-                                                          .generalBoard.length;
-                                                  i++)
-                                                BoardCard(
-                                                  title: controller
-                                                      .postController
-                                                      .generalBoard[i]
-                                                      .title,
-                                                  leadingText: controller
-                                                      .postController
-                                                      .generalBoard[i]
-                                                      .createdAt,
+                                  Obx(
+                                    () => Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: BoardList(
+                                        cards: controller.postController
+                                                .isLoadGeneralBoard
+                                            ? [
+                                                for (var i = 0;
+                                                    i <
+                                                        controller
+                                                            .postController
+                                                            .generalBoard
+                                                            .length;
+                                                    i++)
+                                                  BoardCard(
+                                                    title: controller
+                                                        .postController
+                                                        .generalBoard[i]
+                                                        .title,
+                                                    leadingText: controller
+                                                        .postController
+                                                        .generalBoard[i]
+                                                        .createdAt,
+                                                  ),
+                                              ]
+                                            : [
+                                                const SizedBox(
+                                                  height: 200,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
                                                 ),
-                                            ],
-                                            title: "자유 게시판",
-                                            actionTitle: "더보기",
-                                            onTapAction: () {
-                                              final BoardPageController
-                                                  boardPageController =
-                                                  Get.find<
-                                                      BoardPageController>();
-                                              final MainPageController
-                                                  mainController = Get.find<
-                                                      MainPageController>();
-                                              mainController.selectedIndex = 2;
-                                              boardPageController.selectedTap =
-                                                  0;
-                                            },
-                                          ),
-                                        )
-                                      : const SizedBox(
-                                          height: 200,
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()))),
+                                              ],
+                                        title: "자유 게시판",
+                                        actionTitle: "더보기",
+                                        onTapAction: () {
+                                          final BoardPageController
+                                              boardPageController =
+                                              Get.find<BoardPageController>();
+                                          final MainPageController
+                                              mainController =
+                                              Get.find<MainPageController>();
+                                          mainController.selectedIndex = 2;
+                                          boardPageController.selectedTap = 0;
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   //get petition board with Obx
-                                  Obx(() => controller.petitionController
-                                          .isLoadPetitionBoard
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8, bottom: 8),
-                                          child: BoardList(
-                                            cards: [
-                                              for (var i = 0;
-                                                  i <
-                                                      controller.postController
-                                                          .generalBoard.length;
-                                                  i++)
-                                                BoardCard(
-                                                  title: controller
-                                                      .petitionController
-                                                      .petitionBoard[i]
-                                                      .title,
-                                                  leadingText: controller
-                                                      .petitionController
-                                                      .petitionBoard[i]
-                                                      .createdAt,
+                                  Obx(
+                                    () => Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: BoardList(
+                                        cards: controller.petitionController
+                                                .isLoadPetitionBoard
+                                            ? [
+                                                for (var i = 0;
+                                                    i <
+                                                        controller
+                                                            .petitionController
+                                                            .petitionBoard
+                                                            .length;
+                                                    i++)
+                                                  BoardCard(
+                                                    title: controller
+                                                        .petitionController
+                                                        .petitionBoard[i]
+                                                        .title,
+                                                    leadingText: controller
+                                                        .petitionController
+                                                        .petitionBoard[i]
+                                                        .createdAt,
+                                                  ),
+                                              ]
+                                            : [
+                                                const SizedBox(
+                                                  height: 200,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
                                                 ),
-                                            ],
-                                            title: "청원게시판",
-                                            actionTitle: "더보기",
-                                            onTapAction: () {
-                                              final BoardPageController
-                                                  boardPageController =
-                                                  Get.find<
-                                                      BoardPageController>();
-                                              final MainPageController
-                                                  mainController = Get.find<
-                                                      MainPageController>();
-                                              mainController.selectedIndex = 2;
-                                              boardPageController.selectedTap =
-                                                  1;
-                                            },
-                                          ),
-                                        )
-                                      : const SizedBox(
-                                          height: 200,
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()))),
+                                              ],
+                                        title: "청원게시판",
+                                        actionTitle: "더보기",
+                                        onTapAction: () {
+                                          final BoardPageController
+                                              boardPageController =
+                                              Get.find<BoardPageController>();
+                                          final MainPageController
+                                              mainController =
+                                              Get.find<MainPageController>();
+                                          mainController.selectedIndex = 2;
+                                          boardPageController.selectedTap = 1;
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               )
                             ],

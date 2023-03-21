@@ -5,7 +5,6 @@ class PetitionModel{
   late String body;
   late String author;
   late String createdAt;
-  late int likes;
   late int views;
   late String status;
   late String expiresAt;
@@ -18,7 +17,6 @@ class PetitionModel{
     body,
     author,
     createdDate,
-    likes,
     views,
     status,
     expiresAt
@@ -30,7 +28,6 @@ class PetitionModel{
     body = json["body"] as String;
     author = json["author"] as String? ?? "익명";
     createdAt = json["createdAt"] as String;
-    likes = json["likes"] as int;
     views = json["views"] as int;
     status = json["status"] as String;
     expiresAt = json["expiresAt"] as String;
