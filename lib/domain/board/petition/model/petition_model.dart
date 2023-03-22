@@ -19,7 +19,7 @@ class PetitionModel{
     createdDate,
     views,
     status,
-    expiresAt
+    expiresAt,
   });
 
   PetitionModel.fromJson(Map<String, dynamic> json){

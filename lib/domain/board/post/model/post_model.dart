@@ -7,7 +7,7 @@ class PostModel{
   //late files -> image
   late int likes;
   late int views;
-  late int comments;
+  late int commentCount;
 
   PostModel({
     id,
@@ -17,7 +17,7 @@ class PostModel{
     createdDate,
     views,
     likes,
-    comments
+    commentCount
   });
 
   PostModel.fromJson(Map<String, dynamic> json){
@@ -28,7 +28,7 @@ class PostModel{
     createdAt = json["createdAt"] as String;
     views = json["views"] as int;
     likes = json["likes"] as int;
-    comments = json["commentCount"] as int? ?? 0;
+    commentCount = json["commentCount"] as int;
   }
 
 }

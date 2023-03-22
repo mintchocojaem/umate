@@ -9,6 +9,7 @@ abstract class Routes {
   static const String post = '/board/post';
   static const String petition = '/board/petition';
   static const String login = '/login';
-  static const String register = '/login/register';
+  static const String register = '/register';
+  static const String findPassword = '/findPassword';
   static const String splashScreen = '/splashScreen';
 }

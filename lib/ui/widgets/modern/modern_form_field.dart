@@ -6,6 +6,7 @@ import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
 class ModernFormField extends StatefulWidget {
+
   final String? title;
   final String? hint;
   final bool checkButton;
@@ -19,6 +20,8 @@ class ModernFormField extends StatefulWidget {
   final bool isSMS;
   final bool Function()? onCheckButtonPressed;
   final int checkButtonCoolDown;
+  final Color? titleColor;
+  final TextInputType? keyboardType;
 
   const ModernFormField({
     super.key,
@@ -35,6 +38,8 @@ class ModernFormField extends StatefulWidget {
     this.onCheckButtonPressed,
     this.checkButtonCoolDown = 30,
     this.validateController,
+    this.titleColor,
+    this.keyboardType,
   });
 
   @override
@@ -87,7 +92,7 @@ class _ModernFormField extends State<ModernFormField> {
             : Text(
                 widget.title!,
                 style: titleStyle.copyWith(
-                    color: Palette.grey, fontWeight: FontWeight.w500),
+                    color: widget.titleColor ?? Palette.grey, fontWeight: FontWeight.w500),
               ),
         const SizedBox(
           height: 8,
@@ -101,6 +106,7 @@ class _ModernFormField extends State<ModernFormField> {
             enabled: !widget.readOnly,
             readOnly: widget.readOnly,
             controller: widget.textController,
+            keyboardType: widget.keyboardType,
             style:
                 TextStyle(color: Palette.darkGrey, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
@@ -173,6 +179,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 style: TextStyle(
                                     color: Palette.darkGrey,
                                     fontWeight: FontWeight.bold),
+                                keyboardType: widget.keyboardType,
                                 obscureText: widget.isPassword,
                                 enableSuggestions: false,
                                 autocorrect: false,

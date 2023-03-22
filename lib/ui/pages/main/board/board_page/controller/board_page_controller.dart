@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../../../../../domain/board/petition/controller/petition_controller.dart';
-import '../../../../../../domain/board/petition/model/petition_model.dart';
 import '../../../../../../domain/board/post/controller/post_controller.dart';
 
 class BoardPageController extends GetxController{
@@ -13,8 +12,6 @@ class BoardPageController extends GetxController{
   final RxInt _selectedCategory = 0.obs;
   int get selectedCategory => _selectedCategory.value;
   set selectedCategory(index) => _selectedCategory.value = index;
-
-  final List<String> categories = ["ACTIVE", "WAITING","ANSWERED","EXPIRED"];
 
   final PostController postController = Get.find<PostController>();
   final PetitionController petitionController = Get.find<PetitionController>();

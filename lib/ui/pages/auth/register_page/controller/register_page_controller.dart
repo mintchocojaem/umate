@@ -1,17 +1,17 @@
+import 'package:danvery/ui/pages/auth/register_page/views/steps/register_step_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../../domain/auth/reigster/controller/register_controller.dart';
-import '../views/screens/member_info_screen.dart';
-import '../views/screens/register_success_screen.dart';
-import '../views/screens/student_auth_screen.dart';
+import '../views/steps/register_step_2.dart';
+import '../views/steps/register_step_3.dart';
 
 class RegisterPageController extends GetxController {
 
   List<Widget> pages = const[
-    StudentAuthScreen(),
-    MemberInfoScreen(),
-    RegisterSuccessScreen()
+    RegisterStep1(),
+    RegisterStep2(),
+    RegisterStep3(),
   ];
 
   List<String> stepTitle = ["학생인증", "회원 정보 입력", "가입이 \n완료되었습니다"];
@@ -65,25 +65,6 @@ class RegisterPageController extends GetxController {
   set phoneAuthenticationNumber(index) => _phoneAuthenticationNumber.value = index;
 
   final RegisterController registerController = Get.find<RegisterController>();
-
-  // 3~16자 영문 대소문자, 한글, 숫자, 특수문자(_), 공백 조합
-  bool isValidNicknameFormat(String nickname) {
-    return RegExp(r"^(?!.*\s{2,})[A-Za-z\dㄱ-ㅎㅏ-ㅣ가-힣_ ]{3,16}$")
-        .hasMatch(nickname);
-  }
-
-  // 8~16자 영문 대소문자, 숫자, 특수문자(!@#$%^&*+=\-_(){}[\]:;<>,.?~) 조합
-  bool isValidPasswordFormat(String password) {
-    return RegExp(
-        r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*+=\-_(){}[\]:;<>,.?~]{8,16}$")
-        .hasMatch(password);
-  }
-
-  //대시(-)를 포함하거나 포함하지 않는 11자리 010 휴대폰 번호
-  bool isValidPhoneNumberFormat(String phoneNumber) {
-    return RegExp(r'^010-?\d{4}-?\d{4}$').hasMatch(phoneNumber);
-  }
-
 
   @override
   void onInit() {

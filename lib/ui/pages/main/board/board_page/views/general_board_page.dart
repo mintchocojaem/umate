@@ -12,40 +12,57 @@ class GeneralBoardPage extends GetView<BoardPageController> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 8, bottom: 8 , left: 16, right: 16),
-              itemCount: controller.postController.generalBoard.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: (){
-                    Get.toNamed(Routes.post, arguments: controller.postController.generalBoard[index].id);
-                  },
-                  child: Container(
-                    color: Palette.pureWhite,
-                    child: Column(
-                      children: [
-                        PostCard(
-                          nickname: controller.postController.generalBoard[index].author,
-                          title: controller.postController.generalBoard[index].title,
-                          subtitle: controller.postController.generalBoard[index].body,
-                          publishDate:
-                          controller.postController.generalBoard[index].createdAt,
-                          commentCount: 0,
-                          likeCount: 0,
+    return Obx(
+      () => controller.postController.isLoadPostListBoard
+          ? SingleChildScrollView(
+              //여기 obx 넣고 중앙에 로딩 띄워야함
+              child: Column(
+              children: [
+                ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, left: 16, right: 16),
+                    itemCount: controller.postController.postListHome.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.post,
+                              arguments: controller
+                                  .postController.postListHome[index].id);
+                        },
+                        child: Container(
+                          color: Palette.pureWhite,
+                          child: Column(
+                            children: [
+                              PostCard(
+                                nickname: controller
+                                    .postController.postListHome[index].author,
+                                title: controller
+                                    .postController.postListHome[index].title,
+                                subtitle: controller
+                                    .postController.postListHome[index].body,
+                                publishDate: controller.postController
+                                    .postListHome[index].createdAt,
+                                commentCount: controller.postController
+                                    .postListHome[index].commentCount,
+                                likeCount: controller.postController
+                                    .postListHome[index].likes,
+                              ),
+                              Divider(
+                                color: Palette.grey,
+                                height: 1,
+                              ),
+                            ],
+                          ),
                         ),
-                        Divider(color: Palette.grey,height: 1,),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-        ],
-      )
+                      );
+                    }),
+              ],
+            ))
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }

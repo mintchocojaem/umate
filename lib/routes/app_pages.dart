@@ -24,6 +24,8 @@ import '../domain/auth/login/binding/login_binding.dart';
 import '../domain/auth/reigster/binding/register_binding.dart';
 import '../domain/board/petition/binding/petition_binding.dart';
 import '../domain/board/post/binding/post_binding.dart';
+import '../ui/pages/auth/find_password_page/binding/find_password_page_binding.dart';
+import '../ui/pages/auth/find_password_page/views/find_password_page.dart';
 import '../ui/pages/main/board/petition_page/views/petition_page.dart';
 
 class AppPages {
@@ -68,6 +70,13 @@ class AppPages {
       bindings: [
         RegisterPageBinding(),
         RegisterBinding(),
+      ],
+    ),
+    GetPage(
+      name: Routes.findPassword,
+      page: () => const FindPasswordPage(),
+      bindings: [
+        FindPasswordPageBinding(),
       ],
     ),
     GetPage(

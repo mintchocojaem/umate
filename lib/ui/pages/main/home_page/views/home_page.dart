@@ -21,6 +21,7 @@ class HomePage extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
         titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
@@ -395,23 +396,23 @@ class HomePage extends GetView<HomePageController> {
                                           top: 8, bottom: 8),
                                       child: BoardList(
                                         cards: controller.postController
-                                                .isLoadGeneralBoard
+                                                .isLoadPostListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
                                                             .postController
-                                                            .generalBoard
+                                                            .postListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
                                                         .postController
-                                                        .generalBoard[i]
+                                                        .postListHome[i]
                                                         .title,
                                                     leadingText: controller
                                                         .postController
-                                                        .generalBoard[i]
+                                                        .postListHome[i]
                                                         .createdAt,
                                                   ),
                                               ]
@@ -446,23 +447,23 @@ class HomePage extends GetView<HomePageController> {
                                           top: 8, bottom: 8),
                                       child: BoardList(
                                         cards: controller.petitionController
-                                                .isLoadPetitionBoard
+                                                .isLoadPetitionListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
                                                             .petitionController
-                                                            .petitionBoard
+                                                            .petitionListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
                                                         .petitionController
-                                                        .petitionBoard[i]
+                                                        .petitionListHome[i]
                                                         .title,
                                                     leadingText: controller
                                                         .petitionController
-                                                        .petitionBoard[i]
+                                                        .petitionListHome[i]
                                                         .createdAt,
                                                   ),
                                               ]

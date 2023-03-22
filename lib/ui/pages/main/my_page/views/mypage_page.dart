@@ -14,6 +14,7 @@ class MyPagePage extends GetView<MyPagePageController> {
     // TODO: implement build
 
     return Scaffold(
+      backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
         titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
@@ -154,6 +155,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                 )),
                           ),
+                          /*
                           GestureDetector(
                             onTap: () {
 
@@ -170,6 +172,9 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                 )),
                           ),
+
+                           */
+                          /*
                           GestureDetector(
                             onTap: () {},
                             child: SizedBox(
@@ -184,6 +189,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                 )),
                           ),
+
+                           */
                         ],
                       ),
                     ),

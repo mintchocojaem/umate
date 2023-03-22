@@ -6,8 +6,8 @@ import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class StudentAuthScreen extends GetView<RegisterPageController> {
-  const StudentAuthScreen({super.key});
+class RegisterStep1 extends GetView<RegisterPageController> {
+  const RegisterStep1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +72,9 @@ class StudentAuthScreen extends GetView<RegisterPageController> {
                           context.isDarkMode
                               ? const BoxShadow()
                               : BoxShadow(
-                                  color: Palette.grey.withOpacity(0.3),
+                                  color: Palette.grey.withOpacity(0.2),
                                   spreadRadius: 3,
-                                  blurRadius: 4,
+                                  blurRadius: 3,
                                   offset: const Offset(
                                       0, 1), // changes position of shadow
                                 ),

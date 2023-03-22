@@ -7,8 +7,10 @@ import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MemberInfoScreen extends GetView<RegisterPageController> {
-  const MemberInfoScreen({super.key});
+import '../../../../../../utils/regex/regex.dart';
+
+class RegisterStep2 extends GetView<RegisterPageController> {
+  const RegisterStep2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class MemberInfoScreen extends GetView<RegisterPageController> {
                                         controller.phoneNumberController,
                                     validateController: controller
                                         .phoneAuthenticationNumberController,
-                                    hint: "- 는 제외하고 입력하세요",
+                                    hint: "휴대폰 번호를 입력하세요",
                                     validate: true,
                                     validateHint: "인증번호 6자리를 입력하세요",
                                     title: "휴대폰 번호",
@@ -98,7 +100,7 @@ class MemberInfoScreen extends GetView<RegisterPageController> {
                                     isSMS: true,
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
-                                      if (controller.isValidPhoneNumberFormat(
+                                      if (isValidPhoneNumberFormat(
                                               controller.phoneNumber) ==
                                           false) {
                                         Get.snackbar(
@@ -153,7 +155,7 @@ class MemberInfoScreen extends GetView<RegisterPageController> {
                 text: "가입하기",
                 onPressed: () async {
                   if (controller.nickname.length < 2 ||
-                      controller.isValidNicknameFormat(controller.nickname) ==
+                      isValidNicknameFormat(controller.nickname) ==
                           false) {
                     Get.snackbar(
                         "닉네임 오류", "닉네임은 3~8자리의 한글, 영문, 숫자, _, 공백만 사용할 수 있습니다.",
@@ -163,7 +165,7 @@ class MemberInfoScreen extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (controller.isValidPasswordFormat(controller.password) ==
+                  if (isValidPasswordFormat(controller.password) ==
                       false) {
                     Get.snackbar(
                         "비밀번호 오류", "비밀번호는 영문, 숫자를 포함한 8~16자리만 사용할 수 있습니다.",

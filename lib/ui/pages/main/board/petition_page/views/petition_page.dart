@@ -1,3 +1,4 @@
+import 'package:danvery/domain/board/petition/controller/petition_controller.dart';
 import 'package:danvery/ui/pages/main/board/petition_page/controller/petition_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,7 @@ class PetitionPage extends GetView<PetitionPageController> {
                                             ),
                                             const SizedBox(width: 4,),
                                             Text(
-                                              controller.petitionModel.status,
+                                              controller.petitionController.status[controller.petitionModel.status] ?? "??",
                                               style: lightStyle.copyWith(
                                                   color: Palette.blue, fontSize: 12),
                                             ),
@@ -150,7 +151,7 @@ class PetitionPage extends GetView<PetitionPageController> {
                                 children: [
                                   Text("참여인원", style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
                                   const SizedBox(width: 8,),
-                                  Text("${controller.petitionModel.views}명", style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.blue),),
+                                  Text("0명", style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.blue),),
                                 ],
                               ),
                               const SizedBox(

@@ -3,8 +3,8 @@ import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterSuccessScreen extends GetView<RegisterPageController> {
-  const RegisterSuccessScreen({super.key});
+class RegisterStep3 extends GetView<RegisterPageController> {
+  const RegisterStep3({super.key});
 
   @override
   Widget build(BuildContext context) {

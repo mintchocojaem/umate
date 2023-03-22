@@ -19,16 +19,20 @@ class LoginPage extends GetView<LoginPageController> {
 
     // TODO: implement build
     return Scaffold(
-        appBar: TransparentAppBar(
-          title: "로그인",
-          isDarkMode: Get.isDarkMode,
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
+        body: Stack(
+          children: [
+            TransparentAppBar(
+              title: "Danvery",
+              isDarkMode: Get.isDarkMode,
+              isCenterTitle: false,
+              titleTextStyle: bigTitleStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),
+            ),
+            Padding(
               padding: const EdgeInsets.only(
-                  left: 16, right: 16, top: 16, bottom: 16),
+                  left: 16, right: 16, top:  16, bottom: 16),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
                     children: [
@@ -36,8 +40,9 @@ class LoginPage extends GetView<LoginPageController> {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: ModernFormField(
                           textController: controller.loginService.idController,
-                          hint: '학번(ID)을 입력하세요',
-                          title: "학번",
+                          hint: 'ID(학번)을 입력하세요',
+                          title: "아이디",
+                          titleColor: Palette.blue,
                         ),
                       ),
                       Padding(
@@ -47,12 +52,13 @@ class LoginPage extends GetView<LoginPageController> {
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
                           isPassword: true,
+                          titleColor: Palette.blue,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 48,
+                    height: 32,
                   ),
                   ModernFormButton(
                       text: "로그인",
@@ -81,7 +87,10 @@ class LoginPage extends GetView<LoginPageController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Get.toNamed(Routes.findPassword);
+                        },
                         child: Text(
                           "비밀번호 찾기",
                           style: tinyStyle.copyWith(color: Palette.grey),
@@ -115,7 +124,7 @@ class LoginPage extends GetView<LoginPageController> {
                 ],
               ),
             ),
-          ),
+          ],
         ));
   }
 }

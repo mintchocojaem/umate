@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:danvery/utils/url/url.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import '../model/post_model.dart';
 

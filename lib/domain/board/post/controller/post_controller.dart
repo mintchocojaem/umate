@@ -12,27 +12,47 @@ class PostController extends GetxController {
 
   @override
   void onInit() {
-    refreshGeneralBoard();
+    refreshPostListHome();
+    refreshPostListBoard();
     super.onInit();
   }
 
-  final RxList<PostModel> _generalBoard = <PostModel>[].obs;
-  final RxBool _isLoadGeneralBoard = false.obs;
+  final RxList<PostModel> _postListHome = <PostModel>[].obs;
+  final RxBool _isLoadPostListHome = false.obs;
 
-  List<PostModel> get generalBoard => _generalBoard;
-  bool get isLoadGeneralBoard => _isLoadGeneralBoard.value;
+  List<PostModel> get postListHome => _postListHome;
+  bool get isLoadPostListHome => _isLoadPostListHome.value;
 
-  void getGeneralBoard(int page , int size){
+  final RxList<PostModel> _postListBoard = <PostModel>[].obs;
+  final RxBool _isLoadPostListBoard = false.obs;
+
+  List<PostModel> get postListBoard => _postListBoard;
+  bool get isLoadPostListBoard => _isLoadPostListBoard.value;
+
+  void getPostListHome(int page , int size){
     postRepository.getGeneralBoard(page, size).then((value) {
       if (value != null) {
-        _generalBoard.value = value;
-        _isLoadGeneralBoard.value = true;
+        _postListHome.value = value;
+        _isLoadPostListHome.value = true;
       }
     });
   }
 
-  void refreshGeneralBoard(){
-    getGeneralBoard(0, 5);
+  void getPostListBoard(int page , int size){
+    postRepository.getGeneralBoard(page, size).then((value) {
+      if (value != null) {
+        _postListBoard.value = value;
+        _isLoadPostListBoard.value = true;
+      }
+    });
+  }
+
+  void refreshPostListHome(){
+    getPostListHome(0, 5);
+  }
+
+  void refreshPostListBoard(){
+    getPostListBoard(0, 5);
   }
 
   Future<bool> createPost(String token, PostModel postModel) {

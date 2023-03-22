@@ -1,29 +1,34 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
 class PetitionCard extends StatelessWidget {
   final String title; // 제목
-  final String expiresAt; // 마감 일자
-  final String petitionPeriod; // 청원 기간
+  final String createdAt; // 청원 기간
+  final String expiredAt; // 청원 기간
   final String numberOfPeople; // 참여 인원
   final String status; // 청원 상태
-
 
   const PetitionCard({
     super.key,
     required this.title,
-    required this.expiresAt,
-    required this.petitionPeriod,
     required this.numberOfPeople,
     required this.status,
+    required this.createdAt,
+    required this.expiredAt,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    DateTime now = DateTime.now();
+    DateTime expiredDate = DateFormat("yyyy-MM-dd").parse(expiredAt);
+    int period = expiredDate.difference(now).inDays;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -54,7 +59,7 @@ class PetitionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 4.0, bottom: 4),
               child: Text(
-                expiresAt,
+                "D - $period",
                 style: regularStyle.copyWith(fontWeight: FontWeight.bold)
               ),
             ),
@@ -65,7 +70,7 @@ class PetitionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("청원기간", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
-                    Text("2023-01-15 ~ 2023/02-15", style: tinyStyle.copyWith(color: Palette.darkGrey),)
+                    Text("$createdAt ~ $expiredAt", style: tinyStyle.copyWith(color: Palette.darkGrey),)
                   ],
                 ),
                 const SizedBox(width: 32,),
@@ -83,7 +88,7 @@ class PetitionCard extends StatelessWidget {
                       children: [
                         Text("청원상태", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
                         const SizedBox(width: 8,),
-                        Text("청원 중",style: tinyStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
+                        Text(status,style: tinyStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
                       ],
                     ),
                   ],

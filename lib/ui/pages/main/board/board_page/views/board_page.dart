@@ -53,25 +53,13 @@ class BoardPage extends GetView<BoardPageController> {
                   ],
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   //physics: NeverScrollableScrollPhysics(),
                   // to disable TabBar scrolling
                   children: [
-                    Obx(
-                      () => controller.postController.isLoadGeneralBoard
-                          ? const GeneralBoardPage()
-                          : const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                    ),
-                    Obx(
-                      () => controller.petitionController.isLoadPetitionBoard
-                          ? const PetitionBoardPage()
-                          : const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                    ),
+                    GeneralBoardPage(),
+                    PetitionBoardPage(),
                   ],
                 ),
               ),

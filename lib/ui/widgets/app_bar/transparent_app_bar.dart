@@ -11,6 +11,8 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
   final VoidCallback? onPressedLeading;
   final List<Widget>? actions;
   final bool isDarkMode;
+  final bool isCenterTitle;
+  final TextStyle? titleTextStyle;
 
   const TransparentAppBar({
     super.key,
@@ -20,13 +22,15 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
     this.onPressedLeading,
     this.actions,
     required this.isDarkMode,
+    this.isCenterTitle = true,
+    this.titleTextStyle,
   });
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
       systemOverlayStyle: isDarkMode ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-      centerTitle: true,
+      centerTitle: isCenterTitle,
       toolbarHeight: height,
       backgroundColor: Colors.transparent,
       leading: automaticallyImplyLeading ? IconButton(
@@ -35,7 +39,7 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
       ) : null,
       title: Text(
         title,
-        style: titleStyle.copyWith(color: Palette.black),
+        style: titleTextStyle ?? titleStyle.copyWith(color: Palette.black),
       ),
       elevation: 0,
       actions: actions,
