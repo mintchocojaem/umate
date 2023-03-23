@@ -13,7 +13,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.petitionPostController.isLoadPetitionListBoard
+      () => controller.isLoadPetitionListBoard
           ? SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,8 +37,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: controller
-                          .petitionPostController.petitionListBoard.length,
+                      itemCount: controller.petitionListBoard.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.only(
@@ -46,20 +45,15 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                           child: GestureDetector(
                             onTap: () {
                               Get.toNamed(Routes.petition,
-                                  arguments: controller.petitionPostController
-                                      .petitionListBoard[index].id);
+                                  arguments: controller.petitionListBoard[index].id);
                             },
                             child: PetitionCard(
-                                title: controller.petitionPostController
-                                    .petitionListBoard[index].title,
-                                createdAt: controller.petitionPostController
-                                    .petitionListBoard[index].createdAt,
-                                expiredAt: controller.petitionPostController
-                                    .petitionListBoard[index].expiresAt,
+                                title: controller.petitionListBoard[index].title,
+                                createdAt: controller.petitionListBoard[index].createdAt,
+                                expiredAt: controller.petitionListBoard[index].expiresAt,
                                 numberOfPeople: "143",
                                 status: controller.petitionPostController.status[
-                                        controller.petitionPostController
-                                            .petitionListBoard[index].status] ??
+                                        controller.petitionListBoard[index].status] ??
                                     "??"),
                           ),
                         );

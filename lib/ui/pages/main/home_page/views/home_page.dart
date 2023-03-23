@@ -442,23 +442,19 @@ class HomePage extends GetView<HomePageController> {
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
                                       child: BoardList(
-                                        cards: controller.petitionPostController
-                                                .isLoadPetitionListHome
+                                        cards: controller.isLoadPetitionListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
-                                                            .petitionPostController
                                                             .petitionListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
-                                                        .petitionPostController
                                                         .petitionListHome[i]
                                                         .title,
                                                     leadingText: controller
-                                                        .petitionPostController
                                                         .petitionListHome[i]
                                                         .createdAt,
                                                   ),
