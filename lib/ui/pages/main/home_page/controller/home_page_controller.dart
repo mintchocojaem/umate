@@ -40,7 +40,7 @@ class HomePageController extends GetxController {
       }
     });
     petitionPostController
-        .getPetitionListHome(0, 5, PetitionStatus.active.name.toUpperCase())
+        .getPetitionListHome(0, 5, "ACTIVE")
         .then((value) {
       if (value != null) {
         _petitionListHome.value = value;

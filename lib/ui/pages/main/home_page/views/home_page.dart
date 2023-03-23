@@ -395,7 +395,8 @@ class HomePage extends GetView<HomePageController> {
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
                                       child: BoardList(
-                                        cards: controller.isLoadGeneralPostListHome
+                                        cards: controller
+                                                .isLoadGeneralPostListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <

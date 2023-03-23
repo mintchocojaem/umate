@@ -91,7 +91,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                             ),
                                             const SizedBox(width: 4,),
                                             Text(
-                                              controller.petitionPostController.status[controller.petitionPostModel.status] ?? "??",
+                                              controller.petitionPostModel.status,
                                               style: lightStyle.copyWith(
                                                   color: Palette.blue, fontSize: 12),
                                             ),

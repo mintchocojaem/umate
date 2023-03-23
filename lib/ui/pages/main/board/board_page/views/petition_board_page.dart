@@ -24,7 +24,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                     child: CategoryButtonBar(
                       selectedIndex: controller.selectedCategory,
                       categories:
-                          controller.petitionPostController.status.values.toList(),
+                      controller.categoryKORList,
                       selectedBackGroundColor: Palette.blue,
                       unSelectedBackGroundColor: Palette.white,
                       selectedTextColor: Palette.pureWhite,
@@ -52,9 +52,8 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                 createdAt: controller.petitionListBoard[index].createdAt,
                                 expiredAt: controller.petitionListBoard[index].expiresAt,
                                 numberOfPeople: "143",
-                                status: controller.petitionPostController.status[
-                                        controller.petitionListBoard[index].status] ??
-                                    "??"),
+                                status: controller.petitionListBoard[index].status
+                            ),
                           ),
                         );
                       }),

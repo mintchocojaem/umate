@@ -40,6 +40,9 @@ class BoardPageController extends GetxController {
 
   bool get isLoadPetitionListBoard => _isLoadPetitionListBoard.value;
 
+  List<String> categoryKORList = ['청원 중', '대기 중', '답변 완료', '기간만료'];
+  List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -50,12 +53,22 @@ class BoardPageController extends GetxController {
       }
     });
     petitionPostController
-        .getPetitionListBoard(0, 5, PetitionStatus.active.name.toUpperCase())
+        .getPetitionListBoard(0, 5, categoryAPIList[_selectedCategory.value])
         .then((value) {
       if (value != null) {
         _petitionListBoard.value = value;
         _isLoadPetitionListBoard.value = true;
       }
+    });
+    _selectedCategory.listen((value){
+      petitionPostController
+          .getPetitionListBoard(0, 5, categoryAPIList[_selectedCategory.value])
+          .then((value) {
+        if (value != null) {
+          _petitionListBoard.value = value;
+          _isLoadPetitionListBoard.value = true;
+        }
+      });
     });
     super.onInit();
   }
