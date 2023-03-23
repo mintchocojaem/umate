@@ -6,10 +6,11 @@ import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
 import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
 import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_binding.dart';
-import 'package:danvery/ui/pages/main/board/petition_page/binding/petition_page_binding.dart';
-import 'package:danvery/ui/pages/main/board/post_page/binding/post_page_binding.dart';
-import 'package:danvery/ui/pages/main/board/post_page/views/post_create_page.dart';
-import 'package:danvery/ui/pages/main/board/post_page/views/post_page.dart';
+import 'package:danvery/ui/pages/main/board/general_post_page/binding/general_post_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_create_page.dart';
+import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_page.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_page/binding/petition_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_page/views/petition_page.dart';
 import 'package:danvery/ui/pages/main/home_page/binding/home_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/binding/main_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/views/main_page.dart';
@@ -22,11 +23,10 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../domain/auth/login/binding/login_binding.dart';
 import '../domain/auth/reigster/binding/register_binding.dart';
-import '../domain/board/petition/binding/petition_binding.dart';
-import '../domain/board/post/binding/post_binding.dart';
+import '../domain/board/general_post/binding/post_binding.dart';
+import '../domain/board/petition_post/binding/petition_post_binding.dart';
 import '../ui/pages/auth/find_password_page/binding/find_password_page_binding.dart';
 import '../ui/pages/auth/find_password_page/views/find_password_page.dart';
-import '../ui/pages/main/board/petition_page/views/petition_page.dart';
 
 class AppPages {
   static final List<GetPage> pages = [
@@ -47,13 +47,13 @@ class AppPages {
     ),
     GetPage(
       name: Routes.postCreate,
-      page: () => const PostCreatePage(),
+      page: () => const GeneralPostCreatePage(),
     ),
     GetPage(
       name: Routes.post,
-      page: () => const PostPage(),
+      page: () => const GeneralPostPage(),
       bindings: [
-        PostPageBinding()
+        GeneralPostPageBinding()
       ],
     ),
     GetPage(
@@ -88,10 +88,10 @@ class AppPages {
     ),
     GetPage(
       name: Routes.petition,
-      page: () => const PetitionPage(),
+      page: () => const PetitionPostPage(),
       bindings: [
         PetitionBinding(),
-        PetitionPageBinding()
+        PetitionPostPageBinding()
       ],
     ),
   ];

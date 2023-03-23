@@ -6,7 +6,7 @@ abstract class Routes {
   static const String board = '/board';
   static const String myPage = '/myPage';
   static const String postCreate = '/postCreate';
-  static const String post = '/board/post';
+  static const String post = '/board/general_post';
   static const String petition = '/board/petition';
   static const String login = '/login';
   static const String register = '/register';
