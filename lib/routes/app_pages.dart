@@ -1,4 +1,6 @@
 
+import 'package:danvery/domain/board/comment/general_comment/binding/general_comment_binding.dart';
+import 'package:danvery/domain/board/post/general_post/binding/post_binding.dart';
 import 'package:danvery/domain/bus/binding/bus_binding.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/auth/login_page/binding/login_page_binding.dart';
@@ -23,8 +25,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../domain/auth/login/binding/login_binding.dart';
 import '../domain/auth/reigster/binding/register_binding.dart';
-import '../domain/board/general_post/binding/post_binding.dart';
-import '../domain/board/petition_post/binding/petition_post_binding.dart';
+import '../domain/board/post/petition_post/binding/petition_post_binding.dart';
 import '../ui/pages/auth/find_password_page/binding/find_password_page_binding.dart';
 import '../ui/pages/auth/find_password_page/views/find_password_page.dart';
 
@@ -53,7 +54,8 @@ class AppPages {
       name: Routes.post,
       page: () => const GeneralPostPage(),
       bindings: [
-        GeneralPostPageBinding()
+        GeneralPostPageBinding(),
+        GeneralCommentBinding(),
       ],
     ),
     GetPage(

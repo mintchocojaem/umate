@@ -8,6 +8,6 @@ import '../repository/general_post_repository.dart';
 class PostBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<GeneralPostController>(() => GeneralPostController(generalPostRepository: GeneralPostRepository(postProvider: GeneralPostProvider(dio: DioInterceptor().dio))));
+    Get.lazyPut<GeneralPostController>(() => GeneralPostController(generalPostRepository: GeneralPostRepository(generalPostProvider: GeneralPostProvider(dio: DioInterceptor().dio))));
   }
 }

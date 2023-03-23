@@ -1,6 +1,6 @@
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:get/get.dart';
 
-import '../model/general_post_model.dart';
 import '../repository/general_post_repository.dart';
 
 
@@ -12,47 +12,15 @@ class GeneralPostController extends GetxController {
 
   @override
   void onInit() {
-    refreshGeneralPostListHome();
-    refreshGeneralPostListBoard();
     super.onInit();
   }
 
-  final RxList<GeneralPostModel> _generalPostListHome = <GeneralPostModel>[].obs;
-  final RxBool _isLoadGeneralPostListHome = false.obs;
-
-  List<GeneralPostModel> get generalPostListHome => _generalPostListHome;
-  bool get isLoadGeneralPostListHome => _isLoadGeneralPostListHome.value;
-
-  final RxList<GeneralPostModel> _generalPostListBoard = <GeneralPostModel>[].obs;
-  final RxBool _isLoadGeneralPostListBoard = false.obs;
-
-  List<GeneralPostModel> get generalPostListBoard => _generalPostListBoard;
-  bool get isLoadGeneralPostListBoard => _isLoadGeneralPostListBoard.value;
-
-  void getPostListHome(int page , int size){
-    generalPostRepository.getGeneralBoard(page, size).then((value) {
-      if (value != null) {
-        _generalPostListHome.value = value;
-        _isLoadGeneralPostListHome.value = true;
-      }
-    });
+  Future<List<GeneralPostModel>?> getGeneralPostListHome(int page , int size) async{
+    return generalPostRepository.getGeneralBoard(page, size);
   }
 
-  void getPostListBoard(int page , int size){
-    generalPostRepository.getGeneralBoard(page, size).then((value) {
-      if (value != null) {
-        _generalPostListBoard.value = value;
-        _isLoadGeneralPostListBoard.value = true;
-      }
-    });
-  }
-
-  void refreshGeneralPostListHome(){
-    getPostListHome(0, 5);
-  }
-
-  void refreshGeneralPostListBoard(){
-    getPostListBoard(0, 5);
+  Future<List<GeneralPostModel>?> getGeneralPostListBoard(int page , int size) async{
+    return generalPostRepository.getGeneralBoard(page, size);
   }
 
   Future<bool> createGeneralPost(String token, GeneralPostModel postModel) {

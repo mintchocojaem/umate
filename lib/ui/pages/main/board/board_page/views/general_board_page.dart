@@ -13,7 +13,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
     // TODO: implement build
 
     return Obx(
-      () => controller.postController.isLoadGeneralPostListBoard
+      () => controller.isLoadGeneralPostListBoard
           ? SingleChildScrollView(
               //여기 obx 넣고 중앙에 로딩 띄워야함
               child: Column(
@@ -23,31 +23,24 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(
                         top: 8, bottom: 8, left: 16, right: 16),
-                    itemCount: controller.postController.generalPostListHome.length,
+                    itemCount: controller.generalPostListBoard.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
                           Get.toNamed(Routes.post,
-                              arguments: controller
-                                  .postController.generalPostListHome[index].id);
+                              arguments: controller.generalPostListBoard[index].id);
                         },
                         child: Container(
                           color: Palette.pureWhite,
                           child: Column(
                             children: [
                               PostCard(
-                                nickname: controller
-                                    .postController.generalPostListHome[index].author,
-                                title: controller
-                                    .postController.generalPostListHome[index].title,
-                                subtitle: controller
-                                    .postController.generalPostListHome[index].body,
-                                publishDate: controller.postController
-                                    .generalPostListHome[index].createdAt,
-                                commentCount: controller.postController
-                                    .generalPostListHome[index].commentCount,
-                                likeCount: controller.postController
-                                    .generalPostListHome[index].likes,
+                                nickname: controller.generalPostListBoard[index].author,
+                                title: controller.generalPostListBoard[index].title,
+                                subtitle: controller.generalPostListBoard[index].body,
+                                publishDate: controller.generalPostListBoard[index].createdAt,
+                                commentCount: controller.generalPostListBoard[index].commentCount,
+                                likeCount: controller.generalPostListBoard[index].likes,
                               ),
                               Divider(
                                 color: Palette.grey,

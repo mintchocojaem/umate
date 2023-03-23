@@ -395,23 +395,19 @@ class HomePage extends GetView<HomePageController> {
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
                                       child: BoardList(
-                                        cards: controller.postController
-                                                .isLoadGeneralPostListHome
+                                        cards: controller.isLoadGeneralPostListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
-                                                            .postController
                                                             .generalPostListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
-                                                        .postController
                                                         .generalPostListHome[i]
                                                         .title,
                                                     leadingText: controller
-                                                        .postController
                                                         .generalPostListHome[i]
                                                         .createdAt,
                                                   ),
@@ -446,23 +442,23 @@ class HomePage extends GetView<HomePageController> {
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
                                       child: BoardList(
-                                        cards: controller.petitionController
+                                        cards: controller.petitionPostController
                                                 .isLoadPetitionListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
-                                                            .petitionController
+                                                            .petitionPostController
                                                             .petitionListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
-                                                        .petitionController
+                                                        .petitionPostController
                                                         .petitionListHome[i]
                                                         .title,
                                                     leadingText: controller
-                                                        .petitionController
+                                                        .petitionPostController
                                                         .petitionListHome[i]
                                                         .createdAt,
                                                   ),

@@ -1,23 +1,22 @@
 
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 
-
-import '../model/general_post_model.dart';
 import '../provider/general_post_provider.dart';
 
 class GeneralPostRepository {
-  final GeneralPostProvider postProvider;
+  final GeneralPostProvider generalPostProvider;
 
-  GeneralPostRepository({required this.postProvider});
+  GeneralPostRepository({required this.generalPostProvider});
 
-  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) => postProvider.createGeneralPost(token, postModel);
+  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) => generalPostProvider.createGeneralPost(token, postModel);
 
-  Future<bool> deleteGeneralPost(String token, int id) => postProvider.deleteGeneralPost(token, id);
+  Future<bool> deleteGeneralPost(String token, int id) => generalPostProvider.deleteGeneralPost(token, id);
 
-  Future<GeneralPostModel?> getGeneralPost(String token, int id) => postProvider.getGeneralPost(token, id);
+  Future<GeneralPostModel?> getGeneralPost(String token, int id) => generalPostProvider.getGeneralPost(token, id);
 
   //get suggestion board list
   Future<List<GeneralPostModel>?> getGeneralBoard(int page, int size) async {
-    return await postProvider.getGeneralBoard(page, size);
+    return await generalPostProvider.getGeneralBoard(page, size);
   }
 
 }

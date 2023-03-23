@@ -1,10 +1,10 @@
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_page/controller/general_post_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../domain/board/general_post/model/general_post_model.dart';
 import '../../../../../widgets/modern/modern_form_button.dart';
 
 class GeneralPostCreatePage extends GetView<GeneralPostPageController> {

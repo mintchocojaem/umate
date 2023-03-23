@@ -1,5 +1,5 @@
-import 'package:danvery/domain/board/petition_post/controller/petition_post_controller.dart';
-import 'package:danvery/domain/board/petition_post/model/petition_post_model.dart';
+import 'package:danvery/domain/board/post/petition_post/controller/petition_post_controller.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../domain/auth/login/service/login_service.dart';

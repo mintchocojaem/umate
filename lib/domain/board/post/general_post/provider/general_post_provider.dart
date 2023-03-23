@@ -1,6 +1,6 @@
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:dio/dio.dart';
 
-import '../model/general_post_model.dart';
 
 class GeneralPostProvider {
 

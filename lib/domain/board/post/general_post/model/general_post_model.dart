@@ -28,7 +28,7 @@ class GeneralPostModel{
     createdAt = json["createdAt"] as String;
     views = json["views"] as int;
     likes = json["likes"] as int;
-    commentCount = json["commentCount"] as int;
+    commentCount = json["commentCount"] as int? ?? 0;
   }
 
 }
