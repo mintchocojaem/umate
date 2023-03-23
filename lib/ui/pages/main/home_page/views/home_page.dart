@@ -396,23 +396,23 @@ class HomePage extends GetView<HomePageController> {
                                           top: 8, bottom: 8),
                                       child: BoardList(
                                         cards: controller.postController
-                                                .isLoadPostListHome
+                                                .isLoadGeneralPostListHome
                                             ? [
                                                 for (var i = 0;
                                                     i <
                                                         controller
                                                             .postController
-                                                            .postListHome
+                                                            .generalPostListHome
                                                             .length;
                                                     i++)
                                                   BoardCard(
                                                     title: controller
                                                         .postController
-                                                        .postListHome[i]
+                                                        .generalPostListHome[i]
                                                         .title,
                                                     leadingText: controller
                                                         .postController
-                                                        .postListHome[i]
+                                                        .generalPostListHome[i]
                                                         .createdAt,
                                                   ),
                                               ]
