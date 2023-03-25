@@ -1,15 +1,16 @@
-import 'package:danvery/domain/board/comment/general_comment/controller/general_comment_controller.dart';
 import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
-import 'package:danvery/domain/board/post/general_post/controller/general_post_controller.dart';
+import 'package:danvery/domain/board/comment/general_comment/repository/general_comment_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
+import 'package:danvery/service/login/login_service.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../domain/auth/login/service/login_service.dart';
 
 class GeneralPostPageController extends GetxController {
 
-  final GeneralPostController generalPostController = Get.find<GeneralPostController>();
-  final GeneralCommentController generalCommentController = Get.find<GeneralCommentController>();
+  final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
+  final GeneralCommentRepository _generalCommentRepository = GeneralCommentRepository();
+
   final LoginService loginService = Get.find<LoginService>();
 
   final Rx<GeneralPostModel> _generalPostModel = GeneralPostModel().obs;
@@ -31,7 +32,7 @@ class GeneralPostPageController extends GetxController {
   @override
   void onInit() {
     final int id = Get.arguments;
-    generalPostController
+    _generalPostRepository
         .getGeneralPost(loginService.loginModel.accessToken, id)
         .then((value) {
       if (value != null) {
@@ -39,7 +40,7 @@ class GeneralPostPageController extends GetxController {
         _isLoadedGeneralPost.value = true;
       }
     });
-    generalCommentController.getGeneralComment(loginService.loginModel.accessToken, id).then((value) {
+    _generalCommentRepository.getGeneralComment(loginService.loginModel.accessToken, id).then((value) {
       if (value != null) {
         _generalCommentListModel.value = value;
         _generalPostModel.value.commentCount = _generalCommentListModel.value.totalElements;
@@ -48,4 +49,9 @@ class GeneralPostPageController extends GetxController {
     });
     super.onInit();
   }
+
+  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) {
+    return _generalPostRepository.createGeneralPost(token, postModel);
+  }
+
 }

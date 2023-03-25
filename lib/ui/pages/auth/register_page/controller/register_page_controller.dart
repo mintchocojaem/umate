@@ -1,12 +1,15 @@
+import 'package:danvery/domain/auth/reigster/model/register_model.dart';
+import 'package:danvery/domain/auth/reigster/repository/register_repository.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/steps/register_step_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../../../../domain/auth/reigster/controller/register_controller.dart';
 import '../views/steps/register_step_2.dart';
 import '../views/steps/register_step_3.dart';
 
 class RegisterPageController extends GetxController {
+
+  final RegisterRepository _registerRepository = RegisterRepository();
 
   List<Widget> pages = const[
     RegisterStep1(),
@@ -64,7 +67,60 @@ class RegisterPageController extends GetxController {
   String get phoneAuthenticationNumber => _phoneAuthenticationNumber.value;
   set phoneAuthenticationNumber(index) => _phoneAuthenticationNumber.value = index;
 
-  final RegisterController registerController = Get.find<RegisterController>();
+  final Rx<RegisterModel> _registerModel = RegisterModel().obs;
+  final RxBool _isStudentAuthenticated = false.obs;
+  final RxBool _isRegistered = false.obs;
+
+  RegisterModel get registerModel => _registerModel.value;
+
+  bool get isStudentAuthenticated => _isStudentAuthenticated.value;
+  bool get isRegistered => _isRegistered.value;
+
+  Future<bool> studentAuthenticate(String id, String password) async{
+    await _registerRepository.studentAuthenticate(id, password).then((value) {
+
+      if(value == null){
+        _isStudentAuthenticated.value = false;
+      }else{
+        _registerModel.value = value;
+        _isStudentAuthenticated.value = true;
+      }
+
+    });
+    return _isStudentAuthenticated.value;
+  }
+
+  Future<bool> register(RegisterModel registerModel) async{
+    await _registerRepository.register(registerModel).then((value) {
+
+      if(value == null){
+        _isRegistered.value = false;
+      }else{
+        _registerModel.value = value;
+        _isRegistered.value = true;
+      }
+
+    });
+    return _isStudentAuthenticated.value;
+  }
+
+  Future<bool> sendSMSAuth(String signupToken , String phoneNumber) async {
+    try {
+      final bool isSend = await _registerRepository.sendSMSAuth(signupToken, phoneNumber);
+      return isSend;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> verifySMSAuth(String signupToken, String code) async {
+    try {
+      final bool isVerify = await _registerRepository.verifySMSAuth(signupToken, code);
+      return isVerify;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
   void onInit() {

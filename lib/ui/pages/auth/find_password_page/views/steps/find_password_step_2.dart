@@ -7,8 +7,8 @@ import '../../../../../../utils/regex/regex.dart';
 import '../../../../../../utils/theme/palette.dart';
 import '../../../../../widgets/modern/modern_form_button.dart';
 
-class FindPasswordStep1 extends GetView<FindPasswordPageController> {
-  const FindPasswordStep1({Key? key}) : super(key: key);
+class FindPasswordStep2 extends GetView<FindPasswordPageController> {
+  const FindPasswordStep2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +20,18 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
             padding: const EdgeInsets.only(bottom: 32),
             child: ModernFormField(
               textController: controller.phoneNumberController,
-              hint: "휴대폰 번호를 입력하세요",
+              hint: "인증번호를 입력하세요",
             ),
           ),
           ModernFormButton(
-            text: "인증번호 받기",
+            text: "확인",
             onPressed: () {
               if (isValidPhoneNumberFormat(controller.phoneNumber) == false) {
-                Get.snackbar("휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
+                Get.snackbar("인증번호 오류", "인증번호를 올바르게 입력해주세요.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
                     colorText: Palette.pureWhite);
               }
-              FocusManager.instance.primaryFocus?.unfocus();
-              controller.currentStep = 2;
             },
           ),
         ],

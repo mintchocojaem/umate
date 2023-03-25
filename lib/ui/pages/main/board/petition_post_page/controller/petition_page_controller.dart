@@ -1,13 +1,12 @@
-import 'package:danvery/domain/board/post/petition_post/controller/petition_post_controller.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
+import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
+import 'package:danvery/service/login/login_service.dart';
 import 'package:get/get.dart';
-
-import '../../../../../../domain/auth/login/service/login_service.dart';
-
 
 class PetitionPostPageController extends GetxController {
 
-  final PetitionController petitionPostController = Get.find<PetitionController>();
+  final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
+
   final LoginService loginService = Get.find<LoginService>();
 
   final Rx<PetitionPostModel> _petitionPostModel = PetitionPostModel().obs;
@@ -25,8 +24,8 @@ class PetitionPostPageController extends GetxController {
   @override
   void onInit() {
     final int id = Get.arguments;
-    petitionPostController
-        .getPetition(loginService.loginModel.accessToken, id)
+    _petitionPostRepository
+        .getPetitionPost(loginService.loginModel.accessToken, id)
         .then((value) {
       if (value != null) {
         _petitionPostModel.value = value;

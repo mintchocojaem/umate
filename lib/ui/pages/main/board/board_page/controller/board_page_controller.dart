@@ -1,11 +1,13 @@
-import 'package:danvery/domain/board/post/general_post/controller/general_post_controller.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
+import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../domain/board/post/petition_post/controller/petition_post_controller.dart';
-
 class BoardPageController extends GetxController {
+  final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
+  final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
+
   final RxInt _selectedTap = 0.obs;
 
   int get selectedTap => _selectedTap.value;
@@ -17,11 +19,6 @@ class BoardPageController extends GetxController {
   int get selectedCategory => _selectedCategory.value;
 
   set selectedCategory(index) => _selectedCategory.value = index;
-
-  final GeneralPostController generalPostController =
-      Get.find<GeneralPostController>();
-  final PetitionController petitionPostController =
-      Get.find<PetitionController>();
 
   final RxList<GeneralPostModel> _generalPostListBoard =
       <GeneralPostModel>[].obs;
@@ -46,23 +43,23 @@ class BoardPageController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    generalPostController.getGeneralPostListBoard(0, 5).then((value) {
+    _generalPostRepository.getGeneralBoard(0, 5).then((value) {
       if (value != null) {
         _generalPostListBoard.value = value;
         _isLoadGeneralPostListBoard.value = true;
       }
     });
-    petitionPostController
-        .getPetitionListBoard(0, 5, categoryAPIList[_selectedCategory.value])
+    _petitionPostRepository
+        .getPetitionBoard(0, 5, categoryAPIList[_selectedCategory.value])
         .then((value) {
       if (value != null) {
         _petitionListBoard.value = value;
         _isLoadPetitionListBoard.value = true;
       }
     });
-    _selectedCategory.listen((value){
-      petitionPostController
-          .getPetitionListBoard(0, 5, categoryAPIList[_selectedCategory.value])
+    _selectedCategory.listen((value) {
+      _petitionPostRepository
+          .getPetitionBoard(0, 5, categoryAPIList[_selectedCategory.value])
           .then((value) {
         if (value != null) {
           _petitionListBoard.value = value;

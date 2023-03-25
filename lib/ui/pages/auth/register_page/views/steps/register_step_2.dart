@@ -1,4 +1,3 @@
-import 'package:danvery/domain/auth/reigster/controller/register_controller.dart';
 import 'package:danvery/domain/auth/reigster/model/register_model.dart';
 import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
@@ -27,8 +26,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                 child: Column(
                   children: [
                     Obx(
-                      () => Get.find<RegisterController>()
-                              .isStudentAuthenticated
+                      () => controller.isStudentAuthenticated
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -37,7 +35,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint:
-                                        "${controller.registerController.registerModel.studentId}@dankook.ac.kr",
+                                        "${controller.registerModel.studentId}@dankook.ac.kr",
                                     title: "아이디",
                                     readOnly: true,
                                   ),
@@ -59,8 +57,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller.registerController
-                                        .registerModel.studentName,
+                                    hint: controller.registerModel.studentName,
                                     title: "이름",
                                     readOnly: true,
                                   ),
@@ -78,8 +75,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller
-                                        .registerController.registerModel.major,
+                                    hint: controller.registerModel.major,
                                     title: "전공",
                                     readOnly: true,
                                   ),
@@ -111,10 +107,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                         return false;
                                       }
 
-                                      controller.registerController
-                                          .sendSMSAuth(
-                                              controller.registerController
-                                                  .registerModel.signupToken,
+                                      controller.sendSMSAuth(
+                                              controller.registerModel.signupToken,
                                               controller.phoneNumber)
                                           .then((value) {
                                         if (!value) {
@@ -183,8 +177,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (!await controller.registerController.verifySMSAuth(
-                      controller.registerController.registerModel.signupToken,
+                  if (!await controller.verifySMSAuth(
+                      controller.registerModel.signupToken,
                       controller.phoneAuthenticationNumber)) {
                     Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
                         snackPosition: SnackPosition.BOTTOM,
@@ -194,14 +188,14 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   }
 
                   final RegisterModel registerModel =
-                      controller.registerController.registerModel;
+                      controller.registerModel;
                   registerModel.nickname = controller.nicknameController.text;
                   registerModel.password = controller.passwordController.text;
 
                   /*
                 registerController.register(registerModel).then((value) {
                   if (value) {
-                    registerPageController.currentStep = 3;
+                    controller.currentStep = 3;
                   } else {
                     Get.snackbar("회원가입 실패", "회원가입에 실패했습니다. 다시 시도해주세요.",
                         snackPosition: SnackPosition.BOTTOM,

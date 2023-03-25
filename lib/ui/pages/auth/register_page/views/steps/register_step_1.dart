@@ -351,13 +351,13 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                         colorText: Palette.pureWhite);
                     return;
                   }
-                  controller.registerController
+                  controller
                       .studentAuthenticate(controller.studentIdController.text,
                           controller.studentPasswordController.text)
                       .then((value) {
                     if (value) {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      Get.find<RegisterPageController>().currentStep = 2;
+                      controller.currentStep = 2;
                     } else {
                       Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
                           snackPosition: SnackPosition.BOTTOM,

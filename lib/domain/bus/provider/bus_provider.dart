@@ -1,29 +1,29 @@
-import 'dart:convert';
-
-import 'package:danvery/utils/url/url.dart';
+import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import '../model/bus_model.dart';
 
+class BusProvider {
+  final Dio _dio;
 
-class BusProvider{
+  static final BusProvider _singleton =
+      BusProvider._internal(DioInterceptor().dio);
 
-  final Dio dio;
-  BusProvider({required this.dio});
+  BusProvider._internal(this._dio);
+
+  factory BusProvider() => _singleton;
 
   Future<List<BusModel>?> getBusListFromStation(String stationName) async {
-
     String url = '/bus?stationName=$stationName';
 
     try {
-      final Response response = await dio.get(url);
+      final Response response = await _dio.get(url);
 
       return response.data["busArrivalList"]
-          .map<BusModel>((json) => BusModel.fromJson(json)).toList();
+          .map<BusModel>((json) => BusModel.fromJson(json))
+          .toList();
     } catch (e) {
       return null;
     }
   }
-
 }

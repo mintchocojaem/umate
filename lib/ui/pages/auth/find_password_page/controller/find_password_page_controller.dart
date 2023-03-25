@@ -27,4 +27,20 @@ class FindPasswordPageController extends GetxController {
   String get phoneNumber => _phoneNumber.value;
   set phoneNumber(index) => _phoneNumber.value = index;
 
+  final TextEditingController phoneAuthenticationNumberController = TextEditingController();
+  final RxString _phoneAuthenticationNumber = ''.obs;
+  String get phoneAuthenticationNumber => _phoneAuthenticationNumber.value;
+  set phoneAuthenticationNumber(index) => _phoneAuthenticationNumber.value = index;
+
+  @override
+  void onInit() {
+    phoneNumberController.addListener(() {
+      phoneNumber = phoneNumberController.text;
+    });
+    phoneAuthenticationNumberController.addListener(() {
+      phoneAuthenticationNumber = phoneAuthenticationNumberController.text;
+    });
+    super.onInit();
+  }
+
 }

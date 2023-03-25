@@ -87,8 +87,7 @@ class GeneralPostCreatePage extends GetView<GeneralPostPageController> {
                     text: "글 올리기",
                     onPressed: () {
                       GeneralPostModel postModel = GeneralPostModel();
-                      controller.generalPostController
-                          .createGeneralPost(
+                      controller.createGeneralPost(
                               controller.loginService.loginModel.accessToken,
                               postModel)
                           .then((value) {

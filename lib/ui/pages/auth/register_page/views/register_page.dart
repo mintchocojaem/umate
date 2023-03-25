@@ -29,13 +29,13 @@ class RegisterPage extends GetView<RegisterPageController> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ModernStepGuide(
                   stepLength: 3,
-                  currentStep: Get.find<RegisterPageController>().currentStep),
+                  currentStep: controller.currentStep),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Text(
                 controller.stepTitle[
-                    Get.find<RegisterPageController>().currentStep - 1],
+                    controller.currentStep - 1],
                 style: bigTitleStyle.copyWith(
                     color: Palette.blue, fontWeight: FontWeight.w500),
               ),
@@ -43,7 +43,7 @@ class RegisterPage extends GetView<RegisterPageController> {
             Expanded(
               child: Obx(
                 () => controller.pages[
-                    Get.find<RegisterPageController>().currentStep -
+                    controller.currentStep -
                         1], // TODO: Obx로 감싸야 하는지 확인
               ),
             ),

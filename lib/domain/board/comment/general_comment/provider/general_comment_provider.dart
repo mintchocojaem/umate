@@ -1,10 +1,16 @@
 import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
+import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
 class GeneralCommentProvider {
-  final Dio dio;
+  final Dio _dio;
 
-  GeneralCommentProvider({required this.dio});
+  static final GeneralCommentProvider _singleton =
+      GeneralCommentProvider._internal(DioInterceptor().dio);
+
+  GeneralCommentProvider._internal(this._dio);
+
+  factory GeneralCommentProvider() => _singleton;
 
   Future<GeneralCommentListModel?> getGeneralComment(String token, int id) async {
     String url = '/post/general-forum/comment/$id?page=0&size=20';
@@ -14,7 +20,7 @@ class GeneralCommentProvider {
     };
 
     try {
-      final Response response = await dio.get(url,
+      final Response response = await _dio.get(url,
           options: Options(
             headers: headers,
           ));

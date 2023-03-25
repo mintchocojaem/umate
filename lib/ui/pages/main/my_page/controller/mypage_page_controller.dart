@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/login/service/login_service.dart';
+import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/utils/permission/service/permission_service.dart';
 import 'package:get/get.dart';
 

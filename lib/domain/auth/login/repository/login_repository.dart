@@ -1,16 +1,19 @@
-
-
 import '../model/login_model.dart';
 import '../provider/login_provider.dart';
 
 class LoginRepository {
-  final LoginProvider loginProvider;
 
-  LoginRepository({required this.loginProvider});
+  final LoginProvider _loginProvider;
+
+  LoginRepository._internal(this._loginProvider);
+
+  static final LoginRepository _singleton =
+      LoginRepository._internal(LoginProvider());
+
+  factory LoginRepository() => _singleton;
 
   //get login
-  Future<LoginModel?> login(String classId, String password) async{
-    return await loginProvider.getLogin(classId, password);
+  Future<LoginModel?> login(String classId, String password) async {
+    return await _loginProvider.getLogin(classId, password);
   }
-
 }

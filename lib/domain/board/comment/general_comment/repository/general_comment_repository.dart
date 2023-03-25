@@ -2,11 +2,17 @@ import 'package:danvery/domain/board/comment/general_comment/model/general_comme
 import 'package:danvery/domain/board/comment/general_comment/provider/general_comment_provider.dart';
 
 class GeneralCommentRepository {
-  final GeneralCommentProvider generalCommentProvider;
 
-  GeneralCommentRepository({required this.generalCommentProvider});
+  final GeneralCommentProvider _generalCommentProvider;
+
+  static final GeneralCommentRepository _singleton =
+      GeneralCommentRepository._internal(GeneralCommentProvider());
+
+  GeneralCommentRepository._internal(this._generalCommentProvider);
+
+  factory GeneralCommentRepository()=> _singleton;
 
   Future<GeneralCommentListModel?> getGeneralComment(String token, int id) async {
-    return await generalCommentProvider.getGeneralComment(token, id);
+    return await _generalCommentProvider.getGeneralComment(token, id);
   }
 }

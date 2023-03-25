@@ -1,15 +1,17 @@
+import 'package:danvery/domain/auth/login/model/login_model.dart';
+import 'package:danvery/domain/auth/login/repository/login_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-
-import '../model/login_model.dart';
-import '../repository/login_repository.dart';
-
 class LoginService extends GetxService{
 
-  final LoginRepository loginRepository;
+  static final LoginService _singleton = LoginService._internal();
 
-  LoginService({required this.loginRepository});
+  LoginService._internal();
+
+  factory LoginService() => _singleton;
+
+  final LoginRepository _loginRepository = LoginRepository();
 
   final Rx<LoginModel> _loginModel = LoginModel().obs;
   final RxBool _isLogin = false.obs;
@@ -21,7 +23,7 @@ class LoginService extends GetxService{
   bool get isLoading => _isLoading.value;
 
   Future<bool> login(String classId, String password) async{
-    await loginRepository.login(classId, password).then((value) {
+    await _loginRepository.login(classId, password).then((value) {
       if(value == null){
         _isLogin.value = false;
         _isLoading.value = false;

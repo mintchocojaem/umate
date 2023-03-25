@@ -151,7 +151,7 @@ class HomePage extends GetView<HomePageController> {
                             children: [
                               Obx(
                                 () => BoardList(
-                                  cards: controller.busController.isLoadBusList
+                                  cards: controller.isLoadBusList
                                       ? [
                                           Row(
                                             crossAxisAlignment:
@@ -166,35 +166,32 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightGreen,
                                                   station1: "곰상 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findGomSangBusByNo(
                                                                   "24")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
+                                                      ? controller
                                                                       .findGomSangBusByNo(
                                                                           "24")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                   station2: "정문 출발",
                                                   predictTime2: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "24")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findJungMoonBusByNo(
+                                                      ? controller.findJungMoonBusByNo(
                                                                           "24")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),
@@ -205,19 +202,18 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightRed,
                                                   station1: "정문 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "8100")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
+                                                      ? controller
                                                                       .findJungMoonBusByNo(
                                                                           "8100")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),
@@ -236,35 +232,31 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightGreen,
                                                   station1: "곰상 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findGomSangBusByNo(
                                                                   "720-3")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findGomSangBusByNo(
+                                                      ? controller.findGomSangBusByNo(
                                                                           "720-3")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                   station2: "정문 출발",
                                                   predictTime2: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "720-3")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findJungMoonBusByNo(
+                                                      ? controller.findJungMoonBusByNo(
                                                                           "720-3")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),
@@ -275,19 +267,17 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightRed,
                                                   station1: "정문 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "1101")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findJungMoonBusByNo(
+                                                      ? controller.findJungMoonBusByNo(
                                                                           "1101")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),
@@ -306,35 +296,31 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightBlue,
                                                   station1: "곰상 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findGomSangBusByNo(
                                                                   "shuttle-bus")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findGomSangBusByNo(
+                                                      ? controller.findGomSangBusByNo(
                                                                           "shuttle-bus")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                   station2: "정문 출발",
                                                   predictTime2: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "shuttle-bus")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findJungMoonBusByNo(
+                                                      ? controller.findJungMoonBusByNo(
                                                                           "shuttle-bus")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),
@@ -345,19 +331,17 @@ class HomePage extends GetView<HomePageController> {
                                                   busColor: Palette.lightRed,
                                                   station1: "정문 출발",
                                                   predictTime1: controller
-                                                              .busController
                                                               .findJungMoonBusByNo(
                                                                   "102")
                                                               .predictTime1 !=
                                                           null
-                                                      ? controller.busController
-                                                                      .findJungMoonBusByNo(
+                                                      ? controller.findJungMoonBusByNo(
                                                                           "102")
                                                                       .predictTime1! ~/
                                                                   60 ==
                                                               0
                                                           ? "곧 도착"
-                                                          : "${controller.busController.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
+                                                          : "${controller.findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
                                                       : "정보 없음",
                                                 ),
                                               ),

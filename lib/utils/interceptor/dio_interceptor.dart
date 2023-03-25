@@ -6,24 +6,25 @@ import 'package:flutter/foundation.dart';
 const String apiUrl = 'https://dev.dkustu.com/api';
 
 class DioInterceptor {
-  final Dio dio = Dio();
 
-  DioInterceptor._internal(dio) {
+  Dio dio = Dio();
+
+  DioInterceptor._internal() {
     addInterceptors();
   }
 
-  static final DioInterceptor _singleton =
-      DioInterceptor._internal(Dio(BaseOptions(
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 3),
-    headers: {'Content-Type': 'application/json'},
-    responseType: ResponseType.bytes,
-  )));
+  static final DioInterceptor _singleton = DioInterceptor._internal();
 
   factory DioInterceptor() => _singleton;
 
   void addInterceptors() {
     dio.options.baseUrl = apiUrl;
+    dio.options.connectTimeout = const Duration(seconds: 5);
+    dio.options.receiveTimeout = const Duration(seconds: 3);
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+    };
+    dio.options.responseType = ResponseType.bytes;
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       // 요청 전에 처리할 내용 추가
       if (kDebugMode) {
