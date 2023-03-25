@@ -18,7 +18,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("입력한 번호로 아이디를 전송합니다", style: regularStyle.copyWith(color: Palette.darkGrey)),
+          Text("입력한 번호로 인증번호를 전송합니다", style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
             textController: controller.phoneNumberController,

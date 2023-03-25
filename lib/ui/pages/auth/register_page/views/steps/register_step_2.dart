@@ -73,7 +73,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: controller.registerModel.major,
                                     title: "전공",
@@ -82,7 +82,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                 ),
                                 //휴대폰 번호 인증 필요
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     textController:
                                         controller.phoneNumberController,

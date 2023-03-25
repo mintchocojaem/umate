@@ -25,7 +25,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
           ),
           const SizedBox(height: 16),
           ModernFormButton(
-            text: "완료",
+            text: "아이디 찾기",
             onPressed: () {
               if (isValidPhoneNumberFormat(controller.phoneNumber) == false) {
                 Get.snackbar("휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
@@ -34,6 +34,9 @@ class FindIdStep1 extends GetView<FindIdPageController> {
                     colorText: Palette.pureWhite);
                 return;
               }
+              FocusManager.instance.primaryFocus?.unfocus();
+              controller.currentStep = 2;
+              /*
               controller.sendId().then((value){
                 if(value == true){
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -45,6 +48,8 @@ class FindIdStep1 extends GetView<FindIdPageController> {
                       colorText: Palette.pureWhite);
                 }
               });
+
+               */
             },
           ),
         ],

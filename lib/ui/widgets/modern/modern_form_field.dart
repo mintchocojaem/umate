@@ -224,13 +224,13 @@ class _ModernFormField extends State<ModernFormField> {
                                   style: OutlinedButton.styleFrom(
                                       side: BorderSide(
                                           color: !_isSend
-                                              ? Palette.lightBlue
+                                              ? Palette.blue
                                               : Palette.grey),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       backgroundColor: !_isSend
-                                          ? Palette.lightBlue
+                                          ? Palette.blue
                                           : Palette.white),
                                   child: Center(
                                     child: Text(

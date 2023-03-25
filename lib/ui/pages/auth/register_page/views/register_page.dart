@@ -41,8 +41,19 @@ class RegisterPage extends GetView<RegisterPageController> {
               ),
             ),
             Expanded(
-              child: Obx(
-                () => controller.pages[controller.currentStep - 1],
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: controller.pages[controller.currentStep - 1],
+                transitionBuilder: (child, animation) {
+                  return SlideTransition(
+                    position: animation.drive(
+                        Tween(begin: const Offset(1, 0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut))),
+                    child: child,
+                  );
+                },
+                layoutBuilder: (currentChild, previousChildren) =>
+                currentChild!,
               ),
             ),
           ],

@@ -19,6 +19,8 @@ class FindIdPageController extends GetxController {
     FindIdStep2(),
   ];
 
+  final PageController pageController = PageController();
+
   final RxInt _currentStep = 1.obs;
 
   int get currentStep => _currentStep.value;

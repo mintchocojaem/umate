@@ -19,6 +19,7 @@ class LoginPage extends GetView<LoginPageController> {
 
     // TODO: implement build
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             TransparentAppBar(
