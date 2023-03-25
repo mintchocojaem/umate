@@ -12,4 +12,5 @@ abstract class Routes {
   static const String register = '/register';
   static const String findPassword = '/findPassword';
   static const String splashScreen = '/splashScreen';
+  static const String findId = '/findId';
 }

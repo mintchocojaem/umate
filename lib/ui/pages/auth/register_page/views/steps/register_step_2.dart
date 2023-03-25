@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/reigster/model/register_model.dart';
+import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
@@ -41,7 +41,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: "비밀번호를 입력하세요",
                                     title: "비밀번호",
@@ -55,7 +55,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: controller.registerModel.studentName,
                                     title: "이름",
@@ -63,7 +63,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
@@ -162,7 +162,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   if (isValidPasswordFormat(controller.password) ==
                       false) {
                     Get.snackbar(
-                        "비밀번호 오류", "비밀번호는 영문, 숫자를 포함한 8~16자리만 사용할 수 있습니다.",
+                        "비밀번호 오류", "비밀번호는 숫자, 특수문자를 포함한 8~16자리만 사용할 수 있습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
                         colorText: Palette.pureWhite);
@@ -191,7 +191,6 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                       controller.registerModel;
                   registerModel.nickname = controller.nicknameController.text;
                   registerModel.password = controller.passwordController.text;
-
                   /*
                 registerController.register(registerModel).then((value) {
                   if (value) {
@@ -205,6 +204,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                 });
 
                  */
+                  controller.currentStep = 3;
                 },
               ),
             ),

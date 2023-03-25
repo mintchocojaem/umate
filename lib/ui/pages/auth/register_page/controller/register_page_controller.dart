@@ -1,5 +1,5 @@
-import 'package:danvery/domain/auth/reigster/model/register_model.dart';
-import 'package:danvery/domain/auth/reigster/repository/register_repository.dart';
+import 'package:danvery/domain/user/reigster/model/register_model.dart';
+import 'package:danvery/domain/user/reigster/repository/register_repository.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/steps/register_step_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';

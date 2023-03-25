@@ -1,10 +1,10 @@
-import 'package:danvery/ui/pages/auth/register_page/controller/register_page_controller.dart';
+import 'package:danvery/ui/pages/auth/find_id_page/controller/find_id_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterStep3 extends GetView<RegisterPageController> {
-  const RegisterStep3({super.key});
+class FindIdStep2 extends GetView<FindIdPageController> {
+  const FindIdStep2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class RegisterStep3 extends GetView<RegisterPageController> {
             text: "로그인하러 가기",
             onPressed: () {
               Get.back();
-              Get.delete<RegisterPageController>();
+              Get.delete<FindIdPageController>();
             },
           ),
         ],

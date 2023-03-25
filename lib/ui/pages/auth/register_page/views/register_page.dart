@@ -42,9 +42,7 @@ class RegisterPage extends GetView<RegisterPageController> {
             ),
             Expanded(
               child: Obx(
-                () => controller.pages[
-                    controller.currentStep -
-                        1], // TODO: Obx로 감싸야 하는지 확인
+                () => controller.pages[controller.currentStep - 1],
               ),
             ),
           ],

@@ -4,10 +4,10 @@ bool isValidNicknameFormat(String nickname) {
       .hasMatch(nickname);
 }
 
-// 8~16자 영문 대소문자, 숫자, 특수문자(!@#$%^&*+=\-_(){}[\]:;<>,.?~) 조합
+// 8~16자 영문 대소문자, 숫자, 특수문자 조합(숫자와 영문자는 반드시 1자 이상 필요, 특수문자, 대문자는 선택사항)
 bool isValidPasswordFormat(String password) {
   return RegExp(
-      r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*+=\-_(){}[\]:;<>,.?~]{8,16}$")
+          r"^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*+=\-_(){}[\]:;<>,.?~]{8,16}$")
       .hasMatch(password);
 }
 

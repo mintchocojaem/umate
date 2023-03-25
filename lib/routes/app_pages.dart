@@ -1,6 +1,7 @@
-
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
+import 'package:danvery/ui/pages/auth/find_id_page/binding/find_id_page_binding.dart';
+import 'package:danvery/ui/pages/auth/find_id_page/views/find_id_page.dart';
 import 'package:danvery/ui/pages/auth/login_page/binding/login_page_binding.dart';
 import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
 import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
@@ -25,7 +26,6 @@ import '../ui/pages/auth/find_password_page/binding/find_password_page_binding.d
 import '../ui/pages/auth/find_password_page/views/find_password_page.dart';
 
 class AppPages {
-
   static final List<GetPage> pages = [
     GetPage(
       name: Routes.main,
@@ -51,18 +51,25 @@ class AppPages {
       ],
     ),
     GetPage(
-        name: Routes.login,
-        page: () => const LoginPage(),
-        bindings: [
-          LoginBinding(),
-          LoginPageBinding(),
-        ],
+      name: Routes.login,
+      page: () => const LoginPage(),
+      bindings: [
+        LoginBinding(),
+        LoginPageBinding(),
+      ],
     ),
     GetPage(
       name: Routes.register,
       page: () => const RegisterPage(),
       bindings: [
         RegisterPageBinding(),
+      ],
+    ),
+    GetPage(
+      name: Routes.findId,
+      page: () => const FindIdPage(),
+      bindings: [
+        FindIdPageBinding(),
       ],
     ),
     GetPage(
@@ -75,16 +82,11 @@ class AppPages {
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),
-        bindings: [
-          SplashScreenPageBinding()
-        ]
-    ),
+        bindings: [SplashScreenPageBinding()]),
     GetPage(
       name: Routes.petition,
       page: () => const PetitionPostPage(),
-      bindings: [
-        PetitionPostPageBinding()
-      ],
+      bindings: [PetitionPostPageBinding()],
     ),
   ];
 }

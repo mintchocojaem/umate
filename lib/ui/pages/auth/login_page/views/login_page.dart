@@ -102,6 +102,8 @@ class LoginPage extends GetView<LoginPageController> {
                       ),
                       TextButton(
                           onPressed: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            Get.toNamed(Routes.findId);
                           },
                           child: Text("아이디 찾기",
                               style: tinyStyle.copyWith(color: Palette.grey))),
