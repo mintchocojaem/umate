@@ -1,5 +1,6 @@
 import 'package:danvery/ui/pages/auth/find_password_page/controller/find_password_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
+import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -13,16 +14,17 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 32),
-            child: ModernFormField(
-              textController: controller.phoneNumberController,
-              hint: "휴대폰 번호를 입력하세요",
-            ),
+          Text("입력한 번호로 아이디를 전송합니다", style: regularStyle.copyWith(color: Palette.darkGrey)),
+          const SizedBox(height: 32),
+          ModernFormField(
+            textController: controller.phoneNumberController,
+            hint: "휴대폰 번호를 입력하세요",
           ),
+          const SizedBox(height: 16),
           ModernFormButton(
             text: "인증번호 받기",
             onPressed: () {

@@ -15,7 +15,7 @@ class ModernFormButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 54,
+      height: 48,
       child: CupertinoButton(
         disabledColor: Palette.grey,
         borderRadius: BorderRadius.circular(5),

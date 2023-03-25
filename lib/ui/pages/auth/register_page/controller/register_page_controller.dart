@@ -32,6 +32,8 @@ class RegisterPageController extends GetxController {
   set check2(index) => _check2.value = index;
   set currentStep(index) => _currentStep.value = index;
 
+  final ScrollController scrollController = ScrollController();
+
   final TextEditingController studentIdController = TextEditingController();
   final RxString _studentId = ''.obs;
   String get studentId => _studentId.value;

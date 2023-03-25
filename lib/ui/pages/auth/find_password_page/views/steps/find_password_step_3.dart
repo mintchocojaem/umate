@@ -18,19 +18,19 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
     return Padding(
       padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: ModernFormField(
-              hint: "비밀번호를 입력하세요",
-              title: "",
-              validateHint: "비밀번호를 재입력하세요",
-              validate: true,
-              isPassword: true,
-              textController: controller.passwordController,
-              validateController: controller.passwordValidateController,
-            ),
+          Text("재설정할 비밀번호를 입력해주세요", style: regularStyle.copyWith(color: Palette.darkGrey)),
+          const SizedBox(height: 32),
+          ModernFormField(
+            hint: "비밀번호를 입력하세요",
+            validateHint: "비밀번호를 재입력하세요",
+            validate: true,
+            isPassword: true,
+            textController: controller.passwordController,
+            validateController: controller.passwordValidateController,
           ),
+          const SizedBox(height: 16),
           ModernFormButton(
             text: "완료",
             onPressed: () async {
