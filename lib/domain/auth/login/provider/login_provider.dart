@@ -22,7 +22,6 @@ class LoginProvider {
         url,
         data: body,
       );
-
       return LoginModel.fromJson(response.data);
     } catch (_) {
       return null;

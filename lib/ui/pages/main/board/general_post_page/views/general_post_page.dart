@@ -145,7 +145,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   width: 4,
                                 ),
                                 Text(
-                                  controller.generalPostModel.commentCount
+                                  controller.generalCommentListModel
+                                      .generalCommentList.length
                                       .toString(),
                                   style:
                                       lightStyle.copyWith(color: Palette.grey),
@@ -166,7 +167,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: controller.generalCommentListModel.totalElements,
+                      itemCount: controller
+                          .generalCommentListModel.generalCommentList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +182,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 CircleAvatar(
                                   radius: 20,
                                   backgroundImage: Image.asset(
-                                      "assets/icons/user/profile_icon.png")
+                                          "assets/icons/user/profile_icon.png")
                                       .image,
                                   backgroundColor: Colors.transparent,
                                 ),
@@ -191,21 +193,24 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      controller.generalCommentListModel.generalCommentList[index].author,
+                                      controller.generalCommentListModel
+                                          .generalCommentList[index].author,
                                       style: regularStyle.copyWith(
                                           color: Palette.darkGrey,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      controller.generalCommentListModel.generalCommentList[index].createdAt,
-                                      style:
-                                      tinyStyle.copyWith(color: Palette.grey),
+                                      controller.generalCommentListModel
+                                          .generalCommentList[index].createdAt,
+                                      style: tinyStyle.copyWith(
+                                          color: Palette.grey),
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
                                     Text(
-                                      controller.generalCommentListModel.generalCommentList[index].text,
+                                      controller.generalCommentListModel
+                                          .generalCommentList[index].text,
                                       style: regularStyle,
                                     ),
                                     const SizedBox(
@@ -243,7 +248,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                           ],
                         );
                       },
-
                     )
                   ],
                 ),

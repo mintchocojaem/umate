@@ -6,6 +6,7 @@ import 'package:danvery/ui/pages/auth/login_page/views/login_page.dart';
 import 'package:danvery/ui/pages/auth/register_page/binding/register_page_binding.dart';
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
 import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/general_post_page/binding/general_post_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_create_page.dart';
 import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_page.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/binding/petition_page_binding.dart';
@@ -46,6 +47,7 @@ class AppPages {
       name: Routes.post,
       page: () => const GeneralPostPage(),
       bindings: [
+        GeneralPostPageBinding(),
       ],
     ),
     GetPage(

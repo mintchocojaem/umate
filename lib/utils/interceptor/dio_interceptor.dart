@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/foundation.dart';
 const String apiUrl = 'https://dev.dkustu.com/api';
 
 class DioInterceptor {
-
   Dio dio = Dio();
 
   DioInterceptor._internal() {
@@ -21,10 +21,7 @@ class DioInterceptor {
     dio.options.baseUrl = apiUrl;
     dio.options.connectTimeout = const Duration(seconds: 5);
     dio.options.receiveTimeout = const Duration(seconds: 3);
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-    };
-    dio.options.responseType = ResponseType.bytes;
+    dio.options.contentType = "application/json";
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       // 요청 전에 처리할 내용 추가
       if (kDebugMode) {

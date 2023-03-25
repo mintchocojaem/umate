@@ -26,8 +26,8 @@ class GeneralPostModel{
     body = json["body"] as String;
     author = json["author"] as String? ?? "익명";
     createdAt = json["createdAt"] as String;
-    views = json["views"] as int;
-    likes = json["likes"] as int;
+    views = json["views"] as int? ?? 0;
+    likes = json["likes"] as int? ?? 0;
     commentCount = json["commentCount"] as int? ?? 0;
   }
 
