@@ -60,6 +60,7 @@ class TimetablePage extends GetView<TimetablePageController> {
               ],
               tableStartTime: 9,
               tableEndTime: 18,
+              today: DateTime.now().weekday,
             ),
             /*
             const Padding(

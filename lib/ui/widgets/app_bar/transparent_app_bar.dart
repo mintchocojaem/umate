@@ -39,7 +39,7 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
       ) : null,
       title: Text(
         title,
-        style: titleTextStyle ?? titleStyle.copyWith(color: Palette.black),
+        style: titleTextStyle ?? titleStyle.copyWith(color: Palette.darkGrey,fontWeight: FontWeight.w500),
       ),
       elevation: 0,
       actions: actions,

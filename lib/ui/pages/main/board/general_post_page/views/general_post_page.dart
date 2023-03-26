@@ -29,30 +29,48 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              Image.asset("assets/icons/user/profile_icon.png")
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundImage: Image.asset(
+                                      "assets/icons/user/profile_icon.png")
                                   .image,
-                          backgroundColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              controller.generalPostModel.author,
+                              style: regularStyle.copyWith(
+                                  color: Palette.darkGrey,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              controller.generalPostModel.createdAt,
+                              style: tinyStyle.copyWith(color: Palette.grey),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          controller.generalPostModel.author,
-                          style: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          controller.generalPostModel.createdAt,
-                          style: tinyStyle.copyWith(color: Palette.grey),
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: Palette.grey,
+                                size: 20,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -170,84 +188,106 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                       itemCount: controller
                           .generalCommentListModel.generalCommentList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        return Stack(
                           children: [
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Row(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: Image.asset(
-                                          "assets/icons/user/profile_icon.png")
-                                      .image,
-                                  backgroundColor: Colors.transparent,
-                                ),
                                 const SizedBox(
-                                  width: 16,
+                                  height: 16,
                                 ),
-                                Column(
+                                Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      controller.generalCommentListModel
-                                          .generalCommentList[index].author,
-                                      style: regularStyle.copyWith(
-                                          color: Palette.darkGrey,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      controller.generalCommentListModel
-                                          .generalCommentList[index].createdAt,
-                                      style: tinyStyle.copyWith(
-                                          color: Palette.grey),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: Image.asset(
+                                              "assets/icons/user/profile_icon.png")
+                                          .image,
+                                      backgroundColor: Colors.transparent,
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      width: 16,
                                     ),
-                                    Text(
-                                      controller.generalCommentListModel
-                                          .generalCommentList[index].text,
-                                      style: regularStyle,
-                                    ),
-                                    /*
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Image.asset(
-                                          "assets/icons/post/like_unselected.png",
-                                          width: 12,
-                                          height: 12,
-                                          color: Palette.grey,
+                                        Text(
+                                          controller.generalCommentListModel
+                                              .generalCommentList[index].author,
+                                          style: regularStyle.copyWith(
+                                              color: Palette.darkGrey,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          controller
+                                              .generalCommentListModel
+                                              .generalCommentList[index]
+                                              .createdAt,
+                                          style: tinyStyle.copyWith(
+                                              color: Palette.grey),
                                         ),
                                         const SizedBox(
-                                          width: 4,
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          controller.generalCommentListModel
+                                              .generalCommentList[index].text,
+                                          style: regularStyle,
+                                        ),
+                                        /*
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/icons/post/like_unselected.png",
+                                              width: 12,
+                                              height: 12,
+                                              color: Palette.grey,
+                                            ),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+
+                                            Text(
+                                              "0",
+                                              style: lightStyle.copyWith(
+                                                  color: Palette.grey),
+                                            )
+                                          ],
                                         ),
 
-                                        Text(
-                                          "0",
-                                          style: lightStyle.copyWith(
-                                              color: Palette.grey),
-                                        )
+                                         */
                                       ],
                                     ),
-
-                                     */
                                   ],
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Divider(
+                                  color: Palette.grey,
+                                  height: 0,
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Divider(
-                              color: Palette.grey,
-                              height: 0,
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.more_vert,
+                                    color: Palette.grey,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         );

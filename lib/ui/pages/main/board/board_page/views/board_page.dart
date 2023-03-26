@@ -23,6 +23,9 @@ class BoardPage extends GetView<BoardPageController> {
             isDarkMode: Get.isDarkMode,
             backGroundColor: Palette.pureWhite,
             height: 60,
+            actions: [
+              IconButton(onPressed: (){}, icon: Icon(Icons.search, color: Palette.blue,)),
+            ],
           ),
           body: Column(
             children: [
