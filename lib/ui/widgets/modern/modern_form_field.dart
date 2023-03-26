@@ -108,6 +108,7 @@ class _ModernFormField extends State<ModernFormField> {
           controller: widget.textController,
           keyboardType: widget.keyboardType,
           style: regularStyle.copyWith(color: Palette.darkGrey),
+          cursorColor: widget.titleColor ?? Palette.blue,
           decoration: InputDecoration(
             filled: true,
             fillColor: Palette.lightGrey,
@@ -123,7 +124,7 @@ class _ModernFormField extends State<ModernFormField> {
                 width: 1.0,
               ),
             ),
-            contentPadding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+            contentPadding: const EdgeInsets.only(left: 16, right: 16),
             suffixIcon: widget.suffixIcon != null ? IconButton(
               padding: EdgeInsets.zero,
               icon: widget.suffixIcon!,
@@ -131,6 +132,13 @@ class _ModernFormField extends State<ModernFormField> {
 
               },
             ) : null,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(
+                color: widget.titleColor ?? Palette.blue,
+                width: 2.0,
+              ),
+            ),
             suffixIconConstraints: const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),

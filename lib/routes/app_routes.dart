@@ -5,8 +5,9 @@ abstract class Routes {
   static const String timetable = '/timetable';
   static const String board = '/board';
   static const String myPage = '/myPage';
-  static const String postCreate = '/postCreate';
+  static const String postWrite = '/board/general_post_Write';
   static const String post = '/board/general_post';
+  static const String postSearch = '/board/post_search';
   static const String petition = '/board/petition';
   static const String login = '/login';
   static const String register = '/register';

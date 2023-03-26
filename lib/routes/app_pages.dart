@@ -8,10 +8,11 @@ import 'package:danvery/ui/pages/auth/register_page/binding/register_page_bindin
 import 'package:danvery/ui/pages/auth/register_page/views/register_page.dart';
 import 'package:danvery/ui/pages/main/board/board_page/binding/board_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/general_post_page/binding/general_post_page_binding.dart';
-import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_create_page.dart';
+import 'package:danvery/ui/pages/main/board/general_post_write_page/views/general_post_write_page.dart';
 import 'package:danvery/ui/pages/main/board/general_post_page/views/general_post_page.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/binding/petition_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/views/petition_page.dart';
+import 'package:danvery/ui/pages/main/board/post_serch_page/views/post_search_page.dart';
 import 'package:danvery/ui/pages/main/home_page/binding/home_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/binding/main_page_binding.dart';
 import 'package:danvery/ui/pages/main/main_page/views/main_page.dart';
@@ -40,8 +41,8 @@ class AppPages {
       ],
     ),
     GetPage(
-      name: Routes.postCreate,
-      page: () => const GeneralPostCreatePage(),
+      name: Routes.postWrite,
+      page: () => const GeneralPostWritePage(),
     ),
     GetPage(
       name: Routes.post,
@@ -88,5 +89,6 @@ class AppPages {
       page: () => const PetitionPostPage(),
       bindings: [PetitionPostPageBinding()],
     ),
+    GetPage(name: Routes.postSearch, page: () => const PostSearchPage()),
   ];
 }

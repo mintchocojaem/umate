@@ -1,4 +1,3 @@
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,7 +7,6 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.backGroundColor,
     this.actions,
     this.height = 60,
-    this.automaticallyImplyLeading = false,
     this.isWhite = false,
     required this.isDarkMode,
     this.title,
@@ -20,7 +18,6 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color backGroundColor;
   final List<Widget>? actions;
   final double height;
-  final bool automaticallyImplyLeading;
   final bool isWhite;
   final bool isDarkMode;
 
@@ -57,7 +54,6 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
         )
       ],
       elevation: 0,
-      automaticallyImplyLeading: automaticallyImplyLeading,
     );
   }
 

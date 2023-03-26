@@ -5,6 +5,7 @@ import 'package:danvery/domain/board/post/petition_post/repository/petition_post
 import 'package:get/get.dart';
 
 class BoardPageController extends GetxController {
+
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
   final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
 
@@ -67,6 +68,7 @@ class BoardPageController extends GetxController {
         }
       });
     });
+
     super.onInit();
   }
 }

@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 
 import '../../../../../widgets/modern/modern_form_button.dart';
 
-class GeneralPostCreatePage extends GetView<GeneralPostPageController> {
-  const GeneralPostCreatePage({super.key});
+class GeneralPostWritePage extends GetView{
+  const GeneralPostWritePage({super.key});
 
   @override
   Widget build(BuildContext context) {
