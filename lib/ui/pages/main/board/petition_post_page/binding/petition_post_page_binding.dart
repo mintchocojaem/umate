@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controller/petition_page_controller.dart';
+import '../controller/petition_post_page_controller.dart';
 
 class PetitionPostPageBinding extends Bindings {
 

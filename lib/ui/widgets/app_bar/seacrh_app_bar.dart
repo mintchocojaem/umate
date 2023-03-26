@@ -10,6 +10,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool isDarkMode;
   final String hint;
   final VoidCallback? onPressedLeading;
+  final TextEditingController? controller;
 
   const SearchAppBar({
     super.key,
@@ -19,6 +20,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.isDarkMode,
     required this.hint,
     this.onPressedLeading,
+    this.controller,
   });
 
   @override
@@ -30,6 +32,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backGroundColor,
       centerTitle: false,
       title: TextField(
+        controller: controller,
         textAlignVertical: TextAlignVertical.center,
         cursorColor: Palette.grey,
         maxLines: 1,

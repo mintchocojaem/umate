@@ -1,4 +1,4 @@
-import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_page_controller.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_post_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

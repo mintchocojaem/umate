@@ -13,8 +13,8 @@ class GeneralPostRepository {
 
   factory GeneralPostRepository() => _singleton;
 
-  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) =>
-      _generalPostProvider.createGeneralPost(token, postModel);
+  Future<bool> writeGeneralPost(String token, GeneralPostModel postModel) =>
+      _generalPostProvider.writeGeneralPost(token, postModel);
 
   Future<bool> deleteGeneralPost(String token, int id) =>
       _generalPostProvider.deleteGeneralPost(token, id);

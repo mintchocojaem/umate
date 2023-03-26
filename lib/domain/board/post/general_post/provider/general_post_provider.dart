@@ -14,7 +14,7 @@ class GeneralPostProvider {
 
   factory GeneralPostProvider()=> _singleton;
 
-  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) async {
+  Future<bool> writeGeneralPost(String token, GeneralPostModel postModel) async {
 
     String url = '/post/general-forum';
 

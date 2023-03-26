@@ -62,7 +62,4 @@ class GeneralPostPageController extends GetxController {
     super.onInit();
   }
 
-  Future<bool> createGeneralPost(String token, GeneralPostModel postModel) {
-    return _generalPostRepository.createGeneralPost(token, postModel);
-  }
 }
