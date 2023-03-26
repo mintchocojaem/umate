@@ -21,7 +21,6 @@ class BoardPage extends GetView<BoardPageController> {
           backgroundColor: Palette.pureWhite,
           appBar: MainAppBar(
             isDarkMode: Get.isDarkMode,
-            titleColor: Palette.blue,
             backGroundColor: Palette.pureWhite,
             height: 60,
           ),

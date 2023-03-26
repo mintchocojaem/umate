@@ -16,7 +16,6 @@ class MyPagePage extends GetView<MyPagePageController> {
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
-        titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
         isWhite: true,
         isDarkMode: !Get.isDarkMode,

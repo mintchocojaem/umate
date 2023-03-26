@@ -23,7 +23,6 @@ class HomePage extends GetView<HomePageController> {
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
-        titleColor: Palette.pureWhite,
         backGroundColor: Palette.blue,
         isWhite: true,
         isDarkMode: !Get.isDarkMode,

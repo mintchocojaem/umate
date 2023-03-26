@@ -213,6 +213,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           .generalCommentList[index].text,
                                       style: regularStyle,
                                     ),
+                                    /*
                                     const SizedBox(
                                       height: 8,
                                     ),
@@ -227,6 +228,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         const SizedBox(
                                           width: 4,
                                         ),
+
                                         Text(
                                           "0",
                                           style: lightStyle.copyWith(
@@ -234,6 +236,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         )
                                       ],
                                     ),
+
+                                     */
                                   ],
                                 ),
                               ],

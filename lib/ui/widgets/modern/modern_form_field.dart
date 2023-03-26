@@ -22,6 +22,7 @@ class ModernFormField extends StatefulWidget {
   final int checkButtonCoolDown;
   final Color? titleColor;
   final TextInputType? keyboardType;
+  final Icon? suffixIcon;
 
   const ModernFormField({
     super.key,
@@ -40,6 +41,7 @@ class ModernFormField extends StatefulWidget {
     this.validateController,
     this.titleColor,
     this.keyboardType,
+    this.suffixIcon
   });
 
   @override
@@ -97,39 +99,44 @@ class _ModernFormField extends State<ModernFormField> {
         const SizedBox(
           height: 8,
         ),
-        SizedBox(
-          height: 48,
-          child: TextFormField(
-            obscureText: widget.isPassword,
-            enableSuggestions: false,
-            autocorrect: false,
-            enabled: !widget.readOnly,
-            readOnly: widget.readOnly,
-            controller: widget.textController,
-            keyboardType: widget.keyboardType,
-            style:
-                TextStyle(color: Palette.darkGrey, fontWeight: FontWeight.bold),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Palette.lightGrey,
-              border: const OutlineInputBorder(),
-              hintText: widget.hint,
-              hintStyle: regularStyle.copyWith(
-                  color: widget.readOnly ? Palette.darkGrey : Palette.grey,
-                  fontWeight: FontWeight.bold),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: Palette.lightGrey,
-                  width: 1.0,
-                ),
+        TextFormField(
+          obscureText: widget.isPassword,
+          enableSuggestions: false,
+          autocorrect: false,
+          enabled: !widget.readOnly,
+          readOnly: widget.readOnly,
+          controller: widget.textController,
+          keyboardType: widget.keyboardType,
+          style: regularStyle.copyWith(color: Palette.darkGrey),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Palette.lightGrey,
+            border: const OutlineInputBorder(),
+            hintText: widget.hint,
+            hintStyle: regularStyle.copyWith(
+                color: widget.readOnly ? Palette.darkGrey : Palette.grey,
+                fontWeight: FontWeight.w500),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(
+                color: Palette.lightGrey,
+                width: 1.0,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: Palette.lightGrey,
-                  width: 1.0,
-                ),
+            ),
+            contentPadding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+            suffixIcon: widget.suffixIcon != null ? IconButton(
+              padding: EdgeInsets.zero,
+              icon: widget.suffixIcon!,
+              onPressed: () {
+
+              },
+            ) : null,
+            suffixIconConstraints: const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(
+                color: Palette.lightGrey,
+                width: 1.0,
               ),
             ),
           ),
@@ -148,7 +155,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 currentCode: widget.validateController?.text,
                                 style: TextStyle(
                                     color: Palette.darkGrey,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w500),
                                 codeLength: 6,
                                 autoFocus: false,
                                 decoration: InputDecoration(
@@ -159,7 +166,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
                                       color: Palette.grey,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w500),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(
@@ -178,7 +185,7 @@ class _ModernFormField extends State<ModernFormField> {
                             : TextFormField(
                                 style: TextStyle(
                                     color: Palette.darkGrey,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w500),
                                 keyboardType: widget.keyboardType,
                                 obscureText: widget.isPassword,
                                 enableSuggestions: false,
@@ -192,7 +199,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
                                       color: Palette.grey,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w500),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(
@@ -238,6 +245,7 @@ class _ModernFormField extends State<ModernFormField> {
                                           ? "$_remainingTime"
                                           : "${widget.checkButtonText}",
                                       style: regularStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
                                           color: !_isSend
                                               ? Palette.pureWhite
                                               : Palette.grey),
