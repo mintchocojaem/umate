@@ -2,20 +2,18 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
-
 class GeneralPostProvider {
-
   final Dio _dio;
 
   static final GeneralPostProvider _singleton =
-  GeneralPostProvider._internal(DioInterceptor().dio);
+      GeneralPostProvider._internal(DioInterceptor().dio);
 
   GeneralPostProvider._internal(this._dio);
 
-  factory GeneralPostProvider()=> _singleton;
+  factory GeneralPostProvider() => _singleton;
 
-  Future<bool> writeGeneralPost(String token, GeneralPostModel postModel) async {
-
+  Future<bool> writeGeneralPost(
+      String token, GeneralPostModel postModel) async {
     String url = '/post/general-forum';
 
     final data = FormData.fromMap({
@@ -28,16 +26,15 @@ class GeneralPostProvider {
     };
 
     try {
+      await _dio.post(url,
+          data: data,
+          options:
+              Options(contentType: "multipart/form-data", headers: headers));
 
-      await _dio.post(url, data: data,
-          options: Options(contentType: "multipart/form-data", headers: headers)
-      );
-
-    return true;
+      return true;
     } catch (e) {
       return false;
     }
-
   }
 
   Future<bool> deleteGeneralPost(String token, int id) async {
@@ -54,7 +51,6 @@ class GeneralPostProvider {
     } catch (e) {
       return false;
     }
-
   }
 
   Future<GeneralPostModel?> getGeneralPost(String token, int id) async {
@@ -66,27 +62,29 @@ class GeneralPostProvider {
 
     try {
       final Response response = await _dio.get(url,
-          options: Options(headers: headers,));
+          options: Options(
+            headers: headers,
+          ));
 
       return GeneralPostModel.fromJson(response.data);
     } catch (_) {
       return null;
     }
-
   }
 
-  Future<List<GeneralPostModel>?> getGeneralBoard(int page, int size) async {
-
-    String url = '/post/general-forum?page=$page&size=$size';
+  Future<List<GeneralPostModel>?> getGeneralBoard(
+      int page, int size, String keyword) async {
+    String url =
+        '/post/general-forum?page=$page&size=$size&keyword=$keyword';
 
     try {
       final Response response = await _dio.get(url);
 
-        return response.data["content"]
-            .map<GeneralPostModel>((json) => GeneralPostModel.fromJson(json)).toList();
+      return response.data["content"]
+          .map<GeneralPostModel>((json) => GeneralPostModel.fromJson(json))
+          .toList();
     } catch (e) {
       return null;
     }
   }
-
 }

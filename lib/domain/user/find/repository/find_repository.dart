@@ -9,7 +9,7 @@ class FindRepository{
 
   factory FindRepository() => _singleton;
 
-  Future<bool> sendId(String phoneNumber) async {
+  Future<bool> sendId({required String phoneNumber}) async {
     return await _findProvider.sendId(phoneNumber);
   }
 }

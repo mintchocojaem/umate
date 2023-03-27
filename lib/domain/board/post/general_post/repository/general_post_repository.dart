@@ -3,7 +3,6 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import '../provider/general_post_provider.dart';
 
 class GeneralPostRepository {
-
   final GeneralPostProvider _generalPostProvider;
 
   static final GeneralPostRepository _singleton =
@@ -13,17 +12,20 @@ class GeneralPostRepository {
 
   factory GeneralPostRepository() => _singleton;
 
-  Future<bool> writeGeneralPost(String token, GeneralPostModel postModel) =>
+  Future<bool> writeGeneralPost(
+          {required String token, required GeneralPostModel postModel}) =>
       _generalPostProvider.writeGeneralPost(token, postModel);
 
-  Future<bool> deleteGeneralPost(String token, int id) =>
+  Future<bool> deleteGeneralPost({required String token, required int id}) =>
       _generalPostProvider.deleteGeneralPost(token, id);
 
-  Future<GeneralPostModel?> getGeneralPost(String token, int id) =>
+  Future<GeneralPostModel?> getGeneralPost(
+          {required String token, required int id}) =>
       _generalPostProvider.getGeneralPost(token, id);
 
   //get suggestion board list
-  Future<List<GeneralPostModel>?> getGeneralBoard(int page, int size) async {
-    return await _generalPostProvider.getGeneralBoard(page, size);
+  Future<List<GeneralPostModel>?> getGeneralBoard(
+      {required int page, required int size, required String keyword}) async {
+    return await _generalPostProvider.getGeneralBoard(page, size, keyword);
   }
 }

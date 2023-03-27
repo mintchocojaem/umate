@@ -24,14 +24,19 @@ class PetitionPostPageController extends GetxController {
   @override
   void onInit() {
     final int id = Get.arguments;
+    getPetitionPost(id);
+    super.onInit();
+  }
+
+  Future<void> getPetitionPost(int id) async {
     _petitionPostRepository
-        .getPetitionPost(loginService.loginModel.accessToken, id)
+        .getPetitionPost(token: loginService.loginModel.accessToken,id: id)
         .then((value) {
       if (value != null) {
         _petitionPostModel.value = value;
         _isLoadedPetitionPost.value = true;
       }
     });
-    super.onInit();
   }
+
 }

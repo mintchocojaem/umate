@@ -13,7 +13,7 @@ class LoginRepository {
   factory LoginRepository() => _singleton;
 
   //get login
-  Future<LoginModel?> login(String classId, String password) async {
+  Future<LoginModel?> login({required String classId, required String password}) async {
     return await _loginProvider.getLogin(classId, password);
   }
 }

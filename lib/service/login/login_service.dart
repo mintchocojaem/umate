@@ -3,8 +3,7 @@ import 'package:danvery/domain/user/login/repository/login_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class LoginService extends GetxService{
-
+class LoginService extends GetxService {
   static final LoginService _singleton = LoginService._internal();
 
   LoginService._internal();
@@ -20,14 +19,17 @@ class LoginService extends GetxService{
   LoginModel get loginModel => _loginModel.value;
 
   bool get isLogin => _isLogin.value;
+
   bool get isLoading => _isLoading.value;
 
-  Future<bool> login(String classId, String password) async{
-    await _loginRepository.login(classId, password).then((value) {
-      if(value == null){
+  Future<bool> login(String classId, String password) async {
+    await _loginRepository
+        .login(classId: classId, password: password)
+        .then((value) {
+      if (value == null) {
         _isLogin.value = false;
         _isLoading.value = false;
-      }else{
+      } else {
         _loginModel.value = value;
         _isLogin.value = true;
         _isLoading.value = false;
@@ -38,5 +40,4 @@ class LoginService extends GetxService{
 
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
 }

@@ -2,6 +2,7 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/ui/pages/main/board/general_post_page/controller/general_post_page_controller.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,12 +14,11 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
 
   @override
   Widget build(BuildContext context) {
-    //토큰 받아올때 이렇게 직접적으로 받아오지말고 null 주고 logincontroller is loaded 됐을때 받아와야함
 
     return Scaffold(
         appBar: TransparentAppBar(
           isDarkMode: Get.isDarkMode,
-          title: '게시글 작성',
+          title: '글 작성하기',
           automaticallyImplyLeading: true,
           onPressedLeading: () => Get.back(),
         ),
@@ -33,11 +33,19 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                       children: [
                         TextField(
                           controller: controller.titleController,
+                          maxLines: 1,
+                          style: regularStyle.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Palette.darkGrey
+                          ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "제목"
+                            hintText: "제목",
+                            hintStyle: regularStyle.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Palette.grey
+                            ),
                           ),
-                          maxLines: 1,
                         ),
                         Divider(
                           color: Palette.lightGrey,
@@ -45,11 +53,17 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                         ),
                         TextField(
                           controller: controller.contentController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "내용"
+                          style: regularStyle.copyWith(
+                              color: Palette.darkGrey
                           ),
                           maxLines: 20,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "내용",
+                            hintStyle: regularStyle.copyWith(
+                                color: Palette.grey
+                            ),
+                          ),
                         ),
                       ],
                     ),

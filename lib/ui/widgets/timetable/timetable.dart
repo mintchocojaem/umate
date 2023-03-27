@@ -14,12 +14,13 @@ class Timetable extends StatelessWidget {
   final int tableEndTime;
   final int today;
 
-  const Timetable(
-      {super.key,
-      required this.subjects,
-      required this.tableStartTime,
-      required this.tableEndTime,
-      this.today = 0});
+  const Timetable({
+    super.key,
+    required this.subjects,
+    required this.tableStartTime,
+    required this.tableEndTime,
+    this.today = 0
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class Timetable extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
           child: Row(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 35,
               ),
               ...List.generate(
@@ -68,7 +69,7 @@ class Timetable extends StatelessWidget {
                 (index) {
                   return Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       decoration: index == today
                           ? BoxDecoration(
                               shape: BoxShape.circle,

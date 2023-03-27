@@ -60,7 +60,7 @@ class TimetablePage extends GetView<TimetablePageController> {
               ],
               tableStartTime: 9,
               tableEndTime: 18,
-              today: DateTime.now().weekday,
+              today: DateTime.now().weekday -1,
             ),
             /*
             const Padding(
@@ -118,7 +118,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                   direction: Axis.horizontal,
                   children: const [
                     Flexible(
-                      flex: 1,
+                      flex: 5,
                       child: ModernFormField(
                         hint: "요일",
                         suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
@@ -126,7 +126,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                     ),
                     SizedBox(width: 8),
                     Flexible(
-                      flex: 1,
+                      flex: 6,
                       child: ModernFormField(
                         hint: "시작 시간",
                         suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
@@ -134,7 +134,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                     ),
                     SizedBox(width: 8),
                     Flexible(
-                      flex: 1,
+                      flex: 6,
                       child: ModernFormField(
                         hint: "종료 시간",
                         suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
@@ -173,7 +173,10 @@ class TimetablePage extends GetView<TimetablePageController> {
       backgroundColor: Palette.pureWhite,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        )
       ),
     );
   }

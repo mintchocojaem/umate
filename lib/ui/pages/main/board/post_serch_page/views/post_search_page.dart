@@ -11,6 +11,7 @@ class PostSearchPage extends GetView<PostSearchPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SearchAppBar(
@@ -19,6 +20,13 @@ class PostSearchPage extends GetView<PostSearchPageController> {
             isDarkMode: Get.isDarkMode,
             hint: '글의 제목, 내용, 키워드를 입력하세요',
             onPressedLeading: () => Get.back(),
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                controller.boardPageController
+                    .searchPost(value)
+                    .then((value) => Get.back());
+              }
+            },
           ),
           Positioned.fill(
             child: Align(

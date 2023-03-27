@@ -6,7 +6,6 @@ import '../../../utils/theme/app_text_theme.dart';
 import '../../../utils/theme/palette.dart';
 
 class ModernFormField extends StatefulWidget {
-
   final String? title;
   final String? hint;
   final bool checkButton;
@@ -24,25 +23,24 @@ class ModernFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final Icon? suffixIcon;
 
-  const ModernFormField({
-    super.key,
-    this.hint,
-    this.title,
-    this.checkButton = false,
-    this.validate = false,
-    this.validateHint,
-    this.checkButtonText,
-    this.readOnly = false,
-    this.textController,
-    this.isPassword = false,
-    this.isSMS = false,
-    this.onCheckButtonPressed,
-    this.checkButtonCoolDown = 30,
-    this.validateController,
-    this.titleColor,
-    this.keyboardType,
-    this.suffixIcon
-  });
+  const ModernFormField(
+      {super.key,
+      this.hint,
+      this.title,
+      this.checkButton = false,
+      this.validate = false,
+      this.validateHint,
+      this.checkButtonText,
+      this.readOnly = false,
+      this.textController,
+      this.isPassword = false,
+      this.isSMS = false,
+      this.onCheckButtonPressed,
+      this.checkButtonCoolDown = 30,
+      this.validateController,
+      this.titleColor,
+      this.keyboardType,
+      this.suffixIcon});
 
   @override
   createState() => _ModernFormField();
@@ -94,7 +92,8 @@ class _ModernFormField extends State<ModernFormField> {
             : Text(
                 widget.title!,
                 style: titleStyle.copyWith(
-                    color: widget.titleColor ?? Palette.grey, fontWeight: FontWeight.w500),
+                    color: widget.titleColor ?? Palette.grey,
+                    fontWeight: FontWeight.w500),
               ),
         const SizedBox(
           height: 8,
@@ -107,9 +106,13 @@ class _ModernFormField extends State<ModernFormField> {
           readOnly: widget.readOnly,
           controller: widget.textController,
           keyboardType: widget.keyboardType,
-          style: regularStyle.copyWith(color: Palette.darkGrey),
+          maxLines: 1,
+          maxLength: 30,
+          style: regularStyle.copyWith(
+              color: Palette.darkGrey, fontWeight: FontWeight.w500),
           cursorColor: widget.titleColor ?? Palette.blue,
           decoration: InputDecoration(
+            counterText: "",
             filled: true,
             fillColor: Palette.lightGrey,
             border: const OutlineInputBorder(),
@@ -124,14 +127,16 @@ class _ModernFormField extends State<ModernFormField> {
                 width: 1.0,
               ),
             ),
-            contentPadding: const EdgeInsets.only(left: 16, right: 16),
-            suffixIcon: widget.suffixIcon != null ? IconButton(
-              padding: EdgeInsets.zero,
-              icon: widget.suffixIcon!,
-              onPressed: () {
-
-              },
-            ) : null,
+            contentPadding: const EdgeInsets.only(
+              left: 16,
+            ),
+            suffixIcon: widget.suffixIcon != null
+                ? IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: widget.suffixIcon!,
+                    onPressed: () {},
+                  )
+                : null,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
@@ -139,7 +144,8 @@ class _ModernFormField extends State<ModernFormField> {
                 width: 2.0,
               ),
             ),
-            suffixIconConstraints: const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
+            suffixIconConstraints:
+                const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
@@ -185,7 +191,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 ),
                                 onCodeChanged: (code) {
                                   widget.validateController?.text = code;
-                                  if(code.length == 6) {
+                                  if (code.length == 6) {
                                     FocusScope.of(context).unfocus();
                                   }
                                 },
@@ -200,7 +206,13 @@ class _ModernFormField extends State<ModernFormField> {
                                 autocorrect: false,
                                 controller: widget.validateController,
                                 readOnly: widget.readOnly,
+                                maxLines: 1,
+                                maxLength: 30,
                                 decoration: InputDecoration(
+                                  counterText: "",
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 16,
+                                  ),
                                   filled: true,
                                   fillColor: Palette.lightGrey,
                                   border: const OutlineInputBorder(),
@@ -226,7 +238,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 height: 48,
                                 width: 100,
                                 child: OutlinedButton(
-                                  onPressed: () async{
+                                  onPressed: () async {
                                     if (!_isSend) {
                                       await SmsAutoFill().listenForCode();
                                       focusSMS.requestFocus();
@@ -253,7 +265,7 @@ class _ModernFormField extends State<ModernFormField> {
                                           ? "$_remainingTime"
                                           : "${widget.checkButtonText}",
                                       style: regularStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w500,
                                           color: !_isSend
                                               ? Palette.pureWhite
                                               : Palette.grey),

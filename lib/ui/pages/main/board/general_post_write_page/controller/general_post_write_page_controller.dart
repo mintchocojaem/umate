@@ -4,19 +4,22 @@ import 'package:danvery/service/login/login_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class GeneralPostWritePageController extends GetxController{
-
+class GeneralPostWritePageController extends GetxController {
   final GeneralPostRepository generalPostRepository = GeneralPostRepository();
   final LoginService loginService = Get.find<LoginService>();
 
   final TextEditingController titleController = TextEditingController();
   final RxString title = ''.obs;
+
   String get titleText => title.value;
+
   set titleText(String value) => title.value = value;
 
   final TextEditingController contentController = TextEditingController();
   final RxString content = ''.obs;
+
   String get contentText => content.value;
+
   set contentText(String value) => content.value = value;
 
   @override
@@ -30,8 +33,9 @@ class GeneralPostWritePageController extends GetxController{
     });
   }
 
-  Future<bool> writeGeneralPost(String token, GeneralPostModel generalPostModel) {
-   return generalPostRepository.writeGeneralPost(token, generalPostModel);
+  Future<bool> writeGeneralPost(
+      String token, GeneralPostModel generalPostModel) {
+    return generalPostRepository.writeGeneralPost(
+        token: token, postModel: generalPostModel);
   }
-
 }

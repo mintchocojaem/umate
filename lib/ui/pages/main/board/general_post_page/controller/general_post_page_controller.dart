@@ -42,24 +42,32 @@ class GeneralPostPageController extends GetxController {
   void onInit() {
 
     final int id = Get.arguments;
-    _generalPostRepository
-        .getGeneralPost(loginService.loginModel.accessToken, id)
+    getGeneralPost(id);
+    getGeneralComment(id);
+
+    super.onInit();
+  }
+
+  Future<void> getGeneralPost(int id) async {
+   await _generalPostRepository
+        .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
         .then((value) {
       if (value != null) {
         generalPostModel = value;
         isLoadedGeneralPost = true;
       }
     });
-    _generalCommentRepository
-        .getGeneralComment(loginService.loginModel.accessToken, id)
+  }
+
+  Future<void> getGeneralComment(int id) async {
+    await _generalCommentRepository
+        .getGeneralComment(token: loginService.loginModel.accessToken,id: id)
         .then((value) {
       if (value != null) {
         generalCommentListModel = value;
         isLoadedGeneralComment = true;
       }
     });
-
-    super.onInit();
   }
 
 }

@@ -12,7 +12,8 @@ class GeneralCommentRepository {
 
   factory GeneralCommentRepository()=> _singleton;
 
-  Future<GeneralCommentListModel?> getGeneralComment(String token, int id) async {
+  Future<GeneralCommentListModel?> getGeneralComment(
+      {required String token, required int id}) async {
     return await _generalCommentProvider.getGeneralComment(token, id);
   }
 }

@@ -11,7 +11,8 @@ class BusRepository {
 
   factory BusRepository() => _singleton;
 
-  Future<List<BusModel>?> getBusListFromStation(String stationName) async {
+  Future<List<BusModel>?> getBusListFromStation(
+      {required String stationName}) async {
     return await busProvider.getBusListFromStation(stationName);
   }
 }

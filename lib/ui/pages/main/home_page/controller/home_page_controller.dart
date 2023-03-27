@@ -8,9 +8,9 @@ import 'package:danvery/service/login/login_service.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
-
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
-  final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
+  final PetitionPostRepository _petitionPostRepository =
+      PetitionPostRepository();
   final BusRepository _busRepository = BusRepository();
 
   final LoginService loginService = Get.find<LoginService>();
@@ -40,39 +40,56 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    _busRepository.getBusListFromStation("단국대정문").then((value) {
+
+    getBusList();
+    getGeneralPostListHome();
+    getPetitionPostListHome();
+    super.onInit();
+  }
+
+  Future<void> getGeneralPostListHome() async {
+    _generalPostRepository
+        .getGeneralBoard(page: 0, size: 5, keyword: '')
+        .then((value) {
+      if (value != null) {
+        _generalPostListHome.value = value;
+        _isLoadGeneralPostListHome.value = true;
+      }
+    });
+  }
+
+  Future<void> getPetitionPostListHome() async {
+    _petitionPostRepository
+        .getPetitionBoard(page: 0, size: 5, status: "ACTIVE")
+        .then((value) {
+      if (value != null) {
+        _petitionListHome.value = value;
+        _isLoadPetitionListHome.value = true;
+      }
+    });
+  }
+
+  Future<void> getBusList() async {
+    _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) {
       if (value != null) {
         busListOfJungMoon.value = value;
-        _busRepository.getBusListFromStation("곰상").then((value) {
-          if(value != null){
+        _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
+          if (value != null) {
             busListOfGomSang.value = value;
-            if(busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty){
+            if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
               _isLoadBustList.value = true;
             }
           }
         });
       }
     });
-    _generalPostRepository.getGeneralBoard(0, 5).then((value) {
-      if (value != null) {
-        _generalPostListHome.value = value;
-        _isLoadGeneralPostListHome.value = true;
-      }
-    });
-    _petitionPostRepository.getPetitionBoard(0, 5, "ACTIVE").then((value) {
-      if (value != null) {
-        _petitionListHome.value = value;
-        _isLoadPetitionListHome.value = true;
-      }
-    });
-    super.onInit();
   }
 
-  BusModel findJungMoonBusByNo(String no){
+  BusModel findJungMoonBusByNo(String no) {
     return busListOfJungMoon.firstWhere((p0) => p0.busNo == no);
   }
 
-  BusModel findGomSangBusByNo(String no){
+  BusModel findGomSangBusByNo(String no) {
     return busListOfGomSang.firstWhere((p0) => p0.busNo == no);
   }
 

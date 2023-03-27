@@ -5,9 +5,9 @@ import 'package:danvery/domain/board/post/petition_post/repository/petition_post
 import 'package:get/get.dart';
 
 class BoardPageController extends GetxController {
-
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
-  final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
+  final PetitionPostRepository _petitionPostRepository =
+      PetitionPostRepository();
 
   final RxInt _selectedTap = 0.obs;
 
@@ -41,17 +41,23 @@ class BoardPageController extends GetxController {
   List<String> categoryKORList = ['청원 중', '대기 중', '답변 완료', '기간만료'];
   List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
 
+  final RxString _searchText = ''.obs;
+
+  String get searchText => _searchText.value;
+
+  set searchText(String value) => _searchText.value = value;
+
   @override
   void onInit() {
     // TODO: implement onInit
-    _generalPostRepository.getGeneralBoard(0, 5).then((value) {
+    _generalPostRepository.getGeneralBoard(page: 0, size: 5, keyword: searchText).then((value) {
       if (value != null) {
         _generalPostListBoard.value = value;
         _isLoadGeneralPostListBoard.value = true;
       }
     });
     _petitionPostRepository
-        .getPetitionBoard(0, 5, categoryAPIList[_selectedCategory.value])
+        .getPetitionBoard(page: 0, size: 5, status: categoryAPIList[_selectedCategory.value])
         .then((value) {
       if (value != null) {
         _petitionListBoard.value = value;
@@ -60,7 +66,7 @@ class BoardPageController extends GetxController {
     });
     _selectedCategory.listen((value) {
       _petitionPostRepository
-          .getPetitionBoard(0, 5, categoryAPIList[_selectedCategory.value])
+          .getPetitionBoard(page: 0,size: 5,status: categoryAPIList[_selectedCategory.value])
           .then((value) {
         if (value != null) {
           _petitionListBoard.value = value;
@@ -70,5 +76,18 @@ class BoardPageController extends GetxController {
     });
 
     super.onInit();
+  }
+
+  Future<bool> searchPost(String keyword) async {
+    await _generalPostRepository
+        .getGeneralBoard(page: 0, size: 5, keyword: keyword)
+        .then((value) {
+      if (value != null) {
+        _generalPostListBoard.value = value;
+        _isLoadGeneralPostListBoard.value = true;
+        return true;
+      }
+    });
+    return false;
   }
 }

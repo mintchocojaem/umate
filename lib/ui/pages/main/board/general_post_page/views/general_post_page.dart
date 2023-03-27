@@ -194,7 +194,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(
-                                  height: 16,
+                                  height: 12,
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +268,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 16,
+                                  height: 12,
                                 ),
                                 Divider(
                                   color: Palette.grey,

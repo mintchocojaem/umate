@@ -41,8 +41,8 @@ class FindIdPageController extends GetxController {
     super.onInit();
   }
 
-  Future<bool> sendId() {
-    return _findRepository.sendId(phoneNumber);
+  Future<bool> sendIdToPhoneNumber(String phoneNumber) {
+    return _findRepository.sendId(phoneNumber: phoneNumber);
   }
 
 }

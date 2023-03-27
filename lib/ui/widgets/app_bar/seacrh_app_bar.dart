@@ -3,6 +3,7 @@ import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+
 class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color backGroundColor;
   final double height;
@@ -11,6 +12,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
   final String hint;
   final VoidCallback? onPressedLeading;
   final TextEditingController? controller;
+  final void Function(String value)? onSubmitted;
 
   const SearchAppBar({
     super.key,
@@ -21,6 +23,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.hint,
     this.onPressedLeading,
     this.controller,
+    this.onSubmitted,
   });
 
   @override
@@ -32,6 +35,12 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backGroundColor,
       centerTitle: false,
       title: TextField(
+        enableSuggestions: false,
+        autocorrect: false,
+        onSubmitted: (value) {
+          onSubmitted?.call(value);
+        },
+        textInputAction: TextInputAction.search,
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
         cursorColor: Palette.grey,
