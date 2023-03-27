@@ -82,9 +82,7 @@ class BoardPageController extends GetxController {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getNextGeneralPostListBoard().whenComplete(() {
-          _isLoadMoreGeneralPostListBoard.value = true;
-        });
+        getNextGeneralPostListBoard();
       }
     });
 
@@ -124,6 +122,7 @@ class BoardPageController extends GetxController {
         _generalBoardPage--;
       }
     });
+    _isLoadMoreGeneralPostListBoard.value = true;
   }
 
   Future<void> getPetitionPostListBoard() async {

@@ -76,12 +76,14 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                         ),
                         controller.isLoadMoreGeneralPostListBoard
                             ? const SizedBox()
-                            : const Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                            : const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                  height: 32,
+                                  width: 32,
                                   child: CircularProgressIndicator(),
                                 ),
-                              ),
+                            ),
                       ],
                     ),
                   ),
