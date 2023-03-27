@@ -2,6 +2,7 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class BoardPageController extends GetxController {
@@ -23,11 +24,17 @@ class BoardPageController extends GetxController {
 
   final RxList<GeneralPostModel> _generalPostListBoard =
       <GeneralPostModel>[].obs;
-  final RxBool _isLoadGeneralPostListBoard = false.obs;
 
   List<GeneralPostModel> get generalPostListBoard => _generalPostListBoard;
 
+  final RxBool _isLoadGeneralPostListBoard = false.obs;
+
   bool get isLoadGeneralPostListBoard => _isLoadGeneralPostListBoard.value;
+
+  final RxBool _isLoadMoreGeneralPostListBoard = false.obs;
+
+  bool get isLoadMoreGeneralPostListBoard =>
+      _isLoadMoreGeneralPostListBoard.value;
 
   final RxList<PetitionPostModel> _petitionListBoard =
       <PetitionPostModel>[].obs;
@@ -47,26 +54,23 @@ class BoardPageController extends GetxController {
 
   set searchText(String value) => _searchText.value = value;
 
+  final ScrollController scrollController = ScrollController();
+
+  int _generalBoardPage = 0;
+  final int _generalBoardSize = 5;
+
   @override
   void onInit() {
     // TODO: implement onInit
-    _generalPostRepository.getGeneralBoard(page: 0, size: 5, keyword: searchText).then((value) {
-      if (value != null) {
-        _generalPostListBoard.value = value;
-        _isLoadGeneralPostListBoard.value = true;
-      }
-    });
-    _petitionPostRepository
-        .getPetitionBoard(page: 0, size: 5, status: categoryAPIList[_selectedCategory.value])
-        .then((value) {
-      if (value != null) {
-        _petitionListBoard.value = value;
-        _isLoadPetitionListBoard.value = true;
-      }
-    });
+    getFirstGeneralPostListBoard();
+    getPetitionPostListBoard();
+
     _selectedCategory.listen((value) {
       _petitionPostRepository
-          .getPetitionBoard(page: 0,size: 5,status: categoryAPIList[_selectedCategory.value])
+          .getPetitionBoard(
+              page: 0,
+              size: 5,
+              status: categoryAPIList[_selectedCategory.value])
           .then((value) {
         if (value != null) {
           _petitionListBoard.value = value;
@@ -75,10 +79,68 @@ class BoardPageController extends GetxController {
       });
     });
 
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getNextGeneralPostListBoard().whenComplete(() {
+          _isLoadMoreGeneralPostListBoard.value = true;
+        });
+      }
+    });
+
     super.onInit();
   }
 
+  Future<void> getFirstGeneralPostListBoard() async {
+    _generalBoardPage = 0;
+    await _generalPostRepository
+        .getGeneralBoard(
+            page: _generalBoardPage,
+            size: _generalBoardSize,
+            keyword: searchText)
+        .then((value) {
+      if (value != null) {
+        _generalPostListBoard.value = value;
+        _isLoadGeneralPostListBoard.value = true;
+        _isLoadMoreGeneralPostListBoard.value = false;
+      }
+    });
+  }
+
+  Future<void> getNextGeneralPostListBoard() async {
+    _generalBoardPage++;
+    _isLoadMoreGeneralPostListBoard.value = false;
+    await _generalPostRepository
+        .getGeneralBoard(
+            page: _generalBoardPage,
+            size: _generalBoardSize,
+            keyword: searchText)
+        .then((value) {
+      if (value != null && value.isNotEmpty) {
+        _generalPostListBoard.addAll(value);
+      } else if (value != null) {
+        _generalBoardPage--;
+      } else {
+        _generalBoardPage--;
+      }
+    });
+  }
+
+  Future<void> getPetitionPostListBoard() async {
+    _isLoadPetitionListBoard.value = false;
+    await _petitionPostRepository
+        .getPetitionBoard(
+            page: 0, size: 5, status: categoryAPIList[_selectedCategory.value])
+        .then((value) {
+      if (value != null) {
+        _petitionListBoard.value = value;
+        _isLoadPetitionListBoard.value = true;
+      }
+    });
+  }
+
   Future<bool> searchPost(String keyword) async {
+    _isLoadGeneralPostListBoard.value = false;
     await _generalPostRepository
         .getGeneralBoard(page: 0, size: 5, keyword: keyword)
         .then((value) {

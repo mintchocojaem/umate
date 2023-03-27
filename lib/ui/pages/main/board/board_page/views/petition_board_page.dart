@@ -15,7 +15,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.isLoadPetitionListBoard
-          ? controller.generalPostListBoard.isEmpty
+          ? controller.petitionListBoard.isEmpty
               ? Center(
                   child: Text(
                     '연관된 게시물이 존재하지 않습니다',

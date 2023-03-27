@@ -25,14 +25,39 @@ class BoardPage extends GetView<BoardPageController> {
           backGroundColor: Palette.pureWhite,
           height: 60,
           actions: [
-            IconButton(
-              onPressed: () {
-                Get.toNamed(Routes.postSearch);
-              },
-              icon: Icon(
-                Icons.search,
-                color: Palette.blue,
-              ),
+            Obx(
+              () => IntrinsicWidth(
+                child: TextField(
+                  style: regularStyle.copyWith(
+                    color: Palette.darkGrey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  readOnly: true,
+                  controller: TextEditingController(text: controller.searchText),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    suffixIcon: controller.searchText.isEmpty ? IconButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.postSearch);
+                      },
+                      icon: Icon(
+                        Icons.search,
+                        color: Palette.blue,
+                      ),
+                    ) : IconButton(
+                      onPressed: () {
+                        controller.searchText = '';
+                        controller.getFirstGeneralPostListBoard();
+                      },
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Palette.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              )
             ),
           ],
         ),
