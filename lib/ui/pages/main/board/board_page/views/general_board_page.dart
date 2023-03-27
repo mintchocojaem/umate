@@ -14,7 +14,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
     // TODO: implement build
 
     return Obx(
-      () => controller.isLoadGeneralPostListBoard
+      () => controller.isLoadGeneralPostBoard
           ? controller.generalPostList.isEmpty
               ? Center(
                   child: Text(
@@ -28,7 +28,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                     controller.getGeneralPostListBoard();
                   },
                   child: SingleChildScrollView(
-                    controller: controller.scrollController,
+                    controller: controller.generalBoardScrollController,
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -37,7 +37,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                       itemCount: controller.generalPostList.length + 1,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == controller.generalPostList.length) {
-                          if (controller.generalPostListBoard.last) {
+                          if (controller.generalPostBoard.last) {
                             return const SizedBox();
                           } else{
                             return const Padding(

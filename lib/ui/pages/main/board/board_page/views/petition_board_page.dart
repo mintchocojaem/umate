@@ -14,63 +14,90 @@ class PetitionBoardPage extends GetView<BoardPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.isLoadPetitionListBoard
-          ? controller.petitionListBoard.isEmpty
-              ? Center(
-                  child: Text(
-                    '연관된 게시물이 존재하지 않습니다',
-                    style: titleStyle.copyWith(color: Palette.grey),
+      () => controller.isLoadPetitionBoard
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 8, left: 16, right: 16),
+                  child: CategoryButtonBar(
+                    selectedIndex: controller.selectedCategory,
+                    categories: controller.categoryKORList,
+                    selectedBackGroundColor: Palette.blue,
+                    unSelectedBackGroundColor: Palette.white,
+                    selectedTextColor: Palette.pureWhite,
+                    unSelectedTextColor: Palette.grey,
+                    onTap: (value) async {
+                      controller.selectedCategory = value;
+                    },
                   ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8, bottom: 8, left: 16, right: 16),
-                        child: CategoryButtonBar(
-                          selectedIndex: controller.selectedCategory,
-                          categories: controller.categoryKORList,
-                          selectedBackGroundColor: Palette.blue,
-                          unSelectedBackGroundColor: Palette.white,
-                          selectedTextColor: Palette.pureWhite,
-                          unSelectedTextColor: Palette.grey,
-                          onTap: (value) async {
-                            controller.selectedCategory = value;
+                ),
+                Expanded(
+                  child: controller.petitionPostList.isEmpty
+                      ? Center(
+                          child: Text(
+                            '연관된 게시물이 존재하지 않습니다',
+                            style: titleStyle.copyWith(color: Palette.grey),
+                          ),
+                        )
+                      : RefreshIndicator(
+                          color: Palette.blue,
+                          onRefresh: () async {
+                            controller.getPetitionPostListBoard();
                           },
+                          child: SingleChildScrollView(
+                            controller: controller.petitionBoardScrollController,
+                            child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:
+                                    controller.petitionPostList.length + 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index ==
+                                      controller.petitionPostList.length) {
+                                    if (controller.petitionBoard.last) {
+                                      return const SizedBox();
+                                    } else {
+                                      return const Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Center(
+                                            child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0,
+                                        bottom: 8,
+                                        left: 16,
+                                        right: 16),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.petition,
+                                            arguments: controller
+                                                .petitionPostList[index].id);
+                                      },
+                                      child: PetitionCard(
+                                          title: controller
+                                              .petitionPostList[index].title,
+                                          createdAt: controller
+                                              .petitionPostList[index]
+                                              .createdAt,
+                                          expiredAt: controller
+                                              .petitionPostList[index]
+                                              .expiresAt,
+                                          numberOfPeople: "143",
+                                          status: controller
+                                              .petitionPostList[index].status),
+                                    ),
+                                  );
+                                }),
+                          ),
                         ),
-                      ),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: controller.petitionListBoard.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0, bottom: 8, left: 16, right: 16),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(Routes.petition,
-                                      arguments: controller
-                                          .petitionListBoard[index].id);
-                                },
-                                child: PetitionCard(
-                                    title: controller
-                                        .petitionListBoard[index].title,
-                                    createdAt: controller
-                                        .petitionListBoard[index].createdAt,
-                                    expiredAt: controller
-                                        .petitionListBoard[index].expiresAt,
-                                    numberOfPeople: "143",
-                                    status: controller
-                                        .petitionListBoard[index].status),
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
-                )
+                ),
+              ],
+            )
           : const Center(
               child: CircularProgressIndicator(),
             ),
