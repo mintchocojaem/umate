@@ -1,8 +1,10 @@
 import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
+import 'package:danvery/domain/board/comment/general_comment/model/general_comment_model.dart';
 import 'package:danvery/domain/board/comment/general_comment/repository/general_comment_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class GeneralPostPageController extends GetxController {
@@ -14,29 +16,28 @@ class GeneralPostPageController extends GetxController {
 
   final Rx<GeneralPostModel> _generalPostModel = GeneralPostModel().obs;
 
-  set generalPostModel(value) => _generalPostModel.value = value;
-
   GeneralPostModel get generalPostModel => _generalPostModel.value;
 
   final Rx<GeneralCommentListModel> _generalCommentListModel =
       GeneralCommentListModel().obs;
 
-  set generalCommentListModel(value) => _generalCommentListModel.value = value;
-
   GeneralCommentListModel get generalCommentListModel =>
       _generalCommentListModel.value;
 
-  final RxBool _isLoadedGeneralPost = false.obs;
+  final RxList<GeneralCommentModel> _generalCommentList =
+      <GeneralCommentModel>[].obs;
 
-  set isLoadedGeneralPost(value) => _isLoadedGeneralPost.value = value;
+  List<GeneralCommentModel> get generalCommentList => _generalCommentList;
+
+  final RxBool _isLoadedGeneralPost = false.obs;
 
   bool get isLoadedGeneralPost => _isLoadedGeneralPost.value;
 
   final RxBool _isLoadedGeneralComment = false.obs;
 
-  set isLoadedGeneralComment(value) => _isLoadedGeneralComment.value = value;
-
   bool get isLoadedGeneralComment => _isLoadedGeneralComment.value;
+
+  final ScrollController generalCommentScrollController = ScrollController();
 
   int commentPage = 0;
   final int commentSize = 5;
@@ -45,7 +46,16 @@ class GeneralPostPageController extends GetxController {
   void onInit() {
     final int id = Get.arguments;
     getGeneralPost(id);
-    getFirstGeneralComment(id);
+    getGeneralComment(id);
+
+    generalCommentScrollController.addListener(() {
+      if (generalCommentScrollController.position.pixels ==
+          generalCommentScrollController.position.maxScrollExtent) {
+        if(!generalCommentListModel.last){
+          getNextGeneralComment(id);
+        }
+      }
+    });
 
     super.onInit();
   }
@@ -55,13 +65,14 @@ class GeneralPostPageController extends GetxController {
         .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
         .then((value) {
       if (value != null) {
-        generalPostModel = value;
-        isLoadedGeneralPost = true;
+        _generalPostModel.value = value;
+        _isLoadedGeneralPost.value = true;
       }
     });
   }
 
-  Future<void> getFirstGeneralComment(int id) async {
+  Future<void> getGeneralComment(int id) async {
+    commentPage = 0;
     await _generalCommentRepository
         .getGeneralComment(
             token: loginService.loginModel.accessToken,
@@ -70,8 +81,25 @@ class GeneralPostPageController extends GetxController {
             size: commentSize)
         .then((value) {
       if (value != null) {
-        generalCommentListModel = value;
-        isLoadedGeneralComment = true;
+        _generalCommentListModel.value = value;
+        _generalCommentList.value = value.generalCommentList;
+        _isLoadedGeneralComment.value = true;
+      }
+    });
+  }
+
+  Future<void> getNextGeneralComment(int id) async {
+    commentPage++;
+    await _generalCommentRepository
+        .getGeneralComment(
+            token: loginService.loginModel.accessToken,
+            id: id,
+            page: commentPage,
+            size: commentSize)
+        .then((value) {
+      if (value != null) {
+        _generalCommentListModel.value = value;
+        _generalCommentList.addAll(value.generalCommentList);
       }
     });
   }
