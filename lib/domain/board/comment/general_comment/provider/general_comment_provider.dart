@@ -12,8 +12,8 @@ class GeneralCommentProvider {
 
   factory GeneralCommentProvider() => _singleton;
 
-  Future<GeneralCommentListModel?> getGeneralComment(String token, int id) async {
-    String url = '/post/general-forum/comment/$id?page=0&size=20';
+  Future<GeneralCommentListModel?> getGeneralComment(String token, int id, int page, int size) async {
+    String url = '/post/general-forum/comment/$id?page=$page&size=$size';
 
     final headers = {
       'Authorization': "Bearer $token",

@@ -38,18 +38,20 @@ class GeneralPostPageController extends GetxController {
 
   bool get isLoadedGeneralComment => _isLoadedGeneralComment.value;
 
+  int commentPage = 0;
+  final int commentSize = 5;
+
   @override
   void onInit() {
-
     final int id = Get.arguments;
     getGeneralPost(id);
-    getGeneralComment(id);
+    getFirstGeneralComment(id);
 
     super.onInit();
   }
 
   Future<void> getGeneralPost(int id) async {
-   await _generalPostRepository
+    await _generalPostRepository
         .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
         .then((value) {
       if (value != null) {
@@ -59,9 +61,13 @@ class GeneralPostPageController extends GetxController {
     });
   }
 
-  Future<void> getGeneralComment(int id) async {
+  Future<void> getFirstGeneralComment(int id) async {
     await _generalCommentRepository
-        .getGeneralComment(token: loginService.loginModel.accessToken,id: id)
+        .getGeneralComment(
+            token: loginService.loginModel.accessToken,
+            id: id,
+            page: commentPage,
+            size: commentSize)
         .then((value) {
       if (value != null) {
         generalCommentListModel = value;

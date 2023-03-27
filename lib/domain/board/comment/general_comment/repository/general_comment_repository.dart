@@ -2,7 +2,6 @@ import 'package:danvery/domain/board/comment/general_comment/model/general_comme
 import 'package:danvery/domain/board/comment/general_comment/provider/general_comment_provider.dart';
 
 class GeneralCommentRepository {
-
   final GeneralCommentProvider _generalCommentProvider;
 
   static final GeneralCommentRepository _singleton =
@@ -10,10 +9,14 @@ class GeneralCommentRepository {
 
   GeneralCommentRepository._internal(this._generalCommentProvider);
 
-  factory GeneralCommentRepository()=> _singleton;
+  factory GeneralCommentRepository() => _singleton;
 
   Future<GeneralCommentListModel?> getGeneralComment(
-      {required String token, required int id}) async {
-    return await _generalCommentProvider.getGeneralComment(token, id);
+      {required String token,
+      required int id,
+      required int page,
+      required int size}) async {
+    return await _generalCommentProvider.getGeneralComment(
+        token, id, page, size);
   }
 }

@@ -48,7 +48,7 @@ class BoardPage extends GetView<BoardPageController> {
                     ) : IconButton(
                       onPressed: () {
                         controller.searchText = '';
-                        controller.getFirstGeneralPostListBoard();
+                        controller.getGeneralPostListBoard();
                       },
                       icon: Icon(
                         Icons.cancel,

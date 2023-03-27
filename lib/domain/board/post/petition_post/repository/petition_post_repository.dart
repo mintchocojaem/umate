@@ -11,12 +11,6 @@ class PetitionPostRepository {
 
   factory PetitionPostRepository() => _singleton;
 
-  //get petition board list
-  Future<List<PetitionPostModel>?> getPetitionBoard(
-      {required int page,required int size,required String status}) async {
-    return await _petitionPostProvider.getPetitionPostBoard(page, size, status);
-  }
-
   //get petition
   Future<PetitionPostModel?> getPetitionPost(
       {required String token, required int id}) async {

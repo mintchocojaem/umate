@@ -15,7 +15,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
 
     return Obx(
       () => controller.isLoadGeneralPostListBoard
-          ? controller.generalPostListBoard.isEmpty
+          ? controller.generalPostList.isEmpty
               ? Center(
                   child: Text(
                     '연관된 게시물이 존재하지 않습니다',
@@ -25,66 +25,60 @@ class GeneralBoardPage extends GetView<BoardPageController> {
               : RefreshIndicator(
                   color: Palette.blue,
                   onRefresh: () async {
-                    controller.getFirstGeneralPostListBoard();
+                    controller.getGeneralPostListBoard();
                   },
                   child: SingleChildScrollView(
                     controller: controller.scrollController,
-                    child: Column(
-                      children: [
-                        ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 16, right: 16),
-                          itemCount: controller.generalPostListBoard.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.post,
-                                    arguments: controller
-                                        .generalPostListBoard[index].id);
-                              },
-                              child: Container(
-                                color: Palette.pureWhite,
-                                child: Column(
-                                  children: [
-                                    PostCard(
-                                      nickname: controller
-                                          .generalPostListBoard[index].author,
-                                      title: controller
-                                          .generalPostListBoard[index].title,
-                                      subtitle: controller
-                                          .generalPostListBoard[index].body,
-                                      publishDate: controller
-                                          .generalPostListBoard[index]
-                                          .createdAt,
-                                      commentCount: controller
-                                          .generalPostListBoard[index]
-                                          .commentCount,
-                                      likeCount: controller
-                                          .generalPostListBoard[index].likes,
-                                    ),
-                                    Divider(
-                                      color: Palette.grey,
-                                      height: 1,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                          top: 8, bottom: 8, left: 16, right: 16),
+                      itemCount: controller.generalPostList.length + 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index == controller.generalPostList.length) {
+                          if (controller.generalPostListBoard.last) {
+                            return const SizedBox();
+                          } else{
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(child: CircularProgressIndicator()),
                             );
+                          }
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.post,
+                                arguments:
+                                    controller.generalPostList[index].id);
                           },
-                        ),
-                        controller.isLoadMoreGeneralPostListBoard
-                            ? const SizedBox()
-                            : const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                  height: 32,
-                                  width: 32,
-                                  child: CircularProgressIndicator(),
+                          child: Container(
+                            color: Palette.pureWhite,
+                            child: Column(
+                              children: [
+                                PostCard(
+                                  nickname:
+                                      controller.generalPostList[index].author,
+                                  title:
+                                      controller.generalPostList[index].title,
+                                  subtitle:
+                                      controller.generalPostList[index].body,
+                                  publishDate: controller
+                                      .generalPostList[index].createdAt,
+                                  commentCount: controller
+                                      .generalPostList[index].commentCount,
+                                  likeCount:
+                                      controller.generalPostList[index].likes,
                                 ),
+                                Divider(
+                                  color: Palette.grey,
+                                  height: 1,
+                                ),
+                              ],
                             ),
-                      ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 )

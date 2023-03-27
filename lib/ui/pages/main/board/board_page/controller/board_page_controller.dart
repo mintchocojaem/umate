@@ -1,3 +1,6 @@
+import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
+import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
+import 'package:danvery/domain/board/petition_board/repository/petition_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
@@ -6,9 +9,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class BoardPageController extends GetxController {
-  final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
-  final PetitionPostRepository _petitionPostRepository =
-      PetitionPostRepository();
+  final GeneralBoardRepository _generalBoardRepository =
+  GeneralBoardRepository();
+  final PetitionBoardRepository _petitionPostRepository =
+  PetitionBoardRepository();
 
   final RxInt _selectedTap = 0.obs;
 
@@ -22,19 +26,17 @@ class BoardPageController extends GetxController {
 
   set selectedCategory(index) => _selectedCategory.value = index;
 
-  final RxList<GeneralPostModel> _generalPostListBoard =
-      <GeneralPostModel>[].obs;
+  final Rx<GeneralBoardModel> _generalPostListBoard = GeneralBoardModel().obs;
 
-  List<GeneralPostModel> get generalPostListBoard => _generalPostListBoard;
+  GeneralBoardModel get generalPostListBoard => _generalPostListBoard.value;
+
+  final RxList<GeneralPostModel> _generalPostList = <GeneralPostModel>[].obs;
+
+  List<GeneralPostModel> get generalPostList => _generalPostList;
 
   final RxBool _isLoadGeneralPostListBoard = false.obs;
 
   bool get isLoadGeneralPostListBoard => _isLoadGeneralPostListBoard.value;
-
-  final RxBool _isLoadMoreGeneralPostListBoard = false.obs;
-
-  bool get isLoadMoreGeneralPostListBoard =>
-      _isLoadMoreGeneralPostListBoard.value;
 
   final RxList<PetitionPostModel> _petitionListBoard =
       <PetitionPostModel>[].obs;
@@ -57,82 +59,79 @@ class BoardPageController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   int _generalBoardPage = 0;
-  final int _generalBoardSize = 5;
+  final int _generalBoardSize = 4;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    getFirstGeneralPostListBoard();
+    getGeneralPostListBoard();
     getPetitionPostListBoard();
 
     _selectedCategory.listen((value) {
       _petitionPostRepository
           .getPetitionBoard(
-              page: 0,
-              size: 5,
-              status: categoryAPIList[_selectedCategory.value])
+          page: 0,
+          size: 5,
+          status: categoryAPIList[_selectedCategory.value])
           .then((value) {
         if (value != null) {
-          _petitionListBoard.value = value;
+          _petitionListBoard.value = value.petitionPostList;
           _isLoadPetitionListBoard.value = true;
         }
       });
     });
 
-    scrollController.addListener(() {
+    scrollController.addListener(() async{
       if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        getNextGeneralPostListBoard();
+          scrollController.position.maxScrollExtent){
+        if (!generalPostListBoard.last){
+          await getNextGeneralPostListBoard();
+        }
       }
     });
 
     super.onInit();
   }
 
-  Future<void> getFirstGeneralPostListBoard() async {
+  Future<void> getGeneralPostListBoard() async {
     _generalBoardPage = 0;
-    await _generalPostRepository
+    await _generalBoardRepository
         .getGeneralBoard(
-            page: _generalBoardPage,
-            size: _generalBoardSize,
-            keyword: searchText)
+        page: _generalBoardPage,
+        size: _generalBoardSize,
+        keyword: searchText)
         .then((value) {
       if (value != null) {
         _generalPostListBoard.value = value;
+        _generalPostList.value = value.generalPostList;
         _isLoadGeneralPostListBoard.value = true;
-        _isLoadMoreGeneralPostListBoard.value = false;
       }
     });
   }
 
-  Future<void> getNextGeneralPostListBoard() async {
+  Future<void> getNextGeneralPostListBoard() async{
     _generalBoardPage++;
-    _isLoadMoreGeneralPostListBoard.value = false;
-    await _generalPostRepository
+    await _generalBoardRepository
         .getGeneralBoard(
-            page: _generalBoardPage,
-            size: _generalBoardSize,
-            keyword: searchText)
+        page: _generalBoardPage,
+        size: _generalBoardSize,
+        keyword: searchText)
         .then((value) {
-      if (value != null && value.isNotEmpty) {
-        _generalPostListBoard.addAll(value);
-      } else if (value != null) {
-        _generalBoardPage--;
-      } else {
-        _generalBoardPage--;
+      if (value != null && value.generalPostList.isNotEmpty) {
+        _generalPostListBoard.value = value;
+        _generalPostList.addAll(value.generalPostList);
       }
     });
-    _isLoadMoreGeneralPostListBoard.value = true;
   }
 
   Future<void> getPetitionPostListBoard() async {
     _isLoadPetitionListBoard.value = false;
     await _petitionPostRepository
         .getPetitionBoard(
-            page: 0, size: 5, status: categoryAPIList[_selectedCategory.value])
+        page: 0, size: 5, status: categoryAPIList[_selectedCategory.value])
         .then((value) {
       if (value != null) {
-        _petitionListBoard.value = value;
+        _petitionListBoard.value = value.petitionPostList;
         _isLoadPetitionListBoard.value = true;
       }
     });
@@ -140,7 +139,7 @@ class BoardPageController extends GetxController {
 
   Future<bool> searchPost(String keyword) async {
     _isLoadGeneralPostListBoard.value = false;
-    await _generalPostRepository
+    await _generalBoardRepository
         .getGeneralBoard(page: 0, size: 5, keyword: keyword)
         .then((value) {
       if (value != null) {

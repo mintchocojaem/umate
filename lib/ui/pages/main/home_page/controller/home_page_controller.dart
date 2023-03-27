@@ -1,5 +1,6 @@
+import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
+import 'package:danvery/domain/board/petition_board/repository/petition_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
 import 'package:danvery/domain/bus/model/bus_model.dart';
@@ -8,9 +9,8 @@ import 'package:danvery/service/login/login_service.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
-  final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
-  final PetitionPostRepository _petitionPostRepository =
-      PetitionPostRepository();
+  final GeneralBoardRepository _generalBoardRepository = GeneralBoardRepository();
+  final PetitionBoardRepository _petitionPostRepository = PetitionBoardRepository();
   final BusRepository _busRepository = BusRepository();
 
   final LoginService loginService = Get.find<LoginService>();
@@ -48,11 +48,11 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getGeneralPostListHome() async {
-    _generalPostRepository
+    _generalBoardRepository
         .getGeneralBoard(page: 0, size: 5, keyword: '')
         .then((value) {
       if (value != null) {
-        _generalPostListHome.value = value;
+        _generalPostListHome.value = value.generalPostList;
         _isLoadGeneralPostListHome.value = true;
       }
     });
@@ -63,7 +63,7 @@ class HomePageController extends GetxController {
         .getPetitionBoard(page: 0, size: 5, status: "ACTIVE")
         .then((value) {
       if (value != null) {
-        _petitionListHome.value = value;
+        _petitionListHome.value = value.petitionPostList;
         _isLoadPetitionListHome.value = true;
       }
     });

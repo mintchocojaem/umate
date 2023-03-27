@@ -64,7 +64,8 @@ class GeneralPostProvider {
       final Response response = await _dio.get(url,
           options: Options(
             headers: headers,
-          ));
+          )
+      );
 
       return GeneralPostModel.fromJson(response.data);
     } catch (_) {
@@ -72,19 +73,4 @@ class GeneralPostProvider {
     }
   }
 
-  Future<List<GeneralPostModel>?> getGeneralBoard(
-      int page, int size, String keyword) async {
-    String url =
-        '/post/general-forum?page=$page&size=$size&keyword=$keyword';
-
-    try {
-      final Response response = await _dio.get(url);
-
-      return response.data["content"]
-          .map<GeneralPostModel>((json) => GeneralPostModel.fromJson(json))
-          .toList();
-    } catch (e) {
-      return null;
-    }
-  }
 }

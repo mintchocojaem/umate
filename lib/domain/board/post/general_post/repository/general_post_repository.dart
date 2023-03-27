@@ -23,9 +23,4 @@ class GeneralPostRepository {
           {required String token, required int id}) =>
       _generalPostProvider.getGeneralPost(token, id);
 
-  //get suggestion board list
-  Future<List<GeneralPostModel>?> getGeneralBoard(
-      {required int page, required int size, required String keyword}) async {
-    return await _generalPostProvider.getGeneralBoard(page, size, keyword);
-  }
 }

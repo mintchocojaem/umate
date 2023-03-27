@@ -32,18 +32,4 @@ class PetitionPostProvider {
     }
   }
 
-  Future<List<PetitionPostModel>?> getPetitionPostBoard(
-      int page, int size, String status) async {
-    String url = '/post/petition?page=$page&size=$size&status=$status';
-
-    try {
-      final Response response = await _dio.get(url);
-
-      return response.data["content"]
-          .map<PetitionPostModel>((json) => PetitionPostModel.fromJson(json))
-          .toList();
-    } catch (_) {
-      return null;
-    }
-  }
 }
