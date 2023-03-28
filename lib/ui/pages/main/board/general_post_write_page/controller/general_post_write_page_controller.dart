@@ -5,37 +5,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class GeneralPostWritePageController extends GetxController {
-  final GeneralPostRepository generalPostRepository = GeneralPostRepository();
+  final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
   final LoginService loginService = Get.find<LoginService>();
 
   final TextEditingController titleController = TextEditingController();
-  final RxString title = ''.obs;
-
-  String get titleText => title.value;
-
-  set titleText(String value) => title.value = value;
+  final RxString titleText = ''.obs;
 
   final TextEditingController contentController = TextEditingController();
-  final RxString content = ''.obs;
+  final RxString contentText = ''.obs;
 
-  String get contentText => content.value;
-
-  set contentText(String value) => content.value = value;
 
   @override
   void onInit() {
     super.onInit();
     titleController.addListener(() {
-      titleText = titleController.text;
+      titleText.value = titleController.text;
     });
     contentController.addListener(() {
-      contentText = contentController.text;
+      contentText.value = contentController.text;
     });
   }
 
   Future<bool> writeGeneralPost(
       String token, GeneralPostModel generalPostModel) {
-    return generalPostRepository.writeGeneralPost(
+    return _generalPostRepository.writeGeneralPost(
         token: token, postModel: generalPostModel);
   }
 }

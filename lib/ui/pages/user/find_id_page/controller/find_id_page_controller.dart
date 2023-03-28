@@ -14,28 +14,22 @@ class FindIdPageController extends GetxController {
     "아이디가 전송되었습니다",
   ];
 
-  List<Widget> pages = [
+  List<Widget> pages = const [
     FindIdStep1(),
     FindIdStep2(),
   ];
 
   final PageController pageController = PageController();
 
-  final RxInt _currentStep = 1.obs;
-
-  int get currentStep => _currentStep.value;
-
-  set currentStep(index) => _currentStep.value = index;
+  final RxInt currentStep = 1.obs;
 
   final TextEditingController phoneNumberController = TextEditingController();
-  final RxString _phoneNumber = ''.obs;
-  String get phoneNumber => _phoneNumber.value;
-  set phoneNumber(index) => _phoneNumber.value = index;
+  final RxString phoneNumber = ''.obs;
 
   @override
   void onInit() {
     phoneNumberController.addListener(() {
-      phoneNumber = phoneNumberController.text;
+      phoneNumber.value = phoneNumberController.text;
     });
 
     super.onInit();

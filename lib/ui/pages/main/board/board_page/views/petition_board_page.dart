@@ -14,7 +14,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.isLoadPetitionBoard
+      () => controller.isLoadPetitionBoard.value
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -22,14 +22,14 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 8, left: 16, right: 16),
                   child: CategoryButtonBar(
-                    selectedIndex: controller.selectedCategory,
+                    selectedIndex: controller.selectedCategory.value,
                     categories: controller.categoryKORList,
                     selectedBackGroundColor: Palette.blue,
                     unSelectedBackGroundColor: Palette.white,
                     selectedTextColor: Palette.pureWhite,
                     unSelectedTextColor: Palette.grey,
                     onTap: (value) async {
-                      controller.selectedCategory = value;
+                      controller.selectedCategory.value = value;
                     },
                   ),
                 ),
@@ -56,7 +56,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                 itemBuilder: (BuildContext context, int index) {
                                   if (index ==
                                       controller.petitionPostList.length) {
-                                    if (controller.petitionBoard.last) {
+                                    if (controller.petitionBoard.value.last) {
                                       return const SizedBox();
                                     } else {
                                       return const Padding(

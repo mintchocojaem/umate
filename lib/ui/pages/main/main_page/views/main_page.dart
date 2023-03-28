@@ -12,7 +12,7 @@ class MainPage extends GetView<MainPageController> {
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       body: Obx(
-        () => controller.pages[controller.selectedIndex],
+        () => controller.pages[controller.selectedIndex.value],
       ),
       bottomNavigationBar: Obx(
         () => Container(
@@ -32,9 +32,9 @@ class MainPage extends GetView<MainPageController> {
               selectedFontSize: tinyStyle.fontSize!,
               unselectedFontSize: tinyStyle.fontSize!,
               selectedItemColor: Palette.blue,
-              currentIndex: controller.selectedIndex,
+              currentIndex: controller.selectedIndex.value,
               onTap: (value) {
-                controller.selectedIndex = value;
+                controller.selectedIndex.value = value;
               },
               type: BottomNavigationBarType.fixed,
               showSelectedLabels: true,

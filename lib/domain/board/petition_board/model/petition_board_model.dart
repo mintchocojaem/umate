@@ -9,7 +9,7 @@ class PetitionBoardModel{
   late bool last;
   late bool first;
   late bool hasNext;
-  late List<PetitionPostModel> petitionPostList;
+  late List<PetitionPostModel> petitionPosts;
 
   PetitionBoardModel({
     petitionPostList,
@@ -23,7 +23,7 @@ class PetitionBoardModel{
   });
 
   PetitionBoardModel.fromJson(Map<String, dynamic> json) {
-    petitionPostList = (json['content'] as List).map((e) => PetitionPostModel.fromJson(e)).toList();
+    petitionPosts = (json['content'] as List).map((e) => PetitionPostModel.fromJson(e)).toList();
     totalElements = json['totalElements'];
     page = json['page'];
     size = json['size'];

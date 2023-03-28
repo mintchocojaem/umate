@@ -28,7 +28,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
           ModernFormButton(
             text: "인증번호 받기",
             onPressed: () {
-              if (isValidPhoneNumberFormat(controller.phoneNumber) == false) {
+              if (isValidPhoneNumberFormat(controller.phoneNumber.value) == false) {
                 Get.snackbar("휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
@@ -36,7 +36,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
                 return;
               }
               FocusManager.instance.primaryFocus?.unfocus();
-              controller.currentStep = 2;
+              controller.currentStep.value = 2;
             },
           ),
         ],

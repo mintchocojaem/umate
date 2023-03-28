@@ -12,7 +12,7 @@ class PostSearchPageController extends GetxController{
   void onInit() {
     super.onInit();
     searchController.addListener(() {
-      boardPageController.searchText = searchController.text;
+      boardPageController.searchText.value = searchController.text;
     });
   }
 

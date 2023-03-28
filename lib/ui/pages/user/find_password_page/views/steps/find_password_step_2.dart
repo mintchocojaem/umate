@@ -69,7 +69,7 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
           ModernFormButton(
             text: "확인",
             onPressed: () async{
-              if (isValidPhoneNumberFormat(controller.phoneNumber) == false) {
+              if (isValidPhoneNumberFormat(controller.phoneNumber.value) == false) {
                 Get.snackbar("인증번호 오류", "인증번호를 올바르게 입력해주세요.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
@@ -77,14 +77,14 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
                 return;
               }
               if (!await controller.verifySMS(
-                controller.phoneAuthenticationNumber)) {
+                controller.phoneAuthenticationNumber.value)) {
                 Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Palette.darkGrey,
                 colorText: Palette.pureWhite);
                 return;
               }
-              controller.currentStep = 3;
+              controller.currentStep.value = 3;
               FocusManager.instance.primaryFocus?.unfocus();
             },
           ),

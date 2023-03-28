@@ -8,11 +8,7 @@ import '../../timetable_page/views/timetable_page.dart';
 
 class MainPageController extends GetxController{
 
-  final RxInt _selectedIndex = 0.obs;
-
-  int get selectedIndex => _selectedIndex.value;
-
-  set selectedIndex(index) => _selectedIndex.value = index;
+  final RxInt selectedIndex = 0.obs;
 
   List<Widget> pages = const[
     HomePage(),

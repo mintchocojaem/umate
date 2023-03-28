@@ -23,14 +23,14 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Obx(() => controller.isLoadedGeneralPost &&
-                controller.isLoadedGeneralComment
+        child: Obx(() => controller.isLoadedGeneralPost.value &&
+                controller.isLoadedGeneralComment.value
             ? RefreshIndicator(
                 onRefresh: () async {
                   await controller
-                      .getGeneralPost(controller.generalPostModel.id);
+                      .getGeneralPost(controller.generalPostModel.value.id);
                   await controller
-                      .getGeneralComment(controller.generalPostModel.id);
+                      .getGeneralComment(controller.generalPostModel.value.id);
                 },
                 child: SingleChildScrollView(
                   controller: controller.generalCommentScrollController,
@@ -53,7 +53,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 width: 8,
                               ),
                               Text(
-                                controller.generalPostModel.author,
+                                controller.generalPostModel.value.author,
                                 style: regularStyle.copyWith(
                                     color: Palette.darkGrey,
                                     fontWeight: FontWeight.bold),
@@ -62,7 +62,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 width: 8,
                               ),
                               Text(
-                                controller.generalPostModel.createdAt,
+                                controller.generalPostModel.value.createdAt,
                                 style: tinyStyle.copyWith(color: Palette.grey),
                               ),
                             ],
@@ -89,7 +89,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            controller.generalPostModel.title,
+                            controller.generalPostModel.value.title,
                             style: regularStyle.copyWith(
                                 fontWeight: FontWeight.bold),
                           ),
@@ -97,7 +97,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                             height: 8,
                           ),
                           Text(
-                            controller.generalPostModel.body,
+                            controller.generalPostModel.value.body,
                             style: regularStyle,
                           )
                         ],
@@ -152,7 +152,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     width: 4,
                                   ),
                                   Text(
-                                    controller.generalPostModel.likes
+                                    controller.generalPostModel.value.likes
                                         .toString(),
                                     style: lightStyle.copyWith(
                                         color: Palette.grey),
@@ -172,7 +172,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     width: 4,
                                   ),
                                   Text(
-                                    controller.generalCommentListModel
+                                    controller.generalCommentList.value
                                         .totalElements
                                         .toString(),
                                     style: lightStyle.copyWith(
@@ -194,15 +194,16 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: controller.generalCommentList.length + 1,
+                        itemCount: controller.generalComments.length + 1,
                         itemBuilder: (BuildContext context, int index) {
-                          if(index == controller.generalCommentList.length) {
-                            if (controller.generalCommentListModel.last) {
+                          if (index == controller.generalComments.length) {
+                            if (controller.generalCommentList.value.last) {
                               return const SizedBox();
-                            } else{
+                            } else {
                               return const Padding(
                                 padding: EdgeInsets.all(16.0),
-                                child: Center(child: CircularProgressIndicator()),
+                                child:
+                                    Center(child: CircularProgressIndicator()),
                               );
                             }
                           }
@@ -235,14 +236,14 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            controller.generalCommentList[index]
+                                            controller.generalComments[index]
                                                 .author,
                                             style: regularStyle.copyWith(
                                                 color: Palette.darkGrey,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            controller.generalCommentList[index]
+                                            controller.generalComments[index]
                                                 .createdAt,
                                             style: tinyStyle.copyWith(
                                                 color: Palette.grey),
@@ -252,7 +253,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           ),
                                           Text(
                                             controller
-                                                .generalCommentList[index].text,
+                                                .generalComments[index].text,
                                             style: regularStyle,
                                           ),
                                           /*

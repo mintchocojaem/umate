@@ -27,7 +27,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
           ModernFormButton(
             text: "아이디 찾기",
             onPressed: () {
-              if (isValidPhoneNumberFormat(controller.phoneNumber) == false) {
+              if (isValidPhoneNumberFormat(controller.phoneNumber.value) == false) {
                 Get.snackbar("휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
@@ -35,7 +35,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
                 return;
               }
               FocusManager.instance.primaryFocus?.unfocus();
-              controller.currentStep = 2;
+              controller.currentStep.value = 2;
               /*
               controller.sendId().then((value){
                 if(value == true){

@@ -14,7 +14,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
     // TODO: implement build
 
     return Obx(
-      () => controller.isLoadGeneralPostBoard
+      () => controller.isLoadGeneralPostBoard.value
           ? controller.generalPostList.isEmpty
               ? Center(
                   child: Text(
@@ -37,7 +37,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                       itemCount: controller.generalPostList.length + 1,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == controller.generalPostList.length) {
-                          if (controller.generalPostBoard.last) {
+                          if (controller.generalPostBoard.value.last) {
                             return const SizedBox();
                           } else{
                             return const Padding(

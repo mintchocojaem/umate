@@ -8,7 +8,7 @@ class GeneralBoardModel{
   late bool last;
   late bool first;
   late bool hasNext;
-  late List<GeneralPostModel> generalPostList;
+  late List<GeneralPostModel> generalPosts;
 
   GeneralBoardModel({
     generalPostList,
@@ -22,7 +22,7 @@ class GeneralBoardModel{
   });
 
   GeneralBoardModel.fromJson(Map<String, dynamic> json) {
-    generalPostList = (json['content'] as List).map((e) => GeneralPostModel.fromJson(e)).toList();
+    generalPosts = (json['content'] as List).map((e) => GeneralPostModel.fromJson(e)).toList();
     totalElements = json['totalElements'];
     page = json['page'];
     size = json['size'];

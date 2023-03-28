@@ -31,7 +31,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   child: Obx(
-                    () => controller.isLoadedPetitionPost
+                    () => controller.isLoadedPetitionPost.value
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -40,14 +40,18 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 child: Stack(
                                   children: [
                                     Text(
-                                      controller.petitionPostModel.title,
+                                      controller.petitionPostModel.value.title,
                                       style: titleStyle,
                                     ),
                                     Positioned.fill(
                                       child: Align(
                                         alignment: Alignment.topRight,
                                         child: IconButton(
-                                          icon: Icon(Icons.more_vert, color: Palette.grey, size: 20,),
+                                          icon: Icon(
+                                            Icons.more_vert,
+                                            color: Palette.grey,
+                                            size: 20,
+                                          ),
                                           onPressed: () {},
                                         ),
                                       ),
@@ -113,7 +117,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                           ),
                                         ),
                                         Text(
-                                          "${controller.petitionPostModel.createdAt.substring(0, 10)} ~ ${controller.petitionPostModel.expiresAt}",
+                                          "${controller.petitionPostModel.value.createdAt.substring(0, 10)}"
+                                          " ~ ${controller.petitionPostModel.value.expiresAt}",
                                           style: regularStyle,
                                         ),
                                       ],
@@ -135,7 +140,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     ),
                                   ),
                                   Text(
-                                    controller.petitionPostModel.status,
+                                    controller.petitionPostModel.value.status,
                                     style: regularStyle.copyWith(
                                         color: Palette.blue),
                                   ),
@@ -152,7 +157,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 height: 16,
                               ),
                               Text(
-                                controller.petitionPostModel.body,
+                                controller.petitionPostModel.value.body,
                                 style: regularStyle,
                               ),
                               const SizedBox(

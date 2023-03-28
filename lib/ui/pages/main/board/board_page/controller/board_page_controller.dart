@@ -13,54 +13,30 @@ class BoardPageController extends GetxController {
   final PetitionBoardRepository _petitionPostRepository =
       PetitionBoardRepository();
 
-  final RxInt _selectedTap = 0.obs;
+  final RxInt selectedTap = 0.obs;
 
-  int get selectedTap => _selectedTap.value;
+  final RxInt selectedCategory = 0.obs;
 
-  set selectedTap(index) => _selectedTap.value = index;
+  final Rx<GeneralBoardModel> generalPostBoard = GeneralBoardModel().obs;
 
-  final RxInt _selectedCategory = 0.obs;
+  final RxList<GeneralPostModel> generalPostList = <GeneralPostModel>[].obs;
 
-  int get selectedCategory => _selectedCategory.value;
+  final RxBool isLoadGeneralPostBoard = false.obs;
 
-  set selectedCategory(index) => _selectedCategory.value = index;
+  final Rx<PetitionBoardModel> petitionBoard = PetitionBoardModel().obs;
 
-  final Rx<GeneralBoardModel> _generalPostBoard = GeneralBoardModel().obs;
+  final RxList<PetitionPostModel> petitionPostList = <PetitionPostModel>[].obs;
 
-  GeneralBoardModel get generalPostBoard => _generalPostBoard.value;
+  final RxBool isLoadPetitionBoard = false.obs;
 
-  final RxList<GeneralPostModel> _generalPostList = <GeneralPostModel>[].obs;
-
-  List<GeneralPostModel> get generalPostList => _generalPostList;
-
-  final RxBool _isLoadGeneralPostBoard = false.obs;
-
-  bool get isLoadGeneralPostBoard => _isLoadGeneralPostBoard.value;
-
-  final Rx<PetitionBoardModel> _petitionBoard = PetitionBoardModel().obs;
-
-  PetitionBoardModel get petitionBoard => _petitionBoard.value;
-
-  final RxList<PetitionPostModel> _petitionPostList = <PetitionPostModel>[].obs;
-
-  List<PetitionPostModel> get petitionPostList => _petitionPostList;
-
-  final RxBool _isLoadPetitionBoard = false.obs;
-
-  bool get isLoadPetitionBoard => _isLoadPetitionBoard.value;
-
-  List<String> categoryKORList = ['청원 중', '대기 중', '답변 완료', '기간만료'];
-  List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
-
-  final RxString _searchText = ''.obs;
-
-  String get searchText => _searchText.value;
-
-  set searchText(String value) => _searchText.value = value;
+  final RxString searchText = ''.obs;
 
   final ScrollController generalBoardScrollController = ScrollController();
 
   final ScrollController petitionBoardScrollController = ScrollController();
+
+  List<String> categoryKORList = ['청원 중', '대기 중', '답변 완료', '기간만료'];
+  List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
 
   int _generalBoardPage = 0;
   final int _generalBoardSize = 5;
@@ -74,14 +50,14 @@ class BoardPageController extends GetxController {
     getGeneralPostListBoard();
     getPetitionPostListBoard();
 
-    _selectedCategory.listen((value) {
+    selectedCategory.listen((value) {
       getPetitionPostListBoard();
     });
 
     generalBoardScrollController.addListener(() async {
       if (generalBoardScrollController.position.pixels ==
           generalBoardScrollController.position.maxScrollExtent) {
-        if (!generalPostBoard.last) {
+        if (!generalPostBoard.value.last) {
           await getNextGeneralPostListBoard();
         }
       }
@@ -90,7 +66,7 @@ class BoardPageController extends GetxController {
     petitionBoardScrollController.addListener(() async {
       if (petitionBoardScrollController.position.pixels ==
           petitionBoardScrollController.position.maxScrollExtent) {
-        if (!petitionBoard.last) {
+        if (!petitionBoard.value.last) {
           await getNextPetitionPostListBoard();
         }
       }
@@ -105,12 +81,12 @@ class BoardPageController extends GetxController {
         .getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText)
+            keyword: searchText.value)
         .then((value) {
       if (value != null) {
-        _generalPostBoard.value = value;
-        _generalPostList.value = value.generalPostList;
-        _isLoadGeneralPostBoard.value = true;
+        generalPostBoard.value = value;
+        generalPostList.value = value.generalPosts;
+        isLoadGeneralPostBoard.value = true;
       }
     });
   }
@@ -121,11 +97,11 @@ class BoardPageController extends GetxController {
         .getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText)
+            keyword: searchText.value)
         .then((value) {
-      if (value != null && value.generalPostList.isNotEmpty) {
-        _generalPostBoard.value = value;
-        _generalPostList.addAll(value.generalPostList);
+      if (value != null && value.generalPosts.isNotEmpty) {
+        generalPostBoard.value = value;
+        generalPostList.addAll(value.generalPosts);
       }
     });
   }
@@ -136,12 +112,12 @@ class BoardPageController extends GetxController {
         .getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: categoryAPIList[_selectedCategory.value])
+            status: categoryAPIList[selectedCategory.value])
         .then((value) {
       if (value != null) {
-        _petitionBoard.value = value;
-        _petitionPostList.value = value.petitionPostList;
-        _isLoadPetitionBoard.value = true;
+        petitionBoard.value = value;
+        petitionPostList.value = value.petitionPosts;
+        isLoadPetitionBoard.value = true;
       }
     });
   }
@@ -152,11 +128,11 @@ class BoardPageController extends GetxController {
         .getPetitionBoard(
             page: _petitionBoardPage,
             size: _generalBoardSize,
-            status: categoryAPIList[_selectedCategory.value])
+            status: categoryAPIList[selectedCategory.value])
         .then((value) {
-      if (value != null && value.petitionPostList.isNotEmpty) {
-        _petitionBoard.value = value;
-        _petitionPostList.addAll(value.petitionPostList);
+      if (value != null && value.petitionPosts.isNotEmpty) {
+        petitionBoard.value = value;
+        petitionPostList.addAll(value.petitionPosts);
       }
     });
   }
@@ -168,8 +144,8 @@ class BoardPageController extends GetxController {
             page: _generalBoardPage, size: _generalBoardSize, keyword: keyword)
         .then((value) {
       if (value != null) {
-        _generalPostBoard.value = value;
-        _isLoadGeneralPostBoard.value = true;
+        generalPostBoard.value = value;
+        isLoadGeneralPostBoard.value = true;
         return true;
       }
     });

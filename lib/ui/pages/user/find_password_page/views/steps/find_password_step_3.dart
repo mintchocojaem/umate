@@ -35,7 +35,7 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
             text: "완료",
             onPressed: () async {
 
-              if (isValidPasswordFormat(controller.password) == false) {
+              if (isValidPasswordFormat(controller.password.value) == false) {
                 Get.snackbar("비밀번호 오류", "비밀번호는 영문, 숫자를 포함한 8~16자리만 사용할 수 있습니다.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
@@ -51,7 +51,7 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
                 return;
               }
 
-              controller.currentStep = 4;
+              controller.currentStep.value = 4;
             },
           ),
         ],

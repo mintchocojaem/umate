@@ -25,45 +25,33 @@ class FindPasswordPageController extends GetxController {
     FindPasswordStep4(),
   ];
 
-  final RxInt _currentStep = 1.obs;
-
-  int get currentStep => _currentStep.value;
-
-  set currentStep(index) => _currentStep.value = index;
+  final RxInt currentStep = 1.obs;
 
   final TextEditingController phoneNumberController = TextEditingController();
-  final RxString _phoneNumber = ''.obs;
-  String get phoneNumber => _phoneNumber.value;
-  set phoneNumber(index) => _phoneNumber.value = index;
+  final RxString phoneNumber = ''.obs;
 
   final TextEditingController phoneAuthenticationNumberController = TextEditingController();
-  final RxString _phoneAuthenticationNumber = ''.obs;
-  String get phoneAuthenticationNumber => _phoneAuthenticationNumber.value;
-  set phoneAuthenticationNumber(index) => _phoneAuthenticationNumber.value = index;
+  final RxString phoneAuthenticationNumber = ''.obs;
 
   final TextEditingController passwordController = TextEditingController();
-  final RxString _password = ''.obs;
-  String get password => _password.value;
-  set password(index) => _password.value = index;
+  final RxString password = ''.obs;
 
   final TextEditingController passwordValidateController = TextEditingController();
-  final RxString _passwordValidate = ''.obs;
-  String get passwordValidate => _passwordValidate.value;
-  set passwordValidate(index) => _passwordValidate.value = index;
+  final RxString passwordValidate = ''.obs;
 
   @override
   void onInit() {
     phoneNumberController.addListener(() {
-      phoneNumber = phoneNumberController.text;
+      phoneNumber.value = phoneNumberController.text;
     });
     phoneAuthenticationNumberController.addListener(() {
-      phoneAuthenticationNumber = phoneAuthenticationNumberController.text;
+      phoneAuthenticationNumber.value = phoneAuthenticationNumberController.text;
     });
     passwordController.addListener(() {
-      password = passwordController.text;
+      password.value = passwordController.text;
     });
     passwordValidateController.addListener(() {
-      passwordValidate = passwordValidateController.text;
+      passwordValidate.value = passwordValidateController.text;
     });
     super.onInit();
   }

@@ -18,114 +18,67 @@ class RegisterPageController extends GetxController {
 
   List<String> stepTitle = ["학생인증", "회원 정보 입력", "가입이 \n완료되었습니다"];
 
-  final RxInt _currentStep = 1.obs;
+  final RxInt currentStep = 1.obs;
 
-  final RxBool _check1 = false.obs;
-  final RxBool _check2 = false.obs;
-
-  bool get check1 => _check1.value;
-
-  bool get check2 => _check2.value;
-
-  int get currentStep => _currentStep.value;
-
-  set check1(index) => _check1.value = index;
-
-  set check2(index) => _check2.value = index;
-
-  set currentStep(index) => _currentStep.value = index;
+  final RxBool check1 = false.obs;
+  final RxBool check2 = false.obs;
 
   final ScrollController scrollController = ScrollController();
 
   final TextEditingController studentIdController = TextEditingController();
-  final RxString _studentId = ''.obs;
-
-  String get studentId => _studentId.value;
-
-  set studentId(index) => _studentId.value = index;
+  final RxString studentId = ''.obs;
 
   final TextEditingController studentPasswordController =
       TextEditingController();
-  final RxString _studentPassword = ''.obs;
-
-  String get studentPassword => _studentPassword.value;
-
-  set studentPassword(index) => _studentPassword.value = index;
+  final RxString studentPassword = ''.obs;
 
   final TextEditingController passwordController = TextEditingController();
-  final RxString _password = ''.obs;
-
-  String get password => _password.value;
-
-  set password(index) => _password.value = index;
+  final RxString password = ''.obs;
 
   final TextEditingController passwordValidateController =
       TextEditingController();
-  final RxString _passwordValidate = ''.obs;
-
-  String get passwordValidate => _passwordValidate.value;
-
-  set passwordValidate(index) => _passwordValidate.value = index;
+  final RxString passwordValidate = ''.obs;
 
   final TextEditingController nicknameController = TextEditingController();
-  final RxString _nickname = ''.obs;
-
-  String get nickname => _nickname.value;
-
-  set nickname(index) => _nickname.value = index;
+  final RxString nickname = ''.obs;
 
   final TextEditingController phoneNumberController = TextEditingController();
-  final RxString _phoneNumber = ''.obs;
-
-  String get phoneNumber => _phoneNumber.value;
-
-  set phoneNumber(index) => _phoneNumber.value = index;
+  final RxString phoneNumber = ''.obs;
 
   final TextEditingController phoneAuthenticationNumberController =
       TextEditingController();
-  final RxString _phoneAuthenticationNumber = ''.obs;
+  final RxString phoneAuthenticationNumber = ''.obs;
 
-  String get phoneAuthenticationNumber => _phoneAuthenticationNumber.value;
-
-  set phoneAuthenticationNumber(index) =>
-      _phoneAuthenticationNumber.value = index;
-
-  final Rx<RegisterModel> _registerModel = RegisterModel().obs;
-  final RxBool _isStudentAuthenticated = false.obs;
-  final RxBool _isRegistered = false.obs;
-
-  RegisterModel get registerModel => _registerModel.value;
-
-  bool get isStudentAuthenticated => _isStudentAuthenticated.value;
-
-  bool get isRegistered => _isRegistered.value;
+  final Rx<RegisterModel> registerModel = RegisterModel().obs;
+  final RxBool isStudentAuthenticated = false.obs;
+  final RxBool isRegistered = false.obs;
 
   Future<bool> studentAuthenticate(String id, String password) async {
     await _registerRepository
         .studentAuthenticate(id: id, password: password)
         .then((value) {
       if (value == null) {
-        _isStudentAuthenticated.value = false;
+        isStudentAuthenticated.value = false;
       } else {
-        _registerModel.value = value;
-        _isStudentAuthenticated.value = true;
+        registerModel.value = value;
+        isStudentAuthenticated.value = true;
       }
     });
-    return _isStudentAuthenticated.value;
+    return isStudentAuthenticated.value;
   }
 
-  Future<bool> register(RegisterModel registerModel) async {
+  Future<bool> register(RegisterModel model) async {
     await _registerRepository
-        .register(registerModel: registerModel)
+        .register(registerModel: model)
         .then((value) {
       if (value == null) {
-        _isRegistered.value = false;
+        isRegistered.value = false;
       } else {
-        _registerModel.value = value;
-        _isRegistered.value = true;
+        registerModel.value = value;
+        isRegistered.value = true;
       }
     });
-    return _isStudentAuthenticated.value;
+    return isStudentAuthenticated.value;
   }
 
   Future<bool> sendSMSAuth(String signupToken, String phoneNumber) async {
@@ -153,31 +106,31 @@ class RegisterPageController extends GetxController {
     // TODO: implement onInit
 
     studentIdController.addListener(() {
-      studentId = studentIdController.text;
+      studentId.value = studentIdController.text;
     });
 
     studentPasswordController.addListener(() {
-      studentPassword = studentPasswordController.text;
+      studentPassword.value = studentPasswordController.text;
     });
 
     passwordController.addListener(() {
-      password = passwordController.text;
+      password.value = passwordController.text;
     });
 
     passwordValidateController.addListener(() {
-      passwordValidate = passwordValidateController.text;
+      passwordValidate.value = passwordValidateController.text;
     });
 
     nicknameController.addListener(() {
-      nickname = nicknameController.text;
+      nickname.value = nicknameController.text;
     });
 
     phoneNumberController.addListener(() {
-      phoneNumber = phoneNumberController.text;
+      phoneNumber.value = phoneNumberController.text;
     });
 
     phoneAuthenticationNumberController.addListener(() {
-      phoneAuthenticationNumber = phoneAuthenticationNumberController.text;
+      phoneAuthenticationNumber.value = phoneAuthenticationNumberController.text;
     });
 
     super.onInit();

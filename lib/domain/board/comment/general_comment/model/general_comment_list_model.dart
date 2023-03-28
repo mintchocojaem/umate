@@ -8,7 +8,7 @@ class GeneralCommentListModel {
   late bool hasNext;
   late bool first;
   late bool last;
-  late List<GeneralCommentModel> generalCommentList;
+  late List<GeneralCommentModel> generalComments;
 
   GeneralCommentListModel({
     totalElements,
@@ -23,7 +23,7 @@ class GeneralCommentListModel {
   GeneralCommentListModel.fromJson(Map<String, dynamic> json) {
     totalElements = json["totalElements"] as int;
     totalPages = json["totalPages"] as int;
-    generalCommentList = json["content"]
+    generalComments = json["content"]
         .map<GeneralCommentModel>((json) => GeneralCommentModel.fromJson(json))
         .toList();
     size = json["size"] as int;

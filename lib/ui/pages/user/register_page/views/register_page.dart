@@ -29,13 +29,13 @@ class RegisterPage extends GetView<RegisterPageController> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ModernStepGuide(
                   stepLength: 3,
-                  currentStep: controller.currentStep),
+                  currentStep: controller.currentStep.value),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Text(
                 controller.stepTitle[
-                    controller.currentStep - 1],
+                    controller.currentStep.value - 1],
                 style: bigTitleStyle.copyWith(
                     color: Palette.blue, fontWeight: FontWeight.w500),
               ),
@@ -43,7 +43,7 @@ class RegisterPage extends GetView<RegisterPageController> {
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: controller.pages[controller.currentStep - 1],
+                child: controller.pages[controller.currentStep.value - 1],
                 transitionBuilder: (child, animation) {
                   return SlideTransition(
                     position: animation.drive(

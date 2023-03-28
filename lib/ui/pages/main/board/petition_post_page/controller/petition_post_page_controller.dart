@@ -7,19 +7,11 @@ class PetitionPostPageController extends GetxController {
 
   final PetitionPostRepository _petitionPostRepository = PetitionPostRepository();
 
-  final LoginService loginService = Get.find<LoginService>();
+  final LoginService _loginService = Get.find<LoginService>();
 
-  final Rx<PetitionPostModel> _petitionPostModel = PetitionPostModel().obs;
+  final Rx<PetitionPostModel> petitionPostModel = PetitionPostModel().obs;
 
-  set petitionPostModel(value) => _petitionPostModel.value = value;
-
-  PetitionPostModel get petitionPostModel => _petitionPostModel.value;
-
-  final RxBool _isLoadedPetitionPost = false.obs;
-
-  set isLoadedPetitionPost(value) => _isLoadedPetitionPost.value = value;
-
-  bool get isLoadedPetitionPost => _isLoadedPetitionPost.value;
+  final RxBool isLoadedPetitionPost = false.obs;
 
   @override
   void onInit() {
@@ -30,11 +22,11 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> getPetitionPost(int id) async {
     _petitionPostRepository
-        .getPetitionPost(token: loginService.loginModel.accessToken,id: id)
+        .getPetitionPost(token: _loginService.loginModel.accessToken,id: id)
         .then((value) {
       if (value != null) {
-        _petitionPostModel.value = value;
-        _isLoadedPetitionPost.value = true;
+        petitionPostModel.value = value;
+        isLoadedPetitionPost.value = true;
       }
     });
   }

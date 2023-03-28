@@ -19,7 +19,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
               controller: controller.scrollController,
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -54,7 +54,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                           ),
                           Text(
                             "단국대학교 웹정보 로그인시 사용하는 ID/PW를 통해서 \n학생인증이 진행됩니다."
-                                " \n(단국대학교 웹정보 ID/PW는 학생인증 이후 바로 폐기됩니다.)",
+                            " \n(단국대학교 웹정보 ID/PW는 학생인증 이후 바로 폐기됩니다.)",
                             style: tinyStyle.copyWith(color: Palette.grey),
                           ),
                         ],
@@ -73,12 +73,12 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                           context.isDarkMode
                               ? const BoxShadow()
                               : BoxShadow(
-                            color: Palette.grey.withOpacity(0.2),
-                            spreadRadius: 3,
-                            blurRadius: 3,
-                            offset: const Offset(
-                                0, 1), // changes position of shadow
-                          ),
+                                  color: Palette.grey.withOpacity(0.2),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: const Offset(
+                                      0, 1), // changes position of shadow
+                                ),
                         ],
                       ),
                       child: Padding(
@@ -92,44 +92,43 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                               child: Row(
                                 children: [
                                   Obx(
-                                        () =>
-                                        Container(
-                                          width: 28,
-                                          height: 28,
-                                          decoration: BoxDecoration(
-                                              color: controller.check1 &&
-                                                  controller.check2
-                                                  ? Palette.blue
-                                                  : Palette.lightGrey,
-                                              shape: BoxShape.circle),
-                                          child: Checkbox(
-                                            side: BorderSide(
-                                                color: Palette.lightGrey),
-                                            checkColor: Palette.pureWhite,
-                                            fillColor:
+                                    () => Container(
+                                      width: 28,
+                                      height: 28,
+                                      decoration: BoxDecoration(
+                                          color: controller.check1.value &&
+                                                  controller.check2.value
+                                              ? Palette.blue
+                                              : Palette.lightGrey,
+                                          shape: BoxShape.circle),
+                                      child: Checkbox(
+                                        side: BorderSide(
+                                            color: Palette.lightGrey),
+                                        checkColor: Palette.pureWhite,
+                                        fillColor:
                                             MaterialStateProperty.resolveWith(
-                                                    (states) => Palette.blue),
-                                            shape: const CircleBorder(),
-                                            onChanged: (bool? value) {
-                                              controller.check1 = value!;
-                                              controller.check2 = value;
-                                              if (value) {
-                                                controller.scrollController
-                                                    .animateTo(
+                                                (states) => Palette.blue),
+                                        shape: const CircleBorder(),
+                                        onChanged: (bool? value) {
+                                          controller.check1.value = value!;
+                                          controller.check2.value = value;
+                                          if (value) {
+                                            controller.scrollController
+                                                .animateTo(
                                                     controller
                                                         .scrollController
                                                         .position
                                                         .maxScrollExtent,
                                                     duration: const Duration(
                                                         seconds: 1),
-                                                    curve: Curves
-                                                        .fastOutSlowIn);
-                                              }
-                                            },
-                                            value: controller.check1 &&
-                                                controller.check2,
-                                          ),
-                                        ),
+                                                    curve:
+                                                        Curves.fastOutSlowIn);
+                                          }
+                                        },
+                                        value: controller.check1.value &&
+                                            controller.check2.value,
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 8,
@@ -158,29 +157,28 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                 title: Row(
                                   children: [
                                     Obx(
-                                          () =>
-                                          Container(
-                                            width: 28,
-                                            height: 28,
-                                            decoration: BoxDecoration(
-                                                color: controller.check1
-                                                    ? Palette.blue
-                                                    : Palette.lightGrey,
-                                                shape: BoxShape.circle),
-                                            child: Checkbox(
-                                              side: BorderSide(
-                                                  color: Palette.lightGrey),
-                                              checkColor: Palette.pureWhite,
-                                              fillColor:
+                                      () => Container(
+                                        width: 28,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                            color: controller.check1.value
+                                                ? Palette.blue
+                                                : Palette.lightGrey,
+                                            shape: BoxShape.circle),
+                                        child: Checkbox(
+                                          side: BorderSide(
+                                              color: Palette.lightGrey),
+                                          checkColor: Palette.pureWhite,
+                                          fillColor:
                                               MaterialStateProperty.resolveWith(
-                                                      (states) => Palette.blue),
-                                              shape: const CircleBorder(),
-                                              onChanged: (bool? value) {
-                                                controller.check1 = value!;
-                                              },
-                                              value: controller.check1,
-                                            ),
-                                          ),
+                                                  (states) => Palette.blue),
+                                          shape: const CircleBorder(),
+                                          onChanged: (bool? value) {
+                                            controller.check1.value = value!;
+                                          },
+                                          value: controller.check1.value,
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 8,
@@ -206,7 +204,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                       children: <TextSpan>[
                                         const TextSpan(
                                             text:
-                                            '단국대학교 총학생회 홈페이지는 단국대학교 학생임을 인증하기 위하여 아래와 같이 단국대학교 홈페이지 내 개인정보를 수집, 이용합니다.\n\n',
+                                                '단국대학교 총학생회 홈페이지는 단국대학교 학생임을 인증하기 위하여 아래와 같이 단국대학교 홈페이지 내 개인정보를 수집, 이용합니다.\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집목적\n',
@@ -214,7 +212,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 학생임을 인증, 학번, 이름, 학과, 재학 여부 인증\n\n',
+                                                '단국대학교 학생임을 인증, 학번, 이름, 학과, 재학 여부 인증\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집항목\n',
@@ -222,7 +220,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 홈페이지 아이디 및 비밀번호, 단국대학교 홈페이지 내에 학번, 이름 학과 재학여부\n\n',
+                                                '단국대학교 홈페이지 아이디 및 비밀번호, 단국대학교 홈페이지 내에 학번, 이름 학과 재학여부\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '수집근거\n',
@@ -233,7 +231,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                             style: tinyStyle),
                                         const TextSpan(
                                             text:
-                                            '귀하는 단국대학교 총학생회 서비스 이용에 필요한 최소한의 개인정보 수집 및 이용에 동의하지 않을 수 있으나, '
+                                                '귀하는 단국대학교 총학생회 서비스 이용에 필요한 최소한의 개인정보 수집 및 이용에 동의하지 않을 수 있으나, '
                                                 '동의를 거부 할 경우 회원제 서비스 이용이 불가합니다. 단국대학교 홈페이지 아이디 및 비밀번호는 연동 즉시 폐기됩니다.',
                                             style: tinyStyle),
                                       ],
@@ -253,29 +251,28 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                 title: Row(
                                   children: [
                                     Obx(
-                                          () =>
-                                          Container(
-                                            width: 28,
-                                            height: 28,
-                                            decoration: BoxDecoration(
-                                                color: controller.check2
-                                                    ? Palette.blue
-                                                    : Palette.lightGrey,
-                                                shape: BoxShape.circle),
-                                            child: Checkbox(
-                                              side: BorderSide(
-                                                  color: Palette.lightGrey),
-                                              checkColor: Palette.pureWhite,
-                                              fillColor:
+                                      () => Container(
+                                        width: 28,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                            color: controller.check2.value
+                                                ? Palette.blue
+                                                : Palette.lightGrey,
+                                            shape: BoxShape.circle),
+                                        child: Checkbox(
+                                          side: BorderSide(
+                                              color: Palette.lightGrey),
+                                          checkColor: Palette.pureWhite,
+                                          fillColor:
                                               MaterialStateProperty.resolveWith(
-                                                      (states) => Palette.blue),
-                                              shape: const CircleBorder(),
-                                              onChanged: (bool? value) {
-                                                controller.check2 = value!;
-                                              },
-                                              value: controller.check2,
-                                            ),
-                                          ),
+                                                  (states) => Palette.blue),
+                                          shape: const CircleBorder(),
+                                          onChanged: (bool? value) {
+                                            controller.check2.value = value!;
+                                          },
+                                          value: controller.check2.value,
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 8,
@@ -301,7 +298,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                       children: <TextSpan>[
                                         const TextSpan(
                                             text:
-                                            '단국대학교 총학생회 홈페이지는 회원님의 개인정보를 개인정보 처리방침에서 고지한 제 3자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를 초과하여 제3자에게 제공하지 않습니다.\n\n',
+                                                '단국대학교 총학생회 홈페이지는 회원님의 개인정보를 개인정보 처리방침에서 고지한 제 3자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를 초과하여 제3자에게 제공하지 않습니다.\n\n',
                                             style: tinyStyle),
                                         TextSpan(
                                             text: '제공받는 자\n',
@@ -330,11 +327,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                                 fontWeight: FontWeight.bold)),
                                         const TextSpan(
                                             text:
-                                            '단국대학교 홈페이지 내 학번, 이름, 학과, 재학여부\n\n',
+                                                '단국대학교 홈페이지 내 학번, 이름, 학과, 재학여부\n\n',
                                             style: tinyStyle),
                                         const TextSpan(
                                             text:
-                                            '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 회원가입에 제한을 받습니다.',
+                                                '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 회원가입에 제한을 받습니다.',
                                             style: tinyStyle),
                                       ],
                                     ),
@@ -354,38 +351,36 @@ class RegisterStep1 extends GetView<RegisterPageController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Obx(
-                  () =>
-                  ModernFormButton(
-                    isEnabled: controller.studentId.isNotEmpty &&
-                        controller.studentPassword.isNotEmpty &&
-                        controller.check1 &&
-                        controller.check2,
-                    onPressed: () {
-                      if (controller.studentIdController.text.length != 8) {
-                        Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Palette.darkGrey,
-                            colorText: Palette.pureWhite);
-                        return;
-                      }
-                      controller
-                          .studentAuthenticate(
-                          controller.studentIdController.text,
+              () => ModernFormButton(
+                isEnabled: controller.studentId.isNotEmpty &&
+                    controller.studentPassword.isNotEmpty &&
+                    controller.check1.value &&
+                    controller.check2.value,
+                onPressed: () {
+                  if (controller.studentIdController.text.length != 8) {
+                    Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Palette.darkGrey,
+                        colorText: Palette.pureWhite);
+                    return;
+                  }
+                  controller
+                      .studentAuthenticate(controller.studentIdController.text,
                           controller.studentPasswordController.text)
-                          .then((value) {
-                        if (value) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          controller.currentStep = 2;
-                        } else {
-                          Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Palette.darkGrey,
-                              colorText: Palette.pureWhite);
-                        }
-                      });
-                    },
-                    text: '인증하기',
-                  ),
+                      .then((value) {
+                    if (value) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      controller.currentStep.value = 2;
+                    } else {
+                      Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Palette.darkGrey,
+                          colorText: Palette.pureWhite);
+                    }
+                  });
+                },
+                text: '인증하기',
+              ),
             ),
           ),
         ],

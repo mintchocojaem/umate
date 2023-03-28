@@ -26,7 +26,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                 child: Column(
                   children: [
                     Obx(
-                      () => controller.isStudentAuthenticated
+                      () => controller.isStudentAuthenticated.value
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -35,13 +35,14 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint:
-                                        "${controller.registerModel.studentId}@dankook.ac.kr",
+                                        "${controller.registerModel.value.studentId}@dankook.ac.kr",
                                     title: "아이디",
                                     readOnly: true,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: "비밀번호를 입력하세요",
                                     title: "비밀번호",
@@ -55,15 +56,18 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller.registerModel.studentName,
+                                    hint: controller
+                                        .registerModel.value.studentName,
                                     title: "이름",
                                     readOnly: true,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
@@ -73,16 +77,18 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller.registerModel.major,
+                                    hint: controller.registerModel.value.major,
                                     title: "전공",
                                     readOnly: true,
                                   ),
                                 ),
                                 //휴대폰 번호 인증 필요
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     textController:
                                         controller.phoneNumberController,
@@ -97,7 +103,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
                                       if (isValidPhoneNumberFormat(
-                                              controller.phoneNumber) ==
+                                              controller.phoneNumber.value) ==
                                           false) {
                                         Get.snackbar(
                                             "휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
@@ -107,9 +113,11 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                         return false;
                                       }
 
-                                      controller.sendSMSAuth(
-                                              controller.registerModel.signupToken,
-                                              controller.phoneNumber)
+                                      controller
+                                          .sendSMSAuth(
+                                              controller.registerModel.value
+                                                  .signupToken,
+                                              controller.phoneNumber.value)
                                           .then((value) {
                                         if (!value) {
                                           Get.snackbar("인증번호 전송 실패",
@@ -148,8 +156,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     controller.nickname.isNotEmpty,
                 text: "가입하기",
                 onPressed: () async {
-                  if (controller.nickname.length < 2 ||
-                      isValidNicknameFormat(controller.nickname) ==
+                  if (controller.nickname.value.length < 2 ||
+                      isValidNicknameFormat(controller.nickname.value) ==
                           false) {
                     Get.snackbar(
                         "닉네임 오류", "닉네임은 3~8자리의 한글, 영문, 숫자, _, 공백만 사용할 수 있습니다.",
@@ -159,7 +167,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (isValidPasswordFormat(controller.password) ==
+                  if (isValidPasswordFormat(controller.password.value) ==
                       false) {
                     Get.snackbar(
                         "비밀번호 오류", "비밀번호는 숫자와 영문을 포함해야하며 8 ~ 16자 사이어야 합니다.",
@@ -178,8 +186,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   }
 
                   if (!await controller.verifySMSAuth(
-                      controller.registerModel.signupToken,
-                      controller.phoneAuthenticationNumber)) {
+                      controller.registerModel.value.signupToken,
+                      controller.phoneAuthenticationNumber.value)) {
                     Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -188,7 +196,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   }
 
                   final RegisterModel registerModel =
-                      controller.registerModel;
+                      controller.registerModel.value;
                   registerModel.nickname = controller.nicknameController.text;
                   registerModel.password = controller.passwordController.text;
                   /*
@@ -204,7 +212,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                 });
 
                  */
-                  controller.currentStep = 3;
+                  controller.currentStep.value = 3;
                 },
               ),
             ),

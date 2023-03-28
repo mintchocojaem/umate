@@ -150,7 +150,7 @@ class HomePage extends GetView<HomePageController> {
                             children: [
                               Obx(
                                 () => BoardList(
-                                  cards: controller.isLoadBusList
+                                  cards: controller.isLoadBusList.value
                                       ? [
                                           Row(
                                             crossAxisAlignment:
@@ -379,7 +379,7 @@ class HomePage extends GetView<HomePageController> {
                                           top: 8, bottom: 8),
                                       child: BoardList(
                                         cards: controller
-                                                .isLoadGeneralPostListHome
+                                                .isLoadGeneralPostListHome.value
                                             ? [
                                                 for (var i = 0;
                                                     i <
@@ -414,8 +414,8 @@ class HomePage extends GetView<HomePageController> {
                                           final MainPageController
                                               mainController =
                                               Get.find<MainPageController>();
-                                          mainController.selectedIndex = 2;
-                                          boardPageController.selectedTap = 0;
+                                          mainController.selectedIndex.value = 2;
+                                          boardPageController.selectedTap.value = 0;
                                         },
                                       ),
                                     ),
@@ -426,7 +426,7 @@ class HomePage extends GetView<HomePageController> {
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
                                       child: BoardList(
-                                        cards: controller.isLoadPetitionListHome
+                                        cards: controller.isLoadPetitionListHome.value
                                             ? [
                                                 for (var i = 0;
                                                     i <
@@ -461,8 +461,8 @@ class HomePage extends GetView<HomePageController> {
                                           final MainPageController
                                               mainController =
                                               Get.find<MainPageController>();
-                                          mainController.selectedIndex = 2;
-                                          boardPageController.selectedTap = 1;
+                                          mainController.selectedIndex.value = 2;
+                                          boardPageController.selectedTap.value = 1;
                                         },
                                       ),
                                     ),

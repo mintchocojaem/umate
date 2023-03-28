@@ -28,13 +28,13 @@ class FindPasswordPage extends GetView<FindPasswordPageController> {
               child: ModernStepGuide(
                   stepLength: 4,
                   currentStep:
-                      controller.currentStep),
+                      controller.currentStep.value),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Text(
                 controller.stepTitle[
-                    controller.currentStep - 1],
+                    controller.currentStep.value - 1],
                 style: bigTitleStyle.copyWith(
                     color: Palette.blue, fontWeight: FontWeight.w500),
               ),
@@ -42,7 +42,7 @@ class FindPasswordPage extends GetView<FindPasswordPageController> {
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: controller.pages[controller.currentStep - 1],
+                child: controller.pages[controller.currentStep.value - 1],
                 transitionBuilder: (child, animation) {
                   return SlideTransition(
                     position: animation.drive(

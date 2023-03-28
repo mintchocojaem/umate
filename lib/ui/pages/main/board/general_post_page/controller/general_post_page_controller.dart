@@ -8,34 +8,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class GeneralPostPageController extends GetxController {
+
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
   final GeneralCommentRepository _generalCommentRepository =
       GeneralCommentRepository();
 
   final LoginService loginService = Get.find<LoginService>();
 
-  final Rx<GeneralPostModel> _generalPostModel = GeneralPostModel().obs;
+  final Rx<GeneralPostModel> generalPostModel = GeneralPostModel().obs;
 
-  GeneralPostModel get generalPostModel => _generalPostModel.value;
-
-  final Rx<GeneralCommentListModel> _generalCommentListModel =
+  final Rx<GeneralCommentListModel> generalCommentList =
       GeneralCommentListModel().obs;
 
-  GeneralCommentListModel get generalCommentListModel =>
-      _generalCommentListModel.value;
-
-  final RxList<GeneralCommentModel> _generalCommentList =
+  final RxList<GeneralCommentModel> generalComments =
       <GeneralCommentModel>[].obs;
 
-  List<GeneralCommentModel> get generalCommentList => _generalCommentList;
+  final RxBool isLoadedGeneralPost = false.obs;
 
-  final RxBool _isLoadedGeneralPost = false.obs;
-
-  bool get isLoadedGeneralPost => _isLoadedGeneralPost.value;
-
-  final RxBool _isLoadedGeneralComment = false.obs;
-
-  bool get isLoadedGeneralComment => _isLoadedGeneralComment.value;
+  final RxBool isLoadedGeneralComment = false.obs;
 
   final ScrollController generalCommentScrollController = ScrollController();
 
@@ -51,7 +41,7 @@ class GeneralPostPageController extends GetxController {
     generalCommentScrollController.addListener(() {
       if (generalCommentScrollController.position.pixels ==
           generalCommentScrollController.position.maxScrollExtent) {
-        if(!generalCommentListModel.last){
+        if(!generalCommentList.value.last){
           getNextGeneralComment(id);
         }
       }
@@ -65,8 +55,8 @@ class GeneralPostPageController extends GetxController {
         .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
         .then((value) {
       if (value != null) {
-        _generalPostModel.value = value;
-        _isLoadedGeneralPost.value = true;
+        generalPostModel.value = value;
+        isLoadedGeneralPost.value = true;
       }
     });
   }
@@ -81,9 +71,9 @@ class GeneralPostPageController extends GetxController {
             size: commentSize)
         .then((value) {
       if (value != null) {
-        _generalCommentListModel.value = value;
-        _generalCommentList.value = value.generalCommentList;
-        _isLoadedGeneralComment.value = true;
+        generalCommentList.value = value;
+        generalComments.value = value.generalComments;
+        isLoadedGeneralComment.value = true;
       }
     });
   }
@@ -98,8 +88,8 @@ class GeneralPostPageController extends GetxController {
             size: commentSize)
         .then((value) {
       if (value != null) {
-        _generalCommentListModel.value = value;
-        _generalCommentList.addAll(value.generalCommentList);
+        generalCommentList.value = value;
+        generalComments.addAll(value.generalComments);
       }
     });
   }

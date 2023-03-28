@@ -17,7 +17,7 @@ class BoardPage extends GetView<BoardPageController> {
     // TODO: implement build
     return DefaultTabController(
       length: 2,
-      initialIndex: controller.selectedTap,
+      initialIndex: controller.selectedTap.value,
       child: Scaffold(
         backgroundColor: Palette.pureWhite,
         appBar: MainAppBar(
@@ -34,7 +34,7 @@ class BoardPage extends GetView<BoardPageController> {
                   ),
                   maxLines: 1,
                   readOnly: true,
-                  controller: TextEditingController(text: controller.searchText),
+                  controller: TextEditingController(text: controller.searchText.value),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     suffixIcon: controller.searchText.isEmpty ? IconButton(
@@ -47,7 +47,7 @@ class BoardPage extends GetView<BoardPageController> {
                       ),
                     ) : IconButton(
                       onPressed: () {
-                        controller.searchText = '';
+                        controller.searchText.value = '';
                         controller.getGeneralPostListBoard();
                       },
                       icon: Icon(
