@@ -130,7 +130,7 @@ class _ModernFormField extends State<ModernFormField> {
           decoration: InputDecoration(
             counterText: "",
             filled: true,
-            fillColor: Palette.lightGrey,
+            fillColor: Palette.darkWhite,
             border: const OutlineInputBorder(),
             hintText: widget.hint,
             hintStyle: widget.hintStyle ?? regularStyle.copyWith(
@@ -139,7 +139,7 @@ class _ModernFormField extends State<ModernFormField> {
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
-                color: Palette.lightGrey,
+                color: Palette.darkWhite,
                 width: 1.0,
               ),
             ),
@@ -165,7 +165,7 @@ class _ModernFormField extends State<ModernFormField> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
-                color: Palette.lightGrey,
+                color: Palette.darkWhite,
                 width: 1.0,
               ),
             ),
@@ -191,7 +191,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 decoration: InputDecoration(
                                   counterText: "",
                                   filled: true,
-                                  fillColor: Palette.lightGrey,
+                                  fillColor: Palette.darkWhite,
                                   border: const OutlineInputBorder(),
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
@@ -200,7 +200,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(
-                                      color: Palette.lightGrey,
+                                      color: Palette.darkWhite,
                                       width: 1.0,
                                     ),
                                   ),
@@ -234,7 +234,7 @@ class _ModernFormField extends State<ModernFormField> {
                                     left: 16,
                                   ),
                                   filled: true,
-                                  fillColor: Palette.lightGrey,
+                                  fillColor: Palette.darkWhite,
                                   border: const OutlineInputBorder(),
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
@@ -243,7 +243,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(
-                                      color: Palette.lightGrey,
+                                      color: Palette.darkWhite,
                                       width: 1.0,
                                     ),
                                   ),

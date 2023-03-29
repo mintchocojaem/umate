@@ -56,7 +56,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                           bottom: 4,
                                           left: 16,
                                           right: 16),
-                                      backgroundColor: Palette.lightGrey,
+                                      backgroundColor: Palette.darkWhite,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -117,8 +117,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     )),
                                 Obx(
                                   () => FlutterSwitch(
-                                    inactiveColor: Palette.lightGrey,
-                                    activeColor: Palette.lightGrey,
+                                    inactiveColor: Palette.darkWhite,
+                                    activeColor: Palette.darkWhite,
                                     inactiveToggleColor: Palette.blue,
                                     activeToggleColor: Palette.blue,
                                     width: 60.0,

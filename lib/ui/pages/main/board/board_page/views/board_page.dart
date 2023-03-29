@@ -67,7 +67,7 @@ class BoardPage extends GetView<BoardPageController> {
               decoration: BoxDecoration(
                 //This is for bottom border that is needed
                 border: Border(
-                    bottom: BorderSide(color: Palette.lightGrey, width: 2)),
+                    bottom: BorderSide(color: Palette.darkWhite, width: 2)),
               ),
               child: TabBar(
                 indicatorColor: Palette.blue,

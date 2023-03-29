@@ -48,7 +48,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
         style: regularStyle.copyWith(color: Palette.darkGrey),
         decoration: InputDecoration(
             filled: true,
-            fillColor: Palette.lightGrey,
+            fillColor: Palette.darkWhite,
             hintText: hint,
             hintStyle: regularStyle.copyWith(color: Palette.grey),
             border: OutlineInputBorder(

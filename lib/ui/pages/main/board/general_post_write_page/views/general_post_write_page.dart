@@ -48,7 +48,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                           ),
                         ),
                         Divider(
-                          color: Palette.lightGrey,
+                          color: Palette.darkWhite,
                           thickness: 1,
                         ),
                         TextField(

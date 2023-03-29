@@ -6,7 +6,8 @@ class Palette{
   static Color pureWhite = const Color(0xffFFFFFF);
 
   static Color white = const Color(0xffF5F5F5);
-  static Color lightGrey = const Color(0xffEEEEEE);
+  static Color darkWhite = const Color(0xffEEEEEE);
+  static Color lightGrey = const Color(0xffE1E3E6);
   static Color grey = const Color(0xff909499);
   static Color darkGrey = const Color(0xff454647);
   static Color lightBlack = const Color(0xff2C2C2E);

@@ -98,11 +98,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                           color: controller.check1.value &&
                                                   controller.check2.value
                                               ? Palette.blue
-                                              : Palette.lightGrey,
+                                              : Palette.darkWhite,
                                           shape: BoxShape.circle),
                                       child: Checkbox(
                                         side: BorderSide(
-                                            color: Palette.lightGrey),
+                                            color: Palette.darkWhite),
                                         checkColor: Palette.pureWhite,
                                         fillColor:
                                             MaterialStateProperty.resolveWith(
@@ -162,11 +162,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                         decoration: BoxDecoration(
                                             color: controller.check1.value
                                                 ? Palette.blue
-                                                : Palette.lightGrey,
+                                                : Palette.darkWhite,
                                             shape: BoxShape.circle),
                                         child: Checkbox(
                                           side: BorderSide(
-                                              color: Palette.lightGrey),
+                                              color: Palette.darkWhite),
                                           checkColor: Palette.pureWhite,
                                           fillColor:
                                               MaterialStateProperty.resolveWith(
@@ -256,11 +256,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                         decoration: BoxDecoration(
                                             color: controller.check2.value
                                                 ? Palette.blue
-                                                : Palette.lightGrey,
+                                                : Palette.darkWhite,
                                             shape: BoxShape.circle),
                                         child: Checkbox(
                                           side: BorderSide(
-                                              color: Palette.lightGrey),
+                                              color: Palette.darkWhite),
                                           checkColor: Palette.pureWhite,
                                           fillColor:
                                               MaterialStateProperty.resolveWith(
