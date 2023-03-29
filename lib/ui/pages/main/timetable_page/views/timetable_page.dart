@@ -76,6 +76,7 @@ class TimetablePage extends GetView<TimetablePageController> {
   void timetableBottomSheet({SubjectModel? subjectModel}) {
     Get.bottomSheet(
       GetBuilder<TimetableBottomSheetController>(
+          autoRemove: false,
           init: TimetableBottomSheetController(),
           builder: (bottomSheetController) {
             if (subjectModel != null) {
@@ -107,6 +108,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 : TextButton(
                                     onPressed: () {
                                       //delete subject
+                                      controller.deleteSubject(subjectModel);
+                                      Get.back();
                                     },
                                     child: Text(
                                       "삭제",
@@ -116,7 +119,13 @@ class TimetablePage extends GetView<TimetablePageController> {
                                   ),
                             subjectModel == null
                                 ? TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      //add subject
+                                      controller.addSubject(
+                                          bottomSheetController
+                                              .newSubjectModel());
+                                      Get.back();
+                                    },
                                     child: Text(
                                       "추가",
                                       style: regularStyle.copyWith(
@@ -126,9 +135,10 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 : TextButton(
                                     onPressed: () {
                                       //update subject
-                                      bottomSheetController
-                                          .editSubject(subjectModel);
-                                      controller.updateSubject(subjectModel);
+                                      controller.updateSubject(
+                                          subjectModel,
+                                          bottomSheetController
+                                              .newSubjectModel());
                                       Get.back();
                                     },
                                     child: Text(
@@ -181,6 +191,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                             : const SizedBox(),
                         bottomSheetController.isSubjectAdd.value
                             ? ModernFormField(
+                                onTextChanged: (text) {
+                                  bottomSheetController.title.value = text;
+                                },
                                 initText: bottomSheetController.title.value,
                                 hint: "과목명 검색",
                                 readOnly: subjectModel != null,
@@ -198,7 +211,10 @@ class TimetablePage extends GetView<TimetablePageController> {
                             Flexible(
                               flex: 5,
                               child: ModernFormField(
-                                initText: bottomSheetController.day.value,
+                                onTextChanged: (text) {
+                                  bottomSheetController.days.value = text;
+                                },
+                                initText: bottomSheetController.days.value,
                                 hint: "요일",
                                 readOnly: subjectModel != null,
                                 suffixIcon:
@@ -209,6 +225,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                             Flexible(
                               flex: 6,
                               child: ModernFormField(
+                                onTextChanged: (text) {
+                                  bottomSheetController.startTime.value = text;
+                                },
                                 initText: bottomSheetController.startTime.value,
                                 hint: "시작 시간",
                                 readOnly: subjectModel != null,
@@ -220,6 +239,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                             Flexible(
                               flex: 6,
                               child: ModernFormField(
+                                onTextChanged: (text) {
+                                  bottomSheetController.endTime.value = text;
+                                },
                                 initText: bottomSheetController.endTime.value,
                                 hint: "종료 시간",
                                 readOnly: subjectModel != null,
@@ -232,6 +254,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                         SizedBox(height: 8),
                         bottomSheetController.isSubjectAdd.value
                             ? ModernFormField(
+                                onTextChanged: (text) {
+                                  bottomSheetController.content.value = text;
+                                },
                                 initText: bottomSheetController.content.value,
                                 readOnly: subjectModel != null,
                                 hint: "강의실",

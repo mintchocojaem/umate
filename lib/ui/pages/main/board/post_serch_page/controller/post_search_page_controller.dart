@@ -6,14 +6,6 @@ class PostSearchPageController extends GetxController{
 
   final TextEditingController searchController = TextEditingController();
 
-  final BoardPageController boardPageController = Get.find<BoardPageController>();
-
-  @override
-  void onInit() {
-    super.onInit();
-    searchController.addListener(() {
-      boardPageController.searchText.value = searchController.text;
-    });
-  }
+  final BoardPageController boardPageController = Get.find();
 
 }

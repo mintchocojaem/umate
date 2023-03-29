@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TimetablePageController extends GetxController {
-
   final int today = DateTime.now().weekday - 1;
 
   final RxList<Rx<SubjectModel>> subjects = [
@@ -18,23 +17,27 @@ class TimetablePageController extends GetxController {
     ).obs,
   ].obs;
 
-  void updateSubject(SubjectModel model) {
+  void updateSubject(SubjectModel model, SubjectModel newModel) {
     subjects[subjects.indexOf(model)].update((val) {
-      val!.name = model.name;
-      val.startTime = model.startTime;
-      val.endTime = model.endTime;
-      val.days = model.days;
-      val.place = model.place;
-      val.color = model.color;
+      if (val != null) {
+        val.name = newModel.name;
+        val.startTime = newModel.startTime;
+        val.endTime = newModel.endTime;
+        val.days = newModel.days;
+        val.place = newModel.place;
+        val.color = newModel.color;
+      }
     });
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-
-    super.onInit();
+  void addSubject(SubjectModel model) {
+    subjects.add(model.obs);
   }
+
+  void deleteSubject(SubjectModel model) {
+    subjects.remove(model.obs);
+  }
+
 }
 
 class TimetableBottomSheetController extends GetxController {
@@ -44,7 +47,7 @@ class TimetableBottomSheetController extends GetxController {
 
   final RxString title = "".obs;
 
-  final RxString day = "".obs;
+  final RxString days = "".obs;
 
   final RxString startTime = "".obs;
 
@@ -52,22 +55,24 @@ class TimetableBottomSheetController extends GetxController {
 
   final RxString content = "".obs;
 
-
   void initBottomSheetSubject(SubjectModel model) {
     title.value = model.name;
-    day.value = model.days.join(",");
+    days.value = model.days.join(",");
     startTime.value = model.startTime;
     endTime.value = model.endTime;
     content.value = model.place;
     selectedColor = Color(model.color.value);
   }
 
-  void editSubject(SubjectModel model) {
-    model.name = title.value;
-    model.days = day.value.split(",");
-    model.startTime = startTime.value;
-    model.endTime = endTime.value;
-    model.place = content.value;
-    model.color = selectedColor;
+  SubjectModel newSubjectModel() {
+    return SubjectModel(
+      name: title.value,
+      startTime: startTime.value,
+      endTime: endTime.value,
+      days: days.value.split(","),
+      place: content.value,
+      color: Color(selectedColor.value),
+    );
   }
+
 }
