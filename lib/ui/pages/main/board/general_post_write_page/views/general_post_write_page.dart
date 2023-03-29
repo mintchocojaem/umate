@@ -98,7 +98,9 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                                   ),
                                 ),
                               ),
-                              for (int i = 0; i < controller.imageList.length; i++)
+                              for (int i = 0;
+                                  i < controller.imageList.length;
+                                  i++)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Container(
@@ -119,7 +121,8 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                                       child: Container(
                                         width: double.infinity,
                                         height: 30,
-                                        color: Palette.darkWhite.withOpacity(0.6),
+                                        color:
+                                            Palette.darkWhite.withOpacity(0.6),
                                         child: IconButton(
                                           icon: Icon(
                                             Icons.delete,
@@ -188,20 +191,23 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
           CupertinoActionSheetAction(
             child: const Text('사진 찍기'),
             onPressed: () async {
-              if (await controller.permissionService.getCameraPermission()) {
-                final XFile? image =
-                    await picker.pickImage(source: ImageSource.camera);
-              }
               Get.back();
+              if (await controller.permissionService.getCameraPermission()) {
+                final XFile? image = await picker.pickImage(
+                    source: ImageSource.camera, imageQuality: 80);
+                if (image != null) {
+                  controller.imageList.add(image);
+                }
+              }
             },
           ),
           CupertinoActionSheetAction(
             child: const Text('사진 보관함'),
             onPressed: () async {
+              Get.back();
               if (await controller.permissionService.getGalleryPermission()) {
                 controller.imageList.addAll(await picker.pickMultiImage());
               }
-              Get.back();
             },
           )
         ],

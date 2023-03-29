@@ -37,7 +37,6 @@ class _ColorPicker extends State<ColorPicker> {
       radius: const Radius.circular(8),
       child: SingleChildScrollView(
         controller: _scrollController,
-        physics: const ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16),
