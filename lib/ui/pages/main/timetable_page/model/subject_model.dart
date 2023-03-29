@@ -1,22 +1,26 @@
+import 'package:flutter/material.dart';
+
 class SubjectModel{
-  final String name;
-  final String? code;
-  final String startTime;
-  final String endTime;
-  final String? professor;
-  final String? credit;
-  final String? dept;
-  final List<String> days;
+  String name;
+  String? code;
+  String startTime;
+  String endTime;
+  String? professor;
+  String place;
+  String? dept;
+  List<String> days;
+  Color color;
 
   SubjectModel({
     this.code,
     required this.startTime,
     required this.endTime,
     this.professor,
-    this.credit,
+    required this.place,
     this.dept,
     required this.name,
-    required this.days
+    required this.days,
+    required this.color
   });
 
 }

@@ -33,7 +33,7 @@ class TimetablePage extends GetView<TimetablePageController> {
           ),
           IconButton(
             onPressed: () {
-              openBottomSheet();
+              timetableBottomSheet();
             },
             icon: Icon(
               Icons.add_circle_outline_outlined,
@@ -45,23 +45,17 @@ class TimetablePage extends GetView<TimetablePageController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Timetable(
-              subjects: [
-                SubjectModel(
-                    name: "사업개발과경영",
-                    startTime: '09:00',
-                    endTime: '10:00',
-                    days: ["월", "화"]),
-                SubjectModel(
-                    name: "생활속의뇌이야기",
-                    startTime: '11:00',
-                    endTime: '13:00',
-                    days: ["수"]),
-              ],
-              tableStartTime: 9,
-              tableEndTime: 18,
-              today: DateTime.now().weekday -1,
-            ),
+            Obx(() {
+              return Timetable(
+                subjects: controller.subjects.map((e) => e.value).toList(),
+                today: controller.today,
+                onSubjectTap: (subject) {
+                  timetableBottomSheet(subjectModel: subject);
+                },
+                tableStartTime: 9,
+                tableEndTime: 20,
+              );
+            })
             /*
             const Padding(
               padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -72,7 +66,6 @@ class TimetablePage extends GetView<TimetablePageController> {
                 showAction: false,
               ),
             )
-
              */
           ],
         ),
@@ -80,103 +73,196 @@ class TimetablePage extends GetView<TimetablePageController> {
     );
   }
 
-  void openBottomSheet() {
+  void timetableBottomSheet({SubjectModel? subjectModel}) {
     Get.bottomSheet(
-      SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        //close bottom sheet
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: Palette.blue,
-                      ),
+      GetBuilder<TimetableBottomSheetController>(
+          init: TimetableBottomSheetController(),
+          builder: (bottomSheetController) {
+            if (subjectModel != null) {
+              bottomSheetController.initBottomSheetSubject(subjectModel);
+            }
+            return Obx(
+              () => SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            subjectModel == null
+                                ? IconButton(
+                                    onPressed: () {
+                                      //close bottom sheet
+                                      Get.back();
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Palette.blue,
+                                    ),
+                                  )
+                                : TextButton(
+                                    onPressed: () {
+                                      //delete subject
+                                    },
+                                    child: Text(
+                                      "삭제",
+                                      style: regularStyle.copyWith(
+                                          color: Palette.blue),
+                                    ),
+                                  ),
+                            subjectModel == null
+                                ? TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "추가",
+                                      style: regularStyle.copyWith(
+                                          color: Palette.blue),
+                                    ),
+                                  )
+                                : TextButton(
+                                    onPressed: () {
+                                      //update subject
+                                      bottomSheetController
+                                          .editSubject(subjectModel);
+                                      controller.updateSubject(subjectModel);
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "완료",
+                                      style: regularStyle.copyWith(
+                                          color: Palette.blue),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                        subjectModel == null
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Radio(
+                                    fillColor:
+                                        MaterialStateProperty.all(Palette.blue),
+                                    value: true,
+                                    groupValue: bottomSheetController
+                                        .isSubjectAdd.value,
+                                    onChanged: (value) {
+                                      bottomSheetController.isSubjectAdd.value =
+                                          value!;
+                                    },
+                                  ),
+                                  Text(
+                                    '과목 추가',
+                                    style: regularStyle.copyWith(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Radio(
+                                    fillColor:
+                                        MaterialStateProperty.all(Palette.blue),
+                                    value: false,
+                                    groupValue: bottomSheetController
+                                        .isSubjectAdd.value,
+                                    onChanged: (value) {
+                                      bottomSheetController.isSubjectAdd.value =
+                                          value!;
+                                    },
+                                  ),
+                                  Text(
+                                    '일정 추가',
+                                    style: regularStyle.copyWith(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
+                        bottomSheetController.isSubjectAdd.value
+                            ? ModernFormField(
+                                initText: bottomSheetController.title.value,
+                                hint: "과목명 검색",
+                                readOnly: subjectModel != null,
+                                suffixIcon: subjectModel == null
+                                    ? const Icon(Icons.search)
+                                    : null,
+                              )
+                            : ModernFormField(
+                                hint: "제목",
+                              ),
+                        SizedBox(height: 8),
+                        Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Flexible(
+                              flex: 5,
+                              child: ModernFormField(
+                                initText: bottomSheetController.day.value,
+                                hint: "요일",
+                                readOnly: subjectModel != null,
+                                suffixIcon:
+                                    Icon(Icons.keyboard_arrow_down_rounded),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Flexible(
+                              flex: 6,
+                              child: ModernFormField(
+                                initText: bottomSheetController.startTime.value,
+                                hint: "시작 시간",
+                                readOnly: subjectModel != null,
+                                suffixIcon:
+                                    Icon(Icons.keyboard_arrow_down_rounded),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Flexible(
+                              flex: 6,
+                              child: ModernFormField(
+                                initText: bottomSheetController.endTime.value,
+                                hint: "종료 시간",
+                                readOnly: subjectModel != null,
+                                suffixIcon:
+                                    Icon(Icons.keyboard_arrow_down_rounded),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        bottomSheetController.isSubjectAdd.value
+                            ? ModernFormField(
+                                initText: bottomSheetController.content.value,
+                                readOnly: subjectModel != null,
+                                hint: "강의실",
+                              )
+                            : ModernFormField(
+                                hint: "메모",
+                              ),
+                        SizedBox(height: 16),
+                        ColorPicker(
+                          selectedColorIndex: Palette.subjectColors
+                              .indexOf(bottomSheetController.selectedColor),
+                          colors: Palette.subjectColors,
+                          onColorSelected: (color) {
+                            bottomSheetController.selectedColor = color;
+                          },
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "추가",
-                        style: regularStyle.copyWith(color: Palette.blue),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                ModernFormField(
-                  hint: "제목",
-                ),
-                SizedBox(height: 8),
-                Flex(
-                  direction: Axis.horizontal,
-                  children: const [
-                    Flexible(
-                      flex: 5,
-                      child: ModernFormField(
-                        hint: "요일",
-                        suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Flexible(
-                      flex: 6,
-                      child: ModernFormField(
-                        hint: "시작 시간",
-                        suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Flexible(
-                      flex: 6,
-                      child: ModernFormField(
-                        hint: "종료 시간",
-                        suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                ModernFormField(
-                  hint: "장소",
-                ),
-                SizedBox(height: 16),
-                ColorPicker(
-                  colors: [
-                    Colors.blue,
-                    Colors.red,
-                    Colors.green,
-                    Colors.yellow,
-                    Colors.purple,
-                    Colors.orange,
-                    Colors.pink,
-                    Colors.brown,
-                    Colors.grey,
-                    Colors.black,
-                  ],
-                  onColorSelected: (color) {
-                    controller.selectedColor = color;
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          }),
       enableDrag: false,
       backgroundColor: Palette.pureWhite,
       elevation: 0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
-        )
+        ),
       ),
     );
   }

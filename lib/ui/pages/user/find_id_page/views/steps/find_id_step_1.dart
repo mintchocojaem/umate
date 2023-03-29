@@ -20,7 +20,9 @@ class FindIdStep1 extends GetView<FindIdPageController> {
           Text("입력한 번호로 아이디를 전송합니다", style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
-            textController: controller.phoneNumberController,
+            onTextChanged: (value) {
+              controller.phoneNumber.value = value;
+            },
             hint: "휴대폰 번호를 입력하세요",
           ),
           const SizedBox(height: 16),

@@ -3,8 +3,7 @@ import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+
 
 import '../../../../../../utils/regex/regex.dart';
 import '../../../../../../utils/theme/palette.dart';
@@ -27,8 +26,12 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
             validateHint: "비밀번호를 재입력하세요",
             validate: true,
             isPassword: true,
-            textController: controller.passwordController,
-            validateController: controller.passwordValidateController,
+            onTextChanged: (value) {
+              controller.password.value = value;
+            },
+            onValidateChanged: (value) {
+              controller.passwordValidate.value = value;
+            },
           ),
           const SizedBox(height: 16),
           ModernFormButton(
@@ -43,7 +46,7 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
                 return;
               }
 
-              if (controller.passwordValidate != controller.password) {
+              if (controller.password.value != controller.passwordValidate.value) {
                 Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,

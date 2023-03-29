@@ -38,6 +38,4 @@ class LoginService extends GetxService {
     return _isLogin.value;
   }
 
-  final TextEditingController idController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 }

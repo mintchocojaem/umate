@@ -25,29 +25,19 @@ class RegisterPageController extends GetxController {
 
   final ScrollController scrollController = ScrollController();
 
-  final TextEditingController studentIdController = TextEditingController();
-  final RxString studentId = ''.obs;
+  final RxString studentId = "".obs;
 
-  final TextEditingController studentPasswordController =
-      TextEditingController();
-  final RxString studentPassword = ''.obs;
+  final RxString studentPassword = "".obs;
 
-  final TextEditingController passwordController = TextEditingController();
-  final RxString password = ''.obs;
+  final RxString password = "".obs;
 
-  final TextEditingController passwordValidateController =
-      TextEditingController();
-  final RxString passwordValidate = ''.obs;
+  final RxString passwordValidate = "".obs;
 
-  final TextEditingController nicknameController = TextEditingController();
-  final RxString nickname = ''.obs;
+  final RxString nickname = "".obs;
 
-  final TextEditingController phoneNumberController = TextEditingController();
-  final RxString phoneNumber = ''.obs;
+  final RxString phoneNumber = "".obs;
 
-  final TextEditingController phoneAuthenticationNumberController =
-      TextEditingController();
-  final RxString phoneAuthenticationNumber = ''.obs;
+  final RxString phoneAuthenticationNumber = "".obs;
 
   final Rx<RegisterModel> registerModel = RegisterModel().obs;
   final RxBool isStudentAuthenticated = false.obs;
@@ -101,38 +91,4 @@ class RegisterPageController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-
-    studentIdController.addListener(() {
-      studentId.value = studentIdController.text;
-    });
-
-    studentPasswordController.addListener(() {
-      studentPassword.value = studentPasswordController.text;
-    });
-
-    passwordController.addListener(() {
-      password.value = passwordController.text;
-    });
-
-    passwordValidateController.addListener(() {
-      passwordValidate.value = passwordValidateController.text;
-    });
-
-    nicknameController.addListener(() {
-      nickname.value = nicknameController.text;
-    });
-
-    phoneNumberController.addListener(() {
-      phoneNumber.value = phoneNumberController.text;
-    });
-
-    phoneAuthenticationNumberController.addListener(() {
-      phoneAuthenticationNumber.value = phoneAuthenticationNumberController.text;
-    });
-
-    super.onInit();
-  }
 }

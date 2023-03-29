@@ -8,39 +8,46 @@ import '../../../utils/theme/palette.dart';
 class ModernFormField extends StatefulWidget {
   final String? title;
   final String? hint;
+  final TextStyle? hintStyle;
+  final String? initText;
+  final String? initValidateText;
   final bool checkButton;
   final bool validate;
   final String? validateHint;
-  final TextEditingController? validateController;
   final String? checkButtonText;
   final bool readOnly;
-  final TextEditingController? textController;
   final bool isPassword;
   final bool isSMS;
   final bool Function()? onCheckButtonPressed;
+  final void Function(String text)? onTextChanged;
+  final void Function(String text)? onValidateChanged;
   final int checkButtonCoolDown;
   final Color? titleColor;
   final TextInputType? keyboardType;
   final Icon? suffixIcon;
 
-  const ModernFormField(
-      {super.key,
-      this.hint,
-      this.title,
-      this.checkButton = false,
-      this.validate = false,
-      this.validateHint,
-      this.checkButtonText,
-      this.readOnly = false,
-      this.textController,
-      this.isPassword = false,
-      this.isSMS = false,
-      this.onCheckButtonPressed,
-      this.checkButtonCoolDown = 30,
-      this.validateController,
-      this.titleColor,
-      this.keyboardType,
-      this.suffixIcon});
+  const ModernFormField({
+    super.key,
+    this.hint,
+    this.hintStyle,
+    this.title,
+    this.checkButton = false,
+    this.validate = false,
+    this.validateHint,
+    this.checkButtonText,
+    this.readOnly = false,
+    this.isPassword = false,
+    this.isSMS = false,
+    this.onCheckButtonPressed,
+    this.checkButtonCoolDown = 30,
+    this.titleColor,
+    this.keyboardType,
+    this.onTextChanged,
+    this.onValidateChanged,
+    this.suffixIcon,
+    this.initText,
+    this.initValidateText,
+  });
 
   @override
   createState() => _ModernFormField();
@@ -52,10 +59,16 @@ class _ModernFormField extends State<ModernFormField> {
   bool _isSend = false;
   Timer? timer;
 
+  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _validateController = TextEditingController();
+  final TextEditingController _smsController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _remainingTime = widget.checkButtonCoolDown;
+    _textController.text = widget.initText ?? "";
+    _validateController.text = widget.initValidateText ?? "";
   }
 
   @override
@@ -99,12 +112,15 @@ class _ModernFormField extends State<ModernFormField> {
           height: 8,
         ),
         TextFormField(
+          controller: _textController,
           obscureText: widget.isPassword,
           enableSuggestions: false,
           autocorrect: false,
           enabled: !widget.readOnly,
           readOnly: widget.readOnly,
-          controller: widget.textController,
+          onChanged: (text){
+            widget.onTextChanged?.call(text);
+          },
           keyboardType: widget.keyboardType,
           maxLines: 1,
           maxLength: 30,
@@ -117,7 +133,7 @@ class _ModernFormField extends State<ModernFormField> {
             fillColor: Palette.lightGrey,
             border: const OutlineInputBorder(),
             hintText: widget.hint,
-            hintStyle: regularStyle.copyWith(
+            hintStyle: widget.hintStyle ?? regularStyle.copyWith(
                 color: widget.readOnly ? Palette.darkGrey : Palette.grey,
                 fontWeight: FontWeight.w500),
             disabledBorder: OutlineInputBorder(
@@ -165,8 +181,8 @@ class _ModernFormField extends State<ModernFormField> {
                         height: 48,
                         child: widget.isSMS
                             ? TextFieldPinAutoFill(
+                                currentCode: _smsController.text,
                                 focusNode: focusSMS,
-                                currentCode: widget.validateController?.text,
                                 style: TextStyle(
                                     color: Palette.darkGrey,
                                     fontWeight: FontWeight.w500),
@@ -190,13 +206,15 @@ class _ModernFormField extends State<ModernFormField> {
                                   ),
                                 ),
                                 onCodeChanged: (code) {
-                                  widget.validateController?.text = code;
+                                  _smsController.text = code;
+                                  widget.onValidateChanged?.call(code);
                                   if (code.length == 6) {
                                     FocusScope.of(context).unfocus();
                                   }
                                 },
                               )
                             : TextFormField(
+                                controller: _validateController,
                                 style: TextStyle(
                                     color: Palette.darkGrey,
                                     fontWeight: FontWeight.w500),
@@ -204,7 +222,9 @@ class _ModernFormField extends State<ModernFormField> {
                                 obscureText: widget.isPassword,
                                 enableSuggestions: false,
                                 autocorrect: false,
-                                controller: widget.validateController,
+                                onChanged: (text){
+                                  widget.onValidateChanged?.call(text);
+                                },
                                 readOnly: widget.readOnly,
                                 maxLines: 1,
                                 maxLength: 30,

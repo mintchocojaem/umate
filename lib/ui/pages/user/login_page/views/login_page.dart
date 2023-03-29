@@ -40,7 +40,9 @@ class LoginPage extends GetView<LoginPageController> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: ModernFormField(
-                          textController: controller.loginService.idController,
+                          onTextChanged: (value) {
+                            controller.id.value = value;
+                          },
                           hint: 'ID(학번)을 입력하세요',
                           title: "아이디",
                           titleColor: Palette.blue,
@@ -49,7 +51,9 @@ class LoginPage extends GetView<LoginPageController> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: ModernFormField(
-                          textController: controller.loginService.passwordController,
+                          onTextChanged: (value) {
+                            controller.password.value = value;
+                          },
                           hint: "비밀번호를 입력하세요",
                           title: "비밀번호",
                           isPassword: true,

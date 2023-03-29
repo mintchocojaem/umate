@@ -23,17 +23,7 @@ class FindIdPageController extends GetxController {
 
   final RxInt currentStep = 1.obs;
 
-  final TextEditingController phoneNumberController = TextEditingController();
-  final RxString phoneNumber = ''.obs;
-
-  @override
-  void onInit() {
-    phoneNumberController.addListener(() {
-      phoneNumber.value = phoneNumberController.text;
-    });
-
-    super.onInit();
-  }
+  final RxString phoneNumber = "".obs;
 
   Future<bool> sendIdToPhoneNumber(String phoneNumber) {
     return _findRepository.sendId(phoneNumber: phoneNumber);

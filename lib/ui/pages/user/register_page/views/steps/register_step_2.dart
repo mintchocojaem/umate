@@ -49,10 +49,12 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     validateHint: "비밀번호를 재입력하세요",
                                     validate: true,
                                     isPassword: true,
-                                    textController:
-                                        controller.passwordController,
-                                    validateController:
-                                        controller.passwordValidateController,
+                                    onTextChanged: (value) {
+                                      controller.password.value = value;
+                                    },
+                                    onValidateChanged: (value) {
+                                      controller.passwordValidate.value = value;
+                                    },
                                   ),
                                 ),
                                 Padding(
@@ -72,8 +74,9 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
                                     readOnly: false,
-                                    textController:
-                                        controller.nicknameController,
+                                    onTextChanged: (value) {
+                                      controller.nickname.value = value;
+                                    },
                                   ),
                                 ),
                                 Padding(
@@ -90,10 +93,14 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    textController:
-                                        controller.phoneNumberController,
-                                    validateController: controller
-                                        .phoneAuthenticationNumberController,
+                                    onTextChanged: (value) {
+                                      controller.phoneNumber.value =
+                                          value;
+                                    },
+                                    onValidateChanged: (value) {
+                                      controller.phoneAuthenticationNumber.value =
+                                          value;
+                                    },
                                     hint: "휴대폰 번호를 입력하세요",
                                     validate: true,
                                     validateHint: "인증번호 6자리를 입력하세요",
@@ -149,11 +156,11 @@ class RegisterStep2 extends GetView<RegisterPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Obx(
               () => ModernFormButton(
-                isEnabled: controller.password.isNotEmpty &&
-                    controller.passwordValidate.isNotEmpty &&
-                    controller.phoneNumber.isNotEmpty &&
-                    controller.phoneAuthenticationNumber.isNotEmpty &&
-                    controller.nickname.isNotEmpty,
+                isEnabled: controller.password.value.isNotEmpty &&
+                    controller.passwordValidate.value.isNotEmpty &&
+                    controller.phoneNumber.value.isNotEmpty &&
+                    controller.phoneAuthenticationNumber.value.isNotEmpty &&
+                    controller.nickname.value.isNotEmpty,
                 text: "가입하기",
                 onPressed: () async {
                   if (controller.nickname.value.length < 2 ||
@@ -177,7 +184,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (controller.passwordValidate != controller.password) {
+                  if (controller.passwordValidate.value != controller.password.value) {
                     Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -197,8 +204,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
 
                   final RegisterModel registerModel =
                       controller.registerModel.value;
-                  registerModel.nickname = controller.nicknameController.text;
-                  registerModel.password = controller.passwordController.text;
+                  registerModel.nickname = controller.nickname.value;
+                  registerModel.password = controller.password.value;
                   /*
                 registerController.register(registerModel).then((value) {
                   if (value) {

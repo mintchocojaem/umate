@@ -21,7 +21,9 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
           Text("입력한 번호로 인증번호를 전송합니다", style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
-            textController: controller.phoneNumberController,
+            onTextChanged: (value) {
+              controller.phoneNumber.value = value;
+            },
             hint: "휴대폰 번호를 입력하세요",
           ),
           const SizedBox(height: 16),

@@ -27,34 +27,13 @@ class FindPasswordPageController extends GetxController {
 
   final RxInt currentStep = 1.obs;
 
-  final TextEditingController phoneNumberController = TextEditingController();
-  final RxString phoneNumber = ''.obs;
+  final RxString phoneNumber = "".obs;
 
-  final TextEditingController phoneAuthenticationNumberController = TextEditingController();
-  final RxString phoneAuthenticationNumber = ''.obs;
+  final RxString phoneAuthenticationNumber = "".obs;
 
-  final TextEditingController passwordController = TextEditingController();
-  final RxString password = ''.obs;
+  final RxString password = "".obs;
 
-  final TextEditingController passwordValidateController = TextEditingController();
-  final RxString passwordValidate = ''.obs;
-
-  @override
-  void onInit() {
-    phoneNumberController.addListener(() {
-      phoneNumber.value = phoneNumberController.text;
-    });
-    phoneAuthenticationNumberController.addListener(() {
-      phoneAuthenticationNumber.value = phoneAuthenticationNumberController.text;
-    });
-    passwordController.addListener(() {
-      password.value = passwordController.text;
-    });
-    passwordValidateController.addListener(() {
-      passwordValidate.value = passwordValidateController.text;
-    });
-    super.onInit();
-  }
+  final RxString passwordValidate = "".obs;
 
   Future<bool> verifySMS(String code) async {
     try {

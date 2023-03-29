@@ -4,10 +4,14 @@ typedef OnColorSelected = void Function(Color color);
 
 class ColorPicker extends StatefulWidget {
   final List<Color> colors;
+  final int selectedColorIndex;
   final OnColorSelected onColorSelected;
 
   const ColorPicker(
-      {super.key, required this.colors, required this.onColorSelected});
+      {super.key,
+      required this.colors,
+      required this.onColorSelected,
+      this.selectedColorIndex = 0});
 
   @override
   createState() => _ColorPicker();
@@ -17,6 +21,12 @@ class _ColorPicker extends State<ColorPicker> {
   final ScrollController _scrollController = ScrollController();
 
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.selectedColorIndex;
+  }
 
   @override
   Widget build(BuildContext context) {

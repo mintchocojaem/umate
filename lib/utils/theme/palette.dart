@@ -22,4 +22,27 @@ class Palette{
   static Color mint = const Color(0xff12C4CF);
   static Color darkYellow = const Color(0xffF8CB5B);
 
+  static const List<Color> subjectColors = [
+    Color(0xffFFC3B0),
+    Color(0xffFF937C),
+    Color(0xffF9684A),
+    Color(0xffFBD470),
+    Color(0xffFFB84F),
+    Color(0xffFF9838),
+    Color(0xff86D26A),
+    Color(0xffB6E388),
+    Color(0xffA8C7FA),
+    Color(0xff6F97FA),
+    Color(0xff3468EE),
+    Color(0xffC1AEFC),
+    Color(0xff8D7EEF),
+    Color(0xff6553D7),
+    Color(0xffB7B7B7),
+    Color(0xff939393),
+    Color(0xff505050),
+    Color(0xffD6C3A8),
+    Color(0xffBC9E73),
+    Color(0xff8D7047),
+  ];
+
 }

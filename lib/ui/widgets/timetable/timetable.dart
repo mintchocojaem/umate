@@ -13,13 +13,15 @@ class Timetable extends StatelessWidget {
   final int tableStartTime;
   final int tableEndTime;
   final int today;
+  final void Function(SubjectModel subjectModel)? onSubjectTap;
 
   const Timetable({
     super.key,
     required this.subjects,
     required this.tableStartTime,
     required this.tableEndTime,
-    this.today = 0
+    this.today = 0,
+    this.onSubjectTap,
   });
 
   @override
@@ -69,7 +71,7 @@ class Timetable extends StatelessWidget {
                 (index) {
                   return Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(4),
                       decoration: index == today
                           ? BoxDecoration(
                               shape: BoxShape.circle,
@@ -199,9 +201,6 @@ class Timetable extends StatelessWidget {
     DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
     Duration startTableDuration = Duration(hours: startTableTime.hour);
 
-    Color randomColor =
-        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
-
     List<Widget> result = [];
     if (subjects != null) {
       for (SubjectModel i in subjects) {
@@ -218,32 +217,37 @@ class Timetable extends StatelessWidget {
             height: (endTime.subtract(startDuration).hour * (cellWidth +1)) +
                 (endTime.subtract(startDuration).minute * (cellWidth +1) / 60),
             width: cellWidth + dayCellHeight,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4, right: 4),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: randomColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              i.name,
-                              style:
-                                  lightStyle.copyWith(color: Palette.pureWhite),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
+            child: GestureDetector(
+              onTap: () {
+                onSubjectTap?.call(i);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4, right: 4),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: i.color,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                i.name,
+                                style:
+                                    lightStyle.copyWith(color: Palette.pureWhite),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

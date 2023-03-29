@@ -5,4 +5,7 @@ class LoginPageController extends GetxController{
 
   final LoginService loginService = Get.find<LoginService>();
 
+  final RxString id = "".obs;
+  final RxString password = "".obs;
+
 }

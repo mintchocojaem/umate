@@ -23,20 +23,19 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: ModernFormField(
-                        textController: controller.studentIdController,
-                        hint: '학번(ID)을 입력하세요',
-                        title: "학번",
-                      ),
+                    ModernFormField(
+                      onTextChanged: (value) {
+                        controller.studentId.value = value;
+                      },
+                      hint: '학번(ID)을 입력하세요',
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      padding: const EdgeInsets.only(top: 8,bottom: 8),
                       child: ModernFormField(
-                        textController: controller.studentPasswordController,
+                        onTextChanged: (value) {
+                          controller.studentPassword.value = value;
+                        },
                         hint: "비밀번호를 입력하세요",
-                        title: "비밀번호",
                         isPassword: true,
                       ),
                     ),
@@ -357,7 +356,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     controller.check1.value &&
                     controller.check2.value,
                 onPressed: () {
-                  if (controller.studentIdController.text.length != 8) {
+                  if (controller.studentId.value.length != 8) {
                     Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -365,8 +364,8 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     return;
                   }
                   controller
-                      .studentAuthenticate(controller.studentIdController.text,
-                          controller.studentPasswordController.text)
+                      .studentAuthenticate(controller.studentId.value,
+                          controller.studentPassword.value)
                       .then((value) {
                     if (value) {
                       FocusManager.instance.primaryFocus?.unfocus();
