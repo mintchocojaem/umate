@@ -19,6 +19,7 @@ class GeneralPostWritePageController extends GetxController {
   final TextEditingController contentController = TextEditingController();
   final RxString contentText = ''.obs;
 
+  final RxList<XFile> imageList = <XFile>[].obs;
 
   @override
   void onInit() {
@@ -37,26 +38,5 @@ class GeneralPostWritePageController extends GetxController {
         token: token, postModel: generalPostModel);
   }
 
-  Future<void> getImages() async {
-
-    final ImagePicker picker = ImagePicker();
-
-    if(await permissionService.getCameraPermission()){
-
-    }
-
-    //await picker.pickImage(source: ImageSource.camera);
-        /*
-    // Pick a video.
-        final XFile? galleryVideo =
-        await picker.pickVideo(source: ImageSource.gallery);
-    // Capture a video.
-        final XFile? cameraVideo = await picker.pickVideo(source: ImageSource.camera);
-    // Pick multiple images.
-        final List<XFile> images = await picker.pickMultiImage();
-
-         */
-
-  }
 
 }
