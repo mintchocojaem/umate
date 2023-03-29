@@ -124,8 +124,7 @@ class _ModernFormField extends State<ModernFormField> {
           keyboardType: widget.keyboardType,
           maxLines: 1,
           maxLength: 30,
-          style: regularStyle.copyWith(
-              color: Palette.darkGrey, fontWeight: FontWeight.w500),
+          style: regularStyle.copyWith(color: Palette.lightBlack),
           cursorColor: widget.titleColor ?? Palette.blue,
           decoration: InputDecoration(
             counterText: "",
@@ -134,8 +133,7 @@ class _ModernFormField extends State<ModernFormField> {
             border: const OutlineInputBorder(),
             hintText: widget.hint,
             hintStyle: widget.hintStyle ?? regularStyle.copyWith(
-                color: widget.readOnly ? Palette.darkGrey : Palette.grey,
-                fontWeight: FontWeight.w500),
+                color: widget.readOnly ? Palette.lightBlack : Palette.grey),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
@@ -184,8 +182,7 @@ class _ModernFormField extends State<ModernFormField> {
                                 currentCode: _smsController.text,
                                 focusNode: focusSMS,
                                 style: TextStyle(
-                                    color: Palette.darkGrey,
-                                    fontWeight: FontWeight.w500),
+                                    color: Palette.lightBlack),
                                 codeLength: 6,
                                 autoFocus: false,
                                 decoration: InputDecoration(
@@ -195,8 +192,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   border: const OutlineInputBorder(),
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
-                                      color: Palette.grey,
-                                      fontWeight: FontWeight.w500),
+                                      color: Palette.grey),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(
@@ -216,8 +212,7 @@ class _ModernFormField extends State<ModernFormField> {
                             : TextFormField(
                                 controller: _validateController,
                                 style: TextStyle(
-                                    color: Palette.darkGrey,
-                                    fontWeight: FontWeight.w500),
+                                    color: Palette.lightBlack),
                                 keyboardType: widget.keyboardType,
                                 obscureText: widget.isPassword,
                                 enableSuggestions: false,
@@ -238,8 +233,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   border: const OutlineInputBorder(),
                                   hintText: widget.validateHint ?? widget.hint,
                                   hintStyle: regularStyle.copyWith(
-                                      color: Palette.grey,
-                                      fontWeight: FontWeight.w500),
+                                      color: Palette.grey),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(

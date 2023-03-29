@@ -1,6 +1,7 @@
 
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/user/login_page/controller/login_page_controller.dart';
+import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
@@ -22,11 +23,10 @@ class LoginPage extends GetView<LoginPageController> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            TransparentAppBar(
-              title: "Danvery",
+            MainAppBar(
+              isWhite: false,
               isDarkMode: Get.isDarkMode,
-              isCenterTitle: false,
-              titleTextStyle: bigTitleStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),
+              backGroundColor: Palette.transparent,
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -79,7 +79,7 @@ class LoginPage extends GetView<LoginPageController> {
                                 "Error", "로그인 중 오류가 발생했습니다.",
                                 snackPosition: SnackPosition.BOTTOM,
                                 colorText: Palette.white,
-                                backgroundColor: Palette.lightBlack,
+                                backgroundColor: Palette.darkGrey,
                             );
                             //여기서 로그인 오류 처리
                           }
@@ -98,7 +98,7 @@ class LoginPage extends GetView<LoginPageController> {
                         },
                         child: Text(
                           "비밀번호 찾기",
-                          style: tinyStyle.copyWith(color: Palette.grey),
+                          style: tinyStyle.copyWith(color: Palette.darkGrey),
                         ),
                       ),
                       const Text(
@@ -111,7 +111,7 @@ class LoginPage extends GetView<LoginPageController> {
                             Get.toNamed(Routes.findId);
                           },
                           child: Text("아이디 찾기",
-                              style: tinyStyle.copyWith(color: Palette.grey))),
+                              style: tinyStyle.copyWith(color: Palette.darkGrey))),
                       const Text(
                         "|",
                         style: tinyStyle,
@@ -121,9 +121,9 @@ class LoginPage extends GetView<LoginPageController> {
                             FocusManager.instance.primaryFocus?.unfocus();
                             Get.toNamed(Routes.register);
                           },
-                          child: const Text(
+                          child: Text(
                             "회원가입",
-                            style: tinyStyle,
+                            style: tinyStyle.copyWith(color: Palette.blue),
                           )
                       )
                     ],

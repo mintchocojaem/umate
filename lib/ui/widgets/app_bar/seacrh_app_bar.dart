@@ -69,7 +69,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
               child: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Palette.darkGrey,
+                  color: Palette.black,
                 ),
                 onPressed: onPressedLeading,
               ),

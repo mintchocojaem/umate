@@ -68,7 +68,7 @@ class PostCard extends StatelessWidget {
                       subtitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: lightStyle.copyWith(color: Palette.darkGrey),
+                      style: lightStyle.copyWith(color: Palette.grey),
                     ),
                   ),
                 ),

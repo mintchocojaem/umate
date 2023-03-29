@@ -71,7 +71,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                       controller.generalPostList[index].likes,
                                 ),
                                 Divider(
-                                  color: Palette.grey,
+                                  color: Palette.lightGrey,
                                   height: 1,
                                 ),
                               ],

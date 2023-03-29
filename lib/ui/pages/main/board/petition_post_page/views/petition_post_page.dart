@@ -49,7 +49,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                         child: IconButton(
                                           icon: Icon(
                                             Icons.more_vert,
-                                            color: Palette.grey,
+                                            color: Palette.darkGrey,
                                             size: 20,
                                           ),
                                           onPressed: () {},
@@ -74,7 +74,9 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                   ),
                                   Text(
                                     "학생 복지",
-                                    style: regularStyle,
+                                    style: regularStyle.copyWith(
+                                        color: Palette.black
+                                    ),
                                   ),
                                 ],
                               ),
@@ -93,7 +95,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                   ),
                                   Text(
                                     "김청원",
-                                    style: regularStyle,
+                                    style: regularStyle.copyWith(color: Palette.black),
                                   ),
                                 ],
                               ),
@@ -119,7 +121,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                         Text(
                                           "${controller.petitionPostModel.value.createdAt.substring(0, 10)}"
                                           " ~ ${controller.petitionPostModel.value.expiresAt}",
-                                          style: regularStyle,
+                                          style: regularStyle.copyWith(color: Palette.black),
                                         ),
                                       ],
                                     ),
@@ -150,7 +152,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 height: 16,
                               ),
                               Divider(
-                                color: Palette.grey,
+                                color: Palette.lightGrey,
                                 height: 1,
                               ),
                               const SizedBox(
@@ -191,30 +193,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "참여인원",
-                                    style: regularStyle.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Palette.darkGrey),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    "0명",
-                                    style: regularStyle.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Palette.blue),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
                               Divider(
-                                color: Palette.grey,
+                                color: Palette.lightGrey,
                                 height: 1,
                               ),
                             ],

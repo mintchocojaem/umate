@@ -29,7 +29,7 @@ class BoardPage extends GetView<BoardPageController> {
               () => IntrinsicWidth(
                 child: TextField(
                   style: regularStyle.copyWith(
-                    color: Palette.darkGrey,
+                    color: Palette.lightBlack,
                     fontWeight: FontWeight.bold,
                   ),
                   maxLines: 1,
@@ -67,7 +67,7 @@ class BoardPage extends GetView<BoardPageController> {
               decoration: BoxDecoration(
                 //This is for bottom border that is needed
                 border: Border(
-                    bottom: BorderSide(color: Palette.darkWhite, width: 2)),
+                    bottom: BorderSide(color: Palette.white, width: 2)),
               ),
               child: TabBar(
                 indicatorColor: Palette.blue,

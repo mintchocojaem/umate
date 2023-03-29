@@ -17,13 +17,13 @@ class ModernFormButton extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: CupertinoButton(
-        disabledColor: Palette.grey,
+        disabledColor: Palette.lightGrey,
         borderRadius: BorderRadius.circular(5),
         color: Palette.blue,
         onPressed: isEnabled ? onPressed : null,
         child: Text(
           text,
-          style: regularStyle
+          style: regularStyle.copyWith(color : isEnabled ? Palette.white : Palette.grey)
         ),
       ),
     );

@@ -40,7 +40,7 @@ class BoardCard extends StatelessWidget {
           ? const SizedBox()
           : Text(
               trailingText!,
-              style: regularStyle,
+              style: regularStyle.copyWith(color: Palette.darkGrey, fontWeight: FontWeight.w500),
             ),
     );
   }

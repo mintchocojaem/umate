@@ -30,7 +30,7 @@ class BoardList extends StatelessWidget {
           context.isDarkMode
               ? const BoxShadow()
               : BoxShadow(
-                  color: Palette.grey.withOpacity(0.3),
+                  color: Palette.lightGrey,
                   spreadRadius: 2,
                   blurRadius: 2,
                   offset: const Offset(0, 2), // changes position of shadow
@@ -38,7 +38,8 @@ class BoardList extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(right: 20.0, left: 20, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(right: 20.0, left: 20, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,7 +48,7 @@ class BoardList extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: titleStyle,
+                  style: titleStyle.copyWith(color: Palette.black),
                 ),
                 GestureDetector(
                   onTap: onTapAction,
@@ -60,14 +61,16 @@ class BoardList extends StatelessWidget {
                       children: [
                         Text(
                           actionTitle,
-                          style: regularStyle.copyWith(color: Palette.grey),
+                          style: regularStyle.copyWith(
+                              color: Palette.black,
+                              fontWeight: FontWeight.w500),
                         ),
                         showAction
                             ? Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Palette.grey,
-                          size: regularStyle.fontSize,
-                        )
+                                Icons.arrow_forward_ios_outlined,
+                                color: Palette.grey,
+                                size: regularStyle.fontSize,
+                              )
                             : Container()
                       ],
                     ),

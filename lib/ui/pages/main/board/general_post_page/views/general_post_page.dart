@@ -74,7 +74,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.more_vert,
-                                  color: Palette.grey,
+                                  color: Palette.darkGrey,
                                   size: 20,
                                 ),
                               ),
@@ -188,7 +188,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         height: 16,
                       ),
                       Divider(
-                        color: Palette.grey,
+                        color: Palette.lightGrey,
                         height: 0,
                       ),
                       ListView.builder(
@@ -289,7 +289,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     height: 12,
                                   ),
                                   Divider(
-                                    color: Palette.grey,
+                                    color: Palette.lightGrey,
                                     height: 0,
                                   ),
                                 ],

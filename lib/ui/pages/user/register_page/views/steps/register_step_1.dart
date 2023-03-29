@@ -72,7 +72,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                           context.isDarkMode
                               ? const BoxShadow()
                               : BoxShadow(
-                                  color: Palette.grey.withOpacity(0.2),
+                                  color: Palette.lightGrey,
                                   spreadRadius: 3,
                                   blurRadius: 3,
                                   offset: const Offset(
@@ -98,11 +98,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                           color: controller.check1.value &&
                                                   controller.check2.value
                                               ? Palette.blue
-                                              : Palette.darkWhite,
+                                              : Palette.lightGrey,
                                           shape: BoxShape.circle),
                                       child: Checkbox(
                                         side: BorderSide(
-                                            color: Palette.darkWhite),
+                                            color: Palette.lightGrey),
                                         checkColor: Palette.pureWhite,
                                         fillColor:
                                             MaterialStateProperty.resolveWith(
@@ -142,7 +142,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                               ),
                             ),
                             Divider(
-                              color: Palette.grey,
+                              color: Palette.lightGrey,
                             ),
                             Theme(
                               data: Theme.of(context).copyWith(
@@ -162,11 +162,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                         decoration: BoxDecoration(
                                             color: controller.check1.value
                                                 ? Palette.blue
-                                                : Palette.darkWhite,
+                                                : Palette.lightGrey,
                                             shape: BoxShape.circle),
                                         child: Checkbox(
                                           side: BorderSide(
-                                              color: Palette.darkWhite),
+                                              color: Palette.lightGrey),
                                           checkColor: Palette.pureWhite,
                                           fillColor:
                                               MaterialStateProperty.resolveWith(
@@ -256,11 +256,11 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                         decoration: BoxDecoration(
                                             color: controller.check2.value
                                                 ? Palette.blue
-                                                : Palette.darkWhite,
+                                                : Palette.lightGrey,
                                             shape: BoxShape.circle),
                                         child: Checkbox(
                                           side: BorderSide(
-                                              color: Palette.darkWhite),
+                                              color: Palette.lightGrey),
                                           checkColor: Palette.pureWhite,
                                           fillColor:
                                               MaterialStateProperty.resolveWith(

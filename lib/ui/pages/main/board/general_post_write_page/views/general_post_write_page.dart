@@ -1,5 +1,4 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/ui/pages/main/board/general_post_page/controller/general_post_page_controller.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
@@ -48,7 +47,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                           ),
                         ),
                         Divider(
-                          color: Palette.darkWhite,
+                          color: Palette.lightGrey,
                           thickness: 1,
                         ),
                         TextField(

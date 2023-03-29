@@ -51,12 +51,12 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 TextButton(
                                     style: TextButton.styleFrom(
                                       minimumSize: const Size(32, 16),
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           top: 4,
                                           bottom: 4,
                                           left: 16,
                                           right: 16),
-                                      backgroundColor: Palette.darkWhite,
+                                      backgroundColor: Palette.lightGrey,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -117,8 +117,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     )),
                                 Obx(
                                   () => FlutterSwitch(
-                                    inactiveColor: Palette.darkWhite,
-                                    activeColor: Palette.darkWhite,
+                                    inactiveColor: Palette.lightGrey,
+                                    activeColor: Palette.lightGrey,
                                     inactiveToggleColor: Palette.blue,
                                     activeToggleColor: Palette.blue,
                                     width: 60.0,
