@@ -40,7 +40,7 @@ dependencies:
   intl: ^0.18.0
   get: ^4.6.5
   get_storage: ^2.1.1
-  image_picker: ^0.8.6+3
+  image_picker: ^0.8.7+1
   url_launcher: ^6.1.10
   flutter_switch: ^0.3.2
   firebase_core: ^2.7.0

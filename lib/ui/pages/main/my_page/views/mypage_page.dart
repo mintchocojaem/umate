@@ -77,14 +77,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 style: bigTitleStyle.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: Palette.pureWhite),
-                                text: '${controller.loginService.loginModel.userName}\n', // default text style
+                                text:
+                                    '${controller.loginService.loginModel.userName}\n', // default text style
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: "${controller.loginService.loginModel.major}\n",
+                                      text:
+                                          "${controller.loginService.loginModel.major}\n",
                                       style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                   TextSpan(
-                                      text: controller.loginService.loginModel.studentId,
+                                      text: controller
+                                          .loginService.loginModel.studentId,
                                       style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                 ],
@@ -124,15 +127,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     width: 60.0,
                                     toggleSize: 24.0,
                                     value: controller.permissionService
-                                        .notificationPermission,
+                                        .notificationPermission.value,
                                     borderRadius: 30.0,
                                     onToggle: (val) async {
                                       if (val) {
                                         await controller.permissionService
                                             .getNotificationPermission();
                                       } else {
-                                        controller.permissionService
-                                            .notificationPermission = false;
+                                        controller
+                                            .permissionService
+                                            .notificationPermission
+                                            .value = false;
                                       }
                                     },
                                   ),

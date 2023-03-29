@@ -1,10 +1,15 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/utils/permission/service/permission_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GeneralPostWritePageController extends GetxController {
+
+  final PermissionService permissionService = Get.find<PermissionService>();
+
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
   final LoginService loginService = Get.find<LoginService>();
 
@@ -31,4 +36,27 @@ class GeneralPostWritePageController extends GetxController {
     return _generalPostRepository.writeGeneralPost(
         token: token, postModel: generalPostModel);
   }
+
+  Future<void> getImages() async {
+
+    final ImagePicker picker = ImagePicker();
+
+    if(await permissionService.getCameraPermission()){
+
+    }
+
+    //await picker.pickImage(source: ImageSource.camera);
+        /*
+    // Pick a video.
+        final XFile? galleryVideo =
+        await picker.pickVideo(source: ImageSource.gallery);
+    // Capture a video.
+        final XFile? cameraVideo = await picker.pickVideo(source: ImageSource.camera);
+    // Pick multiple images.
+        final List<XFile> images = await picker.pickMultiImage();
+
+         */
+
+  }
+
 }

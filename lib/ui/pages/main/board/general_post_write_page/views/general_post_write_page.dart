@@ -13,7 +13,6 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: TransparentAppBar(
           isDarkMode: Get.isDarkMode,
@@ -25,25 +24,25 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextField(
                           controller: controller.titleController,
                           maxLines: 1,
                           style: regularStyle.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Palette.darkGrey
-                          ),
+                              color: Palette.darkGrey),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "제목",
                             hintStyle: regularStyle.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Palette.grey
-                            ),
+                                color: Palette.grey),
                           ),
                         ),
                         Divider(
@@ -52,18 +51,45 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                         ),
                         TextField(
                           controller: controller.contentController,
-                          style: regularStyle.copyWith(
-                              color: Palette.darkGrey
-                          ),
+                          style: regularStyle.copyWith(color: Palette.darkGrey),
                           maxLines: 20,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "내용",
                             hintStyle: regularStyle.copyWith(
-                                color: Palette.grey
-                            ),
+                                color: Palette.grey,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
+                        Divider(
+                          color: Palette.lightGrey,
+                          thickness: 1,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            "사진 첨부하기",
+                            style: regularStyle.copyWith(
+                                color: Palette.grey, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.getImages();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Palette.lightGrey,
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            ),
+                            height: 100,
+                            width: 100,
+                            child: Icon(
+                              Icons.image_outlined,
+                              color: Palette.grey,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
