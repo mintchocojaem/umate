@@ -13,7 +13,7 @@ class RegisterProvider {
 
   factory RegisterProvider() => _singleton;
 
-  Future<RegisterModel?> studentAuthenticate(String id, String password) async {
+  Future<RegisterModel?> studentAuth(String id, String password) async {
     String url = '/user/dku/verify';
     final body = {"dkuStudentId": id, "dkuPassword": password};
 
@@ -42,7 +42,7 @@ class RegisterProvider {
     }
   }
 
-  Future<bool> sendSMSAuth(String signupToken, String phoneNumber) async {
+  Future<bool> sendAuthCodeToSMS(String signupToken, String phoneNumber) async {
     String url = '/user/sms/$signupToken';
     final body = {'phoneNumber': phoneNumber};
 
@@ -55,7 +55,7 @@ class RegisterProvider {
     }
   }
 
-  Future<bool> verifySMSAuth(String signupToken, String code) async {
+  Future<bool> verifyAuthCodeToSMS(String signupToken, String code) async {
     String url = '/user/sms/verify/$signupToken';
     final body = {'code': code};
 
@@ -67,4 +67,5 @@ class RegisterProvider {
       return false;
     }
   }
+
 }

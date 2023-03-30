@@ -54,7 +54,16 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
                 return;
               }
 
-              controller.currentStep.value = 4;
+              if(await controller.changePassword()){
+                FocusManager.instance.primaryFocus?.unfocus();
+                controller.currentStep.value = 4;
+              }else{
+                Get.snackbar("비밀번호 오류", "비밀번호 변경에 실패하였습니다.",
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Palette.darkGrey,
+                    colorText: Palette.pureWhite);
+              }
+
             },
           ),
         ],

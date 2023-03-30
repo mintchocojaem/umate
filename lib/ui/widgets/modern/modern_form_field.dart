@@ -266,13 +266,13 @@ class _ModernFormField extends State<ModernFormField> {
                                       side: BorderSide(
                                           color: !_isSend
                                               ? Palette.blue
-                                              : Palette.grey),
+                                              : Palette.lightGrey),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       backgroundColor: !_isSend
                                           ? Palette.blue
-                                          : Palette.white),
+                                          : Palette.lightGrey),
                                   child: Center(
                                     child: Text(
                                       _isSend

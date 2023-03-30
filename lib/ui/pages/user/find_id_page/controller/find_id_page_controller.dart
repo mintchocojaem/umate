@@ -26,7 +26,7 @@ class FindIdPageController extends GetxController {
   final RxString phoneNumber = "".obs;
 
   Future<bool> sendIdToPhoneNumber(String phoneNumber) {
-    return _findRepository.sendId(phoneNumber: phoneNumber);
+    return _findRepository.sendIdToSMS(phoneNumber: phoneNumber);
   }
 
 }

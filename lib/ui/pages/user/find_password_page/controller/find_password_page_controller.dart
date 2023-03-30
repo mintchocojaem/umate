@@ -1,4 +1,4 @@
-import 'package:danvery/domain/user/reigster/repository/register_repository.dart';
+import 'package:danvery/domain/user/find/repository/find_repository.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_2.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_3.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_4.dart';
@@ -8,8 +8,7 @@ import 'package:get/get.dart';
 import '../views/steps/find_password_step_1.dart';
 
 class FindPasswordPageController extends GetxController {
-
-  final RegisterRepository _registerRepository = RegisterRepository();
+  final FindRepository _findRepository = FindRepository();
 
   List<String> stepTitle = [
     "휴대폰 번호 입력",
@@ -29,19 +28,37 @@ class FindPasswordPageController extends GetxController {
 
   final RxString phoneNumber = "".obs;
 
-  final RxString phoneAuthenticationNumber = "".obs;
+  final RxString phoneAuthCode = "".obs;
 
   final RxString password = "".obs;
 
   final RxString passwordValidate = "".obs;
 
-  Future<bool> verifySMS(String code) async {
-    try {
-      //final bool isVerify = await ;
-      return true;
-    } catch (e) {
-      return false;
-    }
+  late String? token;
+
+  Future<bool> sendAuthCodeToSMS() async{
+    return await _findRepository.sendAuthCodeToSMS(
+        phoneNumber: phoneNumber.value).then((value){
+          if(value != null){
+            token = value;
+            return true;
+          }else{
+            token = null;
+            return false;
+          }
+    });
+  }
+
+  Future<bool> verifyAuthCode() async{
+    return await _findRepository.verifyAuthCode(
+        token: token!,
+        code: phoneAuthCode.value);
+  }
+
+  Future<bool> changePassword() async{
+    return await _findRepository.changePassword(
+        token: token!,
+        password: password.value);
   }
 
 }

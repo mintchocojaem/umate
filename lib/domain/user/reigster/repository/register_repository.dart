@@ -11,20 +11,23 @@ class RegisterRepository {
 
   factory RegisterRepository() => _singleton;
 
-  Future<RegisterModel?> studentAuthenticate(
+  Future<RegisterModel?> studentAuth(
       {required String id, required String password}) async {
-    return await _registerProvider.studentAuthenticate(id, password);
+    return await _registerProvider.studentAuth(id, password);
   }
 
-  Future<RegisterModel?> register({required RegisterModel registerModel}) async {
+  Future<RegisterModel?> register(
+      {required RegisterModel registerModel}) async {
     return await _registerProvider.register(registerModel);
   }
 
-  Future<bool> sendSMSAuth({required String signupToken,required String phoneNumber}) async {
-    return await _registerProvider.sendSMSAuth(signupToken, phoneNumber);
+  Future<bool> sendAuthCodeToSMS(
+      {required String signupToken, required String phoneNumber}) async {
+    return await _registerProvider.sendAuthCodeToSMS(signupToken, phoneNumber);
   }
 
-  Future<bool> verifySMSAuth({required String signupToken,required String code}) async {
-    return await _registerProvider.verifySMSAuth(signupToken, code);
+  Future<bool> verifyAuthCodeToSMS(
+      {required String signupToken, required String code}) async {
+    return await _registerProvider.verifyAuthCodeToSMS(signupToken, code);
   }
 }

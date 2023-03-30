@@ -11,7 +11,7 @@ class FindProvider {
 
   factory FindProvider() => _singleton;
 
-  Future<bool> sendId(String phoneNumber) async {
+  Future<bool> sendIdToSMS(String phoneNumber) async {
     const String url = '/user/find/id';
     final body = {"phoneNumber": phoneNumber};
 
@@ -23,4 +23,44 @@ class FindProvider {
       return false;
     }
   }
+
+  Future<String?> sendAuthCodeToSMS(String phoneNumber) async {
+    const String url = '/user/find/pwd';
+    final body = {"phoneNumber": phoneNumber};
+
+    try {
+      final Response response = await _dio.post(url, data: body,);
+
+      return response.data['token'];
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> verifyAuthCode(String token, String code) async {
+    const String url = '/user/find/pwd/verify';
+    final body = {"token": token, "code": code};
+
+    try {
+      await _dio.post(url, data: body,);
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> changePassword(String token, String password) async {
+    const String url = '/user/find/pwd/reset';
+    final body = {"token": token, "password": password};
+
+    try {
+      await _dio.patch(url, data: body,);
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
 }

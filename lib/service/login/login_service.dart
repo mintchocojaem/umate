@@ -1,6 +1,5 @@
 import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class LoginService extends GetxService {

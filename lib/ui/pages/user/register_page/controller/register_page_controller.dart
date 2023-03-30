@@ -45,7 +45,7 @@ class RegisterPageController extends GetxController {
 
   Future<bool> studentAuthenticate(String id, String password) async {
     await _registerRepository
-        .studentAuthenticate(id: id, password: password)
+        .studentAuth(id: id, password: password)
         .then((value) {
       if (value == null) {
         isStudentAuthenticated.value = false;
@@ -73,7 +73,7 @@ class RegisterPageController extends GetxController {
 
   Future<bool> sendSMSAuth(String signupToken, String phoneNumber) async {
     try {
-      final bool isSend = await _registerRepository.sendSMSAuth(
+      final bool isSend = await _registerRepository.sendAuthCodeToSMS(
           signupToken: signupToken, phoneNumber: phoneNumber);
       return isSend;
     } catch (e) {
@@ -83,7 +83,7 @@ class RegisterPageController extends GetxController {
 
   Future<bool> verifySMSAuth(String signupToken, String code) async {
     try {
-      final bool isVerify = await _registerRepository.verifySMSAuth(
+      final bool isVerify = await _registerRepository.verifyAuthCodeToSMS(
           signupToken: signupToken, code: code);
       return isVerify;
     } catch (e) {

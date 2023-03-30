@@ -94,12 +94,11 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     onTextChanged: (value) {
-                                      controller.phoneNumber.value =
-                                          value;
+                                      controller.phoneNumber.value = value;
                                     },
                                     onValidateChanged: (value) {
-                                      controller.phoneAuthenticationNumber.value =
-                                          value;
+                                      controller.phoneAuthenticationNumber
+                                          .value = value;
                                     },
                                     hint: "휴대폰 번호를 입력하세요",
                                     validate: true,
@@ -184,7 +183,8 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (controller.passwordValidate.value != controller.password.value) {
+                  if (controller.passwordValidate.value !=
+                      controller.password.value) {
                     Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Palette.darkGrey,
@@ -206,20 +206,17 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                       controller.registerModel.value;
                   registerModel.nickname = controller.nickname.value;
                   registerModel.password = controller.password.value;
-                  /*
-                registerController.register(registerModel).then((value) {
-                  if (value) {
-                    controller.currentStep = 3;
-                  } else {
-                    Get.snackbar("회원가입 실패", "회원가입에 실패했습니다. 다시 시도해주세요.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
-                  }
-                });
 
-                 */
-                  controller.currentStep.value = 3;
+                  controller.register(registerModel).then((value) {
+                    if (value) {
+                      controller.currentStep.value = 3;
+                    } else {
+                      Get.snackbar("회원가입 실패", "회원가입에 실패했습니다. 다시 시도해주세요.",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Palette.darkGrey,
+                          colorText: Palette.pureWhite);
+                    }
+                  });
                 },
               ),
             ),

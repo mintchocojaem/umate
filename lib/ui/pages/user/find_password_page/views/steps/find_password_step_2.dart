@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-import '../../../../../../utils/regex/regex.dart';
 import '../../../../../../utils/theme/palette.dart';
 import '../../../../../widgets/modern/modern_form_button.dart';
 
@@ -28,6 +27,7 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
               textStyle: titleStyle.copyWith(
                 color: Palette.darkGrey,
               ),
+              autoFocus: true,
               appContext: context,
               showCursor: false,
               length: 6,
@@ -52,16 +52,8 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
               //errorAnimationController: controller.errorController,
               //controller: controller.textEditingController,
               keyboardType: TextInputType.number,
-              onCompleted: (v) {
-                print("Completed");
-              },
-              beforeTextPaste: (text) {
-                print("Allowing to paste $text");
-                //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                return true;
-              }, onChanged: (String value) {
-
+              onChanged: (String value) {
+                controller.phoneAuthCode.value = value;
               },
             ),
           ),
@@ -69,23 +61,15 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
           ModernFormButton(
             text: "확인",
             onPressed: () async{
-              if (isValidPhoneNumberFormat(controller.phoneNumber.value) == false) {
-                Get.snackbar("인증번호 오류", "인증번호를 올바르게 입력해주세요.",
+              if (await controller.verifyAuthCode()){
+                controller.currentStep.value = 3;
+                FocusManager.instance.primaryFocus?.unfocus();
+              }else{
+                Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Palette.darkGrey,
                     colorText: Palette.pureWhite);
-                return;
               }
-              if (!await controller.verifySMS(
-                controller.phoneAuthenticationNumber.value)) {
-                Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Palette.darkGrey,
-                colorText: Palette.pureWhite);
-                return;
-              }
-              controller.currentStep.value = 3;
-              FocusManager.instance.primaryFocus?.unfocus();
             },
           ),
         ],
