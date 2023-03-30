@@ -24,8 +24,8 @@ class PetitionPostPageController extends GetxController {
     _petitionPostRepository
         .getPetitionPost(token: _loginService.loginModel.accessToken,id: id)
         .then((value) {
-      if (value != null) {
-        petitionPostModel.value = value;
+      if (value.success) {
+        petitionPostModel.value = value.data as PetitionPostModel;
         isLoadedPetitionPost.value = true;
       }
     });

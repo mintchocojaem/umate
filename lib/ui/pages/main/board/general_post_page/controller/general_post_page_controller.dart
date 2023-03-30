@@ -54,8 +54,8 @@ class GeneralPostPageController extends GetxController {
     await _generalPostRepository
         .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
         .then((value) {
-      if (value != null) {
-        generalPostModel.value = value;
+      if (value.success) {
+        generalPostModel.value = value.data as GeneralPostModel;
         isLoadedGeneralPost.value = true;
       }
     });
@@ -70,9 +70,9 @@ class GeneralPostPageController extends GetxController {
             page: commentPage,
             size: commentSize)
         .then((value) {
-      if (value != null) {
-        generalCommentList.value = value;
-        generalComments.value = value.generalComments;
+      if (value.success) {
+        generalCommentList.value = value.data as GeneralCommentListModel;
+        generalComments.value = value.data.generalComments as List<GeneralCommentModel>;
         isLoadedGeneralComment.value = true;
       }
     });
@@ -87,9 +87,9 @@ class GeneralPostPageController extends GetxController {
             page: commentPage,
             size: commentSize)
         .then((value) {
-      if (value != null) {
-        generalCommentList.value = value;
-        generalComments.addAll(value.generalComments);
+      if (value.success) {
+        generalCommentList.value = value.data as GeneralCommentListModel;
+        generalComments.addAll(value.data.generalComments as List<GeneralCommentModel>);
       }
     });
   }

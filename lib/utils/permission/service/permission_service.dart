@@ -1,3 +1,4 @@
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/utils/notification/setup_notification.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,10 +44,8 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     if (status.isDenied) {
       return await Permission.notification.request().isGranted;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      Get.snackbar('알림 권한', '설정에서 알림 권한을 허용해주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Palette.darkGrey,
-          colorText: Palette.pureWhite);
+      GetXSnackBar(
+          type: GetXSnackBarType.notificationPermissionError).show();
     }
     return false;
   }
@@ -64,10 +63,8 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     if (status.isDenied) {
       return await Permission.camera.request().isGranted;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      Get.snackbar('카메라 권한', '설정에서 카메라 권한을 허용해주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Palette.darkGrey,
-          colorText: Palette.pureWhite);
+      GetXSnackBar(
+          type: GetXSnackBarType.cameraPermissionError).show();
     }
     return false;
   }
@@ -85,10 +82,8 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     if (status.isDenied) {
       return await Permission.photos.request().isGranted;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      Get.snackbar('갤러리 권한', '설정에서 갤러리 권한을 허용해주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Palette.darkGrey,
-          colorText: Palette.pureWhite);
+      GetXSnackBar(
+          type: GetXSnackBarType.galleryPermissionError).show();
     }
     return false;
   }

@@ -1,12 +1,11 @@
 import 'package:danvery/domain/user/find/repository/find_repository.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_1.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_2.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class FindIdPageController extends GetxController {
-
   final FindRepository _findRepository = FindRepository();
 
   List<String> stepTitle = [
@@ -25,8 +24,17 @@ class FindIdPageController extends GetxController {
 
   final RxString phoneNumber = "".obs;
 
-  Future<bool> sendIdToPhoneNumber(String phoneNumber) {
-    return _findRepository.sendIdToSMS(phoneNumber: phoneNumber);
-  }
-
+  Future<bool> sendIdToPhoneNumber(String phoneNumber) =>
+      _findRepository.sendIdToSMS(phoneNumber: phoneNumber).then((value) {
+        if (value.success) {
+          return true;
+        } else {
+          GetXSnackBar(
+                  type: GetXSnackBarType.customError,
+                  title: "아이디 찾기 오류",
+                  content: value.message)
+              .show();
+          return false;
+        }
+      });
 }

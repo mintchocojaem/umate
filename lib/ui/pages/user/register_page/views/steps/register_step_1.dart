@@ -1,4 +1,5 @@
 import 'package:danvery/ui/pages/user/register_page/controller/register_page_controller.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
@@ -30,7 +31,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                       hint: '학번(ID)을 입력하세요',
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8,bottom: 8),
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: ModernFormField(
                         onTextChanged: (value) {
                           controller.studentPassword.value = value;
@@ -355,28 +356,21 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     controller.studentPassword.isNotEmpty &&
                     controller.check1.value &&
                     controller.check2.value,
-                onPressed: () {
+                onPressed: () async {
                   if (controller.studentId.value.length != 8) {
-                    Get.snackbar("인증 실패", "학번이 올바르지 않습니다.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
+                    GetXSnackBar(
+                      title: "학번 오류",
+                      content: "학번을 확인해주세요.",
+                      type: GetXSnackBarType.customError,
+                    ).show();
                     return;
                   }
-                  controller
+                  if(await controller
                       .studentAuthenticate(controller.studentId.value,
-                          controller.studentPassword.value)
-                      .then((value) {
-                    if (value) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      controller.currentStep.value = 2;
-                    } else {
-                      Get.snackbar("인증 실패", "학번 또는 비밀번호를 확인해주세요.",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Palette.darkGrey,
-                          colorText: Palette.pureWhite);
-                    }
-                  });
+                  controller.studentPassword.value)){
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    controller.currentStep.value = 2;
+                  }
                 },
                 text: '인증하기',
               ),

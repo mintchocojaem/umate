@@ -1,3 +1,5 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+
 import '../model/petition_post_model.dart';
 import '../provider/petition_post_provider.dart';
 
@@ -12,7 +14,7 @@ class PetitionPostRepository {
   factory PetitionPostRepository() => _singleton;
 
   //get petition
-  Future<PetitionPostModel?> getPetitionPost(
+  Future<ApiResponseDTO> getPetitionPost(
       {required String token, required int id}) async {
     return await _petitionPostProvider.getPetitionPost(token, id);
   }

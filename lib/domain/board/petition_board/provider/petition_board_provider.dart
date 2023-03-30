@@ -1,4 +1,7 @@
 import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -12,15 +15,16 @@ class PetitionBoardProvider{
 
   factory PetitionBoardProvider() => _singleton;
 
-  Future<PetitionBoardModel?> getPetitionPostBoard(
+  Future<ApiResponseDTO> getPetitionPostBoard(
       int page, int size, String status) async {
     String url = '/post/petition?page=$page&size=$size&status=$status';
 
     try {
       final Response response = await _dio.get(url);
-      return PetitionBoardModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(
+          data: PetitionBoardModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 }

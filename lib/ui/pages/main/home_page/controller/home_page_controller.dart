@@ -40,8 +40,8 @@ class HomePageController extends GetxController {
     _generalBoardRepository
         .getGeneralBoard(page: 0, size: 5, keyword: '')
         .then((value) {
-      if (value != null) {
-        generalPostListHome.value = value.generalPosts;
+      if (value.success) {
+        generalPostListHome.value = value.data.generalPosts as List<GeneralPostModel>;
         isLoadGeneralPostListHome.value = true;
       }
     });
@@ -51,8 +51,8 @@ class HomePageController extends GetxController {
     _petitionPostRepository
         .getPetitionBoard(page: 0, size: 5, status: "ACTIVE")
         .then((value) {
-      if (value != null) {
-        petitionListHome.value = value.petitionPosts;
+      if (value.success) {
+        petitionListHome.value = value.data.petitionPosts as List<PetitionPostModel>;
         isLoadPetitionListHome.value = true;
       }
     });
@@ -60,11 +60,11 @@ class HomePageController extends GetxController {
 
   Future<void> getBusList() async {
     _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) {
-      if (value != null) {
-        busListOfJungMoon.value = value;
+      if (value.success) {
+        busListOfJungMoon.value = value.data as List<BusModel>;
         _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
-          if (value != null) {
-            busListOfGomSang.value = value;
+          if (value.success) {
+            busListOfGomSang.value = value.data as List<BusModel>;
             if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
               isLoadBusList.value = true;
             }

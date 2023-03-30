@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/theme/palette.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 
 const String apiUrl = 'https://dev.dkustu.com/api';
 
@@ -40,7 +40,14 @@ class DioInterceptor {
         print(
             "Dio Error : code = ${e.response?.statusCode}, message = ${e.response?.data['message']}");
       }
-      return handler.next(e); // 다음 Interceptor 호출
+
+      DioError dioError = DioError(
+          requestOptions: e.requestOptions,
+          message: (e.response?.data['message'] as List<dynamic>).join(', '),
+          type: e.type,
+      );
+
+      return handler.next(dioError); // 다음 Interceptor 호출
     }));
   }
 }

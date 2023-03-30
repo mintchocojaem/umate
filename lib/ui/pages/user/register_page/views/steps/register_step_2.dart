@@ -1,5 +1,6 @@
 import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/ui/pages/user/register_page/controller/register_page_controller.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/utils/theme/palette.dart';
@@ -108,17 +109,13 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     isSMS: true,
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
-                                      if (isValidPhoneNumberFormat(
-                                              controller.phoneNumber.value) ==
-                                          false) {
-                                        Get.snackbar(
-                                            "휴대폰 번호 오류", "휴대폰 번호를 올바르게 입력해주세요.",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor: Palette.darkGrey,
-                                            colorText: Palette.pureWhite);
+                                      if (!isValidPhoneNumberFormat(
+                                          controller.phoneNumber.value)) {
+                                        GetXSnackBar(
+                                          type: GetXSnackBarType.phoneNumberError,
+                                        ).show();
                                         return false;
                                       }
-
                                       controller
                                           .sendSMSAuth(
                                               controller.registerModel.value
@@ -126,15 +123,12 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                               controller.phoneNumber.value)
                                           .then((value) {
                                         if (!value) {
-                                          Get.snackbar("인증번호 전송 실패",
-                                              "인증번호 전송에 실패했습니다. 다시 시도해주세요.",
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              backgroundColor: Palette.darkGrey,
-                                              colorText: Palette.pureWhite);
+                                          return false;
+                                        } else {
+                                          return true;
                                         }
                                       });
-                                      return true;
+                                      return false;
                                     },
                                   ),
                                 ),
@@ -165,40 +159,31 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   if (controller.nickname.value.length < 2 ||
                       isValidNicknameFormat(controller.nickname.value) ==
                           false) {
-                    Get.snackbar(
-                        "닉네임 오류", "닉네임은 3~8자리의 한글, 영문, 숫자, _, 공백만 사용할 수 있습니다.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
+                    GetXSnackBar(
+                      type: GetXSnackBarType.nickNameError,
+                    ).show();
                     return;
                   }
 
                   if (isValidPasswordFormat(controller.password.value) ==
                       false) {
-                    Get.snackbar(
-                        "비밀번호 오류", "비밀번호는 숫자와 영문을 포함해야하며 8 ~ 16자 사이어야 합니다.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
+                    GetXSnackBar(
+                      type: GetXSnackBarType.passwordInputError,
+                    ).show();
                     return;
                   }
 
                   if (controller.passwordValidate.value !=
                       controller.password.value) {
-                    Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
+                    GetXSnackBar(
+                      type: GetXSnackBarType.passwordConfirmError,
+                    ).show();
                     return;
                   }
 
                   if (!await controller.verifySMSAuth(
                       controller.registerModel.value.signupToken,
                       controller.phoneAuthenticationNumber.value)) {
-                    Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Palette.darkGrey,
-                        colorText: Palette.pureWhite);
                     return;
                   }
 
@@ -207,16 +192,10 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   registerModel.nickname = controller.nickname.value;
                   registerModel.password = controller.password.value;
 
-                  controller.register(registerModel).then((value) {
-                    if (value) {
-                      controller.currentStep.value = 3;
-                    } else {
-                      Get.snackbar("회원가입 실패", "회원가입에 실패했습니다. 다시 시도해주세요.",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Palette.darkGrey,
-                          colorText: Palette.pureWhite);
-                    }
-                  });
+                  if(await controller.register(registerModel)){
+                    controller.currentStep.value = 3;
+                  }
+
                 },
               ),
             ),

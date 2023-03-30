@@ -1,4 +1,7 @@
 import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +15,8 @@ class GeneralCommentProvider {
 
   factory GeneralCommentProvider() => _singleton;
 
-  Future<GeneralCommentListModel?> getGeneralComment(String token, int id, int page, int size) async {
+  Future<ApiResponseDTO> getGeneralComment(
+      String token, int id, int page, int size) async {
     String url = '/post/general-forum/comment/$id?page=$page&size=$size';
 
     final headers = {
@@ -25,10 +29,10 @@ class GeneralCommentProvider {
             headers: headers,
           ));
 
-      return GeneralCommentListModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(
+          data: GeneralCommentListModel.fromJson(response.data));
+    }  on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
-
 }

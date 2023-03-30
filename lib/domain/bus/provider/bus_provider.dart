@@ -1,3 +1,6 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -13,17 +16,17 @@ class BusProvider {
 
   factory BusProvider() => _singleton;
 
-  Future<List<BusModel>?> getBusListFromStation(String stationName) async {
+  Future<ApiResponseDTO> getBusListFromStation(String stationName) async {
     String url = '/bus?stationName=$stationName';
 
     try {
       final Response response = await _dio.get(url);
 
-      return response.data["busArrivalList"]
+      return SuccessResponseDTO(data: response.data["busArrivalList"]
           .map<BusModel>((json) => BusModel.fromJson(json))
-          .toList();
-    } catch (e) {
-      return null;
+          .toList());
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 }

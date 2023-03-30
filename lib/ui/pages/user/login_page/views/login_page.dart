@@ -74,14 +74,6 @@ class LoginPage extends GetView<LoginPageController> {
                             .then((value) {
                           if (value) {
                             Get.offAndToNamed(Routes.main);
-                          } else {
-                            Get.snackbar(
-                                "Error", "로그인 중 오류가 발생했습니다.",
-                                snackPosition: SnackPosition.BOTTOM,
-                                colorText: Palette.white,
-                                backgroundColor: Palette.darkGrey,
-                            );
-                            //여기서 로그인 오류 처리
                           }
                         });
                       }),

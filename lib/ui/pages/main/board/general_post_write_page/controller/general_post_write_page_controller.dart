@@ -1,13 +1,14 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
 import 'package:danvery/utils/permission/service/permission_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GeneralPostWritePageController extends GetxController {
-
   final PermissionService permissionService = Get.find<PermissionService>();
 
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
@@ -33,10 +34,20 @@ class GeneralPostWritePageController extends GetxController {
   }
 
   Future<bool> writeGeneralPost(
-      String token, GeneralPostModel generalPostModel) {
-    return _generalPostRepository.writeGeneralPost(
-        token: token, postModel: generalPostModel);
+      String token, GeneralPostModel generalPostModel) async {
+    return await _generalPostRepository
+        .writeGeneralPost(token: token, postModel: generalPostModel)
+        .then((value) {
+      if (value.success) {
+        return true;
+      } else {
+        GetXSnackBar(
+          title: "글 작성 실패",
+          content: "글 작성에 실패했습니다.",
+          type: GetXSnackBarType.customError,
+        ).show();
+        return false;
+      }
+    });
   }
-
-
 }

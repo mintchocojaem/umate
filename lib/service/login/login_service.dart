@@ -1,5 +1,6 @@
 import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:get/get.dart';
 
 class LoginService extends GetxService {
@@ -25,13 +26,18 @@ class LoginService extends GetxService {
     await _loginRepository
         .login(classId: classId, password: password)
         .then((value) {
-      if (value == null) {
-        _isLogin.value = false;
-        _isLoading.value = false;
-      } else {
-        _loginModel.value = value;
+      if (value.success) {
+        _loginModel.value = value.data as LoginModel;
         _isLogin.value = true;
         _isLoading.value = false;
+      } else {
+        _isLogin.value = false;
+        _isLoading.value = false;
+        GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "로그인 실패",
+          content: value.message,
+        ).show();
       }
     });
     return _isLogin.value;

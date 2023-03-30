@@ -1,3 +1,5 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+
 import '../model/login_model.dart';
 import '../provider/login_provider.dart';
 
@@ -13,7 +15,7 @@ class LoginRepository {
   factory LoginRepository() => _singleton;
 
   //get login
-  Future<LoginModel?> login({required String classId, required String password}) async {
+  Future<ApiResponseDTO> login({required String classId, required String password}) async {
     return await _loginProvider.getLogin(classId, password);
   }
 }

@@ -1,3 +1,5 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+
 import '../model/bus_model.dart';
 import '../provider/bus_provider.dart';
 
@@ -11,7 +13,7 @@ class BusRepository {
 
   factory BusRepository() => _singleton;
 
-  Future<List<BusModel>?> getBusListFromStation(
+  Future<ApiResponseDTO> getBusListFromStation(
       {required String stationName}) async {
     return await busProvider.getBusListFromStation(stationName);
   }

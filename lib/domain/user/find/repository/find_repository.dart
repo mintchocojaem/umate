@@ -1,4 +1,5 @@
 import 'package:danvery/domain/user/find/provider/find_provider.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
 
 class FindRepository {
   final FindProvider _findProvider;
@@ -10,20 +11,20 @@ class FindRepository {
 
   factory FindRepository() => _singleton;
 
-  Future<bool> sendIdToSMS({required String phoneNumber}) async {
+  Future<ApiResponseDTO> sendIdToSMS({required String phoneNumber}) async {
     return await _findProvider.sendIdToSMS(phoneNumber);
   }
 
-  Future<String?> sendAuthCodeToSMS({required String phoneNumber}) async {
+  Future<ApiResponseDTO> sendAuthCodeToSMS({required String phoneNumber}) async {
     return await _findProvider.sendAuthCodeToSMS(phoneNumber);
   }
 
-  Future<bool> verifyAuthCode(
+  Future<ApiResponseDTO> verifyAuthCode(
       {required String token, required String code}) async {
     return await _findProvider.verifyAuthCode(token, code);
   }
 
-  Future<bool> changePassword(
+  Future<ApiResponseDTO> changePassword(
       {required String token, required String password}) async {
     return await _findProvider.changePassword(token, password);
   }

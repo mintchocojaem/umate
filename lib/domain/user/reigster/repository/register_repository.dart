@@ -1,3 +1,5 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+
 import '../model/register_model.dart';
 import '../provider/register_provider.dart';
 
@@ -11,22 +13,22 @@ class RegisterRepository {
 
   factory RegisterRepository() => _singleton;
 
-  Future<RegisterModel?> studentAuth(
+  Future<ApiResponseDTO> studentAuth(
       {required String id, required String password}) async {
     return await _registerProvider.studentAuth(id, password);
   }
 
-  Future<RegisterModel?> register(
+  Future<ApiResponseDTO> register(
       {required RegisterModel registerModel}) async {
     return await _registerProvider.register(registerModel);
   }
 
-  Future<bool> sendAuthCodeToSMS(
+  Future<ApiResponseDTO> sendAuthCodeToSMS(
       {required String signupToken, required String phoneNumber}) async {
     return await _registerProvider.sendAuthCodeToSMS(signupToken, phoneNumber);
   }
 
-  Future<bool> verifyAuthCodeToSMS(
+  Future<ApiResponseDTO> verifyAuthCodeToSMS(
       {required String signupToken, required String code}) async {
     return await _registerProvider.verifyAuthCodeToSMS(signupToken, code);
   }

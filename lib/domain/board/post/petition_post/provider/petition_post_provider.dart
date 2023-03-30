@@ -1,3 +1,6 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -13,7 +16,7 @@ class PetitionPostProvider {
 
   factory PetitionPostProvider() => singleton;
 
-  Future<PetitionPostModel?> getPetitionPost(String token, int id) async {
+  Future<ApiResponseDTO> getPetitionPost(String token, int id) async {
     String url = '/post/petition/$id';
 
     final headers = {
@@ -26,9 +29,9 @@ class PetitionPostProvider {
             headers: headers,
           ));
 
-      return PetitionPostModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(data: PetitionPostModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 

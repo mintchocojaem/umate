@@ -1,3 +1,6 @@
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -13,20 +16,20 @@ class RegisterProvider {
 
   factory RegisterProvider() => _singleton;
 
-  Future<RegisterModel?> studentAuth(String id, String password) async {
+  Future<ApiResponseDTO> studentAuth(String id, String password) async {
     String url = '/user/dku/verify';
     final body = {"dkuStudentId": id, "dkuPassword": password};
 
     try {
       final Response response = await _dio.post(url, data: body);
 
-      return RegisterModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(data: RegisterModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<RegisterModel?> register(RegisterModel registerModel) async {
+  Future<ApiResponseDTO> register(RegisterModel registerModel) async {
     String url = '/user/${registerModel.signupToken}';
     final body = {
       "nickname": registerModel.nickname,
@@ -36,35 +39,35 @@ class RegisterProvider {
     try {
       final Response response = await _dio.post(url, data: body);
 
-      return RegisterModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(data: RegisterModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<bool> sendAuthCodeToSMS(String signupToken, String phoneNumber) async {
+  Future<ApiResponseDTO> sendAuthCodeToSMS(String signupToken, String phoneNumber) async {
     String url = '/user/sms/$signupToken';
     final body = {'phoneNumber': phoneNumber};
 
     try {
-      await _dio.post(url, data: body);
+      final Response response = await _dio.post(url, data: body);
 
-      return true;
-    } catch (_) {
-      return false;
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<bool> verifyAuthCodeToSMS(String signupToken, String code) async {
+  Future<ApiResponseDTO> verifyAuthCodeToSMS(String signupToken, String code) async {
     String url = '/user/sms/verify/$signupToken';
     final body = {'code': code};
 
     try {
-      await _dio.post(url, data: body);
+      final Response response = await _dio.post(url, data: body);
 
-      return true;
-    } catch (_) {
-      return false;
+       return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 

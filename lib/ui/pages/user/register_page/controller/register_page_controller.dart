@@ -1,6 +1,7 @@
 import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/domain/user/reigster/repository/register_repository.dart';
 import 'package:danvery/ui/pages/user/register_page/views/steps/register_step_1.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -47,48 +48,70 @@ class RegisterPageController extends GetxController {
     await _registerRepository
         .studentAuth(id: id, password: password)
         .then((value) {
-      if (value == null) {
-        isStudentAuthenticated.value = false;
-      } else {
-        registerModel.value = value;
+      if (value.success) {
+        registerModel.value = value.data as RegisterModel;
         isStudentAuthenticated.value = true;
+      } else {
+        GetXSnackBar(
+            type: GetXSnackBarType.customError,
+            title: "학생인증 오류",
+            content: value.message
+        ).show();
+        isStudentAuthenticated.value = false;
       }
     });
     return isStudentAuthenticated.value;
   }
 
   Future<bool> register(RegisterModel model) async {
-    await _registerRepository
-        .register(registerModel: model)
-        .then((value) {
-      if (value == null) {
+    await _registerRepository.register(registerModel: model).then((value) {
+      if (value.success) {
         isRegistered.value = false;
-      } else {
-        registerModel.value = value;
+        registerModel.value = value.data as RegisterModel;
         isRegistered.value = true;
+      } else {
+        GetXSnackBar(
+            type: GetXSnackBarType.customError,
+            title: "회원가입 오류",
+            content: value.message
+        ).show();
+        isRegistered.value = false;
       }
     });
     return isStudentAuthenticated.value;
   }
 
   Future<bool> sendSMSAuth(String signupToken, String phoneNumber) async {
-    try {
-      final bool isSend = await _registerRepository.sendAuthCodeToSMS(
-          signupToken: signupToken, phoneNumber: phoneNumber);
-      return isSend;
-    } catch (e) {
-      return false;
-    }
+    return await _registerRepository
+        .sendAuthCodeToSMS(signupToken: signupToken, phoneNumber: phoneNumber)
+        .then((value) {
+      if (value.success) {
+        return true;
+      } else {
+        GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "인증번호 전송 오류",
+          content: value.message
+        ).show();
+        return false;
+      }
+    });
   }
 
   Future<bool> verifySMSAuth(String signupToken, String code) async {
-    try {
-      final bool isVerify = await _registerRepository.verifyAuthCodeToSMS(
-          signupToken: signupToken, code: code);
-      return isVerify;
-    } catch (e) {
-      return false;
-    }
+    return await _registerRepository
+        .verifyAuthCodeToSMS(signupToken: signupToken, code: code)
+        .then((value) {
+      if (value.success) {
+        return true;
+      } else {
+        GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "인증번호 확인 오류",
+          content: value.message
+        ).show();
+        return false;
+      }
+    });
   }
-
 }

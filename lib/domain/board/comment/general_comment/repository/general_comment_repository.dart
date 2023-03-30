@@ -1,5 +1,5 @@
-import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/comment/general_comment/provider/general_comment_provider.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
 
 class GeneralCommentRepository {
   final GeneralCommentProvider _generalCommentProvider;
@@ -11,7 +11,7 @@ class GeneralCommentRepository {
 
   factory GeneralCommentRepository() => _singleton;
 
-  Future<GeneralCommentListModel?> getGeneralComment(
+  Future<ApiResponseDTO> getGeneralComment(
       {required String token,
       required int id,
       required int page,

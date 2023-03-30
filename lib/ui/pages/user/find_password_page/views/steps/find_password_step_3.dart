@@ -1,4 +1,5 @@
 import 'package:danvery/ui/pages/user/find_password_page/controller/find_password_page_controller.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,29 +40,18 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
             onPressed: () async {
 
               if (isValidPasswordFormat(controller.password.value) == false) {
-                Get.snackbar("비밀번호 오류", "비밀번호는 영문, 숫자를 포함한 8~16자리만 사용할 수 있습니다.",
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Palette.darkGrey,
-                    colorText: Palette.pureWhite);
+                GetXSnackBar(type: GetXSnackBarType.passwordInputError).show();
                 return;
               }
 
               if (controller.password.value != controller.passwordValidate.value) {
-                Get.snackbar("비밀번호 오류", "비밀번호가 일치하지 않습니다.",
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Palette.darkGrey,
-                    colorText: Palette.pureWhite);
+                GetXSnackBar(type: GetXSnackBarType.passwordConfirmError).show();
                 return;
               }
 
               if(await controller.changePassword()){
                 FocusManager.instance.primaryFocus?.unfocus();
                 controller.currentStep.value = 4;
-              }else{
-                Get.snackbar("비밀번호 오류", "비밀번호 변경에 실패하였습니다.",
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Palette.darkGrey,
-                    colorText: Palette.pureWhite);
               }
 
             },

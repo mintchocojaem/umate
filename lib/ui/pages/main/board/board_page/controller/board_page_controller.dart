@@ -83,9 +83,9 @@ class BoardPageController extends GetxController {
             size: _generalBoardSize,
             keyword: searchText.value)
         .then((value) {
-      if (value != null) {
-        generalPostBoard.value = value;
-        generalPostList.value = value.generalPosts;
+      if (value.success) {
+        generalPostBoard.value = value.data as GeneralBoardModel;
+        generalPostList.value = value.data.generalPosts as List<GeneralPostModel>;
         isLoadGeneralPostBoard.value = true;
       }
     });
@@ -99,9 +99,9 @@ class BoardPageController extends GetxController {
             size: _generalBoardSize,
             keyword: searchText.value)
         .then((value) {
-      if (value != null && value.generalPosts.isNotEmpty) {
-        generalPostBoard.value = value;
-        generalPostList.addAll(value.generalPosts);
+      if (value.success && value.data.generalPosts.isNotEmpty) {
+        generalPostBoard.value = value.data as GeneralBoardModel;
+        generalPostList.addAll(value.data.generalPosts as List<GeneralPostModel>);
       }
     });
   }
@@ -114,9 +114,9 @@ class BoardPageController extends GetxController {
             size: _petitionBoardSize,
             status: categoryAPIList[selectedCategory.value])
         .then((value) {
-      if (value != null) {
-        petitionBoard.value = value;
-        petitionPostList.value = value.petitionPosts;
+      if (value.success) {
+        petitionBoard.value = value.data as PetitionBoardModel;
+        petitionPostList.value = value.data.petitionPosts as List<PetitionPostModel>;
         isLoadPetitionBoard.value = true;
       }
     });
@@ -130,9 +130,9 @@ class BoardPageController extends GetxController {
             size: _generalBoardSize,
             status: categoryAPIList[selectedCategory.value])
         .then((value) {
-      if (value != null && value.petitionPosts.isNotEmpty) {
-        petitionBoard.value = value;
-        petitionPostList.addAll(value.petitionPosts);
+      if (value.success && value.data.petitionPosts.isNotEmpty) {
+        petitionBoard.value = value.data as PetitionBoardModel;
+        petitionPostList.addAll(value.data.petitionPosts as List<PetitionPostModel>);
       }
     });
   }
@@ -143,8 +143,8 @@ class BoardPageController extends GetxController {
         .getGeneralBoard(
             page: _generalBoardPage, size: _generalBoardSize, keyword: keyword)
         .then((value) {
-      if (value != null) {
-        generalPostBoard.value = value;
+      if (value.success) {
+        generalPostBoard.value = value.data as GeneralBoardModel;
         isLoadGeneralPostBoard.value = true;
         return true;
       }

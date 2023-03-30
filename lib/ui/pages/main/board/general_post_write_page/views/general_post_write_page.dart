@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/utils/theme/app_text_theme.dart';
 import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -151,19 +152,13 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                   alignment: Alignment.bottomCenter,
                   child: ModernFormButton(
                     text: "글 올리기",
-                    onPressed: () {
+                    onPressed: () async {
                       GeneralPostModel postModel = GeneralPostModel();
-                      controller
-                          .writeGeneralPost(
-                              controller.loginService.loginModel.accessToken,
-                              postModel)
-                          .then((value) {
-                        if (value) {
-                          Get.back();
-                        } else {
-                          Get.snackbar("Error", "게시글 업로드에 실패했습니다.");
-                        }
-                      });
+                      if (await controller.writeGeneralPost(
+                          controller.loginService.loginModel.accessToken,
+                          postModel)) {
+                        Get.back();
+                      }
                     },
                   ),
                 ),

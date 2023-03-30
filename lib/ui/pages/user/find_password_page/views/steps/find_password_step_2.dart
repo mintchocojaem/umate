@@ -62,13 +62,8 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
             text: "확인",
             onPressed: () async{
               if (await controller.verifyAuthCode()){
-                controller.currentStep.value = 3;
                 FocusManager.instance.primaryFocus?.unfocus();
-              }else{
-                Get.snackbar("인증번호 오류", "인증번호가 일치하지 않습니다",
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Palette.darkGrey,
-                    colorText: Palette.pureWhite);
+                controller.currentStep.value = 3;
               }
             },
           ),

@@ -1,4 +1,7 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
+import 'package:danvery/utils/dto/success/success_response_dto.dart';
 import 'package:danvery/utils/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +15,7 @@ class GeneralPostProvider {
 
   factory GeneralPostProvider() => _singleton;
 
-  Future<bool> writeGeneralPost(
+  Future<ApiResponseDTO> writeGeneralPost(
       String token, GeneralPostModel postModel) async {
     String url = '/post/general-forum';
 
@@ -26,18 +29,18 @@ class GeneralPostProvider {
     };
 
     try {
-      await _dio.post(url,
+      final Response response = await _dio.post(url,
           data: data,
           options:
               Options(contentType: "multipart/form-data", headers: headers));
 
-      return true;
-    } catch (e) {
-      return false;
+      return SuccessResponseDTO(data: GeneralPostModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<bool> deleteGeneralPost(String token, int id) async {
+  Future<ApiResponseDTO> deleteGeneralPost(String token, int id) async {
     String url = '/post/general-forum/$id';
 
     final headers = {
@@ -45,15 +48,16 @@ class GeneralPostProvider {
     };
 
     try {
-      await _dio.delete(url, options: Options(headers: headers));
+      final Response response =
+          await _dio.delete(url, options: Options(headers: headers));
 
-      return true;
-    } catch (e) {
-      return false;
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<GeneralPostModel?> getGeneralPost(String token, int id) async {
+  Future<ApiResponseDTO> getGeneralPost(String token, int id) async {
     String url = '/post/general-forum/$id';
 
     final headers = {
@@ -64,13 +68,11 @@ class GeneralPostProvider {
       final Response response = await _dio.get(url,
           options: Options(
             headers: headers,
-          )
-      );
+          ));
 
-      return GeneralPostModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return SuccessResponseDTO(data: GeneralPostModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
     }
   }
-
 }
