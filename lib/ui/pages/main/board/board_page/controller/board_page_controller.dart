@@ -144,7 +144,9 @@ class BoardPageController extends GetxController {
             page: _generalBoardPage, size: _generalBoardSize, keyword: keyword)
         .then((value) {
       if (value.success) {
+        searchText.value = keyword;
         generalPostBoard.value = value.data as GeneralBoardModel;
+        generalPostList.value = value.data.generalPosts as List<GeneralPostModel>;
         isLoadGeneralPostBoard.value = true;
         return true;
       }
