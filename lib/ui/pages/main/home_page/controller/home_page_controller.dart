@@ -28,7 +28,7 @@ class HomePageController extends GetxController {
   final RxBool isLoadBusList = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async{
 
     getBusList();
     getGeneralPostListHome();
@@ -37,7 +37,7 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getGeneralPostListHome() async {
-    _generalBoardRepository
+    await _generalBoardRepository
         .getGeneralBoard(page: 0, size: 5, keyword: '')
         .then((value) {
       if (value.success) {
@@ -48,7 +48,7 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getPetitionPostListHome() async {
-    _petitionPostRepository
+    await _petitionPostRepository
         .getPetitionBoard(page: 0, size: 5, status: "ACTIVE")
         .then((value) {
       if (value.success) {
@@ -59,10 +59,10 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getBusList() async {
-    _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) {
+    await _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) async {
       if (value.success) {
         busListOfJungMoon.value = value.data as List<BusModel>;
-        _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
+        await _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
           if (value.success) {
             busListOfGomSang.value = value.data as List<BusModel>;
             if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {

@@ -1,11 +1,10 @@
-import 'dart:math';
 
-import 'package:danvery/ui/pages/main/timetable_page/model/subject_model.dart';
+import '/core/theme/palette.dart';
+import '/ui/pages/main/timetable_page/model/subject_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
+import '/core/theme/app_text_theme.dart';
 
 class Timetable extends StatelessWidget {
   final List<SubjectModel>? subjects;

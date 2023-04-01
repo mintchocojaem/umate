@@ -1,8 +1,8 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/main/timetable_page/controller/timetable_page_controller.dart';
 import 'package:danvery/ui/widgets/color_picker/color_picker.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/timetable/timetable.dart';
 import 'package:flutter/material.dart';

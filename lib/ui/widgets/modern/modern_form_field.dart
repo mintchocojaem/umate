@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
+import '../../../core/theme/app_text_theme.dart';
 
 class ModernFormField extends StatefulWidget {
   final String? title;

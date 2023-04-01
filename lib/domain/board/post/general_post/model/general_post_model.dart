@@ -6,6 +6,7 @@ class GeneralPostModel{
   late String createdAt;
   //late files -> image
   late int likes;
+  late bool liked;
   late int views;
   late int commentCount;
 
@@ -17,6 +18,7 @@ class GeneralPostModel{
     createdDate,
     views,
     likes,
+    liked,
     commentCount
   });
 
@@ -28,6 +30,7 @@ class GeneralPostModel{
     createdAt = json["createdAt"] as String;
     views = json["views"] as int? ?? 0;
     likes = json["likes"] as int? ?? 0;
+    liked = json["liked"] as bool? ?? false;
     commentCount = json["commentCount"] as int? ?? 0;
   }
 

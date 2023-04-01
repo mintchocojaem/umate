@@ -1,13 +1,11 @@
+import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/ui/pages/user/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../../utils/regex/regex.dart';
 
 class RegisterStep2 extends GetView<RegisterPageController> {
   const RegisterStep2({super.key});

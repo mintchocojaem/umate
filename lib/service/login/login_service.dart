@@ -2,6 +2,7 @@ import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginService extends GetxService {
   static final LoginService _singleton = LoginService._internal();
@@ -13,26 +14,20 @@ class LoginService extends GetxService {
   final LoginRepository _loginRepository = LoginRepository();
 
   final Rx<LoginModel> _loginModel = LoginModel().obs;
-  final RxBool _isLogin = false.obs;
-  final RxBool _isLoading = false.obs; //login 결과를 불러왔으면 false 아니면 true
+  final RxBool isLogin = false.obs;
 
   LoginModel get loginModel => _loginModel.value;
 
-  bool get isLogin => _isLogin.value;
-
-  bool get isLoading => _isLoading.value;
-
   Future<bool> login(String classId, String password) async {
+    final GetStorage box = GetStorage();
     await _loginRepository
         .login(classId: classId, password: password)
         .then((value) {
       if (value.success) {
         _loginModel.value = value.data as LoginModel;
-        _isLogin.value = true;
-        _isLoading.value = false;
+        isLogin.value = true;
       } else {
-        _isLogin.value = false;
-        _isLoading.value = false;
+        isLogin.value = false;
         GetXSnackBar(
           type: GetXSnackBarType.customError,
           title: "로그인 실패",
@@ -40,7 +35,6 @@ class LoginService extends GetxService {
         ).show();
       }
     });
-    return _isLogin.value;
+    return isLogin.value;
   }
-
 }

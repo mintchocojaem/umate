@@ -1,9 +1,9 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_post_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../utils/theme/app_text_theme.dart';
-import '../../../../../../utils/theme/palette.dart';
+import '../../../../../../core/theme/app_text_theme.dart';
 import '../../../../../widgets/app_bar/transparent_app_bar.dart';
 import '../../../../../widgets/modern/modern_form_button.dart';
 

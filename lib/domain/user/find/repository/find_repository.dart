@@ -1,5 +1,5 @@
 import 'package:danvery/domain/user/find/provider/find_provider.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 
 class FindRepository {
   final FindProvider _findProvider;

@@ -1,5 +1,5 @@
 import 'package:danvery/domain/board/petition_board/provider/petition_board_provider.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 
 class PetitionBoardRepository{
   final PetitionBoardProvider _petitionBoardProvider;

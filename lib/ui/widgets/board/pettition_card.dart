@@ -1,10 +1,10 @@
 
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
+import '../../../core/theme/app_text_theme.dart';
 
 class PetitionCard extends StatelessWidget {
   final String title; // 제목
@@ -35,7 +35,7 @@ class PetitionCard extends StatelessWidget {
         color: context.isDarkMode ? Palette.darkGrey : Palette.pureWhite,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.3),
+          BoxShadow(color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 2,
             offset: const Offset(0, 2), // changes position of shadow

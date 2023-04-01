@@ -1,8 +1,8 @@
+import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
-import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
-import 'package:danvery/utils/dto/success/success_response_dto.dart';
-import 'package:danvery/utils/interceptor/dio_interceptor.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/exception/exception_response_dto.dart';
+import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:dio/dio.dart';
 
 class PetitionBoardProvider{

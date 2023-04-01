@@ -12,13 +12,12 @@ class GeneralBoardModel{
 
   GeneralBoardModel({
     generalPostList,
-    totalElements,
     page,
     size,
     totalPages,
     last,
     first,
-    hasNext
+    hasNext,
   });
 
   GeneralBoardModel.fromJson(Map<String, dynamic> json) {

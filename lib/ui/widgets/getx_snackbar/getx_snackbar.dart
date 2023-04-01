@@ -1,4 +1,4 @@
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:get/get.dart';
 
 enum GetXSnackBarType {

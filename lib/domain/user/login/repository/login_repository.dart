@@ -1,4 +1,4 @@
-import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 
 import '../model/login_model.dart';
 import '../provider/login_provider.dart';

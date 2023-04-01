@@ -1,17 +1,14 @@
 import 'dart:io';
 
+import 'package:danvery/core/theme/app_text_theme.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
-import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../../widgets/modern/modern_form_button.dart';
 
 class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
   const GeneralPostWritePage({super.key});
@@ -24,12 +21,35 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
         title: '글 작성하기',
         automaticallyImplyLeading: true,
         onPressedLeading: () => Get.back(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Palette.blue,
+              ),
+              onPressed: () async {
+                GeneralPostModel postModel = GeneralPostModel();
+
+                if (await controller.writeGeneralPost(
+                    controller.loginService.loginModel.accessToken,
+                    postModel)) {
+                  Get.back();
+                }
+              },
+              child: Text(
+                '등록',
+                style: lightStyle.copyWith(
+                    color: Palette.pureWhite, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: SingleChildScrollView(
@@ -56,111 +76,99 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                       TextField(
                         controller: controller.contentController,
                         style: regularStyle.copyWith(color: Palette.darkGrey),
-                        maxLines: 15,
+                        maxLength: 500,
+                        maxLines: 10,
                         decoration: InputDecoration(
                           border: InputBorder.none,
+                          counterText: "",
                           hintText: "내용",
                           hintStyle: regularStyle.copyWith(
                               color: Palette.grey, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Divider(
-                        color: Palette.lightGrey,
-                        thickness: 1,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          "사진 첨부하기",
-                          style: regularStyle.copyWith(
-                              color: Palette.grey, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Obx(
-                        () => SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  getImageBottomSheet();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Palette.lightGrey,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                  ),
-                                  height: 100,
-                                  width: 100,
-                                  child: Icon(
-                                    Icons.image_outlined,
-                                    color: Palette.grey,
-                                  ),
-                                ),
-                              ),
-                              for (int i = 0;
-                                  i < controller.imageList.length;
-                                  i++)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: Image.file(
-                                          File(controller.imageList[i].path),
-                                        ).image,
-                                      ),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                    ),
-                                    height: 100,
-                                    width: 100,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 30,
-                                        color:
-                                            Palette.darkWhite.withOpacity(0.6),
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Palette.darkGrey,
-                                            size: 20,
-                                          ),
-                                          onPressed: () {
-                                            controller.imageList.removeAt(i);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ModernFormButton(
-                    text: "글 올리기",
-                    onPressed: () async {
-                      GeneralPostModel postModel = GeneralPostModel();
-                      if (await controller.writeGeneralPost(
-                          controller.loginService.loginModel.accessToken,
-                          postModel)) {
-                        Get.back();
-                      }
-                    },
-                  ),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(
+                      color: Palette.lightGrey,
+                      thickness: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        "사진 첨부하기",
+                        style: regularStyle.copyWith(
+                            color: Palette.grey, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 4,),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              getImageBottomSheet();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Palette.lightGrey,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                              ),
+                              height: 80,
+                              width: 80,
+                              child: Icon(
+                                Icons.image_outlined,
+                                color: Palette.grey,
+                              ),
+                            ),
+                          ),
+                          for (int i = 0; i < controller.imageList.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: Image.file(
+                                      File(controller.imageList[i].path),
+                                    ).image,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                ),
+                                height: 80,
+                                width: 80,
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 30,
+                                    color: Palette.darkWhite.withOpacity(0.6),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Palette.darkGrey,
+                                        size: 20,
+                                      ),
+                                      onPressed: () {
+                                        controller.imageList.removeAt(i);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

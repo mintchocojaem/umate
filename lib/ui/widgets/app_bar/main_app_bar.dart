@@ -29,13 +29,11 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
       leading: isWhite
           ? Image.asset(
         'assets/icons/danvery/danvery_white.png',
-        width: 54,
-        height: 54,
+         cacheWidth: 258,
       )
           : Image.asset(
         'assets/icons/danvery/danvery_blue.png',
-        width: 54,
-        height: 54,
+        cacheWidth: 258,
       ),
       systemOverlayStyle: isDarkMode
           ? SystemUiOverlayStyle.light

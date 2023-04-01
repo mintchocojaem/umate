@@ -1,9 +1,9 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/user/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,8 +1,8 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
+import '../../../core/theme/app_text_theme.dart';
 
 class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
   final String title;

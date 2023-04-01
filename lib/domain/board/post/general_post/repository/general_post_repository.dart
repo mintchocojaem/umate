@@ -1,5 +1,5 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 
 import '../provider/general_post_provider.dart';
 
@@ -23,5 +23,24 @@ class GeneralPostRepository {
   Future<ApiResponseDTO> getGeneralPost(
           {required String token, required int id}) =>
       _generalPostProvider.getGeneralPost(token, id);
+
+  Future<ApiResponseDTO> getGeneralComment(
+      {required String token,
+        required int id,
+        required int page,
+        required int size}) async {
+    return await _generalPostProvider.getGeneralComment(
+        token, id, page, size);
+  }
+
+  Future<ApiResponseDTO> likePost(
+      {required String token, required int id}) async {
+    return await _generalPostProvider.likePost(token, id);
+  }
+
+  Future<ApiResponseDTO> unlikePost(
+      {required String token, required int id}) async {
+    return await _generalPostProvider.unlikePost(token, id);
+  }
 
 }

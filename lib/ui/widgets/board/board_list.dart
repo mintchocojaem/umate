@@ -1,8 +1,8 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
+import '../../../core/theme/app_text_theme.dart';
 
 class BoardList extends StatelessWidget {
   final List<Widget> cards;
@@ -30,7 +30,7 @@ class BoardList extends StatelessWidget {
           context.isDarkMode
               ? const BoxShadow()
               : BoxShadow(
-                  color: Palette.lightGrey,
+                  color: Palette.grey.withOpacity(0.2),
                   spreadRadius: 2,
                   blurRadius: 2,
                   offset: const Offset(0, 2), // changes position of shadow

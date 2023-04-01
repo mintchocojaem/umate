@@ -1,5 +1,6 @@
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
+import 'package:danvery/ui/pages/main/my_page/views/mypage_page.dart';
 import 'package:danvery/ui/pages/user/find_id_page/binding/find_id_page_binding.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/find_id_page.dart';
 import 'package:danvery/ui/pages/user/find_password_page/binding/find_password_page_binding.dart';
@@ -24,7 +25,7 @@ import 'package:danvery/ui/pages/main/my_page/binding/mypage_page_binding.dart';
 import 'package:danvery/ui/pages/main/timetable_page/binding/timetable_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:danvery/ui/pages/splash_screen_page/views/splash_screen_page.dart';
-import 'package:danvery/utils/permission/binding/permission_binding.dart';
+import 'package:danvery/service/permission/binding/permission_binding.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class AppPages {
@@ -37,8 +38,8 @@ class AppPages {
         HomePageBinding(),
         TimetablePageBinding(),
         BoardPageBinding(),
-        MyPagePageBinding(),
         PermissionBinding(),
+        MyPagePageBinding(),
       ],
     ),
     GetPage(

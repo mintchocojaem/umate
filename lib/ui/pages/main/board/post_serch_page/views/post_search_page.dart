@@ -1,7 +1,7 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/main/board/post_serch_page/controller/post_search_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/seacrh_app_bar.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

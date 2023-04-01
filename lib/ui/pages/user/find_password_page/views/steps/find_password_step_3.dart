@@ -1,13 +1,12 @@
+import 'package:danvery/core/regex/regex.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/user/find_password_page/controller/find_password_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-
-import '../../../../../../utils/regex/regex.dart';
-import '../../../../../../utils/theme/palette.dart';
 import '../../../../../widgets/modern/modern_form_button.dart';
 
 class FindPasswordStep3 extends GetView<FindPasswordPageController> {

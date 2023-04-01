@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
+import '../../../core/theme/app_text_theme.dart';
 
 class CategoryButtonBar extends StatefulWidget {
   const CategoryButtonBar(

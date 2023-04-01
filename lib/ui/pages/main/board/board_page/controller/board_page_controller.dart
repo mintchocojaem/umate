@@ -77,6 +77,7 @@ class BoardPageController extends GetxController {
 
   Future<void> getGeneralPostListBoard() async {
     _generalBoardPage = 0;
+    isLoadGeneralPostBoard.value = false;
     await _generalBoardRepository
         .getGeneralBoard(
             page: _generalBoardPage,
@@ -108,6 +109,7 @@ class BoardPageController extends GetxController {
 
   Future<void> getPetitionPostListBoard() async {
     _petitionBoardPage = 0;
+    isLoadPetitionBoard.value = false;
     await _petitionPostRepository
         .getPetitionBoard(
             page: _petitionBoardPage,
@@ -139,6 +141,7 @@ class BoardPageController extends GetxController {
 
   Future<bool> searchPost(String keyword) async {
     _generalBoardPage = 0;
+    isLoadGeneralPostBoard.value = false;
     await _generalBoardRepository
         .getGeneralBoard(
             page: _generalBoardPage, size: _generalBoardSize, keyword: keyword)

@@ -1,11 +1,10 @@
 
+import 'package:danvery/core/theme/app_text_theme.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/user/login_page/controller/login_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
-import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -67,10 +66,10 @@ class LoginPage extends GetView<LoginPageController> {
                   ),
                   ModernFormButton(
                       text: "로그인",
-                      onPressed: () {
-                        controller.loginService
-                            .login('12345678',
-                                '121212') //new: '12345678', '121212'
+                      onPressed: () async{
+                        await controller.loginService
+                            .login(controller.id.value,
+                            controller.password.value) //new: '12345678', '121212'
                             .then((value) {
                           if (value) {
                             Get.offAndToNamed(Routes.main);

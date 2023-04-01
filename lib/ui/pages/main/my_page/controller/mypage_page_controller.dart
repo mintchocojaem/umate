@@ -1,5 +1,5 @@
 import 'package:danvery/service/login/login_service.dart';
-import 'package:danvery/utils/permission/service/permission_service.dart';
+import 'package:danvery/service/permission/permission_service.dart';
 import 'package:get/get.dart';
 
 

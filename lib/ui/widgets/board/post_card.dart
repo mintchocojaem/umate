@@ -1,8 +1,7 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/theme/app_text_theme.dart';
-import '../../../utils/theme/palette.dart';
-
+import '../../../core/theme/app_text_theme.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -29,7 +28,7 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:12, bottom: 12),
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
       child: Row(
         children: [
           Expanded(
@@ -40,25 +39,36 @@ class PostCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: Image.asset(
-                          "assets/icons/user/profile_icon.png")
-                          .image,
+                      backgroundImage:
+                          Image.asset("assets/icons/user/profile_icon.png")
+                              .image,
                       backgroundColor: Colors.transparent,
                     ),
-                    const SizedBox(width: 8,),
-                    Text(nickname, style: regularStyle.copyWith(color: Palette.darkGrey, fontWeight: FontWeight.w500),),
-                    const SizedBox(width: 8,),
-                    Text(publishDate, style: tinyStyle.copyWith(color: Palette.grey),),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      nickname,
+                      style: regularStyle.copyWith(
+                          color: Palette.darkGrey, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      publishDate,
+                      style: tinyStyle.copyWith(color: Palette.grey),
+                    ),
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 4),
-                  child: Text(
-                      title,
+                  child: Text(title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.lightBlack)
-                  ),
+                      style: regularStyle.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Palette.lightBlack)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4, bottom: 8),
@@ -81,17 +91,39 @@ class PostCard extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset("assets/icons/post/like_unselected.png",width: 12,height: 12,color: Palette.grey,),
-                            const SizedBox(width: 4,),
-                            Text(likeCount.toString(), style: lightStyle.copyWith(color: Palette.grey),)
+                            Image.asset(
+                              "assets/icons/post/like_unselected.png",
+                              width: 14,
+                              height: 14,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              likeCount.toString(),
+                              style: lightStyle.copyWith(
+                                  color: Palette.grey,
+                                  fontWeight: FontWeight.w500),
+                            )
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset("assets/icons/post/comment_unselected.png",width: 12,height: 12, color: Palette.grey,),
-                            const SizedBox(width: 4,),
-                            Text(commentCount.toString(), style: lightStyle.copyWith(color: Palette.grey),)
+                            Image.asset(
+                              "assets/icons/post/comment_unselected.png",
+                              width: 14,
+                              height: 14,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              commentCount.toString(),
+                              style: lightStyle.copyWith(
+                                  color: Palette.grey,
+                                  fontWeight: FontWeight.w500),
+                            )
                           ],
                         ),
                       ],
@@ -101,7 +133,9 @@ class PostCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 32,),
+          const SizedBox(
+            width: 32,
+          ),
           Container(
             decoration: BoxDecoration(
               color: Palette.white,

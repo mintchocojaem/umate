@@ -1,5 +1,5 @@
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -142,11 +142,12 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    "assets/icons/post/like_unselected.png",
-                                    width: 12,
-                                    height: 12,
-                                    color: Palette.grey,
+                                  GestureDetector(
+                                    child: Image.asset(
+                                      "assets/icons/post/like_unselected.png",
+                                      width: 18,
+                                      height: 18,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 4,
@@ -154,7 +155,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   Text(
                                     controller.generalPostModel.value.likes
                                         .toString(),
-                                    style: lightStyle.copyWith(
+                                    style: regularStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
                                         color: Palette.grey),
                                   )
                                 ],
@@ -164,9 +166,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 children: [
                                   Image.asset(
                                     "assets/icons/post/comment_unselected.png",
-                                    width: 12,
-                                    height: 12,
-                                    color: Palette.grey,
+                                    width: 18,
+                                    height: 18,
                                   ),
                                   const SizedBox(
                                     width: 4,
@@ -175,7 +176,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     controller.generalCommentList.value
                                         .totalElements
                                         .toString(),
-                                    style: lightStyle.copyWith(
+                                    style: regularStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
                                         color: Palette.grey),
                                   )
                                 ],

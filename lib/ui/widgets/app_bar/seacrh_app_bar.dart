@@ -1,5 +1,5 @@
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
+import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

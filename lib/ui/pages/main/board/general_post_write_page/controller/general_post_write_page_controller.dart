@@ -2,8 +2,7 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
-import 'package:danvery/utils/permission/service/permission_service.dart';
+import 'package:danvery/service/permission/permission_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

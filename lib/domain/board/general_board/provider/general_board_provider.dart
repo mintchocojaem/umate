@@ -1,9 +1,10 @@
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/utils/dto/api_response_dto.dart';
-import 'package:danvery/utils/dto/exception/exception_response_dto.dart';
-import 'package:danvery/utils/dto/success/success_response_dto.dart';
-import 'package:danvery/utils/interceptor/dio_interceptor.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/exception/exception_response_dto.dart';
+import 'package:danvery/core/dto/success/success_response_dto.dart';
+import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
 class GeneralBoardProvider {
@@ -31,4 +32,5 @@ class GeneralBoardProvider {
     }
 
   }
+
 }

@@ -1,5 +1,5 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/main/timetable_page/model/subject_model.dart';
-import 'package:danvery/utils/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

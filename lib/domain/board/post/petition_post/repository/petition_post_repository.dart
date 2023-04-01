@@ -1,4 +1,4 @@
-import 'package:danvery/utils/dto/api_response_dto.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 
 import '../model/petition_post_model.dart';
 import '../provider/petition_post_provider.dart';

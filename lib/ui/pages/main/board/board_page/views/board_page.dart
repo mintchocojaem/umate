@@ -1,6 +1,6 @@
+import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
-import 'package:danvery/utils/theme/app_text_theme.dart';
-import 'package:danvery/utils/theme/palette.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/pages/main/board/board_page/views/petition_board_page.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';

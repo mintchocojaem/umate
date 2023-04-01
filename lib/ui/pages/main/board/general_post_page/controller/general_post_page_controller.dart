@@ -1,17 +1,14 @@
-import 'package:danvery/domain/board/comment/general_comment/model/general_comment_list_model.dart';
-import 'package:danvery/domain/board/comment/general_comment/model/general_comment_model.dart';
-import 'package:danvery/domain/board/comment/general_comment/repository/general_comment_repository.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class GeneralPostPageController extends GetxController {
-
   final GeneralPostRepository _generalPostRepository = GeneralPostRepository();
-  final GeneralCommentRepository _generalCommentRepository =
-      GeneralCommentRepository();
 
   final LoginService loginService = Get.find<LoginService>();
 
@@ -41,7 +38,7 @@ class GeneralPostPageController extends GetxController {
     generalCommentScrollController.addListener(() {
       if (generalCommentScrollController.position.pixels ==
           generalCommentScrollController.position.maxScrollExtent) {
-        if(!generalCommentList.value.last){
+        if (!generalCommentList.value.last) {
           getNextGeneralComment(id);
         }
       }
@@ -63,7 +60,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getGeneralComment(int id) async {
     commentPage = 0;
-    await _generalCommentRepository
+    await _generalPostRepository
         .getGeneralComment(
             token: loginService.loginModel.accessToken,
             id: id,
@@ -72,7 +69,8 @@ class GeneralPostPageController extends GetxController {
         .then((value) {
       if (value.success) {
         generalCommentList.value = value.data as GeneralCommentListModel;
-        generalComments.value = value.data.generalComments as List<GeneralCommentModel>;
+        generalComments.value =
+            value.data.generalComments as List<GeneralCommentModel>;
         isLoadedGeneralComment.value = true;
       }
     });
@@ -80,7 +78,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getNextGeneralComment(int id) async {
     commentPage++;
-    await _generalCommentRepository
+    await _generalPostRepository
         .getGeneralComment(
             token: loginService.loginModel.accessToken,
             id: id,
@@ -89,7 +87,46 @@ class GeneralPostPageController extends GetxController {
         .then((value) {
       if (value.success) {
         generalCommentList.value = value.data as GeneralCommentListModel;
-        generalComments.addAll(value.data.generalComments as List<GeneralCommentModel>);
+        generalComments
+            .addAll(value.data.generalComments as List<GeneralCommentModel>);
+      }
+    });
+  }
+
+  Future<void> likePost(int id) async {
+    await _generalPostRepository
+        .likePost(token: loginService.loginModel.accessToken, id: id)
+        .then((value) {
+      if (value.success) {
+        generalPostModel.value.liked = !generalPostModel.value.liked;
+        if (!generalPostModel.value.liked) {
+          generalPostModel.value.likes++;
+        }
+      }else{
+        GetXSnackBar(
+            type: GetXSnackBarType.customError,
+            title: "게시글 좋아요 오류",
+            content: value.message)
+            .show();
+      }
+    });
+  }
+
+  Future<void> unlikePost(int id) async {
+    await _generalPostRepository
+        .unlikePost(token: loginService.loginModel.accessToken, id: id)
+        .then((value) {
+      if (value.success) {
+        generalPostModel.value.liked = !generalPostModel.value.liked;
+        if (generalPostModel.value.liked) {
+          generalPostModel.value.likes--;
+        }
+      }else{
+        GetXSnackBar(
+            type: GetXSnackBarType.customError,
+            title: "게시글 좋아요 취소 오류",
+            content: value.message)
+            .show();
       }
     });
   }
