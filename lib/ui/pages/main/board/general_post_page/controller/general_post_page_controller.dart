@@ -3,8 +3,10 @@ import 'package:danvery/domain/board/post/general_post/model/general_comment_mod
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class GeneralPostPageController extends GetxController {
@@ -25,6 +27,8 @@ class GeneralPostPageController extends GetxController {
   final RxBool isLoadedGeneralComment = false.obs;
 
   final ScrollController generalCommentScrollController = ScrollController();
+
+  final BoardPageController boardPageController = Get.find<BoardPageController>();
 
   int commentPage = 0;
   final int commentSize = 5;
@@ -53,6 +57,9 @@ class GeneralPostPageController extends GetxController {
         .then((value) {
       if (value.success) {
         generalPostModel.value = value.data as GeneralPostModel;
+        generalPostModel.value.createdAt = generalPostModel.value.createdAt
+            .substring(0, generalPostModel.value.createdAt.length - 9);
+        //여기 나중에 날짜 보드 뷰랑 포스트 뷰랑 통일 시켜야 함
         isLoadedGeneralPost.value = true;
       }
     });
@@ -93,39 +100,34 @@ class GeneralPostPageController extends GetxController {
     });
   }
 
-  Future<void> likePost(int id) async {
+  Future<void> likeGeneralPost(int id) async {
+    HapticFeedback.heavyImpact();
     await _generalPostRepository
         .likePost(token: loginService.loginModel.accessToken, id: id)
-        .then((value) {
+        .then((value) async{
       if (value.success) {
-        generalPostModel.value.liked = !generalPostModel.value.liked;
         if (!generalPostModel.value.liked) {
-          generalPostModel.value.likes++;
+          generalPostModel.update((val) async {
+            val!.liked = !generalPostModel.value.liked;
+            generalPostModel.value.likes++;
+          });
+        } else {
+          await _generalPostRepository
+              .unlikePost(token: loginService.loginModel.accessToken, id: id)
+              .then((value) {
+            if (value.success) {
+              generalPostModel.update((val) async {
+                val!.liked = !generalPostModel.value.liked;
+                generalPostModel.value.likes--;
+              });
+            }
+          });
         }
-      }else{
+      } else {
         GetXSnackBar(
-            type: GetXSnackBarType.customError,
-            title: "게시글 좋아요 오류",
-            content: value.message)
-            .show();
-      }
-    });
-  }
-
-  Future<void> unlikePost(int id) async {
-    await _generalPostRepository
-        .unlikePost(token: loginService.loginModel.accessToken, id: id)
-        .then((value) {
-      if (value.success) {
-        generalPostModel.value.liked = !generalPostModel.value.liked;
-        if (generalPostModel.value.liked) {
-          generalPostModel.value.likes--;
-        }
-      }else{
-        GetXSnackBar(
-            type: GetXSnackBarType.customError,
-            title: "게시글 좋아요 취소 오류",
-            content: value.message)
+                type: GetXSnackBarType.customError,
+                content: value.message,
+                title: "게시글 좋아요 오류")
             .show();
       }
     });

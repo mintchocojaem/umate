@@ -1,4 +1,5 @@
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
@@ -25,7 +26,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
               : RefreshIndicator(
                   color: Palette.blue,
                   onRefresh: () async {
-                    controller.getGeneralPostListBoard();
+                    controller.getFirstGeneralPostBoard();
                   },
                   child: SingleChildScrollView(
                     controller: controller.generalBoardScrollController,
@@ -50,7 +51,12 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                           onTap: () {
                             Get.toNamed(Routes.post,
                                 arguments:
-                                    controller.generalPostList[index].id);
+                                    controller.generalPostList[index].id)?.then((value){
+                                     if(value != null){
+                                       final generalPostModel = value as GeneralPostModel;
+                                        controller.generalPostList[index] = generalPostModel;
+                                     }
+                            });
                           },
                           child: Container(
                             color: Palette.pureWhite,
@@ -72,7 +78,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                 ),
                                 Divider(
                                   color: Palette.lightGrey,
-                                  height: 1,
+                                  thickness: 1,
                                 ),
                               ],
                             ),

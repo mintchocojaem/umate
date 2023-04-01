@@ -44,7 +44,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                       : RefreshIndicator(
                           color: Palette.blue,
                           onRefresh: () async {
-                            controller.getPetitionPostListBoard();
+                            controller.getFirstPetitionPostBoard();
                           },
                           child: SingleChildScrollView(
                             controller: controller.petitionBoardScrollController,

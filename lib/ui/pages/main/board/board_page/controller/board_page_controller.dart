@@ -47,18 +47,18 @@ class BoardPageController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    getGeneralPostListBoard();
-    getPetitionPostListBoard();
+    getFirstGeneralPostBoard();
+    getFirstPetitionPostBoard();
 
     selectedCategory.listen((value) {
-      getPetitionPostListBoard();
+      getFirstPetitionPostBoard();
     });
 
     generalBoardScrollController.addListener(() async {
       if (generalBoardScrollController.position.pixels ==
           generalBoardScrollController.position.maxScrollExtent) {
         if (!generalPostBoard.value.last) {
-          await getNextGeneralPostListBoard();
+          await getNextGeneralPostBoard();
         }
       }
     });
@@ -67,7 +67,7 @@ class BoardPageController extends GetxController {
       if (petitionBoardScrollController.position.pixels ==
           petitionBoardScrollController.position.maxScrollExtent) {
         if (!petitionBoard.value.last) {
-          await getNextPetitionPostListBoard();
+          await getNextPetitionPostBoard();
         }
       }
     });
@@ -75,7 +75,7 @@ class BoardPageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> getGeneralPostListBoard() async {
+  Future<void> getFirstGeneralPostBoard() async {
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
     await _generalBoardRepository
@@ -92,7 +92,7 @@ class BoardPageController extends GetxController {
     });
   }
 
-  Future<void> getNextGeneralPostListBoard() async {
+  Future<void> getNextGeneralPostBoard() async {
     _generalBoardPage++;
     await _generalBoardRepository
         .getGeneralBoard(
@@ -107,7 +107,8 @@ class BoardPageController extends GetxController {
     });
   }
 
-  Future<void> getPetitionPostListBoard() async {
+
+  Future<void> getFirstPetitionPostBoard() async {
     _petitionBoardPage = 0;
     isLoadPetitionBoard.value = false;
     await _petitionPostRepository
@@ -124,7 +125,7 @@ class BoardPageController extends GetxController {
     });
   }
 
-  Future<void> getNextPetitionPostListBoard() async {
+  Future<void> getNextPetitionPostBoard() async {
     _petitionBoardPage++;
     await _petitionPostRepository
         .getPetitionBoard(

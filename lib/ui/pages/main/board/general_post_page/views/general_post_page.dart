@@ -17,7 +17,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
         title: "자유게시판",
         automaticallyImplyLeading: true,
         onPressedLeading: () {
-          Get.back();
+          Get.back(result: controller.generalPostModel.value);
         },
         actions: [],
       ),
@@ -131,67 +131,79 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         ],
                       ),
                       const SizedBox(
-                        height: 16,
+                        height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Wrap(
-                            spacing: 12,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    child: Image.asset(
-                                      "assets/icons/post/like_unselected.png",
-                                      width: 18,
-                                      height: 18,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    controller.generalPostModel.value.likes
-                                        .toString(),
-                                    style: regularStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: Palette.grey),
-                                  )
-                                ],
+                          Text(
+                            "댓글 ${controller.generalCommentList.value.totalElements.toString()}",
+                            style: titleStyle.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Palette.black),
+                          ),
+                          Obx(
+                            () => OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                side: BorderSide(
+                                  width: 2,
+                                  color: controller.generalPostModel.value.liked
+                                      ? Palette.lightBlue
+                                      : Palette.lightGrey,
+                                ),
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              child: Row(
                                 children: [
                                   Image.asset(
-                                    "assets/icons/post/comment_unselected.png",
+                                    controller.generalPostModel.value.liked
+                                        ? "assets/icons/post/like_selected.png"
+                                        : "assets/icons/post/like_unselected.png",
                                     width: 18,
                                     height: 18,
                                   ),
                                   const SizedBox(
-                                    width: 4,
+                                    width: 8,
                                   ),
                                   Text(
-                                    controller.generalCommentList.value
-                                        .totalElements
+                                    "LIKE",
+                                    style: lightStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: controller
+                                              .generalPostModel.value.liked
+                                          ? Palette.lightBlue
+                                          : Palette.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    controller.generalPostModel.value.likes
                                         .toString(),
-                                    style: regularStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: Palette.grey),
+                                    style: lightStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: controller
+                                              .generalPostModel.value.liked
+                                          ? Palette.lightBlue
+                                          : Palette.grey,
+                                    ),
                                   )
                                 ],
                               ),
-                            ],
-                          )
+                              onPressed: () async {
+                                controller.likeGeneralPost(
+                                    controller.generalPostModel.value.id);
+                              },
+                            ),
+                          ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 16,
                       ),
                       Divider(
                         color: Palette.lightGrey,
-                        height: 0,
+                        thickness: 1,
                       ),
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -238,8 +250,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            controller.generalComments[index]
-                                                .author,
+                                            controller
+                                                .generalComments[index].author,
                                             style: regularStyle.copyWith(
                                                 color: Palette.darkGrey,
                                                 fontWeight: FontWeight.bold),
@@ -292,7 +304,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   ),
                                   Divider(
                                     color: Palette.lightGrey,
-                                    height: 0,
+                                    thickness: 1,
                                   ),
                                 ],
                               ),
