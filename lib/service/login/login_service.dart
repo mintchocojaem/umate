@@ -26,7 +26,8 @@ class LoginService extends GetxService {
       if (value.success) {
         _loginModel.value = value.data as LoginModel;
         isLogin.value = true;
-      } else {
+      }
+      else {
         isLogin.value = false;
         GetXSnackBar(
           type: GetXSnackBarType.customError,

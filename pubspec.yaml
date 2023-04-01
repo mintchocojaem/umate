@@ -51,8 +51,6 @@ dependencies:
   permission_handler: ^10.2.0
   pin_code_fields: ^7.4.0
   animations: ^2.0.7
-  tap_debouncer: ^2.0.2
-
 
 dev_dependencies:
   flutter_test:
