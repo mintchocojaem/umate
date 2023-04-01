@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
 import 'package:danvery/domain/board/petition_board/repository/petition_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
@@ -29,8 +31,10 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() async{
-
     getBusList();
+    Timer.periodic(const Duration(seconds: 30), (timer) {
+      getBusList();
+    });
     getGeneralPostListHome();
     getPetitionPostListHome();
     super.onInit();
@@ -62,16 +66,16 @@ class HomePageController extends GetxController {
     await _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) async {
       if (value.success) {
         busListOfJungMoon.value = value.data as List<BusModel>;
-        await _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
-          if (value.success) {
-            busListOfGomSang.value = value.data as List<BusModel>;
-            if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
-              isLoadBusList.value = true;
-            }
-          }
-        });
       }
     });
+    await _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
+      if (value.success) {
+        busListOfGomSang.value = value.data as List<BusModel>;
+      }
+    });
+    if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
+      isLoadBusList.value = true;
+    }
   }
 
   BusModel findJungMoonBusByNo(String no) {

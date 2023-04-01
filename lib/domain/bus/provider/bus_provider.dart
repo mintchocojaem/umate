@@ -16,7 +16,7 @@ class BusProvider {
 
   factory BusProvider() => _singleton;
 
-  Future<ApiResponseDTO> getBusListFromStation(String stationName) async {
+  Future<ApiResponseDTO> getBusListFromStation(String stationName) async{
     String url = '/bus?stationName=$stationName';
 
     try {
