@@ -26,22 +26,28 @@ class GeneralPostPageController extends GetxController {
 
   final RxBool isLoadedGeneralComment = false.obs;
 
-  final ScrollController generalCommentScrollController = ScrollController();
+  final ScrollController generalPostScrollController = ScrollController();
 
-  final BoardPageController boardPageController = Get.find<BoardPageController>();
+  final BoardPageController boardPageController =
+      Get.find<BoardPageController>();
+
+  final TextEditingController commentTextController = TextEditingController();
+
+  final GlobalKey generalPostHeightKey = GlobalKey();
+
 
   int commentPage = 0;
-  final int commentSize = 5;
+  final int commentSize = 10;
 
   @override
   void onInit() {
     final int id = Get.arguments;
     getGeneralPost(id);
-    getGeneralComment(id);
+    getFirstGeneralComment(id);
 
-    generalCommentScrollController.addListener(() {
-      if (generalCommentScrollController.position.pixels ==
-          generalCommentScrollController.position.maxScrollExtent) {
+    generalPostScrollController.addListener(() {
+      if (generalPostScrollController.position.pixels ==
+          generalPostScrollController.position.maxScrollExtent) {
         if (!generalCommentList.value.last) {
           getNextGeneralComment(id);
         }
@@ -53,7 +59,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getGeneralPost(int id) async {
     await _generalPostRepository
-        .getGeneralPost(token: loginService.loginModel.accessToken, id: id)
+        .getGeneralPost(token: loginService.loginModel.accessToken, postId: id)
         .then((value) {
       if (value.success) {
         generalPostModel.value = value.data as GeneralPostModel;
@@ -65,12 +71,12 @@ class GeneralPostPageController extends GetxController {
     });
   }
 
-  Future<void> getGeneralComment(int id) async {
+  Future<void> getFirstGeneralComment(int id) async {
     commentPage = 0;
     await _generalPostRepository
         .getGeneralComment(
             token: loginService.loginModel.accessToken,
-            id: id,
+            commentId: id,
             page: commentPage,
             size: commentSize)
         .then((value) {
@@ -88,7 +94,7 @@ class GeneralPostPageController extends GetxController {
     await _generalPostRepository
         .getGeneralComment(
             token: loginService.loginModel.accessToken,
-            id: id,
+            commentId: id,
             page: commentPage,
             size: commentSize)
         .then((value) {
@@ -100,11 +106,60 @@ class GeneralPostPageController extends GetxController {
     });
   }
 
+  Future<void> writeGeneralComment(int id) async {
+    await _generalPostRepository
+        .writeGeneralComment(
+            token: loginService.loginModel.accessToken,
+            commentId: id,
+            text: commentTextController.text)
+        .then((value) async {
+      if (value.success) {
+        await getFirstGeneralComment(id).then((value) {
+          commentTextController.clear();
+          FocusManager.instance.primaryFocus?.unfocus();
+          generalPostScrollController.animateTo(
+              generalPostHeightKey.currentContext!.size!.height,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut);
+        });
+      } else {
+        GetXSnackBar(
+                type: GetXSnackBarType.customError,
+                content: value.message,
+                title: "댓글 작성 오류")
+            .show();
+      }
+    });
+  }
+
+  Future<void> deleteGeneralComment(int id, int commentId) async {
+    await _generalPostRepository
+        .deleteGeneralComment(
+            token: loginService.loginModel.accessToken,
+            commentId: commentId)
+        .then((value) async {
+      if (value.success) {
+        await getFirstGeneralComment(id).then((value){
+          generalPostScrollController.animateTo(
+              generalPostHeightKey.currentContext!.size!.height,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut);
+        });
+      } else {
+        GetXSnackBar(
+                type: GetXSnackBarType.customError,
+                content: value.message,
+                title: "댓글 삭제 오류")
+            .show();
+      }
+    });
+  }
+
   Future<void> likeGeneralPost(int id) async {
     HapticFeedback.heavyImpact();
     await _generalPostRepository
-        .likePost(token: loginService.loginModel.accessToken, id: id)
-        .then((value) async{
+        .likePost(token: loginService.loginModel.accessToken, postId: id)
+        .then((value) async {
       if (value.success) {
         if (!generalPostModel.value.liked) {
           generalPostModel.update((val) async {
@@ -113,7 +168,7 @@ class GeneralPostPageController extends GetxController {
           });
         } else {
           await _generalPostRepository
-              .unlikePost(token: loginService.loginModel.accessToken, id: id)
+              .unlikePost(token: loginService.loginModel.accessToken, postId: id)
               .then((value) {
             if (value.success) {
               generalPostModel.update((val) async {
@@ -132,5 +187,4 @@ class GeneralPostPageController extends GetxController {
       }
     });
   }
-
 }

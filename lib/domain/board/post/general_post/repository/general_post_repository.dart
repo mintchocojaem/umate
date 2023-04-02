@@ -17,30 +17,45 @@ class GeneralPostRepository {
           {required String token, required GeneralPostModel postModel}) =>
       _generalPostProvider.writeGeneralPost(token, postModel);
 
-  Future<ApiResponseDTO> deleteGeneralPost({required String token, required int id}) =>
-      _generalPostProvider.deleteGeneralPost(token, id);
+  Future<ApiResponseDTO> deleteGeneralPost({required String token, required int postId}) =>
+      _generalPostProvider.deleteGeneralPost(token, postId);
 
   Future<ApiResponseDTO> getGeneralPost(
-          {required String token, required int id}) =>
-      _generalPostProvider.getGeneralPost(token, id);
+          {required String token, required int postId}) =>
+      _generalPostProvider.getGeneralPost(token, postId);
 
   Future<ApiResponseDTO> getGeneralComment(
       {required String token,
-        required int id,
+        required int commentId,
         required int page,
         required int size}) async {
     return await _generalPostProvider.getGeneralComment(
-        token, id, page, size);
+        token, commentId, page, size);
+  }
+
+  Future<ApiResponseDTO> writeGeneralComment(
+      {required String token,
+        required int commentId,
+        required String text}) async {
+    return await _generalPostProvider.writeGeneralComment(
+        token, commentId, text);
+  }
+
+  Future<ApiResponseDTO> deleteGeneralComment(
+      {required String token,
+        required int commentId}) async {
+    return await _generalPostProvider.deleteGeneralComment(
+        token, commentId);
   }
 
   Future<ApiResponseDTO> likePost(
-      {required String token, required int id}) async {
-    return await _generalPostProvider.likePost(token, id);
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.likePost(token, postId);
   }
 
   Future<ApiResponseDTO> unlikePost(
-      {required String token, required int id}) async {
-    return await _generalPostProvider.unlikePost(token, id);
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.unlikePost(token, postId);
   }
 
 }

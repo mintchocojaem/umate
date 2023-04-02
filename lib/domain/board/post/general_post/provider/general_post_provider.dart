@@ -41,8 +41,8 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> deleteGeneralPost(String token, int id) async {
-    String url = '/post/general-forum/$id';
+  Future<ApiResponseDTO> deleteGeneralPost(String token, int postId) async {
+    String url = '/post/general-forum/$postId';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -58,8 +58,8 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> getGeneralPost(String token, int id) async {
-    String url = '/post/general-forum/$id';
+  Future<ApiResponseDTO> getGeneralPost(String token, int postId) async {
+    String url = '/post/general-forum/$postId';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -78,8 +78,8 @@ class GeneralPostProvider {
   }
 
   Future<ApiResponseDTO> getGeneralComment(
-      String token, int id, int page, int size) async {
-    String url = '/post/general-forum/comment/$id?page=$page&size=$size';
+      String token, int commentId, int page, int size) async {
+    String url = '/post/general-forum/comment/$commentId?page=$page&size=$size&sort=createdAt,desc';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -89,50 +89,75 @@ class GeneralPostProvider {
       final Response response = await _dio.get(url,
           options: Options(
             headers: headers,
-          )
-      );
+          ));
 
       return SuccessResponseDTO(
           data: GeneralCommentListModel.fromJson(response.data));
-    }  on DioError catch (e) {
+    } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
   }
 
-  Future<ApiResponseDTO> likePost(String token, int id) async{
-    String url = '/post/general-forum/like/$id';
+  Future<ApiResponseDTO> writeGeneralComment(
+      String token, int commentId, String text) async {
+    String url = '/post/general-forum/comment/$commentId';
 
     final headers = {
       'Authorization': "Bearer $token",
     };
 
-    try{
+    final data = {
+      'text': text,
+    };
+
+    try {
       final Response response = await _dio.post(url,
           options: Options(
             headers: headers,
-          )
+          ),
+          data: data
       );
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
-
   }
 
-  Future<ApiResponseDTO> unlikePost(String token, int id) async{
-    String url = '/post/general-forum/like/$id';
+  Future<ApiResponseDTO> deleteGeneralComment(
+      String token, int commentId) async {
+    String url = '/post/general-forum/comment/$commentId';
 
     final headers = {
       'Authorization': "Bearer $token",
     };
 
-    try{
+    try {
       final Response response = await _dio.delete(url,
           options: Options(
             headers: headers,
-          )
+          ),
       );
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+
+  }
+
+  Future<ApiResponseDTO> likePost(String token, int postId) async {
+    String url = '/post/general-forum/like/$postId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.post(url,
+          options: Options(
+            headers: headers,
+          ));
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
@@ -140,4 +165,22 @@ class GeneralPostProvider {
     }
   }
 
+  Future<ApiResponseDTO> unlikePost(String token, int postId) async {
+    String url = '/post/general-forum/like/$postId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.delete(url,
+          options: Options(
+            headers: headers,
+          ));
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
 }

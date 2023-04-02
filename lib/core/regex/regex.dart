@@ -1,6 +1,6 @@
-// 3~16자 영문 대소문자, 한글, 숫자, 특수문자(_), 공백 조합
+// 3~12자 영문 대소문자, 한글, 숫자, 특수문자(_), 공백 조합
 bool isValidNicknameFormat(String nickname) {
-  return RegExp(r"^(?!.*\s{2,})[A-Za-z\dㄱ-ㅎㅏ-ㅣ가-힣_ ]{3,16}$")
+  return RegExp(r"^(?!.*\s{2,})[A-Za-z\dㄱ-ㅎㅏ-ㅣ가-힣_ ]{3,12}$")
       .hasMatch(nickname);
 }
 

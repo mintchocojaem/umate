@@ -1,5 +1,7 @@
 import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:html2md/html2md.dart' as html2md;
 
 import '../../../core/theme/app_text_theme.dart';
 
@@ -28,7 +30,7 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 12),
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Row(
         children: [
           Expanded(
@@ -36,6 +38,7 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
                       radius: 20,
@@ -47,17 +50,19 @@ class PostCard extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      nickname,
-                      style: regularStyle.copyWith(
-                          color: Palette.darkGrey, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      publishDate,
-                      style: tinyStyle.copyWith(color: Palette.grey),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nickname,
+                          style: regularStyle.copyWith(
+                              color: Palette.darkGrey, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          publishDate,
+                          style: tinyStyle.copyWith(color: Palette.grey),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -74,11 +79,79 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4, bottom: 8),
                   child: SizedBox(
                     height: 42,
-                    child: Text(
-                      subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: lightStyle.copyWith(color: Palette.grey),
+                    child: Markdown(
+                      selectable: false,
+                      padding: const EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      softLineBreak: true,
+                      shrinkWrap: true,
+                      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+                      styleSheet: MarkdownStyleSheet(
+                        //text
+                        em: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontStyle: FontStyle.normal),
+                        del: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontStyle: FontStyle.normal),
+                        strong: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontWeight: FontWeight.normal),
+                        //heading
+                        h1: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        //sub
+                        h2: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        h3: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        h4: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        h5: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        h6: regularStyle.copyWith(
+                            color: Palette.darkGrey),
+                        //body
+                        p: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontWeight: FontWeight.normal),
+                        //link
+                        a: regularStyle.copyWith(
+                            color: Palette.lightBlue,
+                            decoration: TextDecoration.underline),
+                        //code
+                        code: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            backgroundColor: Palette.lightGrey),
+                        //codeblock
+                        codeblockDecoration: BoxDecoration(
+                          color: Palette.lightGrey,
+                        ),
+                        //blockquote
+                        blockquoteDecoration: BoxDecoration(
+                          color: Palette.lightGrey,
+                        ),
+                        //table
+                        tableHead: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontWeight: FontWeight.bold),
+                        tableBody: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontWeight: FontWeight.normal),
+                        tableBorder: TableBorder.all(
+                          color: Palette.lightGrey,
+                          width: 1,
+                        ),
+                        //list
+                        listBullet: regularStyle.copyWith(
+                            color: Palette.darkGrey,
+                            fontWeight: FontWeight.normal),
+                        listBulletPadding: const EdgeInsets.only(left: 8),
+                        listIndent: 8,
+                      ),
+                      data: html2md.convert(
+                        subtitle.replaceAll("\n", " ").replaceAll("\r", ""),
+                      ),
                     ),
                   ),
                 ),
@@ -134,16 +207,16 @@ class PostCard extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 32,
+            width: 16,
           ),
           Container(
             decoration: BoxDecoration(
-              color: Palette.white,
+              color: Palette.lightGrey,
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             height: 100,
             width: 100,
-          )
+          ),
         ],
       ),
     );

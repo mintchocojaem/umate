@@ -205,7 +205,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
             },
           ),
           CupertinoActionSheetAction(
-            child: const Text('사진 보관함'),
+            child: const Text('사진 보관함',),
             onPressed: () async {
               Get.back();
               if (await controller.permissionService.getGalleryPermission()) {
