@@ -80,12 +80,16 @@ class PostCard extends StatelessWidget {
                   child: SizedBox(
                     height: 42,
                     child: Markdown(
-                      selectable: false,
-                      padding: const EdgeInsets.all(0),
                       physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(0),
                       softLineBreak: true,
                       shrinkWrap: true,
-                      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+                      onTapLink: (text, href, title) {
+
+                      },
+                      styleSheetTheme:
+                      MarkdownStyleSheetBaseTheme
+                          .cupertino,
                       styleSheet: MarkdownStyleSheet(
                         //text
                         em: regularStyle.copyWith(
@@ -118,11 +122,13 @@ class PostCard extends StatelessWidget {
                         //link
                         a: regularStyle.copyWith(
                             color: Palette.lightBlue,
-                            decoration: TextDecoration.underline),
+                            decoration:
+                            TextDecoration.underline),
                         //code
                         code: regularStyle.copyWith(
                             color: Palette.darkGrey,
-                            backgroundColor: Palette.lightGrey),
+                            backgroundColor:
+                            Palette.lightGrey),
                         //codeblock
                         codeblockDecoration: BoxDecoration(
                           color: Palette.lightGrey,
@@ -146,12 +152,11 @@ class PostCard extends StatelessWidget {
                         listBullet: regularStyle.copyWith(
                             color: Palette.darkGrey,
                             fontWeight: FontWeight.normal),
-                        listBulletPadding: const EdgeInsets.only(left: 8),
+                        listBulletPadding:
+                        const EdgeInsets.only(left: 8),
                         listIndent: 8,
                       ),
-                      data: html2md.convert(
-                        subtitle.replaceAll("\n", " ").replaceAll("\r", ""),
-                      ),
+                      data: html2md.convert(subtitle),
                     ),
                   ),
                 ),

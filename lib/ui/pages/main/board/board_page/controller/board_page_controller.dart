@@ -39,10 +39,10 @@ class BoardPageController extends GetxController {
   List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
 
   int _generalBoardPage = 0;
-  final int _generalBoardSize = 5;
+  final int _generalBoardSize = 10;
 
   int _petitionBoardPage = 0;
-  final int _petitionBoardSize = 5;
+  final int _petitionBoardSize = 10;
 
   @override
   void onInit() {

@@ -21,11 +21,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
         title: "자유게시판",
         automaticallyImplyLeading: true,
         onPressedLeading: () {
-          if (controller.isLoadedGeneralPost.value) {
-            Get.back(result: controller.generalPostModel.value);
-          } else {
-            Get.back();
-          }
+          controller.saveAndGetBack();
         },
         actions: [],
       ),
@@ -509,9 +505,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     child: Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
-                                        onPressed: () {
-                                          controller.writeGeneralComment(
-                                              controller
+                                        onPressed: () async{
+                                          await controller
+                                              .writeGeneralComment(controller
                                                   .generalPostModel.value.id);
                                         },
                                         icon: Image.asset(
@@ -575,8 +571,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         ),
                         CupertinoDialogAction(
                           child: const Text('확인'),
-                          onPressed: () {
-                            controller.deleteGeneralComment(
+                          onPressed: () async{
+                            await controller.deleteGeneralComment(
                                 controller.generalPostModel.value.id,
                                 commentId);
                             Get.back();

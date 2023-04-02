@@ -35,7 +35,6 @@ class GeneralPostPageController extends GetxController {
 
   final GlobalKey generalPostHeightKey = GlobalKey();
 
-
   int commentPage = 0;
   final int commentSize = 10;
 
@@ -116,11 +115,11 @@ class GeneralPostPageController extends GetxController {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
           commentTextController.clear();
-          FocusManager.instance.primaryFocus?.unfocus();
-          generalPostScrollController.animateTo(
-              generalPostHeightKey.currentContext!.size!.height,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeOut);
+          generalPostScrollController
+              .animateTo(generalPostHeightKey.currentContext!.size!.height,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut)
+              .then((value) => FocusManager.instance.primaryFocus?.unfocus());
         });
       } else {
         GetXSnackBar(
@@ -135,11 +134,10 @@ class GeneralPostPageController extends GetxController {
   Future<void> deleteGeneralComment(int id, int commentId) async {
     await _generalPostRepository
         .deleteGeneralComment(
-            token: loginService.loginModel.accessToken,
-            commentId: commentId)
+            token: loginService.loginModel.accessToken, commentId: commentId)
         .then((value) async {
       if (value.success) {
-        await getFirstGeneralComment(id).then((value){
+        await getFirstGeneralComment(id).then((value) {
           generalPostScrollController.animateTo(
               generalPostHeightKey.currentContext!.size!.height,
               duration: const Duration(milliseconds: 500),
@@ -168,7 +166,8 @@ class GeneralPostPageController extends GetxController {
           });
         } else {
           await _generalPostRepository
-              .unlikePost(token: loginService.loginModel.accessToken, postId: id)
+              .unlikePost(
+                  token: loginService.loginModel.accessToken, postId: id)
               .then((value) {
             if (value.success) {
               generalPostModel.update((val) async {
@@ -186,5 +185,15 @@ class GeneralPostPageController extends GetxController {
             .show();
       }
     });
+  }
+
+  void saveAndGetBack() {
+    if (isLoadedGeneralPost.value) {
+      generalPostModel.value.commentCount =
+          generalCommentList.value.totalElements;
+      Get.back(result: generalPostModel.value);
+    } else {
+      Get.back();
+    }
   }
 }

@@ -20,7 +20,7 @@ class GeneralBoardProvider {
   Future<ApiResponseDTO> getGeneralBoard(
       int page, int size, String keyword) async {
     String url =
-        '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc';
+        '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=200';
 
     try {
       final Response response = await _dio.get(url);
