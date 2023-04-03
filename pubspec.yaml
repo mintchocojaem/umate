@@ -51,8 +51,7 @@ dependencies:
   permission_handler: ^10.2.0
   pin_code_fields: ^7.4.0
   animations: ^2.0.7
-  flutter_markdown: ^0.6.14
-  html2md: ^1.2.6
+  flutter_html: ^3.0.0-alpha.6
 
 dev_dependencies:
   flutter_test:

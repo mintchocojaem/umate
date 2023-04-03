@@ -1,7 +1,6 @@
 import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:html2md/html2md.dart' as html2md;
+import 'package:flutter_html/flutter_html.dart';
 
 import '../../../core/theme/app_text_theme.dart';
 
@@ -17,6 +16,7 @@ class PostCard extends StatelessWidget {
     this.likeCount = 0,
     required this.nickname,
     this.onTap,
+    this.imageUrl,
   });
 
   final String title;
@@ -28,6 +28,7 @@ class PostCard extends StatelessWidget {
   final int likeCount;
   final String nickname;
   final VoidCallback? onTap;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -83,84 +84,21 @@ class PostCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 4, bottom: 8),
                     child: SizedBox(
                       height: 42,
-                      child: Markdown(
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(0),
-                        softLineBreak: true,
-                        shrinkWrap: true,
-                        onTapLink: (text, href, title) {
+                      child: Html(
+                        data: subtitle,
+                        style: {
+                          "body": Style(
+                            fontSize: FontSize(lightStyle.fontSize!),
+                            color: Palette.darkGrey,
+                            padding: EdgeInsets.zero,
+                            margin: Margins.zero,
+                            maxLines: 2,
+                            textOverflow: TextOverflow.ellipsis,
+                          ),
+                        },
+                        onLinkTap: (url,_, __, ___) {
                           onTap?.call();
                         },
-                        styleSheetTheme:
-                        MarkdownStyleSheetBaseTheme
-                            .cupertino,
-                        styleSheet: MarkdownStyleSheet(
-                          //text
-                          em: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontStyle: FontStyle.normal),
-                          del: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontStyle: FontStyle.normal),
-                          strong: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.normal),
-                          //heading
-                          h1: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          //sub
-                          h2: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          h3: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          h4: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          h5: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          h6: regularStyle.copyWith(
-                              color: Palette.darkGrey),
-                          //body
-                          p: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.normal),
-                          //link
-                          a: regularStyle.copyWith(
-                              color: Palette.lightBlue,
-                              decoration:
-                              TextDecoration.underline),
-                          //code
-                          code: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              backgroundColor:
-                              Palette.lightGrey),
-                          //codeblock
-                          codeblockDecoration: BoxDecoration(
-                            color: Palette.lightGrey,
-                          ),
-                          //blockquote
-                          blockquoteDecoration: BoxDecoration(
-                            color: Palette.lightGrey,
-                          ),
-                          //table
-                          tableHead: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.bold),
-                          tableBody: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.normal),
-                          tableBorder: TableBorder.all(
-                            color: Palette.lightGrey,
-                            width: 1,
-                          ),
-                          //list
-                          listBullet: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.normal),
-                          listBulletPadding:
-                          const EdgeInsets.only(left: 8),
-                          listIndent: 8,
-                        ),
-                        data: html2md.convert(subtitle),
                       ),
                     ),
                   ),
@@ -218,14 +156,18 @@ class PostCard extends StatelessWidget {
             const SizedBox(
               width: 16,
             ),
-            Container(
+            imageUrl != null ? Container(
               decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl!),
+                  fit: BoxFit.cover,
+                ),
                 color: Palette.lightGrey,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               height: 100,
               width: 100,
-            ),
+            ) : const SizedBox(),
           ],
         ),
       ),

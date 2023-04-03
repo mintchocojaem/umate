@@ -1,4 +1,4 @@
-class GeneralCommentModel{
+class GeneralCommentModel {
   late int id;
   late String author;
   late String text;

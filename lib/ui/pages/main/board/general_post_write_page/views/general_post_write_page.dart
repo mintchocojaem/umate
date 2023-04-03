@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
@@ -32,6 +32,9 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                 GeneralPostModel postModel = GeneralPostModel();
                 postModel.title = controller.titleController.text;
                 postModel.body = controller.contentController.text;
+                postModel.files = controller.imageList
+                    .map((e) => FileModel.fromImagePicker(e))
+                    .toList();
                 await controller.writeGeneralPost(
                     controller.loginService.loginModel.accessToken, postModel);
               },
@@ -211,7 +214,11 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
             onPressed: () async {
               Get.back();
               if (await controller.permissionService.getGalleryPermission()) {
-                controller.imageList.addAll(await picker.pickMultiImage());
+                await picker.pickMultiImage(
+                  imageQuality: 80,
+                ).then((value) {
+                  controller.imageList.addAll(value);
+                });
               }
             },
           )

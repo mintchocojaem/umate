@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
@@ -5,6 +7,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class GeneralPostProvider {
   final Dio _dio;
@@ -23,8 +26,8 @@ class GeneralPostProvider {
     final data = FormData.fromMap({
       'title': postModel.title,
       'body': postModel.body,
+      'files': postModel.files.map((e) => MultipartFile.fromFileSync(e.url)).toList(),
     });
-
     final headers = {
       'Authorization': "Bearer $token",
     };

@@ -1,15 +1,17 @@
+import 'package:danvery/domain/board/general_board/model/file.dart';
+
 class GeneralPostModel{
   late int id;
   late String title;
   late String body;
   late String author;
   late String createdAt;
-  //late files -> image
   late int likes;
   late bool mine;
   late bool liked;
   late int views;
   late int commentCount;
+  late List<FileModel> files;
 
   GeneralPostModel({
     id,
@@ -21,7 +23,8 @@ class GeneralPostModel{
     likes,
     mine,
     liked,
-    commentCount
+    commentCount,
+    files,
   });
 
   GeneralPostModel.fromJson(Map<String, dynamic> json){
@@ -35,6 +38,7 @@ class GeneralPostModel{
     likes = json["likes"] as int? ?? 0;
     liked = json["liked"] as bool? ?? false;
     commentCount = json["commentCount"] as int? ?? 0;
+    files = (json["files"] as List).map((e) => FileModel.fromJson(e)).toList();
   }
 
 }

@@ -206,6 +206,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_html:
+    dependency: "direct main"
+    description:
+      name: flutter_html
+      sha256: "342c7908f0a67bcec62b6e0f7cf23e23bafe7f64693665dd35be98d5e783bdfd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0-alpha.6"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -238,14 +246,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  flutter_markdown:
-    dependency: "direct main"
-    description:
-      name: flutter_markdown
-      sha256: "7b25c10de1fea883f3c4f9b8389506b54053cd00807beab69fd65c8653a2711f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.14"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -296,14 +296,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.2"
-  html2md:
-    dependency: "direct main"
-    description:
-      name: html2md
-      sha256: efa0a8e8544108734338dbb614821045aa118bcea3d4f14b3da41cf29659e6de
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.6"
   http:
     dependency: transitive
     description:
@@ -384,14 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  markdown:
-    dependency: transitive
-    description:
-      name: markdown
-      sha256: d95a9d12954aafc97f984ca29baaa7690ed4d9ec4140a23ad40580bcdb6c87f5
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.2"
   matcher:
     dependency: transitive
     description:
@@ -416,6 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  numerus:
+    dependency: transitive
+    description:
+      name: numerus
+      sha256: "436759d84f233b40107d0cc31cfa92d24e0960afeb2e506be70926d4cddffd9e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
@@ -734,5 +726,5 @@ packages:
     source: hosted
     version: "6.2.2"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.18.4 <3.0.0"
   flutter: ">=3.7.0"

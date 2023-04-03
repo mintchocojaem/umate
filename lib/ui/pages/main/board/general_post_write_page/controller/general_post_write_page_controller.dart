@@ -1,3 +1,4 @@
+import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';

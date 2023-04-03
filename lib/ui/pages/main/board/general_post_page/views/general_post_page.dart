@@ -5,9 +5,8 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:html2md/html2md.dart' as html2md;
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../controller/general_post_page_controller.dart';
@@ -125,113 +124,67 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      MarkdownBody(
-                                        softLineBreak: true,
-                                        shrinkWrap: true,
-                                        onTapLink: (text, href, title) {
-                                          launchUrlString(href!);
-                                        },
-                                        styleSheetTheme:
-                                            MarkdownStyleSheetBaseTheme
-                                                .cupertino,
-                                        styleSheet: MarkdownStyleSheet(
-                                          //text
-                                          em: regularStyle.copyWith(
+                                      Html(
+                                          style: {
+                                            "body": Style(
+                                              fontSize: FontSize(
+                                                  regularStyle.fontSize!),
                                               color: Palette.darkGrey,
-                                              fontStyle: FontStyle.normal),
-                                          del: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontStyle: FontStyle.normal),
-                                          strong: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontWeight: FontWeight.normal),
-                                          //heading
-                                          h1: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          //sub
-                                          h2: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          h3: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          h4: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          h5: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          h6: regularStyle.copyWith(
-                                              color: Palette.darkGrey),
-                                          //body
-                                          p: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontWeight: FontWeight.normal),
-                                          //link
-                                          a: regularStyle.copyWith(
-                                              color: Palette.lightBlue,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                          //code
-                                          code: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              backgroundColor:
-                                                  Palette.lightGrey),
-                                          //codeblock
-                                          codeblockDecoration: BoxDecoration(
-                                            color: Palette.lightGrey,
-                                          ),
-                                          //blockquote
-                                          blockquoteDecoration: BoxDecoration(
-                                            color: Palette.lightGrey,
-                                          ),
-                                          //table
-                                          tableHead: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontWeight: FontWeight.bold),
-                                          tableBody: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontWeight: FontWeight.normal),
-                                          tableBorder: TableBorder.all(
-                                            color: Palette.lightGrey,
-                                            width: 1,
-                                          ),
-                                          //list
-                                          listBullet: regularStyle.copyWith(
-                                              color: Palette.darkGrey,
-                                              fontWeight: FontWeight.normal),
-                                          listBulletPadding:
-                                              const EdgeInsets.only(left: 8),
-                                          listIndent: 8,
-                                        ),
-                                        data: html2md.convert(controller
-                                            .generalPostModel.value.body),
-                                      ),
+                                              padding: EdgeInsets.zero,
+                                              margin: Margins.zero,
+                                            ),
+                                          },
+                                          data: controller
+                                              .generalPostModel.value.body,
+                                          onLinkTap: (String? url,
+                                              RenderContext context,
+                                              Map<String, String> attributes,
+                                              _) {
+                                            if (url != null) {
+                                              launchUrlString(url);
+                                            }
+                                          }),
                                     ],
                                   ),
                                   const SizedBox(
                                     height: 16,
                                   ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Palette.white,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        width: 128,
-                                        height: 128,
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Palette.white,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        width: 128,
-                                        height: 128,
-                                      ),
-                                    ],
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        for (var i = 0;
+                                            i <
+                                                controller.generalPostModel
+                                                    .value.files.length;
+                                            i++)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 8,
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Palette.white,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                              ),
+                                              width: 120,
+                                              height: 120,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                child: Image.network(
+                                                  controller.generalPostModel
+                                                      .value.files[i].url,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

@@ -40,7 +40,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                         if (index == controller.generalPostList.length) {
                           if (controller.generalPostBoard.value.last) {
                             return const SizedBox();
-                          } else{
+                          } else {
                             return const Padding(
                               padding: EdgeInsets.all(16.0),
                               child: Center(child: CircularProgressIndicator()),
@@ -52,29 +52,36 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                           child: Column(
                             children: [
                               PostCard(
-                                nickname:
-                                    controller.generalPostList[index].author,
-                                title:
-                                    controller.generalPostList[index].title,
-                                subtitle:
-                                    controller.generalPostList[index].body,
-                                publishDate: controller
-                                    .generalPostList[index].createdAt,
-                                commentCount: controller
-                                    .generalPostList[index].commentCount,
-                                likeCount:
-                                    controller.generalPostList[index].likes,
-                                onTap: () {
-                                  Get.toNamed(Routes.post,
-                                      arguments:
-                                      controller.generalPostList[index].id)?.then((value){
-                                    if(value != null){
-                                      final generalPostModel = value as GeneralPostModel;
-                                      controller.generalPostList[index] = generalPostModel;
-                                    }
-                                  });
-                                }
-                              ),
+                                  nickname:
+                                      controller.generalPostList[index].author,
+                                  title:
+                                      controller.generalPostList[index].title,
+                                  subtitle:
+                                      controller.generalPostList[index].body,
+                                  publishDate: controller
+                                      .generalPostList[index].createdAt,
+                                  commentCount: controller
+                                      .generalPostList[index].commentCount,
+                                  likeCount:
+                                      controller.generalPostList[index].likes,
+                                  imageUrl: controller.generalPostList[index]
+                                          .files.isNotEmpty
+                                      ? controller
+                                          .generalPostList[index].files[0].url
+                                      : null,
+                                  onTap: () {
+                                    Get.toNamed(Routes.post,
+                                            arguments: controller
+                                                .generalPostList[index].id)
+                                        ?.then((value) {
+                                      if (value != null) {
+                                        final generalPostModel =
+                                            value as GeneralPostModel;
+                                        controller.generalPostList[index] =
+                                            generalPostModel;
+                                      }
+                                    });
+                                  }),
                               Divider(
                                 color: Palette.lightGrey,
                                 thickness: 1,
