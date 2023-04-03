@@ -27,6 +27,9 @@ class PostSearchPage extends GetView<PostSearchPageController> {
                     .then((value) => Get.back());
               }
             },
+            onPressedSuffixIcon: () {
+              controller.searchController.clear();
+            },
           ),
           Positioned.fill(
             child: Align(

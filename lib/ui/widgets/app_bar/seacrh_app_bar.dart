@@ -11,6 +11,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool isDarkMode;
   final String hint;
   final VoidCallback? onPressedLeading;
+  final VoidCallback? onPressedSuffixIcon;
   final TextEditingController? controller;
   final void Function(String value)? onSubmitted;
 
@@ -24,6 +25,7 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
     this.onPressedLeading,
     this.controller,
     this.onSubmitted,
+    this.onPressedSuffixIcon,
   });
 
   @override
@@ -58,9 +60,12 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
             isDense: true,
             contentPadding:
                 const EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
-            suffixIcon: Icon(
-              Icons.cancel,
-              color: Palette.grey,
+            suffixIcon: IconButton(
+              onPressed: onPressedSuffixIcon,
+              icon: Icon(
+                Icons.cancel,
+                color: Palette.grey,
+              ),
             )),
       ),
       leading: automaticallyImplyLeading
