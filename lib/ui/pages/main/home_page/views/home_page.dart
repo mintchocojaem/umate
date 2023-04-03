@@ -95,15 +95,7 @@ class HomePage extends GetView<HomePageController> {
                           children: [
                             CircleButton(
                               imagePath:
-                                  "assets/icons/main_btn_list/school_home_btn.png",
-                              text: "학교 홈",
-                              onPressed: () {
-                                launchUrlString("https://www.dankook.ac.kr/web");
-                              },
-                            ),
-                            CircleButton(
-                              imagePath:
-                                  "assets/icons/main_btn_list/reading_room_btn.png",
+                                  "assets/icons/main_icon_list/reading_room_icon.png",
                               text: "열람실",
                               onPressed: () {
                                 launchUrlString(
@@ -112,7 +104,7 @@ class HomePage extends GetView<HomePageController> {
                             ),
                             CircleButton(
                               imagePath:
-                                  "assets/icons/main_btn_list/web_info_btn.png",
+                                  "assets/icons/main_icon_list/web_info_icon.png",
                               text: "웹 정보",
                               onPressed: () {
                                 launchUrlString(
@@ -121,7 +113,7 @@ class HomePage extends GetView<HomePageController> {
                             ),
                             CircleButton(
                               imagePath:
-                                  "assets/icons/main_btn_list/school_schedule_btn.png",
+                                  "assets/icons/main_icon_list/school_schedule_icon.png",
                               text: "학사일정",
                               onPressed: () {
                                 launchUrlString(
@@ -130,7 +122,15 @@ class HomePage extends GetView<HomePageController> {
                             ),
                             CircleButton(
                               imagePath:
-                                  "assets/icons/main_btn_list/students_council_btn.png",
+                              "assets/icons/main_icon_list/school_food_icon.png",
+                              text: "학식",
+                              onPressed: () {
+                                launchUrlString("https://www.dankook.ac.kr/web/kor/-556");
+                              },
+                            ),
+                            CircleButton(
+                              imagePath:
+                                  "assets/icons/main_icon_list/students_council_icon.png",
                               text: "총학생회\nVOC",
                               onPressed: () {},
                             )

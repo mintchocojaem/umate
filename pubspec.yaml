@@ -109,7 +109,7 @@ flutter:
   assets:
     - assets/icons/bottom_navigation_bar/selected/
     - assets/icons/bottom_navigation_bar/unselected/
-    - assets/icons/main_btn_list/
+    - assets/icons/main_icon_list/
     - assets/icons/main_header/
     - assets/icons/bus_list/
     - assets/icons/user/
