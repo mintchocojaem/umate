@@ -30,12 +30,10 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
               ),
               onPressed: () async {
                 GeneralPostModel postModel = GeneralPostModel();
-
-                if (await controller.writeGeneralPost(
-                    controller.loginService.loginModel.accessToken,
-                    postModel)) {
-                  Get.back();
-                }
+                postModel.title = controller.titleController.text;
+                postModel.body = controller.contentController.text;
+                await controller.writeGeneralPost(
+                    controller.loginService.loginModel.accessToken, postModel);
               },
               child: Text(
                 '등록',
@@ -106,7 +104,9 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                             color: Palette.grey, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 4,),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -205,7 +205,9 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
             },
           ),
           CupertinoActionSheetAction(
-            child: const Text('사진 보관함',),
+            child: const Text(
+              '사진 보관함',
+            ),
             onPressed: () async {
               Get.back();
               if (await controller.permissionService.getGalleryPermission()) {

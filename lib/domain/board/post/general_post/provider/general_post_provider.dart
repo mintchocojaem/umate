@@ -33,9 +33,10 @@ class GeneralPostProvider {
       final Response response = await _dio.post(url,
           data: data,
           options:
-              Options(contentType: "multipart/form-data", headers: headers));
+              Options(contentType: "multipart/form-data", headers: headers)
+      );
 
-      return SuccessResponseDTO(data: GeneralPostModel.fromJson(response.data));
+      return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
