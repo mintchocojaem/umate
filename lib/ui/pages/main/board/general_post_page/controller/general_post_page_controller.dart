@@ -70,6 +70,24 @@ class GeneralPostPageController extends GetxController {
     });
   }
 
+  Future<void> deleteGeneralPost(int id) async {
+    await _generalPostRepository
+        .deleteGeneralPost(token: loginService.loginModel.accessToken, postId: id)
+        .then((value) async {
+      if (value.success) {
+        await boardPageController.getFirstGeneralPostBoard().then((value) {
+          Get.back();
+        });
+      } else {
+        GetXSnackBar(
+                type: GetXSnackBarType.customError,
+                content: value.message,
+                title: "게시글 삭제 오류")
+            .show();
+      }
+    });
+  }
+
   Future<void> getFirstGeneralComment(int id) async {
     commentPage = 0;
     await _generalPostRepository
@@ -115,11 +133,13 @@ class GeneralPostPageController extends GetxController {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
           commentTextController.clear();
-          generalPostScrollController
-              .animateTo(generalPostHeightKey.currentContext!.size!.height,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut)
-              .then((value) => FocusManager.instance.primaryFocus?.unfocus());
+          if(generalPostScrollController.position.pixels >=
+              generalPostHeightKey.currentContext!.size!.height){
+            generalPostScrollController.animateTo(
+                generalPostHeightKey.currentContext!.size!.height,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut);
+          }
         });
       } else {
         GetXSnackBar(
@@ -138,10 +158,13 @@ class GeneralPostPageController extends GetxController {
         .then((value) async {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
-          generalPostScrollController.animateTo(
-              generalPostHeightKey.currentContext!.size!.height,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeOut);
+          if(generalPostScrollController.position.pixels >=
+              generalPostHeightKey.currentContext!.size!.height){
+            generalPostScrollController.animateTo(
+                generalPostHeightKey.currentContext!.size!.height,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut);
+          }
         });
       } else {
         GetXSnackBar(

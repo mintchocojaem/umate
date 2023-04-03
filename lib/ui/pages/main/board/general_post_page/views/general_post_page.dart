@@ -1,5 +1,7 @@
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +96,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         child: Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              generalPostPopup(controller
+                                                  .generalPostModel.value);
+                                            },
                                             icon: Icon(
                                               Icons.more_vert,
                                               color: Palette.darkGrey,
@@ -431,8 +436,11 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           alignment: Alignment.topRight,
                                           child: IconButton(
                                             onPressed: () {
-                                              generalCommentPopup(controller
-                                                  .generalComments[index].id);
+                                              generalCommentPopup(
+                                                  controller
+                                                      .generalPostModel.value,
+                                                  controller
+                                                      .generalComments[index]);
                                             },
                                             icon: Icon(
                                               Icons.more_vert,
@@ -507,9 +515,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     child: Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
-                                        onPressed: () async{
-                                          await controller
-                                              .writeGeneralComment(controller
+                                        onPressed: () async {
+                                          await controller.writeGeneralComment(
+                                              controller
                                                   .generalPostModel.value.id);
                                         },
                                         icon: Image.asset(
@@ -538,7 +546,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
     );
   }
 
-  void generalCommentPopup(int commentId) {
+  void generalCommentPopup(GeneralPostModel generalPostModel,
+      GeneralCommentModel generalCommentModel) {
     showCupertinoModalPopup(
         context: Get.context!,
         builder: (BuildContext context) {
@@ -555,36 +564,97 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                   Get.back();
                 },
               ),
+              generalCommentModel.mine
+                  ? CupertinoActionSheetAction(
+                      child: const Text(
+                        '삭제하기',
+                      ),
+                      onPressed: () {
+                        Get.dialog(
+                          CupertinoAlertDialog(
+                            title: const Text('댓글 삭제'),
+                            content: const Text('댓글을 삭제하시겠습니까?'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: const Text('취소'),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('확인'),
+                                onPressed: () async {
+                                  await controller.deleteGeneralComment(
+                                      generalPostModel.id,
+                                      generalCommentModel.id);
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          ),
+                        ).then((value) => Get.back());
+                      },
+                    )
+                  : const SizedBox(),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('취소'),
+            ),
+          );
+        });
+  }
+
+  void generalPostPopup(GeneralPostModel generalPostModel) {
+    showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+            actions: <Widget>[
               CupertinoActionSheetAction(
-                child: const Text(
-                  '삭제하기',
+                child: Text(
+                  '신고하기',
+                  style: TextStyle(
+                    color: Palette.lightRed,
+                  ),
                 ),
                 onPressed: () {
-                  Get.dialog(
-                    CupertinoAlertDialog(
-                      title: const Text('댓글 삭제'),
-                      content: const Text('댓글을 삭제하시겠습니까?'),
-                      actions: <Widget>[
-                        CupertinoDialogAction(
-                          child: const Text('취소'),
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: const Text('확인'),
-                          onPressed: () async{
-                            await controller.deleteGeneralComment(
-                                controller.generalPostModel.value.id,
-                                commentId);
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                  ).then((value) => Get.back());
+                  Get.back();
                 },
               ),
+              generalPostModel.mine
+                  ? CupertinoActionSheetAction(
+                      child: const Text(
+                        '삭제하기',
+                      ),
+                      onPressed: () {
+                        Get.dialog(
+                          CupertinoAlertDialog(
+                            title: const Text('게시글 삭제'),
+                            content: const Text('게시글을 삭제하시겠습니까?'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: const Text('취소'),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('확인'),
+                                onPressed: () async {
+                                  await controller
+                                      .deleteGeneralPost(generalPostModel.id);
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          ),
+                        ).then((value) => Get.back());
+                      },
+                    )
+                  : const SizedBox(),
             ],
             cancelButton: CupertinoActionSheetAction(
               onPressed: () {
