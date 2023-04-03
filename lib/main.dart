@@ -31,7 +31,6 @@ void main() async{
   await GetStorage.init();
 
   runApp(GetMaterialApp(
-    initialBinding: SplashScreenPageBinding(),
     initialRoute: Routes.splashScreen,
     getPages: AppPages.pages,
     debugShowCheckedModeBanner: false,

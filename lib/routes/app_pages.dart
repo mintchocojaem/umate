@@ -88,7 +88,7 @@ class AppPages {
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),
-        bindings: [SplashScreenPageBinding()]),
+        bindings: [SplashScreenPageBinding(),LoginBinding()]),
     GetPage(
       name: Routes.petition,
       page: () => const PetitionPostPage(),

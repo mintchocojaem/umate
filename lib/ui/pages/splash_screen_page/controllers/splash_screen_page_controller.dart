@@ -6,35 +6,40 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../routes/app_routes.dart';
 
+class SplashScreenPageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
 
-class SplashScreenPageController extends GetxController with GetSingleTickerProviderStateMixin{
-
-  //final LoginService loginService = Get.find<LoginService>();
+  final LoginService loginService = Get.find<LoginService>();
 
   late AnimationController animationController;
   late Animation<double> animation;
 
   @override
-  onInit() async{
-    //final GetStorage box = GetStorage();
+  onInit() async {
+    final GetStorage box = GetStorage();
+    final String? accessToken = box.read("accessToken");
+    final String? refreshToken = box.read("refreshToken");
     await animationInit().whenComplete(() {
-      /*final LoginModel? loginModel = box.read('loginModel');
-      if(loginModel != null){
-        loginService.login(loginModel.studentId, loginModel.);
-        Get.offNamed(Routes.home);
-      }else{
-        Get.offNamed(Routes.login);
+      if (accessToken != null && refreshToken  != null) {
+        loginService
+            .autoLogin(accessToken, refreshToken)
+            .then((value) {
+          if (loginService.isLogin.value) {
+            Get.offAndToNamed(Routes.main);
+          } else {
+            Get.offAndToNamed(Routes.login);
+          }
+        });
+      } else {
+        Get.offAndToNamed(Routes.login);
       }
-
-       */
-      Get.offNamed(Routes.login);
     });
     super.onInit();
   }
 
-  Future<void> animationInit() async{
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+  Future<void> animationInit() async {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500));
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeOut)
             .obs

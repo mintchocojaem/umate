@@ -4,8 +4,6 @@ class LoginModel{
   late String userName;
   late String studentId;
   late String major;
-  late String department;
-  late bool admin;
 
   LoginModel({
     accessToken,
@@ -13,8 +11,6 @@ class LoginModel{
     userName,
     studentId,
     major,
-    department,
-    admin
   });
 
   LoginModel.fromJson(Map<String, dynamic> json){
@@ -23,8 +19,24 @@ class LoginModel{
     userName = json["userName"] as String;
     studentId = json["studentId"] as String;
     major = json["major"] as String;
-    department = json["department"] as String;
-    admin = json["admin"] as bool;
   }
 
+}
+
+class UserInfoModel{
+  late String userName;
+  late String studentId;
+  late String major;
+
+  UserInfoModel({
+    userName,
+    studentId,
+    major,
+  });
+
+  UserInfoModel.fromJson(Map<String, dynamic> json){
+    userName = json["studentName"] as String;
+    studentId = json["studentId"] as String? ?? "????????";
+    major = json["major"] as String;
+  }
 }

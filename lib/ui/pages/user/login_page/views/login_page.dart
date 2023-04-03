@@ -71,7 +71,7 @@ class LoginPage extends GetView<LoginPageController> {
                             .login(controller.id.value,
                             controller.password.value) //new: '12345678', '121212'
                             .then((value) {
-                          if (value) {
+                          if (controller.loginService.isLogin.value) {
                             Get.offAndToNamed(Routes.main);
                           }
                         });

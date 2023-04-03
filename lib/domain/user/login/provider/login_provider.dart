@@ -2,6 +2,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
+import 'package:danvery/domain/user/login/model/token_model.dart';
 import 'package:dio/dio.dart';
 
 import '../model/login_model.dart';
@@ -30,4 +31,41 @@ class LoginProvider {
       return ExceptionResponseDTO(message: e.message);
     }
   }
+
+  Future<ApiResponseDTO> reissueToken(String accessToken, String refreshToken) async {
+    const String url = '/user/reissue';
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+    final body = {"refreshToken": refreshToken};
+
+    try {
+      final Response response = await _dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+      return SuccessResponseDTO(data: TokenModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> getUserInfo(String accessToken) async{
+    const String url = '/user';
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+
+    try {
+      final Response response = await _dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+      return SuccessResponseDTO(data: UserInfoModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
 }
