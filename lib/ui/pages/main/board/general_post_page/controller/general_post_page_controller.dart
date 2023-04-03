@@ -33,7 +33,7 @@ class GeneralPostPageController extends GetxController {
 
   final TextEditingController commentTextController = TextEditingController();
 
-  final GlobalKey generalPostHeightKey = GlobalKey();
+  late GlobalKey generalPostHeightKey;
 
   int commentPage = 0;
   final int commentSize = 10;

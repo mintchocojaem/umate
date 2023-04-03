@@ -6,6 +6,6 @@ class PetitionPostPageBinding extends Bindings {
 
   @override
   void dependencies() {
-    Get.lazyPut(()=> PetitionPostPageController());
+    Get.lazyPut(()=> PetitionPostPageController(), fenix: true);
   }
 }

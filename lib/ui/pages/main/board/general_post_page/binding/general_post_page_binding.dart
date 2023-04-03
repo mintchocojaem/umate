@@ -6,6 +6,6 @@ class GeneralPostPageBinding extends Bindings {
 
   @override
   void dependencies() {
-    Get.lazyPut<GeneralPostPageController>(()=> GeneralPostPageController());
+    Get.lazyPut<GeneralPostPageController>(()=> GeneralPostPageController(), fenix: true);
   }
 }

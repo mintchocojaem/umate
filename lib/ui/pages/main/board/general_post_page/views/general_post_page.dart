@@ -15,6 +15,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey generalPostHeightKey = GlobalKey();
+    controller.generalPostHeightKey = generalPostHeightKey;
     return Scaffold(
       appBar: TransparentAppBar(
         isDarkMode: Get.isDarkMode,

@@ -47,41 +47,39 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                             );
                           }
                         }
-                        return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.post,
-                                arguments:
-                                    controller.generalPostList[index].id)?.then((value){
-                                     if(value != null){
-                                       final generalPostModel = value as GeneralPostModel;
-                                        controller.generalPostList[index] = generalPostModel;
-                                     }
-                            });
-                          },
-                          child: Container(
-                            color: Palette.pureWhite,
-                            child: Column(
-                              children: [
-                                PostCard(
-                                  nickname:
-                                      controller.generalPostList[index].author,
-                                  title:
-                                      controller.generalPostList[index].title,
-                                  subtitle:
-                                      controller.generalPostList[index].body,
-                                  publishDate: controller
-                                      .generalPostList[index].createdAt,
-                                  commentCount: controller
-                                      .generalPostList[index].commentCount,
-                                  likeCount:
-                                      controller.generalPostList[index].likes,
-                                ),
-                                Divider(
-                                  color: Palette.lightGrey,
-                                  thickness: 1,
-                                ),
-                              ],
-                            ),
+                        return Container(
+                          color: Palette.pureWhite,
+                          child: Column(
+                            children: [
+                              PostCard(
+                                nickname:
+                                    controller.generalPostList[index].author,
+                                title:
+                                    controller.generalPostList[index].title,
+                                subtitle:
+                                    controller.generalPostList[index].body,
+                                publishDate: controller
+                                    .generalPostList[index].createdAt,
+                                commentCount: controller
+                                    .generalPostList[index].commentCount,
+                                likeCount:
+                                    controller.generalPostList[index].likes,
+                                onTap: () {
+                                  Get.toNamed(Routes.post,
+                                      arguments:
+                                      controller.generalPostList[index].id)?.then((value){
+                                    if(value != null){
+                                      final generalPostModel = value as GeneralPostModel;
+                                      controller.generalPostList[index] = generalPostModel;
+                                    }
+                                  });
+                                }
+                              ),
+                              Divider(
+                                color: Palette.lightGrey,
+                                thickness: 1,
+                              ),
+                            ],
                           ),
                         );
                       },
