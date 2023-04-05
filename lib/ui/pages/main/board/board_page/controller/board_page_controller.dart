@@ -1,3 +1,4 @@
+import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
 import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
@@ -44,11 +45,13 @@ class BoardPageController extends GetxController {
   int _petitionBoardPage = 0;
   final int _petitionBoardSize = 10;
 
+  final RxBool isLoadedImageList = false.obs;
+
   @override
-  void onInit() {
+  void onInit() async{
     // TODO: implement onInit
-    getFirstGeneralPostBoard();
-    getFirstPetitionPostBoard();
+    await getFirstGeneralPostBoard();
+    await getFirstPetitionPostBoard();
 
     selectedCategory.listen((value) {
       getFirstPetitionPostBoard();
@@ -78,15 +81,19 @@ class BoardPageController extends GetxController {
   Future<void> getFirstGeneralPostBoard() async {
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
+    isLoadedImageList.value = false;
     await _generalBoardRepository
         .getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
             keyword: searchText.value)
-        .then((value) {
+        .then((value) async {
       if (value.success) {
         generalPostBoard.value = value.data as GeneralBoardModel;
-        generalPostList.value = value.data.generalPosts as List<GeneralPostModel>;
+        final List<GeneralPostModel> postList =
+        value.data.generalPosts as List<GeneralPostModel>;
+        await getImageList(postList);
+        generalPostList.value = postList;
         isLoadGeneralPostBoard.value = true;
       }
     });
@@ -99,14 +106,16 @@ class BoardPageController extends GetxController {
             page: _generalBoardPage,
             size: _generalBoardSize,
             keyword: searchText.value)
-        .then((value) {
+        .then((value) async {
       if (value.success && value.data.generalPosts.isNotEmpty) {
         generalPostBoard.value = value.data as GeneralBoardModel;
-        generalPostList.addAll(value.data.generalPosts as List<GeneralPostModel>);
+        final List<GeneralPostModel> postList =
+            value.data.generalPosts as List<GeneralPostModel>;
+        await getImageList(postList);
+        generalPostList.addAll(postList);
       }
     });
   }
-
 
   Future<void> getFirstPetitionPostBoard() async {
     _petitionBoardPage = 0;
@@ -119,7 +128,8 @@ class BoardPageController extends GetxController {
         .then((value) {
       if (value.success) {
         petitionBoard.value = value.data as PetitionBoardModel;
-        petitionPostList.value = value.data.petitionPosts as List<PetitionPostModel>;
+        petitionPostList.value =
+            value.data.petitionPosts as List<PetitionPostModel>;
         isLoadPetitionBoard.value = true;
       }
     });
@@ -135,7 +145,8 @@ class BoardPageController extends GetxController {
         .then((value) {
       if (value.success && value.data.petitionPosts.isNotEmpty) {
         petitionBoard.value = value.data as PetitionBoardModel;
-        petitionPostList.addAll(value.data.petitionPosts as List<PetitionPostModel>);
+        petitionPostList
+            .addAll(value.data.petitionPosts as List<PetitionPostModel>);
       }
     });
   }
@@ -150,11 +161,23 @@ class BoardPageController extends GetxController {
       if (value.success) {
         searchText.value = keyword;
         generalPostBoard.value = value.data as GeneralBoardModel;
-        generalPostList.value = value.data.generalPosts as List<GeneralPostModel>;
+        generalPostList.value =
+            value.data.generalPosts as List<GeneralPostModel>;
         isLoadGeneralPostBoard.value = true;
         return true;
       }
     });
     return false;
   }
+
+  Future<void> getImageList(List<GeneralPostModel> postList) async {
+    for (GeneralPostModel i in postList) {
+      for (FileModel j in i.files) {
+        j.url  = (await fileFromImageUrl(j.url, j.originalName ?? "image$i")).path;
+      }
+    }
+    isLoadedImageList.value = true;
+  }
+
+
 }

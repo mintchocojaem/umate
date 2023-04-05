@@ -15,7 +15,8 @@ class GeneralBoardPage extends GetView<BoardPageController> {
     // TODO: implement build
 
     return Obx(
-      () => controller.isLoadGeneralPostBoard.value
+      () => controller.isLoadGeneralPostBoard.value &&
+              controller.isLoadedImageList.value
           ? controller.generalPostList.isEmpty
               ? Center(
                   child: Text(

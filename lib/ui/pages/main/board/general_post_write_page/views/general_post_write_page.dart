@@ -200,7 +200,11 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
               Get.back();
               if (await controller.permissionService.getCameraPermission()) {
                 final XFile? image = await picker.pickImage(
-                    source: ImageSource.camera, imageQuality: 80);
+                  source: ImageSource.camera,
+                  imageQuality: 80,
+                  maxHeight: 1920,
+                  maxWidth: 1080,
+                );
                 if (image != null) {
                   controller.imageList.add(image);
                 }
@@ -214,9 +218,13 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
             onPressed: () async {
               Get.back();
               if (await controller.permissionService.getGalleryPermission()) {
-                await picker.pickMultiImage(
+                await picker
+                    .pickMultiImage(
                   imageQuality: 80,
-                ).then((value) {
+                  maxHeight: 1920,
+                  maxWidth: 1080,
+                )
+                    .then((value) {
                   controller.imageList.addAll(value);
                 });
               }

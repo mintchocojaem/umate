@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +33,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
       ),
       body: Obx(
         () => controller.isLoadedGeneralPost.value &&
-                controller.isLoadedGeneralComment.value
+                controller.isLoadedGeneralComment.value &&
+                controller.isLoadedImageList.value
             ? Column(
                 children: [
                   Expanded(
@@ -162,23 +166,40 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             padding: const EdgeInsets.only(
                                               right: 8,
                                             ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Palette.white,
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                              ),
-                                              width: 120,
-                                              height: 120,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                child: Image.network(
-                                                  controller.generalPostModel
-                                                      .value.files[i].url,
-                                                  fit: BoxFit.cover,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed(Routes.imageShow,
+                                                    arguments: {
+                                                      "imagePathList":
+                                                          controller
+                                                              .generalPostModel
+                                                              .value
+                                                              .files
+                                                              .map((e) => e.url),
+                                                      "index": i,
+                                                    });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Palette.lightGrey,
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                ),
+                                                width: 120,
+                                                height: 120,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  child: Image.file(
+                                                    File(controller
+                                                        .generalPostModel
+                                                        .value
+                                                        .files[i]
+                                                        .url),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),

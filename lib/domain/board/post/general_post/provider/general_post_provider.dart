@@ -7,7 +7,6 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class GeneralPostProvider {
   final Dio _dio;
@@ -26,17 +25,22 @@ class GeneralPostProvider {
     final data = FormData.fromMap({
       'title': postModel.title,
       'body': postModel.body,
-      'files': postModel.files.map((e) => MultipartFile.fromFileSync(e.url)).toList(),
+      'files': postModel.files
+          .map((e) => MultipartFile.fromFileSync(e.url))
+          .toList(),
     });
     final headers = {
       'Authorization': "Bearer $token",
     };
 
     try {
-      final Response response = await _dio.post(url,
-          data: data,
-          options:
-              Options(contentType: "multipart/form-data", headers: headers)
+      final Response response = await _dio.post(
+        url,
+        data: data,
+        options: Options(
+          contentType: "multipart/form-data",
+          headers: headers,
+        ),
       );
 
       return SuccessResponseDTO(data: response.data);
@@ -83,7 +87,8 @@ class GeneralPostProvider {
 
   Future<ApiResponseDTO> getGeneralComment(
       String token, int commentId, int page, int size) async {
-    String url = '/post/general-forum/comment/$commentId?page=$page&size=$size&sort=createdAt,desc';
+    String url =
+        '/post/general-forum/comment/$commentId?page=$page&size=$size&sort=createdAt,desc';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -119,8 +124,7 @@ class GeneralPostProvider {
           options: Options(
             headers: headers,
           ),
-          data: data
-      );
+          data: data);
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
@@ -137,17 +141,17 @@ class GeneralPostProvider {
     };
 
     try {
-      final Response response = await _dio.delete(url,
-          options: Options(
-            headers: headers,
-          ),
+      final Response response = await _dio.delete(
+        url,
+        options: Options(
+          headers: headers,
+        ),
       );
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
-
   }
 
   Future<ApiResponseDTO> likePost(String token, int postId) async {

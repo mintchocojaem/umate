@@ -16,7 +16,7 @@ class DioInterceptor {
 
   void addInterceptors() {
     dio.options.baseUrl = apiUrl;
-    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.receiveTimeout = const Duration(seconds: 10);
     dio.options.contentType = "application/json";
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {

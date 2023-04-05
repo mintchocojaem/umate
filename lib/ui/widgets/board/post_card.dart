@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -159,7 +161,7 @@ class PostCard extends StatelessWidget {
             imageUrl != null ? Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(imageUrl!),
+                  image: Image.file(File(imageUrl!)).image,
                   fit: BoxFit.cover,
                 ),
                 color: Palette.lightGrey,

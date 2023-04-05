@@ -1,3 +1,4 @@
+import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
@@ -38,11 +39,14 @@ class GeneralPostPageController extends GetxController {
   int commentPage = 0;
   final int commentSize = 10;
 
+  final RxBool isLoadedImageList = false.obs;
+
   @override
-  void onInit() {
+  void onInit() async{
     final int id = Get.arguments;
-    getGeneralPost(id);
-    getFirstGeneralComment(id);
+    await getGeneralPost(id);
+    await getFirstGeneralComment(id);
+    await getImageList();
 
     generalPostScrollController.addListener(() {
       if (generalPostScrollController.position.pixels ==
@@ -72,7 +76,8 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> deleteGeneralPost(int id) async {
     await _generalPostRepository
-        .deleteGeneralPost(token: loginService.loginModel.accessToken, postId: id)
+        .deleteGeneralPost(
+            token: loginService.loginModel.accessToken, postId: id)
         .then((value) async {
       if (value.success) {
         await boardPageController.getFirstGeneralPostBoard().then((value) {
@@ -133,8 +138,8 @@ class GeneralPostPageController extends GetxController {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
           commentTextController.clear();
-          if(generalPostScrollController.position.pixels >=
-              generalPostHeightKey.currentContext!.size!.height){
+          if (generalPostScrollController.position.pixels >=
+              generalPostHeightKey.currentContext!.size!.height) {
             generalPostScrollController.animateTo(
                 generalPostHeightKey.currentContext!.size!.height,
                 duration: const Duration(milliseconds: 500),
@@ -158,8 +163,8 @@ class GeneralPostPageController extends GetxController {
         .then((value) async {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
-          if(generalPostScrollController.position.pixels >=
-              generalPostHeightKey.currentContext!.size!.height){
+          if (generalPostScrollController.position.pixels >=
+              generalPostHeightKey.currentContext!.size!.height) {
             generalPostScrollController.animateTo(
                 generalPostHeightKey.currentContext!.size!.height,
                 duration: const Duration(milliseconds: 500),
@@ -219,4 +224,13 @@ class GeneralPostPageController extends GetxController {
       Get.back();
     }
   }
+
+  Future<void> getImageList() async {
+    for (FileModel j in generalPostModel.value.files) {
+      j.url  = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+    }
+    isLoadedImageList.value = true;
+  }
+
+
 }

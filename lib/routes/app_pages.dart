@@ -1,5 +1,7 @@
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
+import 'package:danvery/ui/pages/main/board/iamge_show_page/binding/image_show_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/iamge_show_page/views/image_show_page.dart';
 import 'package:danvery/ui/pages/main/my_page/views/mypage_page.dart';
 import 'package:danvery/ui/pages/user/find_id_page/binding/find_id_page_binding.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/find_id_page.dart';
@@ -88,7 +90,7 @@ class AppPages {
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),
-        bindings: [SplashScreenPageBinding(),LoginBinding()]),
+        bindings: [SplashScreenPageBinding(), LoginBinding()]),
     GetPage(
       name: Routes.petition,
       page: () => const PetitionPostPage(),
@@ -98,6 +100,13 @@ class AppPages {
       name: Routes.postSearch,
       page: () => const PostSearchPage(),
       bindings: [PostSearchPageBinding()],
+    ),
+    GetPage(
+        name: Routes.imageShow,
+        page: () => const ImageShowPage(),
+        bindings: [
+          ImageShowPageBinding(),
+        ],
     ),
   ];
 }

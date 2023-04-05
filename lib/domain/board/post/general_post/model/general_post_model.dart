@@ -38,7 +38,8 @@ class GeneralPostModel{
     likes = json["likes"] as int? ?? 0;
     liked = json["liked"] as bool? ?? false;
     commentCount = json["commentCount"] as int? ?? 0;
-    files = (json["files"] as List).map((e) => FileModel.fromJson(e)).toList();
+    files = (json["files"] as List).map((e) => FileModel.fromGeneralPostFile(e)).toList();
+
   }
 
 }
