@@ -43,10 +43,8 @@ class GeneralPostPageController extends GetxController {
 
   @override
   void onInit() async{
+
     final int id = Get.arguments;
-    await getGeneralPost(id);
-    await getFirstGeneralComment(id);
-    await getImageList();
 
     generalPostScrollController.addListener(() {
       if (generalPostScrollController.position.pixels ==
@@ -57,18 +55,22 @@ class GeneralPostPageController extends GetxController {
       }
     });
 
+    await getGeneralPost(id);
+    await getFirstGeneralComment(id);
+
     super.onInit();
   }
 
   Future<void> getGeneralPost(int id) async {
     await _generalPostRepository
         .getGeneralPost(token: loginService.loginModel.accessToken, postId: id)
-        .then((value) {
+        .then((value) async {
       if (value.success) {
         generalPostModel.value = value.data as GeneralPostModel;
         generalPostModel.value.createdAt = generalPostModel.value.createdAt
             .substring(0, generalPostModel.value.createdAt.length - 9);
         //여기 나중에 날짜 보드 뷰랑 포스트 뷰랑 통일 시켜야 함
+        await getImageList();
         isLoadedGeneralPost.value = true;
       }
     });

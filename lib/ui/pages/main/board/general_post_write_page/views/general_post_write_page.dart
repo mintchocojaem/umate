@@ -24,24 +24,35 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Palette.blue,
-              ),
-              onPressed: () async {
-                GeneralPostModel postModel = GeneralPostModel();
-                postModel.title = controller.titleController.text;
-                postModel.body = controller.contentController.text;
-                postModel.files = controller.imageList
-                    .map((e) => FileModel.fromImagePicker(e))
-                    .toList();
-                await controller.writeGeneralPost(
-                    controller.loginService.loginModel.accessToken, postModel);
-              },
-              child: Text(
-                '등록',
-                style: lightStyle.copyWith(
-                    color: Palette.pureWhite, fontWeight: FontWeight.bold),
+            child: Obx(
+              () => TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Palette.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  disabledBackgroundColor: Palette.lightGrey,
+                ),
+                onPressed: !controller.isPosting.value
+                    ? () async {
+                        controller.isPosting.value = true;
+                        GeneralPostModel postModel = GeneralPostModel();
+                        postModel.title = controller.titleController.text;
+                        postModel.body = controller.contentController.text;
+                        postModel.files = controller.imageList
+                            .map((e) => FileModel.fromImagePicker(e))
+                            .toList();
+                        await controller
+                            .writeGeneralPost(
+                                controller.loginService.loginModel.accessToken,
+                                postModel);
+                      }
+                    : null,
+                child: Text(
+                  '등록',
+                  style: lightStyle.copyWith(
+                      color: Palette.pureWhite, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),

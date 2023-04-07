@@ -19,8 +19,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
 
   @override
   Widget build(BuildContext context) {
+
     final GlobalKey generalPostHeightKey = GlobalKey();
     controller.generalPostHeightKey = generalPostHeightKey;
+
     return Scaffold(
       appBar: TransparentAppBar(
         isDarkMode: Get.isDarkMode,
@@ -55,7 +57,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                key: controller.generalPostHeightKey,
+                                key: generalPostHeightKey,
                                 children: [
                                   Stack(
                                     children: [
@@ -618,9 +620,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               CupertinoDialogAction(
                                 child: const Text('확인'),
                                 onPressed: () async {
+                                  Get.back();
                                   await controller
                                       .deleteGeneralPost(generalPostModel.id);
-                                  Get.back();
                                 },
                               ),
                             ],
