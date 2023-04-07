@@ -1,17 +1,29 @@
 class UserInfoModel{
-  late String userName;
-  late String studentId;
-  late String major;
+  String username;
+  String nickname;
+  String studentId;
+  String major;
+  String department;
+  String yearOfAdmission;
 
   UserInfoModel({
-    userName,
-    studentId,
-    major,
+    required this.username,
+    required this.nickname,
+    required this.studentId,
+    required this.major,
+    required this.department,
+    required this.yearOfAdmission,
   });
 
-  UserInfoModel.fromJson(Map<String, dynamic> json){
-    userName = json["studentName"] as String;
-    studentId = json["studentId"] as String? ?? "????????";
-    major = json["major"] as String;
+  factory UserInfoModel.fromJson(Map<String, dynamic> json){
+    return UserInfoModel(
+      username: json["username"] as String,
+      nickname: json["nickname"] as String,
+      studentId: json["studentId"] as String,
+      major: json["major"] as String,
+      department: json["department"] as String,
+      yearOfAdmission: json["yearOfAdmission"] as String,
+    );
   }
+
 }

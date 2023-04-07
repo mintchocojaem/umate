@@ -2,10 +2,10 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
+import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/model/token_model.dart';
+import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:dio/dio.dart';
-
-import '../model/login_model.dart';
 
 class LoginProvider {
   final Dio _dio;

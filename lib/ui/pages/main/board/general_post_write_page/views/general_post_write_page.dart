@@ -44,7 +44,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                             .toList();
                         await controller
                             .writeGeneralPost(
-                                controller.loginService.loginModel.accessToken,
+                                controller.loginService.loginModel.value.accessToken,
                                 postModel);
                       }
                     : null,

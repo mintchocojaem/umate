@@ -1,5 +1,6 @@
 import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/model/token_model.dart';
+import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:get/get.dart';
@@ -14,30 +15,26 @@ class LoginService extends GetxService {
 
   final LoginRepository _loginRepository = LoginRepository();
 
-  final Rx<LoginModel> _loginModel = LoginModel().obs;
+  late Rx<LoginModel> loginModel;
   final RxBool isLogin = false.obs;
-  final RxBool isGetUserInfo = false.obs;
 
-  LoginModel get loginModel => _loginModel.value;
-
-  final GetStorage box = GetStorage();
+  final GetStorage _box = GetStorage();
 
   Future<void> login(String classId, String password) async {
     await _loginRepository
         .login(classId: classId, password: password)
-        .then((value) async {
-      if (value.success) {
-        final LoginModel loginModel = value.data as LoginModel;
-        _loginModel.value = loginModel;
-        box.write("accessToken", value.data.accessToken);
-        box.write("refreshToken", value.data.refreshToken);
+        .then((apiResponse) async {
+      if (apiResponse.success) {
+        loginModel = (apiResponse.data as LoginModel).obs;
+        _box.write("accessToken", apiResponse.data.accessToken);
+        _box.write("refreshToken", apiResponse.data.refreshToken);
         isLogin.value = true;
       } else {
         isLogin.value = false;
         GetXSnackBar(
           type: GetXSnackBarType.customError,
           title: "로그인 실패",
-          content: value.message,
+          content: apiResponse.message,
         ).show();
       }
     });
@@ -46,43 +43,53 @@ class LoginService extends GetxService {
   Future<void> autoLogin(String accessToken, String refreshToken) async {
     await _loginRepository
         .reissueToken(accessToken: accessToken, refreshToken: refreshToken)
-        .then((value) async {
-      if (value.success) {
-        final TokenModel tokenModel = value.data as TokenModel;
-        _loginModel.value.accessToken = tokenModel.accessToken;
-        _loginModel.value.refreshToken = tokenModel.refreshToken;
-        await _getUserInfo(value.data.accessToken).whenComplete((){
-          if(isGetUserInfo.value){
+        .then((token) async {
+      if (token.success) {
+
+        final TokenModel tokenModel = token.data as TokenModel;
+
+        await _getUserInfo(token.data.accessToken).then((userInfo){
+          final UserInfoModel? userInfoModel = userInfo;
+          if(userInfoModel != null){
+            loginModel= LoginModel(
+              accessToken: tokenModel.accessToken,
+              refreshToken: tokenModel.refreshToken,
+              studentId: userInfoModel.studentId,
+              username: userInfoModel.username,
+              major: userInfoModel.major,
+              nickname: userInfoModel.nickname,
+              department: userInfoModel.department,
+              admin: false,
+            ).obs;
             isLogin.value = true;
+
           }else{
             isLogin.value = false;
           }
+
         });
       } else {
         isLogin.value = false;
-        box.remove("accessToken");
-        box.remove("refreshToken");
+       _box.remove("accessToken");
+       _box.remove("refreshToken");
       }
     });
   }
 
-  Future<void> _getUserInfo(String accessToken) async {
-    await _loginRepository
+  Future<UserInfoModel?> _getUserInfo(String accessToken) async {
+    return await _loginRepository
         .getUserInfo(accessToken: accessToken)
-        .then((value) async {
-      if (value.success) {
-        final UserInfoModel userInfoModel = value.data as UserInfoModel;
-        _loginModel.value.studentId = userInfoModel.studentId;
-        _loginModel.value.userName = userInfoModel.userName;
-        _loginModel.value.major = userInfoModel.major;
-        isGetUserInfo.value = true;
+        .then((apiResponse) async {
+      if (apiResponse.success) {
+        final UserInfoModel userInfoModel = apiResponse.data as UserInfoModel;
+        return userInfoModel;
       } else {
-        isGetUserInfo.value = false;
         GetXSnackBar(
           type: GetXSnackBarType.customError,
           title: "로그인 실패",
-          content: value.message,
+          content: apiResponse.data.message,
         ).show();
+        return null;
       }
     });
   }

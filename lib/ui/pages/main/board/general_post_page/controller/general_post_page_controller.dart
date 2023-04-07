@@ -63,7 +63,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getGeneralPost(int id) async {
     await _generalPostRepository
-        .getGeneralPost(token: loginService.loginModel.accessToken, postId: id)
+        .getGeneralPost(token: loginService.loginModel.value.accessToken, postId: id)
         .then((value) async {
       if (value.success) {
         generalPostModel.value = value.data as GeneralPostModel;
@@ -79,7 +79,7 @@ class GeneralPostPageController extends GetxController {
   Future<void> deleteGeneralPost(int id) async {
     await _generalPostRepository
         .deleteGeneralPost(
-            token: loginService.loginModel.accessToken, postId: id)
+            token: loginService.loginModel.value.accessToken, postId: id)
         .then((value) async {
       if (value.success) {
         await boardPageController.getFirstGeneralPostBoard().then((value) {
@@ -99,7 +99,7 @@ class GeneralPostPageController extends GetxController {
     commentPage = 0;
     await _generalPostRepository
         .getGeneralComment(
-            token: loginService.loginModel.accessToken,
+            token: loginService.loginModel.value.accessToken,
             commentId: id,
             page: commentPage,
             size: commentSize)
@@ -117,7 +117,7 @@ class GeneralPostPageController extends GetxController {
     commentPage++;
     await _generalPostRepository
         .getGeneralComment(
-            token: loginService.loginModel.accessToken,
+            token: loginService.loginModel.value.accessToken,
             commentId: id,
             page: commentPage,
             size: commentSize)
@@ -133,7 +133,7 @@ class GeneralPostPageController extends GetxController {
   Future<void> writeGeneralComment(int id) async {
     await _generalPostRepository
         .writeGeneralComment(
-            token: loginService.loginModel.accessToken,
+            token: loginService.loginModel.value.accessToken,
             commentId: id,
             text: commentTextController.text)
         .then((value) async {
@@ -161,7 +161,7 @@ class GeneralPostPageController extends GetxController {
   Future<void> deleteGeneralComment(int id, int commentId) async {
     await _generalPostRepository
         .deleteGeneralComment(
-            token: loginService.loginModel.accessToken, commentId: commentId)
+            token: loginService.loginModel.value.accessToken, commentId: commentId)
         .then((value) async {
       if (value.success) {
         await getFirstGeneralComment(id).then((value) {
@@ -186,7 +186,7 @@ class GeneralPostPageController extends GetxController {
   Future<void> likeGeneralPost(int id) async {
     HapticFeedback.heavyImpact();
     await _generalPostRepository
-        .likePost(token: loginService.loginModel.accessToken, postId: id)
+        .likePost(token: loginService.loginModel.value.accessToken, postId: id)
         .then((value) async {
       if (value.success) {
         if (!generalPostModel.value.liked) {
@@ -197,7 +197,7 @@ class GeneralPostPageController extends GetxController {
         } else {
           await _generalPostRepository
               .unlikePost(
-                  token: loginService.loginModel.accessToken, postId: id)
+                  token: loginService.loginModel.value.accessToken, postId: id)
               .then((value) {
             if (value.success) {
               generalPostModel.update((val) async {

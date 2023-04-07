@@ -78,16 +78,16 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     fontWeight: FontWeight.bold,
                                     color: Palette.pureWhite),
                                 text:
-                                    '${controller.loginService.loginModel.userName}\n', // default text style
+                                    '${controller.loginService.loginModel.value.username}\n', // default text style
                                 children: <TextSpan>[
                                   TextSpan(
                                       text:
-                                          "${controller.loginService.loginModel.major}\n",
+                                          "${controller.loginService.loginModel.value.major}\n",
                                       style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                   TextSpan(
                                       text: controller
-                                          .loginService.loginModel.studentId,
+                                          .loginService.loginModel.value.studentId,
                                       style: titleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                 ],

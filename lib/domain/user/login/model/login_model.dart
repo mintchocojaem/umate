@@ -1,42 +1,35 @@
 class LoginModel{
-  late String accessToken;
-  late String refreshToken;
-  late String userName;
-  late String studentId;
-  late String major;
+  String accessToken;
+  String refreshToken;
+  String username;
+  String nickname;
+  String studentId;
+  String major;
+  String department;
+  bool admin;
 
   LoginModel({
-    accessToken,
-    refreshToken,
-    userName,
-    studentId,
-    major,
+    required this.accessToken,
+    required this.refreshToken,
+    required this.username,
+    required this.nickname,
+    required this.studentId,
+    required this.major,
+    required this.department,
+    required this.admin,
   });
 
-  LoginModel.fromJson(Map<String, dynamic> json){
-    accessToken = json["accessToken"] as String;
-    refreshToken = json["refreshToken"] as String;
-    userName = json["userName"] as String;
-    studentId = json["studentId"] as String;
-    major = json["major"] as String;
+  factory LoginModel.fromJson(Map<String, dynamic> json){
+    return LoginModel(
+      accessToken: json["accessToken"] as String,
+      refreshToken: json["refreshToken"] as String,
+      username: json["username"] as String,
+      nickname: json["nickname"] as String,
+      studentId: json["studentId"] as String,
+      major: json["major"] as String,
+      department: json["department"] as String,
+      admin: json["admin"] as bool,
+    );
   }
 
-}
-
-class UserInfoModel{
-  late String userName;
-  late String studentId;
-  late String major;
-
-  UserInfoModel({
-    userName,
-    studentId,
-    major,
-  });
-
-  UserInfoModel.fromJson(Map<String, dynamic> json){
-    userName = json["studentName"] as String;
-    studentId = json["studentId"] as String? ?? "????????";
-    major = json["major"] as String;
-  }
 }

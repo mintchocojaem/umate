@@ -22,7 +22,7 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> getPetitionPost(int id) async {
     _petitionPostRepository
-        .getPetitionPost(token: _loginService.loginModel.accessToken,id: id)
+        .getPetitionPost(token: _loginService.loginModel.value.accessToken,id: id)
         .then((value) {
       if (value.success) {
         petitionPostModel.value = value.data as PetitionPostModel;

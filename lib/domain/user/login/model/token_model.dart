@@ -1,15 +1,17 @@
 class TokenModel{
-  late String accessToken;
-  late String refreshToken;
+  String accessToken;
+  String refreshToken;
 
   TokenModel({
-    accessToken,
-    refreshToken,
+    required this.accessToken,
+    required this.refreshToken,
   });
 
-  TokenModel.fromJson(Map<String, dynamic> json){
-    accessToken = json["accessToken"] as String;
-    refreshToken = json["refreshToken"] as String;
+  factory TokenModel.fromJson(Map<String, dynamic> json){
+    return TokenModel(
+      accessToken: json["accessToken"] as String,
+      refreshToken: json["refreshToken"] as String,
+    );
   }
 
 }
