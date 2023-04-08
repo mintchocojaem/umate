@@ -13,6 +13,7 @@ class Palette{
   static Color lightBlack = const Color(0xff2C2C2E);
   static Color black = const Color(0xff19191A);
 
+  static Color mint = const Color(0xff12C4CF);
   static Color sky = const Color(0xff08BCFF);
   static Color lightBlue = const Color(0xff0A95FD);
   static Color blue = const Color(0xff0D6EFA);
@@ -20,7 +21,6 @@ class Palette{
 
   static Color lightRed = const Color(0xffFF6565);
   static Color lightGreen = const Color(0xff82D251);
-  static Color mint = const Color(0xff12C4CF);
   static Color darkYellow = const Color(0xffF8CB5B);
 
   static const List<Color> subjectColors = [

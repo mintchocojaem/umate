@@ -33,7 +33,7 @@ class GeneralPostModel{
       title: json["title"] as String,
       body: json["body"] as String,
       author: json["author"] as String? ?? "익명",
-      createdAt: (json["createdAt"] as String).substring(5,).replaceAll('-', '/'),
+      createdAt: (json["createdAt"] as String).substring(5,16).replaceAll('-', '/'),
       views: json["views"] as int? ?? 0,
       mine: json["mine"] as bool? ?? false,
       likes: json["likes"] as int? ?? 0,

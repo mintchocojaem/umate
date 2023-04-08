@@ -16,8 +16,8 @@ class PetitionPostProvider {
 
   factory PetitionPostProvider() => singleton;
 
-  Future<ApiResponseDTO> getPetitionPost(String token, int id) async {
-    String url = '/post/petition/$id';
+  Future<ApiResponseDTO> getPetitionPost(String token, int petitionId) async {
+    String url = '/post/petition/$petitionId';
 
     final headers = {
       'Authorization': "Bearer $token",
@@ -30,6 +30,26 @@ class PetitionPostProvider {
           ));
 
       return SuccessResponseDTO(data: PetitionPostModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> agreePetitionPost(String token, int petitionId) async{
+    String url = '/post/petition/agree/$petitionId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.post(url,
+          options: Options(
+            headers: headers,
+          )
+      );
+
+      return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }

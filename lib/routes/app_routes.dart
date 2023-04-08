@@ -15,4 +15,5 @@ abstract class Routes {
   static const String splashScreen = '/splashScreen';
   static const String findId = '/findId';
   static const String imageShow = '/imageShow';
+  static const String petitionAgreeStatus = '/board/petition/agree_status';
 }

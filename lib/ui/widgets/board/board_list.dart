@@ -50,7 +50,7 @@ class BoardList extends StatelessWidget {
                   title,
                   style: titleStyle.copyWith(color: Palette.black),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: onTapAction,
                   child: SizedBox(
                     height: 42,
@@ -62,13 +62,13 @@ class BoardList extends StatelessWidget {
                         Text(
                           actionTitle,
                           style: regularStyle.copyWith(
-                              color: Palette.black,
+                              color: Palette.darkGrey,
                               fontWeight: FontWeight.w500),
                         ),
                         showAction
                             ? Icon(
                                 Icons.arrow_forward_ios_outlined,
-                                color: Palette.grey,
+                                color: Palette.darkGrey,
                                 size: regularStyle.fontSize,
                               )
                             : Container()

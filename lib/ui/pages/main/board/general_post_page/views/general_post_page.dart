@@ -149,7 +149,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             if (url != null) {
                                               launchUrlString(url);
                                             }
-                                          }),
+                                          },
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(

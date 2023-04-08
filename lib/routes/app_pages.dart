@@ -2,6 +2,7 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/binding/image_show_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/views/image_show_page.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_page/views/petition_agree_status_page.dart';
 import 'package:danvery/ui/pages/main/my_page/views/mypage_page.dart';
 import 'package:danvery/ui/pages/user/find_id_page/binding/find_id_page_binding.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/find_id_page.dart';
@@ -107,6 +108,10 @@ class AppPages {
         bindings: [
           ImageShowPageBinding(),
         ],
+    ),
+    GetPage(
+        name: Routes.petitionAgreeStatus,
+        page: () => const PetitionAgreeStatusPage(),
     ),
   ];
 }

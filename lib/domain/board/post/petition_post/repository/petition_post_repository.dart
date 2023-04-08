@@ -1,7 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-
-import '../model/petition_post_model.dart';
-import '../provider/petition_post_provider.dart';
+import 'package:danvery/domain/board/post/petition_post/provider/petition_post_provider.dart';
 
 class PetitionPostRepository {
   final PetitionPostProvider _petitionPostProvider;
@@ -17,5 +15,11 @@ class PetitionPostRepository {
   Future<ApiResponseDTO> getPetitionPost(
       {required String token, required int id}) async {
     return await _petitionPostProvider.getPetitionPost(token, id);
+  }
+
+  //agree petition
+  Future<ApiResponseDTO> agreePetitionPost(
+      {required String token, required int id}) async {
+    return await _petitionPostProvider.agreePetitionPost(token, id);
   }
 }
