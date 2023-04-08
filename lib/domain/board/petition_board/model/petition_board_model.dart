@@ -2,34 +2,37 @@ import 'package:danvery/domain/board/post/petition_post/model/petition_post_mode
 
 class PetitionBoardModel{
 
-  late int totalElements;
-  late int page;
-  late int size;
-  late int totalPages;
-  late bool last;
-  late bool first;
-  late bool hasNext;
-  late List<PetitionPostModel> petitionPosts;
+  int totalElements;
+  int page;
+  int size;
+  int totalPages;
+  bool last;
+  bool first;
+  bool hasNext;
+  List<PetitionPostModel> petitionPosts;
 
   PetitionBoardModel({
-    petitionPostList,
-    totalElements,
-    page,
-    size,
-    totalPages,
-    last,
-    first,
-    hasNext
+    required this.totalElements,
+    required this.page,
+    required this.size,
+    required this.totalPages,
+    required this.last,
+    required this.first,
+    required this.hasNext,
+    required this.petitionPosts,
   });
 
-  PetitionBoardModel.fromJson(Map<String, dynamic> json) {
-    petitionPosts = (json['content'] as List).map((e) => PetitionPostModel.fromJson(e)).toList();
-    totalElements = json['totalElements'];
-    page = json['page'];
-    size = json['size'];
-    totalPages = json['totalPages'];
-    last = json['last'];
-    first = json['first'];
-    hasNext = json['hasNext'];
+  factory PetitionBoardModel.fromJson(Map<String, dynamic> json) {
+    return PetitionBoardModel(
+      totalElements: json["totalElements"] as int,
+      page: json["page"] as int,
+      size: json["size"] as int,
+      totalPages: json["totalPages"] as int,
+      last: json["last"] as bool,
+      first: json["first"] as bool,
+      hasNext: json["hasNext"] as bool,
+      petitionPosts: (json["content"] as List).map((e) => PetitionPostModel.fromJson(e)).toList(),
+    );
   }
+
 }

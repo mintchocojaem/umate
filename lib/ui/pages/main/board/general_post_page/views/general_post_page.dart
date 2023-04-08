@@ -46,9 +46,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                       child: RefreshIndicator(
                         onRefresh: () async {
                           await controller.getGeneralPost(
-                              controller.generalPostModel.value.id);
+                              controller.generalPost.value.id);
                           await controller.getFirstGeneralComment(
-                              controller.generalPostModel.value.id);
+                              controller.generalPost.value.id);
                         },
                         child: SingleChildScrollView(
                           controller: controller.generalPostScrollController,
@@ -80,7 +80,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller.generalPostModel
+                                                controller.generalPost
                                                     .value.author,
                                                 style: regularStyle.copyWith(
                                                     color: Palette.darkGrey,
@@ -88,7 +88,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                controller.generalPostModel
+                                                controller.generalPost
                                                     .value.createdAt,
                                                 style: tinyStyle.copyWith(
                                                     color: Palette.grey),
@@ -103,7 +103,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           child: IconButton(
                                             onPressed: () {
                                               generalPostPopup(controller
-                                                  .generalPostModel.value);
+                                                  .generalPost.value);
                                             },
                                             icon: Icon(
                                               Icons.more_vert,
@@ -123,7 +123,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        controller.generalPostModel.value.title,
+                                        controller.generalPost.value.title,
                                         style: titleStyle.copyWith(
                                             color: Palette.darkGrey),
                                       ),
@@ -141,7 +141,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             ),
                                           },
                                           data: controller
-                                              .generalPostModel.value.body,
+                                              .generalPost.value.body,
                                           onLinkTap: (String? url,
                                               RenderContext context,
                                               Map<String, String> attributes,
@@ -161,7 +161,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       children: [
                                         for (var i = 0;
                                             i <
-                                                controller.generalPostModel
+                                                controller.generalPost
                                                     .value.files.length;
                                             i++)
                                           Padding(
@@ -174,7 +174,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                     arguments: {
                                                       "imagePathList":
                                                           controller
-                                                              .generalPostModel
+                                                              .generalPost
                                                               .value
                                                               .files
                                                               .map((e) => e.url),
@@ -196,7 +196,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                           Radius.circular(10)),
                                                   child: Image.file(
                                                     File(controller
-                                                        .generalPostModel
+                                                        .generalPost
                                                         .value
                                                         .files[i]
                                                         .url),
@@ -234,7 +234,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         side: BorderSide(
                                           width: 2,
                                           color: controller
-                                                  .generalPostModel.value.liked
+                                                  .generalPost.value.liked
                                               ? Palette.lightBlue
                                               : Palette.lightGrey,
                                         ),
@@ -242,7 +242,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       child: Row(
                                         children: [
                                           Image.asset(
-                                            controller.generalPostModel.value
+                                            controller.generalPost.value
                                                     .liked
                                                 ? "assets/icons/post/like_selected.png"
                                                 : "assets/icons/post/like_unselected.png",
@@ -256,7 +256,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             "좋아요",
                                             style: lightStyle.copyWith(
                                               fontWeight: FontWeight.w500,
-                                              color: controller.generalPostModel
+                                              color: controller.generalPost
                                                       .value.liked
                                                   ? Palette.lightBlue
                                                   : Palette.grey,
@@ -267,11 +267,11 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           ),
                                           Text(
                                             controller
-                                                .generalPostModel.value.likes
+                                                .generalPost.value.likes
                                                 .toString(),
                                             style: lightStyle.copyWith(
                                               fontWeight: FontWeight.w500,
-                                              color: controller.generalPostModel
+                                              color: controller.generalPost
                                                       .value.liked
                                                   ? Palette.lightBlue
                                                   : Palette.grey,
@@ -281,7 +281,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       ),
                                       onPressed: () async {
                                         controller.likeGeneralPost(controller
-                                            .generalPostModel.value.id);
+                                            .generalPost.value.id);
                                       },
                                     ),
                                   ),
@@ -414,7 +414,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             onPressed: () {
                                               generalCommentPopup(
                                                   controller
-                                                      .generalPostModel.value,
+                                                      .generalPost.value,
                                                   controller
                                                       .generalComments[index]);
                                             },
@@ -494,7 +494,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         onPressed: () async {
                                           await controller.writeGeneralComment(
                                               controller
-                                                  .generalPostModel.value.id);
+                                                  .generalPost.value.id);
                                         },
                                         icon: Image.asset(
                                           'assets/icons/post/send_selected.png',

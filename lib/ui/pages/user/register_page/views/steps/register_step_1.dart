@@ -356,7 +356,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     controller.studentPassword.isNotEmpty &&
                     controller.check1.value &&
                     controller.check2.value,
-                onPressed: () async {
+                onPressed: () async{
                   if (controller.studentId.value.length != 8) {
                     GetXSnackBar(
                       title: "학번 오류",
@@ -365,9 +365,10 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     ).show();
                     return;
                   }
-                  if(await controller
+                  await controller
                       .studentAuthenticate(controller.studentId.value,
-                  controller.studentPassword.value)){
+                      controller.studentPassword.value);
+                  if(controller.isStudentAuthenticated.value){
                     FocusManager.instance.primaryFocus?.unfocus();
                     controller.currentStep.value = 2;
                   }

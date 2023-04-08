@@ -3,6 +3,7 @@ import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,16 +37,18 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                 onPressed: !controller.isPosting.value
                     ? () async {
                         controller.isPosting.value = true;
-                        GeneralPostModel postModel = GeneralPostModel();
-                        postModel.title = controller.titleController.text;
-                        postModel.body = controller.contentController.text;
-                        postModel.files = controller.imageList
-                            .map((e) => FileModel.fromImagePicker(e))
-                            .toList();
+                        GeneralPostWriteModel generalPostWriteModel = GeneralPostWriteModel(
+                          title: controller.titleController.text,
+                          body: controller.contentController.text,
+                          files: controller.imageList
+                              .map((e) => FileModel.fromImagePicker(e))
+                              .toList(),
+
+                        );
                         await controller
                             .writeGeneralPost(
-                                controller.loginService.loginModel.value.accessToken,
-                                postModel);
+                                controller.loginService.loginInfo.value.accessToken,
+                                generalPostWriteModel);
                       }
                     : null,
                 child: Text(

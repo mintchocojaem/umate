@@ -40,7 +40,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 child: Stack(
                                   children: [
                                     Text(
-                                      controller.petitionPostModel.value.title,
+                                      controller.petitionPost.value.title,
                                       style: titleStyle,
                                     ),
                                     Positioned.fill(
@@ -119,8 +119,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                           ),
                                         ),
                                         Text(
-                                          "${controller.petitionPostModel.value.createdAt.substring(0, 10)}"
-                                          " ~ ${controller.petitionPostModel.value.expiresAt}",
+                                          "${controller.petitionPost.value.createdAt.substring(0, 10)}"
+                                          " ~ ${controller.petitionPost.value.expiresAt}",
                                           style: regularStyle.copyWith(color: Palette.black),
                                         ),
                                       ],
@@ -142,7 +142,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     ),
                                   ),
                                   Text(
-                                    controller.petitionPostModel.value.status,
+                                    controller.petitionPost.value.status,
                                     style: regularStyle.copyWith(
                                         color: Palette.blue),
                                   ),
@@ -159,7 +159,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 height: 16,
                               ),
                               Text(
-                                controller.petitionPostModel.value.body,
+                                controller.petitionPost.value.body,
                                 style: regularStyle,
                               ),
                               const SizedBox(

@@ -34,7 +34,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint:
-                                        "${controller.registerModel.value.studentId}@dankook.ac.kr",
+                                        "${controller.registerInfo.value.studentId}@dankook.ac.kr",
                                     title: "아이디",
                                     readOnly: true,
                                   ),
@@ -61,7 +61,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: controller
-                                        .registerModel.value.studentName,
+                                        .registerInfo.value.studentName,
                                     title: "이름",
                                     readOnly: true,
                                   ),
@@ -82,7 +82,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller.registerModel.value.major,
+                                    hint: controller.registerInfo.value.major,
                                     title: "전공",
                                     readOnly: true,
                                   ),
@@ -116,7 +116,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                       }
                                       controller
                                           .sendSMSAuth(
-                                              controller.registerModel.value
+                                              controller.registerInfo.value
                                                   .signupToken,
                                               controller.phoneNumber.value)
                                           .then((value) {
@@ -180,17 +180,16 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                   }
 
                   if (!await controller.verifySMSAuth(
-                      controller.registerModel.value.signupToken,
+                      controller.registerInfo.value.signupToken,
                       controller.phoneAuthenticationNumber.value)) {
                     return;
                   }
 
-                  final RegisterModel registerModel =
-                      controller.registerModel.value;
-                  registerModel.nickname = controller.nickname.value;
-                  registerModel.password = controller.password.value;
+                  controller.registerInfo.value.nickname = controller.nickname.value;
+                  controller.registerInfo.value.nickname = controller.password.value;
 
-                  if(await controller.register(registerModel)){
+                  await controller.register();
+                  if(controller.isRegistered.value){
                     controller.currentStep.value = 3;
                   }
 

@@ -15,25 +15,24 @@ class SplashScreenPageController extends GetxController
   late Animation<double> animation;
 
   @override
-  onInit() async {
+  onInit() async{
     final GetStorage box = GetStorage();
     final String? accessToken = box.read("accessToken");
     final String? refreshToken = box.read("refreshToken");
-    await animationInit().whenComplete(() {
-      if (accessToken != null && refreshToken  != null) {
-        loginService
-            .autoLogin(accessToken, refreshToken)
-            .whenComplete((){
-          if (loginService.isLogin.value) {
-            Get.offAndToNamed(Routes.main);
-          } else {
-            Get.offAndToNamed(Routes.login);
-          }
-        });
-      } else {
-        Get.offAndToNamed(Routes.login);
-      }
-    });
+    await animationInit();
+    if (accessToken != null && refreshToken  != null) {
+      loginService
+          .autoLogin(accessToken, refreshToken)
+          .whenComplete((){
+        if (loginService.isLogin.value) {
+          Get.offAndToNamed(Routes.main);
+        } else {
+          Get.offAndToNamed(Routes.login);
+        }
+      });
+    } else {
+      Get.offAndToNamed(Routes.login);
+    }
     super.onInit();
   }
 

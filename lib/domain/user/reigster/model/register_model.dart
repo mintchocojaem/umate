@@ -1,18 +1,29 @@
 class RegisterModel {
-  late String signupToken;
-  late String studentName;
-  late String studentId;
-  late String major;
-  late String nickname;
-  late String password;
-  late String phone;
+  String signupToken;
+  String studentName;
+  String studentId;
+  String major;
+  String? nickname;
+  String? password;
+  String? phone;
 
-  RegisterModel({signupToken,studentName, studentId, major});
+  RegisterModel({
+    required this.signupToken,
+    required this.studentName,
+    required this.studentId,
+    required this.major,
+    this.nickname,
+    this.password,
+    this.phone,
+  });
 
-  RegisterModel.fromJson(Map<String, dynamic> json) {
-    signupToken = json["signupToken"];
-    studentName = json["student"]['studentName'];
-    studentId = json["student"]['studentId'];
-    major = json["student"]['major'];
+  factory RegisterModel.fromJson(Map<String, dynamic> json){
+    return RegisterModel(
+      signupToken: json["signupToken"],
+      studentName: json["student"]['studentName'],
+      studentId: json["student"]['studentId'],
+      major: json["student"]['major'],
+    );
   }
+
 }

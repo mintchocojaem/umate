@@ -1,3 +1,4 @@
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
@@ -9,7 +10,7 @@ class PetitionPostPageController extends GetxController {
 
   final LoginService _loginService = Get.find<LoginService>();
 
-  final Rx<PetitionPostModel> petitionPostModel = PetitionPostModel().obs;
+  late Rx<PetitionPostModel> petitionPost;
 
   final RxBool isLoadedPetitionPost = false.obs;
 
@@ -21,14 +22,13 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> getPetitionPost(int id) async {
-    _petitionPostRepository
-        .getPetitionPost(token: _loginService.loginModel.value.accessToken,id: id)
-        .then((value) {
-      if (value.success) {
-        petitionPostModel.value = value.data as PetitionPostModel;
-        isLoadedPetitionPost.value = true;
-      }
-    });
+    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
+        .getPetitionPost(token: _loginService.loginInfo.value.accessToken,id: id);
+    if (apiResponseDTO.success) {
+      final PetitionPostModel petitionPostModel = apiResponseDTO.data as PetitionPostModel;
+      petitionPost = petitionPostModel.obs;
+      isLoadedPetitionPost.value = true;
+    }
   }
 
 }

@@ -1,4 +1,6 @@
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
@@ -27,25 +29,20 @@ class GeneralPostWritePageController extends GetxController {
   final RxBool isPosting = false.obs;
 
   Future<void> writeGeneralPost(
-      String token, GeneralPostModel generalPostModel) async {
-    await _generalPostRepository
-        .writeGeneralPost(token: token, postModel: generalPostModel)
-        .then((value) {
-      if (value.success) {
-        boardPageController
-            .getFirstGeneralPostBoard()
-            .whenComplete(() {
-          isPosting.value = false;
-          Get.back();
-        }
-        );
-      } else {
-        GetXSnackBar(
-          title: "글 작성 실패",
-          content: value.message,
-          type: GetXSnackBarType.customError,
-        ).show();
-      }
-    });
+      String token, GeneralPostWriteModel generalPostWriteModel) async {
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
+        .writeGeneralPost(token: token, generalPostWriteModel: generalPostWriteModel);
+    if(apiResponseDTO.success) {
+      await boardPageController
+          .getFirstGeneralPostBoard();
+      isPosting.value = false;
+      Get.back();
+    } else {
+      GetXSnackBar(
+        title: "글 작성 실패",
+        content: apiResponseDTO.message,
+        type: GetXSnackBarType.customError,
+      ).show();
+    }
   }
 }

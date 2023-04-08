@@ -1,5 +1,6 @@
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 
 import '../provider/general_post_provider.dart';
 
@@ -14,8 +15,8 @@ class GeneralPostRepository {
   factory GeneralPostRepository() => _singleton;
 
   Future<ApiResponseDTO> writeGeneralPost(
-          {required String token, required GeneralPostModel postModel}) =>
-      _generalPostProvider.writeGeneralPost(token, postModel);
+          {required String token, required GeneralPostWriteModel generalPostWriteModel}) =>
+      _generalPostProvider.writeGeneralPost(token, generalPostWriteModel);
 
   Future<ApiResponseDTO> deleteGeneralPost({required String token, required int postId}) =>
       _generalPostProvider.deleteGeneralPost(token, postId);

@@ -15,7 +15,7 @@ class LoginService extends GetxService {
 
   final LoginRepository _loginRepository = LoginRepository();
 
-  late Rx<LoginModel> loginModel;
+  late Rx<LoginModel> loginInfo;
   final RxBool isLogin = false.obs;
 
   final GetStorage _box = GetStorage();
@@ -24,7 +24,8 @@ class LoginService extends GetxService {
     final apiResponse =
         await _loginRepository.login(classId: classId, password: password);
     if (apiResponse.success) {
-      loginModel = (apiResponse.data as LoginModel).obs;
+      final LoginModel loginModel = apiResponse.data as LoginModel;
+      loginInfo = loginModel.obs;
       _box.write("accessToken", apiResponse.data.accessToken);
       _box.write("refreshToken", apiResponse.data.refreshToken);
       isLogin.value = true;
@@ -46,7 +47,7 @@ class LoginService extends GetxService {
 
       final userInfo = await _getUserInfo(tokenModel.accessToken);
       if (userInfo != null) {
-        loginModel = LoginModel(
+        loginInfo = LoginModel(
           accessToken: tokenModel.accessToken,
           refreshToken: tokenModel.refreshToken,
           studentId: userInfo.studentId,

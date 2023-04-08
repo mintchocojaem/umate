@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
+import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
 import 'package:danvery/domain/board/petition_board/repository/petition_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
@@ -10,9 +13,10 @@ import 'package:danvery/service/login/login_service.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
-
-  final GeneralBoardRepository _generalBoardRepository = GeneralBoardRepository();
-  final PetitionBoardRepository _petitionPostRepository = PetitionBoardRepository();
+  final GeneralBoardRepository _generalBoardRepository =
+      GeneralBoardRepository();
+  final PetitionBoardRepository _petitionPostRepository =
+      PetitionBoardRepository();
   final BusRepository _busRepository = BusRepository();
 
   final LoginService loginService = Get.find<LoginService>();
@@ -30,7 +34,7 @@ class HomePageController extends GetxController {
   final RxBool isLoadBusList = false.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     getBusList();
     Timer.periodic(const Duration(seconds: 30), (timer) {
       getBusList();
@@ -41,38 +45,41 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getGeneralPostListHome() async {
-    await _generalBoardRepository
-        .getGeneralBoard(page: 0, size: 5, keyword: '')
-        .then((value) {
-      if (value.success) {
-        generalPostListHome.value = value.data.generalPosts as List<GeneralPostModel>;
-        isLoadGeneralPostListHome.value = true;
-      }
-    });
+    final ApiResponseDTO apiResponseDTO = await _generalBoardRepository
+        .getGeneralBoard(page: 0, size: 5, keyword: '');
+    if (apiResponseDTO.success) {
+      final GeneralBoardModel generalBoardModel = apiResponseDTO.data
+          as GeneralBoardModel;
+      generalPostListHome.value = generalBoardModel.generalPosts;
+      isLoadGeneralPostListHome.value = true;
+    }
   }
 
   Future<void> getPetitionPostListHome() async {
-    await _petitionPostRepository
-        .getPetitionBoard(page: 0, size: 5, status: "ACTIVE")
-        .then((value) {
-      if (value.success) {
-        petitionListHome.value = value.data.petitionPosts as List<PetitionPostModel>;
-        isLoadPetitionListHome.value = true;
-      }
-    });
+    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
+        .getPetitionBoard(page: 0, size: 5, status: "ACTIVE");
+    if (apiResponseDTO.success) {
+      final PetitionBoardModel petitionBoardModel = apiResponseDTO.data
+          as PetitionBoardModel;
+      petitionListHome.value = petitionBoardModel.petitionPosts;
+      isLoadPetitionListHome.value = true;
+    }
   }
 
   Future<void> getBusList() async {
-    await _busRepository.getBusListFromStation(stationName: "단국대정문").then((value) async {
-      if (value.success) {
-        busListOfJungMoon.value = value.data as List<BusModel>;
-      }
-    });
-    await _busRepository.getBusListFromStation(stationName: "곰상").then((value) {
-      if (value.success) {
-        busListOfGomSang.value = value.data as List<BusModel>;
-      }
-    });
+    final ApiResponseDTO apiResponseDTO1 =
+        await _busRepository.getBusListFromStation(stationName: "단국대정문");
+    final ApiResponseDTO apiResponseDTO2 = await _busRepository
+        .getBusListFromStation(stationName: "곰상");
+
+    if (apiResponseDTO1.success && apiResponseDTO2.success) {
+      final List<BusModel> busList1 = apiResponseDTO1.data as List<BusModel>;
+      busListOfJungMoon.value = busList1;
+
+      final List<BusModel> busList2 = apiResponseDTO2.data as List<BusModel>;
+      busListOfGomSang.value = busList2;
+    }
+
     if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
       isLoadBusList.value = true;
     }
@@ -85,5 +92,4 @@ class HomePageController extends GetxController {
   BusModel findGomSangBusByNo(String no) {
     return busListOfGomSang.firstWhere((p0) => p0.busNo == no);
   }
-
 }

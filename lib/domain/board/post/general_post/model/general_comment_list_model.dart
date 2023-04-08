@@ -1,35 +1,39 @@
 import 'general_comment_model.dart';
 
 class GeneralCommentListModel {
-  late int totalElements;
-  late int totalPages;
-  late int size;
-  late int page;
-  late bool hasNext;
-  late bool first;
-  late bool last;
-  late List<GeneralCommentModel> generalComments;
+  int totalElements;
+  int totalPages;
+  int size;
+  int page;
+  bool hasNext;
+  bool first;
+  bool last;
+  List<GeneralCommentModel> generalComments;
 
   GeneralCommentListModel({
-    totalElements,
-    totalPages,
-    size,
-    page,
-    hasNext,
-    first,
-    last,
+    required this.totalElements,
+    required this.totalPages,
+    required this.generalComments,
+    required this.size,
+    required this.page,
+    required this.hasNext,
+    required this.first,
+    required this.last,
   });
 
-  GeneralCommentListModel.fromJson(Map<String, dynamic> json) {
-    totalElements = json["totalElements"] as int;
-    totalPages = json["totalPages"] as int;
-    generalComments = json["content"]
-        .map<GeneralCommentModel>((json) => GeneralCommentModel.fromJson(json))
-        .toList();
-    size = json["size"] as int;
-    page = json["page"] as int;
-    hasNext = json["hasNext"] as bool;
-    first = json["first"] as bool;
-    last = json["last"] as bool;
+  factory GeneralCommentListModel.fromJson(Map<String, dynamic> json) {
+    return GeneralCommentListModel(
+      totalElements: json["totalElements"] as int,
+      totalPages: json["totalPages"] as int,
+      generalComments: json["content"]
+          .map<GeneralCommentModel>((json) => GeneralCommentModel.fromJson(json))
+          .toList(),
+      size: json["size"] as int,
+      page: json["page"] as int,
+      hasNext: json["hasNext"] as bool,
+      first: json["first"] as bool,
+      last: json["last"] as bool,
+    );
   }
+
 }

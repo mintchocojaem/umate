@@ -1,3 +1,4 @@
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
@@ -18,13 +19,13 @@ class BoardPageController extends GetxController {
 
   final RxInt selectedCategory = 0.obs;
 
-  final Rx<GeneralBoardModel> generalPostBoard = GeneralBoardModel().obs;
+  late Rx<GeneralBoardModel> generalPostBoard;
 
   final RxList<GeneralPostModel> generalPostList = <GeneralPostModel>[].obs;
 
   final RxBool isLoadGeneralPostBoard = false.obs;
 
-  final Rx<PetitionBoardModel> petitionBoard = PetitionBoardModel().obs;
+  late Rx<PetitionBoardModel> petitionBoard;
 
   final RxList<PetitionPostModel> petitionPostList = <PetitionPostModel>[].obs;
 
@@ -48,7 +49,7 @@ class BoardPageController extends GetxController {
   final RxBool isLoadedImageList = false.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     // TODO: implement onInit
     await getFirstGeneralPostBoard();
     await getFirstPetitionPostBoard();
@@ -82,102 +83,99 @@ class BoardPageController extends GetxController {
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
     isLoadedImageList.value = false;
-    await _generalBoardRepository
-        .getGeneralBoard(
+    final ApiResponseDTO apiResponseDTO =
+        await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value)
-        .then((value) async {
-      if (value.success) {
-        generalPostBoard.value = value.data as GeneralBoardModel;
-        final List<GeneralPostModel> postList =
-        value.data.generalPosts as List<GeneralPostModel>;
-        await getImageList(postList);
-        generalPostList.value = postList;
-        isLoadGeneralPostBoard.value = true;
-      }
-    });
+            keyword: searchText.value);
+    if (apiResponseDTO.success) {
+      final GeneralBoardModel generalBoardModel =
+          apiResponseDTO.data as GeneralBoardModel;
+      generalPostBoard = generalBoardModel.obs;
+      final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
+      await getImageList(postList);
+      generalPostList.value = postList;
+      isLoadGeneralPostBoard.value = true;
+    }
   }
 
   Future<void> getNextGeneralPostBoard() async {
     _generalBoardPage++;
-    await _generalBoardRepository
-        .getGeneralBoard(
+    final ApiResponseDTO apiResponseDTO =
+        await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value)
-        .then((value) async {
-      if (value.success && value.data.generalPosts.isNotEmpty) {
-        generalPostBoard.value = value.data as GeneralBoardModel;
-        final List<GeneralPostModel> postList =
-            value.data.generalPosts as List<GeneralPostModel>;
-        await getImageList(postList);
-        generalPostList.addAll(postList);
-      }
-    });
+            keyword: searchText.value);
+
+    if (apiResponseDTO.success && apiResponseDTO.data.generalPosts.isNotEmpty) {
+      final GeneralBoardModel generalBoardModel =
+          apiResponseDTO.data as GeneralBoardModel;
+      generalPostBoard = generalBoardModel.obs;
+      final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
+      await getImageList(postList);
+      generalPostList.addAll(postList);
+    }
   }
 
   Future<void> getFirstPetitionPostBoard() async {
     _petitionBoardPage = 0;
     isLoadPetitionBoard.value = false;
-    await _petitionPostRepository
-        .getPetitionBoard(
+    final ApiResponseDTO apiResponseDTO =
+        await _petitionPostRepository.getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: categoryAPIList[selectedCategory.value])
-        .then((value) {
-      if (value.success) {
-        petitionBoard.value = value.data as PetitionBoardModel;
-        petitionPostList.value =
-            value.data.petitionPosts as List<PetitionPostModel>;
-        isLoadPetitionBoard.value = true;
-      }
-    });
+            status: categoryAPIList[selectedCategory.value]);
+    if (apiResponseDTO.success) {
+      final PetitionBoardModel petitionBoardModel =
+          apiResponseDTO.data as PetitionBoardModel;
+      petitionBoard = petitionBoardModel.obs;
+      petitionPostList.value = petitionBoardModel.petitionPosts;
+      isLoadPetitionBoard.value = true;
+    }
   }
 
   Future<void> getNextPetitionPostBoard() async {
     _petitionBoardPage++;
-    await _petitionPostRepository
+    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
         .getPetitionBoard(
             page: _petitionBoardPage,
-            size: _generalBoardSize,
-            status: categoryAPIList[selectedCategory.value])
-        .then((value) {
-      if (value.success && value.data.petitionPosts.isNotEmpty) {
-        petitionBoard.value = value.data as PetitionBoardModel;
-        petitionPostList
-            .addAll(value.data.petitionPosts as List<PetitionPostModel>);
-      }
-    });
+            size: _petitionBoardSize,
+            status: categoryAPIList[selectedCategory.value]);
+    if (apiResponseDTO.success && apiResponseDTO.data.petitionPosts.isNotEmpty) {
+      final PetitionBoardModel petitionBoardModel =
+          apiResponseDTO.data as PetitionBoardModel;
+      petitionBoard = petitionBoardModel.obs;
+      petitionPostList.addAll(petitionBoardModel.petitionPosts);
+    }
   }
 
   Future<bool> searchPost(String keyword) async {
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
-    await _generalBoardRepository
+    final ApiResponseDTO apiResponseDTO = await _generalBoardRepository
         .getGeneralBoard(
-            page: _generalBoardPage, size: _generalBoardSize, keyword: keyword)
-        .then((value) {
-      if (value.success) {
-        searchText.value = keyword;
-        generalPostBoard.value = value.data as GeneralBoardModel;
-        generalPostList.value =
-            value.data.generalPosts as List<GeneralPostModel>;
-        isLoadGeneralPostBoard.value = true;
-        return true;
-      }
-    });
-    return false;
+            page: _generalBoardPage, size: _generalBoardSize, keyword: keyword);
+    if (apiResponseDTO.success) {
+      final GeneralBoardModel generalBoardModel =
+          apiResponseDTO.data as GeneralBoardModel;
+      searchText.value = keyword;
+      generalPostBoard = generalBoardModel.obs;
+      generalPostList.value = generalBoardModel.generalPosts;
+      isLoadGeneralPostBoard.value = true;
+      return true;
+    }else{
+      return false;
+    }
   }
 
   Future<void> getImageList(List<GeneralPostModel> postList) async {
     for (GeneralPostModel i in postList) {
       for (FileModel j in i.files) {
-        j.url  = (await fileFromImageUrl(j.url, j.originalName ?? "image$i")).path;
+        j.url =
+            (await fileFromImageUrl(j.url, j.originalName ?? "image$i")).path;
       }
     }
     isLoadedImageList.value = true;
   }
-
 
 }

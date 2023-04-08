@@ -1,3 +1,4 @@
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
@@ -15,10 +16,9 @@ class GeneralPostPageController extends GetxController {
 
   final LoginService loginService = Get.find<LoginService>();
 
-  final Rx<GeneralPostModel> generalPostModel = GeneralPostModel().obs;
+  late final Rx<GeneralPostModel> generalPost;
 
-  final Rx<GeneralCommentListModel> generalCommentList =
-      GeneralCommentListModel().obs;
+  late Rx<GeneralCommentListModel> generalCommentList;
 
   final RxList<GeneralCommentModel> generalComments =
       <GeneralCommentModel>[].obs;
@@ -42,8 +42,7 @@ class GeneralPostPageController extends GetxController {
   final RxBool isLoadedImageList = false.obs;
 
   @override
-  void onInit() async{
-
+  void onInit() async {
     final int id = Get.arguments;
 
     generalPostScrollController.addListener(() {
@@ -62,177 +61,170 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> getGeneralPost(int id) async {
-    await _generalPostRepository
-        .getGeneralPost(token: loginService.loginModel.value.accessToken, postId: id)
-        .then((value) async {
-      if (value.success) {
-        generalPostModel.value = value.data as GeneralPostModel;
-        generalPostModel.value.createdAt = generalPostModel.value.createdAt
-            .substring(0, generalPostModel.value.createdAt.length - 9);
-        //여기 나중에 날짜 보드 뷰랑 포스트 뷰랑 통일 시켜야 함
-        await getImageList();
-        isLoadedGeneralPost.value = true;
-      }
-    });
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.getGeneralPost(
+            token: loginService.loginInfo.value.accessToken, postId: id);
+    if (apiResponseDTO.success) {
+      final GeneralPostModel generalPostModel =
+          apiResponseDTO.data as GeneralPostModel;
+      generalPost = generalPostModel.obs;
+      await getImageList();
+      isLoadedGeneralPost.value = true;
+    }
   }
 
   Future<void> deleteGeneralPost(int id) async {
-    await _generalPostRepository
-        .deleteGeneralPost(
-            token: loginService.loginModel.value.accessToken, postId: id)
-        .then((value) async {
-      if (value.success) {
-        await boardPageController.getFirstGeneralPostBoard().then((value) {
-          Get.back();
-        });
-      } else {
-        GetXSnackBar(
-                type: GetXSnackBarType.customError,
-                content: value.message,
-                title: "게시글 삭제 오류")
-            .show();
-      }
-    });
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.deleteGeneralPost(
+            token: loginService.loginInfo.value.accessToken, postId: id);
+    if (apiResponseDTO.success) {
+      await boardPageController.getFirstGeneralPostBoard().then((value) {
+        Get.back();
+      });
+    } else {
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 삭제 오류")
+          .show();
+    }
   }
 
   Future<void> getFirstGeneralComment(int id) async {
     commentPage = 0;
-    await _generalPostRepository
-        .getGeneralComment(
-            token: loginService.loginModel.value.accessToken,
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.getGeneralComment(
+            token: loginService.loginInfo.value.accessToken,
             commentId: id,
             page: commentPage,
-            size: commentSize)
-        .then((value) {
-      if (value.success) {
-        generalCommentList.value = value.data as GeneralCommentListModel;
-        generalComments.value =
-            value.data.generalComments as List<GeneralCommentModel>;
-        isLoadedGeneralComment.value = true;
-      }
-    });
+            size: commentSize);
+    if (apiResponseDTO.success) {
+      final GeneralCommentListModel generalCommentListModel =
+          apiResponseDTO.data as GeneralCommentListModel;
+      generalCommentList = generalCommentListModel.obs;
+      generalComments.value = generalCommentListModel.generalComments;
+      isLoadedGeneralComment.value = true;
+    }
   }
 
   Future<void> getNextGeneralComment(int id) async {
     commentPage++;
-    await _generalPostRepository
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
         .getGeneralComment(
-            token: loginService.loginModel.value.accessToken,
+            token: loginService.loginInfo.value.accessToken,
             commentId: id,
             page: commentPage,
-            size: commentSize)
-        .then((value) {
-      if (value.success) {
-        generalCommentList.value = value.data as GeneralCommentListModel;
-        generalComments
-            .addAll(value.data.generalComments as List<GeneralCommentModel>);
-      }
-    });
+            size: commentSize);
+    if (apiResponseDTO.success) {
+      final GeneralCommentListModel generalCommentListModel =
+          apiResponseDTO.data as GeneralCommentListModel;
+      generalCommentList = generalCommentListModel.obs;
+      generalComments
+          .addAll(generalCommentListModel.generalComments);
+    }
   }
 
   Future<void> writeGeneralComment(int id) async {
-    await _generalPostRepository
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
         .writeGeneralComment(
-            token: loginService.loginModel.value.accessToken,
+            token: loginService.loginInfo.value.accessToken,
             commentId: id,
-            text: commentTextController.text)
-        .then((value) async {
-      if (value.success) {
-        await getFirstGeneralComment(id).then((value) {
-          commentTextController.clear();
-          if (generalPostScrollController.position.pixels >=
-              generalPostHeightKey.currentContext!.size!.height) {
-            generalPostScrollController.animateTo(
-                generalPostHeightKey.currentContext!.size!.height,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeOut);
-          }
-        });
-      } else {
-        GetXSnackBar(
-                type: GetXSnackBarType.customError,
-                content: value.message,
-                title: "댓글 작성 오류")
-            .show();
+            text: commentTextController.text);
+    if (apiResponseDTO.success) {
+      await getFirstGeneralComment(id);
+      commentTextController.clear();
+      if (generalPostScrollController.position.pixels >=
+          generalPostHeightKey.currentContext!.size!.height) {
+        generalPostScrollController.animateTo(
+            generalPostHeightKey.currentContext!.size!.height,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeOut);
       }
-    });
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "댓글 작성 오류")
+          .show();
+    }
   }
 
   Future<void> deleteGeneralComment(int id, int commentId) async {
-    await _generalPostRepository
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
         .deleteGeneralComment(
-            token: loginService.loginModel.value.accessToken, commentId: commentId)
-        .then((value) async {
-      if (value.success) {
-        await getFirstGeneralComment(id).then((value) {
-          if (generalPostScrollController.position.pixels >=
-              generalPostHeightKey.currentContext!.size!.height) {
-            generalPostScrollController.animateTo(
-                generalPostHeightKey.currentContext!.size!.height,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeOut);
-          }
-        });
-      } else {
-        GetXSnackBar(
-                type: GetXSnackBarType.customError,
-                content: value.message,
-                title: "댓글 삭제 오류")
-            .show();
+            token: loginService.loginInfo.value.accessToken,
+            commentId: commentId);
+    if (apiResponseDTO.success) {
+      await getFirstGeneralComment(id);
+      if (generalPostScrollController.position.pixels >=
+          generalPostHeightKey.currentContext!.size!.height) {
+        generalPostScrollController.animateTo(
+            generalPostHeightKey.currentContext!.size!.height,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeOut);
       }
-    });
+    } else {
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "댓글 삭제 오류")
+          .show();
+    }
   }
 
   Future<void> likeGeneralPost(int id) async {
     HapticFeedback.heavyImpact();
-    await _generalPostRepository
-        .likePost(token: loginService.loginModel.value.accessToken, postId: id)
-        .then((value) async {
-      if (value.success) {
-        if (!generalPostModel.value.liked) {
-          generalPostModel.update((val) async {
-            val!.liked = !generalPostModel.value.liked;
-            generalPostModel.value.likes++;
-          });
-        } else {
-          await _generalPostRepository
-              .unlikePost(
-                  token: loginService.loginModel.value.accessToken, postId: id)
-              .then((value) {
-            if (value.success) {
-              generalPostModel.update((val) async {
-                val!.liked = !generalPostModel.value.liked;
-                generalPostModel.value.likes--;
-              });
-            }
-          });
-        }
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
+        .likePost(token: loginService.loginInfo.value.accessToken, postId: id);
+    if (apiResponseDTO.success) {
+      if (!generalPost.value.liked) {
+        generalPost.update((val) async {
+          val!.liked = !generalPost.value.liked;
+          generalPost.value.likes++;
+        });
       } else {
-        GetXSnackBar(
-                type: GetXSnackBarType.customError,
-                content: value.message,
-                title: "게시글 좋아요 오류")
-            .show();
+        await unlikeGeneralPost(id);
       }
-    });
+    } else {
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 좋아요 오류")
+          .show();
+    }
+  }
+
+  Future<void> unlikeGeneralPost(int id) async{
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
+        .unlikePost(
+        token: loginService.loginInfo.value.accessToken, postId: id);
+    if (apiResponseDTO.success) {
+      generalPost.update((val) async {
+        val!.liked = !generalPost.value.liked;
+        generalPost.value.likes--;
+      });
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 좋아요 오류")
+          .show();
+    }
   }
 
   void saveAndGetBack() {
     if (isLoadedGeneralPost.value) {
-      generalPostModel.value.commentCount =
-          generalCommentList.value.totalElements;
-      Get.back(result: generalPostModel.value);
+      generalPost.value.commentCount = generalCommentList.value.totalElements;
+      Get.back(result: generalPost.value);
     } else {
       Get.back();
     }
   }
 
   Future<void> getImageList() async {
-    for (FileModel j in generalPostModel.value.files) {
-      j.url  = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+    for (FileModel j in generalPost.value.files) {
+      j.url = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
     }
     isLoadedImageList.value = true;
   }
-
-
 }

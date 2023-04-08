@@ -6,6 +6,7 @@ import 'package:danvery/domain/board/post/general_post/model/general_post_model.
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:dio/dio.dart';
 
 class GeneralPostProvider {
@@ -19,13 +20,13 @@ class GeneralPostProvider {
   factory GeneralPostProvider() => _singleton;
 
   Future<ApiResponseDTO> writeGeneralPost(
-      String token, GeneralPostModel postModel) async {
+      String token, GeneralPostWriteModel generalPostWriteModel) async {
     String url = '/post/general-forum';
 
     final data = FormData.fromMap({
-      'title': postModel.title,
-      'body': postModel.body,
-      'files': postModel.files
+      'title': generalPostWriteModel.title,
+      'body': generalPostWriteModel.body,
+      'files': generalPostWriteModel.files
           .map((e) => MultipartFile.fromFileSync(e.url))
           .toList(),
     });

@@ -1,3 +1,4 @@
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/user/find/repository/find_repository.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_1.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_2.dart';
@@ -24,17 +25,18 @@ class FindIdPageController extends GetxController {
 
   final RxString phoneNumber = "".obs;
 
-  Future<bool> sendIdToPhoneNumber(String phoneNumber) =>
-      _findRepository.sendIdToSMS(phoneNumber: phoneNumber).then((value) {
-        if (value.success) {
-          return true;
-        } else {
-          GetXSnackBar(
-                  type: GetXSnackBarType.customError,
-                  title: "아이디 찾기 오류",
-                  content: value.message)
-              .show();
-          return false;
-        }
-      });
+  Future<bool> sendIdToPhoneNumber(String phoneNumber) async{
+    final ApiResponseDTO apiResponseDTO = await _findRepository.sendIdToSMS(phoneNumber: phoneNumber);
+    if(apiResponseDTO.success) {
+      return true;
+    } else {
+      GetXSnackBar(
+        type: GetXSnackBarType.customError,
+        title: "아이디 찾기 오류",
+        content: apiResponseDTO.message,
+      ).show();
+      return false;
+    }
+  }
+
 }
