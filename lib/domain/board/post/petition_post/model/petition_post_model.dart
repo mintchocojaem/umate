@@ -1,7 +1,20 @@
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_statistic_model.dart';
 
+enum PetitionPostStatus {
+  active,
+  waiting,
+  answered,
+  expired,
+}
+
+extension PetitionPostStatusExtension on PetitionPostStatus {
+  String get nameKR => ['청원 중', '대기 중', '답변 완료', '기간만료'][index];
+  String get name => ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'][index];
+}
+
 class PetitionPostModel {
+
   int id;
   String title;
   String body;
@@ -44,7 +57,8 @@ class PetitionPostModel {
       author: json["author"] as String? ?? "익명",
       createdAt: (json["createdAt"] as String).substring(0,10).replaceAll('-', '/'),
       views: json["views"] as int? ?? 0,
-      status: json["status"] as String,
+      status: PetitionPostStatus.values
+          .firstWhere((element) => element.name == json["status"] as String).nameKR,
       expiresAt: (json["expiresAt"] as String).replaceAll('-', '/'),
       agreeCount: json["agreeCount"] as int,
       statisticList: (json["statisticList"] as List? ?? [])
@@ -61,4 +75,5 @@ class PetitionPostModel {
       answer: json["answer"] as String?,
     );
   }
+
 }

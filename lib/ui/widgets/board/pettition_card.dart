@@ -51,15 +51,15 @@ class PetitionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              tag,
-              style: tinyStyle.copyWith(color: Palette.lightBlue),
+              "[$tag]",
+              style: lightStyle.copyWith(color: Palette.lightBlue, fontWeight: FontWeight.bold),
             ),
             Text(
               title,
               style: titleStyle,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 4.0, bottom: 4),
+              padding: const EdgeInsets.only(top: 8, bottom: 4),
               child: Text(
                 "D - ${period >= 0 ? period : 0}",
                 style: regularStyle.copyWith(fontWeight: FontWeight.bold)
@@ -71,8 +71,8 @@ class PetitionCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("청원기간", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
-                    Text("$createdAt ~ $expiredAt", style: tinyStyle.copyWith(color: Palette.darkGrey),)
+                    Text("청원기간", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
+                    Text("$createdAt ~ $expiredAt", style: lightStyle.copyWith(color: Palette.darkGrey),)
                   ],
                 ),
                 const SizedBox(width: 32,),
@@ -81,16 +81,16 @@ class PetitionCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text("참여인원", style: tinyStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
+                        Text("참여인원", style: lightStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
                         const SizedBox(width: 8,),
-                        Text(agreeCount, style: tinyStyle.copyWith(color: Palette.darkGrey),),
+                        Text(agreeCount, style: lightStyle.copyWith(color: Palette.darkGrey),),
                       ],
                     ),
                     Row(
                       children: [
-                        Text("청원상태", style: tinyStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
+                        Text("청원상태", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
                         const SizedBox(width: 8,),
-                        Text(status,style: tinyStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
+                        Text(status,style: lightStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
                       ],
                     ),
                   ],

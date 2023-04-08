@@ -37,9 +37,6 @@ class BoardPageController extends GetxController {
 
   final ScrollController petitionBoardScrollController = ScrollController();
 
-  List<String> categoryKORList = ['청원 중', '대기 중', '답변 완료', '기간만료'];
-  List<String> categoryAPIList = ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'];
-
   int _generalBoardPage = 0;
   final int _generalBoardSize = 10;
 
@@ -124,7 +121,7 @@ class BoardPageController extends GetxController {
         await _petitionPostRepository.getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: categoryAPIList[selectedCategory.value]);
+            status: PetitionPostStatus.values[selectedCategory.value].name);
     if (apiResponseDTO.success) {
       final PetitionBoardModel petitionBoardModel =
           apiResponseDTO.data as PetitionBoardModel;
@@ -136,12 +133,13 @@ class BoardPageController extends GetxController {
 
   Future<void> getNextPetitionPostBoard() async {
     _petitionBoardPage++;
-    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
-        .getPetitionBoard(
+    final ApiResponseDTO apiResponseDTO =
+        await _petitionPostRepository.getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: categoryAPIList[selectedCategory.value]);
-    if (apiResponseDTO.success && apiResponseDTO.data.petitionPosts.isNotEmpty) {
+            status: PetitionPostStatus.values[selectedCategory.value].name);
+    if (apiResponseDTO.success &&
+        apiResponseDTO.data.petitionPosts.isNotEmpty) {
       final PetitionBoardModel petitionBoardModel =
           apiResponseDTO.data as PetitionBoardModel;
       petitionBoard = petitionBoardModel.obs;
@@ -152,8 +150,8 @@ class BoardPageController extends GetxController {
   Future<bool> searchPost(String keyword) async {
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
-    final ApiResponseDTO apiResponseDTO = await _generalBoardRepository
-        .getGeneralBoard(
+    final ApiResponseDTO apiResponseDTO =
+        await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage, size: _generalBoardSize, keyword: keyword);
     if (apiResponseDTO.success) {
       final GeneralBoardModel generalBoardModel =
@@ -163,7 +161,7 @@ class BoardPageController extends GetxController {
       generalPostList.value = generalBoardModel.generalPosts;
       isLoadGeneralPostBoard.value = true;
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -177,5 +175,4 @@ class BoardPageController extends GetxController {
     }
     isLoadedImageList.value = true;
   }
-
 }

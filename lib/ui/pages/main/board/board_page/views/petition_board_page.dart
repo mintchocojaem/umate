@@ -1,5 +1,6 @@
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/board/category_button_bar.dart';
 import 'package:danvery/ui/widgets/board/pettition_card.dart';
@@ -23,7 +24,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                       top: 8, bottom: 8, left: 16, right: 16),
                   child: CategoryButtonBar(
                     selectedIndex: controller.selectedCategory.value,
-                    categories: controller.categoryKORList,
+                    categories: PetitionPostStatus.values.map((e) => e.nameKR).toList(),
                     selectedBackGroundColor: Palette.blue,
                     unSelectedBackGroundColor: Palette.white,
                     selectedTextColor: Palette.pureWhite,

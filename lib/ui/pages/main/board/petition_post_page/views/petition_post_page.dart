@@ -1,4 +1,5 @@
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_post_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_progress_indicator.dart';
@@ -147,9 +148,16 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     ),
                                   ),
                                   Text(
-                                    controller.petitionPost.value.status,
+                                    '${controller.petitionPost.value.status} '
+                                    '(${(controller.petitionPost.value.agreeCount / 50 * 100).round()}%)',
                                     style: regularStyle.copyWith(
-                                        color: Palette.blue),
+                                        fontWeight: FontWeight.bold,
+                                        color: controller.petitionPost.value
+                                                    .status ==
+                                                PetitionPostStatus
+                                                    .expired.nameKR
+                                            ? Palette.darkGrey
+                                            : Palette.blue),
                                   ),
                                 ],
                               ),
@@ -163,13 +171,17 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                   ),
                                   Expanded(
                                     child: ModernProgressIndicator(
-                                      maxValue: 50,
-                                      currentValue: controller
-                                          .petitionPost.value.agreeCount
-                                          .toDouble(),
-                                      height: 10,
-                                      color: Palette.blue,
-                                    ),
+                                        maxValue: 50,
+                                        currentValue: controller
+                                            .petitionPost.value.agreeCount
+                                            .toDouble(),
+                                        height: 10,
+                                        color: controller.petitionPost.value
+                                                    .status ==
+                                                PetitionPostStatus
+                                                    .expired.nameKR
+                                            ? Palette.grey
+                                            : Palette.blue),
                                   )
                                 ],
                               ),
