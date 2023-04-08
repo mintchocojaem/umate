@@ -10,23 +10,25 @@ class PetitionCard extends StatelessWidget {
   final String title; // 제목
   final String createdAt; // 청원 기간
   final String expiredAt; // 청원 기간
-  final String numberOfPeople; // 참여 인원
+  final String agreeCount; // 참여 인원
   final String status; // 청원 상태
+  final String tag;
 
   const PetitionCard({
     super.key,
     required this.title,
-    required this.numberOfPeople,
+    required this.agreeCount,
     required this.status,
     required this.createdAt,
     required this.expiredAt,
+    required this.tag,
   });
 
   @override
   Widget build(BuildContext context) {
 
     DateTime now = DateTime.now();
-    DateTime expiredDate = DateFormat("yyyy-MM-dd").parse(expiredAt);
+    DateTime expiredDate = DateFormat("yyyy/MM/dd").parse(expiredAt);
     int period = expiredDate.difference(now).inDays;
 
     return Container(
@@ -49,7 +51,7 @@ class PetitionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "[학생복지]",
+              tag,
               style: tinyStyle.copyWith(color: Palette.lightBlue),
             ),
             Text(
@@ -59,7 +61,7 @@ class PetitionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 4.0, bottom: 4),
               child: Text(
-                "D - $period",
+                "D - ${period >= 0 ? period : 0}",
                 style: regularStyle.copyWith(fontWeight: FontWeight.bold)
               ),
             ),
@@ -81,7 +83,7 @@ class PetitionCard extends StatelessWidget {
                       children: [
                         Text("참여인원", style: tinyStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
                         const SizedBox(width: 8,),
-                        Text("143명", style: tinyStyle.copyWith(color: Palette.darkGrey),),
+                        Text(agreeCount, style: tinyStyle.copyWith(color: Palette.darkGrey),),
                       ],
                     ),
                     Row(

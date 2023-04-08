@@ -1,8 +1,7 @@
-
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_statistic_model.dart';
 
-class PetitionPostModel{
+class PetitionPostModel {
   int id;
   String title;
   String body;
@@ -15,6 +14,7 @@ class PetitionPostModel{
   String expiresAt;
   int agreeCount;
   bool agreed;
+  List<String> tag;
   List<PetitionStatisticModel> statisticList;
   List<FileModel> files;
 
@@ -29,10 +29,11 @@ class PetitionPostModel{
     required this.expiresAt,
     required this.agreeCount,
     required this.statisticList,
-    this.answer,
     required this.mine,
     required this.files,
     required this.agreed,
+    required this.tag,
+    this.answer,
   });
 
   factory PetitionPostModel.fromJson(Map<String, dynamic> json) {
@@ -41,17 +42,23 @@ class PetitionPostModel{
       title: json["title"] as String,
       body: json["body"] as String,
       author: json["author"] as String? ?? "익명",
-      createdAt: json["createdAt"] as String,
+      createdAt: (json["createdAt"] as String).substring(0,10).replaceAll('-', '/'),
       views: json["views"] as int? ?? 0,
       status: json["status"] as String,
-      expiresAt: json["expiresAt"] as String,
+      expiresAt: (json["expiresAt"] as String).replaceAll('-', '/'),
       agreeCount: json["agreeCount"] as int,
-      statisticList: (json["statisticList"] as List? ?? []).map((e) => PetitionStatisticModel.fromJson(e)).toList(),
-      answer: json["answer"] as String?,
+      statisticList: (json["statisticList"] as List? ?? [])
+          .map((e) => PetitionStatisticModel.fromJson(e))
+          .toList(),
       mine: json["mine"] as bool? ?? false,
-      files: (json["files"] as List).map((e) => FileModel.fromGeneralPostFile(e)).toList(),
+      files: (json["files"] as List)
+          .map((e) => FileModel.fromGeneralPostFile(e))
+          .toList(),
       agreed: json["agreed"] as bool? ?? false,
+      tag: (json["tag"] as List? ?? []).map((e) => e as String).toList().isNotEmpty
+          ? (json["tag"] as List).map((e) => e as String).toList()
+          : ["미분류"],
+      answer: json["answer"] as String?,
     );
   }
-
 }

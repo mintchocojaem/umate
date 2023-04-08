@@ -43,7 +43,8 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                                 ),
                                 sectionsSpace: 0,
                                 centerSpaceRadius: 60,
-                                sections: showingSections()),
+                                sections: showingSections(),
+                            ),
                           ),
                           Positioned.fill(
                             child: Center(
@@ -63,6 +64,9 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Text(
                               '청원의 동의 비율은\n 상위 4개의 학과만 볼 수 있습니다',
                               textAlign: TextAlign.center,
@@ -81,9 +85,10 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount:
-                                    controller.petitionPost.value.agreeCount,
+                                    controller.petitionPost.value.statisticList.length,
                                 itemBuilder: (context, index) {
                                   return ListTile(
+                                    dense: true,
                                     leading: Text(
                                       '${index + 1}.',
                                       style: regularStyle.copyWith(
@@ -124,7 +129,7 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
   List<PieChartSectionData> showingSections() {
     final agreeCount = controller.petitionPost.value.agreeCount;
 
-    return List.generate(agreeCount, (i) {
+    return List.generate(controller.petitionPost.value.statisticList.length, (i) {
       const radius = 100.0;
       switch (i) {
         case 0:
@@ -175,20 +180,18 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
             radius: radius,
             titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
           );
-        case 4:
+        default:
           return PieChartSectionData(
             color: Palette.mint,
-            value: controller.petitionPost.value.statisticList[4].agreeCount /
+            value: controller.petitionPost.value.statisticList[i].agreeCount /
                 agreeCount *
                 100,
             title:
-                '${(controller.petitionPost.value.statisticList[4].agreeCount / agreeCount * 100).round()}%\n'
-                ' ${controller.petitionPost.value.statisticList[4].department}',
+            '${(controller.petitionPost.value.statisticList[i].agreeCount / agreeCount * 100).round()}%\n'
+                ' ${controller.petitionPost.value.statisticList[i ].department}',
             radius: radius,
             titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
           );
-        default:
-          throw Error();
       }
     });
   }

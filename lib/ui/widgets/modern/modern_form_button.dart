@@ -56,7 +56,7 @@ class _ModernFormButton extends State<ModernFormButton>{
         } : null,
         child: Text(widget.text,
             style: regularStyle.copyWith(
-                color: isEnabled ? Palette.white : Palette.grey)),
+                color: isEnabled ? Palette.white : Palette.grey, fontWeight: FontWeight.bold)),
       ),
     );
   }

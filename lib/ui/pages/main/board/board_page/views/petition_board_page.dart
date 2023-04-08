@@ -79,6 +79,8 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                                 .petitionPostList[index].id);
                                       },
                                       child: PetitionCard(
+                                          tag: controller
+                                              .petitionPostList[index].tag.first,
                                           title: controller
                                               .petitionPostList[index].title,
                                           createdAt: controller
@@ -87,7 +89,9 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                           expiredAt: controller
                                               .petitionPostList[index]
                                               .expiresAt,
-                                          numberOfPeople: "143",
+                                          agreeCount: controller
+                                              .petitionPostList[index]
+                                              .agreeCount.toString(),
                                           status: controller
                                               .petitionPostList[index].status),
                                     ),
