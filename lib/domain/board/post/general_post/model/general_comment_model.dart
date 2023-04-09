@@ -18,7 +18,7 @@ class GeneralCommentModel {
       id: json["id"] as int,
       author: json["author"] as String? ?? "익명",
       text: json["text"] as String,
-      createdAt: json["createdAt"] as String,
+      createdAt: (json["createdAt"] as String).substring(5,16).replaceAll('-', '/'),
       mine: json["mine"] as bool,
     );
   }
