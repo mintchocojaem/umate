@@ -46,7 +46,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.only(right: 8),
                             child: Icon(
                               Icons.info_outline_rounded,
                               color: Palette.grey,
@@ -130,7 +130,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
@@ -352,11 +352,9 @@ class RegisterStep1 extends GetView<RegisterPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Obx(
               () => ModernFormButton(
-                isEnabled: controller.studentId.isNotEmpty &&
-                    controller.studentPassword.isNotEmpty &&
-                    controller.check1.value &&
-                    controller.check2.value,
-                onPressed: () async{
+                isEnabled: controller.check1.value && controller.check2.value
+                    && controller.studentId.isNotEmpty && controller.studentPassword.isNotEmpty,
+                onPressed: () async {
                   if (controller.studentId.value.length != 8) {
                     GetXSnackBar(
                       title: "학번 오류",
@@ -365,13 +363,14 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     ).show();
                     return;
                   }
-                  await controller
-                      .studentAuthenticate(controller.studentId.value,
+                  await controller.studentAuthenticate(
+                      controller.studentId.value,
                       controller.studentPassword.value);
-                  if(controller.isStudentAuthenticated.value){
+                  if (controller.isStudentAuthenticated.value) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     controller.currentStep.value = 2;
                   }
+
                 },
                 text: '인증하기',
               ),

@@ -22,7 +22,7 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: PinCodeTextField(
-              textStyle: titleStyle.copyWith(
+              textStyle: smallTitleStyle.copyWith(
                 color: Palette.darkGrey,
               ),
               autoFocus: true,

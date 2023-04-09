@@ -35,61 +35,71 @@ class MyPagePage extends GetView<MyPagePageController> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            right: 16, left: 16, bottom: 8, top: 16),
+                            right: 16, left: 16, bottom: 8, top: 24),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
                               children: [
                                 CircleAvatar(
-                                  radius: 36,
+                                  radius: 52,
                                   backgroundImage: Image.asset(
                                           "assets/icons/user/profile_icon.png")
                                       .image,
-                                  backgroundColor: Colors.transparent,
                                 ),
+                                /*
                                 TextButton(
-                                    style: TextButton.styleFrom(
-                                      minimumSize: const Size(32, 16),
-                                      padding: const EdgeInsets.only(
-                                          top: 4,
-                                          bottom: 4,
-                                          left: 16,
-                                          right: 16),
-                                      backgroundColor: Palette.lightGrey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
+                                  style: TextButton.styleFrom(
+                                    minimumSize: const Size(32, 16),
+                                    padding: const EdgeInsets.only(
+                                        top: 4, bottom: 4, left: 16, right: 16),
+                                    backgroundColor: Palette.lightGrey,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "프로필 수정",
-                                      style: lightStyle.copyWith(
-                                          color: Palette.darkGrey),
-                                    )),
+                                  ),
+                                  onPressed: () {},
+                                  child: Text(
+                                    "프로필 수정",
+                                    style: lightStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                ),
+                                 */
                               ],
                             ),
                             const SizedBox(
-                              width: 32,
+                              width: 16,
                             ),
                             Text.rich(
                               TextSpan(
-                                style: bigTitleStyle.copyWith(
+                                style: titleStyle.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Palette.pureWhite),
+                                    color: Palette.pureWhite,
+                                    overflow: TextOverflow.ellipsis),
                                 text:
-                                    '${controller.loginService.loginInfo.value.username}\n', // default text style
+                                    '${controller.loginService.loginInfo.value.nickname}\n', // default text style
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text:
-                                          "${controller.loginService.loginInfo.value.major}\n",
-                                      style: titleStyle.copyWith(
-                                          color: Palette.pureWhite)),
+                                    text:
+                                        "${controller.loginService.loginInfo.value.department} "
+                                        "${controller.loginService.loginInfo.value.major}\n",
+                                    style: regularStyle.copyWith(
+                                        color: Palette.white,
+                                        fontWeight: FontWeight.w600,
+                                        overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                   TextSpan(
-                                      text: controller
-                                          .loginService.loginInfo.value.studentId,
-                                      style: titleStyle.copyWith(
-                                          color: Palette.pureWhite)),
+                                    text:
+                                        "${controller.loginService.loginInfo.value.studentId} "
+                                            "${controller.loginService.loginInfo.value.username}",
+                                    style: regularStyle.copyWith(
+                                        color: Palette.white,
+                                        fontWeight: FontWeight.w600,
+                                        overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -115,7 +125,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("알림 설정",
-                                    style: titleStyle.copyWith(
+                                    style: smallTitleStyle.copyWith(
                                       fontWeight: FontWeight.normal,
                                     )),
                                 Obx(
@@ -153,7 +163,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "디스플레이 설정",
-                                    style: titleStyle.copyWith(
+                                    style: smallTitleStyle.copyWith(
                                         fontWeight: FontWeight.normal,
                                         color: Palette.darkGrey),
                                   ),
@@ -227,7 +237,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                             children: [
                               Text(
                                 "0",
-                                style: titleStyle.copyWith(
+                                style: smallTitleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
                               SizedBox(
@@ -248,7 +258,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                             children: [
                               Text(
                                 "0",
-                                style: titleStyle.copyWith(
+                                style: smallTitleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
                               SizedBox(
@@ -269,7 +279,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                             children: [
                               Text(
                                 "0",
-                                style: titleStyle.copyWith(
+                                style: smallTitleStyle.copyWith(
                                     color: Palette.darkGrey),
                               ),
                               SizedBox(

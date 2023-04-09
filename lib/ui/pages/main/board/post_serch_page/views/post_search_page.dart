@@ -32,7 +32,7 @@ class PostSearchPage extends GetView<PostSearchPageController> {
               alignment: Alignment.center,
               child: Text(
                 '게시판에서 원하는 글을 검색해보세요',
-                style: titleStyle.copyWith(color: Palette.grey),
+                style: smallTitleStyle.copyWith(color: Palette.grey),
               ),
             ),
           ),

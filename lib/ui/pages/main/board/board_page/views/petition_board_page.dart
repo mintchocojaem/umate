@@ -52,7 +52,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                 child: Center(
                                   child: Text(
                                     '연관된 게시물이 존재하지 않습니다',
-                                    style: titleStyle.copyWith(
+                                    style: smallTitleStyle.copyWith(
                                         color: Palette.grey),
                                   ),
                                 ),

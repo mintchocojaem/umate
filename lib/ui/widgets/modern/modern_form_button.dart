@@ -24,14 +24,8 @@ class _ModernFormButton extends State<ModernFormButton>{
   bool isEnabled = true;
 
   @override
-  initState() {
-    super.initState();
-    isEnabled = widget.isEnabled;
-  }
-
-  @override
   Widget build(BuildContext context) {
-
+    isEnabled = widget.isEnabled;
     return SizedBox(
       width: double.infinity,
       height: 48,

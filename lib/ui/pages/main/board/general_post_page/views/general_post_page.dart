@@ -123,7 +123,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     children: [
                                       Text(
                                         controller.generalPost.value.title,
-                                        style: titleStyle.copyWith(
+                                        style: smallTitleStyle.copyWith(
                                             color: Palette.darkGrey),
                                       ),
                                       const SizedBox(

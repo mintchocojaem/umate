@@ -1,5 +1,4 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';

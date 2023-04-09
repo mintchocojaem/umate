@@ -1,5 +1,4 @@
 import 'package:danvery/core/regex/regex.dart';
-import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/ui/pages/user/register_page/controller/register_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
@@ -46,6 +45,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     hint: "비밀번호를 입력하세요",
                                     title: "비밀번호",
                                     validateHint: "비밀번호를 재입력하세요",
+                                    validateHelperText: "8자 이상, 하나 이상의 문자와 숫자 포함",
                                     validate: true,
                                     isPassword: true,
                                     onTextChanged: (value) {
@@ -73,6 +73,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
                                     readOnly: false,
+                                    helperText: "3~12자, 영문, 한글, 숫자, 특수문자(_), 공백 포함",
                                     onTextChanged: (value) {
                                       controller.nickname.value = value;
                                     },
@@ -133,10 +134,11 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                               ],
                             )
                           : const SizedBox(
-                              height: 64,
-                              width: 64,
-                              child: CircularProgressIndicator(),
-                            ),
+                            height: 400,
+                            child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          ),
                     )
                   ],
                 ),
@@ -154,6 +156,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     controller.nickname.value.isNotEmpty,
                 text: "가입하기",
                 onPressed: () async {
+
                   if (controller.nickname.value.length < 2 ||
                       isValidNicknameFormat(controller.nickname.value) ==
                           false) {

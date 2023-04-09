@@ -48,7 +48,7 @@ class BoardList extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: titleStyle.copyWith(color: Palette.black),
+                  style: smallTitleStyle.copyWith(color: Palette.black),
                 ),
                 InkWell(
                   onTap: onTapAction,

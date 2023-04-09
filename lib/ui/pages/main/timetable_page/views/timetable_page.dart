@@ -20,7 +20,7 @@ class TimetablePage extends GetView<TimetablePageController> {
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
         title: "2023 1학기",
-        titleStyle: titleStyle.copyWith(color: Palette.black),
+        titleStyle: smallTitleStyle.copyWith(color: Palette.black),
         isDarkMode: Get.isDarkMode,
         backGroundColor: Palette.pureWhite,
         actions: [

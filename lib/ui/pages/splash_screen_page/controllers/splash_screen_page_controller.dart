@@ -1,4 +1,3 @@
-import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
@@ -21,15 +20,15 @@ class SplashScreenPageController extends GetxController
     final String? refreshToken = box.read("refreshToken");
     await animationInit();
     if (accessToken != null && refreshToken  != null) {
-      loginService
-          .autoLogin(accessToken, refreshToken)
-          .whenComplete((){
-        if (loginService.isLogin.value) {
-          Get.offAndToNamed(Routes.main);
-        } else {
-          Get.offAndToNamed(Routes.login);
-        }
-      });
+      await loginService.autoLogin(accessToken, refreshToken);
+      /*
+      if (loginService.isLogin.value) {
+        Get.offAndToNamed(Routes.main);
+      } else {
+        Get.offAndToNamed(Routes.login);
+      }
+      */
+      Get.offAndToNamed(Routes.login);
     } else {
       Get.offAndToNamed(Routes.login);
     }

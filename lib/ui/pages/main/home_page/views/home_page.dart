@@ -63,12 +63,12 @@ class HomePage extends GetView<HomePageController> {
                                       text:
                                           "${controller.loginService.loginInfo.value.major} "
                                               "${controller.loginService.loginInfo.value.studentId.substring(2, 4)}학번\n",
-                                      style: titleStyle.copyWith(
+                                      style: smallTitleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                   TextSpan(
                                       text: controller
                                           .loginService.loginInfo.value.username,
-                                      style: titleStyle.copyWith(
+                                      style: smallTitleStyle.copyWith(
                                           color: Palette.pureWhite)),
                                   TextSpan(
                                       text: " 님",

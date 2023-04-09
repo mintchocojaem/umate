@@ -60,13 +60,13 @@ class PetitionCard extends StatelessWidget {
               ),
               Text(
                 title,
-                style: titleStyle,
+                style: smallTitleStyle.copyWith(color: Palette.black),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: Text(
                   "D - ${period >= 0 ? period : 0}",
-                  style: regularStyle.copyWith(fontWeight: FontWeight.bold)
+                  style: regularStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey)
                 ),
               ),
               Row(

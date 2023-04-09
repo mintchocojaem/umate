@@ -25,6 +25,8 @@ class ModernFormField extends StatefulWidget {
   final Color? titleColor;
   final TextInputType? keyboardType;
   final Icon? suffixIcon;
+  final String? validateHelperText;
+  final String? helperText;
 
   const ModernFormField({
     super.key,
@@ -47,6 +49,8 @@ class ModernFormField extends StatefulWidget {
     this.suffixIcon,
     this.initText,
     this.initValidateText,
+    this.validateHelperText,
+    this.helperText,
   });
 
   @override
@@ -104,190 +108,224 @@ class _ModernFormField extends State<ModernFormField> {
             ? const SizedBox()
             : Text(
                 widget.title!,
-                style: titleStyle.copyWith(
+                style: smallTitleStyle.copyWith(
                     color: widget.titleColor ?? Palette.grey,
                     fontWeight: FontWeight.w500),
               ),
         const SizedBox(
           height: 8,
         ),
-        TextFormField(
-          controller: _textController,
-          obscureText: widget.isPassword,
-          enableSuggestions: false,
-          autocorrect: false,
-          enabled: !widget.readOnly,
-          readOnly: widget.readOnly,
-          onChanged: (text){
-            widget.onTextChanged?.call(text);
-          },
-          keyboardType: widget.keyboardType,
-          maxLines: 1,
-          maxLength: 30,
-          style: regularStyle.copyWith(color: Palette.lightBlack),
-          cursorColor: widget.titleColor ?? Palette.blue,
-          decoration: InputDecoration(
-            counterText: "",
-            filled: true,
-            fillColor: Palette.darkWhite,
-            border: const OutlineInputBorder(),
-            hintText: widget.hint,
-            hintStyle: widget.hintStyle ?? regularStyle.copyWith(
-                color: widget.readOnly ? Palette.lightBlack : Palette.grey),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(
-                color: Palette.darkWhite,
-                width: 1.0,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: _textController,
+              obscureText: widget.isPassword,
+              enableSuggestions: false,
+              autocorrect: false,
+              enabled: !widget.readOnly,
+              readOnly: widget.readOnly,
+              onChanged: (text) {
+                widget.onTextChanged?.call(text);
+              },
+              keyboardType: widget.keyboardType,
+              maxLines: 1,
+              maxLength: 30,
+              style: regularStyle.copyWith(color: Palette.lightBlack),
+              cursorColor: widget.titleColor ?? Palette.blue,
+              decoration: InputDecoration(
+                helperStyle: regularStyle.copyWith(color: Palette.grey),
+                counterText: "",
+                filled: true,
+                fillColor: Palette.darkWhite,
+                border: const OutlineInputBorder(),
+                hintText: widget.hint,
+                hintStyle: widget.hintStyle ??
+                    regularStyle.copyWith(
+                        color: widget.readOnly ? Palette.lightBlack : Palette.grey),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    color: Palette.darkWhite,
+                    width: 1.0,
+                  ),
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 16,
+                ),
+                suffixIcon: widget.suffixIcon != null
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: widget.suffixIcon!,
+                        onPressed: () {},
+                      )
+                    : null,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    color: widget.titleColor ?? Palette.blue,
+                    width: 2.0,
+                  ),
+                ),
+                suffixIconConstraints:
+                    const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    color: Palette.darkWhite,
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
-            contentPadding: const EdgeInsets.only(
-              left: 16,
-            ),
-            suffixIcon: widget.suffixIcon != null
-                ? IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: widget.suffixIcon!,
-                    onPressed: () {},
-                  )
-                : null,
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(
-                color: widget.titleColor ?? Palette.blue,
-                width: 2.0,
+            widget.helperText != null
+                ? Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                widget.helperText!,
+                style: lightStyle.copyWith(
+                    color: Palette.blue, fontWeight: FontWeight.w500),
               ),
-            ),
-            suffixIconConstraints:
-                const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(
-                color: Palette.darkWhite,
-                width: 1.0,
-              ),
-            ),
-          ),
+            )
+                : const SizedBox()
+          ],
         ),
         widget.validate
             ? Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                child: Row(
+                padding: const EdgeInsets.only(top: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 48,
-                        child: widget.isSMS
-                            ? TextFieldPinAutoFill(
-                                currentCode: _smsController.text,
-                                focusNode: focusSMS,
-                                style: TextStyle(
-                                    color: Palette.lightBlack),
-                                codeLength: 6,
-                                autoFocus: false,
-                                decoration: InputDecoration(
-                                  counterText: "",
-                                  filled: true,
-                                  fillColor: Palette.darkWhite,
-                                  border: const OutlineInputBorder(),
-                                  hintText: widget.validateHint ?? widget.hint,
-                                  hintStyle: regularStyle.copyWith(
-                                      color: Palette.grey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(
-                                      color: Palette.darkWhite,
-                                      width: 1.0,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 48,
+                            child: widget.isSMS
+                                ? TextFieldPinAutoFill(
+                                    currentCode: _smsController.text,
+                                    focusNode: focusSMS,
+                                    style: TextStyle(color: Palette.lightBlack),
+                                    codeLength: 6,
+                                    autoFocus: false,
+                                    decoration: InputDecoration(
+                                      counterText: "",
+                                      filled: true,
+                                      fillColor: Palette.darkWhite,
+                                      border: const OutlineInputBorder(),
+                                      hintText:
+                                          widget.validateHint ?? widget.hint,
+                                      hintStyle: regularStyle.copyWith(
+                                          color: Palette.grey),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                        borderSide: BorderSide(
+                                          color: Palette.darkWhite,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                    ),
+                                    onCodeChanged: (code) {
+                                      _smsController.text = code;
+                                      widget.onValidateChanged?.call(code);
+                                      if (code.length == 6) {
+                                        FocusScope.of(context).unfocus();
+                                      }
+                                    },
+                                  )
+                                : TextFormField(
+                                    controller: _validateController,
+                                    style: TextStyle(color: Palette.lightBlack),
+                                    keyboardType: widget.keyboardType,
+                                    obscureText: widget.isPassword,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    onChanged: (text) {
+                                      widget.onValidateChanged?.call(text);
+                                    },
+                                    readOnly: widget.readOnly,
+                                    maxLines: 1,
+                                    maxLength: 30,
+                                    decoration: InputDecoration(
+                                      counterText: "",
+                                      contentPadding: const EdgeInsets.only(
+                                        left: 16,
+                                      ),
+                                      filled: true,
+                                      fillColor: Palette.darkWhite,
+                                      border: const OutlineInputBorder(),
+                                      hintText:
+                                          widget.validateHint ?? widget.hint,
+                                      hintStyle: regularStyle.copyWith(
+                                          color: Palette.grey),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                        borderSide: BorderSide(
+                                          color: Palette.darkWhite,
+                                          width: 1.0,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                onCodeChanged: (code) {
-                                  _smsController.text = code;
-                                  widget.onValidateChanged?.call(code);
-                                  if (code.length == 6) {
-                                    FocusScope.of(context).unfocus();
-                                  }
-                                },
-                              )
-                            : TextFormField(
-                                controller: _validateController,
-                                style: TextStyle(
-                                    color: Palette.lightBlack),
-                                keyboardType: widget.keyboardType,
-                                obscureText: widget.isPassword,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                onChanged: (text){
-                                  widget.onValidateChanged?.call(text);
-                                },
-                                readOnly: widget.readOnly,
-                                maxLines: 1,
-                                maxLength: 30,
-                                decoration: InputDecoration(
-                                  counterText: "",
-                                  contentPadding: const EdgeInsets.only(
-                                    left: 16,
-                                  ),
-                                  filled: true,
-                                  fillColor: Palette.darkWhite,
-                                  border: const OutlineInputBorder(),
-                                  hintText: widget.validateHint ?? widget.hint,
-                                  hintStyle: regularStyle.copyWith(
-                                      color: Palette.grey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(
-                                      color: Palette.darkWhite,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                    widget.checkButton
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: SizedBox(
-                                height: 48,
-                                width: 100,
-                                child: OutlinedButton(
-                                  onPressed: () async {
-                                    if (!_isSend) {
-                                      await SmsAutoFill().listenForCode();
-                                      focusSMS.requestFocus();
-                                      bool success =
-                                          widget.onCheckButtonPressed?.call() ??
+                          ),
+                        ),
+                        widget.checkButton
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: SizedBox(
+                                    height: 48,
+                                    width: 100,
+                                    child: OutlinedButton(
+                                      onPressed: () async {
+                                        if (!_isSend) {
+                                          await SmsAutoFill().listenForCode();
+                                          focusSMS.requestFocus();
+                                          bool success = widget
+                                                  .onCheckButtonPressed
+                                                  ?.call() ??
                                               false;
-                                      if (success) _coolDown();
-                                    }
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
-                                          color: !_isSend
+                                          if (success) _coolDown();
+                                        }
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                          side: BorderSide(
+                                              color: !_isSend
+                                                  ? Palette.blue
+                                                  : Palette.lightGrey),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          backgroundColor: !_isSend
                                               ? Palette.blue
                                               : Palette.lightGrey),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
+                                      child: Center(
+                                        child: Text(
+                                          _isSend
+                                              ? "$_remainingTime"
+                                              : "${widget.checkButtonText}",
+                                          style: regularStyle.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              color: !_isSend
+                                                  ? Palette.pureWhite
+                                                  : Palette.grey),
+                                        ),
                                       ),
-                                      backgroundColor: !_isSend
-                                          ? Palette.blue
-                                          : Palette.lightGrey),
-                                  child: Center(
-                                    child: Text(
-                                      _isSend
-                                          ? "$_remainingTime"
-                                          : "${widget.checkButtonText}",
-                                      style: regularStyle.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          color: !_isSend
-                                              ? Palette.pureWhite
-                                              : Palette.grey),
-                                    ),
-                                  ),
-                                )),
-                          )
-                        : const SizedBox(),
+                                    )),
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
+                    widget.validateHelperText != null
+                        ? Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                              widget.validateHelperText!,
+                              style: lightStyle.copyWith(
+                                  color: Palette.blue, fontWeight: FontWeight.w500),
+                            ),
+                        )
+                        : const SizedBox()
                   ],
                 ),
               )

@@ -49,7 +49,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                   children: [
                                     Text(
                                       controller.petitionPost.value.title,
-                                      style: titleStyle,
+                                      style: smallTitleStyle,
                                     ),
                                     Positioned.fill(
                                       child: Align(
