@@ -15,97 +15,120 @@ class PetitionBoardPage extends GetView<BoardPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.isLoadPetitionBoard.value
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 8, left: 16, right: 16),
-                  child: CategoryButtonBar(
-                    selectedIndex: controller.selectedCategory.value,
-                    categories: PetitionPostStatus.values.map((e) => e.nameKR).toList(),
-                    selectedBackGroundColor: Palette.blue,
-                    unSelectedBackGroundColor: Palette.white,
-                    selectedTextColor: Palette.pureWhite,
-                    unSelectedTextColor: Palette.grey,
-                    onTap: (value) async {
-                      controller.selectedCategory.value = value;
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: controller.petitionPostList.isEmpty
-                      ? Center(
-                          child: Text(
-                            '연관된 게시물이 존재하지 않습니다',
-                            style: titleStyle.copyWith(color: Palette.grey),
-                          ),
-                        )
-                      : RefreshIndicator(
-                          color: Palette.blue,
-                          onRefresh: () async {
-                            controller.getFirstPetitionPostBoard();
-                          },
-                          child: SingleChildScrollView(
-                            controller: controller.petitionBoardScrollController,
-                            child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount:
-                                    controller.petitionPostList.length + 1,
-                                itemBuilder: (BuildContext context, int index) {
-                                  if (index ==
-                                      controller.petitionPostList.length) {
-                                    if (controller.petitionBoard.value.last) {
-                                      return const SizedBox();
-                                    } else {
-                                      return const Padding(
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Center(
-                                            child: CircularProgressIndicator()),
-                                      );
-                                    }
-                                  }
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8.0,
-                                        bottom: 8,
-                                        left: 16,
-                                        right: 16),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(Routes.petition,
-                                            arguments: controller
-                                                .petitionPostList[index].id);
-                                      },
-                                      child: PetitionCard(
-                                          tag: controller
-                                              .petitionPostList[index].tag.first,
-                                          title: controller
-                                              .petitionPostList[index].title,
-                                          createdAt: controller
-                                              .petitionPostList[index]
-                                              .createdAt,
-                                          expiredAt: controller
-                                              .petitionPostList[index]
-                                              .expiresAt,
-                                          agreeCount: controller
-                                              .petitionPostList[index]
-                                              .agreeCount.toString(),
-                                          status: controller
-                                              .petitionPostList[index].status),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-                ),
-              ],
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+            child: CategoryButtonBar(
+              selectedIndex: controller.selectedCategory.value,
+              categories:
+                  PetitionPostStatus.values.map((e) => e.nameKR).toList(),
+              selectedBackGroundColor: Palette.blue,
+              unSelectedBackGroundColor: Palette.white,
+              selectedTextColor: Palette.pureWhite,
+              unSelectedTextColor: Palette.grey,
+              onTap: (value) async {
+                controller.selectedCategory.value = value;
+              },
             ),
+          ),
+          Obx(
+            () => controller.isLoadPetitionBoard.value
+                ? Expanded(
+                    child: RefreshIndicator(
+                      color: Palette.blue,
+                      onRefresh: () async {
+                        controller.getFirstPetitionPostBoard();
+                      },
+                      child: controller.petitionPostList.isEmpty
+                          ? SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: SizedBox(
+                                height: 500,
+                                child: Center(
+                                  child: Text(
+                                    '연관된 게시물이 존재하지 않습니다',
+                                    style: titleStyle.copyWith(
+                                        color: Palette.grey),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              controller:
+                                  controller.petitionBoardScrollController,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      controller.petitionPostList.length + 1,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    if (index ==
+                                        controller.petitionPostList.length) {
+                                      if (controller.petitionBoard.value.last) {
+                                        return const SizedBox();
+                                      } else {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        );
+                                      }
+                                    }
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                          bottom: 8,
+                                          left: 16,
+                                          right: 16),
+                                      child: PetitionCard(
+                                        tag: controller.petitionPostList[index]
+                                            .tag.first.name,
+                                        title: controller
+                                            .petitionPostList[index].title,
+                                        createdAt: controller
+                                            .petitionPostList[index].createdAt,
+                                        expiredAt: controller
+                                            .petitionPostList[index].expiresAt,
+                                        agreeCount:
+                                            "${controller.petitionPostList[index].agreeCount}명",
+                                        status: controller
+                                            .petitionPostList[index].status,
+                                        onTap: () {
+                                          Get.toNamed(Routes.petition,
+                                                  arguments: controller
+                                                      .petitionPostList[index]
+                                                      .id)
+                                              ?.then((value) {
+                                            if (value != null) {
+                                              final petitionPostModel =
+                                                  value as PetitionPostModel;
+                                              controller
+                                                      .petitionPostList[index] =
+                                                  petitionPostModel;
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  }),
+                            ),
+                    ),
+                  )
+                : const SizedBox(
+                  height: 500,
+                  child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                ),
+          ),
+        ],
+      ),
     );
   }
 }

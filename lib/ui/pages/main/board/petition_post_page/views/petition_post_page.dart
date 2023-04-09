@@ -23,7 +23,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
         title: "청원게시판",
         automaticallyImplyLeading: true,
         onPressedLeading: () {
-          Get.back();
+          controller.saveAndGetBack();
         },
         actions: [],
       ),
@@ -78,7 +78,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     ),
                                   ),
                                   Text(
-                                    controller.petitionPost.value.tag.first,
+                                    controller.petitionPost.value.tag.first.name,
                                     style: regularStyle.copyWith(
                                         color: Palette.black),
                                   ),

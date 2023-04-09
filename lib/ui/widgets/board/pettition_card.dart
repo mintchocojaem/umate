@@ -13,6 +13,7 @@ class PetitionCard extends StatelessWidget {
   final String agreeCount; // 참여 인원
   final String status; // 청원 상태
   final String tag;
+  final VoidCallback? onTap;
 
   const PetitionCard({
     super.key,
@@ -22,6 +23,7 @@ class PetitionCard extends StatelessWidget {
     required this.createdAt,
     required this.expiredAt,
     required this.tag,
+    this.onTap
   });
 
   @override
@@ -31,73 +33,76 @@ class PetitionCard extends StatelessWidget {
     DateTime expiredDate = DateFormat("yyyy/MM/dd").parse(expiredAt);
     int period = expiredDate.difference(now).inDays;
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? Palette.darkGrey : Palette.pureWhite,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: const Offset(0, 2), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "[$tag]",
-              style: lightStyle.copyWith(color: Palette.lightBlue, fontWeight: FontWeight.bold),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: context.isDarkMode ? Palette.darkGrey : Palette.pureWhite,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: const Offset(0, 2), // changes position of shadow
             ),
-            Text(
-              title,
-              style: titleStyle,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 4),
-              child: Text(
-                "D - ${period >= 0 ? period : 0}",
-                style: regularStyle.copyWith(fontWeight: FontWeight.bold)
-              ),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("청원기간", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
-                    Text("$createdAt ~ $expiredAt", style: lightStyle.copyWith(color: Palette.darkGrey),)
-                  ],
-                ),
-                const SizedBox(width: 32,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text("참여인원", style: lightStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
-                        const SizedBox(width: 8,),
-                        Text(agreeCount, style: lightStyle.copyWith(color: Palette.darkGrey),),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("청원상태", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
-                        const SizedBox(width: 8,),
-                        Text(status,style: lightStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            )
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "[$tag]",
+                style: lightStyle.copyWith(color: Palette.lightBlue, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                title,
+                style: titleStyle,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                child: Text(
+                  "D - ${period >= 0 ? period : 0}",
+                  style: regularStyle.copyWith(fontWeight: FontWeight.bold)
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("청원기간", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
+                      Text("$createdAt ~ $expiredAt", style: lightStyle.copyWith(color: Palette.darkGrey),)
+                    ],
+                  ),
+                  const SizedBox(width: 32,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text("참여인원", style: lightStyle.copyWith(fontWeight: FontWeight.bold , color: Palette.darkGrey),),
+                          const SizedBox(width: 8,),
+                          Text(agreeCount, style: lightStyle.copyWith(color: Palette.darkGrey),),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("청원상태", style: lightStyle.copyWith(fontWeight: FontWeight.bold, color: Palette.darkGrey),),
+                          const SizedBox(width: 8,),
+                          Text(status,style: lightStyle.copyWith(color: Palette.blue, fontWeight: FontWeight.bold),)
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

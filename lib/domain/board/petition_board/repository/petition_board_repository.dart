@@ -13,8 +13,8 @@ class PetitionBoardRepository{
 
   //get petition board list
   Future<ApiResponseDTO> getPetitionBoard(
-      {required int page,required int size,required String status}) async {
-    return await _petitionBoardProvider.getPetitionPostBoard(page, size, status);
+      {required int page,required int size,required String status, required String keyword}) async {
+    return await _petitionBoardProvider.getPetitionPostBoard(page, size, status, keyword);
   }
 
 }

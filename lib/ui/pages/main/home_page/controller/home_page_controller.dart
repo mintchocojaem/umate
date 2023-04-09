@@ -57,7 +57,7 @@ class HomePageController extends GetxController {
 
   Future<void> getPetitionPostListHome() async {
     final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
-        .getPetitionBoard(page: 0, size: 5, status: "ACTIVE");
+        .getPetitionBoard(page: 0, size: 5, status: "ACTIVE", keyword: '');
     if (apiResponseDTO.success) {
       final PetitionBoardModel petitionBoardModel = apiResponseDTO.data
           as PetitionBoardModel;

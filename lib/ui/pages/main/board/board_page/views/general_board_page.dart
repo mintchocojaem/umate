@@ -76,10 +76,8 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                                 .generalPostList[index].id)
                                         ?.then((value) {
                                       if (value != null) {
-                                        final generalPostModel =
-                                            value as GeneralPostModel;
-                                        controller.generalPostList[index] =
-                                            generalPostModel;
+                                        final generalPostModel = value as GeneralPostModel;
+                                        controller.generalPostList[index] = generalPostModel;
                                       }
                                     });
                                   }),

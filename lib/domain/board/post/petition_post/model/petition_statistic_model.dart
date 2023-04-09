@@ -1,6 +1,6 @@
 class PetitionStatisticModel{
-  final int agreeCount;
-  final String department;
+  int agreeCount;
+  String department;
 
   PetitionStatisticModel({required this.agreeCount, required this.department});
 

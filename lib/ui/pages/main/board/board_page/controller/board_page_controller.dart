@@ -84,7 +84,8 @@ class BoardPageController extends GetxController {
         await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value);
+            keyword: searchText.value
+        );
     if (apiResponseDTO.success) {
       final GeneralBoardModel generalBoardModel =
           apiResponseDTO.data as GeneralBoardModel;
@@ -102,8 +103,8 @@ class BoardPageController extends GetxController {
         await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value);
-
+            keyword: searchText.value
+        );
     if (apiResponseDTO.success && apiResponseDTO.data.generalPosts.isNotEmpty) {
       final GeneralBoardModel generalBoardModel =
           apiResponseDTO.data as GeneralBoardModel;
@@ -121,7 +122,9 @@ class BoardPageController extends GetxController {
         await _petitionPostRepository.getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: PetitionPostStatus.values[selectedCategory.value].name);
+            status: PetitionPostStatus.values[selectedCategory.value].name,
+            keyword: searchText.value
+        );
     if (apiResponseDTO.success) {
       final PetitionBoardModel petitionBoardModel =
           apiResponseDTO.data as PetitionBoardModel;
@@ -137,32 +140,15 @@ class BoardPageController extends GetxController {
         await _petitionPostRepository.getPetitionBoard(
             page: _petitionBoardPage,
             size: _petitionBoardSize,
-            status: PetitionPostStatus.values[selectedCategory.value].name);
+            status: PetitionPostStatus.values[selectedCategory.value].name,
+            keyword: searchText.value
+        );
     if (apiResponseDTO.success &&
         apiResponseDTO.data.petitionPosts.isNotEmpty) {
       final PetitionBoardModel petitionBoardModel =
           apiResponseDTO.data as PetitionBoardModel;
       petitionBoard = petitionBoardModel.obs;
       petitionPostList.addAll(petitionBoardModel.petitionPosts);
-    }
-  }
-
-  Future<bool> searchPost(String keyword) async {
-    _generalBoardPage = 0;
-    isLoadGeneralPostBoard.value = false;
-    final ApiResponseDTO apiResponseDTO =
-        await _generalBoardRepository.getGeneralBoard(
-            page: _generalBoardPage, size: _generalBoardSize, keyword: keyword);
-    if (apiResponseDTO.success) {
-      final GeneralBoardModel generalBoardModel =
-          apiResponseDTO.data as GeneralBoardModel;
-      searchText.value = keyword;
-      generalPostBoard = generalBoardModel.obs;
-      generalPostList.value = generalBoardModel.generalPosts;
-      isLoadGeneralPostBoard.value = true;
-      return true;
-    } else {
-      return false;
     }
   }
 

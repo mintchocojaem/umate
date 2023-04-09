@@ -1,5 +1,6 @@
 import 'package:danvery/domain/board/general_board/model/file.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_statistic_model.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_tag_model.dart';
 
 enum PetitionPostStatus {
   active,
@@ -10,11 +11,11 @@ enum PetitionPostStatus {
 
 extension PetitionPostStatusExtension on PetitionPostStatus {
   String get nameKR => ['청원 중', '대기 중', '답변 완료', '기간만료'][index];
+
   String get name => ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'][index];
 }
 
 class PetitionPostModel {
-
   int id;
   String title;
   String body;
@@ -27,7 +28,7 @@ class PetitionPostModel {
   String expiresAt;
   int agreeCount;
   bool agreed;
-  List<String> tag;
+  List<PetitionTagModel> tag;
   List<PetitionStatisticModel> statisticList;
   List<FileModel> files;
 
@@ -55,10 +56,12 @@ class PetitionPostModel {
       title: json["title"] as String,
       body: json["body"] as String,
       author: json["author"] as String? ?? "익명",
-      createdAt: (json["createdAt"] as String).substring(0,10).replaceAll('-', '/'),
+      createdAt:
+          (json["createdAt"] as String).substring(0, 10).replaceAll('-', '/'),
       views: json["views"] as int? ?? 0,
       status: PetitionPostStatus.values
-          .firstWhere((element) => element.name == json["status"] as String).nameKR,
+          .firstWhere((element) => element.name == json["status"] as String)
+          .nameKR,
       expiresAt: (json["expiresAt"] as String).replaceAll('-', '/'),
       agreeCount: json["agreeCount"] as int,
       statisticList: (json["statisticList"] as List? ?? [])
@@ -69,11 +72,10 @@ class PetitionPostModel {
           .map((e) => FileModel.fromGeneralPostFile(e))
           .toList(),
       agreed: json["agreed"] as bool? ?? false,
-      tag: (json["tag"] as List? ?? []).map((e) => e as String).toList().isNotEmpty
-          ? (json["tag"] as List).map((e) => e as String).toList()
-          : ["미분류"],
+      tag: (json["tag"] as List? ?? []).map((e) => e as Map).toList().isNotEmpty
+          ? (json["tag"] as List).map((e) => PetitionTagModel.fromJson(e)).toList()
+          : [PetitionTagModel(id: null, name: "미분류")],
       answer: json["answer"] as String?,
     );
   }
-
 }

@@ -8,4 +8,13 @@ class PostSearchPageController extends GetxController{
 
   final BoardPageController boardPageController = Get.find();
 
+  Future<void> searchBoard() async{
+    if(searchController.text.isNotEmpty){
+      boardPageController.searchText.value = searchController.text;
+      await boardPageController.getFirstGeneralPostBoard();
+      await boardPageController.getFirstPetitionPostBoard();
+      Get.back();
+    }
+  }
+
 }
