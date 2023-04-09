@@ -3,6 +3,8 @@ import 'package:danvery/service/login/binding/login_binding.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/binding/image_show_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/views/image_show_page.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/views/petition_agree_status_page.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_write_page/binding/petition_post_write_page_binding.dart';
+import 'package:danvery/ui/pages/main/board/petition_post_write_page/views/petition_post_write_page.dart';
 import 'package:danvery/ui/pages/main/my_page/views/mypage_page.dart';
 import 'package:danvery/ui/pages/user/find_id_page/binding/find_id_page_binding.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/find_id_page.dart';
@@ -46,10 +48,17 @@ class AppPages {
       ],
     ),
     GetPage(
-      name: Routes.postWrite,
+      name: Routes.generalPostWrite,
       page: () => const GeneralPostWritePage(),
       bindings: [
         GeneralPostWritePageBinding(),
+      ],
+    ),
+    GetPage(
+      name: Routes.petitionPostWrite,
+      page: () => const PetitionPostWritePage(),
+      bindings: [
+        PetitionPostWritePageBinding(),
       ],
     ),
     GetPage(

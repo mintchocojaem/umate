@@ -1,8 +1,10 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_statistic_model.dart';
 import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +14,15 @@ class PetitionPostPageController extends GetxController {
 
   final LoginService _loginService = Get.find<LoginService>();
 
+  final BoardPageController boardPageController = Get.find<BoardPageController>();
+
   late Rx<PetitionPostModel> petitionPost;
 
   final RxBool isLoadedPetitionPost = false.obs;
 
   final int id = Get.arguments;
+
+  final RxBool isLoadedImageList = false.obs;
 
   @override
   void onInit() {
@@ -32,7 +38,23 @@ class PetitionPostPageController extends GetxController {
       final PetitionPostModel petitionPostModel =
       apiResponseDTO.data as PetitionPostModel;
       petitionPost = petitionPostModel.obs;
+      await getImageList();
       isLoadedPetitionPost.value = true;
+    }
+  }
+
+  Future<void> deletePetitionPost(int id) async {
+    final ApiResponseDTO apiResponseDTO =
+    await _petitionPostRepository.deletePetitionPost(
+        token: _loginService.loginInfo.value.accessToken, id: id);
+    if (apiResponseDTO.success) {
+      await boardPageController.getFirstPetitionPostBoard();
+      Get.back();
+    } else {
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 삭제 오류").show();
     }
   }
 
@@ -49,7 +71,6 @@ class PetitionPostPageController extends GetxController {
         }else{
           val.statisticList.firstWhere((element) => element.department == userDepartment).agreeCount += 1;
         }
-
       });
     } else {
       GetXSnackBar(
@@ -67,6 +88,13 @@ class PetitionPostPageController extends GetxController {
     } else {
       Get.back();
     }
+  }
+
+  Future<void> getImageList() async {
+    for (FileModel j in petitionPost.value.files) {
+      j.url = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+    }
+    isLoadedImageList.value = true;
   }
 
 }

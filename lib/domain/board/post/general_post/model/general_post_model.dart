@@ -1,4 +1,4 @@
-import 'package:danvery/domain/board/general_board/model/file.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
 
 class GeneralPostModel{
   int id;

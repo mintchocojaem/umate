@@ -1,5 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/board/general_board/model/file.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
 import 'package:danvery/domain/board/general_board/repository/general_board_repository.dart';
 import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
@@ -7,6 +7,7 @@ import 'package:danvery/domain/board/petition_board/repository/petition_board_re
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BoardPageController extends GetxController {

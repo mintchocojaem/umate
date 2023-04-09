@@ -506,11 +506,11 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                 ],
               )
             : const SizedBox(
-              height: 400,
-              child: Center(
+                height: 400,
+                child: Center(
                   child: CircularProgressIndicator(),
                 ),
-            ),
+              ),
       ),
     );
   }

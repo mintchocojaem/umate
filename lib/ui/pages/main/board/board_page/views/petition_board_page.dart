@@ -14,6 +14,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.selectedTap.value = 1;
     return Obx(
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

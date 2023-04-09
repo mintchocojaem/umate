@@ -12,8 +12,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
+    controller.selectedTap.value = 0;
     return Obx(
       () => controller.isLoadGeneralPostBoard.value &&
               controller.isLoadedImageList.value

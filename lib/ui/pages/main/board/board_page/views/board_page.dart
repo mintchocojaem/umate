@@ -105,7 +105,11 @@ class BoardPage extends GetView<BoardPageController> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Palette.blue,
           onPressed: () {
-            Get.toNamed(Routes.postWrite);
+           if(controller.selectedTap.value == 0){
+             Get.toNamed(Routes.generalPostWrite);
+           }else if(controller.selectedTap.value == 1){
+              Get.toNamed(Routes.petitionPostWrite);
+           }
           },
           child: const Icon(
             Icons.add_rounded,

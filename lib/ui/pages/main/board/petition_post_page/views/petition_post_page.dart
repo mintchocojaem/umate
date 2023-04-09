@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_post_page_controller.dart';
 import 'package:danvery/ui/widgets/modern/modern_progress_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -57,7 +60,10 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                             color: Palette.darkGrey,
                                             size: 20,
                                           ),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            petitionPostPopup(
+                                                controller.petitionPost.value);
+                                          },
                                         ),
                                       ),
                                     )
@@ -216,30 +222,56 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Palette.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                    ),
-                                    width: 128,
-                                    height: 128,
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Palette.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                    ),
-                                    width: 128,
-                                    height: 128,
-                                  ),
-                                ],
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    for (var i = 0;
+                                        i <
+                                            controller.petitionPost.value.files
+                                                .length;
+                                        i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 8,
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(Routes.imageShow,
+                                                arguments: {
+                                                  "imagePathList": controller
+                                                      .petitionPost.value.files
+                                                      .map((e) => e.url),
+                                                  "index": i,
+                                                });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Palette.lightGrey,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                            ),
+                                            width: 120,
+                                            height: 120,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              child: Image.file(
+                                                File(controller.petitionPost
+                                                    .value.files[i].url),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
                               ),
                               SizedBox(
                                 width: 180,
@@ -330,23 +362,87 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 16),
                       child: ModernFormButton(
-                        isEnabled: !controller.petitionPost.value.agreed,
+                        isEnabled: (!controller.petitionPost.value.agreed) &&
+                            (controller.petitionPost.value.status !=
+                                PetitionPostStatus.expired.nameKR),
                         onPressed: () async {
                           controller.agreePetition();
                         },
-                        text: '동의하기',
+                        text: (controller.petitionPost.value.status ==
+                                PetitionPostStatus.expired.nameKR)
+                            ? '만료된 청원입니다'
+                            : '동의하기',
                       ),
                     ),
                   ],
                 )
               : const SizedBox(
-                height: 400,
-                child: Center(
+                  height: 400,
+                  child: Center(
                     child: CircularProgressIndicator(),
                   ),
-              ),
+                ),
         ),
       ),
     );
+  }
+
+  void petitionPostPopup(PetitionPostModel petitionPostModel) {
+    showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text(
+                  '신고하기',
+                  style: TextStyle(
+                    color: Palette.lightRed,
+                  ),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+              petitionPostModel.mine
+                  ? CupertinoActionSheetAction(
+                      child: const Text(
+                        '삭제하기',
+                      ),
+                      onPressed: () {
+                        Get.dialog(
+                          CupertinoAlertDialog(
+                            title: const Text('게시글 삭제'),
+                            content: const Text('게시글을 삭제하시겠습니까?'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: const Text('취소'),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('확인'),
+                                onPressed: () async {
+                                  Get.back();
+                                  await controller
+                                      .deletePetitionPost(petitionPostModel.id);
+                                },
+                              ),
+                            ],
+                          ),
+                        ).then((value) => Get.back());
+                      },
+                    )
+                  : const SizedBox(),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('취소'),
+            ),
+          );
+        });
   }
 }

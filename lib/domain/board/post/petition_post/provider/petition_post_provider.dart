@@ -2,6 +2,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_write_model.dart';
 import 'package:dio/dio.dart';
 
 import '../model/petition_post_model.dart';
@@ -30,6 +31,57 @@ class PetitionPostProvider {
           ));
 
       return SuccessResponseDTO(data: PetitionPostModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> writePetitionPost(
+      String token, PetitionPostWriteModel petitionPostWriteModel) async {
+    String url = '/post/petition';
+    print(petitionPostWriteModel.tagIds
+        .map((e) => e).toList());
+    final data = FormData.fromMap({
+      'title': petitionPostWriteModel.title,
+      'body': petitionPostWriteModel.body,
+      'tagIds': petitionPostWriteModel.tagIds
+          .map((e) => e).toList(),
+      'files': petitionPostWriteModel.files
+          .map((e) => MultipartFile.fromFileSync(e.url))
+          .toList(),
+    });
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.post(
+        url,
+        data: data,
+        options: Options(
+          contentType: "multipart/form-data",
+          headers: headers,
+        ),
+      );
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> deletePetitionPost(String token, int postId) async {
+    String url = '/post/petition/$postId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response =
+      await _dio.delete(url, options: Options(headers: headers));
+
+      return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }

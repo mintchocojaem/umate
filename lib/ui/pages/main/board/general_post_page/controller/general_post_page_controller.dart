@@ -1,5 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/board/general_board/model/file.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
@@ -16,6 +16,8 @@ class GeneralPostPageController extends GetxController {
 
   final LoginService loginService = Get.find<LoginService>();
 
+  final BoardPageController boardPageController = Get.find<BoardPageController>();
+
   late final Rx<GeneralPostModel> generalPost;
 
   late Rx<GeneralCommentListModel> generalCommentList;
@@ -28,9 +30,6 @@ class GeneralPostPageController extends GetxController {
   final RxBool isLoadedGeneralComment = false.obs;
 
   final ScrollController generalPostScrollController = ScrollController();
-
-  final BoardPageController boardPageController =
-      Get.find<BoardPageController>();
 
   final TextEditingController commentTextController = TextEditingController();
 
@@ -78,15 +77,13 @@ class GeneralPostPageController extends GetxController {
         await _generalPostRepository.deleteGeneralPost(
             token: loginService.loginInfo.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoard().then((value) {
-        Get.back();
-      });
+      await boardPageController.getFirstGeneralPostBoard();
+      Get.back();
     } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
-              title: "게시글 삭제 오류")
-          .show();
+              title: "게시글 삭제 오류").show();
     }
   }
 

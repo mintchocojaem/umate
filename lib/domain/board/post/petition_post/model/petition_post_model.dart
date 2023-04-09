@@ -1,4 +1,4 @@
-import 'package:danvery/domain/board/general_board/model/file.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_statistic_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_tag_model.dart';
 
@@ -11,7 +11,6 @@ enum PetitionPostStatus {
 
 extension PetitionPostStatusExtension on PetitionPostStatus {
   String get nameKR => ['청원 중', '대기 중', '답변 완료', '기간만료'][index];
-
   String get name => ['ACTIVE', 'WAITING', 'ANSWERED', 'EXPIRED'][index];
 }
 
