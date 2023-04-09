@@ -28,20 +28,23 @@ class FindIdStep1 extends GetView<FindIdPageController> {
             hint: "휴대폰 번호를 입력하세요",
           ),
           const SizedBox(height: 16),
-          ModernFormButton(
-            text: "아이디 찾기",
-            onPressed: () async{
-              if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
-                GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
-                return;
-              }
+          Obx(
+            () => ModernFormButton(
+              isEnabled: controller.phoneNumber.value.isNotEmpty,
+              text: "아이디 찾기",
+              onPressed: () async {
+                if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
+                  GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
+                  return;
+                }
 
-              if(await controller.sendIdToPhoneNumber(controller.phoneNumber.value)) {
-                FocusManager.instance.primaryFocus?.unfocus();
-                controller.currentStep.value = 2;
-              }
-
-            },
+                if (await controller
+                    .sendIdToPhoneNumber(controller.phoneNumber.value)) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.currentStep.value = 2;
+                }
+              },
+            ),
           ),
         ],
       ),

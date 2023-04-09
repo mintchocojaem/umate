@@ -32,11 +32,11 @@ class GetXSnackBar {
         break;
       case GetXSnackBarType.nickNameError:
         title = "닉네임 오류";
-        content = "닉네임은 3~12자리의 한글, 영문, 숫자, _, 공백만 사용할 수 있습니다";
+        content = "닉네임은 3~12자, 한글, 영문, 숫자, _, 공백만 포함할 수 있습니다";
         break;
       case GetXSnackBarType.passwordInputError:
         title = "비밀번호 오류";
-        content = "비밀번호는 영문, 숫자, 특수문자를 포함한 8~24자리만 사용할 수 있습니다";
+        content = "비밀번호는 8~24자, 하나 이상의 영문자와 숫자, 특수문자만 포함할 수 있습니다";
         break;
       case GetXSnackBarType.passwordConfirmError:
         title = "비밀번호 오류";

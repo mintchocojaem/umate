@@ -4,7 +4,7 @@ bool isValidNicknameFormat(String nickname) {
       .hasMatch(nickname);
 }
 
-//8자 이상 24자 미만, 하나 이상의 문자와 숫자 포함 (특수문자, 대문자는 선택사항)
+//8자 이상 24자 미만, 하나 이상의 영문자와 숫자 포함 (특수문자, 대문자는 선택사항)
 bool isValidPasswordFormat(String password) {
   return RegExp(
           r"^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*+=\-_(){}[\]:;<>,.?~]{8,24}$")

@@ -45,7 +45,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     hint: "비밀번호를 입력하세요",
                                     title: "비밀번호",
                                     validateHint: "비밀번호를 재입력하세요",
-                                    validateHelperText: "8자 이상, 하나 이상의 문자와 숫자 포함",
+                                    validateHelperText: "8~24자, 하나 이상의 영문자와 숫자 포함",
                                     validate: true,
                                     isPassword: true,
                                     onTextChanged: (value) {

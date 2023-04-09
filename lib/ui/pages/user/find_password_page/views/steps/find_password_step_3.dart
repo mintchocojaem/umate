@@ -19,11 +19,13 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("재설정할 비밀번호를 입력해주세요", style: regularStyle.copyWith(color: Palette.darkGrey)),
+          Text("재설정할 비밀번호를 입력해주세요",
+              style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
             hint: "비밀번호를 입력하세요",
             validateHint: "비밀번호를 재입력하세요",
+            validateHelperText: "8~24자, 하나 이상의 영문자와 숫자 포함",
             validate: true,
             isPassword: true,
             onTextChanged: (value) {
@@ -33,27 +35,32 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
               controller.passwordValidate.value = value;
             },
           ),
-          const SizedBox(height: 16),
-          ModernFormButton(
-            text: "완료",
-            onPressed: () async {
+          const SizedBox(height: 32),
+          Obx(
+            () => ModernFormButton(
+              isEnabled: controller.password.value.isNotEmpty &&
+                  controller.passwordValidate.value.isNotEmpty,
+              text: "완료",
+              onPressed: () async {
+                if (isValidPasswordFormat(controller.password.value) == false) {
+                  GetXSnackBar(type: GetXSnackBarType.passwordInputError)
+                      .show();
+                  return;
+                }
 
-              if (isValidPasswordFormat(controller.password.value) == false) {
-                GetXSnackBar(type: GetXSnackBarType.passwordInputError).show();
-                return;
-              }
+                if (controller.password.value !=
+                    controller.passwordValidate.value) {
+                  GetXSnackBar(type: GetXSnackBarType.passwordConfirmError)
+                      .show();
+                  return;
+                }
 
-              if (controller.password.value != controller.passwordValidate.value) {
-                GetXSnackBar(type: GetXSnackBarType.passwordConfirmError).show();
-                return;
-              }
-
-              if(await controller.changePassword()){
-                FocusManager.instance.primaryFocus?.unfocus();
-                controller.currentStep.value = 4;
-              }
-
-            },
+                if (await controller.changePassword()) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.currentStep.value = 4;
+                }
+              },
+            ),
           ),
         ],
       ),

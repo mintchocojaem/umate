@@ -17,7 +17,8 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("발송된 인증번호를 입력해주세요", style: regularStyle.copyWith(color: Palette.darkGrey)),
+          Text("발송된 인증번호를 입력해주세요",
+              style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -56,14 +57,17 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
             ),
           ),
           const SizedBox(height: 16),
-          ModernFormButton(
-            text: "확인",
-            onPressed: () async{
-              if (await controller.verifyAuthCode()){
-                FocusManager.instance.primaryFocus?.unfocus();
-                controller.currentStep.value = 3;
-              }
-            },
+          Obx(
+            () => ModernFormButton(
+              isEnabled: controller.phoneAuthCode.value.isNotEmpty,
+              text: "확인",
+              onPressed: () async {
+                if (await controller.verifyAuthCode()) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.currentStep.value = 3;
+                }
+              },
+            ),
           ),
         ],
       ),

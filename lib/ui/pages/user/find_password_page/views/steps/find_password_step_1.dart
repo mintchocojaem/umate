@@ -29,21 +29,22 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
             hint: "휴대폰 번호를 입력하세요",
           ),
           const SizedBox(height: 16),
-          ModernFormButton(
-            text: "인증번호 받기",
-            onPressed: () async{
+          Obx(
+            () => ModernFormButton(
+              isEnabled: controller.phoneNumber.value.isNotEmpty,
+              text: "인증번호 받기",
+              onPressed: () async {
+                if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
+                  GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
+                  return;
+                }
 
-              if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
-                GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
-                return;
-              }
-
-              if(await controller.sendAuthCodeToSMS()){
-                FocusManager.instance.primaryFocus?.unfocus();
-                controller.currentStep.value = 2;
-              }
-
-            },
+                if (await controller.sendAuthCodeToSMS()) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.currentStep.value = 2;
+                }
+              },
+            ),
           ),
         ],
       ),
