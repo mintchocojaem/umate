@@ -21,11 +21,11 @@ class ModernFormButton extends StatefulWidget {
 
 class _ModernFormButton extends State<ModernFormButton>{
 
-  bool isEnabled = true;
+  bool coolDown = false;
 
   @override
   Widget build(BuildContext context) {
-    isEnabled = widget.isEnabled;
+
     return SizedBox(
       width: double.infinity,
       height: 48,
@@ -33,24 +33,21 @@ class _ModernFormButton extends State<ModernFormButton>{
         disabledColor: Palette.lightGrey,
         borderRadius: BorderRadius.circular(5),
         color: Palette.blue,
-        onPressed: isEnabled ? () async{
+        onPressed: widget.isEnabled && !coolDown ? () async{
           widget.onPressed();
           if(mounted){
             setState(() {
-              isEnabled = false;
+              coolDown = true;
+            });
+            await Future.delayed(const Duration(seconds: 1));
+            setState(() {
+              coolDown = false;
             });
           }
-          Future.delayed(const Duration(seconds: 1), () {
-            if(mounted){
-              setState(() {
-                isEnabled = true;
-              });
-            }
-          });
         } : null,
         child: Text(widget.text,
             style: regularStyle.copyWith(
-                color: isEnabled ? Palette.white : Palette.grey, fontWeight: FontWeight.bold)),
+                color: widget.isEnabled && !coolDown ? Palette.white : Palette.grey, fontWeight: FontWeight.bold)),
       ),
     );
   }

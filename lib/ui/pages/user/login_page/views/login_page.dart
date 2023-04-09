@@ -1,4 +1,3 @@
-
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -10,13 +9,11 @@ import 'package:get/get.dart';
 
 import '../../../../widgets/modern/modern_form_field.dart';
 
-
 class LoginPage extends GetView<LoginPageController> {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     // TODO: implement build
     return Scaffold(
         appBar: MainAppBar(
@@ -27,8 +24,8 @@ class LoginPage extends GetView<LoginPageController> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.only(
-              left: 16, right: 16, top:  16, bottom: 16),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,18 +60,19 @@ class LoginPage extends GetView<LoginPageController> {
               const SizedBox(
                 height: 32,
               ),
-              ModernFormButton(
-                  text: "로그인",
-                  onPressed: () async{
-                    await controller.loginService
-                        .login(controller.id.value,
-                        controller.password.value) //new: '12345678', '121212'
-                        .then((value) {
+              Obx(
+                () => ModernFormButton(
+                    text: "로그인",
+                    isEnabled: controller.id.isNotEmpty &&
+                        controller.password.isNotEmpty,
+                    onPressed: () async {
+                      await controller.loginService.login(
+                          controller.id.value, controller.password.value);
                       if (controller.loginService.isLogin.value) {
                         Get.offAndToNamed(Routes.main);
                       }
-                    });
-                  }),
+                    }),
+              ),
               const SizedBox(
                 height: 24,
               ),
@@ -114,8 +112,7 @@ class LoginPage extends GetView<LoginPageController> {
                       child: Text(
                         "회원가입",
                         style: tinyStyle.copyWith(color: Palette.blue),
-                      )
-                  )
+                      ))
                 ],
               ),
             ],
