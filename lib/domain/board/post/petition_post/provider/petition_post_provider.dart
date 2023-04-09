@@ -38,9 +38,9 @@ class PetitionPostProvider {
 
   Future<ApiResponseDTO> writePetitionPost(
       String token, PetitionPostWriteModel petitionPostWriteModel) async {
+
     String url = '/post/petition';
-    print(petitionPostWriteModel.tagIds
-        .map((e) => e).toList());
+
     final data = FormData.fromMap({
       'title': petitionPostWriteModel.title,
       'body': petitionPostWriteModel.body,

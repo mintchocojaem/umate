@@ -1,13 +1,13 @@
 import 'package:danvery/core/theme/palette.dart';
-import 'package:danvery/ui/pages/main/timetable_page/model/subject_model.dart';
+import 'package:danvery/domain/timetable/model/lecture_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TimetablePageController extends GetxController {
   final int today = DateTime.now().weekday - 1;
 
-  final RxList<Rx<SubjectModel>> subjects = [
-    SubjectModel(
+  final RxList<Rx<LectureModel>> subjects = [
+    LectureModel(
       name: "사업개발과경영",
       startTime: '09:00',
       endTime: '10:00',
@@ -17,7 +17,7 @@ class TimetablePageController extends GetxController {
     ).obs,
   ].obs;
 
-  void updateSubject(SubjectModel model, SubjectModel newModel) {
+  void updateSubject(LectureModel model, LectureModel newModel) {
     subjects[subjects.indexOf(model)].update((val) {
       if (val != null) {
         val.name = newModel.name;
@@ -30,11 +30,11 @@ class TimetablePageController extends GetxController {
     });
   }
 
-  void addSubject(SubjectModel model) {
+  void addSubject(LectureModel model) {
     subjects.add(model.obs);
   }
 
-  void deleteSubject(SubjectModel model) {
+  void deleteSubject(LectureModel model) {
     subjects.remove(model.obs);
   }
 
@@ -55,7 +55,7 @@ class TimetableBottomSheetController extends GetxController {
 
   final RxString content = "".obs;
 
-  void initBottomSheetSubject(SubjectModel model) {
+  void initBottomSheetSubject(LectureModel model) {
     title.value = model.name;
     days.value = model.days.join(",");
     startTime.value = model.startTime;
@@ -64,8 +64,8 @@ class TimetableBottomSheetController extends GetxController {
     selectedColor = Color(model.color.value);
   }
 
-  SubjectModel newSubjectModel() {
-    return SubjectModel(
+  LectureModel newSubjectModel() {
+    return LectureModel(
       name: title.value,
       startTime: startTime.value,
       endTime: endTime.value,

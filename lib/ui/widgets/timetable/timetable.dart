@@ -1,18 +1,18 @@
 
 import '/core/theme/palette.dart';
-import '/ui/pages/main/timetable_page/model/subject_model.dart';
+import '../../../domain/timetable/model/lecture_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '/core/theme/app_text_theme.dart';
 
 class Timetable extends StatelessWidget {
-  final List<SubjectModel>? subjects;
+  final List<LectureModel>? subjects;
 
   final int tableStartTime;
   final int tableEndTime;
   final int today;
-  final void Function(SubjectModel subjectModel)? onSubjectTap;
+  final void Function(LectureModel subjectModel)? onSubjectTap;
 
   const Timetable({
     super.key,
@@ -38,10 +38,10 @@ class Timetable extends StatelessWidget {
     ];
 
     for (String i in week) {
-      List<SubjectModel> temp = [];
+      List<LectureModel> temp = [];
 
       if (subjects != null) {
-        for (SubjectModel s in subjects!) {
+        for (LectureModel s in subjects!) {
           for (String j in s.days) {
             if (j == i) {
               temp.add(s);
@@ -138,7 +138,7 @@ class Timetable extends StatelessWidget {
   }
 
   List<Widget> buildDayColumn(int index, List<String> week, int columnLength,
-      double cellWidth, double dayCellHeight, List<SubjectModel>? subjects) {
+      double cellWidth, double dayCellHeight, List<LectureModel>? subjects) {
     return [
       const VerticalDivider(
         color: Colors.grey,
@@ -196,13 +196,13 @@ class Timetable extends StatelessWidget {
   }
 
   List<Widget> buildColumnSubjects(
-      List<SubjectModel>? subjects, double dayCellHeight, double cellWidth) {
+      List<LectureModel>? subjects, double dayCellHeight, double cellWidth) {
     DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
     Duration startTableDuration = Duration(hours: startTableTime.hour);
 
     List<Widget> result = [];
     if (subjects != null) {
-      for (SubjectModel i in subjects) {
+      for (LectureModel i in subjects) {
         DateTime startTime = DateFormat('HH:mm').parse(i.startTime);
         Duration startDuration =
             Duration(hours: startTime.hour, minutes: startTime.minute);

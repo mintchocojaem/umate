@@ -36,8 +36,7 @@ class GeneralPostWritePageController extends GetxController {
     if(apiResponseDTO.success) {
       await boardPageController
           .getFirstGeneralPostBoard();
-      isPosting.value = false;
-      Get.back();
+      closeSnackBarAndGetBack();
     } else {
       GetXSnackBar(
         title: "글 작성 실패",
@@ -45,5 +44,8 @@ class GeneralPostWritePageController extends GetxController {
         type: GetXSnackBarType.customError,
       ).show();
     }
+    await Future.delayed(const Duration(seconds:2), () {
+      isPosting.value = false;
+    });
   }
 }

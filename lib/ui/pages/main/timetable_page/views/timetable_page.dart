@@ -8,7 +8,7 @@ import 'package:danvery/ui/widgets/timetable/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../model/subject_model.dart';
+import '../../../../../domain/timetable/model/lecture_model.dart';
 
 class TimetablePage extends GetView<TimetablePageController> {
   const TimetablePage({super.key});
@@ -73,7 +73,7 @@ class TimetablePage extends GetView<TimetablePageController> {
     );
   }
 
-  void timetableBottomSheet({SubjectModel? subjectModel}) {
+  void timetableBottomSheet({LectureModel? subjectModel}) {
     Get.bottomSheet(
       GetBuilder<TimetableBottomSheetController>(
           autoRemove: false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SubjectModel{
+class LectureModel{
   String name;
   String? code;
   String startTime;
@@ -11,7 +11,7 @@ class SubjectModel{
   List<String> days;
   Color color;
 
-  SubjectModel({
+  LectureModel({
     this.code,
     required this.startTime,
     required this.endTime,

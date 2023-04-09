@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
-import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_write_model.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_write_page/controller/petition_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
