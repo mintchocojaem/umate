@@ -19,7 +19,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
 
   @override
   Widget build(BuildContext context) {
-
     final GlobalKey generalPostHeightKey = GlobalKey();
     controller.generalPostHeightKey = generalPostHeightKey;
 
@@ -45,8 +44,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                           const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: RefreshIndicator(
                         onRefresh: () async {
-                          await controller.getGeneralPost(
-                              controller.generalPost.value.id);
+                          await controller
+                              .getGeneralPost(controller.generalPost.value.id);
                           await controller.getFirstGeneralComment(
                               controller.generalPost.value.id);
                         },
@@ -80,16 +79,16 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller.generalPost
-                                                    .value.author,
+                                                controller
+                                                    .generalPost.value.author,
                                                 style: regularStyle.copyWith(
                                                     color: Palette.darkGrey,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                controller.generalPost
-                                                    .value.createdAt,
+                                                controller.generalPost.value
+                                                    .createdAt,
                                                 style: tinyStyle.copyWith(
                                                     color: Palette.grey),
                                               ),
@@ -102,8 +101,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           alignment: Alignment.topRight,
                                           child: IconButton(
                                             onPressed: () {
-                                              generalPostPopup(controller
-                                                  .generalPost.value);
+                                              generalPostPopup(
+                                                  controller.generalPost.value);
                                             },
                                             icon: Icon(
                                               Icons.more_vert,
@@ -131,25 +130,24 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         height: 8,
                                       ),
                                       Html(
-                                          style: {
-                                            "body": Style(
-                                              fontSize: FontSize(
-                                                  regularStyle.fontSize!),
-                                              color: Palette.darkGrey,
-                                              padding: EdgeInsets.zero,
-                                              margin: Margins.zero,
-                                            ),
-                                          },
-                                          data: controller
-                                              .generalPost.value.body,
-                                          onLinkTap: (String? url,
-                                              RenderContext context,
-                                              Map<String, String> attributes,
-                                              _) {
-                                            if (url != null) {
-                                              launchUrlString(url);
-                                            }
-                                          },
+                                        style: {
+                                          "body": Style(
+                                            fontSize: FontSize(
+                                                regularStyle.fontSize!),
+                                            color: Palette.darkGrey,
+                                            padding: EdgeInsets.zero,
+                                            margin: Margins.zero,
+                                          ),
+                                        },
+                                        data: controller.generalPost.value.body,
+                                        onLinkTap: (String? url,
+                                            RenderContext context,
+                                            Map<String, String> attributes,
+                                            _) {
+                                          if (url != null) {
+                                            launchUrlString(url);
+                                          }
+                                        },
                                       ),
                                     ],
                                   ),
@@ -162,8 +160,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       children: [
                                         for (var i = 0;
                                             i <
-                                                controller.generalPost
-                                                    .value.files.length;
+                                                controller.generalPost.value
+                                                    .files.length;
                                             i++)
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -174,11 +172,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                 Get.toNamed(Routes.imageShow,
                                                     arguments: {
                                                       "imagePathList":
-                                                          controller
-                                                              .generalPost
-                                                              .value
-                                                              .files
-                                                              .map((e) => e.url),
+                                                          controller.generalPost
+                                                              .value.files
+                                                              .map(
+                                                                  (e) => e.url),
                                                       "index": i,
                                                     });
                                               },
@@ -196,11 +193,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                       const BorderRadius.all(
                                                           Radius.circular(10)),
                                                   child: Image.file(
-                                                    File(controller
-                                                        .generalPost
-                                                        .value
-                                                        .files[i]
-                                                        .url),
+                                                    File(controller.generalPost
+                                                        .value.files[i].url),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -234,17 +228,16 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         ),
                                         side: BorderSide(
                                           width: 2,
-                                          color: controller
-                                                  .generalPost.value.liked
-                                              ? Palette.lightBlue
-                                              : Palette.lightGrey,
+                                          color:
+                                              controller.generalPost.value.liked
+                                                  ? Palette.lightBlue
+                                                  : Palette.lightGrey,
                                         ),
                                       ),
                                       child: Row(
                                         children: [
                                           Image.asset(
-                                            controller.generalPost.value
-                                                    .liked
+                                            controller.generalPost.value.liked
                                                 ? "assets/icons/post/like_selected.png"
                                                 : "assets/icons/post/like_unselected.png",
                                             width: 18,
@@ -257,8 +250,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             "좋아요",
                                             style: lightStyle.copyWith(
                                               fontWeight: FontWeight.w500,
-                                              color: controller.generalPost
-                                                      .value.liked
+                                              color: controller
+                                                      .generalPost.value.liked
                                                   ? Palette.lightBlue
                                                   : Palette.grey,
                                             ),
@@ -267,13 +260,12 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             width: 8,
                                           ),
                                           Text(
-                                            controller
-                                                .generalPost.value.likes
+                                            controller.generalPost.value.likes
                                                 .toString(),
                                             style: lightStyle.copyWith(
                                               fontWeight: FontWeight.w500,
-                                              color: controller.generalPost
-                                                      .value.liked
+                                              color: controller
+                                                      .generalPost.value.liked
                                                   ? Palette.lightBlue
                                                   : Palette.grey,
                                             ),
@@ -281,8 +273,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         ],
                                       ),
                                       onPressed: () async {
-                                        controller.likeGeneralPost(controller
-                                            .generalPost.value.id);
+                                        controller.likeGeneralPost(
+                                            controller.generalPost.value.id);
                                       },
                                     ),
                                   ),
@@ -414,8 +406,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           child: IconButton(
                                             onPressed: () {
                                               generalCommentPopup(
-                                                  controller
-                                                      .generalPost.value,
+                                                  controller.generalPost.value,
                                                   controller
                                                       .generalComments[index]);
                                             },
@@ -494,8 +485,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       child: IconButton(
                                         onPressed: () async {
                                           await controller.writeGeneralComment(
-                                              controller
-                                                  .generalPost.value.id);
+                                              controller.generalPost.value.id);
                                         },
                                         icon: Image.asset(
                                           'assets/icons/post/send_selected.png',
@@ -516,9 +506,11 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                 ],
               )
             : const SizedBox(
-                height: 200,
-                child: Center(child: CircularProgressIndicator()),
-              ),
+              height: 400,
+              child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ),
       ),
     );
   }

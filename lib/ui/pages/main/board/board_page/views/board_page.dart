@@ -49,6 +49,7 @@ class BoardPage extends GetView<BoardPageController> {
                       onPressed: () {
                         controller.searchText.value = '';
                         controller.getFirstGeneralPostBoard();
+                        controller.getFirstPetitionPostBoard();
                       },
                       icon: Icon(
                         Icons.cancel,

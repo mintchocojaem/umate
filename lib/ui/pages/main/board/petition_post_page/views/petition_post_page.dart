@@ -78,7 +78,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     ),
                                   ),
                                   Text(
-                                    controller.petitionPost.value.tag.first.name,
+                                    controller
+                                        .petitionPost.value.tag.first.name,
                                     style: regularStyle.copyWith(
                                         color: Palette.black),
                                   ),
@@ -338,7 +339,12 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                     ),
                   ],
                 )
-              : const Center(child: CircularProgressIndicator()),
+              : const SizedBox(
+                height: 400,
+                child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              ),
         ),
       ),
     );
