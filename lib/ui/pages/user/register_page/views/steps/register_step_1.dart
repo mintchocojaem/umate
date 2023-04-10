@@ -349,7 +349,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Obx(
               () => ModernFormButton(
                 isEnabled: controller.check1.value && controller.check2.value

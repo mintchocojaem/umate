@@ -28,13 +28,14 @@ class GeneralPostWritePageController extends GetxController {
   final RxBool isPosting = false.obs;
 
   Future<void> writeGeneralPost(
-      String token, GeneralPostWriteModel generalPostWriteModel) async {
+      GeneralPostWriteModel generalPostWriteModel) async {
     isPosting.value = true;
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .writeGeneralPost(token: token, generalPostWriteModel: generalPostWriteModel);
-    if(apiResponseDTO.success) {
-      await boardPageController
-          .getFirstGeneralPostBoard();
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.writeGeneralPost(
+            token: loginService.token.value.accessToken,
+            generalPostWriteModel: generalPostWriteModel);
+    if (apiResponseDTO.success) {
+      await boardPageController.getFirstGeneralPostBoard();
       closeSnackBarAndGetBack();
     } else {
       GetXSnackBar(
@@ -43,7 +44,7 @@ class GeneralPostWritePageController extends GetxController {
         type: GetXSnackBarType.customError,
       ).show();
     }
-    await Future.delayed(const Duration(seconds:2), () {
+    await Future.delayed(const Duration(seconds: 2), () {
       isPosting.value = false;
     });
   }

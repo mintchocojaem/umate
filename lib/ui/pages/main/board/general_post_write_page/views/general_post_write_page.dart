@@ -43,9 +43,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                               .map((e) => FileModel.fromImagePicker(e))
                               .toList(),
                         );
-                        await controller.writeGeneralPost(
-                            controller.loginService.loginInfo.value.accessToken,
-                            generalPostWriteModel);
+                        await controller.writeGeneralPost(generalPostWriteModel);
                       }
                     : null,
                 child: Text(

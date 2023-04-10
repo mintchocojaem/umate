@@ -32,11 +32,12 @@ class PetitionPostWritePageController extends GetxController {
   final RxBool isPosting = false.obs;
 
   Future<void> writePetitionPost(
-      String token, PetitionPostWriteModel petitionPostWriteModel) async {
+      PetitionPostWriteModel petitionPostWriteModel) async {
     isPosting.value = true;
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.writePetitionPost(
-            token: token, petitionPostWriteModel: petitionPostWriteModel);
+            token: loginService.token.value.accessToken,
+            petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
       closeSnackBarAndGetBack();

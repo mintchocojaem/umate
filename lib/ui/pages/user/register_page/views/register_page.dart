@@ -52,8 +52,7 @@ class RegisterPage extends GetView<RegisterPageController> {
                     child: child,
                   );
                 },
-                layoutBuilder: (currentChild, previousChildren) =>
-                currentChild!,
+                layoutBuilder: (currentChild, previousChildren) => currentChild!,
               ),
             ),
           ],

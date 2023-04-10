@@ -45,9 +45,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                             .toList(),
                         tagIds: [PetitionPostTag.values[controller.selectedTag.value].id],
                       );
-                      await controller.writePetitionPost(
-                          controller.loginService.loginInfo.value.accessToken,
-                          petitionPostWriteModel);
+                      await controller.writePetitionPost(petitionPostWriteModel);
                     } : null, child: Text(
                       '등록',
                       style: lightStyle.copyWith(

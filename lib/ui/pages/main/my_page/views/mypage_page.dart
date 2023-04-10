@@ -78,12 +78,12 @@ class MyPagePage extends GetView<MyPagePageController> {
                                     color: Palette.pureWhite,
                                     overflow: TextOverflow.ellipsis),
                                 text:
-                                    '${controller.loginService.loginInfo.value.nickname}\n', // default text style
+                                    '${controller.loginService.userInfo.value.nickname}\n', // default text style
                                 children: <TextSpan>[
                                   TextSpan(
                                     text:
-                                        "${controller.loginService.loginInfo.value.department} "
-                                        "${controller.loginService.loginInfo.value.major}\n",
+                                        "${controller.loginService.userInfo.value.department} "
+                                        "${controller.loginService.userInfo.value.major}\n",
                                     style: regularStyle.copyWith(
                                         color: Palette.white,
                                         fontWeight: FontWeight.w600,
@@ -92,8 +92,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                   TextSpan(
                                     text:
-                                        "${controller.loginService.loginInfo.value.studentId} "
-                                            "${controller.loginService.loginInfo.value.username}",
+                                        "${controller.loginService.userInfo.value.studentId} "
+                                            "${controller.loginService.userInfo.value.username}",
                                     style: regularStyle.copyWith(
                                         color: Palette.white,
                                         fontWeight: FontWeight.w600,

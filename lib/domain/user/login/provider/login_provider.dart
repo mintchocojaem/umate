@@ -2,7 +2,6 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
-import 'package:danvery/domain/user/login/model/login_model.dart';
 import 'package:danvery/domain/user/login/model/token_model.dart';
 import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:dio/dio.dart';
@@ -26,7 +25,7 @@ class LoginProvider {
         url,
         data: body,
       );
-      return SuccessResponseDTO(data: LoginModel.fromJson(response.data));
+      return SuccessResponseDTO(data: TokenModel.fromJson(response.data));
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }

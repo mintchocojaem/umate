@@ -4,7 +4,7 @@ class UserInfoModel{
   String studentId;
   String major;
   String department;
-  String yearOfAdmission;
+  bool admin;
 
   UserInfoModel({
     required this.username,
@@ -12,7 +12,7 @@ class UserInfoModel{
     required this.studentId,
     required this.major,
     required this.department,
-    required this.yearOfAdmission,
+    required this.admin,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json){
@@ -22,7 +22,7 @@ class UserInfoModel{
       studentId: json["studentId"] as String,
       major: json["major"] as String,
       department: json["department"] as String,
-      yearOfAdmission: json["yearOfAdmission"] as String,
+      admin: json["admin"] as bool,
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:danvery/domain/user/login/model/login_model.dart';
+import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/user/login/model/token_model.dart';
 import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
@@ -15,7 +15,8 @@ class LoginService extends GetxService {
 
   final LoginRepository _loginRepository = LoginRepository();
 
-  late Rx<LoginModel> loginInfo;
+  late Rx<TokenModel> token;
+  late Rx<UserInfoModel> userInfo;
   final RxBool isLogin = false.obs;
 
   final GetStorage _box = GetStorage();
@@ -24,11 +25,24 @@ class LoginService extends GetxService {
     final apiResponse =
         await _loginRepository.login(classId: classId, password: password);
     if (apiResponse.success) {
-      final LoginModel loginModel = apiResponse.data as LoginModel;
-      loginInfo = loginModel.obs;
-      _box.write("accessToken", apiResponse.data.accessToken);
-      _box.write("refreshToken", apiResponse.data.refreshToken);
-      isLogin.value = true;
+      final TokenModel tokenModel = apiResponse.data as TokenModel;
+      token = tokenModel.obs;
+      final UserInfoModel? userInfoModel = await _getUserInfo(tokenModel.accessToken);
+      if (userInfoModel != null) {
+        userInfo = UserInfoModel(
+          studentId: userInfoModel.studentId,
+          username: userInfoModel.username,
+          major: userInfoModel.major,
+          nickname: userInfoModel.nickname,
+          department: userInfoModel.department,
+          admin: false,
+        ).obs;
+        _box.write("accessToken", token.value.accessToken);
+        _box.write("refreshToken", token.value.refreshToken);
+        isLogin.value = true;
+      } else {
+        isLogin.value = false;
+      }
     } else {
       isLogin.value = false;
       GetXSnackBar(
@@ -40,21 +54,19 @@ class LoginService extends GetxService {
   }
 
   Future<void> autoLogin(String accessToken, String refreshToken) async {
-    final token = await _loginRepository.reissueToken(
+    final ApiResponseDTO apiResponseDTO = await _loginRepository.reissueToken(
         accessToken: accessToken, refreshToken: refreshToken);
-    if (token.success) {
-      final TokenModel tokenModel = token.data as TokenModel;
-
-      final userInfo = await _getUserInfo(tokenModel.accessToken);
-      if (userInfo != null) {
-        loginInfo = LoginModel(
-          accessToken: tokenModel.accessToken,
-          refreshToken: tokenModel.refreshToken,
-          studentId: userInfo.studentId,
-          username: userInfo.username,
-          major: userInfo.major,
-          nickname: userInfo.nickname,
-          department: userInfo.department,
+    if (apiResponseDTO.success) {
+      final TokenModel tokenModel = apiResponseDTO.data as TokenModel;
+      token = tokenModel.obs;
+      final UserInfoModel? userInfoModel = await _getUserInfo(tokenModel.accessToken);
+      if (userInfoModel != null) {
+        userInfo = UserInfoModel(
+          studentId: userInfoModel.studentId,
+          username: userInfoModel.username,
+          major: userInfoModel.major,
+          nickname: userInfoModel.nickname,
+          department: userInfoModel.department,
           admin: false,
         ).obs;
         isLogin.value = true;

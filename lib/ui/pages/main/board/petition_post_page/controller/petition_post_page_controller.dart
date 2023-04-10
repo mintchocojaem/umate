@@ -33,7 +33,7 @@ class PetitionPostPageController extends GetxController {
   Future<void> getPetitionPost() async {
     final ApiResponseDTO apiResponseDTO =
     await _petitionPostRepository.getPetitionPost(
-        token: _loginService.loginInfo.value.accessToken, id: id);
+        token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       final PetitionPostModel petitionPostModel =
       apiResponseDTO.data as PetitionPostModel;
@@ -46,7 +46,7 @@ class PetitionPostPageController extends GetxController {
   Future<void> deletePetitionPost(int id) async {
     final ApiResponseDTO apiResponseDTO =
     await _petitionPostRepository.deletePetitionPost(
-        token: _loginService.loginInfo.value.accessToken, id: id);
+        token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
       Get.back();
@@ -61,11 +61,11 @@ class PetitionPostPageController extends GetxController {
   Future<void> agreePetition() async {
     final ApiResponseDTO apiResponseDTO =
     await _petitionPostRepository.agreePetitionPost(
-        token: _loginService.loginInfo.value.accessToken, id: id);
+        token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       petitionPost.update((val) {
         val!.agreeCount += 1;
-        final userDepartment = _loginService.loginInfo.value.department;
+        final userDepartment = _loginService.userInfo.value.department;
         if (val.statisticList.where((element) => element.department == userDepartment).isEmpty) {
           val.statisticList.add(PetitionStatisticModel(agreeCount: 1, department: userDepartment));
         }else{
