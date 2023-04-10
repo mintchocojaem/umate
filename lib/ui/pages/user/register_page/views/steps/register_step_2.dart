@@ -4,6 +4,7 @@ import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class RegisterStep2 extends GetView<RegisterPageController> {
@@ -40,25 +41,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
-                                  child: ModernFormField(
-                                    hint: "비밀번호를 입력하세요",
-                                    title: "비밀번호",
-                                    validateHint: "비밀번호를 재입력하세요",
-                                    validateHelperText: "8~24자, 하나 이상의 영문자와 숫자 포함",
-                                    validate: true,
-                                    isPassword: true,
-                                    onTextChanged: (value) {
-                                      controller.password.value = value;
-                                    },
-                                    onValidateChanged: (value) {
-                                      controller.passwordValidate.value = value;
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: controller
                                         .registerInfo.value.studentName,
@@ -68,7 +51,16 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: ModernFormField(
+                                    hint: controller.registerInfo.value.major,
+                                    title: "전공",
+                                    readOnly: true,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
@@ -83,9 +75,18 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
-                                    hint: controller.registerInfo.value.major,
-                                    title: "전공",
-                                    readOnly: true,
+                                    hint: "비밀번호를 입력하세요",
+                                    title: "비밀번호",
+                                    validateHint: "비밀번호를 재입력하세요",
+                                    validateHelperText: "8~24자, 하나 이상의 영문자와 숫자 포함",
+                                    validate: true,
+                                    isPassword: true,
+                                    onTextChanged: (value) {
+                                      controller.password.value = value;
+                                    },
+                                    onValidateChanged: (value) {
+                                      controller.passwordValidate.value = value;
+                                    },
                                   ),
                                 ),
                                 //휴대폰 번호 인증 필요
@@ -108,7 +109,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                     isSMS: true,
                                     checkButtonText: "인증요청",
                                     onCheckButtonPressed: () {
-                                      if (!isValidPhoneNumberFormat(
+                                      if (!phoneNumberCheckRegExp.hasMatch(
                                           controller.phoneNumber.value)) {
                                         GetXSnackBar(
                                           type: GetXSnackBarType.phoneNumberError,
@@ -158,16 +159,14 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                 onPressed: () async {
 
                   if (controller.nickname.value.length < 2 ||
-                      isValidNicknameFormat(controller.nickname.value) ==
-                          false) {
+                      !nicknameCheckRegExp.hasMatch(controller.nickname.value)) {
                     GetXSnackBar(
                       type: GetXSnackBarType.nickNameError,
                     ).show();
                     return;
                   }
 
-                  if (isValidPasswordFormat(controller.password.value) ==
-                      false) {
+                  if (!passwordCheckRegExp.hasMatch(controller.password.value)) {
                     GetXSnackBar(
                       type: GetXSnackBarType.passwordInputError,
                     ).show();

@@ -35,15 +35,21 @@ class _ModernFormButton extends State<ModernFormButton>{
         color: Palette.blue,
         onPressed: widget.isEnabled && !coolDown ? () async{
           widget.onPressed();
+
           if(mounted){
             setState(() {
               coolDown = true;
             });
-            await Future.delayed(const Duration(seconds: 1));
+          }
+
+          await Future.delayed(const Duration(seconds: 1));
+
+          if(mounted){
             setState(() {
               coolDown = false;
             });
           }
+
         } : null,
         child: Text(widget.text,
             style: regularStyle.copyWith(

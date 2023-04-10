@@ -118,6 +118,7 @@ flutter:
     - assets/icons/splash/
     - assets/icons/danvery/
     - assets/icons/post/
+    - assets/icons/login/
   fonts:
     - family: NotoSansKR
       fonts:

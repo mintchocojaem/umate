@@ -1,3 +1,4 @@
+import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -45,14 +46,16 @@ class LoginPage extends GetView<LoginPageController> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
-                    child: ModernFormField(
-                      onTextChanged: (value) {
-                        controller.password.value = value;
-                      },
-                      hint: "비밀번호를 입력하세요",
-                      title: "비밀번호",
-                      isPassword: true,
-                      titleColor: Palette.blue,
+                    child: Obx(
+                      () => ModernFormField(
+                        onTextChanged: (value) {
+                          controller.password.value = value;
+                        },
+                        hint: "비밀번호를 입력하세요",
+                        title: "비밀번호",
+                        isPassword: !controller.isPasswordVisible.value,
+                        titleColor: Palette.blue,
+                      ),
                     ),
                   ),
                 ],

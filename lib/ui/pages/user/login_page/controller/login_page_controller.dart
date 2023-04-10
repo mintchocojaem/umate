@@ -8,4 +8,6 @@ class LoginPageController extends GetxController{
   final RxString id = "".obs;
   final RxString password = "".obs;
 
+  final RxBool isPasswordVisible = false.obs;
+
 }

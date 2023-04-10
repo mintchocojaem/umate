@@ -1,12 +1,10 @@
-import 'package:animations/animations.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/user/find_id_page/controller/find_id_page_controller.dart';
+import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/ui/widgets/modern/modern_step_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../core/theme/app_text_theme.dart';
-import '../../../../widgets/app_bar/transparent_app_bar.dart';
-import '../../../../widgets/modern/modern_step_guide.dart';
 
 class FindIdPage extends GetView<FindIdPageController> {
   const FindIdPage({super.key});

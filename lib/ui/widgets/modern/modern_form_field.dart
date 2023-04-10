@@ -24,7 +24,7 @@ class ModernFormField extends StatefulWidget {
   final int checkButtonCoolDown;
   final Color? titleColor;
   final TextInputType? keyboardType;
-  final Icon? suffixIcon;
+  final Widget? suffix;
   final String? validateHelperText;
   final String? helperText;
 
@@ -46,7 +46,7 @@ class ModernFormField extends StatefulWidget {
     this.keyboardType,
     this.onTextChanged,
     this.onValidateChanged,
-    this.suffixIcon,
+    this.suffix,
     this.initText,
     this.initValidateText,
     this.validateHelperText,
@@ -62,6 +62,7 @@ class _ModernFormField extends State<ModernFormField> {
   final FocusNode focusSMS = FocusNode();
   bool _isSend = false;
   Timer? timer;
+  bool _isTextVisible = true;
 
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _validateController = TextEditingController();
@@ -73,6 +74,7 @@ class _ModernFormField extends State<ModernFormField> {
     _remainingTime = widget.checkButtonCoolDown;
     _textController.text = widget.initText ?? "";
     _validateController.text = widget.initValidateText ?? "";
+    _isTextVisible = !widget.isPassword;
   }
 
   @override
@@ -120,7 +122,7 @@ class _ModernFormField extends State<ModernFormField> {
           children: [
             TextFormField(
               controller: _textController,
-              obscureText: widget.isPassword,
+              obscureText: !_isTextVisible,
               enableSuggestions: false,
               autocorrect: false,
               enabled: !widget.readOnly,
@@ -142,7 +144,9 @@ class _ModernFormField extends State<ModernFormField> {
                 hintText: widget.hint,
                 hintStyle: widget.hintStyle ??
                     regularStyle.copyWith(
-                        color: widget.readOnly ? Palette.lightBlack : Palette.grey),
+                        color: widget.readOnly
+                            ? Palette.lightBlack
+                            : Palette.grey),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -153,13 +157,25 @@ class _ModernFormField extends State<ModernFormField> {
                 contentPadding: const EdgeInsets.only(
                   left: 16,
                 ),
-                suffixIcon: widget.suffixIcon != null
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: widget.suffixIcon!,
-                        onPressed: () {},
+                suffixIcon: widget.isPassword
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Image.asset(
+                            _isTextVisible
+                                ? "assets/icons/login/visible_icon.png"
+                                : "assets/icons/login/invisible_icon.png",
+                            width: 24,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isTextVisible = !_isTextVisible;
+                            });
+                          },
+                        ),
                       )
-                    : null,
+                    : widget.suffix,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -167,8 +183,8 @@ class _ModernFormField extends State<ModernFormField> {
                     width: 2.0,
                   ),
                 ),
-                suffixIconConstraints:
-                    const BoxConstraints(maxHeight: 24, maxWidth: 32, minWidth: 24),
+                suffixIconConstraints: const BoxConstraints(
+                    maxHeight: 24, maxWidth: 60, minWidth: 24, minHeight: 24),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -180,13 +196,13 @@ class _ModernFormField extends State<ModernFormField> {
             ),
             widget.helperText != null
                 ? Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                widget.helperText!,
-                style: lightStyle.copyWith(
-                    color: Palette.blue, fontWeight: FontWeight.w500),
-              ),
-            )
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      widget.helperText!,
+                      style: lightStyle.copyWith(
+                          color: Palette.blue, fontWeight: FontWeight.w500),
+                    ),
+                  )
                 : const SizedBox()
           ],
         ),
@@ -235,9 +251,10 @@ class _ModernFormField extends State<ModernFormField> {
                                   )
                                 : TextFormField(
                                     controller: _validateController,
-                                    style: TextStyle(color: Palette.lightBlack),
+                                    style: regularStyle.copyWith(
+                                        color: Palette.lightBlack),
                                     keyboardType: widget.keyboardType,
-                                    obscureText: widget.isPassword,
+                                    obscureText: !_isTextVisible,
                                     enableSuggestions: false,
                                     autocorrect: false,
                                     onChanged: (text) {
@@ -247,6 +264,27 @@ class _ModernFormField extends State<ModernFormField> {
                                     maxLines: 1,
                                     maxLength: 30,
                                     decoration: InputDecoration(
+                                      suffixIcon: widget.isPassword
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8),
+                                              child: IconButton(
+                                                padding: EdgeInsets.zero,
+                                                icon: Image.asset(
+                                                  _isTextVisible
+                                                      ? "assets/icons/login/visible_icon.png"
+                                                      : "assets/icons/login/invisible_icon.png",
+                                                  width: 24,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isTextVisible =
+                                                        !_isTextVisible;
+                                                  });
+                                                },
+                                              ),
+                                            )
+                                          : null,
                                       counterText: "",
                                       contentPadding: const EdgeInsets.only(
                                         left: 16,
@@ -318,13 +356,14 @@ class _ModernFormField extends State<ModernFormField> {
                     ),
                     widget.validateHelperText != null
                         ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
                               widget.validateHelperText!,
                               style: lightStyle.copyWith(
-                                  color: Palette.blue, fontWeight: FontWeight.w500),
+                                  color: Palette.blue,
+                                  fontWeight: FontWeight.w500),
                             ),
-                        )
+                          )
                         : const SizedBox()
                   ],
                 ),

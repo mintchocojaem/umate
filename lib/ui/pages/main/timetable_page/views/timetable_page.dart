@@ -197,14 +197,18 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 initText: bottomSheetController.title.value,
                                 hint: "과목명 검색",
                                 readOnly: subjectModel != null,
-                                suffixIcon: subjectModel == null
-                                    ? const Icon(Icons.search)
+                                suffix: subjectModel == null
+                                    ? IconButton(
+                                        onPressed: () {},
+                                        padding: EdgeInsets.zero,
+                                        icon: const Icon(Icons.search),
+                                      )
                                     : null,
                               )
-                            : ModernFormField(
+                            : const ModernFormField(
                                 hint: "제목",
                               ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Flex(
                           direction: Axis.horizontal,
                           children: [
@@ -217,11 +221,15 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 initText: bottomSheetController.days.value,
                                 hint: "요일",
                                 readOnly: subjectModel != null,
-                                suffixIcon:
-                                    Icon(Icons.keyboard_arrow_down_rounded),
+                                suffix: IconButton(
+                                  onPressed: () {},
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded),
+                                ),
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Flexible(
                               flex: 6,
                               child: ModernFormField(
@@ -231,11 +239,15 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 initText: bottomSheetController.startTime.value,
                                 hint: "시작 시간",
                                 readOnly: subjectModel != null,
-                                suffixIcon:
-                                    Icon(Icons.keyboard_arrow_down_rounded),
+                                suffix: IconButton(
+                                  onPressed: () {},
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded),
+                                ),
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Flexible(
                               flex: 6,
                               child: ModernFormField(
@@ -245,13 +257,17 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 initText: bottomSheetController.endTime.value,
                                 hint: "종료 시간",
                                 readOnly: subjectModel != null,
-                                suffixIcon:
-                                    Icon(Icons.keyboard_arrow_down_rounded),
+                                suffix: IconButton(
+                                  onPressed: () {},
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         bottomSheetController.isSubjectAdd.value
                             ? ModernFormField(
                                 onTextChanged: (text) {
@@ -261,10 +277,10 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 readOnly: subjectModel != null,
                                 hint: "강의실",
                               )
-                            : ModernFormField(
+                            : const ModernFormField(
                                 hint: "메모",
                               ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         ColorPicker(
                           selectedColorIndex: Palette.subjectColors
                               .indexOf(bottomSheetController.selectedColor),

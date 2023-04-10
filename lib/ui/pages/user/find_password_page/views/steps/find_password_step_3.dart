@@ -42,7 +42,7 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
                   controller.passwordValidate.value.isNotEmpty,
               text: "완료",
               onPressed: () async {
-                if (isValidPasswordFormat(controller.password.value) == false) {
+                if (!passwordCheckRegExp.hasMatch(controller.password.value)) {
                   GetXSnackBar(type: GetXSnackBarType.passwordInputError)
                       .show();
                   return;

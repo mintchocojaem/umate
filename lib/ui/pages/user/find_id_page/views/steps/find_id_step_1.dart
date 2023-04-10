@@ -22,6 +22,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
               style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
+            keyboardType: TextInputType.phone,
             onTextChanged: (value) {
               controller.phoneNumber.value = value;
             },
@@ -33,7 +34,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
               isEnabled: controller.phoneNumber.value.isNotEmpty,
               text: "아이디 찾기",
               onPressed: () async {
-                if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
+                if (!phoneNumberCheckRegExp.hasMatch(controller.phoneNumber.value)) {
                   GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
                   return;
                 }

@@ -23,6 +23,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
               style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
+            keyboardType: TextInputType.phone,
             onTextChanged: (value) {
               controller.phoneNumber.value = value;
             },
@@ -34,7 +35,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
               isEnabled: controller.phoneNumber.value.isNotEmpty,
               text: "인증번호 받기",
               onPressed: () async {
-                if (!isValidPhoneNumberFormat(controller.phoneNumber.value)) {
+                if (!phoneNumberCheckRegExp.hasMatch(controller.phoneNumber.value)) {
                   GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
                   return;
                 }
