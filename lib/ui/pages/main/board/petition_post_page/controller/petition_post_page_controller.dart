@@ -65,6 +65,7 @@ class PetitionPostPageController extends GetxController {
     if (apiResponseDTO.success) {
       petitionPost.update((val) {
         val!.agreeCount += 1;
+        val.agree = true;
         final userDepartment = _loginService.userInfo.value.department;
         if (val.statisticList.where((element) => element.department == userDepartment).isEmpty) {
           val.statisticList.add(PetitionStatisticModel(agreeCount: 1, department: userDepartment));
@@ -84,6 +85,7 @@ class PetitionPostPageController extends GetxController {
   void saveAndGetBack() {
     if (isLoadedPetitionPost.value) {
       petitionPost.value.agreeCount = petitionPost.value.agreeCount;
+      petitionPost.value.agree = petitionPost.value.agree;
       Get.back(result: petitionPost.value);
     } else {
       Get.back();

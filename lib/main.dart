@@ -1,6 +1,5 @@
 import 'package:danvery/routes/app_pages.dart';
 import 'package:danvery/routes/app_routes.dart';
-import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_binding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,7 @@ import 'core/notification/setup_notification.dart';
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -30,21 +28,21 @@ void main() async{
 
   await GetStorage.init();
 
-  runApp(GetMaterialApp(
-    initialRoute: Routes.splashScreen,
-    getPages: AppPages.pages,
-    debugShowCheckedModeBanner: false,
-    theme: appThemeData,
-    darkTheme: ThemeData(
-      brightness: Brightness.light,
-      /* dark theme settings */
-    ),
-    themeMode: ThemeMode.light,
-    /* ThemeMode.system to follow system theme,
+  runApp(
+    GetMaterialApp(
+      initialRoute: Routes.splashScreen,
+      getPages: AppPages.pages,
+      debugShowCheckedModeBanner: false,
+      theme: appThemeData,
+      darkTheme: ThemeData(
+        brightness: Brightness.light,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.light,
+      /* ThemeMode.system to follow system theme,
          ThemeMode.light for light theme,
          ThemeMode.dark for dark theme
       */
-  ));
-
+    ),
+  );
 }
-

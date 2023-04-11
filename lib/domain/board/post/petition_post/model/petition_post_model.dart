@@ -26,7 +26,7 @@ class PetitionPostModel {
   String status;
   String expiresAt;
   int agreeCount;
-  bool agreed;
+  bool agree;
   List<PetitionTagModel> tag;
   List<PetitionStatisticModel> statisticList;
   List<FileModel> files;
@@ -44,7 +44,7 @@ class PetitionPostModel {
     required this.statisticList,
     required this.mine,
     required this.files,
-    required this.agreed,
+    required this.agree,
     required this.tag,
     this.answer,
   });
@@ -70,7 +70,7 @@ class PetitionPostModel {
       files: (json["files"] as List)
           .map((e) => FileModel.fromGeneralPostFile(e))
           .toList(),
-      agreed: json["agreed"] as bool? ?? false,
+      agree: json["agree"] as bool? ?? false,
       tag: (json["tag"] as List? ?? []).map((e) => e as Map).toList().isNotEmpty
           ? (json["tag"] as List).map((e) => PetitionTagModel.fromJson(e)).toList()
           : [PetitionTagModel(id: null, name: "미분류")],

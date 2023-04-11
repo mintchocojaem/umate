@@ -364,7 +364,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 16),
                       child: ModernFormButton(
-                        isEnabled: (!controller.petitionPost.value.agreed) &&
+                        isEnabled: (!controller.petitionPost.value.agree) &&
                             (controller.petitionPost.value.status !=
                                 PetitionPostStatus.expired.nameKR),
                         onPressed: () async {
@@ -373,7 +373,9 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                         text: (controller.petitionPost.value.status ==
                                 PetitionPostStatus.expired.nameKR)
                             ? '만료된 청원입니다'
-                            : '동의하기',
+                            : controller.petitionPost.value.agree
+                                ? '이미 동의하셨습니다'
+                                : '동의하기',
                       ),
                     ),
                   ],
