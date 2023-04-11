@@ -2,10 +2,9 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_write_model.dart';
 import 'package:dio/dio.dart';
-
-import '../model/petition_post_model.dart';
 
 class PetitionPostProvider {
   final Dio _dio;

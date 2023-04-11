@@ -60,7 +60,7 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
           const SizedBox(height: 16),
           Obx(
             () => ModernFormButton(
-              isEnabled: controller.phoneAuthCode.value.isNotEmpty,
+              isEnabled: controller.phoneAuthCode.value.length == 6,
               text: "확인",
               onPressed: () async {
                 if (await controller.verifyAuthCode()) {

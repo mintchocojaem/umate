@@ -70,7 +70,8 @@ class LoginPage extends GetView<LoginPageController> {
                         controller.password.isNotEmpty,
                     onPressed: () async {
                       await controller.loginService.login(
-                          controller.id.value, controller.password.value);
+                          controller.id.value.replaceAll("@dankook.ac.kr", ""),
+                          controller.password.value);
                       if (controller.loginService.isLogin.value) {
                         Get.offAndToNamed(Routes.main);
                       }

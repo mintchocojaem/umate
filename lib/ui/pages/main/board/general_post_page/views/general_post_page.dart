@@ -100,6 +100,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         child: Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
                                             onPressed: () {
                                               generalPostPopup(
                                                   controller.generalPost.value);
@@ -404,6 +406,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         child: Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
                                             onPressed: () {
                                               generalCommentPopup(
                                                   controller.generalPost.value,
@@ -483,6 +487,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                     child: Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
                                         onPressed: () async {
                                           await controller.writeGeneralComment(
                                               controller.generalPost.value.id);

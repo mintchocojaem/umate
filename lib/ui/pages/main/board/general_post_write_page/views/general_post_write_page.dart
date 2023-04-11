@@ -164,6 +164,8 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                                     height: 30,
                                     color: Palette.darkWhite.withOpacity(0.6),
                                     child: IconButton(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
                                       icon: Icon(
                                         Icons.delete,
                                         color: Palette.darkGrey,

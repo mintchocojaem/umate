@@ -34,6 +34,8 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
       toolbarHeight: height,
       backgroundColor: Colors.transparent,
       leading: automaticallyImplyLeading ? IconButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         icon: Icon(Icons.arrow_back_ios, color: Palette.black,),
         onPressed: onPressedLeading,
       ) : null,

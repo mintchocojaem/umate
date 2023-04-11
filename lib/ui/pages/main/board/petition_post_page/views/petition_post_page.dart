@@ -55,6 +55,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                       child: Align(
                                         alignment: Alignment.topRight,
                                         child: IconButton(
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
                                           icon: Icon(
                                             Icons.more_vert,
                                             color: Palette.darkGrey,
@@ -404,6 +406,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                   Get.back();
                 },
               ),
+              /*
               petitionPostModel.mine
                   ? CupertinoActionSheetAction(
                       child: const Text(
@@ -435,6 +438,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       },
                     )
                   : const SizedBox(),
+               */
             ],
             cancelButton: CupertinoActionSheetAction(
               onPressed: () {

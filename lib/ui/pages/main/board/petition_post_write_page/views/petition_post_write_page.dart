@@ -186,6 +186,8 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                                         color: Palette.darkWhite.withOpacity(
                                             0.6),
                                         child: IconButton(
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
                                           icon: Icon(
                                             Icons.delete,
                                             color: Palette.darkGrey,

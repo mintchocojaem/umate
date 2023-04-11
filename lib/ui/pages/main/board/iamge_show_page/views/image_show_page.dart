@@ -22,6 +22,8 @@ class ImageShowPage extends GetView<ImageShowPageController> {
           ),
           automaticallyImplyLeading: false,
           leading: IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Get.back();

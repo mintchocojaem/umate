@@ -38,6 +38,8 @@ class BoardPage extends GetView<BoardPageController> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     suffixIcon: controller.searchText.isEmpty ? IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       onPressed: () {
                         Get.toNamed(Routes.postSearch);
                       },
@@ -46,6 +48,8 @@ class BoardPage extends GetView<BoardPageController> {
                         color: Palette.blue,
                       ),
                     ) : IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       onPressed: () {
                         controller.searchText.value = '';
                         controller.getFirstGeneralPostBoard();

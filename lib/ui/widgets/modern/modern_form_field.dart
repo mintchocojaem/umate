@@ -161,6 +161,8 @@ class _ModernFormField extends State<ModernFormField> {
                     ? Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           padding: EdgeInsets.zero,
                           icon: Image.asset(
                             _isTextVisible
@@ -269,7 +271,8 @@ class _ModernFormField extends State<ModernFormField> {
                                               padding: const EdgeInsets.only(
                                                   right: 8),
                                               child: IconButton(
-                                                padding: EdgeInsets.zero,
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
                                                 icon: Image.asset(
                                                   _isTextVisible
                                                       ? "assets/icons/login/visible_icon.png"

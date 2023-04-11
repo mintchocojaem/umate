@@ -25,6 +25,8 @@ class TimetablePage extends GetView<TimetablePageController> {
         backGroundColor: Palette.pureWhite,
         actions: [
           IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {},
             icon: Icon(
               Icons.ios_share_rounded,
@@ -32,6 +34,8 @@ class TimetablePage extends GetView<TimetablePageController> {
             ),
           ),
           IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {
               timetableBottomSheet();
             },
@@ -96,6 +100,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                           children: [
                             subjectModel == null
                                 ? IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
                                     onPressed: () {
                                       //close bottom sheet
                                       Get.back();
@@ -199,6 +205,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 readOnly: subjectModel != null,
                                 suffix: subjectModel == null
                                     ? IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
                                         onPressed: () {},
                                         padding: EdgeInsets.zero,
                                         icon: const Icon(Icons.search),
@@ -222,6 +230,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 hint: "요일",
                                 readOnly: subjectModel != null,
                                 suffix: IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onPressed: () {},
                                   padding: EdgeInsets.zero,
                                   icon: const Icon(
@@ -240,6 +250,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 hint: "시작 시간",
                                 readOnly: subjectModel != null,
                                 suffix: IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onPressed: () {},
                                   padding: EdgeInsets.zero,
                                   icon: const Icon(
@@ -258,6 +270,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                 hint: "종료 시간",
                                 readOnly: subjectModel != null,
                                 suffix: IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onPressed: () {},
                                   padding: EdgeInsets.zero,
                                   icon: const Icon(

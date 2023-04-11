@@ -18,6 +18,8 @@ class CircleButton extends StatelessWidget{
     return Column(
       children: [
         IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             iconSize: 48,
             onPressed: onPressed,
             icon: Image.asset(

@@ -61,6 +61,8 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
             contentPadding:
                 const EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
             suffixIcon: IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onPressed: onPressedSuffixIcon,
               icon: Icon(
                 Icons.cancel,
@@ -72,6 +74,8 @@ class SearchAppBar extends StatelessWidget with PreferredSizeWidget {
           ? Padding(
               padding: const EdgeInsets.only(left: 16),
               child: IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 icon: Icon(
                   Icons.arrow_back_ios,
                   color: Palette.black,
