@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:danvery/core/theme/palette.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -25,8 +26,11 @@ class ModernFormField extends StatefulWidget {
   final Color? titleColor;
   final TextInputType? keyboardType;
   final Widget? suffix;
+  final double? suffixWidth;
   final String? validateHelperText;
   final String? helperText;
+  final TextEditingController? controller;
+  final bool isTime;
 
   const ModernFormField({
     super.key,
@@ -51,6 +55,9 @@ class ModernFormField extends StatefulWidget {
     this.initValidateText,
     this.validateHelperText,
     this.helperText,
+    this.suffixWidth,
+    this.controller,
+    this.isTime = false,
   });
 
   @override
@@ -64,17 +71,23 @@ class _ModernFormField extends State<ModernFormField> {
   Timer? timer;
   bool _isTextVisible = true;
 
-  final TextEditingController _textController = TextEditingController();
+  late final TextEditingController _textController;
   final TextEditingController _validateController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _textController = widget.controller ?? TextEditingController();
+
     _remainingTime = widget.checkButtonCoolDown;
     _textController.text = widget.initText ?? "";
     _validateController.text = widget.initValidateText ?? "";
     _isTextVisible = !widget.isPassword;
+
+    _textController.addListener(() {
+      widget.onTextChanged?.call(_textController.text);
+    });
   }
 
   @override
@@ -121,15 +134,14 @@ class _ModernFormField extends State<ModernFormField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              onTap: widget.isTime
+                  ? showTimePickerDialog : null,
               controller: _textController,
               obscureText: !_isTextVisible,
               enableSuggestions: false,
               autocorrect: false,
               enabled: !widget.readOnly,
-              readOnly: widget.readOnly,
-              onChanged: (text) {
-                widget.onTextChanged?.call(text);
-              },
+              readOnly: widget.readOnly || widget.isTime,
               keyboardType: widget.keyboardType,
               maxLines: 1,
               maxLength: 30,
@@ -177,7 +189,10 @@ class _ModernFormField extends State<ModernFormField> {
                           },
                         ),
                       )
-                    : widget.suffix,
+                    : InkWell(
+                        onTap: widget.isTime
+                            ? showTimePickerDialog : null,
+                        child: widget.suffix),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -185,8 +200,11 @@ class _ModernFormField extends State<ModernFormField> {
                     width: 2.0,
                   ),
                 ),
-                suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 24, maxWidth: 60, minWidth: 24, minHeight: 24),
+                suffixIconConstraints: BoxConstraints(
+                    maxHeight: 24,
+                    maxWidth: widget.suffixWidth ?? 60,
+                    minWidth: 24,
+                    minHeight: 24),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -202,7 +220,7 @@ class _ModernFormField extends State<ModernFormField> {
                     child: Text(
                       widget.helperText!,
                       style: lightStyle.copyWith(
-                          color: Palette.blue, fontWeight: FontWeight.w500),
+                          color: Palette.blue),
                     ),
                   )
                 : const SizedBox()
@@ -271,8 +289,10 @@ class _ModernFormField extends State<ModernFormField> {
                                               padding: const EdgeInsets.only(
                                                   right: 8),
                                               child: IconButton(
+                                                padding: EdgeInsets.zero,
                                                 splashColor: Colors.transparent,
-                                                highlightColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
                                                 icon: Image.asset(
                                                   _isTextVisible
                                                       ? "assets/icons/login/visible_icon.png"
@@ -299,6 +319,11 @@ class _ModernFormField extends State<ModernFormField> {
                                           widget.validateHint ?? widget.hint,
                                       hintStyle: regularStyle.copyWith(
                                           color: Palette.grey),
+                                      suffixIconConstraints: BoxConstraints(
+                                          maxHeight: 24,
+                                          maxWidth: widget.suffixWidth ?? 60,
+                                          minWidth: 24,
+                                          minHeight: 24),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                         borderSide: BorderSide(
@@ -375,4 +400,96 @@ class _ModernFormField extends State<ModernFormField> {
       ],
     );
   }
+
+  void showTimePickerDialog() {
+    final List<String> startHour = [
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18"
+    ];
+    final List<String> startMinute = ["00", "10", "20", "30", "40", "50"];
+    if(_textController.text.isEmpty) {
+      _textController.text = "${startHour.first}:${startMinute.first}";
+    }
+    showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.only(bottom: 50),
+              color: Palette.white,
+              height: 250,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: CupertinoPicker(
+                      scrollController: FixedExtentScrollController(
+                          initialItem: startHour.indexOf(_textController.text
+                              .substring(0, 2))),
+                      itemExtent: 40,
+                      onSelectedItemChanged: (index) {
+                        _textController.text = _textController.text
+                            .replaceRange(0, 2, startHour[index]);
+                      },
+                      children: [
+                        for (int i = 9; i < 19; i++)
+                          Center(
+                            child:
+                                Text(i.toString().length == 1 ? "0$i" : "$i"),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const DefaultTextStyle(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    child: Text(
+                      "시",
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: CupertinoPicker(
+                      scrollController: FixedExtentScrollController(
+                          initialItem: startMinute.indexOf(_textController.text
+                              .substring(3, 5))),
+                      itemExtent: 40,
+                      onSelectedItemChanged: (index) {
+                        _textController.text = _textController.text
+                            .replaceRange(3, 5, startMinute[index]);
+                      },
+                      children: [
+                        for (int i = 0; i < 6; i++)
+                          Center(
+                            child: Text("${i}0"),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const DefaultTextStyle(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    child: Text(
+                      "분",
+                    ),
+                  )
+                ],
+              ));
+        });
+  }
+
 }

@@ -85,19 +85,19 @@ class MyPagePage extends GetView<MyPagePageController> {
                                         "${controller.loginService.userInfo.value.department} "
                                         "${controller.loginService.userInfo.value.major}\n",
                                     style: regularStyle.copyWith(
-                                        color: Palette.white,
-                                        fontWeight: FontWeight.w600,
-                                        overflow: TextOverflow.ellipsis,
+                                      color: Palette.white,
+                                      fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   TextSpan(
                                     text:
                                         "${controller.loginService.userInfo.value.studentId} "
-                                            "${controller.loginService.userInfo.value.username}",
+                                        "${controller.loginService.userInfo.value.username}",
                                     style: regularStyle.copyWith(
-                                        color: Palette.white,
-                                        fontWeight: FontWeight.w600,
-                                        overflow: TextOverflow.ellipsis,
+                                      color: Palette.white,
+                                      fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
@@ -155,55 +155,22 @@ class MyPagePage extends GetView<MyPagePageController> {
                               ],
                             ),
                           ),
-                          GestureDetector(
+                          /*
+                          InkWell(
                             onTap: () {},
                             child: SizedBox(
-                                height: 60,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "디스플레이 설정",
-                                    style: smallTitleStyle.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Palette.darkGrey),
-                                  ),
-                                )),
+                              height: 60,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "디스플레이 설정",
+                                  style: smallTitleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: Palette.darkGrey),
+                                ),
+                              ),
+                            ),
                           ),
-                          /*
-                          GestureDetector(
-                            onTap: () {
-
-                            },
-                            child: SizedBox(
-                                height: 60,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "로그아웃",
-                                    style: titleStyle.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Palette.darkGrey),
-                                  ),
-                                )),
-                          ),
-
-                           */
-                          /*
-                          GestureDetector(
-                            onTap: () {},
-                            child: SizedBox(
-                                height: 60,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "회원탈퇴",
-                                    style: titleStyle.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Palette.darkGrey),
-                                  ),
-                                )),
-                          ),
-
                            */
                         ],
                       ),

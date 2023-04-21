@@ -8,16 +8,16 @@ import 'package:dio/dio.dart';
 class GeneralBoardProvider {
   final Dio _dio;
 
+  GeneralBoardProvider._internal(this._dio);
+
   static final GeneralBoardProvider _singleton =
   GeneralBoardProvider._internal(DioInterceptor().dio);
-
-  GeneralBoardProvider._internal(this._dio);
 
   factory GeneralBoardProvider() => _singleton;
 
   Future<ApiResponseDTO> getGeneralBoard(
       int page, int size, String keyword) async {
-    String url = '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=200';
+    String url = '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=100';
 
     try {
       final Response response = await _dio.get(url);

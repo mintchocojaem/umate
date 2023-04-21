@@ -102,8 +102,8 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                       TextField(
                         controller: controller.contentController,
                         style: regularStyle.copyWith(color: Palette.darkGrey),
-                        maxLength: 500,
-                        maxLines: 10,
+                        maxLength: 5000,
+                        maxLines: null,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           counterText: "",

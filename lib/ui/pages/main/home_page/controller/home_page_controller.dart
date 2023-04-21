@@ -10,6 +10,8 @@ import 'package:danvery/domain/board/post/petition_post/model/petition_post_mode
 import 'package:danvery/domain/bus/model/bus_model.dart';
 import 'package:danvery/domain/bus/repository/bus_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
+import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/main_page/controller/main_page_controller.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
@@ -21,6 +23,8 @@ class HomePageController extends GetxController {
 
   final LoginService loginService = Get.find<LoginService>();
 
+  final MainPageController mainPageController = Get.find<MainPageController>();
+  final BoardPageController boardPageController = Get.find<BoardPageController>();
   final RxList<GeneralPostModel> generalPostListHome = <GeneralPostModel>[].obs;
   final RxBool isLoadGeneralPostListHome = false.obs;
 
@@ -36,7 +40,7 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     getBusList();
-    Timer.periodic(const Duration(seconds: 30), (timer) {
+    Timer.periodic(const Duration(seconds: 60), (timer) {
       getBusList();
     });
     getGeneralPostListHome();

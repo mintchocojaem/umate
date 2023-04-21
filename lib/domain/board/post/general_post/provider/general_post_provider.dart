@@ -10,10 +10,10 @@ import 'package:dio/dio.dart';
 class GeneralPostProvider {
   final Dio _dio;
 
+  GeneralPostProvider._internal(this._dio);
+
   static final GeneralPostProvider _singleton =
       GeneralPostProvider._internal(DioInterceptor().dio);
-
-  GeneralPostProvider._internal(this._dio);
 
   factory GeneralPostProvider() => _singleton;
 

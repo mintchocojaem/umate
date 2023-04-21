@@ -37,7 +37,7 @@ class PostCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8),
+        padding: const EdgeInsets.only(top: 4, bottom: 4),
         child: Row(
           children: [
             Expanded(
@@ -74,7 +74,7 @@ class PostCard extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 4),
+                    padding: const EdgeInsets.only(top: 8),
                     child: Text(title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -82,28 +82,24 @@ class PostCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Palette.lightBlack)),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 8),
-                    child: SizedBox(
-                      height: 42,
-                      child: Html(
-                        data: subtitle,
-                        style: {
-                          "body": Style(
-                            fontSize: FontSize(lightStyle.fontSize!),
-                            color: Palette.darkGrey,
-                            padding: EdgeInsets.zero,
-                            margin: Margins.zero,
-                            maxLines: 2,
-                            textOverflow: TextOverflow.ellipsis,
-                          ),
-                        },
-                        onLinkTap: (url,_, __, ___) {
-                          onTap?.call();
-                        },
+                  Html(
+                    data: subtitle,
+                    style: {
+                      "body": Style(
+                        fontSize: FontSize(lightStyle.fontSize!),
+                        color: Palette.darkGrey,
+                        padding: EdgeInsets.zero,
+                        margin: Margins.zero,
+                        maxLines: 1,
+                        textOverflow: TextOverflow.ellipsis,
+
                       ),
-                    ),
+                    },
+                    onLinkTap: (url,_, __, ___) {
+                      onTap?.call();
+                    },
                   ),
+                  const SizedBox(height: 4,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

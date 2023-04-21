@@ -9,10 +9,10 @@ import '../model/bus_model.dart';
 class BusProvider {
   final Dio _dio;
 
+  BusProvider._internal(this._dio);
+
   static final BusProvider _singleton =
       BusProvider._internal(DioInterceptor().dio);
-
-  BusProvider._internal(this._dio);
 
   factory BusProvider() => _singleton;
 

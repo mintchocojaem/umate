@@ -9,10 +9,10 @@ import '../model/register_model.dart';
 class RegisterProvider {
   final Dio _dio;
 
+  RegisterProvider._internal(this._dio);
+
   static final RegisterProvider _singleton =
       RegisterProvider._internal(DioInterceptor().dio);
-
-  RegisterProvider._internal(this._dio);
 
   factory RegisterProvider() => _singleton;
 

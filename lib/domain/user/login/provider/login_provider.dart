@@ -9,10 +9,10 @@ import 'package:dio/dio.dart';
 class LoginProvider {
   final Dio _dio;
 
+  LoginProvider.internal(this._dio);
+
   static final LoginProvider _singleton =
       LoginProvider.internal(DioInterceptor().dio);
-
-  LoginProvider.internal(this._dio);
 
   factory LoginProvider() => _singleton;
 

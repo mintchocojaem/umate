@@ -5,19 +5,20 @@ import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:dio/dio.dart';
 
-class PetitionBoardProvider{
+class PetitionBoardProvider {
   final Dio _dio;
 
-  static final PetitionBoardProvider _singleton =
-  PetitionBoardProvider._internal(DioInterceptor().dio);
-
   PetitionBoardProvider._internal(this._dio);
+
+  static final PetitionBoardProvider _singleton =
+      PetitionBoardProvider._internal(DioInterceptor().dio);
 
   factory PetitionBoardProvider() => _singleton;
 
   Future<ApiResponseDTO> getPetitionPostBoard(
       int page, int size, String status, String keyword) async {
-    String url = '/post/petition?page=$page&size=$size&status=$status&keyword=$keyword&sort=createdAt,desc';
+    String url =
+        '/post/petition?page=$page&size=$size&status=$status&keyword=$keyword&sort=createdAt,desc&bodySize=100';
 
     try {
       final Response response = await _dio.get(url);

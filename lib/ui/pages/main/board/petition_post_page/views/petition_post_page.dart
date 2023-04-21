@@ -133,7 +133,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                           ),
                                         ),
                                         Text(
-                                          "${controller.petitionPost.value.createdAt.substring(0, 10)}"
+                                          "${controller.petitionPost.value.createdAt}"
                                           " ~ ${controller.petitionPost.value.expiresAt}",
                                           style: regularStyle.copyWith(
                                               color: Palette.black),

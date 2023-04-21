@@ -9,10 +9,10 @@ import 'package:dio/dio.dart';
 class PetitionPostProvider {
   final Dio _dio;
 
+  PetitionPostProvider._internal(this._dio);
+
   static final PetitionPostProvider singleton =
       PetitionPostProvider._internal(DioInterceptor().dio);
-
-  PetitionPostProvider._internal(this._dio);
 
   factory PetitionPostProvider() => singleton;
 

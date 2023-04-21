@@ -1,9 +1,9 @@
-import 'dart:async';
-
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/home_page/controller/home_page_controller.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/main_page/controller/main_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/board/board_card.dart';
 import 'package:danvery/ui/widgets/board/board_list.dart';
@@ -13,8 +13,6 @@ import 'package:danvery/ui/widgets/circle_button/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../../main_page/controller/main_page_controller.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({Key? key}) : super(key: key);
@@ -402,6 +400,12 @@ class HomePage extends GetView<HomePageController> {
                                                       leadingText: controller
                                                           .generalPostListHome[i]
                                                           .createdAt,
+                                                      onTap: (){
+                                                        controller.mainPageController.selectedIndex.value = 2;
+                                                        controller.boardPageController.selectedTap.value = 0;
+                                                        Get.toNamed(Routes.post,
+                                                            arguments: controller.generalPostListHome[i].id);
+                                                      },
                                                     ),
                                                 ]
                                               : [
@@ -416,14 +420,8 @@ class HomePage extends GetView<HomePageController> {
                                           title: "자유 게시판",
                                           actionTitle: "더보기",
                                           onTapAction: () {
-                                            final BoardPageController
-                                                boardPageController =
-                                                Get.find<BoardPageController>();
-                                            final MainPageController
-                                                mainController =
-                                                Get.find<MainPageController>();
-                                            mainController.selectedIndex.value = 2;
-                                            boardPageController.selectedTap.value = 0;
+                                            controller.mainPageController.selectedIndex.value = 2;
+                                            controller.boardPageController.selectedTap.value = 0;
                                           },
                                         ),
                                       ),
@@ -449,6 +447,12 @@ class HomePage extends GetView<HomePageController> {
                                                       leadingText: controller
                                                           .petitionListHome[i]
                                                           .createdAt,
+                                                      onTap: (){
+                                                        controller.mainPageController.selectedIndex.value = 2;
+                                                        controller.boardPageController.selectedTap.value = 1;
+                                                        Get.toNamed(Routes.petition,
+                                                            arguments: controller.petitionListHome[i].id);
+                                                      },
                                                     ),
                                                 ]
                                               : [
@@ -463,14 +467,8 @@ class HomePage extends GetView<HomePageController> {
                                           title: "청원게시판",
                                           actionTitle: "더보기",
                                           onTapAction: () {
-                                            final BoardPageController
-                                                boardPageController =
-                                                Get.find<BoardPageController>();
-                                            final MainPageController
-                                                mainController =
-                                                Get.find<MainPageController>();
-                                            mainController.selectedIndex.value = 2;
-                                            boardPageController.selectedTap.value = 1;
+                                            controller.mainPageController.selectedIndex.value = 2;
+                                            controller.boardPageController.selectedTap.value = 1;
                                           },
                                         ),
                                       ),

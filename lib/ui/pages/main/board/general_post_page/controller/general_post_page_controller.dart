@@ -18,7 +18,7 @@ class GeneralPostPageController extends GetxController {
 
   final BoardPageController boardPageController = Get.find<BoardPageController>();
 
-  late final Rx<GeneralPostModel> generalPost;
+  late Rx<GeneralPostModel> generalPost;
 
   late Rx<GeneralCommentListModel> generalCommentList;
 

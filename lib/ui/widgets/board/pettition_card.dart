@@ -30,7 +30,7 @@ class PetitionCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     DateTime now = DateTime.now();
-    DateTime expiredDate = DateFormat("yyyy/MM/dd").parse(expiredAt);
+    DateTime expiredDate = DateFormat("yy/MM/dd").parse(expiredAt);
     int period = expiredDate.difference(now).inDays;
 
     return InkWell(
@@ -79,7 +79,7 @@ class PetitionCard extends StatelessWidget {
                       Text("$createdAt ~ $expiredAt", style: lightStyle.copyWith(color: Palette.darkGrey),)
                     ],
                   ),
-                  const SizedBox(width: 32,),
+                  const SizedBox(width: 54,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

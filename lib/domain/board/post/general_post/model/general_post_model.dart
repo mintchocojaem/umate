@@ -1,3 +1,4 @@
+import 'package:danvery/core/date_rename/date_rename.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
 
 class GeneralPostModel{
@@ -33,7 +34,7 @@ class GeneralPostModel{
       title: json["title"] as String,
       body: json["body"] as String,
       author: json["author"] as String? ?? "익명",
-      createdAt: (json["createdAt"] as String).substring(5,16).replaceAll('-', '/'),
+      createdAt: dateRename(json["createdAt"] as String),
       views: json["views"] as int? ?? 0,
       mine: json["mine"] as bool? ?? false,
       likes: json["likes"] as int? ?? 0,
