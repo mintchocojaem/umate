@@ -85,8 +85,7 @@ class BoardPageController extends GetxController {
         await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value
-        );
+            keyword: searchText.value);
     if (apiResponseDTO.success) {
       final GeneralBoardModel generalBoardModel =
           apiResponseDTO.data as GeneralBoardModel;
@@ -104,8 +103,7 @@ class BoardPageController extends GetxController {
         await _generalBoardRepository.getGeneralBoard(
             page: _generalBoardPage,
             size: _generalBoardSize,
-            keyword: searchText.value
-        );
+            keyword: searchText.value);
     if (apiResponseDTO.success && apiResponseDTO.data.generalPosts.isNotEmpty) {
       final GeneralBoardModel generalBoardModel =
           apiResponseDTO.data as GeneralBoardModel;
@@ -124,8 +122,7 @@ class BoardPageController extends GetxController {
             page: _petitionBoardPage,
             size: _petitionBoardSize,
             status: PetitionPostStatus.values[selectedCategory.value].name,
-            keyword: searchText.value
-        );
+            keyword: searchText.value);
     if (apiResponseDTO.success) {
       final PetitionBoardModel petitionBoardModel =
           apiResponseDTO.data as PetitionBoardModel;
@@ -142,8 +139,7 @@ class BoardPageController extends GetxController {
             page: _petitionBoardPage,
             size: _petitionBoardSize,
             status: PetitionPostStatus.values[selectedCategory.value].name,
-            keyword: searchText.value
-        );
+            keyword: searchText.value);
     if (apiResponseDTO.success &&
         apiResponseDTO.data.petitionPosts.isNotEmpty) {
       final PetitionBoardModel petitionBoardModel =
@@ -156,11 +152,10 @@ class BoardPageController extends GetxController {
   Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
     for (GeneralPostModel i in postList) {
       for (FileModel j in i.files) {
-        j.thumbnailUrl =
-            (await fileFromImageUrl(j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
+        j.thumbnailUrl = (await fileFromImageUrl(
+                j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
       }
     }
     isLoadedImageList.value = true;
   }
-
 }

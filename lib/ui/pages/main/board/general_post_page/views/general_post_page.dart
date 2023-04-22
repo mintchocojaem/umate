@@ -6,10 +6,12 @@ import 'package:danvery/domain/board/post/general_post/model/general_comment_mod
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../controller/general_post_page_controller.dart';
@@ -182,68 +184,72 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                 borderRadius:
                                                     const BorderRadius.all(
                                                         Radius.circular(10)),
-                                                child: controller.generalPost
-                                                        .value.files[i].mimeType
-                                                        .contains('image')
-                                                    ? InkWell(
-                                                        onTap: () {
-                                                          Get.toNamed(
-                                                              Routes.imageShow,
-                                                              arguments: {
-                                                                "imagePathList":
-                                                                    controller
+                                                child:
+                                                    controller.generalPost.value
+                                                            .files[i].mimeType
+                                                            .contains('image')
+                                                        ? InkWell(
+                                                            onTap: () {
+                                                              Get.toNamed(
+                                                                  Routes
+                                                                      .imageShow,
+                                                                  arguments: {
+                                                                    "imagePathList": controller
                                                                         .generalPost
                                                                         .value
                                                                         .files
                                                                         .map((e) =>
                                                                             e.url),
-                                                                "index": i,
-                                                              });
-                                                        },
-                                                        child: Image.file(
-                                                          File(controller
-                                                              .generalPost
-                                                              .value
-                                                              .files[i]
-                                                              .url),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      )
-                                                    : InkWell(
-                                                        onTap: () {
-
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Text(
-                                                                controller
-                                                                        .generalPost
-                                                                        .value
-                                                                        .files[
-                                                                            i]
-                                                                        .originalName ??
-                                                                    "file",
-                                                                style: const TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis),
+                                                                    "index": i,
+                                                                  });
+                                                            },
+                                                            child: Image.file(
+                                                              File(controller
+                                                                  .generalPost
+                                                                  .value
+                                                                  .files[i]
+                                                                  .url),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          )
+                                                        : InkWell(
+                                                            onTap: () {
+                                                              launchUrlString(
+                                                                  controller
+                                                                      .generalPost
+                                                                      .value
+                                                                      .files[i]
+                                                                      .url);
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    controller
+                                                                            .generalPost
+                                                                            .value
+                                                                            .files[i]
+                                                                            .originalName ??
+                                                                        "file",
+                                                                    style: const TextStyle(
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 8,
+                                                                  ),
+                                                                  const Icon(Icons
+                                                                      .file_download)
+                                                                ],
                                                               ),
-                                                              const SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              const Icon(Icons
-                                                                  .file_download)
-                                                            ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
                                               ),
                                             ),
                                           ),

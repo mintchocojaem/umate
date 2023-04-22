@@ -220,9 +220,11 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getImageList() async {
     for (FileModel j in generalPost.value.files) {
-      final String filePath = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
-      j.url = filePath;
-      j.thumbnailUrl = filePath;
+      if(j.mimeType.contains('image')){
+        final String filePath = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+        j.url = filePath;
+        j.thumbnailUrl = filePath;
+      }
     }
     isLoadedImageList.value = true;
   }
