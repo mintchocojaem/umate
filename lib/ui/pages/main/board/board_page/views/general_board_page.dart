@@ -64,19 +64,21 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                       .generalPostList[index].commentCount,
                                   likeCount:
                                       controller.generalPostList[index].likes,
-                                  imageUrl: controller.generalPostList[index]
-                                          .files.isNotEmpty
-                                      ? controller
-                                          .generalPostList[index].files[0].url
-                                      : null,
+                                  imageUrl: controller.generalPostList[index].files
+                                      .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
+                                      .whereType<String>().isNotEmpty ? controller.generalPostList[index].files
+                                      .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
+                                      .whereType<String>().first : null,
                                   onTap: () {
                                     Get.toNamed(Routes.post,
                                             arguments: controller
                                                 .generalPostList[index].id)
                                         ?.then((value) {
                                       if (value != null) {
-                                        final generalPostModel = value as GeneralPostModel;
-                                        controller.generalPostList[index] = generalPostModel;
+                                        final generalPostModel =
+                                            value as GeneralPostModel;
+                                        controller.generalPostList[index] =
+                                            generalPostModel;
                                       }
                                     });
                                   }),

@@ -92,7 +92,7 @@ class BoardPageController extends GetxController {
           apiResponseDTO.data as GeneralBoardModel;
       generalPostBoard = generalBoardModel.obs;
       final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
-      await getImageList(postList);
+      await getThumbnailList(postList);
       generalPostList.value = postList;
       isLoadGeneralPostBoard.value = true;
     }
@@ -111,7 +111,7 @@ class BoardPageController extends GetxController {
           apiResponseDTO.data as GeneralBoardModel;
       generalPostBoard = generalBoardModel.obs;
       final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
-      await getImageList(postList);
+      await getThumbnailList(postList);
       generalPostList.addAll(postList);
     }
   }
@@ -153,13 +153,14 @@ class BoardPageController extends GetxController {
     }
   }
 
-  Future<void> getImageList(List<GeneralPostModel> postList) async {
+  Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
     for (GeneralPostModel i in postList) {
       for (FileModel j in i.files) {
-        j.url =
-            (await fileFromImageUrl(j.url, j.originalName ?? "image$i")).path;
+        j.thumbnailUrl =
+            (await fileFromImageUrl(j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
       }
     }
     isLoadedImageList.value = true;
   }
+
 }

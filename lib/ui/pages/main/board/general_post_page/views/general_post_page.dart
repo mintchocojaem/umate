@@ -169,37 +169,81 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             padding: const EdgeInsets.only(
                                               right: 8,
                                             ),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                Get.toNamed(Routes.imageShow,
-                                                    arguments: {
-                                                      "imagePathList":
-                                                          controller.generalPost
-                                                              .value.files
-                                                              .map(
-                                                                  (e) => e.url),
-                                                      "index": i,
-                                                    });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Palette.lightGrey,
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                ),
-                                                width: 120,
-                                                height: 120,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  child: Image.file(
-                                                    File(controller.generalPost
-                                                        .value.files[i].url),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Palette.lightGrey,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                              ),
+                                              width: 120,
+                                              height: 120,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                child: controller.generalPost
+                                                        .value.files[i].mimeType
+                                                        .contains('image')
+                                                    ? InkWell(
+                                                        onTap: () {
+                                                          Get.toNamed(
+                                                              Routes.imageShow,
+                                                              arguments: {
+                                                                "imagePathList":
+                                                                    controller
+                                                                        .generalPost
+                                                                        .value
+                                                                        .files
+                                                                        .map((e) =>
+                                                                            e.url),
+                                                                "index": i,
+                                                              });
+                                                        },
+                                                        child: Image.file(
+                                                          File(controller
+                                                              .generalPost
+                                                              .value
+                                                              .files[i]
+                                                              .url),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      )
+                                                    : InkWell(
+                                                        onTap: () {
+
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                controller
+                                                                        .generalPost
+                                                                        .value
+                                                                        .files[
+                                                                            i]
+                                                                        .originalName ??
+                                                                    "file",
+                                                                style: const TextStyle(
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              const Icon(Icons
+                                                                  .file_download)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
                                               ),
                                             ),
                                           ),

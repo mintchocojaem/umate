@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
@@ -6,6 +8,8 @@ import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime_type/mime_type.dart';
 
 class GeneralPostProvider {
   final Dio _dio;
@@ -25,7 +29,15 @@ class GeneralPostProvider {
       'title': generalPostWriteModel.title,
       'body': generalPostWriteModel.body,
       'files': generalPostWriteModel.files
-          .map((e) => MultipartFile.fromFileSync(e.url))
+          .map(
+            (e) => MultipartFile.fromFileSync(
+              e.url,
+              contentType: MediaType(
+                e.mimeType.split('/')[0],
+                e.mimeType.split('/')[1],
+              ),
+            ),
+          )
           .toList(),
     });
     final headers = {
