@@ -32,7 +32,7 @@ class GeneralPostModel{
     return GeneralPostModel(
       id: json["id"] as int,
       title: json["title"] as String,
-      body: json["body"] as String,
+      body: (json["body"] as String).replaceAll("\n", "</br>"),
       author: json["author"] as String? ?? "익명",
       createdAt: dateRename(json["createdAt"] as String),
       views: json["views"] as int? ?? 0,

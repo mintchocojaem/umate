@@ -54,7 +54,7 @@ class PetitionPostModel {
     return PetitionPostModel(
       id: json["id"] as int,
       title: json["title"] as String,
-      body: json["body"] as String,
+      body: (json["body"] as String).replaceAll("\n", "</br>"),
       author: json["author"] as String? ?? "익명",
       createdAt: (json["createdAt"] as String).substring(2, 10).replaceAll("-", "/"),
       expiresAt: (json["expiresAt"] as String).substring(2, 10).replaceAll("-", "/"),
