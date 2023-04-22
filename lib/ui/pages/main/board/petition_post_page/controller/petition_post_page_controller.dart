@@ -94,7 +94,9 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> getImageList() async {
     for (FileModel j in petitionPost.value.files) {
-      j.url = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+      if(j.mimeType.contains('image')) {
+        j.url = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+      }
     }
     isLoadedImageList.value = true;
   }

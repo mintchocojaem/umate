@@ -232,14 +232,18 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                                 children: [
                                                                   Text(
                                                                     controller
-                                                                            .generalPost
-                                                                            .value
-                                                                            .files[i]
-                                                                            .originalName ??
+                                                                        .generalPost
+                                                                        .value
+                                                                        .files[i]
+                                                                        .originalName ??
                                                                         "file",
+                                                                    textAlign: TextAlign
+                                                                        .center,
+                                                                    maxLines: 2,
                                                                     style: const TextStyle(
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis),
+                                                                      overflow: TextOverflow
+                                                                          .ellipsis,
+                                                                    ),
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 8,
