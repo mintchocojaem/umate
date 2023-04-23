@@ -16,7 +16,8 @@ class GeneralPostPageController extends GetxController {
 
   final LoginService loginService = Get.find<LoginService>();
 
-  final BoardPageController boardPageController = Get.find<BoardPageController>();
+  final BoardPageController boardPageController =
+      Get.find<BoardPageController>();
 
   late Rx<GeneralPostModel> generalPost;
 
@@ -44,7 +45,6 @@ class GeneralPostPageController extends GetxController {
 
   @override
   void onInit() async {
-
     generalPostScrollController.addListener(() {
       if (generalPostScrollController.position.pixels ==
           generalPostScrollController.position.maxScrollExtent) {
@@ -84,7 +84,8 @@ class GeneralPostPageController extends GetxController {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
-              title: "게시글 삭제 오류").show();
+              title: "게시글 삭제 오류")
+          .show();
     }
   }
 
@@ -107,8 +108,8 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getNextGeneralComment() async {
     commentPage++;
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .getGeneralComment(
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.getGeneralComment(
             token: loginService.token.value.accessToken,
             commentId: id,
             page: commentPage,
@@ -117,14 +118,21 @@ class GeneralPostPageController extends GetxController {
       final GeneralCommentListModel generalCommentListModel =
           apiResponseDTO.data as GeneralCommentListModel;
       generalCommentList = generalCommentListModel.obs;
-      generalComments
-          .addAll(generalCommentListModel.generalComments);
+      generalComments.addAll(generalCommentListModel.generalComments);
     }
   }
 
   Future<void> writeGeneralComment() async {
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .writeGeneralComment(
+    if (commentTextController.text.isEmpty) {
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              content: "댓글 내용을 입력해주세요",
+              title: "댓글 작성 오류")
+          .show();
+      return;
+    }
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.writeGeneralComment(
             token: loginService.token.value.accessToken,
             commentId: id,
             text: commentTextController.text);
@@ -138,20 +146,19 @@ class GeneralPostPageController extends GetxController {
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeOut);
       }
-    }else{
+    } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "댓글 작성 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "댓글 작성 오류")
           .show();
     }
   }
 
   Future<void> deleteGeneralComment(int commentId) async {
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .deleteGeneralComment(
-            token: loginService.token.value.accessToken,
-            commentId: commentId);
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.deleteGeneralComment(
+            token: loginService.token.value.accessToken, commentId: commentId);
     if (apiResponseDTO.success) {
       await getFirstGeneralComment();
       if (generalPostScrollController.position.pixels >=
@@ -163,17 +170,17 @@ class GeneralPostPageController extends GetxController {
       }
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "댓글 삭제 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "댓글 삭제 오류")
           .show();
     }
   }
 
   Future<void> likeGeneralPost() async {
     HapticFeedback.heavyImpact();
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .likePost(token: loginService.token.value.accessToken, postId: id);
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository.likePost(
+        token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       if (!generalPost.value.liked) {
         generalPost.update((val) async {
@@ -181,31 +188,52 @@ class GeneralPostPageController extends GetxController {
           generalPost.value.likes++;
         });
       } else {
-        await unlikeGeneralPost(id);
+        await unlikeGeneralPost();
       }
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 좋아요 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 좋아요 오류")
           .show();
     }
   }
 
-  Future<void> unlikeGeneralPost(int id) async{
+  Future<void> unlikeGeneralPost() async {
     final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .unlikePost(
-        token: loginService.token.value.accessToken, postId: id);
+        .unlikePost(token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       generalPost.update((val) async {
         val!.liked = !generalPost.value.liked;
         generalPost.value.likes--;
       });
-    }else{
+    } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 좋아요 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 좋아요 오류")
+          .show();
+    }
+  }
+
+  Future<void> reportPost(String category) async {
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.reportPost(
+            token: loginService.token.value.accessToken,
+            postId: id,
+            categoryName: category
+        );
+    if (apiResponseDTO.success) {
+      GetXSnackBar(
+              type: GetXSnackBarType.info,
+              content: "게시글이 정상적으로 신고되었습니다",
+              title: "게시글 신고")
+          .show();
+    } else {
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 신고 오류")
           .show();
     }
   }
@@ -221,8 +249,9 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> getImageList() async {
     for (FileModel j in generalPost.value.files) {
-      if(j.mimeType.contains('image')){
-        final String filePath = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+      if (j.mimeType.contains('image')) {
+        final String filePath =
+            (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
         j.url = filePath;
         j.thumbnailUrl = filePath;
       }

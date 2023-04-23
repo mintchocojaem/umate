@@ -6,11 +6,13 @@ import 'package:danvery/domain/board/post/general_post/model/general_comment_mod
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../controller/general_post_page_controller.dart';
@@ -49,7 +51,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         padding:
                             const EdgeInsets.only(top: 16, left: 16, right: 16),
                         child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           controller: controller.generalPostScrollController,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +60,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 key: generalPostHeightKey,
                                 children: [
-                                  Stack(
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -96,28 +100,20 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           ),
                                         ],
                                       ),
-                                      Positioned.fill(
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onPressed: () {
-                                              generalPostPopup(
-                                                  controller.generalPost.value);
-                                            },
-                                            icon: Icon(
-                                              Icons.more_vert,
-                                              color: Palette.darkGrey,
-                                              size: 20,
-                                            ),
-                                          ),
+                                      IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onPressed: () {
+                                          generalPostPopup(
+                                              controller.generalPost.value);
+                                        },
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                          color: Palette.darkGrey,
+                                          size: 20,
                                         ),
                                       ),
                                     ],
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
                                   ),
                                   Column(
                                     crossAxisAlignment:
@@ -359,120 +355,105 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       );
                                     }
                                   }
-                                  return Stack(
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const SizedBox(
-                                            height: 8,
+                                          CircleAvatar(
+                                            radius: 20,
+                                            backgroundImage: Image.asset(
+                                                    "assets/icons/user/profile_icon.png")
+                                                .image,
+                                            backgroundColor: Colors.transparent,
                                           ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 20,
-                                                backgroundImage: Image.asset(
-                                                        "assets/icons/user/profile_icon.png")
-                                                    .image,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                              ),
-                                              const SizedBox(
-                                                width: 16,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    controller
-                                                        .generalComments[index]
-                                                        .author,
-                                                    style:
-                                                        regularStyle.copyWith(
-                                                            color: Palette
-                                                                .darkGrey,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  Text(
-                                                    controller
-                                                        .generalComments[index]
-                                                        .createdAt,
-                                                    style: tinyStyle.copyWith(
-                                                        color: Palette.grey),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 8,
-                                                  ),
-                                                  Text(
-                                                    controller
-                                                        .generalComments[index]
-                                                        .text,
-                                                    style: regularStyle,
-                                                  ),
-                                                  /*
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
                                                 Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Image.asset(
-                                                      "assets/icons/post/like_unselected.png",
-                                                      width: 12,
-                                                      height: 12,
-                                                      color: Palette.grey,
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          controller
+                                                              .generalComments[
+                                                                  index]
+                                                              .author,
+                                                          style: regularStyle
+                                                              .copyWith(
+                                                                  color: Palette
+                                                                      .darkGrey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ),
+                                                        Text(
+                                                          controller
+                                                              .generalComments[
+                                                                  index]
+                                                              .createdAt,
+                                                          style: tinyStyle
+                                                              .copyWith(
+                                                                  color: Palette
+                                                                      .grey),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    const SizedBox(
-                                                      width: 4,
+                                                    IconButton(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onPressed: () {
+                                                        generalCommentPopup(
+                                                            controller
+                                                                    .generalComments[
+                                                                index]);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.more_vert,
+                                                        color: Palette.darkGrey,
+                                                        size: 20,
+                                                      ),
                                                     ),
-
-                                                    Text(
-                                                      "0",
-                                                      style: lightStyle.copyWith(
-                                                          color: Palette.grey),
-                                                    )
                                                   ],
                                                 ),
-
-                                                 */
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Divider(
-                                            color: Palette.lightGrey,
-                                            thickness: 1,
+                                                Text(
+                                                  controller
+                                                      .generalComments[index]
+                                                      .text,
+                                                  style: regularStyle,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      Positioned.fill(
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onPressed: () {
-                                              generalCommentPopup(controller
-                                                  .generalComments[index]);
-                                            },
-                                            icon: Icon(
-                                              Icons.more_vert,
-                                              color: Palette.grey,
-                                              size: 20,
-                                            ),
-                                          ),
-                                        ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Divider(
+                                        color: Palette.lightGrey,
+                                        thickness: 1,
                                       ),
                                     ],
                                   );
@@ -582,17 +563,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
         builder: (BuildContext context) {
           return CupertinoActionSheet(
             actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: Text(
-                  '신고하기',
-                  style: TextStyle(
-                    color: Palette.lightRed,
-                  ),
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
               generalCommentModel.mine
                   ? CupertinoActionSheetAction(
                       child: const Text(
@@ -650,6 +620,72 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                 ),
                 onPressed: () {
                   Get.back();
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoActionSheet(
+                        actions: [
+                          for (int i = 0;
+                              i < ReportCategory.values.length;
+                              i++)
+                            CupertinoActionSheetAction(
+                              child: Text(
+                                ReportCategory.values[i].nameKR,
+                                style: TextStyle(
+                                  color: Palette.lightRed,
+                                ),
+                              ),
+                              onPressed: () async {
+                                Get.back();
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return CupertinoAlertDialog(
+                                        title: const Text(
+                                          "게시글 신고하기"
+                                        ),
+                                        content: const Text(
+                                          "정말로 해당 게시물을 신고하시겠습니까?\n"
+                                              "허위 신고 적발시 제재를 받을 수 있습니다",
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text(
+                                              '취소',
+                                            ),
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                          ),
+                                          CupertinoDialogAction(
+                                            child: Text(
+                                              '확인',
+                                              style: TextStyle(
+                                                color: Palette.lightRed,
+                                              ),
+                                            ),
+                                            onPressed: () async {
+                                              Get.back();
+                                              await controller
+                                                  .reportPost(ReportCategory.values[i].name);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                );
+                              },
+                            ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('취소'),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               generalPostModel.mine

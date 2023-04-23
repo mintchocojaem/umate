@@ -50,35 +50,29 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                               children: [
                                 SizedBox(
                                   width: double.infinity,
-                                  child: Stack(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         controller.petitionPost.value.title,
                                         style: smallTitleStyle,
                                       ),
-                                      Positioned.fill(
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            icon: Icon(
-                                              Icons.more_vert,
-                                              color: Palette.darkGrey,
-                                              size: 20,
-                                            ),
-                                            onPressed: () {
-                                              petitionPostPopup(
-                                                  controller.petitionPost.value);
-                                            },
-                                          ),
+                                      IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                          color: Palette.darkGrey,
+                                          size: 20,
                                         ),
-                                      )
+                                        onPressed: () {
+                                          petitionPostPopup(
+                                              controller.petitionPost.value);
+                                        },
+                                      ),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 16,
                                 ),
                                 Row(
                                   children: [

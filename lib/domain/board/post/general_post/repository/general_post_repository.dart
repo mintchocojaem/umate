@@ -59,4 +59,19 @@ class GeneralPostRepository {
     return await _generalPostProvider.unlikePost(token, postId);
   }
 
+  Future<ApiResponseDTO> blindPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.blindPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> unBlindPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.unBlindPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> reportPost(
+      {required String token, required int postId, required String categoryName}) async {
+    return await _generalPostProvider.reportPost(token, postId, categoryName);
+  }
+
 }
