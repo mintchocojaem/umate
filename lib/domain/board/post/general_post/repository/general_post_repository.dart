@@ -15,10 +15,12 @@ class GeneralPostRepository {
   factory GeneralPostRepository() => _singleton;
 
   Future<ApiResponseDTO> writeGeneralPost(
-          {required String token, required GeneralPostWriteModel generalPostWriteModel}) =>
+          {required String token,
+          required GeneralPostWriteModel generalPostWriteModel}) =>
       _generalPostProvider.writeGeneralPost(token, generalPostWriteModel);
 
-  Future<ApiResponseDTO> deleteGeneralPost({required String token, required int postId}) =>
+  Future<ApiResponseDTO> deleteGeneralPost(
+          {required String token, required int postId}) =>
       _generalPostProvider.deleteGeneralPost(token, postId);
 
   Future<ApiResponseDTO> getGeneralPost(
@@ -27,51 +29,51 @@ class GeneralPostRepository {
 
   Future<ApiResponseDTO> getGeneralComment(
       {required String token,
-        required int commentId,
-        required int page,
-        required int size}) async {
+      required int commentId,
+      required int page,
+      required int size}) async {
     return await _generalPostProvider.getGeneralComment(
         token, commentId, page, size);
   }
 
   Future<ApiResponseDTO> writeGeneralComment(
       {required String token,
-        required int commentId,
-        required String text}) async {
+      required int commentId,
+      required String text}) async {
     return await _generalPostProvider.writeGeneralComment(
         token, commentId, text);
   }
 
   Future<ApiResponseDTO> deleteGeneralComment(
+      {required String token, required int commentId}) async {
+    return await _generalPostProvider.deleteGeneralComment(token, commentId);
+  }
+
+  Future<ApiResponseDTO> likeGeneralPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.likeGeneralPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> unlikeGeneralPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.unlikeGeneralPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> blindGeneralPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.blindGeneralPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> unBlindGeneralPost(
+      {required String token, required int postId}) async {
+    return await _generalPostProvider.unBlindGeneralPost(token, postId);
+  }
+
+  Future<ApiResponseDTO> reportGeneralPost(
       {required String token,
-        required int commentId}) async {
-    return await _generalPostProvider.deleteGeneralComment(
-        token, commentId);
+      required int postId,
+      required String categoryName}) async {
+    return await _generalPostProvider.reportGeneralPost(
+        token, postId, categoryName);
   }
-
-  Future<ApiResponseDTO> likePost(
-      {required String token, required int postId}) async {
-    return await _generalPostProvider.likePost(token, postId);
-  }
-
-  Future<ApiResponseDTO> unlikePost(
-      {required String token, required int postId}) async {
-    return await _generalPostProvider.unlikePost(token, postId);
-  }
-
-  Future<ApiResponseDTO> blindPost(
-      {required String token, required int postId}) async {
-    return await _generalPostProvider.blindPost(token, postId);
-  }
-
-  Future<ApiResponseDTO> unBlindPost(
-      {required String token, required int postId}) async {
-    return await _generalPostProvider.unBlindPost(token, postId);
-  }
-
-  Future<ApiResponseDTO> reportPost(
-      {required String token, required int postId, required String categoryName}) async {
-    return await _generalPostProvider.reportPost(token, postId, categoryName);
-  }
-
 }

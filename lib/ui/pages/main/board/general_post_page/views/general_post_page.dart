@@ -297,7 +297,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             width: 8,
                                           ),
                                           Text(
-                                            "좋아요",
+                                            "LIKE",
                                             style: lightStyle.copyWith(
                                               fontWeight: FontWeight.w500,
                                               color: controller
@@ -621,79 +621,115 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
       builder: (BuildContext context) {
         return CupertinoActionSheet(
           actions: <Widget>[
-            CupertinoActionSheetAction(
-              child: Text(
-                '신고하기',
-                style: TextStyle(
-                  color: Palette.lightRed,
-                ),
-              ),
-              onPressed: () {
-                Get.back();
-                showCupertinoModalPopup(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoActionSheet(
-                      actions: [
-                        for (int i = 0; i < ReportCategory.values.length; i++)
-                          CupertinoActionSheetAction(
-                            child: Text(
-                              ReportCategory.values[i].nameKR,
-                              style: TextStyle(
-                                color: Palette.lightRed,
-                              ),
-                            ),
-                            onPressed: () async {
-                              Get.back();
-                              showCupertinoDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return CupertinoAlertDialog(
-                                      title: const Text("게시글 신고하기"),
-                                      content: const Text(
-                                        "정말로 해당 게시물을 신고하시겠습니까?\n"
-                                        "허위 신고 적발시 제재를 받을 수 있습니다",
-                                      ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          child: const Text(
-                                            '취소',
-                                          ),
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                        ),
-                                        CupertinoDialogAction(
-                                          child: Text(
-                                            '확인',
-                                            style: TextStyle(
-                                              color: Palette.lightRed,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            Get.back();
-                                            await controller.reportPost(
-                                                ReportCategory.values[i].name);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            },
-                          ),
-                      ],
-                      cancelButton: CupertinoActionSheetAction(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text('취소'),
+            controller.loginService.userInfo.value.admin
+                ? CupertinoActionSheetAction(
+                    child: Text(
+                      '블라인드 처리하기',
+                      style: TextStyle(
+                        color: Palette.lightRed,
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-            generalPostModel.mine
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      Get.dialog(
+                        CupertinoAlertDialog(
+                          title: const Text('게시글 블라인드 처리'),
+                          content: const Text('게시글을 블라인드 처리하시겠습니까?'),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: const Text('취소'),
+                              onPressed: () {
+                                Get.back();
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: const Text('확인'),
+                              onPressed: () async {
+                                Get.back();
+                                await controller.blindPost();
+                              },
+                            ),
+                          ],
+                        ),
+                      ).then((value) => Get.back());
+                    },
+                  )
+                : CupertinoActionSheetAction(
+                    child: Text(
+                      '신고하기',
+                      style: TextStyle(
+                        color: Palette.lightRed,
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoActionSheet(
+                            actions: [
+                              for (int i = 0;
+                                  i < ReportCategory.values.length;
+                                  i++)
+                                CupertinoActionSheetAction(
+                                  child: Text(
+                                    ReportCategory.values[i].nameKR,
+                                    style: TextStyle(
+                                      color: Palette.lightRed,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    Get.back();
+                                    showCupertinoDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CupertinoAlertDialog(
+                                            title: const Text("게시글 신고하기"),
+                                            content: const Text(
+                                              "정말로 해당 게시물을 신고하시겠습니까?\n"
+                                              "허위 신고 적발시 제재를 받을 수 있습니다",
+                                            ),
+                                            actions: [
+                                              CupertinoDialogAction(
+                                                child: const Text(
+                                                  '취소',
+                                                ),
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                              ),
+                                              CupertinoDialogAction(
+                                                child: Text(
+                                                  '확인',
+                                                  style: TextStyle(
+                                                    color: Palette.lightRed,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  Get.back();
+                                                  await controller.reportPost(
+                                                      ReportCategory
+                                                          .values[i].name);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                ),
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text('취소'),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+            controller.loginService.userInfo.value.admin || generalPostModel.mine
                 ? CupertinoActionSheetAction(
                     child: const Text(
                       '삭제하기',

@@ -164,7 +164,7 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> likePost(String token, int postId) async {
+  Future<ApiResponseDTO> likeGeneralPost(String token, int postId) async {
     String url = '/post/general-forum/like/$postId';
 
     final headers = {
@@ -185,7 +185,7 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> unlikePost(String token, int postId) async {
+  Future<ApiResponseDTO> unlikeGeneralPost(String token, int postId) async {
     String url = '/post/general-forum/like/$postId';
 
     final headers = {
@@ -206,7 +206,7 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> blindPost(String token, int postId) async {
+  Future<ApiResponseDTO> blindGeneralPost(String token, int postId) async {
     String url = '/post/general-forum/blind/$postId';
 
     final headers = {
@@ -227,7 +227,7 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> unBlindPost(String token, int postId) async {
+  Future<ApiResponseDTO> unBlindGeneralPost(String token, int postId) async {
     String url = '/post/general-forum/unblind/$postId';
 
     final headers = {
@@ -248,7 +248,8 @@ class GeneralPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> reportPost(String token, int postId, String categoryName) async{
+  Future<ApiResponseDTO> reportGeneralPost(
+      String token, int postId, String categoryName) async {
     String url = '/report/$postId?categoryName=$categoryName';
 
     final headers = {
@@ -256,7 +257,7 @@ class GeneralPostProvider {
     };
 
     final data = {
-      "categoryName" : categoryName,
+      "categoryName": categoryName,
     };
 
     try {
@@ -273,6 +274,4 @@ class GeneralPostProvider {
       return ExceptionResponseDTO(message: e.message);
     }
   }
-
-
 }

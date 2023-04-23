@@ -35,7 +35,7 @@ class LoginService extends GetxService {
           major: userInfoModel.major,
           nickname: userInfoModel.nickname,
           department: userInfoModel.department,
-          admin: false,
+          admin: userInfoModel.admin,
         ).obs;
         _box.write("accessToken", token.value.accessToken);
         _box.write("refreshToken", token.value.refreshToken);

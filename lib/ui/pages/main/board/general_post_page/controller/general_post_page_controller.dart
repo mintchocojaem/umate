@@ -179,7 +179,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> likeGeneralPost() async {
     HapticFeedback.heavyImpact();
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository.likePost(
+    final ApiResponseDTO apiResponseDTO = await _generalPostRepository.likeGeneralPost(
         token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       if (!generalPost.value.liked) {
@@ -201,7 +201,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> unlikeGeneralPost() async {
     final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .unlikePost(token: loginService.token.value.accessToken, postId: id);
+        .unlikeGeneralPost(token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       generalPost.update((val) async {
         val!.liked = !generalPost.value.liked;
@@ -218,7 +218,7 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> reportPost(String category) async {
     final ApiResponseDTO apiResponseDTO =
-        await _generalPostRepository.reportPost(
+        await _generalPostRepository.reportGeneralPost(
             token: loginService.token.value.accessToken,
             postId: id,
             categoryName: category
@@ -234,6 +234,29 @@ class GeneralPostPageController extends GetxController {
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
               title: "게시글 신고 오류")
+          .show();
+    }
+  }
+
+  Future<void> blindPost() async{
+    final ApiResponseDTO apiResponseDTO =
+    await _generalPostRepository.blindGeneralPost(
+        token: loginService.token.value.accessToken,
+        postId: id
+    );
+    if (apiResponseDTO.success) {
+      await boardPageController.getFirstGeneralPostBoard();
+      Get.back();
+      GetXSnackBar(
+          type: GetXSnackBarType.info,
+          content: "게시글이 정상적으로 블라인드 처리되었습니다",
+          title: "게시글 블라인드")
+          .show();
+    } else {
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 블라인드 오류")
           .show();
     }
   }
