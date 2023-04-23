@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../controller/general_post_page_controller.dart';
@@ -38,20 +37,19 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
         () => controller.isLoadedGeneralPost.value &&
                 controller.isLoadedGeneralComment.value &&
                 controller.isLoadedImageList.value
-            ? Column(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          await controller
-                              .getGeneralPost(controller.generalPost.value.id);
-                          await controller.getFirstGeneralComment(
-                              controller.generalPost.value.id);
-                        },
+            ? RefreshIndicator(
+                onRefresh: () async {
+                  await controller.getGeneralPost();
+                  await controller.getFirstGeneralComment();
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 16, left: 16, right: 16),
                         child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
                           controller: controller.generalPostScrollController,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,17 +230,20 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                                 children: [
                                                                   Text(
                                                                     controller
-                                                                        .generalPost
-                                                                        .value
-                                                                        .files[i]
-                                                                        .originalName ??
+                                                                            .generalPost
+                                                                            .value
+                                                                            .files[i]
+                                                                            .originalName ??
                                                                         "file",
-                                                                    textAlign: TextAlign
-                                                                        .center,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
                                                                     maxLines: 2,
-                                                                    style: const TextStyle(
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
                                                                     ),
                                                                   ),
                                                                   const SizedBox(
@@ -329,8 +330,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         ],
                                       ),
                                       onPressed: () async {
-                                        controller.likeGeneralPost(
-                                            controller.generalPost.value.id);
+                                        controller.likeGeneralPost();
                                       },
                                     ),
                                   ),
@@ -463,10 +463,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                             splashColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onPressed: () {
-                                              generalCommentPopup(
-                                                  controller.generalPost.value,
-                                                  controller
-                                                      .generalComments[index]);
+                                              generalCommentPopup(controller
+                                                  .generalComments[index]);
                                             },
                                             icon: Icon(
                                               Icons.more_vert,
@@ -485,85 +483,88 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Palette.transparent,
-                    ),
-                    child: SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  TextField(
-                                    keyboardType: TextInputType.multiline,
-                                    maxLength: 1000,
-                                    maxLines: 3,
-                                    minLines: 1,
-                                    controller:
-                                        controller.commentTextController,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 16),
-                                      counterText: "",
-                                      hintText: "댓글을 입력해주세요",
-                                      hintStyle: lightStyle.copyWith(
-                                        color: Palette.grey,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Palette.lightGrey,
-                                          width: 1,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Palette.transparent,
+                      ),
+                      child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    TextField(
+                                      keyboardType: TextInputType.multiline,
+                                      maxLength: 1000,
+                                      maxLines: 3,
+                                      minLines: 1,
+                                      controller:
+                                          controller.commentTextController,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 16),
+                                        counterText: "",
+                                        hintText: "댓글을 입력해주세요",
+                                        hintStyle: lightStyle.copyWith(
+                                          color: Palette.grey,
                                         ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Palette.lightGrey,
-                                          width: 1,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Palette.lightGrey,
+                                            width: 1,
+                                          ),
                                         ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Palette.lightGrey,
-                                          width: 1,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Palette.lightGrey,
+                                            width: 1,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    child: Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: IconButton(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onPressed: () async {
-                                          await controller.writeGeneralComment(
-                                              controller.generalPost.value.id);
-                                        },
-                                        icon: Image.asset(
-                                          'assets/icons/post/send_selected.png',
-                                          width: 24,
-                                          height: 24,
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Palette.lightGrey,
+                                            width: 1,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: IconButton(
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onPressed: () async {
+                                            await controller
+                                                .writeGeneralComment();
+                                          },
+                                          icon: Image.asset(
+                                            'assets/icons/post/send_selected.png',
+                                            width: 24,
+                                            height: 24,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               )
             : const SizedBox(
                 height: 400,
@@ -575,8 +576,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
     );
   }
 
-  void generalCommentPopup(GeneralPostModel generalPostModel,
-      GeneralCommentModel generalCommentModel) {
+  void generalCommentPopup(GeneralCommentModel generalCommentModel) {
     showCupertinoModalPopup(
         context: Get.context!,
         builder: (BuildContext context) {
@@ -614,7 +614,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 child: const Text('확인'),
                                 onPressed: () async {
                                   await controller.deleteGeneralComment(
-                                      generalPostModel.id,
                                       generalCommentModel.id);
                                   Get.back();
                                 },
@@ -674,8 +673,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 child: const Text('확인'),
                                 onPressed: () async {
                                   Get.back();
-                                  await controller
-                                      .deleteGeneralPost(generalPostModel.id);
+                                  await controller.deleteGeneralPost();
                                 },
                               ),
                             ],
