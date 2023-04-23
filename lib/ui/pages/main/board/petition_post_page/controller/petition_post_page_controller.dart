@@ -10,11 +10,12 @@ import 'package:get/get.dart';
 
 class PetitionPostPageController extends GetxController {
   final PetitionPostRepository _petitionPostRepository =
-  PetitionPostRepository();
+      PetitionPostRepository();
 
   final LoginService _loginService = Get.find<LoginService>();
 
-  final BoardPageController boardPageController = Get.find<BoardPageController>();
+  final BoardPageController boardPageController =
+      Get.find<BoardPageController>();
 
   late Rx<PetitionPostModel> petitionPost;
 
@@ -31,12 +32,11 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> getPetitionPost() async {
-    final ApiResponseDTO apiResponseDTO =
-    await _petitionPostRepository.getPetitionPost(
-        token: _loginService.token.value.accessToken, id: id);
+    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
+        .getPetitionPost(token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       final PetitionPostModel petitionPostModel =
-      apiResponseDTO.data as PetitionPostModel;
+          apiResponseDTO.data as PetitionPostModel;
       petitionPost = petitionPostModel.obs;
       await getImageList();
       isLoadedPetitionPost.value = true;
@@ -45,37 +45,64 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> deletePetitionPost(int id) async {
     final ApiResponseDTO apiResponseDTO =
-    await _petitionPostRepository.deletePetitionPost(
-        token: _loginService.token.value.accessToken, id: id);
+        await _petitionPostRepository.deletePetitionPost(
+            token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
       Get.back();
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 삭제 오류").show();
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 삭제 오류")
+          .show();
     }
   }
 
   Future<void> agreePetition() async {
     final ApiResponseDTO apiResponseDTO =
-    await _petitionPostRepository.agreePetitionPost(
-        token: _loginService.token.value.accessToken, id: id);
+        await _petitionPostRepository.agreePetitionPost(
+            token: _loginService.token.value.accessToken, id: id);
     if (apiResponseDTO.success) {
       petitionPost.update((val) {
         val!.agreeCount += 1;
         val.agree = true;
         final userDepartment = _loginService.userInfo.value.department;
-        if (val.statisticList.where((element) => element.department == userDepartment).isEmpty) {
-          val.statisticList.add(PetitionStatisticModel(agreeCount: 1, department: userDepartment));
-        }else{
-          val.statisticList.firstWhere((element) => element.department == userDepartment).agreeCount += 1;
+        if (val.statisticList
+            .where((element) => element.department == userDepartment)
+            .isEmpty) {
+          val.statisticList.add(PetitionStatisticModel(
+              agreeCount: 1, department: userDepartment));
+        } else {
+          val.statisticList
+              .firstWhere((element) => element.department == userDepartment)
+              .agreeCount += 1;
         }
       });
     } else {
       GetXSnackBar(
         title: '청원 게시글 동의 오류',
+        content: apiResponseDTO.message,
+        type: GetXSnackBarType.customError,
+      ).show();
+    }
+  }
+
+  Future<void> reportPetitionPost(String categoryName) async {
+    final ApiResponseDTO apiResponseDTO =
+        await _petitionPostRepository.reportPetitionPost(
+            token: _loginService.token.value.accessToken,
+            id: id,
+            categoryName: categoryName);
+    if (apiResponseDTO.success) {
+      GetXSnackBar(
+        title: '청원 게시글 신고',
+        content: '청원 게시글이 정상적으로 신고되었습니다',
+        type: GetXSnackBarType.info,
+      ).show();
+    } else {
+      GetXSnackBar(
+        title: '청원 게시글 신고 오류',
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
@@ -94,11 +121,11 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> getImageList() async {
     for (FileModel j in petitionPost.value.files) {
-      if(j.mimeType.contains('image')) {
-        j.url = (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
+      if (j.mimeType.contains('image')) {
+        j.url =
+            (await fileFromImageUrl(j.url, j.originalName ?? "image$j")).path;
       }
     }
     isLoadedImageList.value = true;
   }
-
 }

@@ -37,4 +37,10 @@ class PetitionPostRepository {
       {required String token, required int id}) async {
     return await _petitionPostProvider.deletePetitionPost(token, id);
   }
+
+  //report petition
+  Future<ApiResponseDTO> reportPetitionPost(
+      {required String token, required int id, required String categoryName}) async {
+    return await _petitionPostProvider.reportPetitionPost(token, id, categoryName);
+  }
 }

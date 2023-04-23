@@ -646,7 +646,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               child: const Text('확인'),
                               onPressed: () async {
                                 Get.back();
-                                await controller.blindPost();
+                                await controller.blindGeneralPost();
                               },
                             ),
                           ],
@@ -681,40 +681,42 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                   onPressed: () async {
                                     Get.back();
                                     showCupertinoDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return CupertinoAlertDialog(
-                                            title: const Text("게시글 신고하기"),
-                                            content: const Text(
-                                              "정말로 해당 게시물을 신고하시겠습니까?\n"
-                                              "허위 신고 적발시 제재를 받을 수 있습니다",
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CupertinoAlertDialog(
+                                          title: const Text("게시글 신고하기"),
+                                          content: const Text(
+                                            "정말로 해당 게시물을 신고하시겠습니까?\n"
+                                            "허위 신고 적발시 제재를 받을 수 있습니다",
+                                          ),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                              child: const Text(
+                                                '취소',
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+                                              },
                                             ),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                child: const Text(
-                                                  '취소',
+                                            CupertinoDialogAction(
+                                              child: Text(
+                                                '확인',
+                                                style: TextStyle(
+                                                  color: Palette.lightRed,
                                                 ),
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
                                               ),
-                                              CupertinoDialogAction(
-                                                child: Text(
-                                                  '확인',
-                                                  style: TextStyle(
-                                                    color: Palette.lightRed,
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  Get.back();
-                                                  await controller.reportPost(
-                                                      ReportCategory
-                                                          .values[i].name);
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        });
+                                              onPressed: () async {
+                                                Get.back();
+                                                await controller
+                                                    .reportGeneralPost(
+                                                        ReportCategory
+                                                            .values[i].name);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                 ),
                             ],
@@ -729,7 +731,8 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                       );
                     },
                   ),
-            controller.loginService.userInfo.value.admin || generalPostModel.mine
+            controller.loginService.userInfo.value.admin ||
+                    generalPostModel.mine
                 ? CupertinoActionSheetAction(
                     child: const Text(
                       '삭제하기',

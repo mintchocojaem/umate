@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petition_post_page_controller.dart';
@@ -460,41 +461,74 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                 ),
                 onPressed: () {
                   Get.back();
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoActionSheet(
+                        actions: [
+                          for (int i = 0;
+                          i < ReportCategory.values.length;
+                          i++)
+                            CupertinoActionSheetAction(
+                              child: Text(
+                                ReportCategory.values[i].nameKR,
+                                style: TextStyle(
+                                  color: Palette.lightRed,
+                                ),
+                              ),
+                              onPressed: () async {
+                                Get.back();
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text("게시글 신고하기"),
+                                      content: const Text(
+                                        "정말로 해당 게시물을 신고하시겠습니까?\n"
+                                            "허위 신고 적발시 제재를 받을 수 있습니다",
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text(
+                                            '취소',
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: Text(
+                                            '확인',
+                                            style: TextStyle(
+                                              color: Palette.lightRed,
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            Get.back();
+                                            await controller
+                                                .reportPetitionPost(
+                                                ReportCategory
+                                                    .values[i].name);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('취소'),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
-              /*
-              petitionPostModel.mine
-                  ? CupertinoActionSheetAction(
-                      child: const Text(
-                        '삭제하기',
-                      ),
-                      onPressed: () {
-                        Get.dialog(
-                          CupertinoAlertDialog(
-                            title: const Text('게시글 삭제'),
-                            content: const Text('게시글을 삭제하시겠습니까?'),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: const Text('취소'),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                child: const Text('확인'),
-                                onPressed: () async {
-                                  Get.back();
-                                  await controller
-                                      .deletePetitionPost(petitionPostModel.id);
-                                },
-                              ),
-                            ],
-                          ),
-                        ).then((value) => Get.back());
-                      },
-                    )
-                  : const SizedBox(),
-               */
             ],
             cancelButton: CupertinoActionSheetAction(
               onPressed: () {

@@ -216,29 +216,29 @@ class GeneralPostPageController extends GetxController {
     }
   }
 
-  Future<void> reportPost(String category) async {
+  Future<void> reportGeneralPost(String category) async {
     final ApiResponseDTO apiResponseDTO =
-        await _generalPostRepository.reportGeneralPost(
-            token: loginService.token.value.accessToken,
-            postId: id,
-            categoryName: category
-        );
+    await _generalPostRepository.reportGeneralPost(
+        token: loginService.token.value.accessToken,
+        postId: id,
+        categoryName: category
+    );
     if (apiResponseDTO.success) {
       GetXSnackBar(
-              type: GetXSnackBarType.info,
-              content: "게시글이 정상적으로 신고되었습니다",
-              title: "게시글 신고")
+          type: GetXSnackBarType.info,
+          content: "게시글이 정상적으로 신고되었습니다",
+          title: "게시글 신고")
           .show();
     } else {
       GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              content: apiResponseDTO.message,
-              title: "게시글 신고 오류")
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 신고 오류")
           .show();
     }
   }
 
-  Future<void> blindPost() async{
+  Future<void> blindGeneralPost() async{
     final ApiResponseDTO apiResponseDTO =
     await _generalPostRepository.blindGeneralPost(
         token: loginService.token.value.accessToken,

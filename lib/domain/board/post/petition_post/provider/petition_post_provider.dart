@@ -106,4 +106,31 @@ class PetitionPostProvider {
     }
   }
 
+  Future<ApiResponseDTO> reportPetitionPost(
+      String token, int postId, String categoryName) async {
+    String url = '/report/$postId?categoryName=$categoryName';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    final data = {
+      "categoryName": categoryName,
+    };
+
+    try {
+      final Response response = await _dio.post(
+        url,
+        data: data,
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
 }
