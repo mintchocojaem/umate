@@ -34,17 +34,10 @@ class _CategoryButtonBar extends State<CategoryButtonBar> {
   int selectedIndex = 0;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    selectedIndex = widget.selectedIndex;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
 
     List<Widget> categoryBar = [];
-
+    selectedIndex = widget.selectedIndex;
     for (int index = 0; index < widget.categories.length; index++) {
       categoryBar.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),

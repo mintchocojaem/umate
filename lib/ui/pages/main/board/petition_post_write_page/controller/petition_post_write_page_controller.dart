@@ -1,7 +1,6 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_write_model.dart';
 import 'package:danvery/domain/board/post/petition_post/repository/petition_post_repository.dart';
-import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
@@ -41,6 +40,7 @@ class PetitionPostWritePageController extends GetxController {
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
       closeSnackBarAndGetBack();
+      boardPageController.selectedCategory.value = 0;
     } else {
       GetXSnackBar(
         title: "글 작성 실패",

@@ -30,7 +30,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
               unSelectedBackGroundColor: Palette.white,
               selectedTextColor: Palette.pureWhite,
               unSelectedTextColor: Palette.grey,
-              onTap: (value) async {
+              onTap: (value) async{
                 controller.selectedCategory.value = value;
               },
             ),
