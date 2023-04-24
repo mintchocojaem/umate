@@ -12,7 +12,7 @@ class PetitionPostPageController extends GetxController {
   final PetitionPostRepository _petitionPostRepository =
       PetitionPostRepository();
 
-  final LoginService _loginService = Get.find<LoginService>();
+  final LoginService loginService = Get.find<LoginService>();
 
   final BoardPageController boardPageController =
       Get.find<BoardPageController>();
@@ -33,7 +33,7 @@ class PetitionPostPageController extends GetxController {
 
   Future<void> getPetitionPost() async {
     final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
-        .getPetitionPost(token: _loginService.token.value.accessToken, id: id);
+        .getPetitionPost(token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       final PetitionPostModel petitionPostModel =
           apiResponseDTO.data as PetitionPostModel;
@@ -46,7 +46,7 @@ class PetitionPostPageController extends GetxController {
   Future<void> deletePetitionPost(int id) async {
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.deletePetitionPost(
-            token: _loginService.token.value.accessToken, id: id);
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
       Get.back();
@@ -62,12 +62,12 @@ class PetitionPostPageController extends GetxController {
   Future<void> agreePetition() async {
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.agreePetitionPost(
-            token: _loginService.token.value.accessToken, id: id);
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       petitionPost.update((val) {
         val!.agreeCount += 1;
         val.agree = true;
-        final userDepartment = _loginService.userInfo.value.department;
+        final userDepartment = loginService.userInfo.value.department;
         if (val.statisticList
             .where((element) => element.department == userDepartment)
             .isEmpty) {
@@ -91,8 +91,8 @@ class PetitionPostPageController extends GetxController {
   Future<void> reportPetitionPost(String categoryName) async {
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.reportPetitionPost(
-            token: _loginService.token.value.accessToken,
-            id: id,
+            token: loginService.token.value.accessToken,
+            postId: id,
             categoryName: categoryName);
     if (apiResponseDTO.success) {
       GetXSnackBar(
@@ -106,6 +106,29 @@ class PetitionPostPageController extends GetxController {
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
+    }
+  }
+
+  Future<void> blindPetitionPost() async{
+    final ApiResponseDTO apiResponseDTO =
+    await _petitionPostRepository.blindPetitionPost(
+        token: loginService.token.value.accessToken,
+        postId: id
+    );
+    if (apiResponseDTO.success) {
+      await boardPageController.getFirstPetitionPostBoard();
+      Get.back();
+      GetXSnackBar(
+          type: GetXSnackBarType.info,
+          content: "게시글이 정상적으로 블라인드 처리되었습니다",
+          title: "게시글 블라인드")
+          .show();
+    } else {
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          content: apiResponseDTO.message,
+          title: "게시글 블라인드 오류")
+          .show();
     }
   }
 

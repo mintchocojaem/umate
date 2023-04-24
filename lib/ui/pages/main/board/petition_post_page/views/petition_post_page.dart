@@ -35,10 +35,10 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
         child: Obx(
           () => controller.isLoadedPetitionPost.value
               ? RefreshIndicator(
-                onRefresh: () async {
-                  await controller.getPetitionPost();
-                },
-                child: Column(
+                  onRefresh: () async {
+                    await controller.getPetitionPost();
+                  },
+                  child: Column(
                     children: [
                       Expanded(
                         child: Padding(
@@ -207,15 +207,18 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 Html(
                                   style: {
                                     "body": Style(
-                                      fontSize: FontSize(regularStyle.fontSize!),
+                                      fontSize:
+                                          FontSize(regularStyle.fontSize!),
                                       color: Palette.darkGrey,
                                       padding: EdgeInsets.zero,
                                       margin: Margins.zero,
                                     ),
                                   },
                                   data: controller.petitionPost.value.body,
-                                  onLinkTap: (String? url, RenderContext context,
-                                      Map<String, String> attributes, _) {
+                                  onLinkTap: (String? url,
+                                      RenderContext context,
+                                      Map<String, String> attributes,
+                                      _) {
                                     if (url != null) {
                                       launchUrlString(url);
                                     }
@@ -230,8 +233,8 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     children: [
                                       for (var i = 0;
                                           i <
-                                              controller.petitionPost.value.files
-                                                  .length;
+                                              controller.petitionPost.value
+                                                  .files.length;
                                           i++)
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -241,85 +244,87 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                             decoration: BoxDecoration(
                                               color: Palette.lightGrey,
                                               borderRadius:
-                                              const BorderRadius.all(
-                                                  Radius.circular(10)),
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
                                             ),
                                             width: 120,
                                             height: 120,
                                             child: ClipRRect(
                                               borderRadius:
-                                              const BorderRadius.all(
-                                                  Radius.circular(10)),
-                                              child:
-                                              controller.petitionPost.value
-                                                  .files[i].mimeType
-                                                  .contains('image')
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              child: controller.petitionPost
+                                                      .value.files[i].mimeType
+                                                      .contains('image')
                                                   ? InkWell(
-                                                onTap: () {
-                                                  Get.toNamed(
-                                                      Routes
-                                                          .imageShow,
-                                                      arguments: {
-                                                        "imagePathList": controller
-                                                            .petitionPost
-                                                            .value
-                                                            .files
-                                                            .map((e) =>
-                                                        e.url),
-                                                        "index": i,
-                                                      });
-                                                },
-                                                child: Image.file(
-                                                  File(controller
-                                                      .petitionPost
-                                                      .value
-                                                      .files[i]
-                                                      .url),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              )
-                                                  : InkWell(
-                                                onTap: () {
-                                                  launchUrlString(
-                                                      controller
-                                                          .petitionPost
-                                                          .value
-                                                          .files[i]
-                                                          .url);
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .all(8.0),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      Text(
-                                                        controller
+                                                      onTap: () {
+                                                        Get.toNamed(
+                                                            Routes.imageShow,
+                                                            arguments: {
+                                                              "imagePathList":
+                                                                  controller
+                                                                      .petitionPost
+                                                                      .value
+                                                                      .files
+                                                                      .map((e) =>
+                                                                          e.url),
+                                                              "index": i,
+                                                            });
+                                                      },
+                                                      child: Image.file(
+                                                        File(controller
                                                             .petitionPost
                                                             .value
                                                             .files[i]
-                                                            .originalName ??
-                                                            "file",
-                                                        textAlign: TextAlign
-                                                            .center,
-                                                        maxLines: 2,
-                                                        style: lightStyle.copyWith(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                            .url),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    )
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        launchUrlString(
+                                                            controller
+                                                                .petitionPost
+                                                                .value
+                                                                .files[i]
+                                                                .url);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              controller
+                                                                      .petitionPost
+                                                                      .value
+                                                                      .files[i]
+                                                                      .originalName ??
+                                                                  "file",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              maxLines: 2,
+                                                              style: lightStyle
+                                                                  .copyWith(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            const Icon(Icons
+                                                                .file_download)
+                                                          ],
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        height: 8,
-                                                      ),
-                                                      const Icon(Icons
-                                                          .file_download)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                                    ),
                                             ),
                                           ),
                                         ),
@@ -336,11 +341,12 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                       Get.toNamed(Routes.petitionAgreeStatus);
                                     },
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8),
                                       child: Row(
                                         children: [
-                                          Icon(Icons.people, color: Palette.blue),
+                                          Icon(Icons.people,
+                                              color: Palette.blue),
                                           const SizedBox(
                                             width: 8,
                                           ),
@@ -434,7 +440,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       ),
                     ],
                   ),
-              )
+                )
               : const SizedBox(
                   height: 400,
                   child: Center(
@@ -448,95 +454,124 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
 
   void petitionPostPopup(PetitionPostModel petitionPostModel) {
     showCupertinoModalPopup(
-        context: Get.context!,
-        builder: (BuildContext context) {
-          return CupertinoActionSheet(
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: Text(
-                  '신고하기',
-                  style: TextStyle(
-                    color: Palette.lightRed,
-                  ),
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          actions: <Widget>[
+            controller.loginService.userInfo.value.admin
+                ? CupertinoActionSheetAction(
+              child: Text(
+                '블라인드 처리하기',
+                style: TextStyle(
+                  color: Palette.lightRed,
                 ),
-                onPressed: () {
-                  Get.back();
-                  showCupertinoModalPopup(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CupertinoActionSheet(
-                        actions: [
-                          for (int i = 0;
-                          i < ReportCategory.values.length;
-                          i++)
-                            CupertinoActionSheetAction(
-                              child: Text(
-                                ReportCategory.values[i].nameKR,
-                                style: TextStyle(
-                                  color: Palette.lightRed,
-                                ),
-                              ),
-                              onPressed: () async {
-                                Get.back();
-                                showCupertinoDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return CupertinoAlertDialog(
-                                      title: const Text("게시글 신고하기"),
-                                      content: const Text(
-                                        "정말로 해당 게시물을 신고하시겠습니까?\n"
-                                            "허위 신고 적발시 제재를 받을 수 있습니다",
-                                      ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          child: const Text(
-                                            '취소',
-                                          ),
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                        ),
-                                        CupertinoDialogAction(
-                                          child: Text(
-                                            '확인',
-                                            style: TextStyle(
-                                              color: Palette.lightRed,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            Get.back();
-                                            await controller
-                                                .reportPetitionPost(
-                                                ReportCategory
-                                                    .values[i].name);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                        ],
-                        cancelButton: CupertinoActionSheetAction(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: const Text('취소'),
-                        ),
-                      );
-                    },
-                  );
-                },
               ),
-            ],
-            cancelButton: CupertinoActionSheetAction(
               onPressed: () {
                 Get.back();
+                Get.dialog(
+                  CupertinoAlertDialog(
+                    title: const Text('게시글 블라인드 처리'),
+                    content: const Text('게시글을 블라인드 처리하시겠습니까?'),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: const Text('취소'),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        child: const Text('확인'),
+                        onPressed: () async {
+                          Get.back();
+                          await controller.blindPetitionPost();
+                        },
+                      ),
+                    ],
+                  ),
+                ).then((value) => Get.back());
               },
-              child: const Text('취소'),
+            ) : CupertinoActionSheetAction(
+              child: Text(
+                '신고하기',
+                style: TextStyle(
+                  color: Palette.lightRed,
+                ),
+              ),
+              onPressed: () {
+                Get.back();
+                showCupertinoModalPopup(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoActionSheet(
+                      actions: [
+                        for (int i = 0; i < ReportCategory.values.length; i++)
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              ReportCategory.values[i].nameKR,
+                              style: TextStyle(
+                                color: Palette.lightRed,
+                              ),
+                            ),
+                            onPressed: () async {
+                              Get.back();
+                              showCupertinoDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CupertinoAlertDialog(
+                                    title: const Text("게시글 신고하기"),
+                                    content: const Text(
+                                      "정말로 해당 게시물을 신고하시겠습니까?\n"
+                                      "허위 신고 적발시 제재를 받을 수 있습니다",
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: const Text(
+                                          '취소',
+                                        ),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: Text(
+                                          '확인',
+                                          style: TextStyle(
+                                            color: Palette.lightRed,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          Get.back();
+                                          await controller.reportPetitionPost(
+                                              ReportCategory.values[i].name);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                      ],
+                      cancelButton: CupertinoActionSheetAction(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text('취소'),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-          );
-        });
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('취소'),
+          ),
+        );
+      },
+    );
   }
 }

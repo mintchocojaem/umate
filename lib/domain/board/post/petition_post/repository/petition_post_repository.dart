@@ -14,14 +14,14 @@ class PetitionPostRepository {
 
   //get petition
   Future<ApiResponseDTO> getPetitionPost(
-      {required String token, required int id}) async {
-    return await _petitionPostProvider.getPetitionPost(token, id);
+      {required String token, required int postId}) async {
+    return await _petitionPostProvider.getPetitionPost(token, postId);
   }
 
   //agree petition
   Future<ApiResponseDTO> agreePetitionPost(
-      {required String token, required int id}) async {
-    return await _petitionPostProvider.agreePetitionPost(token, id);
+      {required String token, required int postId}) async {
+    return await _petitionPostProvider.agreePetitionPost(token, postId);
   }
 
   //write petition
@@ -34,13 +34,26 @@ class PetitionPostRepository {
 
   //delete petition
   Future<ApiResponseDTO> deletePetitionPost(
-      {required String token, required int id}) async {
-    return await _petitionPostProvider.deletePetitionPost(token, id);
+      {required String token, required int postId}) async {
+    return await _petitionPostProvider.deletePetitionPost(token, postId);
   }
 
   //report petition
   Future<ApiResponseDTO> reportPetitionPost(
-      {required String token, required int id, required String categoryName}) async {
-    return await _petitionPostProvider.reportPetitionPost(token, id, categoryName);
+      {required String token, required int postId, required String categoryName}) async {
+    return await _petitionPostProvider.reportPetitionPost(token, postId, categoryName);
   }
+
+  //blind petition
+  Future<ApiResponseDTO> blindPetitionPost(
+      {required String token, required int postId}) async {
+    return await _petitionPostProvider.blindPetitionPost(token, postId);
+  }
+
+  //unblind petition
+  Future<ApiResponseDTO> unBlindPetitionPost(
+      {required String token, required int postId}) async {
+    return await _petitionPostProvider.unBlindPetitionPost(token, postId);
+  }
+
 }

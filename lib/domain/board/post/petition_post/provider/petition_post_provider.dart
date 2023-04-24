@@ -106,6 +106,48 @@ class PetitionPostProvider {
     }
   }
 
+  Future<ApiResponseDTO> blindPetitionPost(String token, int postId) async {
+    String url = '/post/petition/blind/$postId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.patch(
+        url,
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> unBlindPetitionPost(String token, int postId) async {
+    String url = '/post/petition/unblind/$postId';
+
+    final headers = {
+      'Authorization': "Bearer $token",
+    };
+
+    try {
+      final Response response = await _dio.patch(
+        url,
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      return SuccessResponseDTO(data: response.data);
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
   Future<ApiResponseDTO> reportPetitionPost(
       String token, int postId, String categoryName) async {
     String url = '/report/$postId?categoryName=$categoryName';
@@ -132,5 +174,7 @@ class PetitionPostProvider {
       return ExceptionResponseDTO(message: e.message);
     }
   }
+
+
 
 }
