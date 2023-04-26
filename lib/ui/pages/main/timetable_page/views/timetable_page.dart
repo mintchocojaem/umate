@@ -517,13 +517,6 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                 e.place ??
                                                                     (e.place =
                                                                         "");
-                                                                e.week = WeekOfDay
-                                                                    .values
-                                                                    .firstWhere((element) =>
-                                                                        element
-                                                                            .name ==
-                                                                        e.week)
-                                                                    .nameKR;
                                                                 return e.obs;
                                                               })
                                                               .toList()
@@ -660,7 +653,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                           index]
                                                                       .times)
                                                                 Text(
-                                                                  "${WeekOfDay.values.firstWhere((element) => element.name == i.week).nameKR} ${i.start}~${i.end}",
+                                                                  "${i.week} ${i.start}~${i.end}",
                                                                   style: lightStyle
                                                                       .copyWith(
                                                                     fontWeight:
