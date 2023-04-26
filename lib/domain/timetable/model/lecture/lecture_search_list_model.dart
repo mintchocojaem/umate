@@ -1,3 +1,4 @@
+
 import 'lecture_search_model.dart';
 
 class LectureSearchListModel{

@@ -1,4 +1,5 @@
-import 'package:danvery/domain/timetable/model/lecture_time.dart';
+
+import 'lecture_time.dart';
 
 class LectureSearchModel{
   int id;
@@ -20,7 +21,8 @@ class LectureSearchModel{
     this.professor,
     this.classNumber,
     this.credit,
-    required this.times
+    required this.times,
+    this.major,
   });
 
   factory LectureSearchModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class LectureSearchModel{
       classNumber: json['classNumber'] as int?,
       credit: json['credit'] as int?,
       times: (json['times'] as List).map((e) => LectureTime.fromJson(e)).toList(),
+      major: json['major'] as String?,
     );
   }
 

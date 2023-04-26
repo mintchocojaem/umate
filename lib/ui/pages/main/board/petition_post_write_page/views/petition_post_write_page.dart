@@ -6,6 +6,7 @@ import 'package:danvery/domain/board/post/petition_post/model/petition_post_writ
 import 'package:danvery/ui/pages/main/board/petition_post_write_page/controller/petition_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/board/category_button_bar.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,34 +26,21 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
-            child: Obx(
-                  () =>
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Palette.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      disabledBackgroundColor: Palette.lightGrey,
-                    ),
-                    onPressed: !controller.isPosting.value
-                        ? () async {
-                      PetitionPostWriteModel petitionPostWriteModel = PetitionPostWriteModel(
-                        title: controller.titleController.text,
-                        body: controller.contentController.text,
-                        files: controller.imageList
-                            .map((e) => FileModel.fromImagePicker(e))
-                            .toList(),
-                        tagIds: [PetitionPostTag.values[controller.selectedTag.value].id],
-                      );
-                      await controller.writePetitionPost(petitionPostWriteModel);
-                    } : null, child: Text(
-                      '등록',
-                      style: lightStyle.copyWith(
-                          color: Palette.pureWhite,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+            child: ModernFormButton(
+              width: 60,
+              coolDownTime: 3,
+              text: "등록",
+              onPressed: () async {
+                PetitionPostWriteModel petitionPostWriteModel = PetitionPostWriteModel(
+                  title: controller.titleController.text,
+                  body: controller.contentController.text,
+                  files: controller.imageList
+                      .map((e) => FileModel.fromImagePicker(e))
+                      .toList(),
+                  tagIds: [PetitionPostTag.values[controller.selectedTag.value].id],
+                );
+                await controller.writePetitionPost(petitionPostWriteModel);
+              },
             ),
           ),
         ],

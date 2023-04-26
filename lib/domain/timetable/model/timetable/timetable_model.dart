@@ -1,0 +1,22 @@
+import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
+
+class TimetableModel{
+  final int id;
+  final String? name;
+  final List<LectureModel> lectures;
+
+  TimetableModel({
+    required this.id,
+    this.name,
+    required this.lectures
+  });
+
+  factory TimetableModel.fromJson(Map<String, dynamic> json) {
+    return TimetableModel(
+      id: json['id'] as int,
+      name: json['name'] as String?,
+      lectures: (json['lectures'] as List).map((e) => LectureModel.fromJson(e)).toList()
+    );
+  }
+
+}

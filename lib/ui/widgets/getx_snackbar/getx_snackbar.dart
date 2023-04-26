@@ -66,15 +66,8 @@ class GetXSnackBar {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Palette.lightGrey,
         colorText: Palette.darkGrey,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 2),
     );
   }
 
-}
-
-Future<void> closeSnackBarAndGetBack() async {
-  await Get.closeCurrentSnackbar();
-  await Future.delayed(const Duration(milliseconds: 100), () {
-    Get.back();
-  });
 }

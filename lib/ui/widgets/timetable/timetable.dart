@@ -1,6 +1,7 @@
+import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
+import 'package:danvery/domain/timetable/model/lecture/lecture_time.dart';
 
 import '/core/theme/palette.dart';
-import '../../../domain/timetable/model/lecture_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,26 +34,178 @@ class Timetable extends StatelessWidget {
 
     List<String> week = ['월', '화', '수', '목', '금'];
 
+
+    Widget buildTimeColumn(
+        double dayCellHeight, double cellWidth, int columnLength) {
+      return SizedBox(
+        width: 35,
+        child: Column(
+          children: [
+            const Divider(
+              color: Colors.grey,
+              height: 1,
+            ),
+            Column(
+              children: [
+                ...List.generate(
+                  columnLength + 1,
+                      (index) {
+                    return SizedBox(
+                      height: cellWidth + 1,
+                      child: Center(
+                          child: Text(
+                            '${(index) + tableStartTime}',
+                            style: tinyStyle.copyWith(color: Palette.grey),
+                          )),
+                    );
+                  },
+                ),
+              ],
+            ),
+            const Divider(
+              color: Colors.grey,
+              height: 1,
+            )
+          ],
+        ),
+      );
+    }
+
+    List<Widget> buildColumnSubjects(
+        int index,List<LectureModel>? subjects, double dayCellHeight, double cellWidth) {
+      DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
+      Duration startTableDuration = Duration(hours: startTableTime.hour);
+
+      List<Widget> result = [];
+      if (subjects != null) {
+        for (LectureModel i in subjects) {
+          for (LectureTime j in i.times) {
+            if(j.week == week[index]){
+              final DateTime startTime = DateFormat('HH:mm').parse(j.start);
+              final Duration startDuration = Duration(hours: startTime.hour, minutes: startTime.minute);
+              final DateTime endTime = DateFormat('HH:mm').parse(j.end);
+
+              final double height = (endTime.subtract(startDuration).hour * (cellWidth +1)) +
+                  (endTime.subtract(startDuration).minute * (cellWidth +1) / 60);
+              final double width = cellWidth + dayCellHeight;
+              final double top = (startTime.subtract(startTableDuration).hour * (cellWidth +1)) +
+                  (startTime.subtract(startTableDuration).minute * (cellWidth +1) / 60);
+              final int maxLine = ((endTime.subtract(startDuration).hour * 60) + (endTime.subtract(startDuration).minute)) ~/ 30;
+              result.add(
+                Positioned(
+                  top: top,
+                  height: height,
+                  width: width,
+                  child: GestureDetector(
+                    onTap: () {
+                      onSubjectTap?.call(i);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4, right: 4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: i.color,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 4,right: 4),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      i.name,
+                                      style:
+                                      tinyStyle.copyWith(color: Palette.pureWhite),
+                                      maxLines: maxLine,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+        }
+      }
+      return result;
+    }
+
+    List<Widget> buildDayColumn(int index, List<String> week, int columnLength,
+        double cellWidth, double dayCellHeight) {
+      return [
+        const VerticalDivider(
+          color: Colors.grey,
+          width: 1,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              const Divider(
+                color: Colors.grey,
+                height: 1,
+              ),
+              SizedBox(
+                height: dayCellHeight,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Column(
+                    children: [
+                      ...List.generate(
+                        columnLength * 2,
+                            (index) {
+                          if (index % 2 == 0) {
+                            return const Divider(
+                              color: Colors.grey,
+                              height: 1,
+                            );
+                          }
+                          return SizedBox(
+                            height: cellWidth,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  ...buildColumnSubjects(index,subjects, dayCellHeight, cellWidth)
+                ],
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 1,
+              ),
+              SizedBox(
+                height: dayCellHeight,
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 1,
+              )
+            ],
+          ),
+        ),
+      ];
+    }
+
     List<Widget> table = [
       buildTimeColumn(dayCellHeight, cellHeight, columnLength)
     ];
 
     for (String i in week) {
-      List<LectureModel> temp = [];
-
-      if (subjects != null) {
-        for (LectureModel s in subjects!) {
-          for (String j in s.days) {
-            if (j == i) {
-              temp.add(s);
-            }
-          }
-        }
-      }
-
       table = table +
           buildDayColumn(week.indexOf(i), week, columnLength, cellHeight,
-              dayCellHeight, temp);
+              dayCellHeight);
     }
 
     // TODO: implement build
@@ -62,7 +215,7 @@ class Timetable extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 35,
               ),
               ...List.generate(
@@ -99,162 +252,5 @@ class Timetable extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget buildTimeColumn(
-      double dayCellHeight, double cellWidth, int columnLength) {
-    return SizedBox(
-      width: 35,
-      child: Column(
-        children: [
-          const Divider(
-            color: Colors.grey,
-            height: 1,
-          ),
-          Column(
-            children: [
-              ...List.generate(
-                columnLength + 1,
-                (index) {
-                  return SizedBox(
-                    height: cellWidth + 1,
-                    child: Center(
-                        child: Text(
-                      '${(index) + tableStartTime}',
-                      style: tinyStyle.copyWith(color: Palette.grey),
-                    )),
-                  );
-                },
-              ),
-            ],
-          ),
-          const Divider(
-            color: Colors.grey,
-            height: 1,
-          )
-        ],
-      ),
-    );
-  }
-
-  List<Widget> buildDayColumn(int index, List<String> week, int columnLength,
-      double cellWidth, double dayCellHeight, List<LectureModel>? subjects) {
-    return [
-      const VerticalDivider(
-        color: Colors.grey,
-        width: 1,
-      ),
-      Expanded(
-        child: Column(
-          children: [
-            const Divider(
-              color: Colors.grey,
-              height: 1,
-            ),
-            SizedBox(
-              height: dayCellHeight,
-            ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Column(
-                  children: [
-                    ...List.generate(
-                      columnLength * 2,
-                      (index) {
-                        if (index % 2 == 0) {
-                          return const Divider(
-                            color: Colors.grey,
-                            height: 1,
-                          );
-                        }
-                        return SizedBox(
-                          height: cellWidth,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                ...buildColumnSubjects(subjects, dayCellHeight, cellWidth)
-              ],
-            ),
-            const Divider(
-              color: Colors.grey,
-              height: 1,
-            ),
-            SizedBox(
-              height: dayCellHeight,
-            ),
-            const Divider(
-              color: Colors.grey,
-              height: 1,
-            )
-          ],
-        ),
-      ),
-    ];
-  }
-
-  List<Widget> buildColumnSubjects(
-      List<LectureModel>? subjects, double dayCellHeight, double cellWidth) {
-    DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
-    Duration startTableDuration = Duration(hours: startTableTime.hour);
-
-    List<Widget> result = [];
-    if (subjects != null) {
-      for (LectureModel i in subjects) {
-        DateTime startTime = DateFormat('HH:mm').parse(i.startTime);
-        Duration startDuration =
-            Duration(hours: startTime.hour, minutes: startTime.minute);
-
-        DateTime endTime = DateFormat('HH:mm').parse(i.endTime);
-
-        result.add(
-          Positioned(
-            top: (startTime.subtract(startTableDuration).hour * (cellWidth +1)) +
-                (startTime.subtract(startTableDuration).minute * (cellWidth+1) / 60),
-            height: (endTime.subtract(startDuration).hour * (cellWidth +1)) +
-                (endTime.subtract(startDuration).minute * (cellWidth +1) / 60),
-            width: cellWidth + dayCellHeight,
-            child: GestureDetector(
-              onTap: () {
-                onSubjectTap?.call(i);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 4, right: 4),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: i.color,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                i.name,
-                                style:
-                                    lightStyle.copyWith(color: Palette.pureWhite),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-    }
-    return result;
   }
 }

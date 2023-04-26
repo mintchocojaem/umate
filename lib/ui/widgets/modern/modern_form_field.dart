@@ -30,6 +30,7 @@ class ModernFormField extends StatefulWidget {
   final String? validateHelperText;
   final String? helperText;
   final TextEditingController? controller;
+  final bool isDay;
   final bool isTime;
 
   const ModernFormField({
@@ -57,6 +58,7 @@ class ModernFormField extends StatefulWidget {
     this.helperText,
     this.suffixWidth,
     this.controller,
+    this.isDay = false,
     this.isTime = false,
   });
 
@@ -121,27 +123,34 @@ class _ModernFormField extends State<ModernFormField> {
       children: [
         widget.title == null
             ? const SizedBox()
-            : Text(
-                widget.title!,
-                style: smallTitleStyle.copyWith(
-                    color: widget.titleColor ?? Palette.grey,
-                    fontWeight: FontWeight.w500),
+            : Column(
+                children: [
+                  Text(
+                    widget.title!,
+                    style: smallTitleStyle.copyWith(
+                        color: widget.titleColor ?? Palette.grey,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                ],
               ),
-        const SizedBox(
-          height: 8,
-        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
               onTap: widget.isTime
-                  ? showTimePickerDialog : null,
+                  ? showTimePickerDialog
+                  : widget.isDay
+                      ? showDayPickerDialog
+                      : null,
               controller: _textController,
               obscureText: !_isTextVisible,
               enableSuggestions: false,
               autocorrect: false,
               enabled: !widget.readOnly,
-              readOnly: widget.readOnly || widget.isTime,
+              readOnly: widget.readOnly || widget.isTime || widget.isDay,
               keyboardType: widget.keyboardType,
               maxLines: 1,
               maxLength: 30,
@@ -191,7 +200,10 @@ class _ModernFormField extends State<ModernFormField> {
                       )
                     : InkWell(
                         onTap: widget.isTime
-                            ? showTimePickerDialog : null,
+                            ? showTimePickerDialog
+                            : widget.isDay
+                                ? showDayPickerDialog
+                                : null,
                         child: widget.suffix),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
@@ -219,8 +231,7 @@ class _ModernFormField extends State<ModernFormField> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       widget.helperText!,
-                      style: lightStyle.copyWith(
-                          color: Palette.blue),
+                      style: lightStyle.copyWith(color: Palette.blue),
                     ),
                   )
                 : const SizedBox()
@@ -401,95 +412,138 @@ class _ModernFormField extends State<ModernFormField> {
     );
   }
 
-  void showTimePickerDialog() {
-    final List<String> startHour = [
-      "09",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18"
+  void showDayPickerDialog() {
+    final List<String> days = [
+      "월",
+      "화",
+      "수",
+      "목",
+      "금",
     ];
-    final List<String> startMinute = ["00", "10", "20", "30", "40", "50"];
-    if(_textController.text.isEmpty) {
+    if (_textController.text.isEmpty) {
+      _textController.text = days.first;
+    }
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.only(bottom: 50),
+          color: Palette.white,
+          height: 250,
+          child: CupertinoPicker(
+            scrollController: FixedExtentScrollController(
+              initialItem: days.indexOf(_textController.text),
+            ),
+            itemExtent: 40,
+            onSelectedItemChanged: (index) {
+              _textController.text = days[index];
+            },
+            children: days
+                .map(
+                  (e) => Center(
+                    child: Text(
+                      e,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  void showTimePickerDialog() {
+    int startTime = 9;
+    int endTime = 24;
+    int minuteInterval = 10;
+
+    final List<String> startHour = [
+      for (int i = startTime; i < endTime; i++) i.toString().padLeft(2, "0")
+    ];
+    final List<String> startMinute = [
+      for (int i = 0; i < 60; i += minuteInterval) i.toString().padLeft(2, "0")
+    ];
+
+    if (_textController.text.isEmpty) {
       _textController.text = "${startHour.first}:${startMinute.first}";
     }
     showCupertinoModalPopup(
-        context: context,
-        builder: (context) {
-          return Container(
-              padding: const EdgeInsets.only(bottom: 50),
-              color: Palette.white,
-              height: 250,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 120,
-                    child: CupertinoPicker(
-                      scrollController: FixedExtentScrollController(
-                          initialItem: startHour.indexOf(_textController.text
-                              .substring(0, 2))),
-                      itemExtent: 40,
-                      onSelectedItemChanged: (index) {
-                        _textController.text = _textController.text
-                            .replaceRange(0, 2, startHour[index]);
-                      },
-                      children: [
-                        for (int i = 9; i < 19; i++)
-                          Center(
-                            child:
-                                Text(i.toString().length == 1 ? "0$i" : "$i"),
-                          ),
-                      ],
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.only(bottom: 50),
+          color: Palette.white,
+          height: 250,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 120,
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: startHour.indexOf(
+                      _textController.text.substring(0, 2),
                     ),
                   ),
-                  const DefaultTextStyle(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    child: Text(
-                      "시",
+                  itemExtent: 40,
+                  onSelectedItemChanged: (index) {
+                    _textController.text = _textController.text
+                        .replaceRange(0, 2, startHour[index]);
+                  },
+                  children: [
+                    for (int i = startTime; i < endTime; i++)
+                      Center(
+                        child: Text(i.toString().padLeft(2, "0")),
+                      ),
+                  ],
+                ),
+              ),
+              const DefaultTextStyle(
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+                child: Text(
+                  "시",
+                ),
+              ),
+              SizedBox(
+                width: 120,
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: startMinute.indexOf(
+                      _textController.text.substring(3, 5),
                     ),
                   ),
-                  SizedBox(
-                    width: 120,
-                    child: CupertinoPicker(
-                      scrollController: FixedExtentScrollController(
-                          initialItem: startMinute.indexOf(_textController.text
-                              .substring(3, 5))),
-                      itemExtent: 40,
-                      onSelectedItemChanged: (index) {
-                        _textController.text = _textController.text
-                            .replaceRange(3, 5, startMinute[index]);
-                      },
-                      children: [
-                        for (int i = 0; i < 6; i++)
-                          Center(
-                            child: Text("${i}0"),
-                          ),
-                      ],
-                    ),
-                  ),
-                  const DefaultTextStyle(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    child: Text(
-                      "분",
-                    ),
-                  )
-                ],
-              ));
-        });
+                  itemExtent: 40,
+                  onSelectedItemChanged: (index) {
+                    _textController.text = _textController.text
+                        .replaceRange(3, 5, startMinute[index]);
+                  },
+                  children: [
+                    for (int i = 0; i < 60; i += minuteInterval)
+                      Center(
+                        child: Text(i.toString().padLeft(2, "0")),
+                      ),
+                  ],
+                ),
+              ),
+              const DefaultTextStyle(
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+                child: Text(
+                  "분",
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
-
 }

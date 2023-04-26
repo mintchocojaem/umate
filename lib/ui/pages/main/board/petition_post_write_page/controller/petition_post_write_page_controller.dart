@@ -28,19 +28,17 @@ class PetitionPostWritePageController extends GetxController {
 
   final RxList<XFile> imageList = <XFile>[].obs;
 
-  final RxBool isPosting = false.obs;
 
   Future<void> writePetitionPost(
       PetitionPostWriteModel petitionPostWriteModel) async {
-    isPosting.value = true;
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.writePetitionPost(
             token: loginService.token.value.accessToken,
             petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstPetitionPostBoard();
-      closeSnackBarAndGetBack();
       boardPageController.selectedCategory.value = 0;
+      Get.back();
     } else {
       GetXSnackBar(
         title: "글 작성 실패",
@@ -48,8 +46,5 @@ class PetitionPostWritePageController extends GetxController {
         type: GetXSnackBarType.customError,
       ).show();
     }
-    await Future.delayed(const Duration(seconds: 2), () {
-      isPosting.value = false;
-    });
   }
 }

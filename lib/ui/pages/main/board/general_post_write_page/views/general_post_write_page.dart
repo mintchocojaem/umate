@@ -5,6 +5,7 @@ import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_wirte_model.dart';
 import 'package:danvery/ui/pages/main/board/general_post_write_page/controller/general_post_write_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,34 +25,21 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
-            child: Obx(
-              () => TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Palette.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  disabledBackgroundColor: Palette.lightGrey,
-                ),
-                onPressed: !controller.isPosting.value
-                    ? () async {
-                        GeneralPostWriteModel generalPostWriteModel =
-                            GeneralPostWriteModel(
-                          title: controller.titleController.text,
-                          body: controller.contentController.text,
-                          files: controller.imageList
-                              .map((e) => FileModel.fromImagePicker(e))
-                              .toList(),
-                        );
-                        await controller.writeGeneralPost(generalPostWriteModel);
-                      }
-                    : null,
-                child: Text(
-                  '등록',
-                  style: lightStyle.copyWith(
-                      color: Palette.pureWhite, fontWeight: FontWeight.bold),
-                ),
-              ),
+            child: ModernFormButton(
+              width: 60,
+              coolDownTime: 3,
+              text: "등록",
+              onPressed: () async {
+                GeneralPostWriteModel generalPostWriteModel =
+                GeneralPostWriteModel(
+                  title: controller.titleController.text,
+                  body: controller.contentController.text,
+                  files: controller.imageList
+                      .map((e) => FileModel.fromImagePicker(e))
+                      .toList(),
+                );
+                await controller.writeGeneralPost(generalPostWriteModel);
+              },
             ),
           ),
         ],

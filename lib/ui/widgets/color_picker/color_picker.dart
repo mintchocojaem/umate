@@ -7,11 +7,12 @@ class ColorPicker extends StatefulWidget {
   final int selectedColorIndex;
   final OnColorSelected onColorSelected;
 
-  const ColorPicker(
-      {super.key,
-      required this.colors,
-      required this.onColorSelected,
-      this.selectedColorIndex = 0});
+  const ColorPicker({
+    super.key,
+    required this.colors,
+    required this.onColorSelected,
+    this.selectedColorIndex = 0,
+  });
 
   @override
   createState() => _ColorPicker();

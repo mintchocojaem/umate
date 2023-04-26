@@ -25,18 +25,16 @@ class GeneralPostWritePageController extends GetxController {
 
   final RxList<XFile> imageList = <XFile>[].obs;
 
-  final RxBool isPosting = false.obs;
 
   Future<void> writeGeneralPost(
       GeneralPostWriteModel generalPostWriteModel) async {
-    isPosting.value = true;
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralPost(
             token: loginService.token.value.accessToken,
             generalPostWriteModel: generalPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getFirstGeneralPostBoard();
-      closeSnackBarAndGetBack();
+      Get.back();
     } else {
       GetXSnackBar(
         title: "글 작성 실패",
@@ -44,8 +42,6 @@ class GeneralPostWritePageController extends GetxController {
         type: GetXSnackBarType.customError,
       ).show();
     }
-    await Future.delayed(const Duration(seconds: 2), () {
-      isPosting.value = false;
-    });
+
   }
 }
