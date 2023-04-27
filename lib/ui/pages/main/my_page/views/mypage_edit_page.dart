@@ -15,7 +15,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    controller.initPage();
+    controller.initEditPage();
     return Scaffold(
       appBar: TransparentAppBar(
         isDarkMode: Get.isDarkMode,

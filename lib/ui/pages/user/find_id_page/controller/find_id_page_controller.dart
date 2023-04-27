@@ -1,5 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/user/find/repository/find_repository.dart';
+import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_1.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/steps/find_id_step_2.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FindIdPageController extends GetxController {
-  final FindRepository _findRepository = FindRepository();
+  final UserInfoRepository _userInfoRepository = UserInfoRepository();
 
   List<String> stepTitle = [
     "휴대폰 번호 입력",
@@ -26,7 +26,7 @@ class FindIdPageController extends GetxController {
   final RxString phoneNumber = "".obs;
 
   Future<bool> sendIdToPhoneNumber(String phoneNumber) async{
-    final ApiResponseDTO apiResponseDTO = await _findRepository.sendIdToSMS(phoneNumber: phoneNumber);
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.sendIdToSMS(phoneNumber: phoneNumber);
     if(apiResponseDTO.success) {
       return true;
     } else {

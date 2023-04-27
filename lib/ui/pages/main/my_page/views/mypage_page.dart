@@ -14,7 +14,6 @@ class MyPagePage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
@@ -183,15 +182,13 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                 ),
                               ),
-                              onTap: () async{
+                              onTap: () async {
                                 showCupertinoDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return CupertinoAlertDialog(
                                       title: const Text("로그아웃"),
-                                      content: const Text(
-                                        "정말로 로그아웃 하시겠습니까?"
-                                      ),
+                                      content: const Text("정말로 로그아웃 하시겠습니까?"),
                                       actions: [
                                         CupertinoDialogAction(
                                           child: const Text(
@@ -209,7 +206,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                                             ),
                                           ),
                                           onPressed: () async {
-                                            await controller.loginService.logout();
+                                            await controller.loginService
+                                                .logout();
                                           },
                                         ),
                                       ],

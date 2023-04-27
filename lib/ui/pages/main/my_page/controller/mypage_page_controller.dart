@@ -1,5 +1,6 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/user/change/repository/change_repository.dart';
+import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
+import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 class MyPagePageController extends GetxController {
   final PermissionService permissionService = Get.find<PermissionService>();
   final LoginService loginService = Get.find<LoginService>();
-  final ChangeRepository _changeRepository = ChangeRepository();
+  final UserInfoRepository _userInfoRepository = UserInfoRepository();
 
   Rx<TextEditingController> nickname = TextEditingController().obs;
   Rx<TextEditingController> currentPassword = TextEditingController().obs;
@@ -18,20 +19,28 @@ class MyPagePageController extends GetxController {
   Rx<TextEditingController> phoneNumber = TextEditingController().obs;
   Rx<TextEditingController> phoneAuthenticationNumber = TextEditingController().obs;
 
-  void initPage(){
+  late Rx<UserPostListModel> userWritePostList;
+  late Rx<UserPostListModel> userCommentedPostList;
+  late Rx<UserPostListModel> userLikePostList;
+
+
+  int page = 0;
+  int size = 10;
+
+  void initEditPage(){
     nickname.value.text = loginService.userInfo.value.nickname;
     currentPassword.value.clear();
     password.value.clear();
     passwordValidate.value.clear();
     phoneNumber.value.clear();
     phoneAuthenticationNumber.value.clear();
-  }
+}
 
   late String changePhoneNumberToken;
 
   Future<void> changeNickname() async {
     final ApiResponseDTO apiResponseDTO =
-        await _changeRepository.changeNickname(
+        await _userInfoRepository.changeNickname(
             accessToken: loginService.token.value.accessToken,
             nickName: nickname.value.text);
     if (apiResponseDTO.success) {
@@ -54,7 +63,7 @@ class MyPagePageController extends GetxController {
   }
 
   Future<bool> verifySMS() async {
-    final ApiResponseDTO apiResponseDTO = await _changeRepository.verifySMS(
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.verifySMS(
         phoneNumber: phoneNumber.value.text,
         accessToken: loginService.token.value.accessToken);
     if (apiResponseDTO.success) {
@@ -77,7 +86,7 @@ class MyPagePageController extends GetxController {
 
   Future<void> changePhoneNumber() async {
     final ApiResponseDTO apiResponseDTO =
-        await _changeRepository.changePhoneNumber(
+        await _userInfoRepository.changePhoneNumber(
       accessToken: loginService.token.value.accessToken,
       token: changePhoneNumberToken,
       code: phoneAuthenticationNumber.value.text,
@@ -99,7 +108,7 @@ class MyPagePageController extends GetxController {
   }
 
   Future<void> changePassword() async{
-    final ApiResponseDTO apiResponseDTO = await _changeRepository.changePassword(
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.changePassword(
       accessToken: loginService.token.value.accessToken,
       currentPassword: currentPassword.value.text,
       newPassword: password.value.text,
@@ -116,6 +125,66 @@ class MyPagePageController extends GetxController {
               type: GetXSnackBarType.customError,
               title: "비밀번호 변경 오류",
               content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> initUserPostList() async{
+    await getUserWritePostList();
+    await getUserCommentedPostList();
+    await getUserLikedPostList();
+  }
+
+  Future<void> getUserWritePostList() async{
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      userWritePostList = userPostListModel.obs;
+    }else{
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              title: "게시글 불러오기 오류",
+              content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> getUserCommentedPostList() async{
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      userCommentedPostList = userPostListModel.obs;
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "게시글 불러오기 오류",
+          content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> getUserLikedPostList() async{
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      userLikePostList = userPostListModel.obs;
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "게시글 불러오기 오류",
+          content: apiResponseDTO.message)
           .show();
     }
   }

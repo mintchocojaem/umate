@@ -1,5 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-import 'package:danvery/domain/user/find/repository/find_repository.dart';
+import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_2.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_3.dart';
 import 'package:danvery/ui/pages/user/find_password_page/views/steps/find_password_step_4.dart';
@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import '../views/steps/find_password_step_1.dart';
 
 class FindPasswordPageController extends GetxController {
-  final FindRepository _findRepository = FindRepository();
+  final UserInfoRepository _userInfoRepository = UserInfoRepository();
 
   List<String> stepTitle = [
     "휴대폰 번호 입력",
@@ -43,7 +43,7 @@ class FindPasswordPageController extends GetxController {
   late String? token;
 
   Future<bool> sendAuthCodeToSMS() async {
-    final ApiResponseDTO apiResponseDTO = await _findRepository
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository
         .sendAuthCodeToSMS(phoneNumber: phoneNumberController.value.text);
     if (apiResponseDTO.success) {
       token = apiResponseDTO.data as String;
@@ -59,7 +59,7 @@ class FindPasswordPageController extends GetxController {
   }
 
   Future<bool> verifyAuthCode() async {
-    final ApiResponseDTO apiResponseDTO = await _findRepository.verifyAuthCode(
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.verifyAuthCode(
         token: token!, code: phoneAuthCodeController.value.text);
     if (apiResponseDTO.success) {
       return true;
@@ -74,7 +74,7 @@ class FindPasswordPageController extends GetxController {
   }
 
   Future<bool> changePassword() async {
-    final ApiResponseDTO apiResponseDTO = await _findRepository.resetPassword(
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.resetPassword(
         token: token!, password: passwordController.value.text);
     if (apiResponseDTO.success) {
       return true;
