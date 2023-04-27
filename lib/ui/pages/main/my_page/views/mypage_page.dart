@@ -3,6 +3,7 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
@@ -130,14 +131,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                           children: [
                             SizedBox(
                               height: 60,
+                              width: double.infinity,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("알림 설정",
-                                      style: smallTitleStyle.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                      )),
+                                  Text(
+                                    "알림 설정",
+                                    style: smallTitleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
                                   Obx(
                                     () => FlutterSwitch(
                                       inactiveColor: Palette.lightGrey,
@@ -165,23 +169,55 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 ],
                               ),
                             ),
-                            /*
-                          InkWell(
-                            onTap: () {},
-                            child: SizedBox(
-                              height: 60,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            InkWell(
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 60,
                                 child: Text(
-                                  "디스플레이 설정",
+                                  "로그아웃",
                                   style: smallTitleStyle.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: Palette.darkGrey),
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
                               ),
+                              onTap: () async{
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text("로그아웃"),
+                                      content: const Text(
+                                        "정말로 로그아웃 하시겠습니까?"
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text(
+                                            '취소',
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: Text(
+                                            '확인',
+                                            style: TextStyle(
+                                              color: Palette.lightRed,
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            await controller.loginService.logout();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                             ),
-                          ),
-                           */
                           ],
                         ),
                       ),

@@ -201,6 +201,13 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                             controller.loginService.userInfo.value.nickname) {
                       await controller.changeNickname();
                     }
+
+                    if (controller.phoneNumber.value.text.isNotEmpty &&
+                        controller.phoneAuthenticationNumber.value.text.isNotEmpty &&
+                        controller.nickname.value.text.isNotEmpty) {
+                      await controller.changePhoneNumber();
+                    }
+
                   },
                 ),
               ),
