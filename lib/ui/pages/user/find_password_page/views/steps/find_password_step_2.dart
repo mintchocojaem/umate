@@ -53,14 +53,17 @@ class FindPasswordStep2 extends GetView<FindPasswordPageController> {
               //controller: controller.textEditingController,
               keyboardType: TextInputType.number,
               onChanged: (String value) {
-                controller.phoneAuthCode.value = value;
+                controller.phoneAuthCodeController.update((val) {
+                  if (val != null) val.text = value;
+                });
               },
             ),
           ),
           const SizedBox(height: 16),
           Obx(
             () => ModernFormButton(
-              isEnabled: controller.phoneAuthCode.value.length == 6,
+              isEnabled:
+                  controller.phoneAuthCodeController.value.text.length == 6,
               text: "확인",
               onPressed: () async {
                 if (await controller.verifyAuthCode()) {

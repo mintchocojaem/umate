@@ -12,14 +12,18 @@ class ModernFormField extends StatefulWidget {
   final TextStyle? hintStyle;
   final String? initText;
   final String? initValidateText;
+  final String? initCurrentPasswordText;
+  final String? currentPasswordHint;
   final bool checkButton;
   final bool validate;
   final String? validateHint;
   final String? checkButtonText;
   final bool readOnly;
   final bool isPassword;
+  final bool addCurrentPassword;
   final bool isSMS;
-  final bool Function()? onCheckButtonPressed;
+  final Future<bool> Function()? onCheckButtonPressed;
+  final void Function(String text)? onCurrentPasswordTextChanged;
   final void Function(String text)? onTextChanged;
   final void Function(String text)? onValidateChanged;
   final int checkButtonCoolDown;
@@ -44,6 +48,7 @@ class ModernFormField extends StatefulWidget {
     this.checkButtonText,
     this.readOnly = false,
     this.isPassword = false,
+    this.addCurrentPassword = false,
     this.isSMS = false,
     this.onCheckButtonPressed,
     this.checkButtonCoolDown = 30,
@@ -60,6 +65,9 @@ class ModernFormField extends StatefulWidget {
     this.controller,
     this.isDay = false,
     this.isTime = false,
+    this.initCurrentPasswordText,
+    this.currentPasswordHint,
+    this.onCurrentPasswordTextChanged,
   });
 
   @override
@@ -75,20 +83,32 @@ class _ModernFormField extends State<ModernFormField> {
 
   late final TextEditingController _textController;
   final TextEditingController _validateController = TextEditingController();
+  final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _textController = widget.controller ?? TextEditingController();
-
     _remainingTime = widget.checkButtonCoolDown;
+    _currentPasswordController.text = widget.initCurrentPasswordText ?? "";
     _textController.text = widget.initText ?? "";
     _validateController.text = widget.initValidateText ?? "";
-    _isTextVisible = !widget.isPassword;
+
+    if(widget.isPassword){
+      _isTextVisible = false;
+    }else if(widget.addCurrentPassword){
+      _isTextVisible = false;
+    }
 
     _textController.addListener(() {
       widget.onTextChanged?.call(_textController.text);
+    });
+    _validateController.addListener(() {
+      widget.onValidateChanged?.call(_validateController.text);
+    });
+    _currentPasswordController.addListener(() {
+      widget.onCurrentPasswordTextChanged?.call(_currentPasswordController.text);
     });
   }
 
@@ -128,7 +148,7 @@ class _ModernFormField extends State<ModernFormField> {
                   Text(
                     widget.title!,
                     style: smallTitleStyle.copyWith(
-                        color: widget.titleColor ?? Palette.grey,
+                        color: widget.titleColor ?? Palette.darkGrey,
                         fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(
@@ -139,6 +159,87 @@ class _ModernFormField extends State<ModernFormField> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            widget.addCurrentPassword
+                ? Column(
+                  children: [
+                    TextFormField(
+                        controller: _currentPasswordController,
+                        obscureText: !_isTextVisible,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        enabled: !widget.readOnly,
+                        readOnly: widget.readOnly || widget.isTime || widget.isDay,
+                        keyboardType: widget.keyboardType,
+                        maxLines: 1,
+                        maxLength: 30,
+                        style: regularStyle.copyWith(color: Palette.lightBlack),
+                        cursorColor: widget.titleColor ?? Palette.blue,
+                        decoration: InputDecoration(
+                          helperStyle: regularStyle.copyWith(color: Palette.grey),
+                          counterText: "",
+                          filled: true,
+                          fillColor: Palette.darkWhite,
+                          border: const OutlineInputBorder(),
+                          hintText: widget.currentPasswordHint,
+                          hintStyle: widget.hintStyle ??
+                              regularStyle.copyWith(
+                                  color: widget.readOnly
+                                      ? Palette.lightBlack
+                                      : Palette.grey),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Palette.darkWhite,
+                              width: 1.0,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.only(
+                            left: 16,
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              padding: EdgeInsets.zero,
+                              icon: Image.asset(
+                                _isTextVisible
+                                    ? "assets/icons/login/visible_icon.png"
+                                    : "assets/icons/login/invisible_icon.png",
+                                width: 24,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isTextVisible = !_isTextVisible;
+                                });
+                              },
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: widget.titleColor ?? Palette.blue,
+                              width: 2.0,
+                            ),
+                          ),
+                          suffixIconConstraints: BoxConstraints(
+                              maxHeight: 24,
+                              maxWidth: widget.suffixWidth ?? 60,
+                              minWidth: 24,
+                              minHeight: 24),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Palette.darkWhite,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 8,),
+                  ],
+                )
+                : const SizedBox(),
             TextFormField(
               onTap: widget.isTime
                   ? showTimePickerDialog
@@ -178,7 +279,7 @@ class _ModernFormField extends State<ModernFormField> {
                 contentPadding: const EdgeInsets.only(
                   left: 16,
                 ),
-                suffixIcon: widget.isPassword
+                suffixIcon: widget.isPassword || widget.addCurrentPassword
                     ? Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: IconButton(
@@ -295,7 +396,8 @@ class _ModernFormField extends State<ModernFormField> {
                                     maxLines: 1,
                                     maxLength: 30,
                                     decoration: InputDecoration(
-                                      suffixIcon: widget.isPassword
+                                      suffixIcon: widget.isPassword ||
+                                              widget.addCurrentPassword
                                           ? Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 8),
@@ -357,11 +459,8 @@ class _ModernFormField extends State<ModernFormField> {
                                         if (!_isSend) {
                                           await SmsAutoFill().listenForCode();
                                           focusSMS.requestFocus();
-                                          bool success = widget
-                                                  .onCheckButtonPressed
-                                                  ?.call() ??
-                                              false;
-                                          if (success) _coolDown();
+                                          if (await widget.onCheckButtonPressed
+                                              ?.call() ?? false) _coolDown();
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(

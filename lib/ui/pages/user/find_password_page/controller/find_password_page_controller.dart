@@ -28,57 +28,61 @@ class FindPasswordPageController extends GetxController {
 
   final RxInt currentStep = 1.obs;
 
-  final RxString phoneNumber = "".obs;
+  final Rx<TextEditingController> phoneNumberController =
+      TextEditingController().obs;
 
-  final RxString phoneAuthCode = "".obs;
+  final Rx<TextEditingController> phoneAuthCodeController =
+      TextEditingController().obs;
 
-  final RxString password = "".obs;
+  final Rx<TextEditingController> passwordController =
+      TextEditingController().obs;
 
-  final RxString passwordValidate = "".obs;
+  final Rx<TextEditingController> passwordValidateController =
+      TextEditingController().obs;
 
   late String? token;
 
   Future<bool> sendAuthCodeToSMS() async {
-    final ApiResponseDTO apiResponseDTO =
-        await _findRepository.sendAuthCodeToSMS(phoneNumber: phoneNumber.value);
+    final ApiResponseDTO apiResponseDTO = await _findRepository
+        .sendAuthCodeToSMS(phoneNumber: phoneNumberController.value.text);
     if (apiResponseDTO.success) {
       token = apiResponseDTO.data as String;
       return true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "인증번호 전송 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "인증번호 전송 오류",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }
   }
 
   Future<bool> verifyAuthCode() async {
-    final ApiResponseDTO apiResponseDTO = await _findRepository
-        .verifyAuthCode(token: token!, code: phoneAuthCode.value);
+    final ApiResponseDTO apiResponseDTO = await _findRepository.verifyAuthCode(
+        token: token!, code: phoneAuthCodeController.value.text);
     if (apiResponseDTO.success) {
       return true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "인증번호 확인 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "인증번호 확인 오류",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }
   }
 
   Future<bool> changePassword() async {
-    final ApiResponseDTO apiResponseDTO = await _findRepository
-        .changePassword(token: token!, password: password.value);
+    final ApiResponseDTO apiResponseDTO = await _findRepository.resetPassword(
+        token: token!, password: passwordController.value.text);
     if (apiResponseDTO.success) {
       return true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "비밀번호 변경 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "비밀번호 변경 오류",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }

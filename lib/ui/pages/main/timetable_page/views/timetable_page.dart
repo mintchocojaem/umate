@@ -1,6 +1,6 @@
 import 'package:danvery/core/theme/palette.dart';
-import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
-import 'package:danvery/domain/timetable/model/lecture/lecture_time.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_model.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_time.dart';
 import 'package:danvery/ui/pages/main/timetable_page/controller/timetable_page_controller.dart';
 import 'package:danvery/ui/widgets/color_picker/color_picker.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
@@ -54,7 +54,7 @@ class TimetablePage extends GetView<TimetablePageController> {
             Obx(() {
               return controller.isLoadTimetable.value
                   ? Timetable(
-                      subjects: controller.timetables.first.value.lectures
+                      schedules: controller.timetables.first.value.schedules
                           .map((e) => e)
                           .toList(),
                       today: controller.today,
@@ -75,7 +75,7 @@ class TimetablePage extends GetView<TimetablePageController> {
     );
   }
 
-  void timetableBottomSheet({LectureModel? subjectModel}) {
+  void timetableBottomSheet({ScheduleModel? subjectModel}) {
     Get.bottomSheet(
       GetBuilder<TimetableBottomSheetController>(
           autoRemove: false,
@@ -111,7 +111,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                   onPressed: () async {
                                     //delete subject
                                     await controller
-                                        .deleteLecture(subjectModel);
+                                        .deleteSchedule(subjectModel);
                                   },
                                   child: Text(
                                     "삭제",
@@ -132,11 +132,11 @@ class TimetablePage extends GetView<TimetablePageController> {
                                   disabledTextColor: Palette.grey,
                                   onPressed: () async {
                                     //add subject
-                                    final LectureModel? newSchedule =
+                                    final ScheduleModel? newSchedule =
                                         bottomSheetController
                                             .makeNewLectureModel();
                                     if (newSchedule != null) {
-                                      await controller.addLecture(newSchedule);
+                                      await controller.addSchedule(newSchedule);
                                     }
                                   },
                                 )
@@ -151,11 +151,11 @@ class TimetablePage extends GetView<TimetablePageController> {
                                   disabledTextColor: Palette.grey,
                                   onPressed: () async {
                                     //update subject
-                                    final LectureModel? newSchedule =
+                                    final ScheduleModel? newSchedule =
                                         bottomSheetController
                                             .makeNewLectureModel();
                                     if (newSchedule != null) {
-                                      await controller.updateLecture(
+                                      await controller.updateSchedule(
                                           subjectModel, newSchedule);
                                     }
                                   },
@@ -171,9 +171,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                                       MaterialStateProperty.all(Palette.blue),
                                   value: true,
                                   groupValue:
-                                      bottomSheetController.isSubjectAdd.value,
+                                      bottomSheetController.isLectureAdd.value,
                                   onChanged: (value) {
-                                    bottomSheetController.isSubjectAdd.value =
+                                    bottomSheetController.isLectureAdd.value =
                                         value!;
                                   },
                                 ),
@@ -188,9 +188,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                                       MaterialStateProperty.all(Palette.blue),
                                   value: false,
                                   groupValue:
-                                      bottomSheetController.isSubjectAdd.value,
+                                      bottomSheetController.isLectureAdd.value,
                                   onChanged: (value) {
-                                    bottomSheetController.isSubjectAdd.value =
+                                    bottomSheetController.isLectureAdd.value =
                                         value!;
                                   },
                                 ),
@@ -207,7 +207,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                       Expanded(
                         child: Column(
                           children: [
-                            bottomSheetController.isSubjectAdd.value
+                            bottomSheetController.isLectureAdd.value
                                 ? ModernFormField(
                                     initText: bottomSheetController
                                         .titleController.text,
@@ -245,8 +245,12 @@ class TimetablePage extends GetView<TimetablePageController> {
                                           )
                                         : null,
                                   )
-                                : const ModernFormField(
+                                : ModernFormField(
                                     hint: "제목",
+                                    initText: bottomSheetController
+                                        .titleController.text,
+                                    controller:
+                                        bottomSheetController.titleController,
                                   ),
                             const SizedBox(
                               height: 8,
@@ -411,7 +415,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                   bottomSheetController
                                                                       .times
                                                                       .add(
-                                                                    LectureTime(
+                                                                    ScheduleTime(
                                                                             start:
                                                                                 "09:00",
                                                                             end:
@@ -448,7 +452,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 },
                                               ),
                                               bottomSheetController
-                                                      .isSubjectAdd.value
+                                                      .isLectureAdd.value
                                                   ? ModernFormField(
                                                       onTextChanged: (text) {
                                                         bottomSheetController
@@ -646,7 +650,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                           flex: 4,
                                                           child: Column(
                                                             children: [
-                                                              for (LectureTime i
+                                                              for (ScheduleTime i
                                                                   in bottomSheetController
                                                                       .lectures[
                                                                           index]

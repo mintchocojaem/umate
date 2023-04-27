@@ -5,10 +5,9 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/user/login_page/controller/login_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../widgets/modern/modern_form_field.dart';
 
 class LoginPage extends GetView<LoginPageController> {
   const LoginPage({super.key});
@@ -37,7 +36,9 @@ class LoginPage extends GetView<LoginPageController> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: ModernFormField(
                       onTextChanged: (value) {
-                        controller.id.value = value;
+                        controller.idController.update((val) {
+                          if (val != null) val.text = value;
+                        });
                       },
                       hint: 'ID(학번)을 입력하세요',
                       title: "아이디",
@@ -49,7 +50,9 @@ class LoginPage extends GetView<LoginPageController> {
                     child: Obx(
                       () => ModernFormField(
                         onTextChanged: (value) {
-                          controller.password.value = value;
+                          controller.passwordController.update((val) {
+                            if (val != null) val.text = value;
+                          });
                         },
                         hint: "비밀번호를 입력하세요",
                         title: "비밀번호",
@@ -66,12 +69,13 @@ class LoginPage extends GetView<LoginPageController> {
               Obx(
                 () => ModernFormButton(
                     text: "로그인",
-                    isEnabled: controller.id.isNotEmpty &&
-                        controller.password.isNotEmpty,
+                    isEnabled: controller.idController.value.text.isNotEmpty &&
+                        controller.passwordController.value.text.isNotEmpty,
                     onPressed: () async {
                       await controller.loginService.login(
-                          controller.id.value.replaceAll("@dankook.ac.kr", ""),
-                          controller.password.value);
+                          controller.idController.value.text
+                              .replaceAll("@dankook.ac.kr", ""),
+                          controller.passwordController.value.text);
                       if (controller.loginService.isLogin.value) {
                         Get.offAndToNamed(Routes.main);
                       }

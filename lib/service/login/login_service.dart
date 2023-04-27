@@ -2,6 +2,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/user/login/model/token_model.dart';
 import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
+import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -78,6 +79,13 @@ class LoginService extends GetxService {
       _box.remove("accessToken");
       _box.remove("refreshToken");
     }
+  }
+
+  Future<void> logout() async{
+    _box.remove("accessToken");
+    _box.remove("refreshToken");
+    isLogin.value = false;
+    Get.offAllNamed(Routes.login);
   }
 
   Future<UserInfoModel?> _getUserInfo(String accessToken) async {

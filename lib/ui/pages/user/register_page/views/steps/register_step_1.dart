@@ -26,7 +26,9 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                   children: [
                     ModernFormField(
                       onTextChanged: (value) {
-                        controller.studentId.value = value;
+                        controller.studentIdController.update((val) {
+                          if (val != null) val.text = value;
+                        });
                       },
                       hint: '학번(ID)을 입력하세요',
                     ),
@@ -34,7 +36,9 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: ModernFormField(
                         onTextChanged: (value) {
-                          controller.studentPassword.value = value;
+                          controller.studentPasswordController.update((val) {
+                            if (val != null) val.text = value;
+                          });
                         },
                         hint: "비밀번호를 입력하세요",
                         isPassword: true,
@@ -352,10 +356,12 @@ class RegisterStep1 extends GetView<RegisterPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Obx(
               () => ModernFormButton(
-                isEnabled: controller.check1.value && controller.check2.value
-                    && controller.studentId.isNotEmpty && controller.studentPassword.isNotEmpty,
+                isEnabled: controller.check1.value &&
+                    controller.check2.value &&
+                    controller.studentIdController.value.text.isNotEmpty &&
+                    controller.studentPasswordController.value.text.isNotEmpty,
                 onPressed: () async {
-                  if (controller.studentId.value.length != 8) {
+                  if (controller.studentIdController.value.text.length != 8) {
                     GetXSnackBar(
                       title: "학번 오류",
                       content: "학번을 확인해주세요.",
@@ -364,13 +370,12 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     return;
                   }
                   await controller.studentAuthenticate(
-                      controller.studentId.value,
-                      controller.studentPassword.value);
+                      controller.studentIdController.value.text,
+                      controller.studentPasswordController.value.text);
                   if (controller.isStudentAuthenticated.value) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     controller.currentStep.value = 2;
                   }
-
                 },
                 text: '인증하기',
               ),

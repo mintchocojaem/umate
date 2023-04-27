@@ -2,16 +2,15 @@ import 'dart:math';
 
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/theme/palette.dart';
-import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_model.dart';
 import 'package:danvery/domain/timetable/model/lecture/lecture_search_list_model.dart';
 import 'package:danvery/domain/timetable/model/lecture/lecture_search_model.dart';
-import 'package:danvery/domain/timetable/model/lecture/lecture_time.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_time.dart';
 import 'package:danvery/domain/timetable/model/timetable/timetable_list_model.dart';
 import 'package:danvery/domain/timetable/model/timetable/timetable_model.dart';
 import 'package:danvery/domain/timetable/repository/timetable_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
-import 'package:danvery/ui/widgets/timetable/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +32,7 @@ class TimetablePageController extends GetxController {
     initTimetable();
   }
 
-  Future<void> updateLecture(LectureModel model, LectureModel newModel) async{
+  Future<void> updateSchedule(ScheduleModel model, ScheduleModel newModel) async{
     newModel.id = model.id; //new 겹치는 시간 체크시 본래 모델과의 비교는 제외
     if (isOverlappedScheduleTime(newModel)) {
       GetXSnackBar(
@@ -52,23 +51,23 @@ class TimetablePageController extends GetxController {
       return;
     }
 
-    final List<LectureModel> temp = List.empty(growable: true);
-    for(LectureModel i in timetables.first.value.lectures) {
+    final List<ScheduleModel> temp = List.empty(growable: true);
+    for(ScheduleModel i in timetables.first.value.schedules) {
       temp.add(i);
     }
 
     timetables.first.update((val) {
       if (val != null) {
-        val.lectures[val.lectures.indexOf(model)].name = newModel.name;
-        val.lectures[val.lectures.indexOf(model)].color = newModel.color;
-        val.lectures[val.lectures.indexOf(model)].times = newModel.times;
-        val.lectures[val.lectures.indexOf(model)].memo = newModel.memo;
+        val.schedules[val.schedules.indexOf(model)].name = newModel.name;
+        val.schedules[val.schedules.indexOf(model)].color = newModel.color;
+        val.schedules[val.schedules.indexOf(model)].times = newModel.times;
+        val.schedules[val.schedules.indexOf(model)].memo = newModel.memo;
       }
     });
     if(!await editTimetable()){
       timetables.first.update((val) {
         if(val != null){
-          val.lectures = temp;
+          val.schedules = temp;
         }
       });
     }else{
@@ -76,7 +75,7 @@ class TimetablePageController extends GetxController {
     }
   }
 
-  Future<void> addLecture(LectureModel model) async{
+  Future<void> addSchedule(ScheduleModel model) async{
     if (isOverlappedScheduleTime(model)) {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
@@ -94,20 +93,20 @@ class TimetablePageController extends GetxController {
       return;
     }
 
-    final List<LectureModel> temp = List.empty(growable: true);
-    for(LectureModel i in timetables.first.value.lectures){
+    final List<ScheduleModel> temp = List.empty(growable: true);
+    for(ScheduleModel i in timetables.first.value.schedules){
       temp.add(i);
     }
 
     timetables.first.update((val) {
       if (val != null) {
-        val.lectures.add(model);
+        val.schedules.add(model);
       }
     });
     if(!await editTimetable()){
       timetables.first.update((val) {
         if(val != null){
-          val.lectures = temp;
+          val.schedules = temp;
         }
       });
     }else{
@@ -115,22 +114,22 @@ class TimetablePageController extends GetxController {
     }
   }
 
-  Future<void> deleteLecture(LectureModel model) async{
+  Future<void> deleteSchedule(ScheduleModel model) async{
 
-    final List<LectureModel> temp = List.empty(growable: true);
-    for(LectureModel i in timetables.first.value.lectures) {
+    final List<ScheduleModel> temp = List.empty(growable: true);
+    for(ScheduleModel i in timetables.first.value.schedules) {
       temp.add(i);
     }
 
     timetables.first.update((val) {
       if (val != null) {
-        val.lectures.remove(model);
+        val.schedules.remove(model);
       }
     });
     if(!await editTimetable()){
       timetables.first.update((val) {
         if(val != null){
-          val.lectures = temp;
+          val.schedules = temp;
         }
       });
     }else{
@@ -138,22 +137,22 @@ class TimetablePageController extends GetxController {
     }
   }
 
-  bool isOverlappedScheduleTime(LectureModel model) {
-    for (int i = 0; i < timetables.first.value.lectures.length; i++) {
-      for (LectureTime subjectTime
-          in timetables.first.value.lectures[i].times) {
+  bool isOverlappedScheduleTime(ScheduleModel model) {
+    for (int i = 0; i < timetables.first.value.schedules.length; i++) {
+      for (ScheduleTime subjectTime
+          in timetables.first.value.schedules[i].times) {
         DateTime lectureStartTime =
             DateTime.parse("2022-01-01 ${subjectTime.start}");
         DateTime lectureEndTime =
             DateTime.parse("2022-01-01 ${subjectTime.end}");
-        for (LectureTime modelTime in model.times) {
+        for (ScheduleTime modelTime in model.times) {
           DateTime modelStartTime =
               DateTime.parse("2022-01-01 ${modelTime.start}");
           DateTime modelEndTime = DateTime.parse("2022-01-01 ${modelTime.end}");
           //현재 존재하는 스케줄의 시간들과 비교하여 겹치는 것이 있는지 확인
           if (modelTime.week == subjectTime.week) {
             //본인 시간들이 겹치는지는 비교할 필요 없음
-            if (timetables.first.value.lectures[i].id != model.id) {
+            if (timetables.first.value.schedules[i].id != model.id) {
               if (lectureStartTime.isBefore(modelEndTime) &&
                   lectureEndTime.isAfter(modelStartTime)) {
                 // 시간이 겹친다면 true 반환
@@ -162,7 +161,7 @@ class TimetablePageController extends GetxController {
             }
           }
           // 현재 추가하려는 일정의 시간들이 겹치는지 비교하여 확인
-          for (LectureTime k in model.times) {
+          for (ScheduleTime k in model.times) {
             if (k == modelTime) continue;
             if (modelTime.week == k.week) {
               DateTime compareStartTime =
@@ -181,8 +180,8 @@ class TimetablePageController extends GetxController {
     return false;
   }
 
-  bool isSatisfyMinimumTime(LectureModel model) {
-    for (LectureTime time in model.times) {
+  bool isSatisfyMinimumTime(ScheduleModel model) {
+    for (ScheduleTime time in model.times) {
       DateTime startTime = DateTime.parse("2022-01-01 ${time.start}");
       DateTime endTime = DateTime.parse("2022-01-01 ${time.end}");
       Duration duration = endTime.difference(startTime);
@@ -236,7 +235,7 @@ class TimetablePageController extends GetxController {
   Future<bool> addTimetable() async {
     final ApiResponseDTO response = await _timetableRepository
         .addTimetable(_loginService.token.value.accessToken,
-        TimetableModel(id: 0,name: "default",  lectures: [])
+        TimetableModel(id: 0,name: "default",  schedules: [])
     );
     if (response.success) {
       return true;
@@ -271,14 +270,14 @@ class TimetableBottomSheetController extends GetxController {
   final TimetableRepository _timetableRepository = TimetableRepository();
   final LoginService _loginService = Get.find<LoginService>();
 
-  final RxBool isSubjectAdd = true.obs;
+  final RxBool isLectureAdd = true.obs;
   final RxBool isSearch = false.obs;
   final RxBool isSearchLoaded = false.obs;
 
   Color selectedColor = Palette.subjectColors[Random().nextInt(10)];
 
-  RxList<Rx<LectureTime>> times = <Rx<LectureTime>>[
-    LectureTime(start: "09:00", end: "10:00", week: WeekOfDay.monday.nameKR)
+  RxList<Rx<ScheduleTime>> times = <Rx<ScheduleTime>>[
+    ScheduleTime(start: "09:00", end: "10:00", week: WeekOfDay.monday.nameKR)
         .obs,
   ].obs;
 
@@ -300,7 +299,8 @@ class TimetableBottomSheetController extends GetxController {
 
   final TextEditingController memoController = TextEditingController();
 
-  void initBottomSheet(LectureModel model) {
+  void initBottomSheet(ScheduleModel model) {
+    isLectureAdd.value = model.type == ScheduleType.lecture;
     titleController.text = model.name;
     times.value = model.times.map((e) => e.obs).toList();
     contentController.text =
@@ -309,7 +309,7 @@ class TimetableBottomSheetController extends GetxController {
     selectedColor = Color(model.color.value);
   }
 
-  LectureModel? makeNewLectureModel() {
+  ScheduleModel? makeNewLectureModel() {
     if (titleController.text.isEmpty) {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
@@ -327,11 +327,13 @@ class TimetableBottomSheetController extends GetxController {
       return null;
     }
 
-    return LectureModel(
+    return ScheduleModel(
         name: titleController.text,
         color: Color(selectedColor.value),
         times: times.map((e) => e.value).toList(),
-        memo: memoController.text);
+        memo: memoController.text,
+        type: isLectureAdd.value ? ScheduleType.lecture : ScheduleType.schedule,
+    );
   }
 
   Future<void> searchLecture() async {
@@ -344,4 +346,5 @@ class TimetableBottomSheetController extends GetxController {
     }
     isSearchLoaded.value = true;
   }
+
 }

@@ -1,9 +1,8 @@
+import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
-import '../../../../routes/app_routes.dart';
 
 class SplashScreenPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -21,14 +20,13 @@ class SplashScreenPageController extends GetxController
     await animationInit();
     if (accessToken != null && refreshToken  != null) {
       await loginService.autoLogin(accessToken, refreshToken);
-      /*
+
       if (loginService.isLogin.value) {
         Get.offAndToNamed(Routes.main);
       } else {
         Get.offAndToNamed(Routes.login);
       }
-      */
-      Get.offAndToNamed(Routes.login);
+
     } else {
       Get.offAndToNamed(Routes.login);
     }

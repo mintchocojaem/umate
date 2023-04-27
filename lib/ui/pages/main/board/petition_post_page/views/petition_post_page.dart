@@ -422,7 +422,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
+                            horizontal: 16, vertical: 8),
                         child: ModernFormButton(
                           isEnabled: (!controller.petitionPost.value.agree) &&
                               (controller.petitionPost.value.status !=

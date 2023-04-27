@@ -23,21 +23,21 @@ extension WeekOfDayExtension on WeekOfDay {
   ][index];
 }
 
-class LectureTime{
+class ScheduleTime{
   String start;
   String end;
   String week;
   String? place;
 
-  LectureTime({
+  ScheduleTime({
     required this.start,
     required this.end,
     required this.week,
     this.place
   });
 
-  factory LectureTime.fromJson(Map<String, dynamic> json) {
-    return LectureTime(
+  factory ScheduleTime.fromJson(Map<String, dynamic> json) {
+    return ScheduleTime(
       start: (json['start'] as String).substring(0,5),
       end: (json['end'] as String).substring(0,5),
       week: WeekOfDay.values.firstWhere((element) => element.name == json['week']).nameKR,

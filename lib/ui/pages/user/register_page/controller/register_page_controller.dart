@@ -27,19 +27,26 @@ class RegisterPageController extends GetxController {
 
   final ScrollController scrollController = ScrollController();
 
-  final RxString studentId = "".obs;
+  final Rx<TextEditingController> studentIdController =
+      TextEditingController().obs;
 
-  final RxString studentPassword = "".obs;
+  final Rx<TextEditingController> studentPasswordController =
+      TextEditingController().obs;
 
-  final RxString password = "".obs;
+  final Rx<TextEditingController> passwordController =
+      TextEditingController().obs;
 
-  final RxString passwordValidate = "".obs;
+  final Rx<TextEditingController> passwordValidateController =
+      TextEditingController().obs;
 
-  final RxString nickname = "".obs;
+  final Rx<TextEditingController> nicknameController =
+      TextEditingController().obs;
 
-  final RxString phoneNumber = "".obs;
+  final Rx<TextEditingController> phoneNumberController =
+      TextEditingController().obs;
 
-  final RxString phoneAuthenticationNumber = "".obs;
+  final Rx<TextEditingController> phoneAuthenticationNumberController =
+      TextEditingController().obs;
 
   late Rx<RegisterModel> registerInfo;
   final RxBool isStudentAuthenticated = false.obs;
@@ -65,15 +72,15 @@ class RegisterPageController extends GetxController {
   Future<void> register() async {
     final ApiResponseDTO apiResponseDTO =
         await _registerRepository.register(registerModel: registerInfo.value);
-    if(apiResponseDTO.success){
+    if (apiResponseDTO.success) {
       final RegisterModel registerModel = apiResponseDTO.data as RegisterModel;
       registerInfo = registerModel.obs;
       isRegistered.value = true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "회원가입 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "회원가입 오류",
+              content: apiResponseDTO.message)
           .show();
       isRegistered.value = false;
     }
@@ -83,12 +90,17 @@ class RegisterPageController extends GetxController {
     final ApiResponseDTO apiResponseDTO = await _registerRepository
         .sendAuthCodeToSMS(signupToken: signupToken, phoneNumber: phoneNumber);
     if (apiResponseDTO.success) {
+      GetXSnackBar(
+              type: GetXSnackBarType.info,
+              title: "인증번호 전송 성공",
+              content: "인증번호가 전송되었습니다. 휴대폰을 확인해주세요")
+          .show();
       return true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "인증번호 전송 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "인증번호 전송 오류",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }
@@ -101,9 +113,9 @@ class RegisterPageController extends GetxController {
       return true;
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "인증번호 확인 오류",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "인증번호 확인 오류",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }

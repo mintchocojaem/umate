@@ -1,5 +1,5 @@
-import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
-import 'package:danvery/domain/timetable/model/lecture/lecture_time.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_model.dart';
+import 'package:danvery/domain/timetable/model/lecture/schedule_time.dart';
 
 import '/core/theme/palette.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +8,16 @@ import 'package:intl/intl.dart';
 import '/core/theme/app_text_theme.dart';
 
 class Timetable extends StatelessWidget {
-  final List<LectureModel>? subjects;
+  final List<ScheduleModel>? schedules;
 
   final int tableStartTime;
   final int tableEndTime;
   final int today;
-  final void Function(LectureModel subjectModel)? onSubjectTap;
+  final void Function(ScheduleModel subjectModel)? onSubjectTap;
 
   const Timetable({
     super.key,
-    required this.subjects,
+    required this.schedules,
     required this.tableStartTime,
     required this.tableEndTime,
     this.today = 0,
@@ -72,14 +72,14 @@ class Timetable extends StatelessWidget {
     }
 
     List<Widget> buildColumnSubjects(
-        int index,List<LectureModel>? subjects, double dayCellHeight, double cellWidth) {
+        int index,List<ScheduleModel>? subjects, double dayCellHeight, double cellWidth) {
       DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
       Duration startTableDuration = Duration(hours: startTableTime.hour);
 
       List<Widget> result = [];
       if (subjects != null) {
-        for (LectureModel i in subjects) {
-          for (LectureTime j in i.times) {
+        for (ScheduleModel i in subjects) {
+          for (ScheduleTime j in i.times) {
             if(j.week == week[index]){
               final DateTime startTime = DateFormat('HH:mm').parse(j.start);
               final Duration startDuration = Duration(hours: startTime.hour, minutes: startTime.minute);
@@ -178,7 +178,7 @@ class Timetable extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ...buildColumnSubjects(index,subjects, dayCellHeight, cellWidth)
+                  ...buildColumnSubjects(index,schedules, dayCellHeight, cellWidth)
                 ],
               ),
               const Divider(

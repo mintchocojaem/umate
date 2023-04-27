@@ -52,7 +52,7 @@ class FindProvider {
     }
   }
 
-  Future<ApiResponseDTO> changePassword(String token, String password) async {
+  Future<ApiResponseDTO> resetPassword(String token, String password) async {
     const String url = '/user/find/pwd/reset';
     final body = {"token": token, "password": password};
 

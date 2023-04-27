@@ -24,8 +24,8 @@ class FindRepository {
     return await _findProvider.verifyAuthCode(token, code);
   }
 
-  Future<ApiResponseDTO> changePassword(
+  Future<ApiResponseDTO> resetPassword(
       {required String token, required String password}) async {
-    return await _findProvider.changePassword(token, password);
+    return await _findProvider.resetPassword(token, password);
   }
 }

@@ -2,12 +2,11 @@ import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/user/find_password_page/controller/find_password_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
-import '../../../../../widgets/modern/modern_form_button.dart';
 
 class FindPasswordStep1 extends GetView<FindPasswordPageController> {
   const FindPasswordStep1({Key? key}) : super(key: key);
@@ -25,17 +24,22 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
           ModernFormField(
             keyboardType: TextInputType.phone,
             onTextChanged: (value) {
-              controller.phoneNumber.value = value;
+              controller.phoneNumberController.update((val) {
+                if (val != null) {
+                  val.text = value;
+                }
+              });
             },
             hint: "휴대폰 번호를 입력하세요",
           ),
           const SizedBox(height: 16),
           Obx(
             () => ModernFormButton(
-              isEnabled: controller.phoneNumber.value.isNotEmpty,
+              isEnabled: controller.phoneNumberController.value.text.isNotEmpty,
               text: "인증번호 받기",
               onPressed: () async {
-                if (!phoneNumberCheckRegExp.hasMatch(controller.phoneNumber.value)) {
+                if (!phoneNumberCheckRegExp
+                    .hasMatch(controller.phoneNumberController.value.text)) {
                   GetXSnackBar(type: GetXSnackBarType.phoneNumberError).show();
                   return;
                 }

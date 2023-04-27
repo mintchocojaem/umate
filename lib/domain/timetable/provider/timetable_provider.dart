@@ -77,7 +77,7 @@ class TimetableProvider {
 
     final data = {
       'name': timetableModel.name,
-      'lectures': timetableModel.lectures.map((e) => e.toJson()).toList(),
+      'lectures': timetableModel.schedules.map((e) => e.toJson()).toList(),
     };
 
     try {
@@ -98,7 +98,7 @@ class TimetableProvider {
       'Authorization': "Bearer $accessToken",
     };
     final data = {
-      'lectures': timetableModel.lectures.map((e) => e.toJson()).toList(),
+      'lectures': timetableModel.schedules.map((e) => e.toJson()).toList(),
     };
 
     try {

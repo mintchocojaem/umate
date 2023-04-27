@@ -2,12 +2,11 @@ import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/ui/pages/user/find_password_page/controller/find_password_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
-import '../../../../../widgets/modern/modern_form_button.dart';
 
 class FindPasswordStep3 extends GetView<FindPasswordPageController> {
   const FindPasswordStep3({Key? key}) : super(key: key);
@@ -29,27 +28,32 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
             validate: true,
             isPassword: true,
             onTextChanged: (value) {
-              controller.password.value = value;
+              controller.passwordController.update((val) {
+                if (val != null) val.text = value;
+              });
             },
             onValidateChanged: (value) {
-              controller.passwordValidate.value = value;
+              controller.passwordValidateController.update((val) {
+                if (val != null) val.text = value;
+              });
             },
           ),
           const SizedBox(height: 32),
           Obx(
             () => ModernFormButton(
-              isEnabled: controller.password.value.isNotEmpty &&
-                  controller.passwordValidate.value.isNotEmpty,
+              isEnabled: controller.passwordController.value.text.isNotEmpty &&
+                  controller.passwordValidateController.value.text.isNotEmpty,
               text: "완료",
               onPressed: () async {
-                if (!passwordCheckRegExp.hasMatch(controller.password.value)) {
+                if (!passwordCheckRegExp
+                    .hasMatch(controller.passwordController.value.text)) {
                   GetXSnackBar(type: GetXSnackBarType.passwordInputError)
                       .show();
                   return;
                 }
 
-                if (controller.password.value !=
-                    controller.passwordValidate.value) {
+                if (controller.passwordController.value.text !=
+                    controller.passwordValidateController.value.text) {
                   GetXSnackBar(type: GetXSnackBarType.passwordConfirmError)
                       .show();
                   return;
