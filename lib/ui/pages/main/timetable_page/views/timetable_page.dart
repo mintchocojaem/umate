@@ -8,6 +8,7 @@ import 'package:danvery/ui/widgets/modern/modern_form_field.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
 import 'package:danvery/ui/widgets/timetable/timetable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -110,8 +111,37 @@ class TimetablePage extends GetView<TimetablePageController> {
                               : TextButton(
                                   onPressed: () async {
                                     //delete subject
-                                    await controller
-                                        .deleteSchedule(subjectModel);
+                                    showCupertinoDialog(
+                                      context: Get.context!,
+                                      builder: (BuildContext context) {
+                                        return CupertinoAlertDialog(
+                                          title: const Text("일정 삭제"),
+                                          content: const Text("해당 일정을 삭제하시겠습니까?"),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                              child: const Text(
+                                                '취소',
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+                                              },
+                                            ),
+                                            CupertinoDialogAction(
+                                              child: Text(
+                                                '확인',
+                                                style: TextStyle(
+                                                  color: Palette.lightRed,
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                await controller
+                                                    .deleteSchedule(subjectModel);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: Text(
                                     "삭제",

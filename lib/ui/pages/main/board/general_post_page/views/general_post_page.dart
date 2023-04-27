@@ -554,67 +554,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
     );
   }
 
-  void generalCommentPopup(GeneralCommentModel generalCommentModel) {
-    showCupertinoModalPopup(
-        context: Get.context!,
-        builder: (BuildContext context) {
-          return CupertinoActionSheet(
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: const Text(
-                  '신고하기',
-                ),
-                onPressed: () {
-                  Get.back();
-                  GetXSnackBar(
-                          type: GetXSnackBarType.info,
-                          title: "기능 안내사항",
-                          content: "댓글 신고 기능은 조만간 업데이트로 찾아뵙겠습니다.")
-                      .show();
-                },
-              ),
-              generalCommentModel.mine
-                  ? CupertinoActionSheetAction(
-                      child: const Text(
-                        '삭제하기',
-                      ),
-                      onPressed: () {
-                        Get.dialog(
-                          CupertinoAlertDialog(
-                            title: const Text('댓글 삭제'),
-                            content: const Text('댓글을 삭제하시겠습니까?'),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: const Text('취소'),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                child: const Text('확인'),
-                                onPressed: () async {
-                                  await controller.deleteGeneralComment(
-                                      generalCommentModel.id);
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
-                        ).then((value) => Get.back());
-                      },
-                    )
-                  : const SizedBox(),
-            ],
-            cancelButton: CupertinoActionSheetAction(
-              onPressed: () {
-                Get.back();
-              },
-              child: const Text('취소'),
-            ),
-          );
-        });
-  }
-
   void generalPostPopup(GeneralPostModel generalPostModel) {
     showCupertinoModalPopup(
       context: Get.context!,
@@ -643,7 +582,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               },
                             ),
                             CupertinoDialogAction(
-                              child: const Text('확인'),
+                              child: Text(
+                                '확인',
+                                style: TextStyle(color: Palette.lightRed),
+                              ),
                               onPressed: () async {
                                 Get.back();
                                 await controller.blindGeneralPost();
@@ -750,10 +692,79 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               },
                             ),
                             CupertinoDialogAction(
-                              child: const Text('확인'),
+                              child: Text(
+                                '확인',
+                                style: TextStyle(color: Palette.lightRed),
+                              ),
                               onPressed: () async {
                                 Get.back();
                                 await controller.deleteGeneralPost();
+                              },
+                            ),
+                          ],
+                        ),
+                      ).then((value) => Get.back());
+                    },
+                  )
+                : const SizedBox(),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('취소'),
+          ),
+        );
+      },
+    );
+  }
+
+  void generalCommentPopup(GeneralCommentModel generalCommentModel) {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          actions: <Widget>[
+            CupertinoActionSheetAction(
+              child: Text('신고하기',
+                  style: TextStyle(
+                    color: Palette.lightRed,
+                  )),
+              onPressed: () {
+                Get.back();
+                GetXSnackBar(
+                        type: GetXSnackBarType.info,
+                        title: "기능 안내사항",
+                        content: "댓글 신고 기능은 조만간 업데이트로 찾아뵙겠습니다.")
+                    .show();
+              },
+            ),
+            generalCommentModel.mine
+                ? CupertinoActionSheetAction(
+                    child: const Text(
+                      '삭제하기',
+                    ),
+                    onPressed: () {
+                      Get.dialog(
+                        CupertinoAlertDialog(
+                          title: const Text('댓글 삭제'),
+                          content: const Text('댓글을 삭제하시겠습니까?'),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: const Text('취소'),
+                              onPressed: () {
+                                Get.back();
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: Text(
+                                '확인',
+                                style: TextStyle(color: Palette.lightRed),
+                              ),
+                              onPressed: () async {
+                                await controller.deleteGeneralComment(
+                                    generalCommentModel.id);
+                                Get.back();
                               },
                             ),
                           ],

@@ -188,7 +188,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   builder: (BuildContext context) {
                                     return CupertinoAlertDialog(
                                       title: const Text("로그아웃"),
-                                      content: const Text("정말로 로그아웃 하시겠습니까?"),
+                                      content: const Text("로그아웃 하시겠습니까?"),
                                       actions: [
                                         CupertinoDialogAction(
                                           child: const Text(
