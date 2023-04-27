@@ -71,7 +71,6 @@ class TimetablePageController extends GetxController {
           val.lectures = temp;
         }
       });
-      await initTimetable();
     }else{
       Get.back();
     }
@@ -111,7 +110,6 @@ class TimetablePageController extends GetxController {
           val.lectures = temp;
         }
       });
-      await initTimetable();
     }else{
       Get.back();
     }
@@ -135,7 +133,6 @@ class TimetablePageController extends GetxController {
           val.lectures = temp;
         }
       });
-      await initTimetable();
     }else{
       Get.back();
     }
