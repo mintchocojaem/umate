@@ -567,6 +567,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                       TextOverflow
                                                                           .ellipsis,
                                                                 ),
+                                                                maxLines: 2,
                                                               ),
                                                               const SizedBox(
                                                                 height: 4,
@@ -574,13 +575,11 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                               bottomSheetController
                                                                           .lectures[
                                                                               index]
-                                                                          .professor !=
+                                                                          .classNumber !=
                                                                       null
                                                                   ? Text(
-                                                                      bottomSheetController
-                                                                          .lectures[
-                                                                              index]
-                                                                          .professor!,
+                                                                      "${bottomSheetController.lectures[index].professor != null ? bottomSheetController.lectures[index].professor! : ""}"
+                                                                      "(${bottomSheetController.lectures[index].classNumber!}분반)",
                                                                       style: lightStyle.copyWith(
                                                                           color: Palette
                                                                               .grey,
