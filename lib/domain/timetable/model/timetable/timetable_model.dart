@@ -2,8 +2,8 @@ import 'package:danvery/domain/timetable/model/lecture/lecture_model.dart';
 
 class TimetableModel{
   final int id;
-  final String? name;
-  final List<LectureModel> lectures;
+  String? name;
+  List<LectureModel> lectures;
 
   TimetableModel({
     required this.id,

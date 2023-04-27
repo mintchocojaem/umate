@@ -11,6 +11,7 @@ import 'package:danvery/domain/timetable/model/timetable/timetable_model.dart';
 import 'package:danvery/domain/timetable/repository/timetable_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:danvery/ui/widgets/timetable/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,6 +51,12 @@ class TimetablePageController extends GetxController {
           .show();
       return;
     }
+
+    final List<LectureModel> temp = List.empty(growable: true);
+    for(LectureModel i in timetables.first.value.lectures) {
+      temp.add(i);
+    }
+
     timetables.first.update((val) {
       if (val != null) {
         val.lectures[val.lectures.indexOf(model)].name = newModel.name;
@@ -59,6 +66,11 @@ class TimetablePageController extends GetxController {
       }
     });
     if(!await editTimetable()){
+      timetables.first.update((val) {
+        if(val != null){
+          val.lectures = temp;
+        }
+      });
       await initTimetable();
     }else{
       Get.back();
@@ -82,12 +94,23 @@ class TimetablePageController extends GetxController {
           .show();
       return;
     }
+
+    final List<LectureModel> temp = List.empty(growable: true);
+    for(LectureModel i in timetables.first.value.lectures){
+      temp.add(i);
+    }
+
     timetables.first.update((val) {
       if (val != null) {
         val.lectures.add(model);
       }
     });
     if(!await editTimetable()){
+      timetables.first.update((val) {
+        if(val != null){
+          val.lectures = temp;
+        }
+      });
       await initTimetable();
     }else{
       Get.back();
@@ -95,12 +118,23 @@ class TimetablePageController extends GetxController {
   }
 
   Future<void> deleteLecture(LectureModel model) async{
+
+    final List<LectureModel> temp = List.empty(growable: true);
+    for(LectureModel i in timetables.first.value.lectures) {
+      temp.add(i);
+    }
+
     timetables.first.update((val) {
       if (val != null) {
         val.lectures.remove(model);
       }
     });
     if(!await editTimetable()){
+      timetables.first.update((val) {
+        if(val != null){
+          val.lectures = temp;
+        }
+      });
       await initTimetable();
     }else{
       Get.back();
