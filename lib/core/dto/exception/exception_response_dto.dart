@@ -4,5 +4,5 @@ class ExceptionResponseDTO extends ApiResponseDTO {
   ExceptionResponseDTO({
     String? message,
   }) : super(success: false, data: null, message: message ??
-      "알 수 없는 오류가 발생했습니다");
+      "서버 연결 중 오류가 발생했습니다");
 }

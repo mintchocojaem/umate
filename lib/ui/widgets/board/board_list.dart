@@ -6,18 +6,19 @@ import '../../../core/theme/app_text_theme.dart';
 
 class BoardList extends StatelessWidget {
   final List<Widget> cards;
+  final Widget? description;
   final String title;
-  final String actionTitle;
-  final bool showAction;
+  final Widget? action;
   final VoidCallback? onTapAction;
 
-  const BoardList(
-      {super.key,
-      required this.cards,
-      required this.title,
-      required this.actionTitle,
-      this.showAction = true,
-      this.onTapAction});
+  const BoardList({
+    super.key,
+    required this.cards,
+    this.description,
+    required this.title,
+    this.action,
+    this.onTapAction
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +47,23 @@ class BoardList extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: smallTitleStyle.copyWith(color: Palette.black),
-                ),
-                InkWell(
-                  onTap: onTapAction,
-                  child: SizedBox(
-                    height: 42,
-                    width: 80,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          actionTitle,
-                          style: regularStyle.copyWith(
-                              color: Palette.darkGrey,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        showAction
-                            ? Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                color: Palette.darkGrey,
-                                size: regularStyle.fontSize,
-                              )
-                            : Container()
-                      ],
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: smallTitleStyle.copyWith(color: Palette.black),
                     ),
-                  ),
+                    const SizedBox(width: 4,),
+                    description ?? const SizedBox()
+                  ],
+                ),
+                SizedBox(
+                  height: 42,
+                  child: action != null ? InkWell(
+                    onTap: onTapAction,
+                    child: action
+                  ) : const SizedBox(),
                 ),
               ],
             ),

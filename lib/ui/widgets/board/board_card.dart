@@ -10,13 +10,14 @@ class BoardCard extends StatelessWidget {
   final String? trailingText;
   final VoidCallback? onTap;
 
-  const BoardCard(
-      {super.key,
-      this.leadingText,
-      this.leadingImage,
-      required this.title,
-      this.trailingText,
-      this.onTap});
+  const BoardCard({
+    super.key,
+    this.leadingText,
+    this.leadingImage,
+    required this.title,
+    this.trailingText,
+    this.onTap
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -2,9 +2,8 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
+import 'package:danvery/domain/bus/model/bus_model.dart';
 import 'package:dio/dio.dart';
-
-import '../model/bus_model.dart';
 
 class BusProvider {
   final Dio _dio;

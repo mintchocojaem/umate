@@ -244,65 +244,83 @@ class MyPagePage extends GetView<MyPagePageController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: smallTitleStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "내가 쓴 글",
-                                  style: regularStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                              ],
+                            InkWell(
+                              onTap: (){
+                                controller.myPagePostIndex= 0;
+                                Get.toNamed(Routes.myPagePost);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "0",
+                                    style: smallTitleStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "게시한 글",
+                                    style: regularStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(
                               width: 32,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: smallTitleStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "내가 쓴 댓글",
-                                  style: regularStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                              ],
+                            InkWell(
+                              onTap: (){
+                                controller.myPagePostIndex= 1;
+                                Get.toNamed(Routes.myPagePost);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "0",
+                                    style: smallTitleStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "댓글 단 글",
+                                    style: regularStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(
                               width: 32,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: smallTitleStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "좋아요한 글",
-                                  style: regularStyle.copyWith(
-                                      color: Palette.darkGrey),
-                                ),
-                              ],
+                            InkWell(
+                              onTap: (){
+                                controller.myPagePostIndex= 2;
+                                Get.toNamed(Routes.myPagePost);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "0",
+                                    style: smallTitleStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "좋아요한 글",
+                                    style: regularStyle.copyWith(
+                                        color: Palette.darkGrey),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

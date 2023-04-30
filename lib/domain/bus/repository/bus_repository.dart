@@ -1,6 +1,4 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
-
-import '../model/bus_model.dart';
 import '../provider/bus_provider.dart';
 
 class BusRepository {

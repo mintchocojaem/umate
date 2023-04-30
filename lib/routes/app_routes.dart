@@ -18,4 +18,7 @@ abstract class Routes {
   static const String findId = '/findId';
   static const String imageShow = '/imageShow';
   static const String petitionAgreeStatus = '/board/petition/agree_status';
+  static const String banner = '/banner';
+  static const String bannerDetail = '/banner/detail';
+  static const String myPagePost = '/myPage/post';
 }

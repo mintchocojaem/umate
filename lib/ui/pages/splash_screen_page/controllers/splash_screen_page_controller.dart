@@ -20,7 +20,6 @@ class SplashScreenPageController extends GetxController
     await animationInit();
     if (accessToken != null && refreshToken  != null) {
       await loginService.autoLogin(accessToken, refreshToken);
-
       if (loginService.isLogin.value) {
         Get.offAndToNamed(Routes.main);
       } else {

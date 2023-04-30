@@ -1,11 +1,15 @@
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
+import 'package:danvery/ui/pages/banner_list/binding/banner_list_page_binding.dart';
+import 'package:danvery/ui/pages/banner_list/views/banner_detail_page.dart';
+import 'package:danvery/ui/pages/banner_list/views/banner_list_page.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/binding/image_show_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/views/image_show_page.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_page/views/petition_agree_status_page.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_write_page/binding/petition_post_write_page_binding.dart';
 import 'package:danvery/ui/pages/main/board/petition_post_write_page/views/petition_post_write_page.dart';
 import 'package:danvery/ui/pages/main/my_page/views/mypage_edit_page.dart';
+import 'package:danvery/ui/pages/main/my_page/views/mypage_post_page.dart';
 import 'package:danvery/ui/pages/user/find_id_page/binding/find_id_page_binding.dart';
 import 'package:danvery/ui/pages/user/find_id_page/views/find_id_page.dart';
 import 'package:danvery/ui/pages/user/find_password_page/binding/find_password_page_binding.dart';
@@ -122,6 +126,24 @@ class AppPages {
       name: Routes.petitionAgreeStatus,
       page: () => const PetitionAgreeStatusPage(),
     ),
-    GetPage(name: Routes.myPageEdit, page: () => const MyPageEditPage()),
+    GetPage(
+      name: Routes.myPageEdit,
+      page: () => const MyPageEditPage(),
+    ),
+    GetPage(
+      name: Routes.banner,
+      page: () => const BannerListPage(),
+    ),
+    GetPage(
+      name: Routes.bannerDetail,
+      page: () => const BannerDetailPage(),
+      bindings: [
+        BannerListPageBinding(),
+      ]
+    ),
+    GetPage(
+      name: Routes.myPagePost,
+      page: () => const MyPagePostPage(),
+    ),
   ];
 }

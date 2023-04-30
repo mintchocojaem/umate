@@ -23,9 +23,12 @@ class MyPagePageController extends GetxController {
   late Rx<UserPostListModel> userCommentedPostList;
   late Rx<UserPostListModel> userLikePostList;
 
-
   int page = 0;
   int size = 10;
+
+  int myPagePostIndex = 0;
+
+  late String myPagePostTitle;
 
   void initEditPage(){
     nickname.value.text = loginService.userInfo.value.nickname;

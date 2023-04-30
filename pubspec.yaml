@@ -56,6 +56,7 @@ dependencies:
   firebase_core: ^2.7.0
   firebase_messaging: ^14.2.5
   firebase_analytics: ^10.1.5
+  firebase_remote_config: ^4.0.2
 
 
 dev_dependencies:
@@ -114,13 +115,13 @@ flutter:
     - assets/icons/bottom_navigation_bar/selected/
     - assets/icons/bottom_navigation_bar/unselected/
     - assets/icons/main_icon_list/
-    - assets/icons/main_header/
     - assets/icons/bus_list/
     - assets/icons/user/
     - assets/icons/splash/
     - assets/icons/danvery/
     - assets/icons/post/
     - assets/icons/login/
+    - assets/icons/
   fonts:
     - family: NotoSansKR
       fonts:
