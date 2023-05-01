@@ -33,7 +33,7 @@ class HomePage extends GetView<HomePageController> {
             children: [
               Stack(
                 children: [
-                  controller.isLoadBannerList.value
+                  controller.bannerList.value.bannerList.isNotEmpty
                       ? AnimatedSwitcher(
                           duration: const Duration(seconds: 1),
                           child: InkWell(
@@ -148,7 +148,7 @@ class HomePage extends GetView<HomePageController> {
                           Column(
                             children: [
                               //Banner
-                              controller.isLoadBannerList.value
+                              controller.bannerList.value.subBannerList.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16),
@@ -189,7 +189,9 @@ class HomePage extends GetView<HomePageController> {
                                         ),
                                       ),
                                     )
-                                  : const SizedBox(),
+                                  : const SizedBox(
+                                height: 16,
+                              ),
                               //get suggestion board with Obx
                               Padding(
                                 padding:

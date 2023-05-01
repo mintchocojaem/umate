@@ -54,8 +54,6 @@ class HomePageController extends GetxController {
 
   final RxBool isLoadBusList = false.obs;
 
-  final RxBool isLoadBannerList = false.obs;
-
   final RxInt currentBannerIndex = 0.obs;
 
   late List<Widget> busCards;
@@ -313,7 +311,6 @@ class HomePageController extends GetxController {
     final ApiResponseDTO apiResponseDTO = await bannerRepository.getBannerList();
     if (apiResponseDTO.success) {
       bannerList.value = apiResponseDTO.data as BannerListModel;
-      isLoadBannerList.value = true;
     }else{
       GetXSnackBar(
         type: GetXSnackBarType.customError,
