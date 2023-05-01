@@ -14,6 +14,7 @@ class Timetable extends StatelessWidget {
   final int tableEndTime;
   final int today;
   final void Function(ScheduleModel subjectModel)? onSubjectTap;
+  final bool isLoading;
 
   const Timetable({
     super.key,
@@ -22,6 +23,7 @@ class Timetable extends StatelessWidget {
     required this.tableEndTime,
     this.today = 0,
     this.onSubjectTap,
+    this.isLoading = false,
   });
 
   @override
@@ -33,7 +35,6 @@ class Timetable extends StatelessWidget {
     int columnLength = tableEndTime - tableStartTime;
 
     List<String> week = ['월', '화', '수', '목', '금'];
-
 
     Widget buildTimeColumn(
         double dayCellHeight, double cellWidth, int columnLength) {
@@ -49,14 +50,14 @@ class Timetable extends StatelessWidget {
               children: [
                 ...List.generate(
                   columnLength + 1,
-                      (index) {
+                  (index) {
                     return SizedBox(
                       height: cellWidth + 1,
                       child: Center(
                           child: Text(
-                            '${(index) + tableStartTime}',
-                            style: tinyStyle.copyWith(color: Palette.grey),
-                          )),
+                        '${(index) + tableStartTime}',
+                        style: tinyStyle.copyWith(color: Palette.grey),
+                      )),
                     );
                   },
                 ),
@@ -71,26 +72,36 @@ class Timetable extends StatelessWidget {
       );
     }
 
-    List<Widget> buildColumnSubjects(
-        int index,List<ScheduleModel>? subjects, double dayCellHeight, double cellWidth) {
-      DateTime startTableTime = DateFormat('HH').parse(tableStartTime.toString());
+    List<Widget> buildColumnSubjects(int index, List<ScheduleModel>? subjects,
+        double dayCellHeight, double cellWidth) {
+      DateTime startTableTime =
+          DateFormat('HH').parse(tableStartTime.toString());
       Duration startTableDuration = Duration(hours: startTableTime.hour);
 
       List<Widget> result = [];
       if (subjects != null) {
         for (ScheduleModel i in subjects) {
           for (ScheduleTime j in i.times) {
-            if(j.week == week[index]){
+            if (j.week == week[index]) {
               final DateTime startTime = DateFormat('HH:mm').parse(j.start);
-              final Duration startDuration = Duration(hours: startTime.hour, minutes: startTime.minute);
+              final Duration startDuration =
+                  Duration(hours: startTime.hour, minutes: startTime.minute);
               final DateTime endTime = DateFormat('HH:mm').parse(j.end);
 
-              final double height = (endTime.subtract(startDuration).hour * (cellWidth +1)) +
-                  (endTime.subtract(startDuration).minute * (cellWidth +1) / 60);
+              final double height =
+                  (endTime.subtract(startDuration).hour * (cellWidth + 1)) +
+                      (endTime.subtract(startDuration).minute *
+                          (cellWidth + 1) /
+                          60);
               final double width = cellWidth + dayCellHeight;
-              final double top = (startTime.subtract(startTableDuration).hour * (cellWidth +1)) +
-                  (startTime.subtract(startTableDuration).minute * (cellWidth +1) / 60);
-              final int maxLine = ((endTime.subtract(startDuration).hour * 60) + (endTime.subtract(startDuration).minute)) ~/ 30;
+              final double top = (startTime.subtract(startTableDuration).hour *
+                      (cellWidth + 1)) +
+                  (startTime.subtract(startTableDuration).minute *
+                      (cellWidth + 1) /
+                      60);
+              final int maxLine = ((endTime.subtract(startDuration).hour * 60) +
+                      (endTime.subtract(startDuration).minute)) ~/
+                  30;
               result.add(
                 Positioned(
                   top: top,
@@ -108,7 +119,7 @@ class Timetable extends StatelessWidget {
                           color: i.color,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 4,right: 4),
+                          padding: const EdgeInsets.only(left: 4, right: 4),
                           child: Row(
                             children: [
                               Flexible(
@@ -117,8 +128,8 @@ class Timetable extends StatelessWidget {
                                   children: <Widget>[
                                     Text(
                                       i.name,
-                                      style:
-                                      tinyStyle.copyWith(color: Palette.pureWhite),
+                                      style: tinyStyle.copyWith(
+                                          color: Palette.pureWhite),
                                       maxLines: maxLine,
                                       overflow: TextOverflow.ellipsis,
                                     )
@@ -164,7 +175,7 @@ class Timetable extends StatelessWidget {
                     children: [
                       ...List.generate(
                         columnLength * 2,
-                            (index) {
+                        (index) {
                           if (index % 2 == 0) {
                             return const Divider(
                               color: Colors.grey,
@@ -178,7 +189,8 @@ class Timetable extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ...buildColumnSubjects(index,schedules, dayCellHeight, cellWidth)
+                  ...buildColumnSubjects(
+                      index, schedules, dayCellHeight, cellWidth)
                 ],
               ),
               const Divider(
@@ -204,52 +216,67 @@ class Timetable extends StatelessWidget {
 
     for (String i in week) {
       table = table +
-          buildDayColumn(week.indexOf(i), week, columnLength, cellHeight,
-              dayCellHeight);
+          buildDayColumn(
+              week.indexOf(i), week, columnLength, cellHeight, dayCellHeight);
     }
 
     // TODO: implement build
-    return Column(
+    return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 35,
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 35,
+                  ),
+                  ...List.generate(
+                    week.length,
+                    (index) {
+                      return Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: index == today
+                              ? BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  // You can use like this way or like the below line
+                                  //borderRadius: new BorderRadius.circular(30.0),
+                                  color: Palette.blue,
+                                )
+                              : const BoxDecoration(),
+                          child: Center(
+                            child: Text(
+                              week[index],
+                              style: regularStyle.copyWith(
+                                  color: index == today
+                                      ? Palette.pureWhite
+                                      : Palette.grey),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              ...List.generate(
-                week.length,
-                (index) {
-                  return Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: index == today
-                          ? BoxDecoration(
-                              shape: BoxShape.circle,
-                              // You can use like this way or like the below line
-                              //borderRadius: new BorderRadius.circular(30.0),
-                              color: Palette.blue,
-                            )
-                          : const BoxDecoration(),
-                      child: Center(
-                          child: Text(
-                        week[index],
-                        style: regularStyle.copyWith(
-                            color: index == today
-                                ? Palette.pureWhite
-                                : Palette.grey),
-                      )),
-                    ),
-                  );
-                },
-              ),
-            ],
+            ),
+            IntrinsicHeight(
+              child: Row(children: table),
+            ),
+          ],
+        ),
+        if(isLoading) const Padding(
+          padding: EdgeInsets.only(top: 250),
+          child: Center(
+            child: SizedBox(
+              width: 48,
+              height: 48,
+              child: CircularProgressIndicator(),
+            ),
           ),
-        ),
-        IntrinsicHeight(
-          child: Row(children: table),
-        ),
+        )
       ],
     );
   }

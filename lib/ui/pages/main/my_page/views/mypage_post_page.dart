@@ -1,5 +1,5 @@
 import 'package:danvery/routes/app_routes.dart';
-import 'package:danvery/ui/pages/banner_list/controller/banner_list_controller.dart';
+import 'package:danvery/ui/pages/banner_list/controller/banner_list_page_controller.dart';
 import 'package:danvery/ui/pages/banner_list/views/banner_card.dart';
 import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';

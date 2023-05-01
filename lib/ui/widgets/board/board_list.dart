@@ -11,14 +11,13 @@ class BoardList extends StatelessWidget {
   final Widget? action;
   final VoidCallback? onTapAction;
 
-  const BoardList({
-    super.key,
-    required this.cards,
-    this.description,
-    required this.title,
-    this.action,
-    this.onTapAction
-  });
+  const BoardList(
+      {super.key,
+      required this.cards,
+      this.description,
+      required this.title,
+      this.action,
+      this.onTapAction});
 
   @override
   Widget build(BuildContext context) {
@@ -54,27 +53,29 @@ class BoardList extends StatelessWidget {
                       title,
                       style: smallTitleStyle.copyWith(color: Palette.black),
                     ),
-                    const SizedBox(width: 4,),
+                    const SizedBox(
+                      width: 4,
+                    ),
                     description ?? const SizedBox()
                   ],
                 ),
                 SizedBox(
                   height: 42,
-                  child: action != null ? InkWell(
-                    onTap: onTapAction,
-                    child: action
-                  ) : const SizedBox(),
+                  child: action != null
+                      ? InkWell(onTap: onTapAction, child: action)
+                      : const SizedBox(),
                 ),
               ],
             ),
             ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 8),
-                itemCount: cards.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return cards[index];
-                })
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 8),
+              itemCount: cards.length,
+              itemBuilder: (BuildContext context, int index) {
+                return cards[index];
+              },
+            )
           ],
         ),
       ),

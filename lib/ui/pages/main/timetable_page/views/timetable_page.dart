@@ -20,22 +20,11 @@ class TimetablePage extends GetView<TimetablePageController> {
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
-        title: "2023 1학기",
+        title: "시간표",
         titleStyle: smallTitleStyle.copyWith(color: Palette.black),
         isDarkMode: Get.isDarkMode,
         backGroundColor: Palette.pureWhite,
         actions: [
-          /*
-          IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {},
-            icon: Icon(
-              Icons.ios_share_rounded,
-              color: Palette.blue,
-            ),
-          ),
-           */
           IconButton(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
@@ -53,22 +42,20 @@ class TimetablePage extends GetView<TimetablePageController> {
         child: Column(
           children: [
             Obx(() {
-              return controller.isLoadTimetable.value
-                  ? Timetable(
-                      schedules: controller.timetables.first.value.schedules
-                          .map((e) => e)
-                          .toList(),
-                      today: controller.today,
-                      onSubjectTap: (subject) {
-                        timetableBottomSheet(subjectModel: subject);
-                      },
-                      tableStartTime: 9,
-                      tableEndTime: 24,
-                    )
-                  : const SizedBox(
-                      height: 200,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
+              return Timetable(
+                isLoading: !controller.isLoadTimetable.value,
+                schedules: controller.isLoadTimetable.value
+                    ? controller.timetables.first.value.schedules
+                        .map((e) => e)
+                        .toList()
+                    : [],
+                today: controller.today,
+                onSubjectTap: (subject) {
+                  timetableBottomSheet(subjectModel: subject);
+                },
+                tableStartTime: 9,
+                tableEndTime: 24,
+              );
             })
           ],
         ),
@@ -116,7 +103,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                       builder: (BuildContext context) {
                                         return CupertinoAlertDialog(
                                           title: const Text("일정 삭제"),
-                                          content: const Text("해당 일정을 삭제하시겠습니까?"),
+                                          content:
+                                              const Text("해당 일정을 삭제하시겠습니까?"),
                                           actions: [
                                             CupertinoDialogAction(
                                               child: const Text(
@@ -134,8 +122,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 ),
                                               ),
                                               onPressed: () async {
-                                                await controller
-                                                    .deleteSchedule(subjectModel);
+                                                await controller.deleteSchedule(
+                                                    subjectModel);
                                               },
                                             ),
                                           ],

@@ -16,4 +16,12 @@ class BannerModel {
       detailUrl: json["detailUrl"] as String,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "actionUrl": actionUrl,
+      "bannerUrl": bannerUrl,
+      "detailUrl": detailUrl,
+    };
+  }
 }

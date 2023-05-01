@@ -142,8 +142,16 @@ class AppPages {
       ]
     ),
     GetPage(
+        name: Routes.bannerList,
+        page: () => const BannerListPage(),
+        bindings: [
+          BannerListPageBinding(),
+        ]
+    ),
+    GetPage(
       name: Routes.myPagePost,
       page: () => const MyPagePostPage(),
     ),
+
   ];
 }

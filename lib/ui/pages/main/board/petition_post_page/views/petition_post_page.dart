@@ -428,7 +428,38 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                               (controller.petitionPost.value.status !=
                                   PetitionPostStatus.expired.nameKR),
                           onPressed: () async {
-                            controller.agreePetition();
+                            showCupertinoDialog(
+                              context: Get.context!,
+                              builder: (BuildContext context) {
+                                return CupertinoAlertDialog(
+                                  title: const Text("청원 게시글 동의"),
+                                  content: const Text(
+                                      "해당 청원 게시글에 동의하시겠습니까?\n동의하신 청원은 철회할 수 없습니다"),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text(
+                                        '취소',
+                                      ),
+                                      onPressed: () async {
+                                        Get.back();
+                                      },
+                                    ),
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        '확인',
+                                        style: TextStyle(
+                                          color: Palette.lightRed,
+                                        )
+                                      ),
+                                      onPressed: () async {
+                                        await controller.agreePetition();
+                                        Get.back();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           text: (controller.petitionPost.value.status ==
                                   PetitionPostStatus.expired.nameKR)

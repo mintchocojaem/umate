@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/domain/banner/model/banner_list_model.dart';
 import 'package:danvery/domain/banner/model/banner_model.dart';
 import 'package:danvery/domain/banner/repository/banner_repository.dart';
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
@@ -36,7 +37,10 @@ class HomePageController extends GetxController {
   final BoardPageController boardPageController =
       Get.find<BoardPageController>();
 
-  final RxList<BannerModel> bannerList = <BannerModel>[].obs;
+  final Rx<BannerListModel> bannerList = BannerListModel(
+    bannerList: <BannerModel>[],
+    subBannerList: [],
+  ).obs;
 
   final RxList<GeneralPostModel> generalPostListHome = <GeneralPostModel>[].obs;
   final RxBool isLoadGeneralPostListHome = false.obs;
@@ -51,6 +55,8 @@ class HomePageController extends GetxController {
   final RxBool isLoadBusList = false.obs;
 
   final RxBool isLoadBannerList = false.obs;
+
+  final RxInt currentBannerIndex = 0.obs;
 
   late List<Widget> busCards;
 
@@ -99,15 +105,39 @@ class HomePageController extends GetxController {
     )
   ];
 
+  final ScrollController scrollController = ScrollController();
+  final RxDouble currentScrollPosition = 0.0.obs;
+
   @override
-  void onInit() {
-    getBusList();
-    Timer.periodic(const Duration(seconds: 60), (timer) {
-      getBusList();
+  void onInit() async{
+    await getBusList();
+    await getGeneralPostListHome();
+    await getPetitionPostListHome();
+    await getBannerList();
+    Timer.periodic(const Duration(seconds: 60), (timer) async{
+      await getBusList();
+      await getGeneralPostListHome();
+      await getPetitionPostListHome();
+      await getBannerList();
     });
-    getGeneralPostListHome();
-    getPetitionPostListHome();
-    getBannerList();
+
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      currentBannerIndex.value = currentBannerIndex.value + 1;
+      if(currentBannerIndex.value >= bannerList.value.bannerList.length){
+        currentBannerIndex.value = 0;
+      }
+    });
+
+    scrollController.addListener(() {
+      if(scrollController.offset / scrollController.position.maxScrollExtent > 1){
+        currentScrollPosition.value = 1.0;
+      }else if(scrollController.offset / scrollController.position.maxScrollExtent < 0){
+        currentScrollPosition.value = 0.0;
+      }else{
+        currentScrollPosition.value = scrollController.offset / scrollController.position.maxScrollExtent;
+      }
+    });
+
     super.onInit();
   }
 
@@ -280,10 +310,9 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getBannerList() async{
-    isLoadBannerList.value = false;
     final ApiResponseDTO apiResponseDTO = await bannerRepository.getBannerList();
     if (apiResponseDTO.success) {
-      bannerList.value = apiResponseDTO.data as List<BannerModel>;
+      bannerList.value = apiResponseDTO.data as BannerListModel;
       isLoadBannerList.value = true;
     }else{
       GetXSnackBar(

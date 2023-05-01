@@ -1,4 +1,4 @@
-import 'package:danvery/ui/pages/banner_list/controller/banner_list_controller.dart';
+import 'package:danvery/ui/pages/banner_list/controller/banner_list_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/material.dart';
@@ -20,33 +20,43 @@ class BannerDetailPage extends GetView<BannerListPageController> {
         automaticallyImplyLeading: true,
         onPressedLeading: () => Get.back(),
       ),
-      body: Stack(
+      body: controller.isLoadBannerModel.value ? Stack(
         children: [
           SingleChildScrollView(
             child: Image.network(
-              controller.bannerModel.detailUrl,
+              controller.bannerModel!.detailUrl,
               fit: BoxFit.fitWidth,
             ),
           ),
-          controller.bannerModel.actionUrl != null ? Positioned.fill(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: Get.mediaQuery.padding.bottom + 16,
-                ),
-                child: ModernFormButton(
-                    text: "이벤트 참여하기",
-                    onPressed: () async {
-                      launchUrlString(controller.bannerModel.actionUrl!);
-                    },
-                ),
-              ),
-            ),
-          ) : const SizedBox(),
+          controller.bannerModel!.actionUrl !=
+                  null
+              ? Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: Get.mediaQuery.padding.bottom + 16,
+                      ),
+                      child: ModernFormButton(
+                        text: "이벤트 참여하기",
+                        onPressed: () async {
+                          launchUrlString(controller
+                              .bannerModel!
+                              .actionUrl!);
+                        },
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
+      ) : const SizedBox(
+        height: 400,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }
