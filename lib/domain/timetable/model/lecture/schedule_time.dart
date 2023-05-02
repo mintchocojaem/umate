@@ -26,7 +26,7 @@ extension WeekOfDayExtension on WeekOfDay {
 class ScheduleTime{
   String start;
   String end;
-  String week;
+  WeekOfDay week;
   String? place;
 
   ScheduleTime({
@@ -40,7 +40,7 @@ class ScheduleTime{
     return ScheduleTime(
       start: (json['start'] as String).substring(0,5),
       end: (json['end'] as String).substring(0,5),
-      week: WeekOfDay.values.firstWhere((element) => element.name == json['week']).nameKR,
+      week: WeekOfDay.values.firstWhere((element) => element.name == json['week']),
       place: (json['place'] as String?)
     );
   }
@@ -48,7 +48,7 @@ class ScheduleTime{
   Map<String, dynamic> toJson() => {
     'start': "$start:00",
     'end': "$end:00",
-    'week': WeekOfDay.values.firstWhere((element) => element.nameKR == week).name,
+    'week': week.name,
     'place': place,
   };
 

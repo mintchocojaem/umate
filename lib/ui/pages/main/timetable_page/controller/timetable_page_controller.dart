@@ -274,7 +274,7 @@ class TimetableBottomSheetController extends GetxController {
   Color selectedColor = Palette.subjectColors[Random().nextInt(10)];
 
   RxList<Rx<ScheduleTime>> times = <Rx<ScheduleTime>>[
-    ScheduleTime(start: "09:00", end: "10:00", week: WeekOfDay.monday.nameKR)
+    ScheduleTime(start: "09:00", end: "10:00", week: WeekOfDay.monday)
         .obs,
   ].obs;
 
@@ -304,6 +304,14 @@ class TimetableBottomSheetController extends GetxController {
         model.times.map((e) => e.place ?? "").toSet().join(", ");
     memoController.text = model.memo ?? "";
     selectedColor = Color(model.color.value);
+
+    times.sort((a, b) {
+      if (a.value.week == b.value.week) {
+        return a.value.start.compareTo(b.value.start);
+      } else {
+        return a.value.week.index.compareTo(b.value.week.index);
+      }
+    });
   }
 
   ScheduleModel? makeNewLectureModel() {
@@ -324,8 +332,10 @@ class TimetableBottomSheetController extends GetxController {
       return null;
     }
 
-    times.map((element) => element.value.place =
-            contentController.text.isEmpty ? null : contentController.text).toList();
+    times
+        .map((element) => element.value.place =
+            contentController.text.isEmpty ? null : contentController.text)
+        .toList();
 
     return ScheduleModel(
       name: titleController.text,

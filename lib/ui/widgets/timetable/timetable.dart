@@ -82,7 +82,7 @@ class Timetable extends StatelessWidget {
       if (subjects != null) {
         for (ScheduleModel i in subjects) {
           for (ScheduleTime j in i.times) {
-            if (j.week == week[index]) {
+            if (j.week == WeekOfDay.values[index]) {
               final DateTime startTime = DateFormat('HH:mm').parse(j.start);
               final Duration startDuration =
                   Duration(hours: startTime.hour, minutes: startTime.minute);
@@ -99,9 +99,8 @@ class Timetable extends StatelessWidget {
                   (startTime.subtract(startTableDuration).minute *
                       (cellWidth + 1) /
                       60);
-              final int maxLine = ((endTime.subtract(startDuration).hour * 60) +
-                      (endTime.subtract(startDuration).minute)) ~/
-                  30;
+              final int maxLine = (((endTime.subtract(startDuration).hour * 60) +
+                      (endTime.subtract(startDuration).minute)) ~/ 30) -1;
               result.add(
                 Positioned(
                   top: top,
@@ -130,7 +129,7 @@ class Timetable extends StatelessWidget {
                                       i.name,
                                       style: tinyStyle.copyWith(
                                           color: Palette.pureWhite),
-                                      maxLines: maxLine,
+                                      maxLines: maxLine <= 0 ? 1 : maxLine,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     if (height >= cellHeight &&

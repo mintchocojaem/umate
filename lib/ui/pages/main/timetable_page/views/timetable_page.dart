@@ -309,7 +309,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                     .times[
                                                                         index]
                                                                     .value
-                                                                    .week,
+                                                                    .week.nameKR,
                                                             hint: "월",
                                                             suffixWidth: 32,
                                                             onTextChanged:
@@ -317,7 +317,11 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                               bottomSheetController
                                                                   .times[index]
                                                                   .value
-                                                                  .week = text;
+                                                                  .week = WeekOfDay.values
+                                                                      .firstWhere(
+                                                                          (element) =>
+                                                                              element.nameKR ==
+                                                                              text);
                                                             },
                                                             suffix:
                                                                 const IconButton(
@@ -440,7 +444,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                             end:
                                                                                 "10:00",
                                                                             week:
-                                                                                "월")
+                                                                                WeekOfDay.monday)
                                                                         .obs,
                                                                   );
                                                                 },
