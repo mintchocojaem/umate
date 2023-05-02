@@ -24,6 +24,17 @@ class HomePage extends GetView<HomePageController> {
               Palette.blue.withOpacity(controller.currentScrollPosition.value),
           isWhite: true,
           isDarkMode: !Get.isDarkMode,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.toNamed(Routes.postSearch);
+              },
+              icon: Icon(
+                Icons.search,
+                color: Palette.pureWhite,
+              ),
+            ),
+          ],
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: Palette.pureWhite,
@@ -104,8 +115,8 @@ class HomePage extends GetView<HomePageController> {
                           description: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.zero,
-                              minimumSize: const Size(64, 20),
-                              maximumSize: const Size(64, 20),
+                              minimumSize: const Size(48, 18),
+                              maximumSize: const Size(48, 18),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -134,7 +145,7 @@ class HomePage extends GetView<HomePageController> {
                               );
                             },
                             child: Text(
-                              "실험 기능",
+                              "Beta",
                               style: tinyStyle.copyWith(
                                 color: Palette.blue,
                                 height: 1.1,

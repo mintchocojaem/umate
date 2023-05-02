@@ -14,12 +14,22 @@ class MyPagePage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    controller.getUserLikedPostList();
+    controller.getUserCommentedPostList();
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
         backGroundColor: Palette.blue,
         isWhite: true,
         isDarkMode: !Get.isDarkMode,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(Routes.postSearch);
+            },
+            icon: const Icon(Icons.search)
+          ),
+        ],
       ),
       body: Obx(
         () => Stack(
@@ -245,8 +255,8 @@ class MyPagePage extends GetView<MyPagePageController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: (){
-                                controller.myPagePostIndex= 0;
+                              onTap: () {
+                                controller.myPagePostIndex = 0;
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
@@ -272,15 +282,15 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: (){
-                                controller.myPagePostIndex= 1;
+                              onTap: () {
+                                controller.myPagePostIndex = 1;
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    controller.userCommentedPostList.value.totalElements.toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),
@@ -299,15 +309,15 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: (){
-                                controller.myPagePostIndex= 2;
+                              onTap: () {
+                                controller.myPagePostIndex = 2;
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    controller.userLikePostList.value.totalElements.toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),

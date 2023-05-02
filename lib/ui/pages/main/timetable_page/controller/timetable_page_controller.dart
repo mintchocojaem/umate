@@ -326,7 +326,11 @@ class TimetableBottomSheetController extends GetxController {
           .show();
       return null;
     }
-
+    contentController.text.isEmpty
+        ? times.map((element) => element.value.place = null).toList()
+        : times.asMap().forEach((index, element) {
+            element.value.place = contentController.text.split(", ")[index];
+          });
     return ScheduleModel(
         name: titleController.text,
         color: Color(selectedColor.value),

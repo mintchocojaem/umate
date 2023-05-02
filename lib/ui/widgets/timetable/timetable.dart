@@ -132,7 +132,16 @@ class Timetable extends StatelessWidget {
                                           color: Palette.pureWhite),
                                       maxLines: maxLine,
                                       overflow: TextOverflow.ellipsis,
-                                    )
+                                    ),
+                                    Text(
+                                      i.times.map((e) => e.place).toSet().join(', '),
+                                      style: TextStyle(
+                                        color: Palette.pureWhite,
+                                        fontSize: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      maxLines: 1,
+                                    ),
                                   ],
                                 ),
                               ),

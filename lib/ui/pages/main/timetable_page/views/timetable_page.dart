@@ -122,6 +122,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 ),
                                               ),
                                               onPressed: () async {
+                                                Get.back();
                                                 await controller.deleteSchedule(
                                                     subjectModel);
                                               },
@@ -510,192 +511,193 @@ class TimetablePage extends GetView<TimetablePageController> {
                                               ),
                                             ],
                                           )
-                                        : ListView.builder(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: bottomSheetController
-                                                .lectures.length,
-                                            itemBuilder: (context, index) {
-                                              return Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      bottomSheetController
-                                                              .titleController
-                                                              .text =
+                                        : bottomSheetController
+                                                .lectures.isNotEmpty
+                                            ? ListView.builder(
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemCount: bottomSheetController
+                                                    .lectures.length,
+                                                itemBuilder: (context, index) {
+                                                  return Column(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
                                                           bottomSheetController
-                                                              .lectures[index]
-                                                              .name;
-                                                      bottomSheetController
-                                                          .isSearch
-                                                          .value = false;
-                                                      bottomSheetController
-                                                              .times =
+                                                                  .titleController
+                                                                  .text =
+                                                              bottomSheetController
+                                                                  .lectures[
+                                                                      index]
+                                                                  .name;
                                                           bottomSheetController
-                                                              .lectures[index]
-                                                              .times
-                                                              .map((e) {
-                                                                e.place ??
-                                                                    (e.place =
-                                                                        "");
-                                                                return e.obs;
-                                                              })
-                                                              .toList()
-                                                              .obs;
-                                                      bottomSheetController
-                                                              .contentController
-                                                              .text =
+                                                              .isSearch
+                                                              .value = false;
                                                           bottomSheetController
-                                                              .lectures[index]
-                                                              .times
-                                                              .map((e) =>
-                                                                  e.place)
-                                                              .toSet()
-                                                              .join(", ");
-                                                    },
-                                                    child: Flex(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      children: [
-                                                        Flexible(
-                                                          flex: 8,
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text(
-                                                                bottomSheetController
-                                                                    .lectures[
-                                                                        index]
-                                                                    .name,
-                                                                style:
-                                                                    regularStyle
+                                                                  .times =
+                                                              bottomSheetController
+                                                                  .lectures[
+                                                                      index]
+                                                                  .times
+                                                                  .map((e) {
+                                                                    e.place ??
+                                                                        (e.place =
+                                                                            "");
+                                                                    return e
+                                                                        .obs;
+                                                                  })
+                                                                  .toList()
+                                                                  .obs;
+                                                          bottomSheetController
+                                                                  .contentController
+                                                                  .text =
+                                                              bottomSheetController
+                                                                  .lectures[
+                                                                      index]
+                                                                  .times
+                                                                  .map((e) =>
+                                                                      e.place)
+                                                                  .toSet()
+                                                                  .join(", ");
+                                                        },
+                                                        child: Flex(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          direction:
+                                                              Axis.horizontal,
+                                                          children: [
+                                                            Flexible(
+                                                              flex: 8,
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  const SizedBox(
+                                                                    height: 8,
+                                                                  ),
+                                                                  Text(
+                                                                    bottomSheetController
+                                                                        .lectures[
+                                                                            index]
+                                                                        .name,
+                                                                    style: regularStyle
                                                                         .copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                ),
-                                                                maxLines: 2,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 4,
-                                                              ),
-                                                              bottomSheetController
-                                                                          .lectures[
-                                                                              index]
-                                                                          .classNumber !=
-                                                                      null
-                                                                  ? Text(
-                                                                      "${bottomSheetController.lectures[index].professor != null ? bottomSheetController.lectures[index].professor! : ""}"
-                                                                      "(${bottomSheetController.lectures[index].classNumber!}분반)",
-                                                                      style: lightStyle.copyWith(
-                                                                          color: Palette
-                                                                              .grey,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                              bottomSheetController
-                                                                          .lectures[
-                                                                              index]
-                                                                          .major !=
-                                                                      null
-                                                                  ? Text(
-                                                                      bottomSheetController
-                                                                          .lectures[
-                                                                              index]
-                                                                          .major!
-                                                                          .replaceAll(
-                                                                              " ",
-                                                                              "/"),
-                                                                      maxLines:
-                                                                          2,
-                                                                      style: lightStyle.copyWith(
-                                                                          color: Palette
-                                                                              .grey,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                              !bottomSheetController
-                                                                      .lectures[
-                                                                          index]
-                                                                      .times
-                                                                      .map((e) => e
-                                                                          .place)
-                                                                      .toList()
-                                                                      .contains(
-                                                                          null)
-                                                                  ? Text(
-                                                                      bottomSheetController
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                    maxLines: 2,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 4,
+                                                                  ),
+                                                                  bottomSheetController
+                                                                              .lectures[index]
+                                                                              .classNumber !=
+                                                                          null
+                                                                      ? Text(
+                                                                          "${bottomSheetController.lectures[index].professor != null ? bottomSheetController.lectures[index].professor! : ""}"
+                                                                          "(${bottomSheetController.lectures[index].classNumber!}분반)",
+                                                                          style: lightStyle.copyWith(
+                                                                              color: Palette.grey,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        )
+                                                                      : const SizedBox(),
+                                                                  bottomSheetController
+                                                                              .lectures[index]
+                                                                              .major !=
+                                                                          null
+                                                                      ? Text(
+                                                                          bottomSheetController
+                                                                              .lectures[index]
+                                                                              .major!
+                                                                              .replaceAll(" ", "/"),
+                                                                          maxLines:
+                                                                              2,
+                                                                          style: lightStyle.copyWith(
+                                                                              color: Palette.grey,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        )
+                                                                      : const SizedBox(),
+                                                                  !bottomSheetController
                                                                           .lectures[
                                                                               index]
                                                                           .times
                                                                           .map((e) => e
                                                                               .place)
-                                                                          .toSet()
-                                                                          .join(
-                                                                              ", ")
-                                                                          .toString(),
-                                                                      style: lightStyle.copyWith(
-                                                                          color: Palette
-                                                                              .grey,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                              const SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Flexible(
-                                                          flex: 4,
-                                                          child: Column(
-                                                            children: [
-                                                              for (ScheduleTime i
-                                                                  in bottomSheetController
-                                                                      .lectures[
-                                                                          index]
-                                                                      .times)
-                                                                Text(
-                                                                  "${i.week} ${i.start}~${i.end}",
-                                                                  style: lightStyle
-                                                                      .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                          .toList()
+                                                                          .contains(
+                                                                              null)
+                                                                      ? Text(
+                                                                          bottomSheetController
+                                                                              .lectures[index]
+                                                                              .times
+                                                                              .map((e) => e.place)
+                                                                              .toSet()
+                                                                              .join(", ")
+                                                                              .toString(),
+                                                                          style: lightStyle.copyWith(
+                                                                              color: Palette.grey,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        )
+                                                                      : const SizedBox(),
+                                                                  const SizedBox(
+                                                                    height: 8,
                                                                   ),
-                                                                ),
-                                                            ],
-                                                          ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Flexible(
+                                                              flex: 4,
+                                                              child: Column(
+                                                                children: [
+                                                                  for (ScheduleTime i
+                                                                      in bottomSheetController
+                                                                          .lectures[
+                                                                              index]
+                                                                          .times)
+                                                                    Text(
+                                                                      "${i.week} ${i.start}~${i.end}",
+                                                                      style: lightStyle
+                                                                          .copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      Divider(
+                                                        height: 1,
+                                                        color:
+                                                            Palette.lightGrey,
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              )
+                                            : SizedBox(
+                                                height: 200,
+                                                child: Center(
+                                                  child: Text(
+                                                    "연관된 강의 목록이 존재하지 않습니다",
+                                                    style: regularStyle.copyWith(
+                                                        color: Palette.grey),
                                                   ),
-                                                  Divider(
-                                                    height: 1,
-                                                    color: Palette.lightGrey,
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          ),
+                                                ),
+                                              )
                                   ],
                                 ),
                               ),

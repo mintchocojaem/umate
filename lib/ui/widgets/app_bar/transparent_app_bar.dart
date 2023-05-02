@@ -6,13 +6,15 @@ import '../../../core/theme/app_text_theme.dart';
 
 class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
   final String title;
+  final Color? backgroundColor;
   final double height;
   final bool automaticallyImplyLeading;
+  final Color? leadingColor;
   final VoidCallback? onPressedLeading;
   final List<Widget>? actions;
   final bool isDarkMode;
   final bool isCenterTitle;
-  final TextStyle? titleTextStyle;
+  final Color? titleColor;
 
   const TransparentAppBar({
     super.key,
@@ -20,10 +22,12 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
     this.height = 60,
     this.automaticallyImplyLeading = false,
     this.onPressedLeading,
+    this.leadingColor,
     this.actions,
     required this.isDarkMode,
     this.isCenterTitle = true,
-    this.titleTextStyle,
+    this.titleColor,
+    this.backgroundColor = Colors.transparent
   });
   @override
   Widget build(BuildContext context) {
@@ -32,16 +36,16 @@ class TransparentAppBar extends StatelessWidget with PreferredSizeWidget{
       systemOverlayStyle: isDarkMode ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       centerTitle: isCenterTitle,
       toolbarHeight: height,
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       leading: automaticallyImplyLeading ? IconButton(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        icon: Icon(Icons.arrow_back_ios, color: Palette.black,),
+        icon: Icon(Icons.arrow_back_ios, color: leadingColor ?? Palette.black,),
         onPressed: onPressedLeading,
       ) : null,
       title: Text(
         title,
-        style: titleTextStyle ?? smallTitleStyle.copyWith(color: Palette.black,fontWeight: FontWeight.normal),
+        style: smallTitleStyle.copyWith(color: titleColor ?? Palette.black,fontWeight: FontWeight.normal),
       ),
       elevation: 0,
       actions: actions,
