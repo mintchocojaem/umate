@@ -39,7 +39,7 @@ class Timetable extends StatelessWidget {
     Widget buildTimeColumn(
         double dayCellHeight, double cellWidth, int columnLength) {
       return SizedBox(
-        width: 35,
+        width: 30,
         child: Column(
           children: [
             const Divider(
@@ -133,15 +133,18 @@ class Timetable extends StatelessWidget {
                                       maxLines: maxLine,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(
-                                      i.times.map((e) => e.place).toSet().join(', '),
-                                      style: TextStyle(
-                                        color: Palette.pureWhite,
-                                        fontSize: 10,
-                                        overflow: TextOverflow.ellipsis,
+                                    if (height >= cellHeight &&
+                                        i.type == ScheduleType.lecture &&
+                                        i.times.first.place != null)
+                                      Text(
+                                        i.times.first.place!,
+                                        style: TextStyle(
+                                          color: Palette.pureWhite,
+                                          fontSize: 10,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        maxLines: 1,
                                       ),
-                                      maxLines: 1,
-                                    ),
                                   ],
                                 ),
                               ),
@@ -276,16 +279,17 @@ class Timetable extends StatelessWidget {
             ),
           ],
         ),
-        if(isLoading) const Padding(
-          padding: EdgeInsets.only(top: 250),
-          child: Center(
-            child: SizedBox(
-              width: 48,
-              height: 48,
-              child: CircularProgressIndicator(),
+        if (isLoading)
+          const Padding(
+            padding: EdgeInsets.only(top: 250),
+            child: Center(
+              child: SizedBox(
+                width: 48,
+                height: 48,
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
-        )
+          )
       ],
     );
   }
