@@ -14,8 +14,6 @@ class MyPagePage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    controller.getUserLikedPostList();
-    controller.getUserCommentedPostList();
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
@@ -290,7 +288,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.userCommentedPostList.value.totalElements.toString(),
+                                    "0",
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),
@@ -317,7 +315,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.userLikePostList.value.totalElements.toString(),
+                                    "0",
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),

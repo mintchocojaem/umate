@@ -29,6 +29,7 @@ class SplashScreenPageController extends GetxController
     } else {
       Get.offAndToNamed(Routes.login);
     }
+
     super.onInit();
   }
 

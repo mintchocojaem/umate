@@ -104,7 +104,10 @@ class AppPages {
     GetPage(
         name: Routes.splashScreen,
         page: () => const SplashScreenPage(),
-        bindings: [SplashScreenPageBinding(), LoginBinding()]),
+        bindings: [
+          SplashScreenPageBinding(),
+          LoginBinding(),
+        ]),
     GetPage(
       name: Routes.petition,
       page: () => const PetitionPostPage(),
@@ -135,23 +138,20 @@ class AppPages {
       page: () => const BannerListPage(),
     ),
     GetPage(
-      name: Routes.bannerDetail,
-      page: () => const BannerDetailPage(),
-      bindings: [
-        BannerListPageBinding(),
-      ]
-    ),
+        name: Routes.bannerDetail,
+        page: () => const BannerDetailPage(),
+        bindings: [
+          BannerListPageBinding(),
+        ]),
     GetPage(
         name: Routes.bannerList,
         page: () => const BannerListPage(),
         bindings: [
           BannerListPageBinding(),
-        ]
-    ),
+        ]),
     GetPage(
       name: Routes.myPagePost,
       page: () => const MyPagePostPage(),
     ),
-
   ];
 }

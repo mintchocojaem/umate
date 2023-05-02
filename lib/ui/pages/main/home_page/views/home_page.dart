@@ -46,36 +46,54 @@ class HomePage extends GetView<HomePageController> {
                 children: [
                   controller.bannerList.value.bannerList.isNotEmpty
                       ? AnimatedSwitcher(
-                          duration: const Duration(seconds: 1),
-                          child: InkWell(
-                            key: ValueKey<int>(
-                                controller.currentBannerIndex.value),
-                            child: Image.network(
-                              controller
-                                  .bannerList
-                                  .value
-                                  .bannerList[
-                                      controller.currentBannerIndex.value]
-                                  .bannerUrl,
-                            ),
-                            onTap: () {
-                              Get.toNamed(
-                                Routes.bannerDetail,
-                                arguments:
-                                    controller.bannerList.value.bannerList[
-                                        controller.currentBannerIndex.value],
+                        duration: const Duration(seconds: 1),
+                        child: InkWell(
+                          key: ValueKey<int>(
+                              controller.currentBannerIndex.value),
+                          child: Image.network(
+                            controller
+                                .bannerList
+                                .value
+                                .bannerList[
+                                    controller.currentBannerIndex.value]
+                                .bannerUrl,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Container(
+                                color: Palette.blue,
+                                height: 400,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Palette.pureWhite,
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                ),
                               );
                             },
                           ),
-                        )
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.bannerDetail,
+                              arguments:
+                                  controller.bannerList.value.bannerList[
+                                      controller.currentBannerIndex.value],
+                            );
+                          },
+                        ),
+                      )
                       : Container(
                           color: Palette.blue,
                           height: 400,
                           child: Center(
-                            child: Icon(
-                              Icons.image_not_supported_outlined,
+                            child: CircularProgressIndicator(
                               color: Palette.pureWhite,
-                              size: 32,
                             ),
                           ),
                         ),
@@ -159,7 +177,8 @@ class HomePage extends GetView<HomePageController> {
                           Column(
                             children: [
                               //Banner
-                              controller.bannerList.value.subBannerList.isNotEmpty
+                              controller
+                                      .bannerList.value.subBannerList.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16),
@@ -201,8 +220,8 @@ class HomePage extends GetView<HomePageController> {
                                       ),
                                     )
                                   : const SizedBox(
-                                height: 16,
-                              ),
+                                      height: 16,
+                                    ),
                               //get suggestion board with Obx
                               Padding(
                                 padding:

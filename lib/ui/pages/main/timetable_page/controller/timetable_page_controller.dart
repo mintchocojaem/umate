@@ -18,8 +18,7 @@ class TimetablePageController extends GetxController {
   final TimetableRepository _timetableRepository = TimetableRepository();
   final LoginService _loginService = LoginService();
 
-  final RxList<Rx<TimetableModel>> timetables =
-      <Rx<TimetableModel>>[].obs;
+  final RxList<Rx<TimetableModel>> timetables = <Rx<TimetableModel>>[].obs;
 
   final int today = DateTime.now().weekday - 1;
 
@@ -32,7 +31,8 @@ class TimetablePageController extends GetxController {
     initTimetable();
   }
 
-  Future<void> updateSchedule(ScheduleModel model, ScheduleModel newModel) async{
+  Future<void> updateSchedule(
+      ScheduleModel model, ScheduleModel newModel) async {
     newModel.id = model.id; //new 겹치는 시간 체크시 본래 모델과의 비교는 제외
     if (isOverlappedScheduleTime(newModel)) {
       GetXSnackBar(
@@ -52,7 +52,7 @@ class TimetablePageController extends GetxController {
     }
 
     final List<ScheduleModel> temp = List.empty(growable: true);
-    for(ScheduleModel i in timetables.first.value.schedules) {
+    for (ScheduleModel i in timetables.first.value.schedules) {
       temp.add(i);
     }
 
@@ -64,18 +64,18 @@ class TimetablePageController extends GetxController {
         val.schedules[val.schedules.indexOf(model)].memo = newModel.memo;
       }
     });
-    if(!await editTimetable()){
+    if (!await editTimetable()) {
       timetables.first.update((val) {
-        if(val != null){
+        if (val != null) {
           val.schedules = temp;
         }
       });
-    }else{
+    } else {
       Get.back();
     }
   }
 
-  Future<void> addSchedule(ScheduleModel model) async{
+  Future<void> addSchedule(ScheduleModel model) async {
     if (isOverlappedScheduleTime(model)) {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
@@ -94,7 +94,7 @@ class TimetablePageController extends GetxController {
     }
 
     final List<ScheduleModel> temp = List.empty(growable: true);
-    for(ScheduleModel i in timetables.first.value.schedules){
+    for (ScheduleModel i in timetables.first.value.schedules) {
       temp.add(i);
     }
 
@@ -103,21 +103,20 @@ class TimetablePageController extends GetxController {
         val.schedules.add(model);
       }
     });
-    if(!await editTimetable()){
+    if (!await editTimetable()) {
       timetables.first.update((val) {
-        if(val != null){
+        if (val != null) {
           val.schedules = temp;
         }
       });
-    }else{
+    } else {
       Get.back();
     }
   }
 
-  Future<void> deleteSchedule(ScheduleModel model) async{
-
+  Future<void> deleteSchedule(ScheduleModel model) async {
     final List<ScheduleModel> temp = List.empty(growable: true);
-    for(ScheduleModel i in timetables.first.value.schedules) {
+    for (ScheduleModel i in timetables.first.value.schedules) {
       temp.add(i);
     }
 
@@ -126,13 +125,13 @@ class TimetablePageController extends GetxController {
         val.schedules.remove(model);
       }
     });
-    if(!await editTimetable()){
+    if (!await editTimetable()) {
       timetables.first.update((val) {
-        if(val != null){
+        if (val != null) {
           val.schedules = temp;
         }
       });
-    }else{
+    } else {
       Get.back();
     }
   }
@@ -198,12 +197,12 @@ class TimetablePageController extends GetxController {
     if (response.success) {
       final TimetableListModel timetableList =
           response.data as TimetableListModel;
-      if(timetableList.timetables.isEmpty){
-        if(await addTimetable()) await initTimetable();
-      }else{
+      if (timetableList.timetables.isEmpty) {
+        if (await addTimetable()) await initTimetable();
+      } else {
         await getTimetable(timetableList.timetables.first.id);
       }
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "시간표 오류",
@@ -212,18 +211,18 @@ class TimetablePageController extends GetxController {
     }
   }
 
-  Future<void> getTimetable(int timetableId) async{
-    final ApiResponseDTO response = await _timetableRepository
-        .getTimetable(_loginService.token.value.accessToken, timetableId);
+  Future<void> getTimetable(int timetableId) async {
+    final ApiResponseDTO response = await _timetableRepository.getTimetable(
+        _loginService.token.value.accessToken, timetableId);
     if (response.success) {
       final TimetableModel timetable = response.data as TimetableModel;
-      if(timetables.isEmpty){
+      if (timetables.isEmpty) {
         timetables.add(timetable.obs);
-      }else{
+      } else {
         timetables.first.value = timetable;
       }
       isLoadTimetable.value = true;
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "시간표 오류",
@@ -233,13 +232,12 @@ class TimetablePageController extends GetxController {
   }
 
   Future<bool> addTimetable() async {
-    final ApiResponseDTO response = await _timetableRepository
-        .addTimetable(_loginService.token.value.accessToken,
-        TimetableModel(id: 0,name: "default",  schedules: [])
-    );
+    final ApiResponseDTO response = await _timetableRepository.addTimetable(
+        _loginService.token.value.accessToken,
+        TimetableModel(id: 0, name: "default", schedules: []));
     if (response.success) {
       return true;
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "시간표 오류",
@@ -249,12 +247,12 @@ class TimetablePageController extends GetxController {
     }
   }
 
-  Future<bool> editTimetable() async{
-    final ApiResponseDTO response = await _timetableRepository
-        .editTimetable(_loginService.token.value.accessToken, timetables.first.value);
+  Future<bool> editTimetable() async {
+    final ApiResponseDTO response = await _timetableRepository.editTimetable(
+        _loginService.token.value.accessToken, timetables.first.value);
     if (response.success) {
       return true;
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "시간표 오류",
@@ -263,7 +261,6 @@ class TimetablePageController extends GetxController {
       return false;
     }
   }
-
 }
 
 class TimetableBottomSheetController extends GetxController {
@@ -326,17 +323,16 @@ class TimetableBottomSheetController extends GetxController {
           .show();
       return null;
     }
-    contentController.text.isEmpty
-        ? times.map((element) => element.value.place = null).toList()
-        : times.asMap().forEach((index, element) {
-            element.value.place = contentController.text.split(", ")[index];
-          });
+
+    times.map((element) => element.value.place =
+            contentController.text.isEmpty ? null : contentController.text).toList();
+
     return ScheduleModel(
-        name: titleController.text,
-        color: Color(selectedColor.value),
-        times: times.map((e) => e.value).toList(),
-        memo: memoController.text,
-        type: isLectureAdd.value ? ScheduleType.lecture : ScheduleType.schedule,
+      name: titleController.text,
+      color: Color(selectedColor.value),
+      times: times.map((e) => e.value).toList(),
+      memo: memoController.text,
+      type: isLectureAdd.value ? ScheduleType.lecture : ScheduleType.schedule,
     );
   }
 
@@ -350,5 +346,4 @@ class TimetableBottomSheetController extends GetxController {
     }
     isSearchLoaded.value = true;
   }
-
 }

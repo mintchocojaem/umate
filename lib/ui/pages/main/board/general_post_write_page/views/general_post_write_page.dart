@@ -21,7 +21,39 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
         isDarkMode: Get.isDarkMode,
         title: '글 작성하기',
         automaticallyImplyLeading: true,
-        onPressedLeading: () => Get.back(),
+        onPressedLeading: (){
+          (controller.titleController.text.isNotEmpty || controller.contentController.text.isNotEmpty) ? showCupertinoDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: const Text("게시글 작성 취소"),
+                content: const Text("작성 중인 게시글이 있습니다. \n작성을 취소하시겠습니까?"),
+                actions: [
+                  CupertinoDialogAction(
+                    child: const Text(
+                      '취소',
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        color: Palette.lightRed,
+                      ),
+                    ),
+                    onPressed: () async {
+                      Get.back();
+                      Get.back();
+                    },
+                  ),
+                ],
+              );
+            },
+          ): Get.back();
+        },
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
@@ -200,7 +232,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
               if (await controller.permissionService.getCameraPermission()) {
                 final XFile? image = await picker.pickImage(
                   source: ImageSource.camera,
-                  imageQuality: 80,
+                  imageQuality: 50,
                   maxHeight: 1920,
                   maxWidth: 1080,
                 );
@@ -219,11 +251,10 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
               if (await controller.permissionService.getGalleryPermission()) {
                 await picker
                     .pickMultiImage(
-                  imageQuality: 80,
+                  imageQuality: 50,
                   maxHeight: 1920,
                   maxWidth: 1080,
-                )
-                    .then((value) {
+                ).then((value) {
                   controller.imageList.addAll(value);
                 });
               }

@@ -120,9 +120,10 @@ class HomePageController extends GetxController {
     });
 
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      currentBannerIndex.value = currentBannerIndex.value + 1;
-      if(currentBannerIndex.value >= bannerList.value.bannerList.length){
+      if(currentBannerIndex.value + 1 >= bannerList.value.bannerList.length){
         currentBannerIndex.value = 0;
+      }else{
+        currentBannerIndex.value = currentBannerIndex.value + 1;
       }
     });
 

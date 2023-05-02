@@ -28,6 +28,25 @@ class GeneralPostWritePageController extends GetxController {
 
   Future<void> writeGeneralPost(
       GeneralPostWriteModel generalPostWriteModel) async {
+
+    if(titleController.text.isEmpty){
+      GetXSnackBar(
+        title: "게시글 등록 오류",
+        content: "게시글의 제목을 입력해주세요",
+        type: GetXSnackBarType.customError,
+      ).show();
+      return;
+    }
+
+    if(contentController.text.isEmpty){
+      GetXSnackBar(
+        title: "게시글 등록 오류",
+        content: "게시글의 내용을 입력해주세요",
+        type: GetXSnackBarType.customError,
+      ).show();
+      return;
+    }
+
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralPost(
             token: loginService.token.value.accessToken,

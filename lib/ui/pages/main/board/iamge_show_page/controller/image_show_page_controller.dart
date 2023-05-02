@@ -6,6 +6,7 @@ class ImageShowPageController extends GetxController {
   final RxList<File> imageList = <File>[].obs;
   final imageIndex = 0.obs;
   final pageController = PageController(initialPage: Get.arguments["index"]);
+  final RxBool showAppBar = true.obs;
 
   @override
   void onInit() {

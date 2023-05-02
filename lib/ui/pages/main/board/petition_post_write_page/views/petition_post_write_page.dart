@@ -224,7 +224,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                       .getCameraPermission()) {
                     final XFile? image = await picker.pickImage(
                       source: ImageSource.camera,
-                      imageQuality: 80,
+                      imageQuality: 50,
                       maxHeight: 1920,
                       maxWidth: 1080,
                     );
@@ -244,7 +244,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                       .getGalleryPermission()) {
                     await picker
                         .pickMultiImage(
-                      imageQuality: 80,
+                      imageQuality: 50,
                       maxHeight: 1920,
                       maxWidth: 1080,
                     ).then((value) {

@@ -11,34 +11,49 @@ class ImageShowPage extends GetView<ImageShowPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Palette.black,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Palette.black,
-          title: Obx(
-            () => Text(
-                "${controller.imageIndex.value + 1} / ${controller.imageList.length}",
+        body: Stack(
+          children: [
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                controller.showAppBar.value = !controller.showAppBar.value;
+              },
+              child: PageView.builder(
+                controller: controller.pageController,
+                itemCount: controller.imageList.length,
+                itemBuilder: (context, index) {
+                  return Image.file(controller.imageList[index],fit: BoxFit.fitWidth,);
+                },
+                onPageChanged: (index) {
+                  controller.imageIndex.value = index;
+                },
+              ),
             ),
-          ),
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
-        body: PageView.builder(
-          controller: controller.pageController,
-          itemCount: controller.imageList.length,
-          itemBuilder: (context, index) {
-            return Image.file(controller.imageList[index]);
-          },
-          onPageChanged: (index) {
-            controller.imageIndex.value = index;
-          },
+            Obx(
+              () => controller.showAppBar.value
+                  ? SizedBox(
+                      height: 100,
+                      child: AppBar(
+                        elevation: 0,
+                        backgroundColor: Palette.black.withOpacity(0.8),
+                        title: Text(
+                          "${controller.imageIndex.value + 1} / ${controller.imageList.length}",
+                        ),
+                        automaticallyImplyLeading: false,
+                        leading: IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          icon: const Icon(Icons.arrow_back_ios),
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ],
         ));
   }
 }
