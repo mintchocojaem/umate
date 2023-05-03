@@ -40,7 +40,7 @@ class DioInterceptor {
 
       DioError dioError = DioError(
           requestOptions: e.requestOptions,
-          message: (e.response?.data['message'] as List<dynamic>).join(', '),
+          message: e.response?.data['message']?.join(', '),
           type: e.type,
       );
 

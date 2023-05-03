@@ -22,6 +22,7 @@ class FindPasswordStep3 extends GetView<FindPasswordPageController> {
               style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
+            maxLength: 24,
             hint: "비밀번호를 입력하세요",
             validateHint: "비밀번호를 재입력하세요",
             validateHelperText: "8~24자, 하나 이상의 영문자와 숫자 포함",

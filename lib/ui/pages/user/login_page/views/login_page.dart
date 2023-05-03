@@ -35,6 +35,7 @@ class LoginPage extends GetView<LoginPageController> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: ModernFormField(
+                      maxLength: 8,
                       onTextChanged: (value) {
                         controller.idController.update((val) {
                           if (val != null) val.text = value;
@@ -49,6 +50,7 @@ class LoginPage extends GetView<LoginPageController> {
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Obx(
                       () => ModernFormField(
+                        maxLength: 24,
                         onTextChanged: (value) {
                           controller.passwordController.update((val) {
                             if (val != null) val.text = value;

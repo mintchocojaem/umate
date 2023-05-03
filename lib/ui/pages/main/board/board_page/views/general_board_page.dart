@@ -26,71 +26,68 @@ class GeneralBoardPage extends GetView<BoardPageController> {
               : RefreshIndicator(
                   color: Palette.blue,
                   onRefresh: () async {
-                    controller.getFirstGeneralPostBoard();
+                    await controller.getFirstGeneralPostBoardWithRefresh();
                   },
-                  child: SingleChildScrollView(
+                  child: ListView.builder(
                     controller: controller.generalBoardScrollController,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(
-                          top: 8, bottom: 8, left: 16, right: 16),
-                      itemCount: controller.generalPostList.length + 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == controller.generalPostList.length) {
-                          if (controller.generalPostBoard.value.last) {
-                            return const SizedBox();
-                          } else {
-                            return const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, left: 16, right: 16),
+                    itemCount: controller.generalPostList.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == controller.generalPostList.length) {
+                        if (controller.generalPostBoard.value.last) {
+                          return const SizedBox();
+                        } else {
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          );
                         }
-                        return Container(
-                          color: Palette.pureWhite,
-                          child: Column(
-                            children: [
-                              PostCard(
-                                  nickname:
-                                      controller.generalPostList[index].author,
-                                  title:
-                                      controller.generalPostList[index].title,
-                                  subtitle:
-                                      controller.generalPostList[index].body,
-                                  publishDate: controller
-                                      .generalPostList[index].createdAt,
-                                  commentCount: controller
-                                      .generalPostList[index].commentCount,
-                                  likeCount:
-                                      controller.generalPostList[index].likes,
-                                  imageUrl: controller.generalPostList[index].files
-                                      .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
-                                      .whereType<String>().isNotEmpty ? controller.generalPostList[index].files
-                                      .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
-                                      .whereType<String>().first : null,
-                                  onTap: () {
-                                    Get.toNamed(Routes.post,
-                                            arguments: controller
-                                                .generalPostList[index].id)
-                                        ?.then((value) {
-                                      if (value != null) {
-                                        final generalPostModel =
-                                            value as GeneralPostModel;
-                                        controller.generalPostList[index] =
-                                            generalPostModel;
-                                      }
-                                    });
-                                  }),
-                              Divider(
-                                color: Palette.lightGrey,
-                                thickness: 1,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                      }
+                      return Container(
+                        color: Palette.pureWhite,
+                        child: Column(
+                          children: [
+                            PostCard(
+                                nickname:
+                                    controller.generalPostList[index].author,
+                                title:
+                                    controller.generalPostList[index].title,
+                                subtitle:
+                                    controller.generalPostList[index].body,
+                                publishDate: controller
+                                    .generalPostList[index].createdAt,
+                                commentCount: controller
+                                    .generalPostList[index].commentCount,
+                                likeCount:
+                                    controller.generalPostList[index].likes,
+                                imageUrl: controller.generalPostList[index].files
+                                    .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
+                                    .whereType<String>().isNotEmpty ? controller.generalPostList[index].files
+                                    .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
+                                    .whereType<String>().first : null,
+                                onTap: () {
+                                  Get.toNamed(Routes.post,
+                                          arguments: controller
+                                              .generalPostList[index].id)
+                                      ?.then((value) {
+                                    if (value != null) {
+                                      final generalPostModel =
+                                          value as GeneralPostModel;
+                                      controller.generalPostList[index] =
+                                          generalPostModel;
+                                    }
+                                  });
+                                }),
+                            Divider(
+                              color: Palette.lightGrey,
+                              thickness: 1,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 )
           : const Center(

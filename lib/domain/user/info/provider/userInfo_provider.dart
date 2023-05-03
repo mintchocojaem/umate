@@ -3,7 +3,6 @@ import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
-import 'package:danvery/domain/user/info/model/user_post_model.dart';
 import 'package:dio/dio.dart';
 
 class UserInfoProvider {
@@ -168,7 +167,7 @@ class UserInfoProvider {
 
   Future<ApiResponseDTO> getUserWritePostList(
       {required String accessToken, required int page, required int size}) async {
-    String url = '/user/post?page=$page&size=$size&sort=createdAt,desc&bodySize=100';
+    String url = '/user/post?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
     final headers = {
       'Authorization': "Bearer $accessToken",
     };
@@ -185,7 +184,7 @@ class UserInfoProvider {
 
   Future<ApiResponseDTO> getUserCommentedPostList(
       {required String accessToken, required int page, required int size}) async {
-    String url = '/user/post/commented?page=$page&size=$size&sort=createdAt,desc&bodySize=100';
+    String url = '/user/post/commented?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
     final headers = {
       'Authorization': "Bearer $accessToken",
     };
@@ -202,7 +201,7 @@ class UserInfoProvider {
 
   Future<ApiResponseDTO> getUserLikedPostList(
       {required String accessToken, required int page, required int size}) async {
-    String url = '/user/post/liked?page=$page&size=$size&sort=createdAt,desc&bodySize=100';
+    String url = '/user/post/liked?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
     final headers = {
       'Authorization': "Bearer $accessToken",
     };

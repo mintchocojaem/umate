@@ -20,31 +20,56 @@ class PetitionPostWritePageController extends GetxController {
   final BoardPageController boardPageController =
       Get.find<BoardPageController>();
 
-  final TextEditingController titleController = TextEditingController();
+  final Rx<TextEditingController> titleController = TextEditingController().obs;
 
-  final TextEditingController contentController = TextEditingController();
+  final Rx<TextEditingController> contentController = TextEditingController().obs;
 
   final RxInt selectedTag = 0.obs;
 
   final RxList<XFile> imageList = <XFile>[].obs;
 
+  final RxBool isPosting = false.obs;
+
+  @override
+  void onInit() {
+    titleController.value.addListener(() {
+      titleController.refresh();
+    });
+    contentController.value.addListener(() {
+      contentController.refresh();
+    });
+    super.onInit();
+  }
 
   Future<void> writePetitionPost(
       PetitionPostWriteModel petitionPostWriteModel) async {
+    isPosting.value = true;
+
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.writePetitionPost(
             token: loginService.token.value.accessToken,
             petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstPetitionPostBoard();
+      await boardPageController.getFirstPetitionPostBoardWithRefresh();
       boardPageController.selectedCategory.value = 0;
       Get.back();
+      Get.back();
     } else {
+      Get.back();
       GetXSnackBar(
         title: "글 작성 실패",
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
     }
+    isPosting.value = false;
   }
 }

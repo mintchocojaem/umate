@@ -37,6 +37,9 @@ class LoginService extends GetxService {
           nickname: userInfoModel.nickname,
           department: userInfoModel.department,
           admin: userInfoModel.admin,
+          writeCount: userInfoModel.writeCount,
+          commentCount: userInfoModel.commentCount,
+          likeCount: userInfoModel.likeCount,
         ).obs;
         _box.write("accessToken", token.value.accessToken);
         _box.write("refreshToken", token.value.refreshToken);
@@ -68,7 +71,10 @@ class LoginService extends GetxService {
           major: userInfoModel.major,
           nickname: userInfoModel.nickname,
           department: userInfoModel.department,
-          admin: false,
+          admin: userInfoModel.admin,
+          writeCount: userInfoModel.writeCount,
+          commentCount: userInfoModel.commentCount,
+          likeCount: userInfoModel.likeCount,
         ).obs;
         isLogin.value = true;
       } else {

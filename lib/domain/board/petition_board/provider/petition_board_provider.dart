@@ -18,7 +18,7 @@ class PetitionBoardProvider {
   Future<ApiResponseDTO> getPetitionPostBoard(
       int page, int size, String status, String keyword) async {
     String url =
-        '/post/petition?page=$page&size=$size&status=$status&keyword=$keyword&sort=createdAt,desc&bodySize=100';
+        '/post/petition?page=$page&size=$size&status=$status&keyword=$keyword&sort=createdAt,desc';
 
     try {
       final Response response = await _dio.get(url);

@@ -5,6 +5,7 @@ import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_write_model.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 class PetitionPostProvider {
   final Dio _dio;
@@ -29,7 +30,8 @@ class PetitionPostProvider {
             headers: headers,
           ));
 
-      return SuccessResponseDTO(data: PetitionPostModel.fromJson(response.data));
+      return SuccessResponseDTO(
+          data: PetitionPostModel.fromJson(response.data));
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
@@ -37,16 +39,22 @@ class PetitionPostProvider {
 
   Future<ApiResponseDTO> writePetitionPost(
       String token, PetitionPostWriteModel petitionPostWriteModel) async {
-
     String url = '/post/petition';
 
     final data = FormData.fromMap({
       'title': petitionPostWriteModel.title,
       'body': petitionPostWriteModel.body,
-      'tagIds': petitionPostWriteModel.tagIds
-          .map((e) => e).toList(),
+      'tagIds': petitionPostWriteModel.tagIds.map((e) => e).toList(),
       'files': petitionPostWriteModel.files
-          .map((e) => MultipartFile.fromFileSync(e.url))
+          .map(
+            (e) => MultipartFile.fromFileSync(
+              e.url,
+              contentType: MediaType(
+                e.mimeType.split('/')[0],
+                e.mimeType.split('/')[1],
+              ),
+            ),
+          )
           .toList(),
     });
     final headers = {
@@ -78,7 +86,7 @@ class PetitionPostProvider {
 
     try {
       final Response response =
-      await _dio.delete(url, options: Options(headers: headers));
+          await _dio.delete(url, options: Options(headers: headers));
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
@@ -86,7 +94,7 @@ class PetitionPostProvider {
     }
   }
 
-  Future<ApiResponseDTO> agreePetitionPost(String token, int petitionId) async{
+  Future<ApiResponseDTO> agreePetitionPost(String token, int petitionId) async {
     String url = '/post/petition/agree/$petitionId';
 
     final headers = {
@@ -97,8 +105,7 @@ class PetitionPostProvider {
       final Response response = await _dio.post(url,
           options: Options(
             headers: headers,
-          )
-      );
+          ));
 
       return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
@@ -174,7 +181,4 @@ class PetitionPostProvider {
       return ExceptionResponseDTO(message: e.message);
     }
   }
-
-
-
 }

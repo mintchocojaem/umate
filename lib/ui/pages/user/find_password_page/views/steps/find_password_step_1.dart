@@ -22,6 +22,7 @@ class FindPasswordStep1 extends GetView<FindPasswordPageController> {
               style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
+            maxLength: 11,
             keyboardType: TextInputType.phone,
             onTextChanged: (value) {
               controller.phoneNumberController.update((val) {

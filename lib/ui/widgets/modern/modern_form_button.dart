@@ -1,5 +1,6 @@
 import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_text_theme.dart';
 
@@ -15,6 +16,7 @@ class ModernFormButton extends StatefulWidget {
   final Color? disabledBackgroundColor;
   final Color? enabledTextColor;
   final Color? disabledTextColor;
+  final double elevation;
 
   const ModernFormButton({
     Key? key,
@@ -29,6 +31,7 @@ class ModernFormButton extends StatefulWidget {
     this.disabledBackgroundColor,
     this.enabledTextColor,
     this.disabledTextColor,
+    this.elevation = 0,
   }) : super(key: key);
 
   @override
@@ -43,10 +46,13 @@ class _ModernFormButton extends State<ModernFormButton> {
     return SizedBox(
       width: widget.width,
       height: widget.height,
-      child: CupertinoButton(
+      child: MaterialButton(
+        elevation: widget.elevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         padding: EdgeInsets.zero,
         disabledColor: widget.disabledBackgroundColor ?? Palette.lightGrey,
-        borderRadius: BorderRadius.circular(5),
         color: widget.enabledBackgroundColor ?? Palette.blue,
         onPressed: widget.isEnabled && !coolDown
             ? () async {

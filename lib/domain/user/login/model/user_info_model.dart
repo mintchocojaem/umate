@@ -4,6 +4,9 @@ class UserInfoModel{
   String studentId;
   String major;
   String department;
+  int writeCount;
+  int commentCount;
+  int likeCount;
   bool admin;
 
   UserInfoModel({
@@ -13,6 +16,9 @@ class UserInfoModel{
     required this.major,
     required this.department,
     required this.admin,
+    required this.writeCount,
+    required this.commentCount,
+    required this.likeCount,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json){
@@ -23,6 +29,9 @@ class UserInfoModel{
       major: json["major"] as String,
       department: json["department"] as String,
       admin: json["admin"] as bool,
+      writeCount: json["writeCount"] as int? ?? 0,
+      commentCount: json["commentCount"] as int? ?? 0,
+      likeCount: json["likeCount"] as int? ?? 0,
     );
   }
 

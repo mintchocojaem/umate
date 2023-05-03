@@ -1,6 +1,6 @@
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/binding/login_binding.dart';
-import 'package:danvery/ui/pages/banner_list/binding/banner_list_page_binding.dart';
+import 'package:danvery/ui/pages/banner_list/binding/banner_page_binding.dart';
 import 'package:danvery/ui/pages/banner_list/views/banner_detail_page.dart';
 import 'package:danvery/ui/pages/banner_list/views/banner_list_page.dart';
 import 'package:danvery/ui/pages/main/board/iamge_show_page/binding/image_show_page_binding.dart';
@@ -141,13 +141,13 @@ class AppPages {
         name: Routes.bannerDetail,
         page: () => const BannerDetailPage(),
         bindings: [
-          BannerListPageBinding(),
+          BannerPageBinding(),
         ]),
     GetPage(
         name: Routes.bannerList,
         page: () => const BannerListPage(),
         bindings: [
-          BannerListPageBinding(),
+          BannerPageBinding(),
         ]),
     GetPage(
       name: Routes.myPagePost,

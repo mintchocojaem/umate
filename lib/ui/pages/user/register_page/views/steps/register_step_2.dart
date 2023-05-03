@@ -61,6 +61,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
+                                    maxLength: 12,
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
                                     readOnly: false,
@@ -78,6 +79,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
+                                    maxLength: 24,
                                     hint: "비밀번호를 입력하세요",
                                     title: "비밀번호",
                                     validateHint: "비밀번호를 재입력하세요",
@@ -104,6 +106,7 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
+                                    maxLength: 11,
                                     onTextChanged: (value) {
                                       controller.phoneNumberController
                                           .update((val) {

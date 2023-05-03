@@ -60,8 +60,7 @@ class HomePageController extends GetxController {
 
   final List<Widget> mainButtons = [
     CircleButton(
-      imagePath:
-      "assets/icons/main_icon_list/reading_room_icon.png",
+      imagePath: "assets/icons/main_icon_list/reading_room_icon.png",
       text: "열람실",
       onPressed: () {
         launchUrlString(
@@ -69,35 +68,28 @@ class HomePageController extends GetxController {
       },
     ),
     CircleButton(
-      imagePath:
-      "assets/icons/main_icon_list/web_info_icon.png",
+      imagePath: "assets/icons/main_icon_list/web_info_icon.png",
       text: "웹 정보",
       onPressed: () {
-        launchUrlString(
-            "https://webinfo.dankook.ac.kr/member/logon.do?sso=ok");
+        launchUrlString("https://webinfo.dankook.ac.kr/member/logon.do?sso=ok");
       },
     ),
     CircleButton(
-      imagePath:
-      "assets/icons/main_icon_list/school_schedule_icon.png",
+      imagePath: "assets/icons/main_icon_list/school_schedule_icon.png",
       text: "학사일정",
       onPressed: () {
-        launchUrlString(
-            "https://www.dankook.ac.kr/web/kor/-2014-");
+        launchUrlString("https://www.dankook.ac.kr/web/kor/-2014-");
       },
     ),
     CircleButton(
-      imagePath:
-      "assets/icons/main_icon_list/school_food_icon.png",
+      imagePath: "assets/icons/main_icon_list/school_food_icon.png",
       text: "학식",
       onPressed: () {
-        launchUrlString(
-            "https://www.dankook.ac.kr/web/kor/-556");
+        launchUrlString("https://www.dankook.ac.kr/web/kor/-556");
       },
     ),
     CircleButton(
-      imagePath:
-      "assets/icons/main_icon_list/students_council_icon.png",
+      imagePath: "assets/icons/main_icon_list/students_council_icon.png",
       text: "총학생회\nVOC",
       onPressed: () {},
     )
@@ -107,12 +99,12 @@ class HomePageController extends GetxController {
   final RxDouble currentScrollPosition = 0.0.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     await getBusList();
     await getGeneralPostListHome();
     await getPetitionPostListHome();
     await getBannerList();
-    Timer.periodic(const Duration(seconds: 60), (timer) async{
+    Timer.periodic(const Duration(seconds: 60), (timer) async {
       await getBusList();
       await getGeneralPostListHome();
       await getPetitionPostListHome();
@@ -120,20 +112,24 @@ class HomePageController extends GetxController {
     });
 
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      if(currentBannerIndex.value + 1 >= bannerList.value.bannerList.length){
+      if (currentBannerIndex.value + 1 >= bannerList.value.bannerList.length) {
         currentBannerIndex.value = 0;
-      }else{
+      } else {
         currentBannerIndex.value = currentBannerIndex.value + 1;
       }
     });
 
     scrollController.addListener(() {
-      if(scrollController.offset / scrollController.position.maxScrollExtent > 1){
+      if (scrollController.offset / scrollController.position.maxScrollExtent >
+          1) {
         currentScrollPosition.value = 1.0;
-      }else if(scrollController.offset / scrollController.position.maxScrollExtent < 0){
+      } else if (scrollController.offset /
+              scrollController.position.maxScrollExtent <
+          0) {
         currentScrollPosition.value = 0.0;
-      }else{
-        currentScrollPosition.value = scrollController.offset / scrollController.position.maxScrollExtent;
+      } else {
+        currentScrollPosition.value =
+            scrollController.offset / scrollController.position.maxScrollExtent;
       }
     });
 
@@ -177,126 +173,124 @@ class HomePageController extends GetxController {
     }
 
     if (busListOfJungMoon.isNotEmpty && busListOfGomSang.isNotEmpty) {
-      busCards = [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "24",
-                busColor: Palette.lightGreen,
-                station1: "곰상 출발",
-                predictTime1: findGomSangBusByNo("24").predictTime1 != null
-                    ? findGomSangBusByNo("24").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findGomSangBusByNo("24").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
-                station2: "정문 출발",
-                predictTime2: findJungMoonBusByNo("24").predictTime1 != null
-                    ? findJungMoonBusByNo("24").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("24").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+        busCards = [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "24",
+                  busColor: Palette.lightGreen,
+                  station1: "곰상 출발",
+                  predictTime1: findGomSangBusByNo("24").predictTime1 != 0
+                      ? findGomSangBusByNo("24").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findGomSangBusByNo("24").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                  station2: "정문 출발",
+                  predictTime2: findJungMoonBusByNo("24").predictTime1 != 0
+                      ? findJungMoonBusByNo("24").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("24").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "8100",
-                busColor: Palette.lightRed,
-                station1: "정문 출발",
-                predictTime1: findJungMoonBusByNo("8100").predictTime1 != null
-                    ? findJungMoonBusByNo("8100").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("8100").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "8100",
+                  busColor: Palette.lightRed,
+                  station1: "정문 출발",
+                  predictTime1: findJungMoonBusByNo("8100").predictTime1 != 0
+                      ? findJungMoonBusByNo("8100").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("8100").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "720-3",
-                busColor: Palette.lightGreen,
-                station1: "곰상 출발",
-                predictTime1: findGomSangBusByNo("720-3").predictTime1 != null
-                    ? findGomSangBusByNo("720-3").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findGomSangBusByNo("720-3").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
-                station2: "정문 출발",
-                predictTime2: findJungMoonBusByNo("720-3").predictTime1 != null
-                    ? findJungMoonBusByNo("720-3").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("720-3").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "720-3",
+                  busColor: Palette.lightGreen,
+                  station1: "곰상 출발",
+                  predictTime1:  findGomSangBusByNo("720-3").predictTime1 != 0
+                      ? findGomSangBusByNo("720-3").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findGomSangBusByNo("720-3").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                  station2: "정문 출발",
+                  predictTime2: findJungMoonBusByNo("720-3").predictTime1 != 0
+                      ? findJungMoonBusByNo("720-3").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("720-3").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "1101",
-                busColor: Palette.lightRed,
-                station1: "정문 출발",
-                predictTime1: findJungMoonBusByNo("1101").predictTime1 != null
-                    ? findJungMoonBusByNo("1101").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("1101").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "1101",
+                  busColor: Palette.lightRed,
+                  station1: "정문 출발",
+                  predictTime1: findJungMoonBusByNo("1101").predictTime1 != 0
+                      ? findJungMoonBusByNo("1101").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("1101").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "셔틀",
-                busColor: Palette.lightBlue,
-                station1: "곰상 출발",
-                predictTime1: findGomSangBusByNo("shuttle-bus").predictTime1 !=
-                        null
-                    ? findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findGomSangBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
-                station2: "정문 출발",
-                predictTime2: findJungMoonBusByNo("shuttle-bus").predictTime1 !=
-                        null
-                    ? findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60 ==
-                            0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("shuttle-bus").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "셔틀",
+                  busColor: Palette.lightBlue,
+                  station1: "곰상 출발",
+                  predictTime1: findGomSangBusByNo("shuttle-bus").predictTime1 != 0
+                      ? findGomSangBusByNo("shuttle-bus").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findGomSangBusByNo("shuttle-bus").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                  station2: "정문 출발",
+                  predictTime2: findJungMoonBusByNo("shuttle-bus").predictTime1 != 0
+                      ? findJungMoonBusByNo("shuttle-bus").predictTime1 ~/ 60 ==
+                      0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("shuttle-bus").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: BusCard(
-                busNo: "102",
-                busColor: Palette.lightRed,
-                station1: "정문 출발",
-                predictTime1: findJungMoonBusByNo("102").predictTime1 != null
-                    ? findJungMoonBusByNo("102").predictTime1! ~/ 60 == 0
-                        ? "곧 도착"
-                        : "${findJungMoonBusByNo("102").predictTime1! ~/ 60}분 후"
-                    : "정보 없음",
+              Flexible(
+                flex: 1,
+                child: BusCard(
+                  busNo: "102",
+                  busColor: Palette.lightRed,
+                  station1: "정문 출발",
+                  predictTime1: findJungMoonBusByNo("102").predictTime1 != 0
+                      ? findJungMoonBusByNo("102").predictTime1 ~/ 60 == 0
+                      ? "곧 도착"
+                      : "${findJungMoonBusByNo("102").predictTime1 ~/ 60}분 후"
+                      : "정보 없음",
+                ),
               ),
-            ),
-          ],
-        ),
-      ];
-      isLoadBusList.value = true;
+            ],
+          ),
+        ];
+        isLoadBusList.value = true;
     }
   }
 
@@ -308,11 +302,12 @@ class HomePageController extends GetxController {
     return busListOfGomSang.firstWhere((p0) => p0.busNo == no);
   }
 
-  Future<void> getBannerList() async{
-    final ApiResponseDTO apiResponseDTO = await bannerRepository.getBannerList();
+  Future<void> getBannerList() async {
+    final ApiResponseDTO apiResponseDTO =
+        await bannerRepository.getBannerList();
     if (apiResponseDTO.success) {
       bannerList.value = apiResponseDTO.data as BannerListModel;
-    }else{
+    } else {
       GetXSnackBar(
         type: GetXSnackBarType.customError,
         title: "배너 목록 조회 실패",
@@ -320,5 +315,4 @@ class HomePageController extends GetxController {
       ).show();
     }
   }
-
 }

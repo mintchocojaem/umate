@@ -22,6 +22,7 @@ class FindIdStep1 extends GetView<FindIdPageController> {
               style: regularStyle.copyWith(color: Palette.darkGrey)),
           const SizedBox(height: 32),
           ModernFormField(
+            maxLength: 11,
             keyboardType: TextInputType.phone,
             onTextChanged: (value) {
               controller.phoneNumber.value = value;

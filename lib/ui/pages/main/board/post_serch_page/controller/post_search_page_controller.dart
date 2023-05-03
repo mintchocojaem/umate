@@ -1,8 +1,12 @@
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
+import 'package:danvery/ui/pages/main/main_page/controller/main_page_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PostSearchPageController extends GetxController{
+
+  final MainPageController mainPageController = Get.find();
 
   final TextEditingController searchController = TextEditingController();
 
@@ -10,10 +14,22 @@ class PostSearchPageController extends GetxController{
 
   Future<void> searchBoard() async{
     if(searchController.text.isNotEmpty){
+
+      showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (context) => const Center(
+          child: CupertinoActivityIndicator(),
+        ),
+        barrierDismissible: false,
+      );
+
       boardPageController.searchText.value = searchController.text;
-      await boardPageController.getFirstGeneralPostBoard();
-      await boardPageController.getFirstPetitionPostBoard();
+      await boardPageController.getFirstGeneralPostBoardWithRefresh();
+      await boardPageController.getFirstPetitionPostBoardWithRefresh();
       Get.back();
+      Get.back();
+      mainPageController.selectedIndex.value = 2;
+      boardPageController.selectedTap.value = 0;
     }
   }
 

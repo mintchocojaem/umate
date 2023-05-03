@@ -11,6 +11,7 @@ import 'package:danvery/domain/timetable/model/timetable/timetable_model.dart';
 import 'package:danvery/domain/timetable/repository/timetable_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -191,7 +192,7 @@ class TimetablePageController extends GetxController {
     return true;
   }
 
-  Future<void> initTimetable() async {
+  Future<void> initTimetable() async{
     final ApiResponseDTO response = await _timetableRepository
         .getTimetableList(_loginService.token.value.accessToken);
     if (response.success) {
@@ -248,11 +249,20 @@ class TimetablePageController extends GetxController {
   }
 
   Future<bool> editTimetable() async {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+      barrierDismissible: false,
+    );
     final ApiResponseDTO response = await _timetableRepository.editTimetable(
         _loginService.token.value.accessToken, timetables.first.value);
     if (response.success) {
+      Get.back();
       return true;
     } else {
+      Get.back();
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "시간표 오류",

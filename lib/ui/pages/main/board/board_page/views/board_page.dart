@@ -50,10 +50,10 @@ class BoardPage extends GetView<BoardPageController> {
                     ) : IconButton(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      onPressed: () {
+                      onPressed: () async{
                         controller.searchText.value = '';
-                        controller.getFirstGeneralPostBoard();
-                        controller.getFirstPetitionPostBoard();
+                        await controller.getFirstGeneralPostBoardWithRefresh();
+                        controller.getFirstPetitionPostBoardWithRefresh();
                       },
                       icon: Icon(
                         Icons.cancel,

@@ -46,21 +46,25 @@ class BoardPageController extends GetxController {
 
   final RxBool isLoadedImageList = false.obs;
 
+  bool isRefreshGeneralPostBoard = false;
+  bool isRefreshPetitionPostBoard = false;
+
   @override
   void onInit() async {
     // TODO: implement onInit
-    await getFirstGeneralPostBoard();
-    await getFirstPetitionPostBoard();
 
-    selectedCategory.listen((value) {
-      getFirstPetitionPostBoard();
+    await getFirstGeneralPostBoardWithRefresh();
+    await getFirstPetitionPostBoardWithRefresh();
+
+    selectedCategory.listen((value) async{
+      await getFirstPetitionPostBoardWithRefresh();
     });
 
     generalBoardScrollController.addListener(() async {
       if (generalBoardScrollController.position.pixels ==
           generalBoardScrollController.position.maxScrollExtent) {
         if (!generalPostBoard.value.last) {
-          await getNextGeneralPostBoard();
+          await getNextGeneralPostBoardWithRefresh();
         }
       }
     });
@@ -69,7 +73,7 @@ class BoardPageController extends GetxController {
       if (petitionBoardScrollController.position.pixels ==
           petitionBoardScrollController.position.maxScrollExtent) {
         if (!petitionBoard.value.last) {
-          await getNextPetitionPostBoard();
+          await getNextPetitionPostBoardWithRefresh();
         }
       }
     });
@@ -77,7 +81,14 @@ class BoardPageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> getFirstGeneralPostBoard() async {
+  Future<void> getFirstGeneralPostBoardWithRefresh() async{
+    if(!isRefreshGeneralPostBoard){
+      await _getFirstGeneralPostBoard();
+    }
+  }
+
+  Future<void> _getFirstGeneralPostBoard() async {
+    isRefreshGeneralPostBoard = true;
     _generalBoardPage = 0;
     isLoadGeneralPostBoard.value = false;
     isLoadedImageList.value = false;
@@ -94,10 +105,22 @@ class BoardPageController extends GetxController {
       await getThumbnailList(postList);
       generalPostList.value = postList;
       isLoadGeneralPostBoard.value = true;
+      isRefreshGeneralPostBoard = false;
+    }else{
+      Future.delayed(const Duration(seconds: 10),(){
+        _getFirstGeneralPostBoard();
+      });
     }
   }
 
-  Future<void> getNextGeneralPostBoard() async {
+  Future<void> getNextGeneralPostBoardWithRefresh() async{
+    if(!isRefreshGeneralPostBoard){
+      await _getNextGeneralPostBoard();
+    }
+  }
+
+  Future<void> _getNextGeneralPostBoard() async {
+    isRefreshGeneralPostBoard = true;
     _generalBoardPage++;
     final ApiResponseDTO apiResponseDTO =
         await _generalBoardRepository.getGeneralBoard(
@@ -111,10 +134,22 @@ class BoardPageController extends GetxController {
       final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
       await getThumbnailList(postList);
       generalPostList.addAll(postList);
+      isRefreshGeneralPostBoard = false;
+    }else{
+      _generalBoardPage--;
+      Future.delayed(const Duration(seconds: 10),(){
+        _getNextGeneralPostBoard();
+      });
     }
   }
 
-  Future<void> getFirstPetitionPostBoard() async {
+  Future<void> getFirstPetitionPostBoardWithRefresh() async{
+    if(!isRefreshPetitionPostBoard){
+      await _getFirstPetitionPostBoard();
+    }
+  }
+  Future<void> _getFirstPetitionPostBoard() async {
+    isRefreshPetitionPostBoard = true;
     _petitionBoardPage = 0;
     isLoadPetitionBoard.value = false;
     final ApiResponseDTO apiResponseDTO =
@@ -129,10 +164,22 @@ class BoardPageController extends GetxController {
       petitionBoard = petitionBoardModel.obs;
       petitionPostList.value = petitionBoardModel.petitionPosts;
       isLoadPetitionBoard.value = true;
+      isRefreshPetitionPostBoard = false;
+    }else{
+      Future.delayed(const Duration(seconds: 10),(){
+        _getFirstPetitionPostBoard();
+      });
     }
   }
 
-  Future<void> getNextPetitionPostBoard() async {
+  Future<void> getNextPetitionPostBoardWithRefresh() async{
+    if(!isRefreshPetitionPostBoard){
+      await _getNextPetitionPostBoard();
+    }
+  }
+
+  Future<void> _getNextPetitionPostBoard() async {
+    isRefreshPetitionPostBoard = true;
     _petitionBoardPage++;
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.getPetitionBoard(
@@ -146,6 +193,12 @@ class BoardPageController extends GetxController {
           apiResponseDTO.data as PetitionBoardModel;
       petitionBoard = petitionBoardModel.obs;
       petitionPostList.addAll(petitionBoardModel.petitionPosts);
+      isRefreshPetitionPostBoard = false;
+    }else{
+      _petitionBoardPage--;
+      Future.delayed(const Duration(seconds: 10),(){
+        _getNextPetitionPostBoard();
+      });
     }
   }
 

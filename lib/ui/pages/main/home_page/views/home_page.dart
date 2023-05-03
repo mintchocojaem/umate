@@ -46,54 +46,91 @@ class HomePage extends GetView<HomePageController> {
                 children: [
                   controller.bannerList.value.bannerList.isNotEmpty
                       ? AnimatedSwitcher(
-                        duration: const Duration(seconds: 1),
-                        child: InkWell(
-                          key: ValueKey<int>(
-                              controller.currentBannerIndex.value),
-                          child: Image.network(
-                            controller
-                                .bannerList
-                                .value
-                                .bannerList[
-                                    controller.currentBannerIndex.value]
-                                .bannerUrl,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Container(
-                                color: Palette.blue,
-                                height: 400,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: Palette.pureWhite,
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
+                          duration: const Duration(seconds: 1),
+                          child: InkWell(
+                            key: ValueKey<int>(
+                                controller.currentBannerIndex.value),
+                            child: Image.network(
+                              controller
+                                  .bannerList
+                                  .value
+                                  .bannerList[
+                                      controller.currentBannerIndex.value]
+                                  .bannerUrl,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Container(
+                                  color: Palette.blue,
+                                  height: 434,
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 84,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '이미지를 불러오지 못했습니다',
+                                        style: regularStyle.copyWith(
+                                          color: Palette.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                );
+                              },
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Container(
+                                  color: Palette.blue,
+                                  height: 434,
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 84,
+                                    ),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: Palette.white,
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            onTap: () {
+                              Get.toNamed(
+                                Routes.bannerDetail,
+                                arguments:
+                                    controller.bannerList.value.bannerList[
+                                        controller.currentBannerIndex.value],
                               );
                             },
                           ),
-                          onTap: () {
-                            Get.toNamed(
-                              Routes.bannerDetail,
-                              arguments:
-                                  controller.bannerList.value.bannerList[
-                                      controller.currentBannerIndex.value],
-                            );
-                          },
-                        ),
-                      )
+                        )
                       : Container(
                           color: Palette.blue,
-                          height: 400,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: Palette.pureWhite,
+                          height: 434,
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 84,
+                            ),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Palette.white,
+                              ),
                             ),
                           ),
                         ),

@@ -26,21 +26,29 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
-            child: ModernFormButton(
-              width: 60,
-              coolDownTime: 3,
-              text: "등록",
-              onPressed: () async {
-                PetitionPostWriteModel petitionPostWriteModel = PetitionPostWriteModel(
-                  title: controller.titleController.text,
-                  body: controller.contentController.text,
-                  files: controller.imageList
-                      .map((e) => FileModel.fromImagePicker(e))
-                      .toList(),
-                  tagIds: [PetitionPostTag.values[controller.selectedTag.value].id],
-                );
-                await controller.writePetitionPost(petitionPostWriteModel);
-              },
+            child: Obx(
+              () => ModernFormButton(
+                isEnabled: !controller.isPosting.value &&
+                    controller.titleController.value.text.isNotEmpty &&
+                    controller.contentController.value.text.isNotEmpty,
+                width: 60,
+                coolDownTime: 3,
+                text: "등록",
+                onPressed: () async {
+                  PetitionPostWriteModel petitionPostWriteModel =
+                      PetitionPostWriteModel(
+                    title: controller.titleController.value.text,
+                    body: controller.contentController.value.text,
+                    files: controller.imageList
+                        .map((e) => FileModel.fromImagePicker(e))
+                        .toList(),
+                    tagIds: [
+                      PetitionPostTag.values[controller.selectedTag.value].id
+                    ],
+                  );
+                  await controller.writePetitionPost(petitionPostWriteModel);
+                },
+              ),
             ),
           ),
         ],
@@ -53,7 +61,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
               CategoryButtonBar(
                 selectedIndex: controller.selectedTag.value,
                 categories:
-                PetitionPostTag.values.map((e) => e.nameKR).toList(),
+                    PetitionPostTag.values.map((e) => e.nameKR).toList(),
                 selectedBackGroundColor: Palette.blue,
                 unSelectedBackGroundColor: Palette.white,
                 selectedTextColor: Palette.pureWhite,
@@ -71,7 +79,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextField(
-                        controller: controller.titleController,
+                        controller: controller.titleController.value,
                         maxLines: 1,
                         style: regularStyle.copyWith(
                             fontWeight: FontWeight.bold,
@@ -88,7 +96,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                         thickness: 1,
                       ),
                       TextField(
-                        controller: controller.contentController,
+                        controller: controller.contentController.value,
                         style: regularStyle.copyWith(color: Palette.darkGrey),
                         maxLength: 5000,
                         maxLines: null,
@@ -105,95 +113,89 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                 ),
               ),
               Obx(
-                    () =>
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Divider(
-                          color: Palette.lightGrey,
-                          thickness: 1,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Text(
-                            "사진 첨부하기",
-                            style: regularStyle.copyWith(
-                                color: Palette.grey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  getImageBottomSheet();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Palette.lightGrey,
-                                    borderRadius:
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(
+                      color: Palette.lightGrey,
+                      thickness: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        "사진 첨부하기",
+                        style: regularStyle.copyWith(
+                            color: Palette.grey, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              getImageBottomSheet();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Palette.lightGrey,
+                                borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
+                              ),
+                              height: 80,
+                              width: 80,
+                              child: Icon(
+                                Icons.image_outlined,
+                                color: Palette.grey,
+                              ),
+                            ),
+                          ),
+                          for (int i = 0; i < controller.imageList.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: Image.file(
+                                      File(controller.imageList[i].path),
+                                    ).image,
                                   ),
-                                  height: 80,
-                                  width: 80,
-                                  child: Icon(
-                                    Icons.image_outlined,
-                                    color: Palette.grey,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                ),
+                                height: 80,
+                                width: 80,
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 30,
+                                    color: Palette.darkWhite.withOpacity(0.6),
+                                    child: IconButton(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Palette.darkGrey,
+                                        size: 20,
+                                      ),
+                                      onPressed: () {
+                                        controller.imageList.removeAt(i);
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
-                              for (int i = 0; i < controller.imageList
-                                  .length; i++)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: Image
-                                            .file(
-                                          File(controller.imageList[i].path),
-                                        )
-                                            .image,
-                                      ),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                    ),
-                                    height: 80,
-                                    width: 80,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 30,
-                                        color: Palette.darkWhite.withOpacity(
-                                            0.6),
-                                        child: IconButton(
-                                          splashColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Palette.darkGrey,
-                                            size: 20,
-                                          ),
-                                          onPressed: () {
-                                            controller.imageList.removeAt(i);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
+                            ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -207,54 +209,52 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
 
     showCupertinoModalPopup(
       context: Get.context!,
-      builder: (BuildContext context) =>
-          CupertinoActionSheet(
-            cancelButton: CupertinoActionSheetAction(
-              child: const Text('취소'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: const Text('사진 찍기'),
-                onPressed: () async {
-                  Get.back();
-                  if (await controller.permissionService
-                      .getCameraPermission()) {
-                    final XFile? image = await picker.pickImage(
-                      source: ImageSource.camera,
-                      imageQuality: 50,
-                      maxHeight: 1920,
-                      maxWidth: 1080,
-                    );
-                    if (image != null) {
-                      controller.imageList.add(image);
-                    }
-                  }
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: const Text(
-                  '사진 보관함',
-                ),
-                onPressed: () async {
-                  Get.back();
-                  if (await controller.permissionService
-                      .getGalleryPermission()) {
-                    await picker
-                        .pickMultiImage(
-                      imageQuality: 50,
-                      maxHeight: 1920,
-                      maxWidth: 1080,
-                    ).then((value) {
-                      controller.imageList.addAll(value);
-                    });
-                  }
-                },
-              )
-            ],
+      builder: (BuildContext context) => CupertinoActionSheet(
+        cancelButton: CupertinoActionSheetAction(
+          child: const Text('취소'),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: const Text('사진 찍기'),
+            onPressed: () async {
+              Get.back();
+              if (await controller.permissionService.getCameraPermission()) {
+                final XFile? image = await picker.pickImage(
+                  source: ImageSource.camera,
+                  imageQuality: 50,
+                  maxHeight: 1920,
+                  maxWidth: 1080,
+                );
+                if (image != null) {
+                  controller.imageList.add(image);
+                }
+              }
+            },
           ),
+          CupertinoActionSheetAction(
+            child: const Text(
+              '사진 보관함',
+            ),
+            onPressed: () async {
+              Get.back();
+              if (await controller.permissionService.getGalleryPermission()) {
+                await picker
+                    .pickMultiImage(
+                  imageQuality: 50,
+                  maxHeight: 1920,
+                  maxWidth: 1080,
+                )
+                    .then((value) {
+                  controller.imageList.addAll(value);
+                });
+              }
+            },
+          )
+        ],
+      ),
     );
 
     //await picker.pickImage(source: ImageSource.camera);

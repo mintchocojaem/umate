@@ -95,7 +95,14 @@ class TimetablePage extends GetView<TimetablePageController> {
                                     color: Palette.blue,
                                   ),
                                 )
-                              : TextButton(
+                              : ModernFormButton(
+                                  width: 60,
+                                  height: 40,
+                                  coolDownTime: 3,
+                                  enabledBackgroundColor: Palette.pureWhite,
+                                  disabledBackgroundColor: Palette.pureWhite,
+                                  disabledTextColor: Palette.grey,
+                                  enabledTextColor: Palette.lightRed,
                                   onPressed: () async {
                                     //delete subject
                                     showCupertinoDialog(
@@ -132,12 +139,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                       },
                                     );
                                   },
-                                  child: Text(
-                                    "삭제",
-                                    style: regularStyle.copyWith(
-                                        color: Palette.lightRed,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  text: '삭제',
                                 ),
                           subjectModel == null
                               ? ModernFormButton(
@@ -309,19 +311,21 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                     .times[
                                                                         index]
                                                                     .value
-                                                                    .week.nameKR,
+                                                                    .week
+                                                                    .nameKR,
                                                             hint: "월",
                                                             suffixWidth: 32,
                                                             onTextChanged:
                                                                 (text) {
                                                               bottomSheetController
-                                                                  .times[index]
-                                                                  .value
-                                                                  .week = WeekOfDay.values
-                                                                      .firstWhere(
-                                                                          (element) =>
-                                                                              element.nameKR ==
-                                                                              text);
+                                                                      .times[index]
+                                                                      .value
+                                                                      .week =
+                                                                  WeekOfDay.values.firstWhere(
+                                                                      (element) =>
+                                                                          element
+                                                                              .nameKR ==
+                                                                          text);
                                                             },
                                                             suffix:
                                                                 const IconButton(
@@ -670,7 +674,7 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                               index]
                                                                           .times)
                                                                     Text(
-                                                                      "${i.week} ${i.start}~${i.end}",
+                                                                      "${i.week.nameKR} ${i.start}~${i.end}",
                                                                       style: lightStyle
                                                                           .copyWith(
                                                                         fontWeight:
@@ -697,8 +701,10 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 child: Center(
                                                   child: Text(
                                                     "연관된 강의 목록이 존재하지 않습니다",
-                                                    style: regularStyle.copyWith(
-                                                        color: Palette.grey),
+                                                    style:
+                                                        regularStyle.copyWith(
+                                                            color:
+                                                                Palette.grey),
                                                   ),
                                                 ),
                                               )

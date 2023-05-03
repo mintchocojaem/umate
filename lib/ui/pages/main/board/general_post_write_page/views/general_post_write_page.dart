@@ -21,57 +21,67 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
         isDarkMode: Get.isDarkMode,
         title: '글 작성하기',
         automaticallyImplyLeading: true,
-        onPressedLeading: (){
-          (controller.titleController.text.isNotEmpty || controller.contentController.text.isNotEmpty) ? showCupertinoDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CupertinoAlertDialog(
-                title: const Text("게시글 작성 취소"),
-                content: const Text("작성 중인 게시글이 있습니다. \n작성을 취소하시겠습니까?"),
-                actions: [
-                  CupertinoDialogAction(
-                    child: const Text(
-                      '취소',
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                  CupertinoDialogAction(
-                    child: Text(
-                      '확인',
-                      style: TextStyle(
-                        color: Palette.lightRed,
-                      ),
-                    ),
-                    onPressed: () async {
-                      Get.back();
-                      Get.back();
-                    },
-                  ),
-                ],
-              );
-            },
-          ): Get.back();
+        onPressedLeading: () {
+          (controller.titleController.value.text.isNotEmpty ||
+                  controller.contentController.value.text.isNotEmpty)
+              ? showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      title: const Text("게시글 작성 취소"),
+                      content: const Text("작성 중인 게시글이 있습니다. \n작성을 취소하시겠습니까?"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: const Text(
+                            '취소',
+                          ),
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            '확인',
+                            style: TextStyle(
+                              color: Palette.lightRed,
+                            ),
+                          ),
+                          onPressed: () async {
+                            Get.back();
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                )
+              : Get.back();
         },
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12),
-            child: ModernFormButton(
-              width: 60,
-              coolDownTime: 3,
-              text: "등록",
-              onPressed: () async {
-                GeneralPostWriteModel generalPostWriteModel =
-                GeneralPostWriteModel(
-                  title: controller.titleController.text,
-                  body: controller.contentController.text,
-                  files: controller.imageList
-                      .map((e) => FileModel.fromImagePicker(e))
-                      .toList(),
-                );
-                await controller.writeGeneralPost(generalPostWriteModel);
-              },
+            child: Obx(
+              () => ModernFormButton(
+                isEnabled: !controller.isPosting.value &&
+                    controller.titleController.value.text.isNotEmpty &&
+                    controller.contentController.value.text.isNotEmpty,
+                width: 60,
+                coolDownTime: 3,
+                text: "완료",
+                onPressed: () async {
+                  GeneralPostWriteModel generalPostWriteModel =
+                      GeneralPostWriteModel(
+                    title: controller.titleController.value.text,
+                    body: controller.contentController.value.text,
+                    files: controller.imageList
+                        .map((e) => FileModel.fromImagePicker(e))
+                        .toList(),
+                  );
+
+                  await controller.writeGeneralPost(generalPostWriteModel);
+
+                },
+              ),
             ),
           ),
         ],
@@ -87,7 +97,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextField(
-                        controller: controller.titleController,
+                        controller: controller.titleController.value,
                         maxLines: 1,
                         style: regularStyle.copyWith(
                             fontWeight: FontWeight.bold,
@@ -104,7 +114,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                         thickness: 1,
                       ),
                       TextField(
-                        controller: controller.contentController,
+                        controller: controller.contentController.value,
                         style: regularStyle.copyWith(color: Palette.darkGrey),
                         maxLength: 5000,
                         maxLines: null,
@@ -233,8 +243,6 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                 final XFile? image = await picker.pickImage(
                   source: ImageSource.camera,
                   imageQuality: 50,
-                  maxHeight: 1920,
-                  maxWidth: 1080,
                 );
                 if (image != null) {
                   controller.imageList.add(image);
@@ -252,9 +260,8 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                 await picker
                     .pickMultiImage(
                   imageQuality: 50,
-                  maxHeight: 1920,
-                  maxWidth: 1080,
-                ).then((value) {
+                )
+                    .then((value) {
                   controller.imageList.addAll(value);
                 });
               }

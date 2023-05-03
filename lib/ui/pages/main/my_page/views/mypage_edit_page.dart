@@ -71,6 +71,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 hint: "닉네임을 입력하세요",
                                 title: "닉네임 변경",
                                 readOnly: false,
+                                maxLength: 12,
                                 helperText: "3~12자, 영문, 한글, 숫자, 특수문자(_), 공백 포함",
                                 onTextChanged: (value) {
                                   controller.nickname.update((val) {
@@ -84,6 +85,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8, bottom: 8),
                               child: ModernFormField(
+                                maxLength: 24,
                                 hint: "새로운 비밀번호를 입력하세요",
                                 title: "비밀번호 변경",
                                 validateHint: "새로운 비밀번호를 재입력하세요",

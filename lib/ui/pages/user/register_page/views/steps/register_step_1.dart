@@ -25,6 +25,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ModernFormField(
+                      maxLength: 8,
                       onTextChanged: (value) {
                         controller.studentIdController.update((val) {
                           if (val != null) val.text = value;
@@ -35,6 +36,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: ModernFormField(
+                        maxLength: 24,
                         onTextChanged: (value) {
                           controller.studentPasswordController.update((val) {
                             if (val != null) val.text = value;

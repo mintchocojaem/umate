@@ -1,4 +1,6 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/domain/board/general_board/model/file_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
 import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
@@ -6,6 +8,21 @@ import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+
+enum MyPagePostType { write, comment, like }
+
+extension MyPagePostTypeExtension on MyPagePostType {
+  String get title {
+    switch (this) {
+      case MyPagePostType.write:
+        return "내가 게시한 글";
+      case MyPagePostType.comment:
+        return "내가 댓글 단 글";
+      case MyPagePostType.like:
+        return "내가 좋아요한 글";
+    }
+  }
+}
 
 class MyPagePageController extends GetxController {
   final PermissionService permissionService = Get.find<PermissionService>();
@@ -19,16 +36,36 @@ class MyPagePageController extends GetxController {
   Rx<TextEditingController> phoneNumber = TextEditingController().obs;
   Rx<TextEditingController> phoneAuthenticationNumber = TextEditingController().obs;
 
-  late Rx<UserPostListModel> userWritePostList;
-  late Rx<UserPostListModel> userCommentedPostList;
-  late Rx<UserPostListModel> userLikePostList;
+  late Rx<UserPostListModel> userPostList;
 
   int page = 0;
   int size = 10;
 
-  int myPagePostIndex = 0;
+  MyPagePostType myPagePostType = MyPagePostType.write;
 
-  late String myPagePostTitle;
+  final ScrollController scrollController = ScrollController();
+
+  final RxBool isLoadPost = false.obs;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (!userPostList.value.last) {
+          if(myPagePostType == MyPagePostType.write){
+            await getNextUserWritePostList();
+          }else if(myPagePostType == MyPagePostType.comment){
+            await getNextUserCommentedPostList();
+        }else if(myPagePostType == MyPagePostType.like){
+            await getNextUserLikedPostList();
+          }
+        }
+      }
+    });
+    super.onInit();
+  }
 
   void initEditPage(){
     nickname.value.text = loginService.userInfo.value.nickname;
@@ -132,13 +169,9 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> initUserPostList() async{
-    await getUserWritePostList();
-    await getUserCommentedPostList();
-    await getUserLikedPostList();
-  }
-
-  Future<void> getUserWritePostList() async{
+  Future<void> getFirstUserWritePostList() async{
+    page = 0;
+    isLoadPost.value = false;
     final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
       accessToken: loginService.token.value.accessToken,
       page: page,
@@ -146,8 +179,11 @@ class MyPagePageController extends GetxController {
     );
     if(apiResponseDTO.success){
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      userWritePostList = userPostListModel.obs;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList = userPostListModel.obs;
+      isLoadPost.value = true;
     }else{
+      isLoadPost.value = false;
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "게시글 불러오기 오류",
@@ -156,15 +192,20 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> getUserCommentedPostList() async{
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
+  Future<void> getNextUserWritePostList() async{
+    page++;
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
       accessToken: loginService.token.value.accessToken,
       page: page,
       size: size,
     );
     if(apiResponseDTO.success){
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      userCommentedPostList = userPostListModel.obs;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList.update((val) {
+        val!.generalPosts.addAll(userPostListModel.generalPosts);
+        val.last = userPostListModel.last;
+      });
     }else{
       GetXSnackBar(
           type: GetXSnackBarType.customError,
@@ -174,7 +215,55 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> getUserLikedPostList() async{
+  Future<void> getFirstUserCommentedPostList() async{
+    page = 0;
+    isLoadPost.value = false;
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList = userPostListModel.obs;
+      isLoadPost.value = true;
+    }else{
+      isLoadPost.value = false;
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "게시글 불러오기 오류",
+          content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> getNextUserCommentedPostList() async{
+    page++;
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList.update((val) {
+        val!.generalPosts.addAll(userPostListModel.generalPosts);
+        val.last = userPostListModel.last;
+      });
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "게시글 불러오기 오류",
+          content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> getFirstUserLikedPostList() async{
+    page = 0;
+    isLoadPost.value = false;
     final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
       accessToken: loginService.token.value.accessToken,
       page: page,
@@ -182,13 +271,48 @@ class MyPagePageController extends GetxController {
     );
     if(apiResponseDTO.success){
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      userLikePostList = userPostListModel.obs;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList = userPostListModel.obs;
+      isLoadPost.value = true;
+    }else{
+      isLoadPost.value = false;
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "게시글 불러오기 오류",
+          content: apiResponseDTO.message)
+          .show();
+    }
+  }
+
+  Future<void> getNextUserLikedPostList() async{
+    page++;
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: page,
+      size: size,
+    );
+    if(apiResponseDTO.success){
+      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      await getThumbnailList(userPostListModel.generalPosts);
+      userPostList.update((val) {
+        val!.generalPosts.addAll(userPostListModel.generalPosts);
+        val.last = userPostListModel.last;
+      });
     }else{
       GetXSnackBar(
           type: GetXSnackBarType.customError,
           title: "게시글 불러오기 오류",
           content: apiResponseDTO.message)
           .show();
+    }
+  }
+
+  Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
+    for (GeneralPostModel i in postList) {
+      for (FileModel j in i.files) {
+        j.thumbnailUrl = (await fileFromImageUrl(
+            j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
+      }
     }
   }
 

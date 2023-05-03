@@ -1,4 +1,5 @@
 import 'package:danvery/core/theme/palette.dart';
+import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/board/post_serch_page/controller/post_search_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/seacrh_app_bar.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
@@ -19,7 +20,9 @@ class PostSearchPage extends GetView<PostSearchPageController> {
             backGroundColor: Palette.transparent,
             isDarkMode: Get.isDarkMode,
             hint: '글의 제목, 내용, 키워드를 입력하세요',
-            onPressedLeading: () => Get.back(),
+            onPressedLeading: (){
+              Get.back();
+            },
             onSubmitted: (value) {
               controller.searchBoard();
             },

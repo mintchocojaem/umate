@@ -1,12 +1,13 @@
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
-import 'package:danvery/ui/pages/banner_list/controller/banner_list_page_controller.dart';
+import 'package:danvery/ui/pages/banner_list/controller/banner_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/modern/modern_form_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class BannerDetailPage extends GetView<BannerListPageController> {
+class BannerDetailPage extends GetView<BannerPageController> {
   final VoidCallback? onTap;
 
   const BannerDetailPage({super.key, this.onTap});
@@ -22,19 +23,36 @@ class BannerDetailPage extends GetView<BannerListPageController> {
         automaticallyImplyLeading: true,
         onPressedLeading: () => Get.back(),
       ),
-      body: controller.isLoadBannerModel.value ? Stack(
+      body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.network(
-                  controller.bannerModel!.detailUrl,
-                ),
-              ],
+          Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.network(
+                    controller.bannerModel!.detailUrl,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Text(
+                        "이미지를 불러오지 못했습니다",
+                        style: regularStyle,
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return CircularProgressIndicator(
+                        color: Palette.blue,
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-          controller.bannerModel!.actionUrl !=
-                  null
+          controller.bannerModel!.actionUrl != null
               ? Positioned.fill(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -45,13 +63,12 @@ class BannerDetailPage extends GetView<BannerListPageController> {
                         bottom: Get.mediaQuery.padding.bottom + 16,
                       ),
                       child: ModernFormButton(
-                        enabledBackgroundColor: Palette.lightBlue,
+                        elevation: 1,
+                        enabledBackgroundColor: Palette.blue,
                         enabledTextColor: Palette.white,
                         text: "EVENT 참여하기",
                         onPressed: () async {
-                          launchUrlString(controller
-                              .bannerModel!
-                              .actionUrl!);
+                          launchUrlString(controller.bannerModel!.actionUrl!);
                         },
                       ),
                     ),
@@ -59,11 +76,6 @@ class BannerDetailPage extends GetView<BannerListPageController> {
                 )
               : const SizedBox(),
         ],
-      ) : const SizedBox(
-        height: 400,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
       ),
     );
   }

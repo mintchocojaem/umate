@@ -70,6 +70,12 @@ class GeneralPostPageController extends GetxController {
       generalPost = generalPostModel.obs;
       await getImageList();
       isLoadedGeneralPost.value = true;
+    }else{
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 조회 오류")
+          .show();
     }
   }
 
@@ -78,7 +84,7 @@ class GeneralPostPageController extends GetxController {
         await _generalPostRepository.deleteGeneralPost(
             token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoard();
+      await boardPageController.getFirstGeneralPostBoardWithRefresh();
       Get.back();
     } else {
       GetXSnackBar(
@@ -245,7 +251,7 @@ class GeneralPostPageController extends GetxController {
         postId: id
     );
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoard();
+      await boardPageController.getFirstGeneralPostBoardWithRefresh();
       Get.back();
       GetXSnackBar(
           type: GetXSnackBarType.info,

@@ -11,13 +11,14 @@ class GeneralBoardProvider {
   GeneralBoardProvider._internal(this._dio);
 
   static final GeneralBoardProvider _singleton =
-  GeneralBoardProvider._internal(DioInterceptor().dio);
+      GeneralBoardProvider._internal(DioInterceptor().dio);
 
   factory GeneralBoardProvider() => _singleton;
 
   Future<ApiResponseDTO> getGeneralBoard(
       int page, int size, String keyword) async {
-    String url = '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=100';
+    String url =
+        '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=200';
 
     try {
       final Response response = await _dio.get(url);
@@ -27,7 +28,5 @@ class GeneralBoardProvider {
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
-
   }
-
 }

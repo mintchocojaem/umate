@@ -1,5 +1,6 @@
 import 'package:danvery/domain/timetable/model/lecture/schedule_model.dart';
 import 'package:danvery/domain/timetable/model/lecture/schedule_time.dart';
+import 'package:flutter/cupertino.dart';
 
 import '/core/theme/palette.dart';
 import 'package:flutter/material.dart';
@@ -280,12 +281,14 @@ class Timetable extends StatelessWidget {
         ),
         if (isLoading)
           const Padding(
-            padding: EdgeInsets.only(top: 250),
+            padding: EdgeInsets.only(top: 300),
             child: Center(
               child: SizedBox(
                 width: 48,
                 height: 48,
-                child: CircularProgressIndicator(),
+                child: CupertinoActivityIndicator(
+                  radius: 16,
+                ),
               ),
             ),
           )

@@ -53,6 +53,7 @@ dependencies:
   fl_chart: ^0.61.0
   mime_type: ^1.0.0
   http_parser: ^4.0.2
+
   firebase_core: ^2.7.0
   firebase_messaging: ^14.2.5
   firebase_analytics: ^10.1.5

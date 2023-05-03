@@ -25,7 +25,7 @@ class BannerProvider {
       );
     } on DioError catch (e) {
       return ExceptionResponseDTO(
-        message: e.response?.statusMessage,
+        message: e.message,
       );
     }
 

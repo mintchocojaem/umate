@@ -253,15 +253,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {
-                                controller.myPagePostIndex = 0;
+                              onTap: () async{
+                                controller.myPagePostType = MyPagePostType.write;
+                                controller.getFirstUserWritePostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    controller.loginService.userInfo.value.writeCount
+                                        .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),
@@ -280,15 +282,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: () {
-                                controller.myPagePostIndex = 1;
+                              onTap: () async{
+                                controller.myPagePostType = MyPagePostType.comment;
+                                controller.getFirstUserCommentedPostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    controller.loginService.userInfo.value.commentCount
+                                        .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),
@@ -307,15 +311,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: () {
-                                controller.myPagePostIndex = 2;
+                              onTap: () async{
+                                controller.myPagePostType = MyPagePostType.like;
+                                controller.getFirstUserLikedPostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    controller.loginService.userInfo.value.likeCount
+                                        .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
                                   ),

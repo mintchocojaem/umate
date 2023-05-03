@@ -19,48 +19,55 @@ class GeneralPostWritePageController extends GetxController {
   final BoardPageController boardPageController =
       Get.find<BoardPageController>();
 
-  final TextEditingController titleController = TextEditingController();
+  final Rx<TextEditingController> titleController = TextEditingController().obs;
 
-  final TextEditingController contentController = TextEditingController();
+  final Rx<TextEditingController> contentController = TextEditingController().obs;
 
   final RxList<XFile> imageList = <XFile>[].obs;
 
+  final RxBool isPosting = false.obs;
+
+  @override
+  void onInit() {
+    titleController.value.addListener(() {
+      titleController.refresh();
+    });
+    contentController.value.addListener(() {
+      contentController.refresh();
+    });
+    super.onInit();
+  }
 
   Future<void> writeGeneralPost(
       GeneralPostWriteModel generalPostWriteModel) async {
 
-    if(titleController.text.isEmpty){
-      GetXSnackBar(
-        title: "게시글 등록 오류",
-        content: "게시글의 제목을 입력해주세요",
-        type: GetXSnackBarType.customError,
-      ).show();
-      return;
-    }
+    isPosting.value = true;
 
-    if(contentController.text.isEmpty){
-      GetXSnackBar(
-        title: "게시글 등록 오류",
-        content: "게시글의 내용을 입력해주세요",
-        type: GetXSnackBarType.customError,
-      ).show();
-      return;
-    }
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+      barrierDismissible: false,
+    );
 
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralPost(
             token: loginService.token.value.accessToken,
             generalPostWriteModel: generalPostWriteModel);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoard();
+      await boardPageController.getFirstGeneralPostBoardWithRefresh();
+      Get.back();
       Get.back();
     } else {
+      Get.back();
       GetXSnackBar(
         title: "글 작성 실패",
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
     }
+    isPosting.value = false;
 
   }
 }

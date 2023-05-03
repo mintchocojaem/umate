@@ -1,11 +1,11 @@
 import 'package:danvery/routes/app_routes.dart';
-import 'package:danvery/ui/pages/banner_list/controller/banner_list_page_controller.dart';
+import 'package:danvery/ui/pages/banner_list/controller/banner_page_controller.dart';
 import 'package:danvery/ui/pages/banner_list/views/banner_card.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BannerListPage extends GetView<BannerListPageController> {
+class BannerListPage extends GetView<BannerPageController> {
   final VoidCallback? onTap;
 
   const BannerListPage({super.key, this.onTap});
@@ -34,8 +34,8 @@ class BannerListPage extends GetView<BannerListPageController> {
                     totalBannerCount:
                         controller.bannerListModel.subBannerList.length,
                     onTap: () {
-                      controller.setBannerModel(
-                          controller.bannerListModel.subBannerList[index]);
+                      controller.bannerModel =
+                          controller.bannerListModel.subBannerList[index];
                       Get.toNamed(Routes.bannerDetail);
                     },
                     imageUrl: controller

@@ -36,6 +36,7 @@ class ModernFormField extends StatefulWidget {
   final TextEditingController? controller;
   final bool isDay;
   final bool isTime;
+  final int maxLength;
 
   const ModernFormField({
     super.key,
@@ -68,6 +69,7 @@ class ModernFormField extends StatefulWidget {
     this.initCurrentPasswordText,
     this.currentPasswordHint,
     this.onCurrentPasswordTextChanged,
+    this.maxLength = 30,
   });
 
   @override
@@ -171,7 +173,7 @@ class _ModernFormField extends State<ModernFormField> {
                         readOnly: widget.readOnly || widget.isTime || widget.isDay,
                         keyboardType: widget.keyboardType,
                         maxLines: 1,
-                        maxLength: 30,
+                        maxLength: widget.maxLength,
                         style: regularStyle.copyWith(color: Palette.lightBlack),
                         cursorColor: widget.titleColor ?? Palette.blue,
                         decoration: InputDecoration(
@@ -254,7 +256,7 @@ class _ModernFormField extends State<ModernFormField> {
               readOnly: widget.readOnly || widget.isTime || widget.isDay,
               keyboardType: widget.keyboardType,
               maxLines: 1,
-              maxLength: 30,
+              maxLength: widget.maxLength,
               style: regularStyle.copyWith(color: Palette.lightBlack),
               cursorColor: widget.titleColor ?? Palette.blue,
               decoration: InputDecoration(
@@ -394,7 +396,7 @@ class _ModernFormField extends State<ModernFormField> {
                                     },
                                     readOnly: widget.readOnly,
                                     maxLines: 1,
-                                    maxLength: 30,
+                                    maxLength: widget.maxLength,
                                     decoration: InputDecoration(
                                       suffixIcon: widget.isPassword ||
                                               widget.addCurrentPassword
