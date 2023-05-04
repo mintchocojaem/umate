@@ -56,8 +56,8 @@ class PetitionPostModel {
       title: json["title"] as String,
       body: (json["body"] as String).replaceAll("\n", "</br>"),
       author: json["author"] as String? ?? "익명",
-      createdAt: (json["createdAt"] as String).substring(2, 10).replaceAll("-", "/"),
-      expiresAt: (json["expiresAt"] as String).substring(2, 10).replaceAll("-", "/"),
+      createdAt: (json["createdAt"] as String),
+      expiresAt: (json["expiresAt"] as String),
       views: json["views"] as int? ?? 0,
       status: PetitionPostStatus.values
           .firstWhere((element) => element.name == json["status"] as String)

@@ -58,7 +58,7 @@ class PetitionPostWritePageController extends GetxController {
             token: loginService.token.value.accessToken,
             petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstPetitionPostBoardWithRefresh();
+      await boardPageController.getPetitionPostBoardWithRefresh(true);
       boardPageController.selectedCategory.value = 0;
       Get.back();
       Get.back();

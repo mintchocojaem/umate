@@ -29,9 +29,9 @@ class UserInfoModel{
       major: json["major"] as String,
       department: json["department"] as String,
       admin: json["admin"] as bool,
-      writeCount: json["writeCount"] as int? ?? 0,
-      commentCount: json["commentCount"] as int? ?? 0,
-      likeCount: json["likeCount"] as int? ?? 0,
+      writeCount: json["writePostCount"] as int? ?? 0,
+      commentCount: json["commentedPostCount"] as int? ?? 0,
+      likeCount: json["likedPostCount"] as int? ?? 0,
     );
   }
 

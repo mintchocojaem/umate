@@ -2,6 +2,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
+import 'package:danvery/domain/user/info/model/user_post_model.dart';
 import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
@@ -38,7 +39,7 @@ class MyPagePageController extends GetxController {
 
   late Rx<UserPostListModel> userPostList;
 
-  int page = 0;
+  int _page = 0;
   int size = 10;
 
   MyPagePostType myPagePostType = MyPagePostType.write;
@@ -47,6 +48,8 @@ class MyPagePageController extends GetxController {
 
   final RxBool isLoadPost = false.obs;
 
+  bool isRefreshing = false;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -54,13 +57,7 @@ class MyPagePageController extends GetxController {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         if (!userPostList.value.last) {
-          if(myPagePostType == MyPagePostType.write){
-            await getNextUserWritePostList();
-          }else if(myPagePostType == MyPagePostType.comment){
-            await getNextUserCommentedPostList();
-        }else if(myPagePostType == MyPagePostType.like){
-            await getNextUserLikedPostList();
-          }
+          await getUserPostListWithRefresh(false);
         }
       }
     });
@@ -169,146 +166,165 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> getFirstUserWritePostList() async{
-    page = 0;
-    isLoadPost.value = false;
+  Future<void> getUserPostListWithRefresh(bool isFirstPage) async{
+    if(!isRefreshing){
+      switch(myPagePostType){
+        case MyPagePostType.write:
+          await _getUserWritePostList(isFirstPage);
+          break;
+        case MyPagePostType.comment:
+          await _getUserCommentedPostList(isFirstPage);
+          break;
+        case MyPagePostType.like:
+          await _getUserLikedPostList(isFirstPage);
+          break;
+      }
+    }
+  }
+
+  Future<void> _getUserWritePostList(bool isFirstPage) async {
+
+    isRefreshing = true;
+
+    if(isFirstPage){
+      isLoadPost.value = false;
+      _page = 0;
+    }else{
+      _page ++;
+    }
+
     final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
       accessToken: loginService.token.value.accessToken,
-      page: page,
+      page: _page,
       size: size,
     );
-    if(apiResponseDTO.success){
+
+    if (apiResponseDTO.success) {
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList = userPostListModel.obs;
+
+      await getThumbnailList(userPostListModel.userPosts);
+
+      if (isFirstPage) {
+        userPostList = userPostListModel.obs;
+      } else {
+        userPostList.update((val) {
+          val!.userPosts.addAll(userPostListModel.userPosts);
+          val.last = userPostListModel.last;
+        });
+      }
+
       isLoadPost.value = true;
-    }else{
+    } else {
       isLoadPost.value = false;
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              title: "게시글 불러오기 오류",
-              content: apiResponseDTO.message)
-          .show();
-    }
-  }
 
-  Future<void> getNextUserWritePostList() async{
-    page++;
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
-      accessToken: loginService.token.value.accessToken,
-      page: page,
-      size: size,
-    );
-    if(apiResponseDTO.success){
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList.update((val) {
-        val!.generalPosts.addAll(userPostListModel.generalPosts);
-        val.last = userPostListModel.last;
+      if (!isFirstPage) {
+        _page--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getUserWritePostList(isFirstPage);
       });
-    }else{
-      GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "게시글 불러오기 오류",
-          content: apiResponseDTO.message)
-          .show();
     }
+
+    isRefreshing = false;
   }
 
-  Future<void> getFirstUserCommentedPostList() async{
-    page = 0;
-    isLoadPost.value = false;
+  Future<void> _getUserCommentedPostList(bool isFirstPage) async {
+
+    isRefreshing = true;
+
+    if(isFirstPage){
+      isLoadPost.value = false;
+      _page = 0;
+    }else{
+      _page++;
+    }
+
     final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
       accessToken: loginService.token.value.accessToken,
-      page: page,
+      page: _page,
       size: size,
     );
-    if(apiResponseDTO.success){
+
+    if (apiResponseDTO.success) {
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList = userPostListModel.obs;
+
+      await getThumbnailList(userPostListModel.userPosts);
+
+      if (isFirstPage) {
+        userPostList = userPostListModel.obs;
+      } else {
+        userPostList.update((val) {
+          val!.userPosts.addAll(userPostListModel.userPosts);
+          val.last = userPostListModel.last;
+        });
+      }
+
       isLoadPost.value = true;
-    }else{
+    } else {
       isLoadPost.value = false;
-      GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "게시글 불러오기 오류",
-          content: apiResponseDTO.message)
-          .show();
-    }
-  }
 
-  Future<void> getNextUserCommentedPostList() async{
-    page++;
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
-      accessToken: loginService.token.value.accessToken,
-      page: page,
-      size: size,
-    );
-    if(apiResponseDTO.success){
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList.update((val) {
-        val!.generalPosts.addAll(userPostListModel.generalPosts);
-        val.last = userPostListModel.last;
+      if (!isFirstPage) {
+        _page--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getUserCommentedPostList(isFirstPage);
       });
-    }else{
-      GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "게시글 불러오기 오류",
-          content: apiResponseDTO.message)
-          .show();
     }
+
+    isRefreshing = false;
   }
 
-  Future<void> getFirstUserLikedPostList() async{
-    page = 0;
-    isLoadPost.value = false;
+  Future<void> _getUserLikedPostList(bool isFirstPage) async {
+
+    isRefreshing = true;
+
+    if(isFirstPage){
+      isLoadPost.value = false;
+      _page = 0;
+    }else{
+      _page++;
+    }
+
     final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
       accessToken: loginService.token.value.accessToken,
-      page: page,
+      page: _page,
       size: size,
     );
-    if(apiResponseDTO.success){
+
+    if (apiResponseDTO.success) {
       final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList = userPostListModel.obs;
+
+      await getThumbnailList(userPostListModel.userPosts);
+
+      if (isFirstPage) {
+        userPostList = userPostListModel.obs;
+      } else {
+        userPostList.update((val) {
+          val!.userPosts.addAll(userPostListModel.userPosts);
+          val.last = userPostListModel.last;
+        });
+      }
+
       isLoadPost.value = true;
-    }else{
+    } else {
       isLoadPost.value = false;
-      GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "게시글 불러오기 오류",
-          content: apiResponseDTO.message)
-          .show();
-    }
-  }
 
-  Future<void> getNextUserLikedPostList() async{
-    page++;
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
-      accessToken: loginService.token.value.accessToken,
-      page: page,
-      size: size,
-    );
-    if(apiResponseDTO.success){
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
-      await getThumbnailList(userPostListModel.generalPosts);
-      userPostList.update((val) {
-        val!.generalPosts.addAll(userPostListModel.generalPosts);
-        val.last = userPostListModel.last;
+      if (!isFirstPage) {
+        _page--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getUserLikedPostList(isFirstPage);
       });
-    }else{
-      GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "게시글 불러오기 오류",
-          content: apiResponseDTO.message)
-          .show();
     }
+
+    isRefreshing = false;
   }
 
-  Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
-    for (GeneralPostModel i in postList) {
+  Future<void> getThumbnailList(List<UserPostModel> postList) async {
+    for (UserPostModel i in postList) {
       for (FileModel j in i.files) {
         j.thumbnailUrl = (await fileFromImageUrl(
             j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;

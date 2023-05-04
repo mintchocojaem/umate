@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:danvery/core/notification/setup_notification.dart';
-import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -34,7 +35,6 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     final bool isShouldShowRationale =
         await Permission.notification.shouldShowRequestRationale;
     final status = await Permission.notification.status;
-
     if (await Permission.notification.status.isGranted) {
       notificationPermission.value = true;
       return true;
@@ -43,13 +43,12 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     if (status.isDenied) {
       return await Permission.notification.request().isGranted;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      GetXSnackBar(
-          type: GetXSnackBarType.notificationPermissionError).show();
+      openAppSettings();
     }
     return false;
   }
 
-  Future<bool> getCameraPermission() async {
+  Future<bool> getCameraPermission() async{
     final bool isShouldShowRationale =
         await Permission.camera.shouldShowRequestRationale;
     final status = await Permission.camera.status;
@@ -62,29 +61,49 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
     if (status.isDenied) {
       return await Permission.camera.request().isGranted;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      GetXSnackBar(
-          type: GetXSnackBarType.cameraPermissionError).show();
+      openAppSettings();
     }
     return false;
   }
 
   Future<bool> getGalleryPermission() async {
-    final bool isShouldShowRationale =
-        await Permission.photos.shouldShowRequestRationale;
-    final status = await Permission.photos.status;
 
+    if (Platform.isAndroid) {
+      /// use [Permissions.storage.status]
+
+      final bool isShouldShowRationale =
+      await Permission.storage.shouldShowRequestRationale;
+
+      final status = await Permission.storage.status;
+
+      if (await Permission.storage.status.isGranted || status.isLimited) {
+        galleryPermission.value = true;
+        return true;
+      }
+
+      if (status.isDenied) {
+        if(await Permission.storage.request().isGranted) return true;
+      } else if (status.isPermanentlyDenied || isShouldShowRationale) {
+        openAppSettings();
+      }
+
+    }
+
+    /// use [Permissions.photos.status]
+    final bool isShouldShowRationale =
+    await Permission.photos.shouldShowRequestRationale;
+    final status = await Permission.photos.status;
     if (await Permission.photos.status.isGranted || status.isLimited) {
       galleryPermission.value = true;
       return true;
     }
-
     if (status.isDenied) {
-      return await Permission.photos.request().isGranted;
+      if(await Permission.photos.request().isGranted) return true;
     } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      GetXSnackBar(
-          type: GetXSnackBarType.galleryPermissionError).show();
+      openAppSettings();
     }
     return false;
+
   }
 
   @override

@@ -1,5 +1,5 @@
 
-import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/user/info/model/user_post_model.dart';
 
 class UserPostListModel{
   int totalElements;
@@ -9,7 +9,7 @@ class UserPostListModel{
   bool last;
   bool first;
   bool hasNext;
-  List<GeneralPostModel> generalPosts;
+  List<UserPostModel> userPosts;
 
   UserPostListModel({
     required this.totalElements,
@@ -19,7 +19,7 @@ class UserPostListModel{
     required this.last,
     required this.first,
     required this.hasNext,
-    required this.generalPosts,
+    required this.userPosts,
   });
 
   factory UserPostListModel.fromJson(Map<String, dynamic> json) {
@@ -31,7 +31,7 @@ class UserPostListModel{
       last: json['last'],
       first: json['first'],
       hasNext: json['hasNext'],
-      generalPosts: (json['content'] as List).map((e) => GeneralPostModel.fromJson(e)).toList(),
+      userPosts: (json['content'] as List).map((e) => UserPostModel.fromJson(e)).toList(),
     );
   }
 

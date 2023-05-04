@@ -10,7 +10,6 @@ import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -124,25 +123,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      Html(
-                                        style: {
-                                          "body": Style(
-                                            fontSize: FontSize(
-                                                regularStyle.fontSize!),
-                                            color: Palette.darkGrey,
-                                            padding: EdgeInsets.zero,
-                                            margin: Margins.zero,
-                                          ),
-                                        },
-                                        data: controller.generalPost.value.body,
-                                        onLinkTap: (String? url,
-                                            RenderContext context,
-                                            Map<String, String> attributes,
-                                            _) {
-                                          if (url != null) {
-                                            launchUrlString(url);
-                                          }
-                                        },
+                                      Text(
+                                        controller.generalPost.value.body,
+                                        style: regularStyle.copyWith(
+                                            color: Palette.darkGrey),
                                       ),
                                     ],
                                   ),

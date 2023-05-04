@@ -26,7 +26,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
               : RefreshIndicator(
                   color: Palette.blue,
                   onRefresh: () async {
-                    await controller.getFirstGeneralPostBoardWithRefresh();
+                    await controller.getGeneralPostBoardWithRefresh(true);
                   },
                   child: ListView.builder(
                     controller: controller.generalBoardScrollController,

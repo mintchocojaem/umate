@@ -26,7 +26,7 @@ class BoardCard extends StatelessWidget {
           children: [
             if (leadingText != null)
               SizedBox(
-                width: 80,
+                width: 70,
                 child: Text(
                   leadingText!,
                   style: regularStyle.copyWith(color: Palette.grey),

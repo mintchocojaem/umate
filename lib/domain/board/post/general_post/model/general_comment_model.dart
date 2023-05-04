@@ -20,7 +20,7 @@ class GeneralCommentModel {
       id: json["id"] as int,
       author: json["author"] as String? ?? "익명",
       text: json["text"] as String,
-      createdAt: dateRename(json["createdAt"] as String),
+      createdAt: dateRename((json["createdAt"] as String)),
       mine: json["mine"] as bool,
     );
   }

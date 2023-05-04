@@ -58,17 +58,19 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              CategoryButtonBar(
-                selectedIndex: controller.selectedTag.value,
-                categories:
-                    PetitionPostTag.values.map((e) => e.nameKR).toList(),
-                selectedBackGroundColor: Palette.blue,
-                unSelectedBackGroundColor: Palette.white,
-                selectedTextColor: Palette.pureWhite,
-                unSelectedTextColor: Palette.grey,
-                onTap: (value) async {
-                  controller.selectedTag.value = value;
-                },
+              Obx(
+                () => CategoryButtonBar(
+                  selectedIndex: controller.selectedTag.value,
+                  categories:
+                      PetitionPostTag.values.map((e) => e.nameKR).toList(),
+                  selectedBackGroundColor: Palette.blue,
+                  unSelectedBackGroundColor: Palette.white,
+                  selectedTextColor: Palette.pureWhite,
+                  unSelectedTextColor: Palette.grey,
+                  onTap: (value) async {
+                    controller.selectedTag.value = value;
+                  },
+                ),
               ),
               const SizedBox(
                 height: 8,

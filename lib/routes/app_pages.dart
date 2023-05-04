@@ -47,7 +47,6 @@ class AppPages {
         HomePageBinding(),
         TimetablePageBinding(),
         BoardPageBinding(),
-        PermissionBinding(),
         MyPagePageBinding(),
       ],
     ),
@@ -107,6 +106,7 @@ class AppPages {
         bindings: [
           SplashScreenPageBinding(),
           LoginBinding(),
+          PermissionBinding(),
         ]),
     GetPage(
       name: Routes.petition,

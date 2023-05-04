@@ -1,3 +1,4 @@
+import 'package:danvery/core/date_rename/date_rename.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/banner_list/views/banner_card.dart';
@@ -341,9 +342,9 @@ class HomePage extends GetView<HomePageController> {
                                             BoardCard(
                                               title: controller
                                                   .petitionListHome[i].title,
-                                              leadingText: controller
+                                              leadingText: dateRename(controller
                                                   .petitionListHome[i]
-                                                  .createdAt,
+                                                  .createdAt),
                                               onTap: () {
                                                 controller.mainPageController
                                                     .selectedIndex.value = 2;

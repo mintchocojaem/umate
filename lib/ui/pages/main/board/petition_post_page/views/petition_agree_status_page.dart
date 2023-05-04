@@ -28,22 +28,20 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
           () => controller.isLoadedPetitionPost.value
               ? Column(
                   children: [
-                    Flexible(
-                      flex: 1,
+                    Expanded(
                       child: Stack(
                         children: [
                           PieChart(
                             PieChartData(
-                                pieTouchData: PieTouchData(
-                                  touchCallback:
-                                      (FlTouchEvent event, pieTouchResponse) {},
-                                ),
-                                borderData: FlBorderData(
-                                  show: false,
-                                ),
-                                sectionsSpace: 0,
-                                centerSpaceRadius: 60,
-                                sections: showingSections(),
+                              pieTouchData: PieTouchData(
+                                touchCallback:
+                                    (FlTouchEvent event, pieTouchResponse) {},
+                              ),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 0,
+                              sections: showingSections(),
                             ),
                           ),
                           Positioned.fill(
@@ -59,62 +57,56 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                         ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              '청원의 동의 비율은\n 상위 4개의 학과만 볼 수 있습니다',
-                              textAlign: TextAlign.center,
-                              style: lightStyle.copyWith(
-                                color: Palette.darkGrey,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Palette.lightGrey,
-                            ),
-                            ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount:
-                                    controller.petitionPost.value.statisticList.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    dense: true,
-                                    leading: Text(
-                                      '${index + 1}.',
-                                      style: regularStyle.copyWith(
-                                        color: Palette.black,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      controller.petitionPost.value
-                                          .statisticList[index].department,
-                                      style: regularStyle.copyWith(
-                                        color: Palette.darkGrey,
-                                      ),
-                                    ),
-                                    trailing: Text(
-                                      '(${(controller.petitionPost.value.statisticList[index].agreeCount
-                                          / controller.petitionPost.value.agreeCount * 100).round()}%) '
-                                      '${controller.petitionPost.value.statisticList[index].agreeCount}명',
-                                      style: regularStyle.copyWith(
-                                        color: Palette.darkGrey,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ],
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 8,
                         ),
-                      ),
+                        Text(
+                          '청원의 동의 비율은\n 상위 4개의 학과만 볼 수 있습니다',
+                          textAlign: TextAlign.center,
+                          style: lightStyle.copyWith(
+                            color: Palette.darkGrey,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: Palette.lightGrey,
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller
+                              .petitionPost.value.statisticList.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              dense: true,
+                              leading: Text(
+                                '${index + 1}.',
+                                style: regularStyle.copyWith(
+                                  color: Palette.black,
+                                ),
+                              ),
+                              title: Text(
+                                controller.petitionPost.value
+                                    .statisticList[index].department,
+                                style: regularStyle.copyWith(
+                                  color: Palette.darkGrey,
+                                ),
+                              ),
+                              trailing: Text(
+                                '(${(controller.petitionPost.value.statisticList[index].agreeCount / controller.petitionPost.value.agreeCount * 100).round()}%) '
+                                '${controller.petitionPost.value.statisticList[index].agreeCount}명',
+                                style: regularStyle.copyWith(
+                                  color: Palette.darkGrey,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 )
@@ -129,7 +121,8 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
   List<PieChartSectionData> showingSections() {
     final agreeCount = controller.petitionPost.value.agreeCount;
 
-    return List.generate(controller.petitionPost.value.statisticList.length, (i) {
+    return List.generate(controller.petitionPost.value.statisticList.length,
+        (i) {
       const radius = 100.0;
       switch (i) {
         case 0:
@@ -142,7 +135,7 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                 '${(controller.petitionPost.value.statisticList[0].agreeCount / agreeCount * 100).round()}%\n'
                 ' ${controller.petitionPost.value.statisticList[0].department}',
             radius: radius,
-            titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
+            titleStyle: lightStyle.copyWith(color: Palette.pureWhite),
           );
         case 1:
           return PieChartSectionData(
@@ -154,7 +147,7 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                 '${(controller.petitionPost.value.statisticList[1].agreeCount / agreeCount * 100).round()}%\n'
                 ' ${controller.petitionPost.value.statisticList[1].department}',
             radius: radius,
-            titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
+            titleStyle: lightStyle.copyWith(color: Palette.pureWhite),
           );
         case 2:
           return PieChartSectionData(
@@ -166,7 +159,7 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                 '${(controller.petitionPost.value.statisticList[2].agreeCount / agreeCount * 100).round()}%\n'
                 ' ${controller.petitionPost.value.statisticList[2].department}',
             radius: radius,
-            titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
+            titleStyle: lightStyle.copyWith(color: Palette.pureWhite),
           );
         case 3:
           return PieChartSectionData(
@@ -178,7 +171,7 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                 '${(controller.petitionPost.value.statisticList[3].agreeCount / agreeCount * 100).round()}%\n'
                 ' ${controller.petitionPost.value.statisticList[3].department}',
             radius: radius,
-            titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
+            titleStyle: lightStyle.copyWith(color: Palette.pureWhite),
           );
         default:
           return PieChartSectionData(
@@ -187,10 +180,10 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                 agreeCount *
                 100,
             title:
-            '${(controller.petitionPost.value.statisticList[i].agreeCount / agreeCount * 100).round()}%\n'
-                ' ${controller.petitionPost.value.statisticList[i ].department}',
+                '${(controller.petitionPost.value.statisticList[i].agreeCount / agreeCount * 100).round()}%\n'
+                ' ${controller.petitionPost.value.statisticList[i].department}',
             radius: radius,
-            titleStyle: regularStyle.copyWith(color: Palette.pureWhite),
+            titleStyle: lightStyle.copyWith(color: Palette.pureWhite),
           );
       }
     });

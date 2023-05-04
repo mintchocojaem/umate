@@ -24,8 +24,8 @@ class PostSearchPageController extends GetxController{
       );
 
       boardPageController.searchText.value = searchController.text;
-      await boardPageController.getFirstGeneralPostBoardWithRefresh();
-      await boardPageController.getFirstPetitionPostBoardWithRefresh();
+      await boardPageController.getGeneralPostBoardWithRefresh(true);
+      await boardPageController.getPetitionPostBoardWithRefresh(true);
       Get.back();
       Get.back();
       mainPageController.selectedIndex.value = 2;

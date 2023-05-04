@@ -8,7 +8,6 @@ import 'package:danvery/ui/pages/main/board/petition_post_page/controller/petiti
 import 'package:danvery/ui/widgets/modern/modern_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -43,7 +42,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 16),
+                              left: 16, right: 16, top: 16,),
                           child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             child: Column(
@@ -133,7 +132,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                             ),
                                           ),
                                           Text(
-                                            "${controller.petitionPost.value.createdAt}"
+                                            "${controller.petitionPost.value.createdAt.substring(0,10)}"
                                             " ~ ${controller.petitionPost.value.expiresAt}",
                                             style: regularStyle.copyWith(
                                                 color: Palette.black),
@@ -204,25 +203,10 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                Html(
-                                  style: {
-                                    "body": Style(
-                                      fontSize:
-                                          FontSize(regularStyle.fontSize!),
-                                      color: Palette.darkGrey,
-                                      padding: EdgeInsets.zero,
-                                      margin: Margins.zero,
-                                    ),
-                                  },
-                                  data: controller.petitionPost.value.body,
-                                  onLinkTap: (String? url,
-                                      RenderContext context,
-                                      Map<String, String> attributes,
-                                      _) {
-                                    if (url != null) {
-                                      launchUrlString(url);
-                                    }
-                                  },
+                                Text(
+                                  controller.petitionPost.value.body,
+                                  style: regularStyle.copyWith(
+                                      color: Palette.darkGrey),
                                 ),
                                 const SizedBox(
                                   height: 16,
@@ -415,6 +399,7 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                         ),
                                       )
                                     : const SizedBox(),
+                                const SizedBox(height: 16,),
                               ],
                             ),
                           ),

@@ -1,10 +1,8 @@
 import 'dart:io';
 
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-
-import '../../../core/theme/app_text_theme.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -63,7 +61,8 @@ class PostCard extends StatelessWidget {
                           Text(
                             nickname,
                             style: regularStyle.copyWith(
-                                color: Palette.darkGrey, fontWeight: FontWeight.w500),
+                                color: Palette.darkGrey,
+                                fontWeight: FontWeight.w500),
                           ),
                           Text(
                             publishDate,
@@ -75,31 +74,25 @@ class PostCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Text(title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: regularStyle.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Palette.lightBlack)),
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: regularStyle.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Palette.lightBlack),
+                    ),
                   ),
-                  Html(
-                    data: subtitle,
-                    style: {
-                      "body": Style(
-                        fontSize: FontSize(lightStyle.fontSize!),
-                        color: Palette.darkGrey,
-                        padding: EdgeInsets.zero,
-                        margin: Margins.zero,
-                        maxLines: 1,
-                        textOverflow: TextOverflow.ellipsis,
-
-                      ),
-                    },
-                    onLinkTap: (url,_, __, ___) {
-                      onTap?.call();
-                    },
+                  Text(
+                    subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: regularStyle.copyWith(
+                        color: Palette.darkGrey),
                   ),
-                  const SizedBox(height: 4,),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -154,18 +147,20 @@ class PostCard extends StatelessWidget {
             const SizedBox(
               width: 16,
             ),
-            imageUrl != null ? Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: Image.file(File(imageUrl!)).image,
-                  fit: BoxFit.cover,
-                ),
-                color: Palette.lightGrey,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              height: 100,
-              width: 100,
-            ) : const SizedBox(),
+            imageUrl != null
+                ? Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: Image.file(File(imageUrl!)).image,
+                        fit: BoxFit.cover,
+                      ),
+                      color: Palette.lightGrey,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    height: 100,
+                    width: 100,
+                  )
+                : const SizedBox(),
           ],
         ),
       ),

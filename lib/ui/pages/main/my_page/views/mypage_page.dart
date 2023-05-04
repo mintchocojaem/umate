@@ -255,7 +255,6 @@ class MyPagePage extends GetView<MyPagePageController> {
                             InkWell(
                               onTap: () async{
                                 controller.myPagePostType = MyPagePostType.write;
-                                controller.getFirstUserWritePostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
@@ -284,7 +283,6 @@ class MyPagePage extends GetView<MyPagePageController> {
                             InkWell(
                               onTap: () async{
                                 controller.myPagePostType = MyPagePostType.comment;
-                                controller.getFirstUserCommentedPostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
@@ -313,7 +311,6 @@ class MyPagePage extends GetView<MyPagePageController> {
                             InkWell(
                               onTap: () async{
                                 controller.myPagePostType = MyPagePostType.like;
-                                controller.getFirstUserLikedPostList();
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(

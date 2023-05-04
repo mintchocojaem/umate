@@ -1,6 +1,4 @@
 import 'package:danvery/core/theme/palette.dart';
-import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/ui/widgets/app_bar/transparent_app_bar.dart';
 import 'package:danvery/ui/widgets/board/post_card.dart';
@@ -13,6 +11,8 @@ class MyPagePostPage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    controller.getUserPostListWithRefresh(true);
+
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: TransparentAppBar(
@@ -27,9 +27,9 @@ class MyPagePostPage extends GetView<MyPagePageController> {
           shrinkWrap: true,
           padding:
               const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-          itemCount: controller.userPostList.value.generalPosts.length + 1,
+          itemCount: controller.userPostList.value.userPosts.length + 1,
           itemBuilder: (BuildContext context, int index) {
-            if (index == controller.userPostList.value.generalPosts.length) {
+            if (index == controller.userPostList.value.userPosts.length) {
               if (controller.userPostList.value.last) {
                 return const SizedBox();
               } else {
@@ -46,45 +46,33 @@ class MyPagePostPage extends GetView<MyPagePageController> {
               child: Column(
                 children: [
                   PostCard(
-                      nickname: controller
-                          .userPostList.value.generalPosts[index].author,
-                      title: controller
-                          .userPostList.value.generalPosts[index].title,
-                      subtitle: controller
-                          .userPostList.value.generalPosts[index].body,
-                      publishDate: controller
-                          .userPostList.value.generalPosts[index].createdAt,
-                      commentCount: controller
-                          .userPostList.value.generalPosts[index].commentCount,
-                      likeCount: controller
-                          .userPostList.value.generalPosts[index].likes,
-                      imageUrl: controller
-                              .userPostList.value.generalPosts[index].files
-                              .map((e) => e.mimeType.contains('image')
-                                  ? e.thumbnailUrl
-                                  : null)
-                              .whereType<String>()
-                              .isNotEmpty
-                          ? controller
-                              .userPostList.value.generalPosts[index].files
-                              .map((e) => e.mimeType.contains('image')
-                                  ? e.thumbnailUrl
-                                  : null)
-                              .whereType<String>()
-                              .first
-                          : null,
-                      onTap: () {
-                        Get.toNamed(Routes.post,
-                                arguments: controller
-                                    .userPostList.value.generalPosts[index].id)
-                            ?.then((value) {
-                          if (value != null) {
-                            final generalPostModel = value as GeneralPostModel;
-                            controller.userPostList.value.generalPosts[index] =
-                                generalPostModel;
-                          }
-                        });
-                      }),
+                    nickname:
+                        controller.userPostList.value.userPosts[index].author,
+                    title: controller.userPostList.value.userPosts[index].title,
+                    subtitle:
+                        controller.userPostList.value.userPosts[index].body,
+                    publishDate: controller
+                        .userPostList.value.userPosts[index].createdAt,
+                    commentCount: controller
+                        .userPostList.value.userPosts[index].commentCount,
+                    likeCount:
+                        controller.userPostList.value.userPosts[index].likes,
+                    imageUrl: controller
+                            .userPostList.value.userPosts[index].files
+                            .map((e) => e.mimeType.contains('image')
+                                ? e.thumbnailUrl
+                                : null)
+                            .whereType<String>()
+                            .isNotEmpty
+                        ? controller.userPostList.value.userPosts[index].files
+                            .map((e) => e.mimeType.contains('image')
+                                ? e.thumbnailUrl
+                                : null)
+                            .whereType<String>()
+                            .first
+                        : null,
+                    onTap: () {},
+                  ),
                   Divider(
                     color: Palette.lightGrey,
                     thickness: 1,
@@ -98,7 +86,7 @@ class MyPagePostPage extends GetView<MyPagePageController> {
           child: Center(
             child: CircularProgressIndicator(),
           ),
-        ),
+        )
       ),
     );
   }

@@ -56,7 +56,7 @@ class GeneralPostWritePageController extends GetxController {
             token: loginService.token.value.accessToken,
             generalPostWriteModel: generalPostWriteModel);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoardWithRefresh();
+      await boardPageController.getGeneralPostBoardWithRefresh(true);
       Get.back();
       Get.back();
     } else {

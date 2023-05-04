@@ -23,10 +23,12 @@ class ImageShowPage extends GetView<ImageShowPageController> {
                 controller: controller.pageController,
                 itemCount: controller.imageList.length,
                 itemBuilder: (context, index) {
-                  return SingleChildScrollView(
-                    child: Image.file(
-                      controller.imageList[index],
-                      fit: BoxFit.fitWidth,
+                  return Center(
+                    child: SingleChildScrollView(
+                      child: Image.file(
+                        controller.imageList[index],
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
                   );
                 },

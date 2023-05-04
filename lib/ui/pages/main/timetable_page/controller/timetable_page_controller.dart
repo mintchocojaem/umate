@@ -12,7 +12,6 @@ import 'package:danvery/domain/timetable/repository/timetable_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TimetablePageController extends GetxController {
@@ -204,11 +203,9 @@ class TimetablePageController extends GetxController {
         await getTimetable(timetableList.timetables.first.id);
       }
     } else {
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              title: "시간표 오류",
-              content: "시간표 조회에 실패하였습니다.")
-          .show();
+      Future.delayed(const Duration(seconds: 10),() async{
+        await initTimetable();
+      });
     }
   }
 
@@ -224,11 +221,9 @@ class TimetablePageController extends GetxController {
       }
       isLoadTimetable.value = true;
     } else {
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              title: "시간표 오류",
-              content: "시간표 조회에 실패하였습니다.")
-          .show();
+      Future.delayed(const Duration(seconds: 10),() async{
+        await getTimetable(timetableId);
+      });
     }
   }
 

@@ -53,18 +53,18 @@ class BoardPageController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
 
-    await getFirstGeneralPostBoardWithRefresh();
-    await getFirstPetitionPostBoardWithRefresh();
+    await getGeneralPostBoardWithRefresh(true);
+    await getPetitionPostBoardWithRefresh(true);
 
-    selectedCategory.listen((value) async{
-      await getFirstPetitionPostBoardWithRefresh();
+    selectedCategory.listen((value) async {
+      await getPetitionPostBoardWithRefresh(true);
     });
 
     generalBoardScrollController.addListener(() async {
       if (generalBoardScrollController.position.pixels ==
           generalBoardScrollController.position.maxScrollExtent) {
         if (!generalPostBoard.value.last) {
-          await getNextGeneralPostBoardWithRefresh();
+          await getGeneralPostBoardWithRefresh(false);
         }
       }
     });
@@ -73,7 +73,7 @@ class BoardPageController extends GetxController {
       if (petitionBoardScrollController.position.pixels ==
           petitionBoardScrollController.position.maxScrollExtent) {
         if (!petitionBoard.value.last) {
-          await getNextPetitionPostBoardWithRefresh();
+          await _getPetitionPostBoard(false);
         }
       }
     });
@@ -81,132 +81,99 @@ class BoardPageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> getFirstGeneralPostBoardWithRefresh() async{
+  Future<void> getGeneralPostBoardWithRefresh(bool isFirstPage)async{
     if(!isRefreshGeneralPostBoard){
-      await _getFirstGeneralPostBoard();
+      await _getGeneralPostBoard(isFirstPage);
     }
   }
 
-  Future<void> _getFirstGeneralPostBoard() async {
+  Future<void> _getGeneralPostBoard(bool isFirstPage) async {
+
     isRefreshGeneralPostBoard = true;
-    _generalBoardPage = 0;
-    isLoadGeneralPostBoard.value = false;
-    isLoadedImageList.value = false;
-    final ApiResponseDTO apiResponseDTO =
-        await _generalBoardRepository.getGeneralBoard(
-            page: _generalBoardPage,
-            size: _generalBoardSize,
-            keyword: searchText.value);
+
+    final page = isFirstPage ? 0 : _generalBoardPage + 1;
+    final ApiResponseDTO apiResponseDTO = await _generalBoardRepository.getGeneralBoard(
+      page: page,
+      size: _generalBoardSize,
+      keyword: searchText.value,
+    );
+
     if (apiResponseDTO.success) {
-      final GeneralBoardModel generalBoardModel =
-          apiResponseDTO.data as GeneralBoardModel;
+      final GeneralBoardModel generalBoardModel = apiResponseDTO.data as GeneralBoardModel;
+
+      await getThumbnailList(generalBoardModel.generalPosts);
+
+      if (isFirstPage) {
+        generalPostList.value = generalBoardModel.generalPosts;
+      } else {
+        generalPostList.addAll(generalBoardModel.generalPosts);
+      }
+
       generalPostBoard = generalBoardModel.obs;
-      final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
-      await getThumbnailList(postList);
-      generalPostList.value = postList;
-      isLoadGeneralPostBoard.value = true;
-      isRefreshGeneralPostBoard = false;
-    }else{
-      Future.delayed(const Duration(seconds: 10),(){
-        _getFirstGeneralPostBoard();
+      _generalBoardPage = page;
+    } else {
+      if (!isFirstPage) {
+        _generalBoardPage--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getGeneralPostBoard(isFirstPage);
       });
     }
+
+    isLoadGeneralPostBoard.value = true;
+    isLoadedImageList.value = true;
+    isRefreshGeneralPostBoard = false;
   }
 
-  Future<void> getNextGeneralPostBoardWithRefresh() async{
-    if(!isRefreshGeneralPostBoard){
-      await _getNextGeneralPostBoard();
+  Future<void> getPetitionPostBoardWithRefresh(bool isFirstPage) async {
+    if (!isRefreshPetitionPostBoard) {
+      await _getPetitionPostBoard(isFirstPage);
     }
   }
 
-  Future<void> _getNextGeneralPostBoard() async {
-    isRefreshGeneralPostBoard = true;
-    _generalBoardPage++;
-    final ApiResponseDTO apiResponseDTO =
-        await _generalBoardRepository.getGeneralBoard(
-            page: _generalBoardPage,
-            size: _generalBoardSize,
-            keyword: searchText.value);
-    if (apiResponseDTO.success && apiResponseDTO.data.generalPosts.isNotEmpty) {
-      final GeneralBoardModel generalBoardModel =
-          apiResponseDTO.data as GeneralBoardModel;
-      generalPostBoard = generalBoardModel.obs;
-      final List<GeneralPostModel> postList = generalBoardModel.generalPosts;
-      await getThumbnailList(postList);
-      generalPostList.addAll(postList);
-      isRefreshGeneralPostBoard = false;
-    }else{
-      _generalBoardPage--;
-      Future.delayed(const Duration(seconds: 10),(){
-        _getNextGeneralPostBoard();
-      });
-    }
-  }
-
-  Future<void> getFirstPetitionPostBoardWithRefresh() async{
-    if(!isRefreshPetitionPostBoard){
-      await _getFirstPetitionPostBoard();
-    }
-  }
-  Future<void> _getFirstPetitionPostBoard() async {
+  Future<void> _getPetitionPostBoard(bool isFirstPage) async {
     isRefreshPetitionPostBoard = true;
-    _petitionBoardPage = 0;
-    isLoadPetitionBoard.value = false;
-    final ApiResponseDTO apiResponseDTO =
-        await _petitionPostRepository.getPetitionBoard(
-            page: _petitionBoardPage,
-            size: _petitionBoardSize,
-            status: PetitionPostStatus.values[selectedCategory.value].name,
-            keyword: searchText.value);
+
+    final page = isFirstPage ? 0 : _petitionBoardPage + 1;
+    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository.getPetitionBoard(
+        page: _petitionBoardPage,
+        size: _petitionBoardSize,
+        status: PetitionPostStatus.values[selectedCategory.value].name,
+        keyword: searchText.value);
+
     if (apiResponseDTO.success) {
-      final PetitionBoardModel petitionBoardModel =
-          apiResponseDTO.data as PetitionBoardModel;
+      final PetitionBoardModel petitionBoardModel = apiResponseDTO.data as PetitionBoardModel;
+
+      if (isFirstPage) {
+        petitionPostList.value = petitionBoardModel.petitionPosts;
+      } else {
+        petitionPostList.addAll(petitionBoardModel.petitionPosts);
+      }
+
       petitionBoard = petitionBoardModel.obs;
-      petitionPostList.value = petitionBoardModel.petitionPosts;
-      isLoadPetitionBoard.value = true;
-      isRefreshPetitionPostBoard = false;
-    }else{
-      Future.delayed(const Duration(seconds: 10),(){
-        _getFirstPetitionPostBoard();
+      _petitionBoardPage = page;
+    } else {
+      if (!isFirstPage) {
+        _petitionBoardPage--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getPetitionPostBoard(isFirstPage);
       });
     }
-  }
 
-  Future<void> getNextPetitionPostBoardWithRefresh() async{
-    if(!isRefreshPetitionPostBoard){
-      await _getNextPetitionPostBoard();
-    }
-  }
-
-  Future<void> _getNextPetitionPostBoard() async {
-    isRefreshPetitionPostBoard = true;
-    _petitionBoardPage++;
-    final ApiResponseDTO apiResponseDTO =
-        await _petitionPostRepository.getPetitionBoard(
-            page: _petitionBoardPage,
-            size: _petitionBoardSize,
-            status: PetitionPostStatus.values[selectedCategory.value].name,
-            keyword: searchText.value);
-    if (apiResponseDTO.success &&
-        apiResponseDTO.data.petitionPosts.isNotEmpty) {
-      final PetitionBoardModel petitionBoardModel =
-          apiResponseDTO.data as PetitionBoardModel;
-      petitionBoard = petitionBoardModel.obs;
-      petitionPostList.addAll(petitionBoardModel.petitionPosts);
-      isRefreshPetitionPostBoard = false;
-    }else{
-      _petitionBoardPage--;
-      Future.delayed(const Duration(seconds: 10),(){
-        _getNextPetitionPostBoard();
-      });
-    }
+    isLoadPetitionBoard.value = true;
+    isLoadedImageList.value = true;
+    isRefreshPetitionPostBoard = false;
   }
 
   Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
     for (GeneralPostModel i in postList) {
       for (FileModel j in i.files) {
         j.thumbnailUrl = (await fileFromImageUrl(
-                j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
+                j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}")))
+            .path;
       }
     }
     isLoadedImageList.value = true;

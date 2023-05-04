@@ -1,5 +1,4 @@
 import 'package:danvery/core/theme/palette.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_text_theme.dart';
@@ -47,6 +46,8 @@ class _ModernFormButton extends State<ModernFormButton> {
       width: widget.width,
       height: widget.height,
       child: MaterialButton(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         elevation: widget.elevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

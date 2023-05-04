@@ -1,40 +1,28 @@
 import 'package:danvery/core/date_rename/date_rename.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
 
-enum ReportCategory {
-  profanity,
-  fighting,
-  advertisement,
-  politics,
-  pornography,
-  inappropriate,
-  fraud,
+enum PostType {voc, news, rule, petition, conference, generalForum}
+
+extension PostTypeExtension on PostType {
+  String get title {
+    switch (this) {
+      case PostType.voc:
+        return "Voc";
+      case PostType.news:
+        return "News";
+      case PostType.rule:
+        return "Rule";
+      case PostType.petition:
+        return "Petition";
+      case PostType.conference:
+        return "Conference";
+      case PostType.generalForum:
+        return "GeneralForum";
+    }
+  }
 }
 
-extension ReportCategoryExtension on ReportCategory {
-  String get name => [
-    "PROFANITY",
-    "FISHING",
-    "ADVERTISEMENT",
-    "POLITICS",
-    "PORNOGRAPHY",
-    "INAPPROPRIATE_CONTENT",
-    "FRAUD"
-  ][index];
-
-  String get nameKR => [
-    "욕설/비하",
-    "낚시/놀림/도배",
-    "광고성 게시글",
-    "정당, 정치인 비하 및 선거운동",
-    "음란물/불건전한 만남 및 대화",
-    "게시판 성격에 부적합",
-    "유출/사칭/사기",
-  ][index];
-
-}
-
-class GeneralPostModel {
+class UserPostModel {
   int id;
   String title;
   String body;
@@ -46,8 +34,9 @@ class GeneralPostModel {
   int views;
   int commentCount;
   List<FileModel> files;
+  PostType postType;
 
-  GeneralPostModel({
+  UserPostModel({
     required this.id,
     required this.title,
     required this.body,
@@ -59,10 +48,11 @@ class GeneralPostModel {
     required this.views,
     required this.commentCount,
     required this.files,
+    required this.postType,
   });
 
-  factory GeneralPostModel.fromJson(Map<String, dynamic> json) {
-    return GeneralPostModel(
+  factory UserPostModel.fromJson(Map<String, dynamic> json) {
+    return UserPostModel(
       id: json["id"] as int,
       title: json["title"] as String,
       body: json["body"] as String,
@@ -76,6 +66,8 @@ class GeneralPostModel {
       files: (json["files"] as List)
           .map((e) => FileModel.fromGeneralPostFile(e))
           .toList(),
+      postType: PostType.values.firstWhere(
+          (element) => element.title == json["postType"] as String),
     );
   }
 }

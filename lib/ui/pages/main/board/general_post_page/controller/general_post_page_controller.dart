@@ -84,7 +84,7 @@ class GeneralPostPageController extends GetxController {
         await _generalPostRepository.deleteGeneralPost(
             token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoardWithRefresh();
+      await boardPageController.getGeneralPostBoardWithRefresh(true);
       Get.back();
     } else {
       GetXSnackBar(
@@ -251,7 +251,7 @@ class GeneralPostPageController extends GetxController {
         postId: id
     );
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstGeneralPostBoardWithRefresh();
+      await boardPageController.getGeneralPostBoardWithRefresh(true);
       Get.back();
       GetXSnackBar(
           type: GetXSnackBarType.info,

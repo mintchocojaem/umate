@@ -48,7 +48,7 @@ class PetitionPostPageController extends GetxController {
         await _petitionPostRepository.deletePetitionPost(
             token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstPetitionPostBoardWithRefresh();
+      await boardPageController.getPetitionPostBoardWithRefresh(true);
       Get.back();
     } else {
       GetXSnackBar(
@@ -116,7 +116,7 @@ class PetitionPostPageController extends GetxController {
         postId: id
     );
     if (apiResponseDTO.success) {
-      await boardPageController.getFirstPetitionPostBoardWithRefresh();
+      await boardPageController.getPetitionPostBoardWithRefresh(true);
       Get.back();
       GetXSnackBar(
           type: GetXSnackBarType.info,

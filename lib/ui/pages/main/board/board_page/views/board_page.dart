@@ -52,8 +52,8 @@ class BoardPage extends GetView<BoardPageController> {
                       highlightColor: Colors.transparent,
                       onPressed: () async{
                         controller.searchText.value = '';
-                        await controller.getFirstGeneralPostBoardWithRefresh();
-                        controller.getFirstPetitionPostBoardWithRefresh();
+                        await controller.getGeneralPostBoardWithRefresh(true);
+                        await controller.getPetitionPostBoardWithRefresh(true);
                       },
                       icon: Icon(
                         Icons.cancel,
