@@ -8,6 +8,7 @@ class UserInfoModel{
   int commentCount;
   int likeCount;
   bool admin;
+  String phoneNumber;
 
   UserInfoModel({
     required this.username,
@@ -19,6 +20,7 @@ class UserInfoModel{
     required this.writeCount,
     required this.commentCount,
     required this.likeCount,
+    required this.phoneNumber,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json){
@@ -32,6 +34,7 @@ class UserInfoModel{
       writeCount: json["writePostCount"] as int? ?? 0,
       commentCount: json["commentedPostCount"] as int? ?? 0,
       likeCount: json["likedPostCount"] as int? ?? 0,
+      phoneNumber: json["phoneNumber"] as String,
     );
   }
 

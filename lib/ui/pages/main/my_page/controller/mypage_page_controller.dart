@@ -66,6 +66,9 @@ class MyPagePageController extends GetxController  {
   @override
   void onInit() {
     // TODO: implement onInit
+
+    nickname.value.text = loginService.userInfo.value.nickname;
+
     generaPostListScroller.addListener(() async {
       if (generaPostListScroller.position.pixels ==
           generaPostListScroller.position.maxScrollExtent) {
@@ -90,7 +93,7 @@ class MyPagePageController extends GetxController  {
     currentPassword.value.clear();
     password.value.clear();
     passwordValidate.value.clear();
-    phoneNumber.value.clear();
+    phoneNumber.value.text = loginService.userInfo.value.phoneNumber;
     phoneAuthenticationNumber.value.clear();
   }
 
@@ -102,9 +105,7 @@ class MyPagePageController extends GetxController  {
             accessToken: loginService.token.value.accessToken,
             nickName: nickname.value.text);
     if (apiResponseDTO.success) {
-      loginService.userInfo.update((val) {
-        val!.nickname = nickname.value.text;
-      });
+      loginService.userInfo.value.nickname = nickname.value.text;
       Get.back();
       GetXSnackBar(
               type: GetXSnackBarType.info,

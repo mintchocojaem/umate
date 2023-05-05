@@ -120,6 +120,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8, bottom: 8),
                               child: ModernFormField(
+                                initText: controller.phoneNumber.value.text,
                                 onTextChanged: (value) {
                                   controller.phoneNumber.update((val) {
                                     if(val != null){

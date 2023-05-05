@@ -54,38 +54,42 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   const SizedBox(
                                     width: 16,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        controller.loginService.userInfo.value
-                                            .nickname,
-                                        // default text styles
-                                        style: titleStyle.copyWith(
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          controller.nickname.value.text,
+                                          // default text styles
+                                          style: titleStyle.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Palette.pureWhite,
+                                              overflow: TextOverflow.ellipsis),
+                                          maxLines: 1,
+                                        ),
+                                        Text(
+                                          controller.loginService.userInfo.value
+                                              .username ,
+                                          style: smallTitleStyle.copyWith(
+                                            color: Palette.white,
                                             fontWeight: FontWeight.bold,
-                                            color: Palette.pureWhite,
-                                            overflow: TextOverflow.ellipsis),
-                                      ),
-                                      Text(
-                                        controller.loginService.userInfo.value
-                                            .username,
-                                        style: smallTitleStyle.copyWith(
-                                          color: Palette.white,
-                                          fontWeight: FontWeight.bold,
-                                          overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          maxLines: 1,
                                         ),
-                                      ),
-                                      Text(
-                                        "${controller.loginService.userInfo.value.department} "
-                                        "${controller.loginService.userInfo.value.major}",
-                                        style: regularStyle.copyWith(
-                                          color: Palette.white,
-                                          fontWeight: FontWeight.bold,
-                                          overflow: TextOverflow.ellipsis,
+                                        Text(
+                                          "${controller.loginService.userInfo.value.department} "
+                                          "${controller.loginService.userInfo.value.major}",
+                                          style: regularStyle.copyWith(
+                                            color: Palette.white,
+                                            fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          maxLines: 2,
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

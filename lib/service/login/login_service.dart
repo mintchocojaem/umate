@@ -75,17 +75,7 @@ class LoginService extends GetxService {
         await _loginRepository.getUserInfo(accessToken: token.value.accessToken);
     if (apiResponse.success) {
       final UserInfoModel userInfoModel = apiResponse.data as UserInfoModel;
-      userInfo = UserInfoModel(
-        studentId: userInfoModel.studentId,
-        username: userInfoModel.username,
-        major: userInfoModel.major,
-        nickname: userInfoModel.nickname,
-        department: userInfoModel.department,
-        admin: userInfoModel.admin,
-        writeCount: userInfoModel.writeCount,
-        commentCount: userInfoModel.commentCount,
-        likeCount: userInfoModel.likeCount,
-      ).obs;
+      userInfo = userInfoModel.obs;
       return true;
     } else {
       GetXSnackBar(
