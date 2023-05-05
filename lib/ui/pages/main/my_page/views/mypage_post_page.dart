@@ -67,7 +67,7 @@ class MyPagePostPage extends GetView<MyPagePageController> {
                   Obx(
                     () => controller.isLoadGeneralPostList.value
                         ? ListView.builder(
-                            key: const PageStorageKey("generalPostList"),
+                            key: const PageStorageKey('general'),
                             controller: controller.generaPostListScroller,
                             shrinkWrap: true,
                             padding: const EdgeInsets.only(
@@ -167,12 +167,11 @@ class MyPagePostPage extends GetView<MyPagePageController> {
                                 ],
                               )
                             : ListView.builder(
-                                key: const PageStorageKey("petitionPostList"),
+                                key:  const PageStorageKey('petition'),
                                 controller: controller.petitionPostListScroller,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemCount: controller.userPetitionPostList.value
-                                        .petitionPosts.length +
-                                    1,
+                                        .petitionPosts.length + 1,
                                 itemBuilder: (BuildContext context, int index) {
                                   final PetitionBoardModel
                                       userPetitionPostList =

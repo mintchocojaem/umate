@@ -12,9 +12,20 @@ class GeneralBoardPage extends GetView<BoardPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.selectedTap.value = 0;
-    return Obx(
-      () => controller.isLoadGeneralPostBoard.value &&
+    return Obx(() {
+      final ScrollController generalBoardScrollController =
+          ScrollController(initialScrollOffset: controller.scrollPositions[0]);
+      generalBoardScrollController.addListener(() {
+        controller.scrollPositions[0] =
+            generalBoardScrollController.position.pixels;
+        if (generalBoardScrollController.position.pixels ==
+            generalBoardScrollController.position.maxScrollExtent) {
+          if (!controller.generalPostBoard.value.last) {
+            controller.getGeneralPostBoardWithRefresh(false);
+          }
+        }
+      });
+      return controller.isLoadGeneralPostBoard.value &&
               controller.isLoadedImageList.value
           ? controller.generalPostBoard.value.generalPosts.isEmpty
               ? Center(
@@ -29,14 +40,16 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                     await controller.getGeneralPostBoardWithRefresh(true);
                   },
                   child: ListView.builder(
-                    key: const PageStorageKey('generalPostList'),
-                    controller: controller.generalBoardScrollController,
+                    controller: generalBoardScrollController,
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(
                         top: 8, bottom: 8, left: 16, right: 16),
-                    itemCount: controller.generalPostBoard.value.generalPosts.length + 1,
+                    itemCount:
+                        controller.generalPostBoard.value.generalPosts.length +
+                            1,
                     itemBuilder: (BuildContext context, int index) {
-                      final generalPostBoard = controller.generalPostBoard.value;
+                      final generalPostBoard =
+                          controller.generalPostBoard.value;
                       if (index == generalPostBoard.generalPosts.length) {
                         if (generalPostBoard.last) {
                           return const SizedBox();
@@ -54,22 +67,26 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                         child: Column(
                           children: [
                             PostCard(
-                                nickname: generalPostBoard.generalPosts[index].author,
-                                title: generalPostBoard.generalPosts[index].title,
-                                subtitle: generalPostBoard.generalPosts[index].body,
-                                publishDate: generalPostBoard.generalPosts[index].createdAt,
-                                commentCount:
-                                    generalPostBoard.generalPosts[index].commentCount,
-                                likeCount: generalPostBoard.generalPosts[index].likes,
-                                imageUrl: generalPostBoard.generalPosts[index]
-                                        .files
+                                nickname:
+                                    generalPostBoard.generalPosts[index].author,
+                                title:
+                                    generalPostBoard.generalPosts[index].title,
+                                subtitle:
+                                    generalPostBoard.generalPosts[index].body,
+                                publishDate: generalPostBoard
+                                    .generalPosts[index].createdAt,
+                                commentCount: generalPostBoard
+                                    .generalPosts[index].commentCount,
+                                likeCount:
+                                    generalPostBoard.generalPosts[index].likes,
+                                imageUrl: generalPostBoard
+                                        .generalPosts[index].files
                                         .map((e) => e.mimeType.contains('image')
                                             ? e.thumbnailUrl
                                             : null)
                                         .whereType<String>()
                                         .isNotEmpty
-                                    ? generalPostBoard.generalPosts[index]
-                                        .files
+                                    ? generalPostBoard.generalPosts[index].files
                                         .map((e) => e.mimeType.contains('image')
                                             ? e.thumbnailUrl
                                             : null)
@@ -78,12 +95,14 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                     : null,
                                 onTap: () {
                                   Get.toNamed(Routes.post,
-                                          arguments: generalPostBoard.generalPosts[index].id)
+                                          arguments: generalPostBoard
+                                              .generalPosts[index].id)
                                       ?.then((value) {
                                     if (value != null) {
                                       final generalPostModel =
                                           value as GeneralPostModel;
-                                      generalPostBoard.generalPosts[index] = generalPostModel;
+                                      generalPostBoard.generalPosts[index] =
+                                          generalPostModel;
                                     }
                                   });
                                 }),
@@ -99,7 +118,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                 )
           : const Center(
               child: CircularProgressIndicator(),
-            ),
-    );
+            );
+    });
   }
 }

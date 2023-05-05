@@ -29,7 +29,6 @@ class PostSearchPageController extends GetxController{
       Get.back();
       Get.back();
       mainPageController.selectedIndex.value = 2;
-      boardPageController.selectedTap.value = 0;
     }
   }
 

@@ -273,7 +273,7 @@ class HomePage extends GetView<HomePageController> {
                                                 controller.mainPageController
                                                     .selectedIndex.value = 2;
                                                 controller.boardPageController
-                                                    .selectedTap.value = 0;
+                                                    .selectedTabIndex.value = 0;
                                                 Get.toNamed(Routes.post,
                                                     arguments: controller
                                                         .generalPostListHome[i]
@@ -312,7 +312,7 @@ class HomePage extends GetView<HomePageController> {
                                   onTapAction: () {
                                     controller.mainPageController.selectedIndex
                                         .value = 2;
-                                    controller.boardPageController.selectedTap
+                                    controller.boardPageController.selectedTabIndex
                                         .value = 0;
                                   },
                                 ),
@@ -339,7 +339,7 @@ class HomePage extends GetView<HomePageController> {
                                                 controller.mainPageController
                                                     .selectedIndex.value = 2;
                                                 controller.boardPageController
-                                                    .selectedTap.value = 1;
+                                                    .selectedTabIndex.value = 1;
                                                 Get.toNamed(Routes.petition,
                                                     arguments: controller
                                                         .petitionListHome[i]
@@ -378,7 +378,7 @@ class HomePage extends GetView<HomePageController> {
                                   onTapAction: () {
                                     controller.mainPageController.selectedIndex
                                         .value = 2;
-                                    controller.boardPageController.selectedTap
+                                    controller.boardPageController.selectedTabIndex
                                         .value = 1;
                                   },
                                 ),

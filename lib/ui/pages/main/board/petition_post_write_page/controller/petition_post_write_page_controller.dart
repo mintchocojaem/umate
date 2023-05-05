@@ -59,7 +59,7 @@ class PetitionPostWritePageController extends GetxController {
             petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getPetitionPostBoardWithRefresh(true);
-      boardPageController.selectedCategory.value = 0;
+      boardPageController.selectedCategory = 0;
       Get.back();
       Get.back();
     } else {

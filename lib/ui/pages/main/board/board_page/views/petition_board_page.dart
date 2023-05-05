@@ -14,31 +14,43 @@ class PetitionBoardPage extends GetView<BoardPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.selectedTap.value = 1;
-    return Obx(
-      () => Column(
+    return Obx(() {
+      final ScrollController petitionBoardScrollController =
+          ScrollController(initialScrollOffset: controller.scrollPositions[1]);
+      petitionBoardScrollController.addListener(() async {
+        controller.scrollPositions[1] =
+            petitionBoardScrollController.position.pixels;
+        if (petitionBoardScrollController.position.pixels ==
+            petitionBoardScrollController.position.maxScrollExtent) {
+          if (!controller.petitionBoard.value.last) {
+            await controller.getPetitionPostBoardWithRefresh(false);
+          }
+        }
+      });
+
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding:
                 const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
             child: CategoryButtonBar(
-              selectedIndex: controller.selectedCategory.value,
+              selectedIndex: controller.selectedCategory,
               categories:
                   PetitionPostStatus.values.map((e) => e.nameKR).toList(),
               selectedBackGroundColor: Palette.blue,
               unSelectedBackGroundColor: Palette.white,
               selectedTextColor: Palette.pureWhite,
               unSelectedTextColor: Palette.grey,
-              onTap: (value) async{
-                controller.selectedCategory.value = value;
+              onTap: (value) async {
+                controller.selectedCategory = value;
+                await controller.getPetitionPostBoardWithRefresh(true);
               },
             ),
           ),
           Expanded(
-            child: Obx(
-              () => controller.isLoadPetitionBoard.value
-                  ? RefreshIndicator(
+            child: controller.isLoadPetitionBoard.value
+                ? RefreshIndicator(
                     color: Palette.blue,
                     onRefresh: () async {
                       controller.getPetitionPostBoardWithRefresh(true);
@@ -60,46 +72,47 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                             ],
                           )
                         : ListView.builder(
-                            key: const PageStorageKey('petitionBoard'),
-                            controller:
-                            controller.petitionBoardScrollController,
+                            controller: petitionBoardScrollController,
                             physics: const AlwaysScrollableScrollPhysics(),
-                            itemCount:
-                                controller.petitionBoard.value.petitionPosts.length + 1,
+                            itemCount: controller
+                                    .petitionBoard.value.petitionPosts.length +
+                                1,
                             itemBuilder: (BuildContext context, int index) {
-                              final petitionPostBoard = controller.petitionBoard.value;
-                              if (index == petitionPostBoard.petitionPosts.length) {
+                              final petitionPostBoard =
+                                  controller.petitionBoard.value;
+                              if (index ==
+                                  petitionPostBoard.petitionPosts.length) {
                                 if (petitionPostBoard.last) {
                                   return const SizedBox();
                                 } else {
                                   return const Padding(
                                     padding: EdgeInsets.all(16.0),
                                     child: Center(
-                                        child:
-                                            CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(),
                                     ),
                                   );
                                 }
                               }
                               return Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 8.0,
-                                    bottom: 8,
-                                    left: 16,
-                                    right: 16),
+                                    top: 8.0, bottom: 8, left: 16, right: 16),
                                 child: PetitionCard(
-                                  tag: petitionPostBoard.petitionPosts[index]
-                                      .tag.first.name,
-                                  title: petitionPostBoard.petitionPosts[index].title,
-                                  createdAt: petitionPostBoard.petitionPosts[index].createdAt,
-                                  expiredAt: petitionPostBoard.petitionPosts[index].expiresAt,
+                                  tag: petitionPostBoard
+                                      .petitionPosts[index].tag.first.name,
+                                  title: petitionPostBoard
+                                      .petitionPosts[index].title,
+                                  createdAt: petitionPostBoard
+                                      .petitionPosts[index].createdAt,
+                                  expiredAt: petitionPostBoard
+                                      .petitionPosts[index].expiresAt,
                                   agreeCount:
                                       "${petitionPostBoard.petitionPosts[index].agreeCount}명",
-                                  status: petitionPostBoard.petitionPosts[index].status,
+                                  status: petitionPostBoard
+                                      .petitionPosts[index].status,
                                   onTap: () {
                                     Get.toNamed(Routes.petition,
-                                            arguments: petitionPostBoard.petitionPosts[index]
-                                                .id)
+                                            arguments: petitionPostBoard
+                                                .petitionPosts[index].id)
                                         ?.then((value) {
                                       if (value != null) {
                                         final petitionPostModel =
@@ -113,13 +126,12 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                               );
                             }),
                   )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            ),
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
           ),
         ],
-      ),
-    );
+      );
+    });
   }
 }

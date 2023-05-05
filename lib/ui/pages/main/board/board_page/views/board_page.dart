@@ -17,7 +17,7 @@ class BoardPage extends GetView<BoardPageController> {
     // TODO: implement build
     return DefaultTabController(
       length: 2,
-      initialIndex: controller.selectedTap.value,
+      initialIndex: controller.selectedTabIndex.value,
       child: Scaffold(
         backgroundColor: Palette.pureWhite,
         appBar: MainAppBar(
@@ -78,6 +78,9 @@ class BoardPage extends GetView<BoardPageController> {
                 indicatorColor: Palette.blue,
                 unselectedLabelColor: Palette.grey,
                 labelColor: Palette.blue,
+                onTap: (index){
+                  controller.selectedTabIndex.value = index;
+                },
                 tabs: const [
                   Tab(
                     child: Text(
@@ -109,9 +112,9 @@ class BoardPage extends GetView<BoardPageController> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Palette.blue,
           onPressed: () {
-           if(controller.selectedTap.value == 0){
+           if(controller.selectedTabIndex.value == 0){
              Get.toNamed(Routes.generalPostWrite);
-           }else if(controller.selectedTap.value == 1){
+           }else if(controller.selectedTabIndex.value == 1){
               Get.toNamed(Routes.petitionPostWrite);
            }
           },
