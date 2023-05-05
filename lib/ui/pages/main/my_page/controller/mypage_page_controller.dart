@@ -1,22 +1,23 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
-import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
-import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
-import 'package:danvery/domain/user/info/model/user_post_model.dart';
+import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
+import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
 import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum MyPagePostType { write, comment, like }
+enum MyPagePostType { general, petition, comment, like }
 
 extension MyPagePostTypeExtension on MyPagePostType {
   String get title {
     switch (this) {
-      case MyPagePostType.write:
+      case MyPagePostType.general:
         return "내가 게시한 글";
+      case MyPagePostType.petition:
+        return "내가 청원한 글";
       case MyPagePostType.comment:
         return "내가 댓글 단 글";
       case MyPagePostType.like:
@@ -25,7 +26,7 @@ extension MyPagePostTypeExtension on MyPagePostType {
   }
 }
 
-class MyPagePageController extends GetxController {
+class MyPagePageController extends GetxController  {
   final PermissionService permissionService = Get.find<PermissionService>();
   final LoginService loginService = Get.find<LoginService>();
   final UserInfoRepository _userInfoRepository = UserInfoRepository();
@@ -35,28 +36,48 @@ class MyPagePageController extends GetxController {
   Rx<TextEditingController> password = TextEditingController().obs;
   Rx<TextEditingController> passwordValidate = TextEditingController().obs;
   Rx<TextEditingController> phoneNumber = TextEditingController().obs;
-  Rx<TextEditingController> phoneAuthenticationNumber = TextEditingController().obs;
+  Rx<TextEditingController> phoneAuthenticationNumber =
+      TextEditingController().obs;
 
-  late Rx<UserPostListModel> userPostList;
+  late Rx<GeneralBoardModel> userGeneralPostList;
+  late Rx<PetitionBoardModel> userPetitionPostList;
 
   int _page = 0;
   int size = 10;
 
-  MyPagePostType myPagePostType = MyPagePostType.write;
+  List<MyPagePostType> myPagePostType = [
+    MyPagePostType.general,
+  ];
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController generaPostListScroller = ScrollController();
+  final ScrollController petitionPostListScroller = ScrollController();
 
-  final RxBool isLoadPost = false.obs;
+  final RxBool isLoadGeneralPostList = false.obs;
+  final RxBool isLoadPetitionPostList = false.obs;
 
   bool isRefreshing = false;
+
+  final RxInt userWritePostCount = 0.obs;
+  final RxInt userCommentedPostCount = 0.obs;
+  final RxInt userLikedPostCount = 0.obs;
+
+  final RxInt selectedTabIndex = 0.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        if (!userPostList.value.last) {
+    generaPostListScroller.addListener(() async {
+      if (generaPostListScroller.position.pixels ==
+          generaPostListScroller.position.maxScrollExtent) {
+        if (!userGeneralPostList.value.last) {
+          await getUserPostListWithRefresh(false);
+        }
+      }
+    });
+    petitionPostListScroller.addListener(() async {
+      if (petitionPostListScroller.position.pixels ==
+          petitionPostListScroller.position.maxScrollExtent) {
+        if (!userPetitionPostList.value.last) {
           await getUserPostListWithRefresh(false);
         }
       }
@@ -64,14 +85,14 @@ class MyPagePageController extends GetxController {
     super.onInit();
   }
 
-  void initEditPage(){
+  void initEditPage() {
     nickname.value.text = loginService.userInfo.value.nickname;
     currentPassword.value.clear();
     password.value.clear();
     passwordValidate.value.clear();
     phoneNumber.value.clear();
     phoneAuthenticationNumber.value.clear();
-}
+  }
 
   late String changePhoneNumberToken;
 
@@ -144,20 +165,21 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> changePassword() async{
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.changePassword(
+  Future<void> changePassword() async {
+    final ApiResponseDTO apiResponseDTO =
+        await _userInfoRepository.changePassword(
       accessToken: loginService.token.value.accessToken,
       currentPassword: currentPassword.value.text,
       newPassword: password.value.text,
     );
-    if(apiResponseDTO.success){
+    if (apiResponseDTO.success) {
       await loginService.logout();
       GetXSnackBar(
               type: GetXSnackBarType.info,
               title: "비밀번호 변경 성공",
               content: "비밀번호가 변경되었습니다.")
           .show();
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "비밀번호 변경 오류",
@@ -166,103 +188,152 @@ class MyPagePageController extends GetxController {
     }
   }
 
-  Future<void> getUserPostListWithRefresh(bool isFirstPage) async{
-    if(!isRefreshing){
-      switch(myPagePostType){
-        case MyPagePostType.write:
-          await _getUserWritePostList(isFirstPage);
-          break;
-        case MyPagePostType.comment:
-          await _getUserCommentedPostList(isFirstPage);
-          break;
-        case MyPagePostType.like:
-          await _getUserLikedPostList(isFirstPage);
-          break;
+  Future<void> getUserPostListWithRefresh(bool isFirstPage) async {
+    if (!isRefreshing) {
+      isRefreshing = true;
+      if (myPagePostType.contains(MyPagePostType.general)) {
+        await _getUserWriteGeneralPostList(isFirstPage);
       }
+      if (myPagePostType.contains(MyPagePostType.petition)) {
+        await _getUserWritePetitionPostList(isFirstPage);
+      }
+      if(myPagePostType.contains(MyPagePostType.comment)){
+        await _getUserCommentedPostList(isFirstPage);
+      }
+      if(myPagePostType.contains(MyPagePostType.like)){
+        await _getUserLikedPostList(isFirstPage);
+      }
+      isRefreshing = false;
     }
   }
 
-  Future<void> _getUserWritePostList(bool isFirstPage) async {
+  Future<void> _getUserWriteGeneralPostList(bool isFirstPage) async {
 
-    isRefreshing = true;
-
-    if(isFirstPage){
-      isLoadPost.value = false;
+    if (isFirstPage) {
+      isLoadGeneralPostList.value = false;
       _page = 0;
-    }else{
-      _page ++;
+    } else {
+      _page++;
     }
 
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserWritePostList(
+    final ApiResponseDTO apiResponseDTO =
+        await _userInfoRepository.getUserWriteGeneralPostList(
       accessToken: loginService.token.value.accessToken,
       page: _page,
       size: size,
     );
 
     if (apiResponseDTO.success) {
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      final GeneralBoardModel userGeneralPostListModel =
+          apiResponseDTO.data as GeneralBoardModel;
 
-      await getThumbnailList(userPostListModel.userPosts);
+      await getThumbnailList(userGeneralPostListModel.generalPosts);
 
       if (isFirstPage) {
-        userPostList = userPostListModel.obs;
+        userGeneralPostList = userGeneralPostListModel.obs;
       } else {
-        userPostList.update((val) {
-          val!.userPosts.addAll(userPostListModel.userPosts);
-          val.last = userPostListModel.last;
+
+        userGeneralPostList.update((val) {
+          val!.generalPosts.addAll(userGeneralPostListModel.generalPosts);
+          val.last = userGeneralPostListModel.last;
         });
       }
 
-      isLoadPost.value = true;
+      isLoadGeneralPostList.value = true;
     } else {
-      isLoadPost.value = false;
+      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
       }
 
       await Future.delayed(const Duration(seconds: 10), () {
-        _getUserWritePostList(isFirstPage);
+        _getUserWriteGeneralPostList(isFirstPage);
       });
     }
 
-    isRefreshing = false;
   }
 
-  Future<void> _getUserCommentedPostList(bool isFirstPage) async {
+  Future<void> _getUserWritePetitionPostList(bool isFirstPage) async {
 
-    isRefreshing = true;
-
-    if(isFirstPage){
-      isLoadPost.value = false;
+    if (isFirstPage) {
+      isLoadPetitionPostList.value = false;
       _page = 0;
-    }else{
+    } else {
       _page++;
     }
 
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserCommentedPostList(
+    final ApiResponseDTO apiResponseDTO =
+        await _userInfoRepository.getUserWritePetitionPostList(
       accessToken: loginService.token.value.accessToken,
       page: _page,
       size: size,
     );
 
     if (apiResponseDTO.success) {
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      final PetitionBoardModel userPetitionPostListModel =
+          apiResponseDTO.data as PetitionBoardModel;
 
-      await getThumbnailList(userPostListModel.userPosts);
+      await getThumbnailList(userPetitionPostListModel.petitionPosts);
 
       if (isFirstPage) {
-        userPostList = userPostListModel.obs;
+        userPetitionPostList = userPetitionPostListModel.obs;
       } else {
-        userPostList.update((val) {
-          val!.userPosts.addAll(userPostListModel.userPosts);
-          val.last = userPostListModel.last;
+        userPetitionPostList.update((val) {
+          val!.petitionPosts.addAll(userPetitionPostListModel.petitionPosts);
+          val.last = userPetitionPostListModel.last;
         });
       }
 
-      isLoadPost.value = true;
+      isLoadPetitionPostList.value = true;
     } else {
-      isLoadPost.value = false;
+      isLoadPetitionPostList.value = false;
+
+      if (!isFirstPage) {
+        _page--;
+      }
+
+      await Future.delayed(const Duration(seconds: 10), () {
+        _getUserWritePetitionPostList(isFirstPage);
+      });
+    }
+
+  }
+
+  Future<void> _getUserCommentedPostList(bool isFirstPage) async {
+
+    if (isFirstPage) {
+      isLoadGeneralPostList.value = false;
+      _page = 0;
+    } else {
+      _page++;
+    }
+
+    final ApiResponseDTO apiResponseDTO =
+        await _userInfoRepository.getUserCommentedPostList(
+      accessToken: loginService.token.value.accessToken,
+      page: _page,
+      size: size,
+    );
+
+    if (apiResponseDTO.success) {
+      final GeneralBoardModel userGeneralPostListModel =
+          apiResponseDTO.data as GeneralBoardModel;
+
+      await getThumbnailList(userGeneralPostListModel.generalPosts);
+
+      if (isFirstPage) {
+        userGeneralPostList = userGeneralPostListModel.obs;
+      } else {
+        userGeneralPostList.update((val) {
+          val!.generalPosts.addAll(userGeneralPostListModel.generalPosts);
+          val.last = userGeneralPostListModel.last;
+        });
+      }
+
+      isLoadGeneralPostList.value = true;
+    } else {
+      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -273,43 +344,42 @@ class MyPagePageController extends GetxController {
       });
     }
 
-    isRefreshing = false;
   }
 
   Future<void> _getUserLikedPostList(bool isFirstPage) async {
 
-    isRefreshing = true;
-
-    if(isFirstPage){
-      isLoadPost.value = false;
+    if (isFirstPage) {
+      isLoadGeneralPostList.value = false;
       _page = 0;
-    }else{
+    } else {
       _page++;
     }
 
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getUserLikedPostList(
+    final ApiResponseDTO apiResponseDTO =
+        await _userInfoRepository.getUserLikedPostList(
       accessToken: loginService.token.value.accessToken,
       page: _page,
       size: size,
     );
 
     if (apiResponseDTO.success) {
-      final UserPostListModel userPostListModel = apiResponseDTO.data as UserPostListModel;
+      final GeneralBoardModel userGeneralPostListModel =
+          apiResponseDTO.data as GeneralBoardModel;
 
-      await getThumbnailList(userPostListModel.userPosts);
+      await getThumbnailList(userGeneralPostListModel.generalPosts);
 
       if (isFirstPage) {
-        userPostList = userPostListModel.obs;
+        userGeneralPostList = userGeneralPostListModel.obs;
       } else {
-        userPostList.update((val) {
-          val!.userPosts.addAll(userPostListModel.userPosts);
-          val.last = userPostListModel.last;
+        userGeneralPostList.update((val) {
+          val!.generalPosts.addAll(userGeneralPostListModel.generalPosts);
+          val.last = userGeneralPostListModel.last;
         });
       }
 
-      isLoadPost.value = true;
+      isLoadGeneralPostList.value = true;
     } else {
-      isLoadPost.value = false;
+      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -320,16 +390,23 @@ class MyPagePageController extends GetxController {
       });
     }
 
-    isRefreshing = false;
   }
 
-  Future<void> getThumbnailList(List<UserPostModel> postList) async {
-    for (UserPostModel i in postList) {
+  Future<void> getThumbnailList(List postList) async {
+    for (var i in postList) {
       for (FileModel j in i.files) {
         j.thumbnailUrl = (await fileFromImageUrl(
-            j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}"))).path;
+                j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}")))
+            .path;
       }
     }
   }
 
+  Future<void> getUserInfo() async {
+    if (await loginService.getUserInfo()) {
+      userWritePostCount.value = loginService.userInfo.value.writeCount;
+      userCommentedPostCount.value = loginService.userInfo.value.commentCount;
+      userLikedPostCount.value = loginService.userInfo.value.likeCount;
+    }
+  }
 }

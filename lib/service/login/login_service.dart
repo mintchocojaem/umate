@@ -28,23 +28,11 @@ class LoginService extends GetxService {
     if (apiResponse.success) {
       final TokenModel tokenModel = apiResponse.data as TokenModel;
       token = tokenModel.obs;
-      final UserInfoModel? userInfoModel = await _getUserInfo(tokenModel.accessToken);
-      if (userInfoModel != null) {
-        userInfo = UserInfoModel(
-          studentId: userInfoModel.studentId,
-          username: userInfoModel.username,
-          major: userInfoModel.major,
-          nickname: userInfoModel.nickname,
-          department: userInfoModel.department,
-          admin: userInfoModel.admin,
-          writeCount: userInfoModel.writeCount,
-          commentCount: userInfoModel.commentCount,
-          likeCount: userInfoModel.likeCount,
-        ).obs;
+      if(await getUserInfo()){
         _box.write("accessToken", token.value.accessToken);
         _box.write("refreshToken", token.value.refreshToken);
-        isLogin.value = true;
-      } else {
+       isLogin.value = true;
+      }else{
         isLogin.value = false;
       }
     } else {
@@ -63,21 +51,9 @@ class LoginService extends GetxService {
     if (apiResponseDTO.success) {
       final TokenModel tokenModel = apiResponseDTO.data as TokenModel;
       token = tokenModel.obs;
-      final UserInfoModel? userInfoModel = await _getUserInfo(tokenModel.accessToken);
-      if (userInfoModel != null) {
-        userInfo = UserInfoModel(
-          studentId: userInfoModel.studentId,
-          username: userInfoModel.username,
-          major: userInfoModel.major,
-          nickname: userInfoModel.nickname,
-          department: userInfoModel.department,
-          admin: userInfoModel.admin,
-          writeCount: userInfoModel.writeCount,
-          commentCount: userInfoModel.commentCount,
-          likeCount: userInfoModel.likeCount,
-        ).obs;
+      if(await getUserInfo()){
         isLogin.value = true;
-      } else {
+      }else{
         isLogin.value = false;
       }
     } else {
@@ -94,19 +70,30 @@ class LoginService extends GetxService {
     Get.offAllNamed(Routes.login);
   }
 
-  Future<UserInfoModel?> _getUserInfo(String accessToken) async {
+  Future<bool> getUserInfo() async {
     final apiResponse =
-        await _loginRepository.getUserInfo(accessToken: accessToken);
+        await _loginRepository.getUserInfo(accessToken: token.value.accessToken);
     if (apiResponse.success) {
       final UserInfoModel userInfoModel = apiResponse.data as UserInfoModel;
-      return userInfoModel;
+      userInfo = UserInfoModel(
+        studentId: userInfoModel.studentId,
+        username: userInfoModel.username,
+        major: userInfoModel.major,
+        nickname: userInfoModel.nickname,
+        department: userInfoModel.department,
+        admin: userInfoModel.admin,
+        writeCount: userInfoModel.writeCount,
+        commentCount: userInfoModel.commentCount,
+        likeCount: userInfoModel.likeCount,
+      ).obs;
+      return true;
     } else {
       GetXSnackBar(
         type: GetXSnackBarType.customError,
-        title: "로그인 실패",
+        title: "유저정보 불러오기 실패",
         content: apiResponse.data.message,
       ).show();
-      return null;
+      return false;
     }
   }
 }

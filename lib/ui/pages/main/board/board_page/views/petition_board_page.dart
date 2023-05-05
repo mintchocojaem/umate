@@ -43,7 +43,7 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                     onRefresh: () async {
                       controller.getPetitionPostBoardWithRefresh(true);
                     },
-                    child: controller.petitionPostList.isEmpty
+                    child: controller.petitionBoard.value.petitionPosts.isEmpty
                         ? CustomScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             slivers: [
@@ -60,16 +60,16 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                             ],
                           )
                         : ListView.builder(
+                            key: const PageStorageKey('petitionBoard'),
                             controller:
                             controller.petitionBoardScrollController,
                             physics: const AlwaysScrollableScrollPhysics(),
                             itemCount:
-                                controller.petitionPostList.length + 1,
-                            itemBuilder:
-                                (BuildContext context, int index) {
-                              if (index ==
-                                  controller.petitionPostList.length) {
-                                if (controller.petitionBoard.value.last) {
+                                controller.petitionBoard.value.petitionPosts.length + 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              final petitionPostBoard = controller.petitionBoard.value;
+                              if (index == petitionPostBoard.petitionPosts.length) {
+                                if (petitionPostBoard.last) {
                                   return const SizedBox();
                                 } else {
                                   return const Padding(
@@ -88,29 +88,23 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                     left: 16,
                                     right: 16),
                                 child: PetitionCard(
-                                  tag: controller.petitionPostList[index]
+                                  tag: petitionPostBoard.petitionPosts[index]
                                       .tag.first.name,
-                                  title: controller
-                                      .petitionPostList[index].title,
-                                  createdAt: controller
-                                      .petitionPostList[index].createdAt,
-                                  expiredAt: controller
-                                      .petitionPostList[index].expiresAt,
+                                  title: petitionPostBoard.petitionPosts[index].title,
+                                  createdAt: petitionPostBoard.petitionPosts[index].createdAt,
+                                  expiredAt: petitionPostBoard.petitionPosts[index].expiresAt,
                                   agreeCount:
-                                      "${controller.petitionPostList[index].agreeCount}명",
-                                  status: controller
-                                      .petitionPostList[index].status,
+                                      "${petitionPostBoard.petitionPosts[index].agreeCount}명",
+                                  status: petitionPostBoard.petitionPosts[index].status,
                                   onTap: () {
                                     Get.toNamed(Routes.petition,
-                                            arguments: controller
-                                                .petitionPostList[index]
+                                            arguments: petitionPostBoard.petitionPosts[index]
                                                 .id)
                                         ?.then((value) {
                                       if (value != null) {
                                         final petitionPostModel =
                                             value as PetitionPostModel;
-                                        controller
-                                                .petitionPostList[index] =
+                                        petitionPostBoard.petitionPosts[index] =
                                             petitionPostModel;
                                       }
                                     });

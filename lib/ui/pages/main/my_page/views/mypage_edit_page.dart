@@ -182,8 +182,9 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                         controller.password.value.text.isNotEmpty &&
                         controller.passwordValidate.value.text.isNotEmpty &&
                         controller.nickname.value.text.isNotEmpty) {
-                      if (controller.password.value !=
-                          controller.passwordValidate.value) {
+
+                      if (controller.password.value.text !=
+                          controller.passwordValidate.value.text) {
                         GetXSnackBar(
                           type: GetXSnackBarType.passwordConfirmError,
                         ).show();

@@ -5,7 +5,7 @@ class GeneralBoardRepository {
   final GeneralBoardProvider _generalBoardProvider;
 
   static final GeneralBoardRepository _singleton =
-  GeneralBoardRepository._internal(GeneralBoardProvider());
+      GeneralBoardRepository._internal(GeneralBoardProvider());
 
   GeneralBoardRepository._internal(this._generalBoardProvider);
 
@@ -13,8 +13,11 @@ class GeneralBoardRepository {
 
   //get suggestion board list
   Future<ApiResponseDTO> getGeneralBoard(
-      {required int page, required int size, required String keyword}) async {
-    return await _generalBoardProvider.getGeneralBoard(page, size, keyword);
+      {required String accessToken,
+      required int page,
+      required int size,
+      required String keyword}) async {
+    return await _generalBoardProvider.getGeneralBoard(
+        accessToken, page, size, keyword);
   }
-
 }

@@ -25,17 +25,7 @@ class HomePage extends GetView<HomePageController> {
               Palette.blue.withOpacity(controller.currentScrollPosition.value),
           isWhite: true,
           isDarkMode: !Get.isDarkMode,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.toNamed(Routes.postSearch);
-              },
-              icon: Icon(
-                Icons.search,
-                color: Palette.pureWhite,
-              ),
-            ),
-          ],
+          actions: [],
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: Palette.pureWhite,

@@ -64,14 +64,24 @@ class UserInfoRepository {
     return apiResponseDTO;
   }
 
-  Future<ApiResponseDTO> getUserWritePostList(
+  Future<ApiResponseDTO> getUserWriteGeneralPostList(
       {required String accessToken,
       required int page,
       required int size}) async {
     final ApiResponseDTO apiResponseDTO = await _infoProvider
-        .getUserWritePostList(accessToken: accessToken, page: page, size: size);
+        .getUserWriteGeneralPostList(accessToken: accessToken, page: page, size: size);
     return apiResponseDTO;
   }
+
+  Future<ApiResponseDTO> getUserWritePetitionPostList(
+      {required String accessToken,
+        required int page,
+        required int size}) async {
+    final ApiResponseDTO apiResponseDTO = await _infoProvider
+        .getUserWritePetitionPostList(accessToken: accessToken, page: page, size: size);
+    return apiResponseDTO;
+  }
+
 
   Future<ApiResponseDTO> getUserCommentedPostList(
       {required String accessToken,

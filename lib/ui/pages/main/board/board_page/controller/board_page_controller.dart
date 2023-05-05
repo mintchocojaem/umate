@@ -6,6 +6,7 @@ import 'package:danvery/domain/board/petition_board/model/petition_board_model.d
 import 'package:danvery/domain/board/petition_board/repository/petition_board_repository.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
+import 'package:danvery/service/login/login_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,19 +17,17 @@ class BoardPageController extends GetxController {
   final PetitionBoardRepository _petitionPostRepository =
       PetitionBoardRepository();
 
+  final LoginService _loginService = LoginService();
+
   final RxInt selectedTap = 0.obs;
 
   final RxInt selectedCategory = 0.obs;
 
   late Rx<GeneralBoardModel> generalPostBoard;
 
-  final RxList<GeneralPostModel> generalPostList = <GeneralPostModel>[].obs;
-
   final RxBool isLoadGeneralPostBoard = false.obs;
 
   late Rx<PetitionBoardModel> petitionBoard;
-
-  final RxList<PetitionPostModel> petitionPostList = <PetitionPostModel>[].obs;
 
   final RxBool isLoadPetitionBoard = false.obs;
 
@@ -73,7 +72,7 @@ class BoardPageController extends GetxController {
       if (petitionBoardScrollController.position.pixels ==
           petitionBoardScrollController.position.maxScrollExtent) {
         if (!petitionBoard.value.last) {
-          await _getPetitionPostBoard(false);
+          await getPetitionPostBoardWithRefresh(false);
         }
       }
     });
@@ -83,17 +82,24 @@ class BoardPageController extends GetxController {
 
   Future<void> getGeneralPostBoardWithRefresh(bool isFirstPage)async{
     if(!isRefreshGeneralPostBoard){
+      isRefreshGeneralPostBoard = true;
       await _getGeneralPostBoard(isFirstPage);
+      isRefreshGeneralPostBoard = false;
     }
   }
 
   Future<void> _getGeneralPostBoard(bool isFirstPage) async {
 
-    isRefreshGeneralPostBoard = true;
+    if(isFirstPage){
+      isLoadGeneralPostBoard.value = false;
+      _generalBoardPage = 0;
+    }else{
+      _generalBoardPage++;
+    }
 
-    final page = isFirstPage ? 0 : _generalBoardPage + 1;
     final ApiResponseDTO apiResponseDTO = await _generalBoardRepository.getGeneralBoard(
-      page: page,
+      accessToken: _loginService.token.value.accessToken,
+      page: _generalBoardPage,
       size: _generalBoardSize,
       keyword: searchText.value,
     );
@@ -104,14 +110,19 @@ class BoardPageController extends GetxController {
       await getThumbnailList(generalBoardModel.generalPosts);
 
       if (isFirstPage) {
-        generalPostList.value = generalBoardModel.generalPosts;
+        generalPostBoard = generalBoardModel.obs;
       } else {
-        generalPostList.addAll(generalBoardModel.generalPosts);
+        generalPostBoard.update((val) {
+          if(val != null){
+            val.generalPosts.addAll(generalBoardModel.generalPosts);
+            val.last = generalBoardModel.last;
+          }
+        });
       }
 
-      generalPostBoard = generalBoardModel.obs;
-      _generalBoardPage = page;
+      isLoadGeneralPostBoard.value = true;
     } else {
+      isLoadGeneralPostBoard.value = false;
       if (!isFirstPage) {
         _generalBoardPage--;
       }
@@ -123,20 +134,27 @@ class BoardPageController extends GetxController {
 
     isLoadGeneralPostBoard.value = true;
     isLoadedImageList.value = true;
-    isRefreshGeneralPostBoard = false;
   }
 
   Future<void> getPetitionPostBoardWithRefresh(bool isFirstPage) async {
     if (!isRefreshPetitionPostBoard) {
+      isRefreshPetitionPostBoard = true;
       await _getPetitionPostBoard(isFirstPage);
+      isRefreshPetitionPostBoard = false;
     }
   }
 
   Future<void> _getPetitionPostBoard(bool isFirstPage) async {
-    isRefreshPetitionPostBoard = true;
 
-    final page = isFirstPage ? 0 : _petitionBoardPage + 1;
+    if(isFirstPage){
+      isLoadPetitionBoard.value = false;
+      _petitionBoardPage = 0;
+    }else{
+      _petitionBoardPage++;
+    }
+
     final ApiResponseDTO apiResponseDTO = await _petitionPostRepository.getPetitionBoard(
+        accessToken: _loginService.token.value.accessToken,
         page: _petitionBoardPage,
         size: _petitionBoardSize,
         status: PetitionPostStatus.values[selectedCategory.value].name,
@@ -146,14 +164,20 @@ class BoardPageController extends GetxController {
       final PetitionBoardModel petitionBoardModel = apiResponseDTO.data as PetitionBoardModel;
 
       if (isFirstPage) {
-        petitionPostList.value = petitionBoardModel.petitionPosts;
+        petitionBoard = petitionBoardModel.obs;
       } else {
-        petitionPostList.addAll(petitionBoardModel.petitionPosts);
+        petitionBoard.update((val) {
+          if(val != null){
+            val.petitionPosts.addAll(petitionBoardModel.petitionPosts);
+            val.last = petitionBoardModel.last;
+          }
+        });
       }
 
-      petitionBoard = petitionBoardModel.obs;
-      _petitionBoardPage = page;
+      isLoadPetitionBoard.value = true;
     } else {
+      isLoadPetitionBoard.value = false;
+
       if (!isFirstPage) {
         _petitionBoardPage--;
       }
@@ -165,7 +189,6 @@ class BoardPageController extends GetxController {
 
     isLoadPetitionBoard.value = true;
     isLoadedImageList.value = true;
-    isRefreshPetitionPostBoard = false;
   }
 
   Future<void> getThumbnailList(List<GeneralPostModel> postList) async {
@@ -178,4 +201,5 @@ class BoardPageController extends GetxController {
     }
     isLoadedImageList.value = true;
   }
+
 }

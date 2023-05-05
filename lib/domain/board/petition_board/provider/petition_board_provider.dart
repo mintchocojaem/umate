@@ -15,13 +15,18 @@ class PetitionBoardProvider {
 
   factory PetitionBoardProvider() => _singleton;
 
-  Future<ApiResponseDTO> getPetitionPostBoard(
-      int page, int size, String status, String keyword) async {
+  Future<ApiResponseDTO> getPetitionPostBoard(String accessToken, int page,
+      int size, String status, String keyword) async {
     String url =
         '/post/petition?page=$page&size=$size&status=$status&keyword=$keyword&sort=createdAt,desc';
 
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+
     try {
-      final Response response = await _dio.get(url);
+      final Response response =
+          await _dio.get(url, options: Options(headers: headers));
       return SuccessResponseDTO(
           data: PetitionBoardModel.fromJson(response.data));
     } on DioError catch (e) {

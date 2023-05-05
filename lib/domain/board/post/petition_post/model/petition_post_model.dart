@@ -31,6 +31,7 @@ class PetitionPostModel {
   List<PetitionTagModel> tag;
   List<PetitionStatisticModel> statisticList;
   List<FileModel> files;
+  bool blinded;
 
   PetitionPostModel({
     required this.id,
@@ -48,13 +49,14 @@ class PetitionPostModel {
     required this.agree,
     required this.tag,
     this.answer,
+    required this.blinded,
   });
 
   factory PetitionPostModel.fromJson(Map<String, dynamic> json) {
     return PetitionPostModel(
       id: json["id"] as int,
       title: json["title"] as String,
-      body: (json["body"] as String).replaceAll("\n", "</br>"),
+      body: json["body"] as String,
       author: json["author"] as String? ?? "익명",
       createdAt: (json["createdAt"] as String),
       expiresAt: (json["expiresAt"] as String),
@@ -75,6 +77,7 @@ class PetitionPostModel {
           ? (json["tag"] as List).map((e) => PetitionTagModel.fromJson(e)).toList()
           : [PetitionTagModel(id: null, name: "미분류")],
       answer: json["answer"] as String?,
+      blinded: json["blinded"] as bool,
     );
   }
 }

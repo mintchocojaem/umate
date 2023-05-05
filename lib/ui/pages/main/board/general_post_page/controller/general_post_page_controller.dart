@@ -109,6 +109,12 @@ class GeneralPostPageController extends GetxController {
       generalCommentList = generalCommentListModel.obs;
       generalComments.value = generalCommentListModel.generalComments;
       isLoadedGeneralComment.value = true;
+    }else{
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "댓글 조회 오류")
+          .show();
     }
   }
 
@@ -268,7 +274,7 @@ class GeneralPostPageController extends GetxController {
   }
 
   void saveAndGetBack() {
-    if (isLoadedGeneralPost.value) {
+    if (isLoadedGeneralPost.value && isLoadedGeneralComment.value) {
       generalPost.value.commentCount = generalCommentList.value.totalElements;
       Get.back(result: generalPost.value);
     } else {

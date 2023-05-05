@@ -46,6 +46,7 @@ class GeneralPostModel {
   int views;
   int commentCount;
   List<FileModel> files;
+  bool blinded;
 
   GeneralPostModel({
     required this.id,
@@ -59,6 +60,7 @@ class GeneralPostModel {
     required this.views,
     required this.commentCount,
     required this.files,
+    required this.blinded,
   });
 
   factory GeneralPostModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,7 @@ class GeneralPostModel {
       files: (json["files"] as List)
           .map((e) => FileModel.fromGeneralPostFile(e))
           .toList(),
+      blinded: json["blinded"] as bool,
     );
   }
 }

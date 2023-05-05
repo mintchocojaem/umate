@@ -2,7 +2,10 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/core/dto/exception/exception_response_dto.dart';
 import 'package:danvery/core/dto/success/success_response_dto.dart';
 import 'package:danvery/core/interceptor/dio_interceptor.dart';
-import 'package:danvery/domain/user/info/model/user_post_list_model.dart';
+import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
+import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
+import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
+import 'package:danvery/domain/board/post/petition_post/model/petition_post_model.dart';
 import 'package:dio/dio.dart';
 
 class UserInfoProvider {
@@ -165,9 +168,9 @@ class UserInfoProvider {
     }
   }
 
-  Future<ApiResponseDTO> getUserWritePostList(
+  Future<ApiResponseDTO> getUserWriteGeneralPostList(
       {required String accessToken, required int page, required int size}) async {
-    String url = '/user/post?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
+    String url = '/post/general-forum/my?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
     final headers = {
       'Authorization': "Bearer $accessToken",
     };
@@ -175,7 +178,24 @@ class UserInfoProvider {
       final Response response = await _dio.get(url, options: Options(headers: headers));
 
       return SuccessResponseDTO(
-          data: UserPostListModel.fromJson(response.data));
+          data: GeneralBoardModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+
+  }
+
+  Future<ApiResponseDTO> getUserWritePetitionPostList(
+      {required String accessToken, required int page, required int size}) async {
+    String url = '/post/petition/my?page=$page&size=$size&sort=createdAt,desc&bodySize=200';
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+    try {
+      final Response response = await _dio.get(url, options: Options(headers: headers));
+
+      return SuccessResponseDTO(
+          data: PetitionBoardModel.fromJson(response.data));
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
@@ -192,7 +212,7 @@ class UserInfoProvider {
       final Response response = await _dio.get(url, options: Options(headers: headers));
 
       return SuccessResponseDTO(
-          data: UserPostListModel.fromJson(response.data));
+          data: GeneralBoardModel.fromJson(response.data));
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
@@ -209,7 +229,7 @@ class UserInfoProvider {
       final Response response = await _dio.get(url, options: Options(headers: headers));
 
       return SuccessResponseDTO(
-          data: UserPostListModel.fromJson(response.data));
+          data: GeneralBoardModel.fromJson(response.data));
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }

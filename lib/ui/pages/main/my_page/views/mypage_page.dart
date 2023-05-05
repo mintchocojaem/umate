@@ -14,20 +14,14 @@ class MyPagePage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    controller.getUserInfo();
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(
         backGroundColor: Palette.blue,
         isWhite: true,
         isDarkMode: !Get.isDarkMode,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.postSearch);
-            },
-            icon: const Icon(Icons.search)
-          ),
-        ],
+        actions: [],
       ),
       body: Obx(
         () => Stack(
@@ -254,14 +248,17 @@ class MyPagePage extends GetView<MyPagePageController> {
                           children: [
                             InkWell(
                               onTap: () async{
-                                controller.myPagePostType = MyPagePostType.write;
+                                controller.myPagePostType = [
+                                  MyPagePostType.general,
+                                  MyPagePostType.petition
+                                ];
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.loginService.userInfo.value.writeCount
+                                    controller.userWritePostCount.value
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
@@ -282,14 +279,16 @@ class MyPagePage extends GetView<MyPagePageController> {
                             ),
                             InkWell(
                               onTap: () async{
-                                controller.myPagePostType = MyPagePostType.comment;
+                                controller.myPagePostType = [
+                                  MyPagePostType.comment
+                                ];
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.loginService.userInfo.value.commentCount
+                                    controller.userCommentedPostCount.value
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
@@ -310,14 +309,16 @@ class MyPagePage extends GetView<MyPagePageController> {
                             ),
                             InkWell(
                               onTap: () async{
-                                controller.myPagePostType = MyPagePostType.like;
+                                controller.myPagePostType = [
+                                  MyPagePostType.like
+                                ];
                                 Get.toNamed(Routes.myPagePost);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.loginService.userInfo.value.likeCount
+                                    controller.userLikedPostCount.value
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),

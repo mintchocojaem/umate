@@ -16,7 +16,7 @@ class GeneralBoardPage extends GetView<BoardPageController> {
     return Obx(
       () => controller.isLoadGeneralPostBoard.value &&
               controller.isLoadedImageList.value
-          ? controller.generalPostList.isEmpty
+          ? controller.generalPostBoard.value.generalPosts.isEmpty
               ? Center(
                   child: Text(
                     '연관된 게시물이 존재하지 않습니다',
@@ -29,19 +29,23 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                     await controller.getGeneralPostBoardWithRefresh(true);
                   },
                   child: ListView.builder(
+                    key: const PageStorageKey('generalPostList'),
                     controller: controller.generalBoardScrollController,
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(
                         top: 8, bottom: 8, left: 16, right: 16),
-                    itemCount: controller.generalPostList.length + 1,
+                    itemCount: controller.generalPostBoard.value.generalPosts.length + 1,
                     itemBuilder: (BuildContext context, int index) {
-                      if (index == controller.generalPostList.length) {
-                        if (controller.generalPostBoard.value.last) {
+                      final generalPostBoard = controller.generalPostBoard.value;
+                      if (index == generalPostBoard.generalPosts.length) {
+                        if (generalPostBoard.last) {
                           return const SizedBox();
                         } else {
                           return const Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Center(child: CircularProgressIndicator()),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           );
                         }
                       }
@@ -50,33 +54,36 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                         child: Column(
                           children: [
                             PostCard(
-                                nickname:
-                                    controller.generalPostList[index].author,
-                                title:
-                                    controller.generalPostList[index].title,
-                                subtitle:
-                                    controller.generalPostList[index].body,
-                                publishDate: controller
-                                    .generalPostList[index].createdAt,
-                                commentCount: controller
-                                    .generalPostList[index].commentCount,
-                                likeCount:
-                                    controller.generalPostList[index].likes,
-                                imageUrl: controller.generalPostList[index].files
-                                    .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
-                                    .whereType<String>().isNotEmpty ? controller.generalPostList[index].files
-                                    .map((e) => e.mimeType.contains('image') ? e.thumbnailUrl : null)
-                                    .whereType<String>().first : null,
+                                nickname: generalPostBoard.generalPosts[index].author,
+                                title: generalPostBoard.generalPosts[index].title,
+                                subtitle: generalPostBoard.generalPosts[index].body,
+                                publishDate: generalPostBoard.generalPosts[index].createdAt,
+                                commentCount:
+                                    generalPostBoard.generalPosts[index].commentCount,
+                                likeCount: generalPostBoard.generalPosts[index].likes,
+                                imageUrl: generalPostBoard.generalPosts[index]
+                                        .files
+                                        .map((e) => e.mimeType.contains('image')
+                                            ? e.thumbnailUrl
+                                            : null)
+                                        .whereType<String>()
+                                        .isNotEmpty
+                                    ? generalPostBoard.generalPosts[index]
+                                        .files
+                                        .map((e) => e.mimeType.contains('image')
+                                            ? e.thumbnailUrl
+                                            : null)
+                                        .whereType<String>()
+                                        .first
+                                    : null,
                                 onTap: () {
                                   Get.toNamed(Routes.post,
-                                          arguments: controller
-                                              .generalPostList[index].id)
+                                          arguments: generalPostBoard.generalPosts[index].id)
                                       ?.then((value) {
                                     if (value != null) {
                                       final generalPostModel =
                                           value as GeneralPostModel;
-                                      controller.generalPostList[index] =
-                                          generalPostModel;
+                                      generalPostBoard.generalPosts[index] = generalPostModel;
                                     }
                                   });
                                 }),

@@ -16,12 +16,16 @@ class GeneralBoardProvider {
   factory GeneralBoardProvider() => _singleton;
 
   Future<ApiResponseDTO> getGeneralBoard(
-      int page, int size, String keyword) async {
+      String accessToken, int page, int size, String keyword) async {
     String url =
         '/post/general-forum?page=$page&size=$size&keyword=$keyword&sort=createdAt,desc&bodySize=200';
 
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+
     try {
-      final Response response = await _dio.get(url);
+      final Response response = await _dio.get(url, options: Options(headers: headers));
 
       return SuccessResponseDTO(
           data: GeneralBoardModel.fromJson(response.data));
