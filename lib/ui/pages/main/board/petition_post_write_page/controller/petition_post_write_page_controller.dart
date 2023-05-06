@@ -4,10 +4,8 @@ import 'package:danvery/domain/board/post/petition_post/repository/petition_post
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
-import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PetitionPostWritePageController extends GetxController {

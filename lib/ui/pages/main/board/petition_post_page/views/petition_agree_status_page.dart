@@ -28,7 +28,8 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
           () => controller.isLoadedPetitionPost.value
               ? Column(
                   children: [
-                    Expanded(
+                    Flexible(
+                      flex: 6,
                       child: Stack(
                         children: [
                           PieChart(
@@ -57,56 +58,59 @@ class PetitionAgreeStatusPage extends GetView<PetitionPostPageController> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '청원의 동의 비율은\n 상위 4개의 학과만 볼 수 있습니다',
-                          textAlign: TextAlign.center,
-                          style: lightStyle.copyWith(
-                            color: Palette.darkGrey,
+                    Flexible(
+                      flex: 4,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 8,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: Palette.lightGrey,
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller
-                              .petitionPost.value.statisticList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              dense: true,
-                              leading: Text(
-                                '${index + 1}.',
-                                style: regularStyle.copyWith(
-                                  color: Palette.black,
+                          Text(
+                            '청원의 동의 비율은\n 상위 4개의 학과만 볼 수 있습니다',
+                            textAlign: TextAlign.center,
+                            style: lightStyle.copyWith(
+                              color: Palette.darkGrey,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Divider(
+                            thickness: 1,
+                            color: Palette.lightGrey,
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller
+                                .petitionPost.value.statisticList.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                dense: true,
+                                leading: Text(
+                                  '${index + 1}.',
+                                  style: regularStyle.copyWith(
+                                    color: Palette.black,
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                controller.petitionPost.value
-                                    .statisticList[index].department,
-                                style: regularStyle.copyWith(
-                                  color: Palette.darkGrey,
+                                title: Text(
+                                  controller.petitionPost.value
+                                      .statisticList[index].department,
+                                  style: regularStyle.copyWith(
+                                    color: Palette.darkGrey,
+                                  ),
                                 ),
-                              ),
-                              trailing: Text(
-                                '(${(controller.petitionPost.value.statisticList[index].agreeCount / controller.petitionPost.value.agreeCount * 100).round()}%) '
-                                '${controller.petitionPost.value.statisticList[index].agreeCount}명',
-                                style: regularStyle.copyWith(
-                                  color: Palette.darkGrey,
+                                trailing: Text(
+                                  '(${(controller.petitionPost.value.statisticList[index].agreeCount / controller.petitionPost.value.agreeCount * 100).round()}%) '
+                                  '${controller.petitionPost.value.statisticList[index].agreeCount}명',
+                                  style: regularStyle.copyWith(
+                                    color: Palette.darkGrey,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )

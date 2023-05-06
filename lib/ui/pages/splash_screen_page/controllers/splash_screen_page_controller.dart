@@ -5,6 +5,7 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -32,9 +33,9 @@ class SplashScreenPageController extends GetxController
             .obs
             .value;
     animation.addListener(() => update());
-    checkUpdate();
-    animationController.forward();
+    await animationController.forward();
     await Future.delayed(const Duration(milliseconds: 500));
+    await checkUpdate();
   }
 
   Future<void> checkUpdate() async {

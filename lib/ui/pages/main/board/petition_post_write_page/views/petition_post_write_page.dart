@@ -35,18 +35,51 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                 coolDownTime: 3,
                 text: "등록",
                 onPressed: () async {
-                  PetitionPostWriteModel petitionPostWriteModel =
-                      PetitionPostWriteModel(
-                    title: controller.titleController.value.text,
-                    body: controller.contentController.value.text,
-                    files: controller.imageList
-                        .map((e) => FileModel.fromImagePicker(e))
-                        .toList(),
-                    tagIds: [
-                      PetitionPostTag.values[controller.selectedTag.value].id
-                    ],
+                  showCupertinoDialog(
+                    context: Get.context!,
+                    builder: (BuildContext context) {
+                      return CupertinoAlertDialog(
+                        title: const Text("청원 게시글 등록"),
+                        content: const Text(
+                            "청원 게시글을 등록하시겠습니까?\n등록 후에는 수정 및 삭제가 불가능합니다."),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: const Text(
+                              '취소',
+                            ),
+                            onPressed: () async {
+                              Get.back();
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: Text(
+                              '확인',
+                              style: TextStyle(
+                                color: Palette.lightRed,
+                              ),
+                            ),
+                            onPressed: () async {
+                              PetitionPostWriteModel petitionPostWriteModel =
+                                  PetitionPostWriteModel(
+                                title: controller.titleController.value.text,
+                                body: controller.contentController.value.text,
+                                files: controller.imageList
+                                    .map((e) => FileModel.fromImagePicker(e))
+                                    .toList(),
+                                tagIds: [
+                                  PetitionPostTag
+                                      .values[controller.selectedTag.value].id
+                                ],
+                              );
+                              await controller.writePetitionPostWithRefresh(
+                                  petitionPostWriteModel);
+                              Get.back();
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
-                  await controller.writePetitionPostWithRefresh(petitionPostWriteModel);
                 },
               ),
             ),
