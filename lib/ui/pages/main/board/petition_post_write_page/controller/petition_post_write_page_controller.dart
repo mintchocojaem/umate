@@ -4,6 +4,7 @@ import 'package:danvery/domain/board/post/petition_post/repository/petition_post
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,22 +42,7 @@ class PetitionPostWritePageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> writePetitionPostWithRefresh(
-      PetitionPostWriteModel petitionPostWriteModel) async {
-    if (!isPosting.value) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      showCupertinoModalPopup(
-        context: Get.context!,
-        builder: (context) => const Center(
-          child: CupertinoActivityIndicator(),
-        ),
-        barrierDismissible: false,
-      ).whenComplete(() => Get.back());
-      await _writePetitionPost(petitionPostWriteModel);
-    }
-  }
-
-  Future<void> _writePetitionPost(
+  Future<void> writePetitionPost(
       PetitionPostWriteModel petitionPostWriteModel) async {
     isPosting.value = true;
 
@@ -70,12 +56,12 @@ class PetitionPostWritePageController extends GetxController {
       isPosting.value = false;
       Get.back();
     } else {
-      Future.delayed(
-        const Duration(seconds: 10),
-        () async {
-          await _writePetitionPost(petitionPostWriteModel);
-        },
-      );
+      GetXSnackBar(
+        type: GetXSnackBarType.customError,
+        title: "게시글 작성 실패",
+        content: apiResponseDTO.message,
+      ).show();
     }
+    isPosting.value = false;
   }
 }

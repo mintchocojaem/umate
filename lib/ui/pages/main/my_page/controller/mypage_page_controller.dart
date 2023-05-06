@@ -1,4 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/general_board/model/general_board_model.dart';
 import 'package:danvery/domain/board/petition_board/model/petition_board_model.dart';
@@ -178,6 +179,15 @@ class MyPagePageController extends GetxController {
   }
 
   Future<void> changePassword() async {
+
+    if (!passwordCheckRegExp
+        .hasMatch(password.value.text)) {
+      GetXSnackBar(
+        type: GetXSnackBarType.passwordInputError,
+      ).show();
+      return;
+    }
+
     final ApiResponseDTO apiResponseDTO =
         await _userInfoRepository.changePassword(
       accessToken: loginService.token.value.accessToken,
@@ -185,6 +195,22 @@ class MyPagePageController extends GetxController {
       newPassword: password.value.text,
     );
     if (apiResponseDTO.success) {
+      await showCupertinoDialog(
+        context: Get.context!,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text("비밀번호 변경 성공"),
+          content: const Text(
+              "비밀번호 변경에 성공했습니다, 다시 로그인 해주세요."),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("확인"),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
       await loginService.logout();
       GetXSnackBar(
               type: GetXSnackBarType.info,

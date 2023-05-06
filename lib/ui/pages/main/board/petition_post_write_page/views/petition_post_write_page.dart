@@ -71,9 +71,9 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                                       .values[controller.selectedTag.value].id
                                 ],
                               );
-                              await controller.writePetitionPostWithRefresh(
+                              Get.back(); //청원은 등록전에 dialog 띄우므로, dialog 닫기
+                              await controller.writePetitionPost(
                                   petitionPostWriteModel);
-                              Get.back();
                             },
                           ),
                         ],

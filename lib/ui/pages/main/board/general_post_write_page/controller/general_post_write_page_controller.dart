@@ -39,22 +39,7 @@ class GeneralPostWritePageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> writeGeneralPostWithRefresh(
-      GeneralPostWriteModel generalPostWriteModel) async {
-    if (!isPosting.value) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      showCupertinoModalPopup(
-        context: Get.context!,
-        builder: (context) => const Center(
-          child: CupertinoActivityIndicator(),
-        ),
-        barrierDismissible: false,
-      ).whenComplete(() => Get.back());
-      await _writeGeneralPost(generalPostWriteModel);
-    }
-  }
-
-  Future<void> _writeGeneralPost(
+  Future<void> writeGeneralPost(
       GeneralPostWriteModel generalPostWriteModel) async {
     isPosting.value = true;
 
@@ -64,15 +49,14 @@ class GeneralPostWritePageController extends GetxController {
             generalPostWriteModel: generalPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getGeneralPostBoardWithRefresh(true);
-      isPosting.value = false;
       Get.back();
     } else {
-      Future.delayed(
-        const Duration(seconds: 10),
-        () async {
-          await _writeGeneralPost(generalPostWriteModel);
-        },
-      );
+      GetXSnackBar(
+        type: GetXSnackBarType.customError,
+        title: "게시글 작성 실패",
+        content: apiResponseDTO.message,
+      ).show();
     }
+    isPosting.value = false;
   }
 }

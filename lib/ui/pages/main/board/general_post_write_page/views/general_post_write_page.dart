@@ -78,8 +78,7 @@ class GeneralPostWritePage extends GetView<GeneralPostWritePageController> {
                         .toList(),
                   );
 
-                  await controller.writeGeneralPostWithRefresh(generalPostWriteModel);
-
+                  await controller.writeGeneralPost(generalPostWriteModel);
                 },
               ),
             ),

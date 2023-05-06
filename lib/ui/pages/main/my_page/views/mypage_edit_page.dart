@@ -219,14 +219,6 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                       return;
                     }
 
-                    if (!passwordCheckRegExp
-                        .hasMatch(controller.password.value.text)) {
-                      GetXSnackBar(
-                        type: GetXSnackBarType.passwordInputError,
-                      ).show();
-                      return;
-                    }
-
                     if (controller.validNickname.value !=
                         controller.loginService.userInfo.value.nickname) {
                       await controller.changeNickname();
