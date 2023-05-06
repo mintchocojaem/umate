@@ -70,14 +70,13 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 checkButton: true,
                                 checkButtonCoolDown: 5,
                                 checkButtonText: "중복확인",
-                                onCheckButtonPressed: () async{
-                                  if (controller.nickname.value
-                                      .text.isEmpty ||
-                                      controller.nickname.value
-                                          .text.length < 3) {
+                                onCheckButtonPressed: () async {
+                                  if (controller.nickname.value.text.isEmpty ||
+                                      controller.nickname.value.text.length <
+                                          3) {
                                     GetXSnackBar(
-                                        type: GetXSnackBarType
-                                            .nickNameError)
+                                            type:
+                                                GetXSnackBarType.nickNameError)
                                         .show();
                                     return false;
                                   }
@@ -92,7 +91,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 helperText: "3~12자, 영문, 한글, 숫자, 특수문자(_), 공백 포함",
                                 onTextChanged: (value) {
                                   controller.nickname.update((val) {
-                                    if(val != null){
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
@@ -112,21 +111,21 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 addCurrentPassword: true,
                                 onCurrentPasswordTextChanged: (value) {
                                   controller.currentPassword.update((val) {
-                                    if(val != null){
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
                                 },
                                 onTextChanged: (value) {
                                   controller.password.update((val) {
-                                    if(val != null){
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
                                 },
                                 onValidateChanged: (value) {
                                   controller.passwordValidate.update((val) {
-                                    if(val != null){
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
@@ -140,14 +139,15 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 initText: controller.phoneNumber.value.text,
                                 onTextChanged: (value) {
                                   controller.phoneNumber.update((val) {
-                                    if(val != null){
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
                                 },
                                 onValidateChanged: (value) {
-                                  controller.phoneAuthenticationNumber.update((val) {
-                                    if(val != null){
+                                  controller.phoneAuthenticationNumber
+                                      .update((val) {
+                                    if (val != null) {
                                       val.text = value;
                                     }
                                   });
@@ -160,18 +160,18 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 checkValidateButton: true,
                                 isSMS: true,
                                 checkValidateButtonText: "인증요청",
-                                onCheckValidateButtonPressed: () async{
-                                  if (!phoneNumberCheckRegExp
-                                      .hasMatch(controller.phoneNumber.value.text)) {
+                                onCheckValidateButtonPressed: () async {
+                                  if (!phoneNumberCheckRegExp.hasMatch(
+                                      controller.phoneNumber.value.text)) {
                                     GetXSnackBar(
                                       type: GetXSnackBarType.phoneNumberError,
                                     ).show();
                                     return false;
                                   }
-                                  return controller.verifySMS().then((value){
+                                  return controller.verifySMS().then((value) {
                                     return value;
                                   });
-                               },
+                                },
                               ),
                             ),
                           ],
@@ -185,55 +185,64 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ModernFormButton(
-                  isEnabled: (controller.currentPassword.value.text.isNotEmpty &&
+                  isEnabled: (controller
+                              .currentPassword.value.text.isNotEmpty &&
                           controller.password.value.text.isNotEmpty &&
                           controller.passwordValidate.value.text.isNotEmpty &&
                           controller.nickname.value.text.isNotEmpty) ||
                       (controller.nickname.value.text.isNotEmpty &&
                           controller.nickname.value.text !=
-                              controller.loginService.userInfo.value.nickname) ||
+                              controller
+                                  .loginService.userInfo.value.nickname) ||
                       (controller.phoneNumber.value.text.isNotEmpty &&
-                          controller.phoneAuthenticationNumber.value.text.isNotEmpty &&
+                          controller.phoneAuthenticationNumber.value.text
+                              .isNotEmpty &&
                           controller.nickname.value.text.isNotEmpty),
                   text: "저장",
                   onPressed: () async {
-                    if (controller.currentPassword.value.text.isNotEmpty &&
-                        controller.password.value.text.isNotEmpty &&
-                        controller.passwordValidate.value.text.isNotEmpty &&
-                        controller.nickname.value.text.isNotEmpty) {
 
-                      if (controller.password.value.text !=
-                          controller.passwordValidate.value.text) {
-                        GetXSnackBar(
-                          type: GetXSnackBarType.passwordConfirmError,
-                        ).show();
-                        return;
-                      }
-                      if (!passwordCheckRegExp
-                          .hasMatch(controller.password.value.text)) {
-                        GetXSnackBar(
-                          type: GetXSnackBarType.passwordInputError,
-                        ).show();
-                        return;
-                      }
-                      await controller.changePassword();
-                    }
-
-                    if (controller.nickname.value.text != controller.validNickname.value) {
+                    if (controller.nickname.value.text !=
+                        controller.validNickname.value) {
                       GetXSnackBar(
                         type: GetXSnackBarType.customError,
                         title: "닉네임 중복확인 오류",
                         content: "닉네임 중복확인을 해주세요",
                       ).show();
                       return;
-                    }else{
+                    }
+
+                    if (controller.password.value.text !=
+                        controller.passwordValidate.value.text) {
+                      GetXSnackBar(
+                        type: GetXSnackBarType.passwordConfirmError,
+                      ).show();
+                      return;
+                    }
+
+                    if (!passwordCheckRegExp
+                        .hasMatch(controller.password.value.text)) {
+                      GetXSnackBar(
+                        type: GetXSnackBarType.passwordInputError,
+                      ).show();
+                      return;
+                    }
+
+                    if (controller.validNickname.value !=
+                        controller.loginService.userInfo.value.nickname) {
                       await controller.changeNickname();
                     }
 
                     if (controller.phoneNumber.value.text.isNotEmpty &&
-                        controller.phoneAuthenticationNumber.value.text.isNotEmpty &&
+                        controller
+                            .phoneAuthenticationNumber.value.text.isNotEmpty &&
                         controller.nickname.value.text.isNotEmpty) {
                       await controller.changePhoneNumber();
+                    }
+
+                    if(controller.currentPassword.value.text.isNotEmpty &&
+                        controller.password.value.text.isNotEmpty &&
+                        controller.passwordValidate.value.text.isNotEmpty){
+                      await controller.changePassword();
                     }
 
                   },
