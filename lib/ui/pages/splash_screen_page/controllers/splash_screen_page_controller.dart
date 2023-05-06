@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/check_update/model/check_update_model.dart';
 import 'package:danvery/domain/check_update/repository/check_update_repository.dart';
@@ -7,7 +5,6 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';

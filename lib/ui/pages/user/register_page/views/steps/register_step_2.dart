@@ -12,7 +12,6 @@ class RegisterStep2 extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     return SafeArea(
       child: Column(
         children: [
@@ -61,6 +60,23 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
                                   child: ModernFormField(
+                                    checkButton: true,
+                                    checkButtonText: "중복확인",
+                                    checkButtonCoolDown: 5,
+                                    onCheckButtonPressed: () async {
+                                      if (controller.nicknameController.value
+                                              .text.isEmpty ||
+                                          controller.nicknameController.value
+                                                  .text.length < 3) {
+                                        GetXSnackBar(
+                                                type: GetXSnackBarType
+                                                    .nickNameError)
+                                            .show();
+                                        return false;
+                                      }
+                                      await controller.nicknameValid();
+                                      return true;
+                                    },
                                     maxLength: 12,
                                     hint: "닉네임을 입력하세요",
                                     title: "닉네임",
@@ -120,14 +136,15 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                                         if (val != null) val.text = value;
                                       });
                                     },
+                                    keyboardType: TextInputType.phone,
                                     hint: "휴대폰 번호를 입력하세요",
                                     validate: true,
                                     validateHint: "인증번호 6자리를 입력하세요",
                                     title: "휴대폰 번호",
-                                    checkButton: true,
+                                    checkValidateButton: true,
                                     isSMS: true,
-                                    checkButtonText: "인증요청",
-                                    onCheckButtonPressed: () async {
+                                    checkValidateButtonText: "인증요청",
+                                    onCheckValidateButtonPressed: () async {
                                       if (!phoneNumberCheckRegExp.hasMatch(
                                           controller.phoneNumberController.value
                                               .text)) {
@@ -173,15 +190,15 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                         .passwordValidateController.value.text.isNotEmpty &&
                     controller.phoneNumberController.value.text.isNotEmpty &&
                     controller.phoneAuthenticationNumberController.value.text
-                        .isNotEmpty &&
-                    controller.nicknameController.value.text.isNotEmpty,
+                        .isNotEmpty,
                 text: "가입하기",
                 onPressed: () async {
-                  if (controller.nicknameController.value.text.length < 2 ||
-                      !nicknameCheckRegExp
-                          .hasMatch(controller.nicknameController.value.text)) {
+
+                  if(controller.validNickname.value != controller.nicknameController.value.text){
                     GetXSnackBar(
-                      type: GetXSnackBarType.nickNameError,
+                      type: GetXSnackBarType.customError,
+                      title: "닉네임 중복확인 오류",
+                      content: "닉네임 중복확인을 해주세요",
                     ).show();
                     return;
                   }
@@ -194,25 +211,17 @@ class RegisterStep2 extends GetView<RegisterPageController> {
                     return;
                   }
 
-                  if (controller.passwordValidateController.value !=
-                      controller.passwordController.value) {
+                  if (controller.passwordValidateController.value.text !=
+                      controller.passwordController.value.text) {
                     GetXSnackBar(
                       type: GetXSnackBarType.passwordConfirmError,
                     ).show();
                     return;
                   }
 
-                  if (!await controller.verifySMSAuth(
-                      controller.registerInfo.value.signupToken,
-                      controller
-                          .phoneAuthenticationNumberController.value.text)) {
+                  if (!await controller.verifySMSAuth()) {
                     return;
                   }
-
-                  controller.registerInfo.value.nickname =
-                      controller.nicknameController.value.text;
-                  controller.registerInfo.value.nickname =
-                      controller.passwordController.value.text;
 
                   await controller.register();
                   if (controller.isRegistered.value) {

@@ -12,6 +12,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.initRegisterPage();
     return SafeArea(
       child: Column(
         children: [

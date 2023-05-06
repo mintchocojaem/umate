@@ -14,18 +14,22 @@ class ModernFormField extends StatefulWidget {
   final String? initValidateText;
   final String? initCurrentPasswordText;
   final String? currentPasswordHint;
+  final bool checkValidateButton;
   final bool checkButton;
   final bool validate;
   final String? validateHint;
+  final String? checkValidateButtonText;
   final String? checkButtonText;
   final bool readOnly;
   final bool isPassword;
   final bool addCurrentPassword;
   final bool isSMS;
+  final Future<bool> Function()? onCheckValidateButtonPressed;
   final Future<bool> Function()? onCheckButtonPressed;
   final void Function(String text)? onCurrentPasswordTextChanged;
   final void Function(String text)? onTextChanged;
   final void Function(String text)? onValidateChanged;
+  final int checkValidateButtonCoolDown;
   final int checkButtonCoolDown;
   final Color? titleColor;
   final TextInputType? keyboardType;
@@ -43,15 +47,19 @@ class ModernFormField extends StatefulWidget {
     this.hint,
     this.hintStyle,
     this.title,
+    this.checkValidateButton = false,
     this.checkButton = false,
     this.validate = false,
     this.validateHint,
+    this.checkValidateButtonText,
     this.checkButtonText,
     this.readOnly = false,
     this.isPassword = false,
     this.addCurrentPassword = false,
     this.isSMS = false,
+    this.onCheckValidateButtonPressed,
     this.onCheckButtonPressed,
+    this.checkValidateButtonCoolDown = 30,
     this.checkButtonCoolDown = 30,
     this.titleColor,
     this.keyboardType,
@@ -77,29 +85,36 @@ class ModernFormField extends StatefulWidget {
 }
 
 class _ModernFormField extends State<ModernFormField> {
-  late int _remainingTime;
   final FocusNode focusSMS = FocusNode();
+  late int _validateRemainingTime;
+  bool _isValidateSend = false;
+  Timer? validateTimer;
+
+  late int _remainingTime;
   bool _isSend = false;
   Timer? timer;
+
   bool _isTextVisible = true;
 
   late final TextEditingController _textController;
   final TextEditingController _validateController = TextEditingController();
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _textController = widget.controller ?? TextEditingController();
+    _validateRemainingTime = widget.checkValidateButtonCoolDown;
     _remainingTime = widget.checkButtonCoolDown;
     _currentPasswordController.text = widget.initCurrentPasswordText ?? "";
     _textController.text = widget.initText ?? "";
     _validateController.text = widget.initValidateText ?? "";
 
-    if(widget.isPassword){
+    if (widget.isPassword) {
       _isTextVisible = false;
-    }else if(widget.addCurrentPassword){
+    } else if (widget.addCurrentPassword) {
       _isTextVisible = false;
     }
 
@@ -110,18 +125,36 @@ class _ModernFormField extends State<ModernFormField> {
       widget.onValidateChanged?.call(_validateController.text);
     });
     _currentPasswordController.addListener(() {
-      widget.onCurrentPasswordTextChanged?.call(_currentPasswordController.text);
+      widget.onCurrentPasswordTextChanged
+          ?.call(_currentPasswordController.text);
     });
   }
 
   @override
   void dispose() {
     SmsAutoFill().unregisterListener();
+    validateTimer?.cancel();
     timer?.cancel();
     super.dispose();
   }
 
-  void _coolDown() {
+  void _checkValidateCoolDown() {
+    setState(() {
+      _isValidateSend = true;
+    });
+    validateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _validateRemainingTime--;
+        if (_validateRemainingTime == 0) {
+          timer.cancel();
+          _isValidateSend = false;
+          _validateRemainingTime = widget.checkValidateButtonCoolDown;
+        }
+      });
+    });
+  }
+
+  void _checkCoolDown() {
     setState(() {
       _isSend = true;
     });
@@ -163,21 +196,23 @@ class _ModernFormField extends State<ModernFormField> {
           children: [
             widget.addCurrentPassword
                 ? Column(
-                  children: [
-                    TextFormField(
+                    children: [
+                      TextFormField(
                         controller: _currentPasswordController,
                         obscureText: !_isTextVisible,
                         enableSuggestions: false,
                         autocorrect: false,
                         enabled: !widget.readOnly,
-                        readOnly: widget.readOnly || widget.isTime || widget.isDay,
+                        readOnly:
+                            widget.readOnly || widget.isTime || widget.isDay,
                         keyboardType: widget.keyboardType,
                         maxLines: 1,
                         maxLength: widget.maxLength,
                         style: regularStyle.copyWith(color: Palette.lightBlack),
                         cursorColor: widget.titleColor ?? Palette.blue,
                         decoration: InputDecoration(
-                          helperStyle: regularStyle.copyWith(color: Palette.grey),
+                          helperStyle:
+                              regularStyle.copyWith(color: Palette.grey),
                           counterText: "",
                           filled: true,
                           fillColor: Palette.darkWhite,
@@ -238,96 +273,144 @@ class _ModernFormField extends State<ModernFormField> {
                           ),
                         ),
                       ),
-                    const SizedBox(height: 8,),
-                  ],
-                )
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  )
                 : const SizedBox(),
-            TextFormField(
-              onTap: widget.isTime
-                  ? showTimePickerDialog
-                  : widget.isDay
-                      ? showDayPickerDialog
-                      : null,
-              controller: _textController,
-              obscureText: !_isTextVisible,
-              enableSuggestions: false,
-              autocorrect: false,
-              enabled: !widget.readOnly,
-              readOnly: widget.readOnly || widget.isTime || widget.isDay,
-              keyboardType: widget.keyboardType,
-              maxLines: 1,
-              maxLength: widget.maxLength,
-              style: regularStyle.copyWith(color: Palette.lightBlack),
-              cursorColor: widget.titleColor ?? Palette.blue,
-              decoration: InputDecoration(
-                helperStyle: regularStyle.copyWith(color: Palette.grey),
-                counterText: "",
-                filled: true,
-                fillColor: Palette.darkWhite,
-                border: const OutlineInputBorder(),
-                hintText: widget.hint,
-                hintStyle: widget.hintStyle ??
-                    regularStyle.copyWith(
-                        color: widget.readOnly
-                            ? Palette.lightBlack
-                            : Palette.grey),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Palette.darkWhite,
-                    width: 1.0,
-                  ),
-                ),
-                contentPadding: const EdgeInsets.only(
-                  left: 16,
-                ),
-                suffixIcon: widget.isPassword || widget.addCurrentPassword
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: IconButton(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          padding: EdgeInsets.zero,
-                          icon: Image.asset(
-                            _isTextVisible
-                                ? "assets/icons/login/visible_icon.png"
-                                : "assets/icons/login/invisible_icon.png",
-                            width: 24,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isTextVisible = !_isTextVisible;
-                            });
-                          },
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    onTap: widget.isTime
+                        ? showTimePickerDialog
+                        : widget.isDay
+                            ? showDayPickerDialog
+                            : null,
+                    controller: _textController,
+                    obscureText: !_isTextVisible,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    enabled: !widget.readOnly,
+                    readOnly: widget.readOnly || widget.isTime || widget.isDay,
+                    keyboardType: widget.keyboardType,
+                    maxLines: 1,
+                    maxLength: widget.maxLength,
+                    style: regularStyle.copyWith(color: Palette.lightBlack),
+                    cursorColor: widget.titleColor ?? Palette.blue,
+                    decoration: InputDecoration(
+                      helperStyle: regularStyle.copyWith(color: Palette.grey),
+                      counterText: "",
+                      filled: true,
+                      fillColor: Palette.darkWhite,
+                      border: const OutlineInputBorder(),
+                      hintText: widget.hint,
+                      hintStyle: widget.hintStyle ??
+                          regularStyle.copyWith(
+                              color: widget.readOnly
+                                  ? Palette.lightBlack
+                                  : Palette.grey),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          color: Palette.darkWhite,
+                          width: 1.0,
                         ),
+                      ),
+                      contentPadding: const EdgeInsets.only(
+                        left: 16,
+                      ),
+                      suffixIcon: widget.isPassword || widget.addCurrentPassword
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                padding: EdgeInsets.zero,
+                                icon: Image.asset(
+                                  _isTextVisible
+                                      ? "assets/icons/login/visible_icon.png"
+                                      : "assets/icons/login/invisible_icon.png",
+                                  width: 24,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isTextVisible = !_isTextVisible;
+                                  });
+                                },
+                              ),
+                            )
+                          : InkWell(
+                              onTap: widget.isTime
+                                  ? showTimePickerDialog
+                                  : widget.isDay
+                                      ? showDayPickerDialog
+                                      : null,
+                              child: widget.suffix),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          color: widget.titleColor ?? Palette.blue,
+                          width: 2.0,
+                        ),
+                      ),
+                      suffixIconConstraints: BoxConstraints(
+                          maxHeight: 24,
+                          maxWidth: widget.suffixWidth ?? 60,
+                          minWidth: 24,
+                          minHeight: 24),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          color: Palette.darkWhite,
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                widget.checkButton
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SizedBox(
+                            height: 48,
+                            width: 100,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                if (!_isSend) {
+                                  if (await widget.onCheckButtonPressed
+                                          ?.call() ??
+                                      false) _checkCoolDown();
+                                }
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                      color: !_isSend
+                                          ? Palette.blue
+                                          : Palette.lightGrey),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  backgroundColor: !_isSend
+                                      ? Palette.blue
+                                      : Palette.lightGrey),
+                              child: Center(
+                                child: Text(
+                                  _isSend
+                                      ? "$_remainingTime"
+                                      : "${widget.checkButtonText}",
+                                  style: regularStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: !_isSend
+                                          ? Palette.pureWhite
+                                          : Palette.grey),
+                                ),
+                              ),
+                            )),
                       )
-                    : InkWell(
-                        onTap: widget.isTime
-                            ? showTimePickerDialog
-                            : widget.isDay
-                                ? showDayPickerDialog
-                                : null,
-                        child: widget.suffix),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: widget.titleColor ?? Palette.blue,
-                    width: 2.0,
-                  ),
-                ),
-                suffixIconConstraints: BoxConstraints(
-                    maxHeight: 24,
-                    maxWidth: widget.suffixWidth ?? 60,
-                    minWidth: 24,
-                    minHeight: 24),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Palette.darkWhite,
-                    width: 1.0,
-                  ),
-                ),
-              ),
+                    : const SizedBox(),
+              ],
             ),
             widget.helperText != null
                 ? Padding(
@@ -450,7 +533,7 @@ class _ModernFormField extends State<ModernFormField> {
                                   ),
                           ),
                         ),
-                        widget.checkButton
+                        widget.checkValidateButton
                             ? Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: SizedBox(
@@ -458,33 +541,35 @@ class _ModernFormField extends State<ModernFormField> {
                                     width: 100,
                                     child: OutlinedButton(
                                       onPressed: () async {
-                                        if (!_isSend) {
+                                        if (!_isValidateSend) {
                                           await SmsAutoFill().listenForCode();
                                           focusSMS.requestFocus();
-                                          if (await widget.onCheckButtonPressed
-                                              ?.call() ?? false) _coolDown();
+                                          if (await widget
+                                                  .onCheckValidateButtonPressed
+                                                  ?.call() ??
+                                              false) _checkValidateCoolDown();
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(
                                           side: BorderSide(
-                                              color: !_isSend
+                                              color: !_isValidateSend
                                                   ? Palette.blue
                                                   : Palette.lightGrey),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                           ),
-                                          backgroundColor: !_isSend
+                                          backgroundColor: !_isValidateSend
                                               ? Palette.blue
                                               : Palette.lightGrey),
                                       child: Center(
                                         child: Text(
-                                          _isSend
-                                              ? "$_remainingTime"
-                                              : "${widget.checkButtonText}",
+                                          _isValidateSend
+                                              ? "$_validateRemainingTime"
+                                              : "${widget.checkValidateButtonText}",
                                           style: regularStyle.copyWith(
                                               fontWeight: FontWeight.w500,
-                                              color: !_isSend
+                                              color: !_isValidateSend
                                                   ? Palette.pureWhite
                                                   : Palette.grey),
                                         ),

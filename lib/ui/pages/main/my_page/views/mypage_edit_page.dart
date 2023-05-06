@@ -67,6 +67,23 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: ModernFormField(
+                                checkButton: true,
+                                checkButtonCoolDown: 5,
+                                checkButtonText: "중복확인",
+                                onCheckButtonPressed: () async{
+                                  if (controller.nickname.value
+                                      .text.isEmpty ||
+                                      controller.nickname.value
+                                          .text.length < 3) {
+                                    GetXSnackBar(
+                                        type: GetXSnackBarType
+                                            .nickNameError)
+                                        .show();
+                                    return false;
+                                  }
+                                  await controller.nicknameValid();
+                                  return true;
+                                },
                                 initText: controller.nickname.value.text,
                                 hint: "닉네임을 입력하세요",
                                 title: "닉네임 변경",
@@ -140,10 +157,10 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                 validate: true,
                                 validateHint: "인증번호 6자리를 입력하세요",
                                 title: "휴대폰 번호 변경",
-                                checkButton: true,
+                                checkValidateButton: true,
                                 isSMS: true,
-                                checkButtonText: "인증요청",
-                                onCheckButtonPressed: () async{
+                                checkValidateButtonText: "인증요청",
+                                onCheckValidateButtonPressed: () async{
                                   if (!phoneNumberCheckRegExp
                                       .hasMatch(controller.phoneNumber.value.text)) {
                                     GetXSnackBar(
@@ -201,9 +218,15 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                       }
                       await controller.changePassword();
                     }
-                    if (controller.nickname.value.text.isNotEmpty &&
-                        controller.nickname.value.text !=
-                            controller.loginService.userInfo.value.nickname) {
+
+                    if (controller.nickname.value.text != controller.validNickname.value) {
+                      GetXSnackBar(
+                        type: GetXSnackBarType.customError,
+                        title: "닉네임 중복확인 오류",
+                        content: "닉네임 중복확인을 해주세요",
+                      ).show();
+                      return;
+                    }else{
                       await controller.changeNickname();
                     }
 

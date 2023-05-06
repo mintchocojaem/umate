@@ -63,11 +63,14 @@ class MyPagePageController extends GetxController  {
 
   final RxInt selectedTabIndex = 0.obs;
 
+  final RxString validNickname = "".obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
 
     nickname.value.text = loginService.userInfo.value.nickname;
+    validNickname.value = loginService.userInfo.value.nickname;
 
     generaPostListScroller.addListener(() async {
       if (generaPostListScroller.position.pixels ==
@@ -90,6 +93,7 @@ class MyPagePageController extends GetxController  {
 
   void initEditPage() {
     nickname.value.text = loginService.userInfo.value.nickname;
+    validNickname.value = loginService.userInfo.value.nickname;
     currentPassword.value.clear();
     password.value.clear();
     passwordValidate.value.clear();
@@ -105,7 +109,10 @@ class MyPagePageController extends GetxController  {
             accessToken: loginService.token.value.accessToken,
             nickName: nickname.value.text);
     if (apiResponseDTO.success) {
-      loginService.userInfo.value.nickname = nickname.value.text;
+      validNickname.value = nickname.value.text;
+      loginService.userInfo.update((val) {
+        val!.nickname = nickname.value.text;
+      });
       Get.back();
       GetXSnackBar(
               type: GetXSnackBarType.info,
@@ -405,4 +412,25 @@ class MyPagePageController extends GetxController  {
       userLikedPostCount.value = loginService.userInfo.value.likeCount;
     }
   }
+
+  Future<bool> nicknameValid() async{
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getNicknameValid(nickname: nickname.value.text);
+    if(apiResponseDTO.success){
+      GetXSnackBar(
+          type: GetXSnackBarType.info,
+          title: "닉네임 중복 확인",
+          content: "사용 가능한 닉네임입니다.")
+          .show();
+      validNickname.value = nickname.value.text;
+      return true;
+    }else{
+      GetXSnackBar(
+          type: GetXSnackBarType.customError,
+          title: "닉네임 중복 확인",
+          content: apiResponseDTO.message)
+          .show();
+      return false;
+    }
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/domain/user/reigster/repository/register_repository.dart';
 import 'package:danvery/ui/pages/user/register_page/views/steps/register_step_1.dart';
@@ -11,6 +12,7 @@ import '../views/steps/register_step_3.dart';
 
 class RegisterPageController extends GetxController {
   final RegisterRepository _registerRepository = RegisterRepository();
+  final UserInfoRepository _userInfoRepository = UserInfoRepository();
 
   List<Widget> pages = const [
     RegisterStep1(),
@@ -51,6 +53,17 @@ class RegisterPageController extends GetxController {
   late Rx<RegisterModel> registerInfo;
   final RxBool isStudentAuthenticated = false.obs;
   final RxBool isRegistered = false.obs;
+  final RxString validNickname = "".obs;
+
+  void initRegisterPage(){
+    studentIdController.value.clear();
+    studentPasswordController.value.clear();
+    passwordController.value.clear();
+    passwordValidateController.value.clear();
+    nicknameController.value.clear();
+    phoneNumberController.value.clear();
+    phoneAuthenticationNumberController.value.clear();
+  }
 
   Future<void> studentAuthenticate(String id, String password) async {
     final ApiResponseDTO apiResponseDTO =
@@ -70,11 +83,11 @@ class RegisterPageController extends GetxController {
   }
 
   Future<void> register() async {
+    registerInfo.value.nickname = nicknameController.value.text;
+    registerInfo.value.password = passwordController.value.text;
     final ApiResponseDTO apiResponseDTO =
         await _registerRepository.register(registerModel: registerInfo.value);
     if (apiResponseDTO.success) {
-      final RegisterModel registerModel = apiResponseDTO.data as RegisterModel;
-      registerInfo = registerModel.obs;
       isRegistered.value = true;
     } else {
       GetXSnackBar(
@@ -106,15 +119,38 @@ class RegisterPageController extends GetxController {
     }
   }
 
-  Future<bool> verifySMSAuth(String signupToken, String code) async {
-    final ApiResponseDTO apiResponseDTO = await _registerRepository
-        .verifyAuthCodeToSMS(signupToken: signupToken, code: code);
+  Future<bool> verifySMSAuth() async {
+    final ApiResponseDTO apiResponseDTO =
+        await _registerRepository.verifyAuthCodeToSMS(
+            signupToken: registerInfo.value.signupToken,
+            code: phoneAuthenticationNumberController.value.text);
     if (apiResponseDTO.success) {
       return true;
     } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               title: "인증번호 확인 오류",
+              content: apiResponseDTO.message)
+          .show();
+      return false;
+    }
+  }
+
+  Future<bool> nicknameValid() async {
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository
+        .getNicknameValid(nickname: nicknameController.value.text);
+    if (apiResponseDTO.success) {
+      GetXSnackBar(
+              type: GetXSnackBarType.info,
+              title: "닉네임 중복 확인",
+              content: "사용 가능한 닉네임입니다.")
+          .show();
+      validNickname.value = nicknameController.value.text;
+      return true;
+    } else {
+      GetXSnackBar(
+              type: GetXSnackBarType.customError,
+              title: "닉네임 중복 확인",
               content: apiResponseDTO.message)
           .show();
       return false;

@@ -101,4 +101,10 @@ class UserInfoRepository {
         .getUserLikedPostList(accessToken: accessToken, page: page, size: size);
     return apiResponseDTO;
   }
+
+  Future<ApiResponseDTO> getNicknameValid({required String nickname}) async {
+    final ApiResponseDTO apiResponseDTO = await _infoProvider
+        .getNicknamedValid(nickname: nickname);
+    return apiResponseDTO;
+  }
 }

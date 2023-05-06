@@ -60,7 +60,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          controller.nickname.value.text,
+                                          controller.validNickname.value,
                                           // default text styles
                                           style: titleStyle.copyWith(
                                               fontWeight: FontWeight.bold,

@@ -39,7 +39,7 @@ class RegisterProvider {
     try {
       final Response response = await _dio.post(url, data: body);
 
-      return SuccessResponseDTO(data: RegisterModel.fromJson(response.data));
+      return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
