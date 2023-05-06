@@ -6,8 +6,12 @@ import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/service/permission/permission_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 enum MyPagePostType { general, petition, comment, like }
 
@@ -26,7 +30,7 @@ extension MyPagePostTypeExtension on MyPagePostType {
   }
 }
 
-class MyPagePageController extends GetxController  {
+class MyPagePageController extends GetxController {
   final PermissionService permissionService = Get.find<PermissionService>();
   final LoginService loginService = Get.find<LoginService>();
   final UserInfoRepository _userInfoRepository = UserInfoRepository();
@@ -205,10 +209,10 @@ class MyPagePageController extends GetxController  {
       if (myPagePostType.contains(MyPagePostType.petition)) {
         await _getUserWritePetitionPostList(isFirstPage);
       }
-      if(myPagePostType.contains(MyPagePostType.comment)){
+      if (myPagePostType.contains(MyPagePostType.comment)) {
         await _getUserCommentedPostList(isFirstPage);
       }
-      if(myPagePostType.contains(MyPagePostType.like)){
+      if (myPagePostType.contains(MyPagePostType.like)) {
         await _getUserLikedPostList(isFirstPage);
       }
       isRefreshing = false;
@@ -216,7 +220,6 @@ class MyPagePageController extends GetxController  {
   }
 
   Future<void> _getUserWriteGeneralPostList(bool isFirstPage) async {
-
     if (isFirstPage) {
       isLoadGeneralPostList.value = false;
       _page = 0;
@@ -240,7 +243,6 @@ class MyPagePageController extends GetxController  {
       if (isFirstPage) {
         userGeneralPostList = userGeneralPostListModel.obs;
       } else {
-
         userGeneralPostList.update((val) {
           val!.generalPosts.addAll(userGeneralPostListModel.generalPosts);
           val.last = userGeneralPostListModel.last;
@@ -249,7 +251,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-
       if (!isFirstPage) {
         _page--;
       }
@@ -258,11 +259,9 @@ class MyPagePageController extends GetxController  {
         _getUserWriteGeneralPostList(isFirstPage);
       });
     }
-
   }
 
   Future<void> _getUserWritePetitionPostList(bool isFirstPage) async {
-
     if (isFirstPage) {
       isLoadPetitionPostList.value = false;
       _page = 0;
@@ -294,7 +293,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadPetitionPostList.value = true;
     } else {
-
       if (!isFirstPage) {
         _page--;
       }
@@ -306,7 +304,6 @@ class MyPagePageController extends GetxController  {
   }
 
   Future<void> _getUserCommentedPostList(bool isFirstPage) async {
-
     if (isFirstPage) {
       isLoadGeneralPostList.value = false;
       _page = 0;
@@ -338,7 +335,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-
       if (!isFirstPage) {
         _page--;
       }
@@ -347,11 +343,9 @@ class MyPagePageController extends GetxController  {
         _getUserCommentedPostList(isFirstPage);
       });
     }
-
   }
 
   Future<void> _getUserLikedPostList(bool isFirstPage) async {
-
     if (isFirstPage) {
       isLoadGeneralPostList.value = false;
       _page = 0;
@@ -383,7 +377,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-
       if (!isFirstPage) {
         _page--;
       }
@@ -391,7 +384,6 @@ class MyPagePageController extends GetxController  {
       await Future.delayed(const Duration(seconds: 10), () {
         _getUserLikedPostList(isFirstPage);
       });
-
     }
   }
 
@@ -413,24 +405,73 @@ class MyPagePageController extends GetxController  {
     }
   }
 
-  Future<bool> nicknameValid() async{
-    final ApiResponseDTO apiResponseDTO = await _userInfoRepository.getNicknameValid(nickname: nickname.value.text);
-    if(apiResponseDTO.success){
+  Future<bool> nicknameValid() async {
+    final ApiResponseDTO apiResponseDTO = await _userInfoRepository
+        .getNicknameValid(nickname: nickname.value.text);
+    if (apiResponseDTO.success) {
       GetXSnackBar(
-          type: GetXSnackBarType.info,
-          title: "닉네임 중복 확인",
-          content: "사용 가능한 닉네임입니다.")
+              type: GetXSnackBarType.info,
+              title: "닉네임 중복 확인",
+              content: "사용 가능한 닉네임입니다.")
           .show();
       validNickname.value = nickname.value.text;
       return true;
-    }else{
+    } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          title: "닉네임 중복 확인",
-          content: apiResponseDTO.message)
+              type: GetXSnackBarType.customError,
+              title: "닉네임 중복 확인",
+              content: apiResponseDTO.message)
           .show();
       return false;
     }
+  }
+
+  Future<void> sendEmail() async {
+    final Email email = Email(
+      body: await _getEmailBody(),
+      subject: '',
+      recipients: ["vanillajaem@gmail.com","herryjin@naver.com"],
+      cc: [],
+      bcc: [],
+      attachmentPaths: [],
+      isHTML: false,
+    );
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (error) {
+      showCupertinoDialog(
+        context: Get.context!,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text("피드백 보내기"),
+          content: const Text(
+              "기본 메일 앱을 사용할 수 없기 때문에 앱에서 바로 문의를 전송하기 어려운 상황이오니, 아래 메일 주소로 문의 해주시기 바랍니다\n\nvanillajaem@gmail.com"),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("확인"),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<String> _getEmailBody() async{
+
+    final deviceInfo = (await DeviceInfoPlugin().deviceInfo).data;
+    final packageInfo = (await PackageInfo.fromPlatform()).version;
+
+    String body = "";
+    body += "==============\n";
+    body += "아래 내용을 함께 보내주시면 큰 도움이 됩니다\n";
+    body += "사용자 이름 : ${loginService.userInfo.value.username}\n";
+    body += "앱 버전 : $packageInfo\n";
+    body += "기기 정보 : $deviceInfo\n";
+    body += "==============\n";
+
+    return body;
   }
 
 }

@@ -54,9 +54,13 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        controller.petitionPost.value.title,
-                                        style: smallTitleStyle,
+                                      Flexible(
+                                        child: Text(
+                                          controller.petitionPost.value.title,
+                                          style: smallTitleStyle,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                       IconButton(
                                         splashColor: Colors.transparent,

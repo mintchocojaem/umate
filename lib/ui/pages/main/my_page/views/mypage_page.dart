@@ -174,17 +174,35 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 16,
+                            InkWell(
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 60,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "피드백 보내기",
+                                    style: smallTitleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () async {
+                                await controller.sendEmail();
+                              },
                             ),
                             InkWell(
                               child: SizedBox(
                                 width: double.infinity,
                                 height: 60,
-                                child: Text(
-                                  "로그아웃",
-                                  style: smallTitleStyle.copyWith(
-                                    fontWeight: FontWeight.normal,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "로그아웃",
+                                    style: smallTitleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 ),
                               ),

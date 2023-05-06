@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-const String apiUrl = 'https://dkustu.com/api';
+const String apiUrl = 'https://dev.dkustu.com/api';
 //TEST  :  'https://dev.dkustu.com/api';
 //PRODUCTION  :  'https://dkustu.com/api';
 

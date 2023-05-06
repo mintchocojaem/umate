@@ -60,7 +60,8 @@ class PetitionCard extends StatelessWidget {
               ),
               Text(
                 title,
-                style: smallTitleStyle.copyWith(color: Palette.black),
+                style: smallTitleStyle.copyWith(color: Palette.black,overflow: TextOverflow.ellipsis,),
+                maxLines: 1,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
