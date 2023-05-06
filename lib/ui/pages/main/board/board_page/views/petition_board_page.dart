@@ -117,8 +117,12 @@ class PetitionBoardPage extends GetView<BoardPageController> {
                                       if (value != null) {
                                         final petitionPostModel =
                                             value as PetitionPostModel;
-                                        petitionPostBoard.petitionPosts[index] =
-                                            petitionPostModel;
+                                        controller.petitionBoard.update((val) {
+                                          if(val != null){
+                                            val.petitionPosts[index] =
+                                                petitionPostModel;
+                                          }
+                                        });
                                       }
                                     });
                                   },

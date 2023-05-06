@@ -1,7 +1,6 @@
 import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_comment_list_model.dart';
-import 'package:danvery/domain/board/post/general_post/model/general_comment_model.dart';
 import 'package:danvery/domain/board/post/general_post/model/general_post_model.dart';
 import 'package:danvery/domain/board/post/general_post/repository/general_post_repository.dart';
 import 'package:danvery/service/login/login_service.dart';
@@ -23,9 +22,6 @@ class GeneralPostPageController extends GetxController {
 
   late Rx<GeneralCommentListModel> generalCommentList;
 
-  final RxList<GeneralCommentModel> generalComments =
-      <GeneralCommentModel>[].obs;
-
   final RxBool isLoadedGeneralPost = false.obs;
 
   final RxBool isLoadedGeneralComment = false.obs;
@@ -43,24 +39,27 @@ class GeneralPostPageController extends GetxController {
 
   final int id = Get.arguments;
 
+  bool isRefreshingComment = false;
+
   @override
   void onInit() async {
-    generalPostScrollController.addListener(() {
+    generalPostScrollController.addListener(() async {
       if (generalPostScrollController.position.pixels ==
           generalPostScrollController.position.maxScrollExtent) {
         if (!generalCommentList.value.last) {
-          getNextGeneralComment();
+          await getGeneralCommentWithRefresh(false);
         }
       }
     });
 
     await getGeneralPost();
-    await getFirstGeneralComment();
+    await getGeneralCommentWithRefresh(true);
 
     super.onInit();
   }
 
   Future<void> getGeneralPost() async {
+    isLoadedGeneralPost.value = false;
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.getGeneralPost(
             token: loginService.token.value.accessToken, postId: id);
@@ -70,7 +69,7 @@ class GeneralPostPageController extends GetxController {
       generalPost = generalPostModel.obs;
       await getImageList();
       isLoadedGeneralPost.value = true;
-    }else{
+    } else {
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
@@ -80,11 +79,22 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> deleteGeneralPost() async {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      },
+      barrierDismissible: false,
+    ).whenComplete(() => Get.back());
+
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.deleteGeneralPost(
             token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       await boardPageController.getGeneralPostBoardWithRefresh(true);
+      Get.back();
       Get.back();
     } else {
       GetXSnackBar(
@@ -95,31 +105,19 @@ class GeneralPostPageController extends GetxController {
     }
   }
 
-  Future<void> getFirstGeneralComment() async {
-    commentPage = 0;
-    final ApiResponseDTO apiResponseDTO =
-        await _generalPostRepository.getGeneralComment(
-            token: loginService.token.value.accessToken,
-            commentId: id,
-            page: commentPage,
-            size: commentSize);
-    if (apiResponseDTO.success) {
-      final GeneralCommentListModel generalCommentListModel =
-          apiResponseDTO.data as GeneralCommentListModel;
-      generalCommentList = generalCommentListModel.obs;
-      generalComments.value = generalCommentListModel.generalComments;
-      isLoadedGeneralComment.value = true;
-    }else{
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              content: apiResponseDTO.message,
-              title: "댓글 조회 오류")
-          .show();
+  Future<void> getGeneralCommentWithRefresh(bool isFirstPage) async {
+    if (!isRefreshingComment) {
+      await _getGeneralComment(isFirstPage);
     }
   }
 
-  Future<void> getNextGeneralComment() async {
-    commentPage++;
+  Future<void> _getGeneralComment(bool isFirstPage) async {
+    isRefreshingComment = true;
+    if (isFirstPage) {
+      commentPage = 0;
+    } else {
+      commentPage++;
+    }
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.getGeneralComment(
             token: loginService.token.value.accessToken,
@@ -127,29 +125,60 @@ class GeneralPostPageController extends GetxController {
             page: commentPage,
             size: commentSize);
     if (apiResponseDTO.success) {
-      final GeneralCommentListModel generalCommentListModel =
+      final generalCommentListModel =
           apiResponseDTO.data as GeneralCommentListModel;
-      generalCommentList = generalCommentListModel.obs;
-      generalComments.addAll(generalCommentListModel.generalComments);
+      if (isFirstPage) {
+        try{
+          generalCommentList.update((val) {
+            generalCommentList = generalCommentListModel.obs;
+          });
+        }catch(e){
+          generalCommentList = generalCommentListModel.obs;
+        }
+      } else {
+        generalCommentList.update((val) {
+          if (val != null) {
+            val.generalComments.addAll(generalCommentListModel.generalComments);
+            val.last = generalCommentListModel.last;
+          }
+        });
+      }
+      isLoadedGeneralComment.value = true;
+    } else {
+      if (!isFirstPage) {
+        commentPage--;
+      }
+      Future.delayed(const Duration(seconds: 10), () async {
+        await _getGeneralComment(isFirstPage);
+      });
     }
+    isRefreshingComment = false;
   }
 
   Future<void> writeGeneralComment() async {
+
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      },
+      barrierDismissible: false,
+    );
+
     if (commentTextController.text.isEmpty) {
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              content: "댓글 내용을 입력해주세요",
-              title: "댓글 작성 오류")
-          .show();
       return;
     }
+
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralComment(
             token: loginService.token.value.accessToken,
             commentId: id,
             text: commentTextController.text);
     if (apiResponseDTO.success) {
-      await getFirstGeneralComment();
+      await getGeneralCommentWithRefresh(true);
+      Get.back();
       commentTextController.clear();
       if (generalPostScrollController.position.pixels >=
           generalPostHeightKey.currentContext!.size!.height) {
@@ -159,6 +188,7 @@ class GeneralPostPageController extends GetxController {
             curve: Curves.easeOut);
       }
     } else {
+      Get.back();
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
@@ -168,11 +198,22 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> deleteGeneralComment(int commentId) async {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      },
+      barrierDismissible: false,
+    ).whenComplete(() => Get.back());
+
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.deleteGeneralComment(
             token: loginService.token.value.accessToken, commentId: commentId);
     if (apiResponseDTO.success) {
-      await getFirstGeneralComment();
+      await getGeneralCommentWithRefresh(true);
+      Get.back();
       if (generalPostScrollController.position.pixels >=
           generalPostHeightKey.currentContext!.size!.height) {
         generalPostScrollController.animateTo(
@@ -191,8 +232,9 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> likeGeneralPost() async {
     HapticFeedback.heavyImpact();
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository.likeGeneralPost(
-        token: loginService.token.value.accessToken, postId: id);
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.likeGeneralPost(
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       if (!generalPost.value.liked) {
         generalPost.update((val) async {
@@ -212,8 +254,9 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> unlikeGeneralPost() async {
-    final ApiResponseDTO apiResponseDTO = await _generalPostRepository
-        .unlikeGeneralPost(token: loginService.token.value.accessToken, postId: id);
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.unlikeGeneralPost(
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       generalPost.update((val) async {
         val!.liked = !generalPost.value.liked;
@@ -229,46 +272,63 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> reportGeneralPost(String category) async {
-    final ApiResponseDTO apiResponseDTO =
-    await _generalPostRepository.reportGeneralPost(
-        token: loginService.token.value.accessToken,
-        postId: id,
-        categoryName: category
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      },
+      barrierDismissible: false,
     );
+    final ApiResponseDTO apiResponseDTO =
+        await _generalPostRepository.reportGeneralPost(
+            token: loginService.token.value.accessToken,
+            postId: id,
+            categoryName: category);
     if (apiResponseDTO.success) {
+      Get.back();
       GetXSnackBar(
-          type: GetXSnackBarType.info,
-          content: "게시글이 정상적으로 신고되었습니다",
-          title: "게시글 신고")
+              type: GetXSnackBarType.info,
+              content: "게시글이 정상적으로 신고되었습니다",
+              title: "게시글 신고")
           .show();
     } else {
+      Get.back();
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 신고 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 신고 오류")
           .show();
     }
   }
 
-  Future<void> blindGeneralPost() async{
+  Future<void> blindGeneralPost() async {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      },
+      barrierDismissible: false,
+    ).whenComplete(() => Get.back());
     final ApiResponseDTO apiResponseDTO =
-    await _generalPostRepository.blindGeneralPost(
-        token: loginService.token.value.accessToken,
-        postId: id
-    );
+        await _generalPostRepository.blindGeneralPost(
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       await boardPageController.getGeneralPostBoardWithRefresh(true);
       Get.back();
       GetXSnackBar(
-          type: GetXSnackBarType.info,
-          content: "게시글이 정상적으로 블라인드 처리되었습니다",
-          title: "게시글 블라인드")
+              type: GetXSnackBarType.info,
+              content: "게시글이 정상적으로 블라인드 처리되었습니다",
+              title: "게시글 블라인드")
           .show();
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 블라인드 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 블라인드 오류")
           .show();
     }
   }

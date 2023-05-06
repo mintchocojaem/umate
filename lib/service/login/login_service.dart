@@ -4,6 +4,7 @@ import 'package:danvery/domain/user/login/model/user_info_model.dart';
 import 'package:danvery/domain/user/login/repository/login_repository.dart';
 import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -23,6 +24,14 @@ class LoginService extends GetxService {
   final GetStorage _box = GetStorage();
 
   Future<void> login(String classId, String password) async {
+
+    showCupertinoModalPopup(
+      context: Get.overlayContext!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+    );
+
     final apiResponse =
         await _loginRepository.login(classId: classId, password: password);
     if (apiResponse.success) {
@@ -35,8 +44,10 @@ class LoginService extends GetxService {
       }else{
         isLogin.value = false;
       }
+      Get.back();
     } else {
       isLogin.value = false;
+      Get.back();
       GetXSnackBar(
         type: GetXSnackBarType.customError,
         title: "로그인 실패",
@@ -71,8 +82,7 @@ class LoginService extends GetxService {
   }
 
   Future<bool> getUserInfo() async {
-    final apiResponse =
-        await _loginRepository.getUserInfo(accessToken: token.value.accessToken);
+    final apiResponse = await _loginRepository.getUserInfo(accessToken: token.value.accessToken);
     if (apiResponse.success) {
       final UserInfoModel userInfoModel = apiResponse.data as UserInfoModel;
       userInfo = userInfoModel.obs;
@@ -81,7 +91,7 @@ class LoginService extends GetxService {
       GetXSnackBar(
         type: GetXSnackBarType.customError,
         title: "유저정보 불러오기 실패",
-        content: apiResponse.data.message,
+        content: apiResponse.message,
       ).show();
       return false;
     }

@@ -38,7 +38,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
             ? RefreshIndicator(
                 onRefresh: () async {
                   await controller.getGeneralPost();
-                  await controller.getFirstGeneralComment();
+                  await controller.getGeneralCommentWithRefresh(true);
                 },
                 child: Column(
                   children: [
@@ -253,63 +253,60 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                         fontWeight: FontWeight.bold,
                                         color: Palette.black),
                                   ),
-                                  Obx(
-                                    () => OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        side: BorderSide(
-                                          width: 2,
-                                          color:
-                                              controller.generalPost.value.liked
-                                                  ? Palette.lightBlue
-                                                  : Palette.lightGrey,
-                                        ),
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
+                                      side: BorderSide(
+                                        width: 2,
+                                        color:
                                             controller.generalPost.value.liked
-                                                ? "assets/icons/post/like_selected.png"
-                                                : "assets/icons/post/like_unselected.png",
-                                            width: 18,
-                                            height: 18,
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Text(
-                                            "LIKE",
-                                            style: lightStyle.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              color: controller
-                                                      .generalPost.value.liked
-                                                  ? Palette.lightBlue
-                                                  : Palette.grey,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Text(
-                                            controller.generalPost.value.likes
-                                                .toString(),
-                                            style: lightStyle.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              color: controller
-                                                      .generalPost.value.liked
-                                                  ? Palette.lightBlue
-                                                  : Palette.grey,
-                                            ),
-                                          )
-                                        ],
+                                                ? Palette.lightBlue
+                                                : Palette.lightGrey,
                                       ),
-                                      onPressed: () async {
-                                        controller.likeGeneralPost();
-                                      },
                                     ),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          controller.generalPost.value.liked
+                                              ? "assets/icons/post/like_selected.png"
+                                              : "assets/icons/post/like_unselected.png",
+                                          width: 18,
+                                          height: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          "LIKE",
+                                          style: lightStyle.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            color: controller
+                                                    .generalPost.value.liked
+                                                ? Palette.lightBlue
+                                                : Palette.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          controller.generalPost.value.likes
+                                              .toString(),
+                                          style: lightStyle.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            color: controller
+                                                    .generalPost.value.liked
+                                                ? Palette.lightBlue
+                                                : Palette.grey,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: () async {
+                                      controller.likeGeneralPost();
+                                    },
                                   ),
                                 ],
                               ),
@@ -320,11 +317,15 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount:
-                                    controller.generalComments.length + 1,
+                                itemCount: controller.generalCommentList.value
+                                        .generalComments.length +
+                                    1,
                                 itemBuilder: (BuildContext context, int index) {
+                                  final generalCommentList =
+                                      controller.generalCommentList.value;
                                   if (index ==
-                                      controller.generalComments.length) {
+                                      generalCommentList
+                                          .generalComments.length) {
                                     if (controller
                                         .generalCommentList.value.last) {
                                       return const SizedBox();
@@ -375,7 +376,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          controller
+                                                          generalCommentList
                                                               .generalComments[
                                                                   index]
                                                               .author,
@@ -388,7 +389,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                                           .bold),
                                                         ),
                                                         Text(
-                                                          controller
+                                                          generalCommentList
                                                               .generalComments[
                                                                   index]
                                                               .createdAt,
@@ -406,7 +407,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                           Colors.transparent,
                                                       onPressed: () {
                                                         generalCommentPopup(
-                                                            controller
+                                                            generalCommentList
                                                                     .generalComments[
                                                                 index]);
                                                       },
@@ -419,7 +420,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  controller
+                                                  generalCommentList
                                                       .generalComments[index]
                                                       .text,
                                                   style: regularStyle,
@@ -571,13 +572,12 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 style: TextStyle(color: Palette.lightRed),
                               ),
                               onPressed: () async {
-                                Get.back();
                                 await controller.blindGeneralPost();
                               },
                             ),
                           ],
                         ),
-                      ).then((value) => Get.back());
+                      );
                     },
                   )
                 : CupertinoActionSheetAction(
@@ -681,7 +681,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 style: TextStyle(color: Palette.lightRed),
                               ),
                               onPressed: () async {
-                                Get.back();
                                 await controller.deleteGeneralPost();
                               },
                             ),
@@ -748,7 +747,6 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                               onPressed: () async {
                                 await controller.deleteGeneralComment(
                                     generalCommentModel.id);
-                                Get.back();
                               },
                             ),
                           ],

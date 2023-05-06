@@ -6,6 +6,7 @@ import 'package:danvery/domain/board/post/petition_post/repository/petition_post
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_controller.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PetitionPostPageController extends GetxController {
@@ -43,23 +44,16 @@ class PetitionPostPageController extends GetxController {
     }
   }
 
-  Future<void> deletePetitionPost(int id) async {
-    final ApiResponseDTO apiResponseDTO =
-        await _petitionPostRepository.deletePetitionPost(
-            token: loginService.token.value.accessToken, postId: id);
-    if (apiResponseDTO.success) {
-      await boardPageController.getPetitionPostBoardWithRefresh(true);
-      Get.back();
-    } else {
-      GetXSnackBar(
-              type: GetXSnackBarType.customError,
-              content: apiResponseDTO.message,
-              title: "게시글 삭제 오류")
-          .show();
-    }
-  }
-
   Future<void> agreePetition() async {
+
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.agreePetitionPost(
             token: loginService.token.value.accessToken, postId: id);
@@ -78,6 +72,8 @@ class PetitionPostPageController extends GetxController {
               .firstWhere((element) => element.department == userDepartment)
               .agreeCount += 1;
         }
+        Get.back();
+        Get.back();
       });
     } else {
       GetXSnackBar(
@@ -89,18 +85,29 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> reportPetitionPost(String categoryName) async {
+
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (context) => const Center(
+        child: CupertinoActivityIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.reportPetitionPost(
             token: loginService.token.value.accessToken,
             postId: id,
             categoryName: categoryName);
     if (apiResponseDTO.success) {
+      Get.back();
       GetXSnackBar(
         title: '청원 게시글 신고',
         content: '청원 게시글이 정상적으로 신고되었습니다',
         type: GetXSnackBarType.info,
       ).show();
     } else {
+      Get.back();
       GetXSnackBar(
         title: '청원 게시글 신고 오류',
         content: apiResponseDTO.message,

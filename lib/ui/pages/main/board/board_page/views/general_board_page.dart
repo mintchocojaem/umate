@@ -101,8 +101,12 @@ class GeneralBoardPage extends GetView<BoardPageController> {
                                     if (value != null) {
                                       final generalPostModel =
                                           value as GeneralPostModel;
-                                      generalPostBoard.generalPosts[index] =
-                                          generalPostModel;
+                                      controller.generalPostBoard.update((val) {
+                                        if(val != null){
+                                          val.generalPosts[index] =
+                                              generalPostModel;
+                                        }
+                                      });
                                     }
                                   });
                                 }),

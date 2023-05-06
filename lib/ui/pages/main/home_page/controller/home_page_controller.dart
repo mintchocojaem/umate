@@ -97,8 +97,8 @@ class HomePageController extends GetxController {
     )
   ];
 
-  final ScrollController scrollController = ScrollController();
-  final RxDouble currentScrollPosition = 0.0.obs;
+  final RxDouble appbarOpacity = 0.0.obs;
+  double scrollPosition = 0;
 
   @override
   void onInit() async {
@@ -118,20 +118,6 @@ class HomePageController extends GetxController {
         currentBannerIndex.value = 0;
       } else {
         currentBannerIndex.value = currentBannerIndex.value + 1;
-      }
-    });
-
-    scrollController.addListener(() {
-      if (scrollController.offset / scrollController.position.maxScrollExtent >
-          1) {
-        currentScrollPosition.value = 1.0;
-      } else if (scrollController.offset /
-              scrollController.position.maxScrollExtent <
-          0) {
-        currentScrollPosition.value = 0.0;
-      } else {
-        currentScrollPosition.value =
-            scrollController.offset / scrollController.position.maxScrollExtent;
       }
     });
 

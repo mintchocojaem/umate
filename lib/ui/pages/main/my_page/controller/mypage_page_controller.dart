@@ -242,7 +242,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -288,7 +287,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadPetitionPostList.value = true;
     } else {
-      isLoadPetitionPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -298,7 +296,6 @@ class MyPagePageController extends GetxController  {
         _getUserWritePetitionPostList(isFirstPage);
       });
     }
-
   }
 
   Future<void> _getUserCommentedPostList(bool isFirstPage) async {
@@ -334,7 +331,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -380,7 +376,6 @@ class MyPagePageController extends GetxController  {
 
       isLoadGeneralPostList.value = true;
     } else {
-      isLoadGeneralPostList.value = false;
 
       if (!isFirstPage) {
         _page--;
@@ -389,8 +384,8 @@ class MyPagePageController extends GetxController  {
       await Future.delayed(const Duration(seconds: 10), () {
         _getUserLikedPostList(isFirstPage);
       });
-    }
 
+    }
   }
 
   Future<void> getThumbnailList(List postList) async {

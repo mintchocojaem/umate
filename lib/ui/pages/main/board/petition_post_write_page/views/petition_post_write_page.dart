@@ -46,7 +46,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                       PetitionPostTag.values[controller.selectedTag.value].id
                     ],
                   );
-                  await controller.writePetitionPost(petitionPostWriteModel);
+                  await controller.writePetitionPostWithRefresh(petitionPostWriteModel);
                 },
               ),
             ),

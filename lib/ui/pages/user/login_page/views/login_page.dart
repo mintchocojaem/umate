@@ -70,18 +70,13 @@ class LoginPage extends GetView<LoginPageController> {
               ),
               Obx(
                 () => ModernFormButton(
-                    text: "로그인",
-                    isEnabled: controller.idController.value.text.isNotEmpty &&
-                        controller.passwordController.value.text.isNotEmpty,
-                    onPressed: () async {
-                      await controller.loginService.login(
-                          controller.idController.value.text
-                              .replaceAll("@dankook.ac.kr", ""),
-                          controller.passwordController.value.text);
-                      if (controller.loginService.isLogin.value) {
-                        Get.offAndToNamed(Routes.main);
-                      }
-                    }),
+                  text: "로그인",
+                  isEnabled: controller.idController.value.text.isNotEmpty &&
+                      controller.passwordController.value.text.isNotEmpty,
+                  onPressed: () async {
+                    await controller.login();
+                  },
+                ),
               ),
               const SizedBox(
                 height: 24,

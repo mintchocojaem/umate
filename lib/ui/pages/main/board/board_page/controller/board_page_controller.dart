@@ -98,7 +98,6 @@ class BoardPageController extends GetxController {
 
       isLoadGeneralPostBoard.value = true;
     } else {
-      isLoadGeneralPostBoard.value = false;
       if (!isFirstPage) {
         generalBoardPage--;
       }
@@ -151,7 +150,6 @@ class BoardPageController extends GetxController {
 
       isLoadPetitionBoard.value = true;
     } else {
-      isLoadPetitionBoard.value = false;
 
       if (!isFirstPage) {
         petitionBoardPage--;

@@ -438,7 +438,6 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                                       ),
                                       onPressed: () async {
                                         await controller.agreePetition();
-                                        Get.back();
                                       },
                                     ),
                                   ],

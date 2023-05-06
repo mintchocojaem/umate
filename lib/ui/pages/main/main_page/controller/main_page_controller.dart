@@ -9,6 +9,8 @@ class MainPageController extends GetxController{
 
   final RxInt selectedIndex = 0.obs;
 
+  DateTime preBackpressure = DateTime.now();
+
   List<Widget> pages = const[
     HomePage(),
     TimetablePage(),

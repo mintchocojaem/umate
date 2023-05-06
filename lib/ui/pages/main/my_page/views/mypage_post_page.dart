@@ -147,7 +147,7 @@ class MyPagePostPage extends GetView<MyPagePageController> {
                             ),
                           ),
                   ),
-                  Obx(
+                  if(controller.myPagePostType.length == 2) Obx(
                     () => controller.isLoadPetitionPostList.value
                         ? controller.userPetitionPostList.value.petitionPosts
                                 .isEmpty

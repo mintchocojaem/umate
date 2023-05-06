@@ -21,7 +21,8 @@ class GeneralPostWritePageController extends GetxController {
 
   final Rx<TextEditingController> titleController = TextEditingController().obs;
 
-  final Rx<TextEditingController> contentController = TextEditingController().obs;
+  final Rx<TextEditingController> contentController =
+      TextEditingController().obs;
 
   final RxList<XFile> imageList = <XFile>[].obs;
 
@@ -38,18 +39,23 @@ class GeneralPostWritePageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> writeGeneralPost(
+  Future<void> writeGeneralPostWithRefresh(
       GeneralPostWriteModel generalPostWriteModel) async {
+    if (!isPosting.value) {
+      showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (context) => const Center(
+          child: CupertinoActivityIndicator(),
+        ),
+        barrierDismissible: false,
+      ).whenComplete(() => Get.back());
+      await _writeGeneralPost(generalPostWriteModel);
+    }
+  }
 
+  Future<void> _writeGeneralPost(
+      GeneralPostWriteModel generalPostWriteModel) async {
     isPosting.value = true;
-
-    showCupertinoModalPopup(
-      context: Get.context!,
-      builder: (context) => const Center(
-        child: CupertinoActivityIndicator(),
-      ),
-      barrierDismissible: false,
-    );
 
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralPost(
@@ -57,17 +63,15 @@ class GeneralPostWritePageController extends GetxController {
             generalPostWriteModel: generalPostWriteModel);
     if (apiResponseDTO.success) {
       await boardPageController.getGeneralPostBoardWithRefresh(true);
-      Get.back();
+      isPosting.value = false;
       Get.back();
     } else {
-      Get.back();
-      GetXSnackBar(
-        title: "글 작성 실패",
-        content: apiResponseDTO.message,
-        type: GetXSnackBarType.customError,
-      ).show();
+      Future.delayed(
+        const Duration(seconds: 10),
+        () async {
+          await _writeGeneralPost(generalPostWriteModel);
+        },
+      );
     }
-    isPosting.value = false;
-
   }
 }

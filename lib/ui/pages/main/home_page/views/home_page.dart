@@ -16,13 +16,28 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.currentScrollPosition.value = 0;
     // TODO: implement build
-    return Obx(
-      () => Scaffold(
+    return Obx(() {
+      final ScrollController scrollController = ScrollController(
+        initialScrollOffset: controller.scrollPosition
+      );
+      scrollController.addListener(() {
+        controller.scrollPosition = scrollController.offset;
+        if (scrollController.offset / scrollController.position.maxScrollExtent >
+            1) {
+          controller.appbarOpacity.value = 1.0;
+        } else if (scrollController.offset /
+            scrollController.position.maxScrollExtent < 0) {
+          controller.appbarOpacity.value = 0.0;
+        } else {
+          controller.appbarOpacity.value =
+              scrollController.offset / scrollController.position.maxScrollExtent;
+        }
+      });
+      return Scaffold(
         appBar: MainAppBar(
           backGroundColor:
-              Palette.blue.withOpacity(controller.currentScrollPosition.value),
+              Palette.blue.withOpacity(controller.appbarOpacity.value),
           isWhite: true,
           isDarkMode: !Get.isDarkMode,
           actions: [],
@@ -30,7 +45,7 @@ class HomePage extends GetView<HomePageController> {
         extendBodyBehindAppBar: true,
         backgroundColor: Palette.pureWhite,
         body: SingleChildScrollView(
-          controller: controller.scrollController,
+          controller: scrollController,
           child: Stack(
             children: [
               Stack(
@@ -312,8 +327,8 @@ class HomePage extends GetView<HomePageController> {
                                   onTapAction: () {
                                     controller.mainPageController.selectedIndex
                                         .value = 2;
-                                    controller.boardPageController.selectedTabIndex
-                                        .value = 0;
+                                    controller.boardPageController
+                                        .selectedTabIndex.value = 0;
                                   },
                                 ),
                               ),
@@ -378,8 +393,8 @@ class HomePage extends GetView<HomePageController> {
                                   onTapAction: () {
                                     controller.mainPageController.selectedIndex
                                         .value = 2;
-                                    controller.boardPageController.selectedTabIndex
-                                        .value = 1;
+                                    controller.boardPageController
+                                        .selectedTabIndex.value = 1;
                                   },
                                 ),
                               ),
@@ -394,7 +409,7 @@ class HomePage extends GetView<HomePageController> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

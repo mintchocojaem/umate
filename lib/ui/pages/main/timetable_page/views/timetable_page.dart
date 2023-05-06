@@ -18,49 +18,49 @@ class TimetablePage extends GetView<TimetablePageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.pureWhite,
-      appBar: MainAppBar(
-        title: "시간표",
-        titleStyle: smallTitleStyle.copyWith(color: Palette.black),
-        isDarkMode: Get.isDarkMode,
-        backGroundColor: Palette.pureWhite,
-        actions: [
-          IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              timetableBottomSheet();
-            },
-            icon: Icon(
-              Icons.add_circle_outline_outlined,
-              color: Palette.blue,
+        backgroundColor: Palette.pureWhite,
+        appBar: MainAppBar(
+          title: "시간표",
+          titleStyle: smallTitleStyle.copyWith(color: Palette.black),
+          isDarkMode: Get.isDarkMode,
+          backGroundColor: Palette.pureWhite,
+          actions: [
+            IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                timetableBottomSheet();
+              },
+              icon: Icon(
+                Icons.add_circle_outline_outlined,
+                color: Palette.blue,
+              ),
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(() {
-              return Timetable(
-                isLoading: !controller.isLoadTimetable.value,
-                schedules: controller.isLoadTimetable.value
-                    ? controller.timetables.first.value.schedules
-                        .map((e) => e)
-                        .toList()
-                    : [],
-                today: controller.today,
-                onSubjectTap: (subject) {
-                  timetableBottomSheet(subjectModel: subject);
-                },
-                tableStartTime: 9,
-                tableEndTime: 24,
-              );
-            })
           ],
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          key: const PageStorageKey('timetable_page'),
+          child: Column(
+            children: [
+              Obx(
+                () => Timetable(
+                  isLoading: !controller.isLoadTimetable.value,
+                  schedules: controller.isLoadTimetable.value
+                      ? controller.timetables.first.value.schedules
+                          .map((e) => e)
+                          .toList()
+                      : [],
+                  today: controller.today,
+                  onSubjectTap: (subject) {
+                    timetableBottomSheet(subjectModel: subject);
+                  },
+                  tableStartTime: 9,
+                  tableEndTime: 24,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   void timetableBottomSheet({ScheduleModel? subjectModel}) {
@@ -132,8 +132,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 ),
                                                 onPressed: () async {
                                                   Get.back();
-                                                  await controller.deleteSchedule(
-                                                      subjectModel);
+                                                  await controller
+                                                      .deleteSchedule(
+                                                          subjectModel);
                                                 },
                                               ),
                                             ],
@@ -159,7 +160,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                           bottomSheetController
                                               .makeNewLectureModel();
                                       if (newSchedule != null) {
-                                        await controller.addSchedule(newSchedule);
+                                        await controller
+                                            .addSchedule(newSchedule);
                                       }
                                     },
                                   )
@@ -193,8 +195,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                     fillColor:
                                         MaterialStateProperty.all(Palette.blue),
                                     value: true,
-                                    groupValue:
-                                        bottomSheetController.isLectureAdd.value,
+                                    groupValue: bottomSheetController
+                                        .isLectureAdd.value,
                                     onChanged: (value) {
                                       bottomSheetController.isLectureAdd.value =
                                           value!;
@@ -210,8 +212,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                     fillColor:
                                         MaterialStateProperty.all(Palette.blue),
                                     value: false,
-                                    groupValue:
-                                        bottomSheetController.isLectureAdd.value,
+                                    groupValue: bottomSheetController
+                                        .isLectureAdd.value,
                                     onChanged: (value) {
                                       bottomSheetController.isLectureAdd.value =
                                           value!;
@@ -240,7 +242,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                       suffix: subjectModel == null
                                           ? IconButton(
                                               splashColor: Colors.transparent,
-                                              highlightColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
                                               onPressed: () async {
                                                 if (!bottomSheetController
                                                     .isSearch.value) {
@@ -289,8 +292,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                   padding: EdgeInsets.zero,
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
-                                                  itemCount: bottomSheetController
-                                                      .times.length,
+                                                  itemCount:
+                                                      bottomSheetController
+                                                          .times.length,
                                                   shrinkWrap: true,
                                                   itemBuilder:
                                                       (BuildContext context,
@@ -320,13 +324,14 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                               onTextChanged:
                                                                   (text) {
                                                                 bottomSheetController
-                                                                        .times[index]
+                                                                        .times[
+                                                                            index]
                                                                         .value
                                                                         .week =
-                                                                    WeekOfDay.values.firstWhere(
-                                                                        (element) =>
-                                                                            element
-                                                                                .nameKR ==
+                                                                    WeekOfDay
+                                                                        .values
+                                                                        .firstWhere((element) =>
+                                                                            element.nameKR ==
                                                                             text);
                                                               },
                                                               suffix:
@@ -363,7 +368,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                               onTextChanged:
                                                                   (text) {
                                                                 bottomSheetController
-                                                                    .times[index]
+                                                                    .times[
+                                                                        index]
                                                                     .value
                                                                     .start = text;
                                                               },
@@ -393,7 +399,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                               onTextChanged:
                                                                   (text) {
                                                                 bottomSheetController
-                                                                    .times[index]
+                                                                    .times[
+                                                                        index]
                                                                     .value
                                                                     .end = text;
                                                               },
@@ -405,17 +412,20 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                       .end,
                                                               hint: "종료 시간",
                                                               suffixWidth: 32,
-                                                              suffix: IconButton(
+                                                              suffix:
+                                                                  IconButton(
                                                                 splashColor: Colors
                                                                     .transparent,
                                                                 highlightColor:
                                                                     Colors
                                                                         .transparent,
-                                                                onPressed: () {},
+                                                                onPressed:
+                                                                    () {},
                                                                 padding:
                                                                     EdgeInsets
                                                                         .zero,
-                                                                icon: const Icon(
+                                                                icon:
+                                                                    const Icon(
                                                                   Icons
                                                                       .keyboard_arrow_down_rounded,
                                                                 ),
@@ -430,7 +440,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                           .length <
                                                                       5
                                                               ? InkWell(
-                                                                  child: SizedBox(
+                                                                  child:
+                                                                      SizedBox(
                                                                     width: 40,
                                                                     child: Icon(
                                                                       Icons
@@ -445,18 +456,16 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                         .times
                                                                         .add(
                                                                       ScheduleTime(
-                                                                              start:
-                                                                                  "09:00",
-                                                                              end:
-                                                                                  "10:00",
-                                                                              week:
-                                                                                  WeekOfDay.monday)
+                                                                              start: "09:00",
+                                                                              end: "10:00",
+                                                                              week: WeekOfDay.monday)
                                                                           .obs,
                                                                     );
                                                                   },
                                                                 )
                                                               : InkWell(
-                                                                  child: SizedBox(
+                                                                  child:
+                                                                      SizedBox(
                                                                     width: 40,
                                                                     child: Icon(
                                                                       Icons
@@ -502,8 +511,9 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                         .memoController
                                                         .text = text;
                                                   },
-                                                  initText: bottomSheetController
-                                                      .memoController.text,
+                                                  initText:
+                                                      bottomSheetController
+                                                          .memoController.text,
                                                   hint: "메모",
                                                 ),
                                                 const SizedBox(height: 16),
@@ -527,9 +537,11 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
-                                                  itemCount: bottomSheetController
-                                                      .lectures.length,
-                                                  itemBuilder: (context, index) {
+                                                  itemCount:
+                                                      bottomSheetController
+                                                          .lectures.length,
+                                                  itemBuilder:
+                                                      (context, index) {
                                                     return Column(
                                                       children: [
                                                         InkWell(
@@ -599,65 +611,48 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                       style: regularStyle
                                                                           .copyWith(
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
+                                                                            TextOverflow.ellipsis,
                                                                       ),
-                                                                      maxLines: 2,
+                                                                      maxLines:
+                                                                          2,
                                                                     ),
                                                                     const SizedBox(
                                                                       height: 4,
                                                                     ),
-                                                                    bottomSheetController
-                                                                                .lectures[index]
-                                                                                .classNumber !=
+                                                                    bottomSheetController.lectures[index].classNumber !=
                                                                             null
                                                                         ? Text(
                                                                             "${bottomSheetController.lectures[index].professor != null ? bottomSheetController.lectures[index].professor! : ""}"
                                                                             "(${bottomSheetController.lectures[index].classNumber!}분반)",
-                                                                            style: lightStyle.copyWith(
-                                                                                color: Palette.grey,
-                                                                                fontWeight: FontWeight.w500),
+                                                                            style:
+                                                                                lightStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),
                                                                           )
                                                                         : const SizedBox(),
-                                                                    bottomSheetController
-                                                                                .lectures[index]
-                                                                                .major !=
+                                                                    bottomSheetController.lectures[index].major !=
                                                                             null
                                                                         ? Text(
-                                                                            bottomSheetController
-                                                                                .lectures[index]
-                                                                                .major!
-                                                                                .replaceAll(" ", "/"),
+                                                                            bottomSheetController.lectures[index].major!.replaceAll(" ",
+                                                                                "/"),
                                                                             maxLines:
                                                                                 2,
-                                                                            style: lightStyle.copyWith(
-                                                                                color: Palette.grey,
-                                                                                fontWeight: FontWeight.w500),
+                                                                            style:
+                                                                                lightStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),
                                                                           )
                                                                         : const SizedBox(),
                                                                     !bottomSheetController
                                                                             .lectures[
                                                                                 index]
                                                                             .times
-                                                                            .map((e) => e
-                                                                                .place)
+                                                                            .map((e) =>
+                                                                                e.place)
                                                                             .toList()
-                                                                            .contains(
-                                                                                null)
+                                                                            .contains(null)
                                                                         ? Text(
-                                                                            bottomSheetController
-                                                                                .lectures[index]
-                                                                                .times
-                                                                                .map((e) => e.place)
-                                                                                .toSet()
-                                                                                .join(", ")
-                                                                                .toString(),
-                                                                            style: lightStyle.copyWith(
-                                                                                color: Palette.grey,
-                                                                                fontWeight: FontWeight.w500),
+                                                                            bottomSheetController.lectures[index].times.map((e) => e.place).toSet().join(", ").toString(),
+                                                                            style:
+                                                                                lightStyle.copyWith(color: Palette.grey, fontWeight: FontWeight.w500),
                                                                           )
                                                                         : const SizedBox(),
                                                                     const SizedBox(
@@ -670,11 +665,10 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                                 flex: 4,
                                                                 child: Column(
                                                                   children: [
-                                                                    for (ScheduleTime i
-                                                                        in bottomSheetController
-                                                                            .lectures[
-                                                                                index]
-                                                                            .times)
+                                                                    for (ScheduleTime i in bottomSheetController
+                                                                        .lectures[
+                                                                            index]
+                                                                        .times)
                                                                       Text(
                                                                         "${i.week.nameKR} ${i.start}~${i.end}",
                                                                         style: lightStyle

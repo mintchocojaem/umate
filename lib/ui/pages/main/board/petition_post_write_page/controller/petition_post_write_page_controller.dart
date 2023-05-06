@@ -7,6 +7,7 @@ import 'package:danvery/ui/pages/main/board/board_page/controller/board_page_con
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PetitionPostWritePageController extends GetxController {
@@ -22,7 +23,8 @@ class PetitionPostWritePageController extends GetxController {
 
   final Rx<TextEditingController> titleController = TextEditingController().obs;
 
-  final Rx<TextEditingController> contentController = TextEditingController().obs;
+  final Rx<TextEditingController> contentController =
+      TextEditingController().obs;
 
   final RxInt selectedTag = 0.obs;
 
@@ -41,35 +43,40 @@ class PetitionPostWritePageController extends GetxController {
     super.onInit();
   }
 
-  Future<void> writePetitionPost(
+  Future<void> writePetitionPostWithRefresh(
+      PetitionPostWriteModel petitionPostWriteModel) async {
+    if (!isPosting.value) {
+      showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (context) => const Center(
+          child: CupertinoActivityIndicator(),
+        ),
+        barrierDismissible: false,
+      ).whenComplete(() => Get.back());
+      await _writePetitionPost(petitionPostWriteModel);
+    }
+  }
+
+  Future<void> _writePetitionPost(
       PetitionPostWriteModel petitionPostWriteModel) async {
     isPosting.value = true;
-
-    showCupertinoModalPopup(
-      context: Get.context!,
-      builder: (context) => const Center(
-        child: CupertinoActivityIndicator(),
-      ),
-      barrierDismissible: false,
-    );
 
     final ApiResponseDTO apiResponseDTO =
         await _petitionPostRepository.writePetitionPost(
             token: loginService.token.value.accessToken,
             petitionPostWriteModel: petitionPostWriteModel);
     if (apiResponseDTO.success) {
-      await boardPageController.getPetitionPostBoardWithRefresh(true);
       boardPageController.selectedCategory = 0;
-      Get.back();
+      await boardPageController.getPetitionPostBoardWithRefresh(true);
+      isPosting.value = false;
       Get.back();
     } else {
-      Get.back();
-      GetXSnackBar(
-        title: "글 작성 실패",
-        content: apiResponseDTO.message,
-        type: GetXSnackBarType.customError,
-      ).show();
+      Future.delayed(
+        const Duration(seconds: 10),
+        () async {
+          await _writePetitionPost(petitionPostWriteModel);
+        },
+      );
     }
-    isPosting.value = false;
   }
 }
