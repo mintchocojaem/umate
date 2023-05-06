@@ -46,6 +46,7 @@ class PetitionPostWritePageController extends GetxController {
   Future<void> writePetitionPostWithRefresh(
       PetitionPostWriteModel petitionPostWriteModel) async {
     if (!isPosting.value) {
+      FocusManager.instance.primaryFocus?.unfocus();
       showCupertinoModalPopup(
         context: Get.context!,
         builder: (context) => const Center(

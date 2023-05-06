@@ -42,6 +42,7 @@ class GeneralPostWritePageController extends GetxController {
   Future<void> writeGeneralPostWithRefresh(
       GeneralPostWriteModel generalPostWriteModel) async {
     if (!isPosting.value) {
+      FocusManager.instance.primaryFocus?.unfocus();
       showCupertinoModalPopup(
         context: Get.context!,
         builder: (context) => const Center(

@@ -45,7 +45,6 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> agreePetition() async {
-
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (context) => const Center(

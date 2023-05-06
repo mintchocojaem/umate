@@ -46,92 +46,98 @@ class MainPage extends GetView<MainPageController> {
                 topLeft: Radius.circular(10.0),
                 topRight: Radius.circular(10.0),
               ),
-              child: BottomNavigationBar(
-                selectedFontSize: tinyStyle.fontSize!,
-                unselectedFontSize: tinyStyle.fontSize!,
-                selectedItemColor: Palette.blue,
-                currentIndex: controller.selectedIndex.value,
-                onTap: (value) {
-                  controller.selectedIndex.value = value;
-                },
-                type: BottomNavigationBarType.fixed,
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Image.asset(
-                        "assets/icons/bottom_navigation_bar/unselected/home_unselected.png",
-                        width: 20,
-                        height: 20,
+              child: Theme(
+                data: ThemeData(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: BottomNavigationBar(
+                  selectedFontSize: tinyStyle.fontSize!,
+                  unselectedFontSize: tinyStyle.fontSize!,
+                  selectedItemColor: Palette.blue,
+                  currentIndex: controller.selectedIndex.value,
+                  onTap: (value) {
+                    controller.selectedIndex.value = value;
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Padding(
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        child: Image.asset(
+                          "assets/icons/bottom_navigation_bar/unselected/home_unselected.png",
+                          width: 20,
+                          height: 20,
+                        ),
                       ),
+                      activeIcon: Padding(
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        child: Image.asset(
+                          "assets/icons/bottom_navigation_bar/selected/home_selected.png",
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                      label: "홈",
                     ),
-                    activeIcon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Image.asset(
-                        "assets/icons/bottom_navigation_bar/selected/home_selected.png",
-                        width: 20,
-                        height: 20,
-                      ),
-                    ),
-                    label: "홈",
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/unselected/timetable_unselected.png",
-                          width: 20,
-                          height: 20,
+                    BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/unselected/timetable_unselected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/selected/timetable_selected.png",
-                          width: 20,
-                          height: 20,
+                        activeIcon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/selected/timetable_selected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      label: "시간표"),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/unselected/board_unselected.png",
-                          width: 20,
-                          height: 20,
+                        label: "시간표"),
+                    BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/unselected/board_unselected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/selected/board_selected.png",
-                          width: 20,
-                          height: 20,
+                        activeIcon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/selected/board_selected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      label: "게시판"),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/unselected/my_unselected.png",
-                          width: 20,
-                          height: 20,
+                        label: "게시판"),
+                    BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/unselected/my_unselected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                        child: Image.asset(
-                          "assets/icons/bottom_navigation_bar/selected/my_selected.png",
-                          width: 20,
-                          height: 20,
+                        activeIcon: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                          child: Image.asset(
+                            "assets/icons/bottom_navigation_bar/selected/my_selected.png",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      label: "마이페이지"),
-                ],
+                        label: "마이페이지"),
+                  ],
+                ),
               ),
             ),
           ),

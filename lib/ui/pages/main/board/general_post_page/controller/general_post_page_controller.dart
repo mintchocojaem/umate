@@ -157,6 +157,8 @@ class GeneralPostPageController extends GetxController {
 
   Future<void> writeGeneralComment() async {
 
+    FocusManager.instance.primaryFocus?.unfocus();
+
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (BuildContext context) {

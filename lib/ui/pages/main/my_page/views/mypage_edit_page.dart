@@ -135,6 +135,7 @@ class MyPageEditPage extends GetView<MyPagePageController> {
                                     }
                                   });
                                 },
+                                keyboardType: TextInputType.phone,
                                 hint: "휴대폰 번호를 입력하세요",
                                 validate: true,
                                 validateHint: "인증번호 6자리를 입력하세요",
