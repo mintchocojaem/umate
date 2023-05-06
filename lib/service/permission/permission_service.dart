@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:danvery/core/notification/setup_notification.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -68,7 +69,9 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
 
   Future<bool> getGalleryPermission() async {
 
-    if (Platform.isAndroid) {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    if (Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt <= 32) {
       /// use [Permissions.storage.status]
 
       final bool isShouldShowRationale =
@@ -87,23 +90,23 @@ class PermissionService extends GetxService with WidgetsBindingObserver {
         openAppSettings();
       }
 
+    }else{
+      /// use [Permissions.photos.status]
+      final bool isShouldShowRationale =
+      await Permission.photos.shouldShowRequestRationale;
+      final status = await Permission.photos.status;
+      if (await Permission.photos.status.isGranted || status.isLimited) {
+        galleryPermission.value = true;
+        return true;
+      }
+      if (status.isDenied) {
+        if(await Permission.photos.request().isGranted) return true;
+      } else if (status.isPermanentlyDenied || isShouldShowRationale) {
+        openAppSettings();
+      }
     }
 
-    /// use [Permissions.photos.status]
-    final bool isShouldShowRationale =
-    await Permission.photos.shouldShowRequestRationale;
-    final status = await Permission.photos.status;
-    if (await Permission.photos.status.isGranted || status.isLimited) {
-      galleryPermission.value = true;
-      return true;
-    }
-    if (status.isDenied) {
-      if(await Permission.photos.request().isGranted) return true;
-    } else if (status.isPermanentlyDenied || isShouldShowRationale) {
-      openAppSettings();
-    }
     return false;
-
   }
 
   @override
