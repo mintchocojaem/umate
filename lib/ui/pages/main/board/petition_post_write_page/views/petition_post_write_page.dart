@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:danvery/core/interceptor/dio_interceptor.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/board/general_board/model/file_model.dart';
@@ -67,8 +68,8 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                                     .map((e) => FileModel.fromImagePicker(e))
                                     .toList(),
                                 tagIds: [
-                                  PetitionPostTag
-                                      .values[controller.selectedTag.value].id
+                                  apiUrl == "https://dev.dkustu.com/api" ? PetitionPostTag.values[controller.selectedTag.value].devServerTagId
+                                      : PetitionPostTag.values[controller.selectedTag.value].mainServerTagId
                                 ],
                               );
                               Get.back(); //청원은 등록전에 dialog 띄우므로, dialog 닫기
