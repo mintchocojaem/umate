@@ -11,22 +11,22 @@ import 'core/notification/setup_notification.dart';
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
 
-void main() async {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  await GetStorage.init(); //setupFlutterNotification 보다 먼저 초기화 되어야 함
 
   // setting 함수
   await setupFlutterNotifications();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
   // background 수신처리
 
-  SystemChrome.setPreferredOrientations([
+ await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  await GetStorage.init();
 
   runApp(
     GetMaterialApp(

@@ -12,6 +12,8 @@ class LoginPageController extends GetxController {
 
   final RxBool isPasswordVisible = false.obs;
 
+  DateTime preBackpressure = DateTime.now();
+
   Future<void> login() async {
 
     await loginService.login(

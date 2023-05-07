@@ -27,14 +27,13 @@ class SplashScreenPageController extends GetxController
 
   Future<void> animationInit() async {
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1000));
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeOut)
             .obs
             .value;
     animation.addListener(() => update());
     await animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 500));
     await checkUpdate();
   }
 

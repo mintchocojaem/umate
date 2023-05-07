@@ -1,4 +1,3 @@
-import 'package:danvery/core/regex/regex.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/routes/app_routes.dart';
@@ -15,113 +14,131 @@ class LoginPage extends GetView<LoginPageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        appBar: MainAppBar(
-          isWhite: false,
-          isDarkMode: Get.isDarkMode,
-          backGroundColor: Palette.transparent,
-        ),
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: ModernFormField(
-                      maxLength: 8,
-                      onTextChanged: (value) {
-                        controller.idController.update((val) {
-                          if (val != null) val.text = value;
-                        });
-                      },
-                      hint: 'ID(학번)을 입력하세요',
-                      title: "아이디",
-                      titleColor: Palette.blue,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 8),
-                    child: Obx(
-                      () => ModernFormField(
-                        maxLength: 24,
+    return WillPopScope(
+      onWillPop: () async {
+        final timelapse = DateTime.now().difference(controller.preBackpressure);
+        final cantExit = timelapse >= const Duration(seconds: 2);
+        controller.preBackpressure = DateTime.now();
+        if (cantExit) {
+          //show snackbar
+          const snack = SnackBar(
+            content: Text('앱을 종료하려면 한번 더 눌러주세요'),
+            duration: Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+          appBar: MainAppBar(
+            isWhite: false,
+            isDarkMode: Get.isDarkMode,
+            backGroundColor: Palette.transparent,
+          ),
+          extendBodyBehindAppBar: true,
+          resizeToAvoidBottomInset: false,
+          body: Padding(
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: ModernFormField(
+                        maxLength: 8,
                         onTextChanged: (value) {
-                          controller.passwordController.update((val) {
+                          controller.idController.update((val) {
                             if (val != null) val.text = value;
                           });
                         },
-                        hint: "비밀번호를 입력하세요",
-                        title: "비밀번호",
-                        isPassword: !controller.isPasswordVisible.value,
+                        hint: 'ID(학번)을 입력하세요',
+                        title: "아이디",
                         titleColor: Palette.blue,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Obx(
-                () => ModernFormButton(
-                  text: "로그인",
-                  isEnabled: controller.idController.value.text.isNotEmpty &&
-                      controller.passwordController.value.text.isNotEmpty,
-                  onPressed: () async {
-                    await controller.login();
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      Get.toNamed(Routes.findPassword);
-                    },
-                    child: Text(
-                      "비밀번호 찾기",
-                      style: tinyStyle.copyWith(color: Palette.darkGrey),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: Obx(
+                        () => ModernFormField(
+                          maxLength: 24,
+                          onTextChanged: (value) {
+                            controller.passwordController.update((val) {
+                              if (val != null) val.text = value;
+                            });
+                          },
+                          hint: "비밀번호를 입력하세요",
+                          title: "비밀번호",
+                          isPassword: !controller.isPasswordVisible.value,
+                          titleColor: Palette.blue,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                Obx(
+                  () => ModernFormButton(
+                    text: "로그인",
+                    isEnabled: controller.idController.value.text.isNotEmpty &&
+                        controller.passwordController.value.text.isNotEmpty,
+                    onPressed: () async {
+                      await controller.login();
+                    },
                   ),
-                  const Text(
-                    "|",
-                    style: tinyStyle,
-                  ),
-                  TextButton(
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
                       onPressed: () {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        Get.toNamed(Routes.findId);
-                      },
-                      child: Text("아이디 찾기",
-                          style: tinyStyle.copyWith(color: Palette.darkGrey))),
-                  const Text(
-                    "|",
-                    style: tinyStyle,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        Get.toNamed(Routes.register);
+                        Get.toNamed(Routes.findPassword);
                       },
                       child: Text(
-                        "회원가입",
-                        style: tinyStyle.copyWith(color: Palette.blue),
-                      ))
-                ],
-              ),
-            ],
-          ),
-        ));
+                        "비밀번호 찾기",
+                        style: tinyStyle.copyWith(color: Palette.darkGrey),
+                      ),
+                    ),
+                    const Text(
+                      "|",
+                      style: tinyStyle,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Get.toNamed(Routes.findId);
+                        },
+                        child: Text("아이디 찾기",
+                            style: tinyStyle.copyWith(color: Palette.darkGrey))),
+                    const Text(
+                      "|",
+                      style: tinyStyle,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Get.toNamed(Routes.register);
+                        },
+                        child: Text(
+                          "회원가입",
+                          style: tinyStyle.copyWith(color: Palette.blue),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

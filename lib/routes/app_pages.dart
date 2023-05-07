@@ -36,6 +36,7 @@ import 'package:danvery/ui/pages/splash_screen_page/bindings/splash_screen_page_
 import 'package:danvery/ui/pages/splash_screen_page/views/splash_screen_page.dart';
 import 'package:danvery/service/permission/binding/permission_binding.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 class AppPages {
   static final List<GetPage> pages = [
