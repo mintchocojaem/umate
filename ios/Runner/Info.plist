@@ -5,9 +5,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>사용자의 라이브러리에서 사진을 공유할 수 있도록 허용해주세요.</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>사용자의 카메라로부터 사진을 공유할 수 있도록 허용해주세요.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

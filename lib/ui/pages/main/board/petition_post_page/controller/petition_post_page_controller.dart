@@ -33,8 +33,9 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> getPetitionPost() async {
-    final ApiResponseDTO apiResponseDTO = await _petitionPostRepository
-        .getPetitionPost(token: loginService.token.value.accessToken, postId: id);
+    final ApiResponseDTO apiResponseDTO =
+        await _petitionPostRepository.getPetitionPost(
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       final PetitionPostModel petitionPostModel =
           apiResponseDTO.data as PetitionPostModel;
@@ -76,7 +77,7 @@ class PetitionPostPageController extends GetxController {
       });
     } else {
       GetXSnackBar(
-        title: '청원 게시글 동의 오류',
+        title: '청원게시글 동의 오류',
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
@@ -84,7 +85,6 @@ class PetitionPostPageController extends GetxController {
   }
 
   Future<void> reportPetitionPost(String categoryName) async {
-
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (context) => const Center(
@@ -101,39 +101,37 @@ class PetitionPostPageController extends GetxController {
     if (apiResponseDTO.success) {
       Get.back();
       GetXSnackBar(
-        title: '청원 게시글 신고',
-        content: '청원 게시글이 정상적으로 신고되었습니다',
+        title: '게시글 신고',
+        content: '신고가 접수되었습니다. 검토까지는 최대 24시간이 소요됩니다.',
         type: GetXSnackBarType.info,
       ).show();
     } else {
       Get.back();
       GetXSnackBar(
-        title: '청원 게시글 신고 오류',
+        title: '게시글 신고 오류',
         content: apiResponseDTO.message,
         type: GetXSnackBarType.customError,
       ).show();
     }
   }
 
-  Future<void> blindPetitionPost() async{
+  Future<void> blindPetitionPost() async {
     final ApiResponseDTO apiResponseDTO =
-    await _petitionPostRepository.blindPetitionPost(
-        token: loginService.token.value.accessToken,
-        postId: id
-    );
+        await _petitionPostRepository.blindPetitionPost(
+            token: loginService.token.value.accessToken, postId: id);
     if (apiResponseDTO.success) {
       await boardPageController.getPetitionPostBoardWithRefresh(true);
       Get.back();
       GetXSnackBar(
-          type: GetXSnackBarType.info,
-          content: "게시글이 정상적으로 블라인드 처리되었습니다",
-          title: "게시글 블라인드")
+              type: GetXSnackBarType.info,
+              content: "게시글이 정상적으로 블라인드 처리되었습니다",
+              title: "게시글 블라인드")
           .show();
     } else {
       GetXSnackBar(
-          type: GetXSnackBarType.customError,
-          content: apiResponseDTO.message,
-          title: "게시글 블라인드 오류")
+              type: GetXSnackBarType.customError,
+              content: apiResponseDTO.message,
+              title: "게시글 블라인드 오류")
           .show();
     }
   }

@@ -593,6 +593,10 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                         context: context,
                         builder: (BuildContext context) {
                           return CupertinoActionSheet(
+                            title: const Text("신고사유를 선택해주세요"),
+                            message: const Text(
+                              "누적 신고횟수가 5회 이상인 경우\n자동으로 해당 게시물이 블라인드 처리됩니다.",
+                            ),
                             actions: [
                               for (int i = 0;
                                   i < ReportCategory.values.length;
@@ -613,7 +617,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           title: const Text("게시글 신고하기"),
                                           content: const Text(
                                             "정말로 해당 게시물을 신고하시겠습니까?\n"
-                                            "허위 신고 적발시 제재를 받을 수 있습니다",
+                                            "허위 신고 적발시 제재를 받을 수 있습니다"
                                           ),
                                           actions: [
                                             CupertinoDialogAction(

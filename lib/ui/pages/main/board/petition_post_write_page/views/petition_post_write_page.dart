@@ -139,8 +139,9 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           counterText: "",
-                          hintText: "내용",
-                          hintStyle: regularStyle.copyWith(
+                          hintText: "내용\n\n- 부적절하거나 불쾌감을 줄 수 있는 게시글은 제재를 받을 수 있습니다.\n\n"
+                              "- 청원게시글은 하루에 1번 작성할 수 있습니다.\n",
+                          hintMaxLines: 10,                          hintStyle: regularStyle.copyWith(
                               color: Palette.grey, fontWeight: FontWeight.bold),
                         ),
                       ),

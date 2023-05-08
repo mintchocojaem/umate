@@ -421,9 +421,9 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                               context: Get.context!,
                               builder: (BuildContext context) {
                                 return CupertinoAlertDialog(
-                                  title: const Text("청원 게시글 동의"),
+                                  title: const Text("청원게시글 동의"),
                                   content: const Text(
-                                      "해당 청원 게시글에 동의하시겠습니까?\n동의하신 청원은 철회할 수 없습니다"),
+                                      "해당 청원게시글에 동의하시겠습니까?\n동의하신 청원은 철회할 수 없습니다"),
                                   actions: [
                                     CupertinoDialogAction(
                                       child: const Text(
@@ -523,6 +523,10 @@ class PetitionPostPage extends GetView<PetitionPostPageController> {
                         context: context,
                         builder: (BuildContext context) {
                           return CupertinoActionSheet(
+                            title: const Text("신고사유를 선택해주세요"),
+                            message: const Text(
+                              "누적 신고횟수가 5회 이상인 경우\n자동으로 해당 게시물이 블라인드 처리됩니다.",
+                            ),
                             actions: [
                               for (int i = 0;
                                   i < ReportCategory.values.length;

@@ -128,11 +128,11 @@ class GeneralPostPageController extends GetxController {
       final generalCommentListModel =
           apiResponseDTO.data as GeneralCommentListModel;
       if (isFirstPage) {
-        try{
+        try {
           generalCommentList.update((val) {
             generalCommentList = generalCommentListModel.obs;
           });
-        }catch(e){
+        } catch (e) {
           generalCommentList = generalCommentListModel.obs;
         }
       } else {
@@ -156,7 +156,6 @@ class GeneralPostPageController extends GetxController {
   }
 
   Future<void> writeGeneralComment() async {
-
     FocusManager.instance.primaryFocus?.unfocus();
 
     showCupertinoModalPopup(
@@ -291,16 +290,16 @@ class GeneralPostPageController extends GetxController {
     if (apiResponseDTO.success) {
       Get.back();
       GetXSnackBar(
-              type: GetXSnackBarType.info,
-              content: "게시글이 정상적으로 신고되었습니다",
-              title: "게시글 신고")
-          .show();
+        type: GetXSnackBarType.info,
+        title: "게시글 신고",
+        content: "신고가 접수되었습니다. 검토까지는 최대 24시간이 소요됩니다.",
+      ).show();
     } else {
       Get.back();
       GetXSnackBar(
               type: GetXSnackBarType.customError,
               content: apiResponseDTO.message,
-              title: "게시글 신고 오류")
+              title: "신고 오류")
           .show();
     }
   }
