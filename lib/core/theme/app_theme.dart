@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
 
-final ThemeData appThemeData = ThemeData(
+import 'package:danvery/core/theme/app_text_theme.dart';
+import 'package:flutter/cupertino.dart';
+
+final appThemeData = CupertinoThemeData(
   brightness: Brightness.light,
-  fontFamily: 'NotoSansKR',
+  textTheme: CupertinoTextThemeData(
+    textStyle: regularStyle,
+  )
 );

@@ -32,32 +32,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  dio: ^5.0.1
-  intl: ^0.18.0
-  get: ^4.6.5
+  cupertino_icons: ^1.0.5
+  provider: ^6.0.5
+  dio: ^5.1.1
+  intl: ^0.18.1
   get_storage: ^2.1.1
-  image_picker: ^0.8.7+1
-  url_launcher: ^6.1.10
-  flutter_switch: ^0.3.2
   flutter_local_notifications: ^14.0.0+1
-  sms_autofill: ^2.3.0
-  permission_handler: ^10.2.0
-  pin_code_fields: ^7.4.0
-  animations: ^2.0.7
-  path_provider: ^2.0.14
-  fl_chart: ^0.62.0
-  mime_type: ^1.0.0
-  package_info_plus: ^3.1.2
-  device_info_plus: ^8.2.2
-  store_redirect: ^2.0.1
-  flutter_email_sender: ^5.2.0
-  firebase_core: ^2.7.0
-  firebase_messaging: ^14.2.5
-  firebase_analytics: ^10.1.5
+  firebase_core: ^2.11.0
+  firebase_messaging: ^14.5.0
+  firebase_analytics: ^10.3.0
   firebase_crashlytics: ^3.2.0
 
 dev_dependencies:
@@ -138,3 +123,11 @@ flutter:
           weight: 700
         - asset: assets/fonts/NotoSansKR-Black.otf
           weight: 900
+       - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
+         weight: 300
+       - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
+         weight: 400
+       - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
+         weight: 500
+       - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
+         weight: 700
