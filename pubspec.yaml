@@ -97,32 +97,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  assets:
-    - assets/icons/bottom_navigation_bar/selected/
-    - assets/icons/bottom_navigation_bar/unselected/
-    - assets/icons/main_icon_list/
-    - assets/icons/bus_list/
-    - assets/icons/user/
-    - assets/icons/splash/
-    - assets/icons/danvery/
-    - assets/icons/post/
-    - assets/icons/login/
-    - assets/icons/
-  fonts:
-    - family: NotoSansKR
-      fonts:
-        - asset: assets/fonts/NotoSansKR-Thin.otf
-          weight: 100
-        - asset: assets/fonts/NotoSansKR-Light.otf
-          weight: 300
-        - asset: assets/fonts/NotoSansKR-Regular.otf
-          weight: 400
-        - asset: assets/fonts/NotoSansKR-Medium.otf
-          weight: 500
-        - asset: assets/fonts/NotoSansKR-Bold.otf
-          weight: 700
-        - asset: assets/fonts/NotoSansKR-Black.otf
-          weight: 900
+fonts:
+   - family: SpoqaHanSansNeo
+     fonts:
+       - asset: assets/fonts/SpoqaHanSansNeo-Thin.otf
+         weight: 100
        - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
          weight: 300
        - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
