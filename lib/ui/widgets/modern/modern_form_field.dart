@@ -41,6 +41,9 @@ class ModernFormField extends StatefulWidget {
   final bool isDay;
   final bool isTime;
   final int maxLength;
+  final TextInputAction? textInputAction;
+  final void Function(String text)? onFieldSubmitted;
+  final void Function()? onEditingComplete;
 
   const ModernFormField({
     super.key,
@@ -78,6 +81,9 @@ class ModernFormField extends StatefulWidget {
     this.currentPasswordHint,
     this.onCurrentPasswordTextChanged,
     this.maxLength = 30,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.onEditingComplete,
   });
 
   @override
@@ -283,6 +289,9 @@ class _ModernFormField extends State<ModernFormField> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    onEditingComplete: widget.onEditingComplete,
+                    textInputAction: widget.textInputAction,
+                    onFieldSubmitted: widget.onFieldSubmitted,
                     onTap: widget.isTime
                         ? showTimePickerDialog
                         : widget.isDay

@@ -2,6 +2,7 @@ import 'package:danvery/core/dto/api_response_dto.dart';
 import 'package:danvery/domain/user/info/repository/userInfo_repository.dart';
 import 'package:danvery/domain/user/reigster/model/register_model.dart';
 import 'package:danvery/domain/user/reigster/repository/register_repository.dart';
+import 'package:danvery/ui/pages/user/login_page/controller/login_page_controller.dart';
 import 'package:danvery/ui/pages/user/register_page/views/steps/register_step_1.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,8 @@ import '../views/steps/register_step_3.dart';
 class RegisterPageController extends GetxController {
   final RegisterRepository _registerRepository = RegisterRepository();
   final UserInfoRepository _userInfoRepository = UserInfoRepository();
+
+  final LoginPageController loginPageController = Get.find();
 
   List<Widget> pages = const [
     RegisterStep1(),

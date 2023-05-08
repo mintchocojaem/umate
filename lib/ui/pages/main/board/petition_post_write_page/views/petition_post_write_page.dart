@@ -115,6 +115,7 @@ class PetitionPostWritePage extends GetView<PetitionPostWritePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextField(
+                        textInputAction: TextInputAction.next,
                         controller: controller.titleController.value,
                         maxLines: 1,
                         style: regularStyle.copyWith(

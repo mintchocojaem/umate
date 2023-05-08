@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class MyPagePage extends GetView<MyPagePageController> {
   const MyPagePage({super.key});
@@ -16,7 +15,6 @@ class MyPagePage extends GetView<MyPagePageController> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    controller.getUserInfo();
     return Scaffold(
       backgroundColor: Palette.pureWhite,
       appBar: MainAppBar(

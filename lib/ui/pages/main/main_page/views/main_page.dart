@@ -58,6 +58,7 @@ class MainPage extends GetView<MainPageController> {
                   currentIndex: controller.selectedIndex.value,
                   onTap: (value) {
                     controller.selectedIndex.value = value;
+                    if(value == 3) controller.loginService.getUserInfo();
                   },
                   type: BottomNavigationBarType.fixed,
                   showSelectedLabels: true,

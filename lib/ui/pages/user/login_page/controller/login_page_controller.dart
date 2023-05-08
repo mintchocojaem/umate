@@ -14,14 +14,27 @@ class LoginPageController extends GetxController {
 
   DateTime preBackpressure = DateTime.now();
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  void initLoginPage(){
+    idController.value.clear();
+    passwordController.value.clear();
+    refresh();
+  }
+
   Future<void> login() async {
 
     await loginService.login(
-        idController.value.text.replaceAll("@dankook.ac.kr", ""),
+        idController.value.text,
         passwordController.value.text);
     if (loginService.isLogin.value) {
       Get.back();
       Get.offAndToNamed(Routes.main);
     }
   }
+
 }

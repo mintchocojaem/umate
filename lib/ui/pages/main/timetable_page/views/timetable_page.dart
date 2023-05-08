@@ -198,6 +198,8 @@ class TimetablePage extends GetView<TimetablePageController> {
                                     groupValue: bottomSheetController
                                         .isLectureAdd.value,
                                     onChanged: (value) {
+                                      FocusManager.instance.primaryFocus!
+                                          .unfocus();
                                       bottomSheetController.isLectureAdd.value =
                                           value!;
                                     },
@@ -215,8 +217,12 @@ class TimetablePage extends GetView<TimetablePageController> {
                                     groupValue: bottomSheetController
                                         .isLectureAdd.value,
                                     onChanged: (value) {
+                                      FocusManager.instance.primaryFocus!
+                                          .unfocus();
                                       bottomSheetController.isLectureAdd.value =
                                           value!;
+                                      bottomSheetController.isSearch.value =
+                                          false;
                                     },
                                   ),
                                   Text(
@@ -234,6 +240,14 @@ class TimetablePage extends GetView<TimetablePageController> {
                             children: [
                               bottomSheetController.isLectureAdd.value
                                   ? ModernFormField(
+                                      onEditingComplete: (){},
+                                      onFieldSubmitted: (value) async {
+                                        await bottomSheetController
+                                            .searchLecture();
+                                        bottomSheetController
+                                            .isSearch.value = true;
+                                      },
+                                      textInputAction: TextInputAction.search,
                                       initText: bottomSheetController
                                           .titleController.text,
                                       controller:
@@ -491,20 +505,23 @@ class TimetablePage extends GetView<TimetablePageController> {
                                                 ),
                                                 bottomSheetController
                                                         .isLectureAdd.value
-                                                    ? ModernFormField(
-                                                        onTextChanged: (text) {
-                                                          bottomSheetController
-                                                              .contentController
-                                                              .text = text;
-                                                        },
-                                                        initText:
+                                                    ? Padding(
+                                                      padding: const EdgeInsets.only(bottom: 8),
+                                                      child: ModernFormField(
+                                                          textInputAction: TextInputAction.next,
+                                                          onTextChanged: (text) {
                                                             bottomSheetController
                                                                 .contentController
-                                                                .text,
-                                                        hint: "강의실",
-                                                      )
+                                                                .text = text;
+                                                          },
+                                                          initText:
+                                                              bottomSheetController
+                                                                  .contentController
+                                                                  .text,
+                                                          hint: "강의실",
+                                                        ),
+                                                    )
                                                     : const SizedBox(),
-                                                const SizedBox(height: 8),
                                                 ModernFormField(
                                                   onTextChanged: (text) {
                                                     bottomSheetController

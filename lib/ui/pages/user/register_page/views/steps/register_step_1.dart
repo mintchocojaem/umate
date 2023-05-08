@@ -27,6 +27,7 @@ class RegisterStep1 extends GetView<RegisterPageController> {
                   children: [
                     ModernFormField(
                       maxLength: 8,
+                      textInputAction: TextInputAction.next,
                       onTextChanged: (value) {
                         controller.studentIdController.update((val) {
                           if (val != null) val.text = value;
