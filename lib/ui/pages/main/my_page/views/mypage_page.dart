@@ -3,10 +3,12 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/ui/pages/main/my_page/controller/mypage_page_controller.dart';
 import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/ui/widgets/app_bar/main_app_bar.dart';
+import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class MyPagePage extends GetView<MyPagePageController> {
   const MyPagePage({super.key});
@@ -70,7 +72,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                         ),
                                         Text(
                                           controller.loginService.userInfo.value
-                                              .username ,
+                                              .username,
                                           style: smallTitleStyle.copyWith(
                                             color: Palette.white,
                                             fontWeight: FontWeight.bold,
@@ -240,6 +242,92 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 );
                               },
                             ),
+                            InkWell(
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 60,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "회원탈퇴",
+                                    style: smallTitleStyle.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: Palette.lightRed,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () async {
+                                controller.withdrawController.value.text = "";
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text("회원탈퇴"),
+                                      content: Column(
+                                        children: [
+                                          const Text("정말로 회원탈퇴 하시겠습니까?"),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          CupertinoTextField(
+                                            textAlign: TextAlign.center,
+                                            controller: controller
+                                                .withdrawController.value,
+                                            autofocus: true,
+                                            placeholder: "\"회원탈퇴\"를 입력해주세요",
+                                            style: regularStyle.copyWith(
+                                              color: Palette.lightRed,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Palette.lightGrey,
+                                                  width: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text(
+                                            '취소',
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: Text(
+                                            '확인',
+                                            style: TextStyle(
+                                              color: Palette.lightRed,
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            if (controller.withdrawController
+                                                    .value.text ==
+                                                "회원탈퇴") {
+                                              await controller.loginService.withdraw();
+                                            } else {
+                                              GetXSnackBar(
+                                                type: GetXSnackBarType
+                                                    .customError,
+                                                title: "회원탈퇴 실패",
+                                                content:
+                                                    "회원탈퇴를 위해 \"회원탈퇴\"를 입력해주세요",
+                                              ).show();
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -269,7 +357,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 controller.myPagePostType = [
                                   MyPagePostType.general,
                                   MyPagePostType.petition
@@ -300,7 +388,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 controller.myPagePostType = [
                                   MyPagePostType.comment
                                 ];
@@ -330,7 +418,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                               width: 32,
                             ),
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 controller.myPagePostType = [
                                   MyPagePostType.like
                                 ];

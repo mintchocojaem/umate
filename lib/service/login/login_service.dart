@@ -74,6 +74,25 @@ class LoginService extends GetxService {
     }
   }
 
+  Future<void> withdraw() async{
+    final apiResponse = await _loginRepository.withdraw(accessToken: token.value.accessToken);
+    if(apiResponse.success){
+      await logout();
+      Get.offAllNamed(Routes.login);
+      GetXSnackBar(
+          type: GetXSnackBarType.info,
+          title: "회원 탈퇴 성공",
+          content: "회원 탈퇴가 완료되었습니다.")
+          .show();
+    }else{
+      GetXSnackBar(
+        type: GetXSnackBarType.customError,
+        title: "회원탈퇴 실패",
+        content: apiResponse.message,
+      ).show();
+    }
+  }
+
   Future<void> logout() async{
     _box.remove("accessToken");
     _box.remove("refreshToken");
@@ -96,4 +115,6 @@ class LoginService extends GetxService {
       return false;
     }
   }
+
+
 }

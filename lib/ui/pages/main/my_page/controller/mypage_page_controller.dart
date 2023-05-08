@@ -70,6 +70,8 @@ class MyPagePageController extends GetxController {
 
   final RxString validNickname = "".obs;
 
+  Rx<TextEditingController> withdrawController = TextEditingController().obs;
+
   @override
   void onInit() {
     // TODO: implement onInit

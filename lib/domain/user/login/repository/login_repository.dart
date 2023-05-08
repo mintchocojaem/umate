@@ -15,7 +15,7 @@ class LoginRepository {
 
   //get login
   Future<ApiResponseDTO> login({required String classId, required String password}) async {
-    return await _loginProvider.getLogin(classId, password);
+    return await _loginProvider.login(classId, password);
   }
 
   //reissue token
@@ -26,6 +26,11 @@ class LoginRepository {
   //get user info
   Future<ApiResponseDTO> getUserInfo({required String accessToken}) async {
     return await _loginProvider.getUserInfo(accessToken);
+  }
+
+  //withdraw
+  Future<ApiResponseDTO> withdraw({required String accessToken}) async {
+    return await _loginProvider.withdraw(accessToken);
   }
 
 }

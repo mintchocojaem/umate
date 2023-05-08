@@ -16,7 +16,7 @@ class LoginProvider {
 
   factory LoginProvider() => _singleton;
 
-  Future<ApiResponseDTO> getLogin(String classId, String password) async {
+  Future<ApiResponseDTO> login(String classId, String password) async {
     const String url = '/user/login';
     final body = {"studentId": classId, "password": password};
 
@@ -26,6 +26,24 @@ class LoginProvider {
         data: body,
       );
       return SuccessResponseDTO(data: TokenModel.fromJson(response.data));
+    } on DioError catch (e) {
+      return ExceptionResponseDTO(message: e.message);
+    }
+  }
+
+  Future<ApiResponseDTO> withdraw(String accessToken) async {
+    const String url = '/user';
+
+    final headers = {
+      'Authorization': "Bearer $accessToken",
+    };
+
+    try {
+      final Response response = await _dio.delete(
+        url,
+        options: Options(headers: headers),
+      );
+      return SuccessResponseDTO(data: response.data);
     } on DioError catch (e) {
       return ExceptionResponseDTO(message: e.message);
     }
@@ -66,7 +84,5 @@ class LoginProvider {
       return ExceptionResponseDTO(message: e.message);
     }
   }
-
-
 
 }
