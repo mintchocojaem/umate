@@ -110,6 +110,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  controller.initEditPage();
                                   Get.toNamed(Routes.myPageEdit);
                                 },
                                 child: Text(

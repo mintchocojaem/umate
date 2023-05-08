@@ -56,7 +56,7 @@ class MainPage extends GetView<MainPageController> {
                   unselectedFontSize: tinyStyle.fontSize!,
                   selectedItemColor: Palette.blue,
                   currentIndex: controller.selectedIndex.value,
-                  onTap: (value) {
+                  onTap: (value) async{
                     controller.selectedIndex.value = value;
                     if(value == 3) controller.loginService.getUserInfo();
                   },

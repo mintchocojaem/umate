@@ -161,19 +161,21 @@ class _ModernFormField extends State<ModernFormField> {
   }
 
   void _checkCoolDown() {
-    setState(() {
-      _isSend = true;
-    });
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    if(mounted){
       setState(() {
-        _remainingTime--;
-        if (_remainingTime == 0) {
-          timer.cancel();
-          _isSend = false;
-          _remainingTime = widget.checkButtonCoolDown;
-        }
+        _isSend = true;
       });
-    });
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          _remainingTime--;
+          if (_remainingTime == 0) {
+            timer.cancel();
+            _isSend = false;
+            _remainingTime = widget.checkButtonCoolDown;
+          }
+        });
+      });
+    }
   }
 
   @override
