@@ -1,6 +1,6 @@
 import 'package:danvery/utils/app_text_theme.dart';
-import 'package:danvery/widgets/modern/modern_button.dart';
 import 'package:flutter/material.dart';
+import 'package:orb/widgets/modern_button.dart';
 
 class ModernDialog extends Dialog {
   final String title;

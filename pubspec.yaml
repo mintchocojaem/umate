@@ -29,11 +29,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  orb:
-    git:
-      url: https://github.com/chocojaem/orb.git
-      ref: main
-
   flutter:
     sdk: flutter
 
@@ -49,6 +44,10 @@ dependencies:
   firebase_messaging: ^14.5.0
   firebase_analytics: ^10.3.0
   firebase_crashlytics: ^3.2.0
+  orb:
+    git:
+      url: git@github.com:chocojaem/orb.git
+      ref: main
 
 dev_dependencies:
   flutter_test:

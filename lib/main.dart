@@ -1,13 +1,13 @@
 import 'package:danvery/utils/app_text_theme.dart';
 import 'package:danvery/utils/app_theme.dart';
 import 'package:danvery/utils/notification.dart';
-import 'package:danvery/widgets/modern/modern_button.dart';
 import 'package:danvery/widgets/modern/modern_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:orb/orb.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,6 +26,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  Orb().init();
 
   runApp(
     MaterialApp(
