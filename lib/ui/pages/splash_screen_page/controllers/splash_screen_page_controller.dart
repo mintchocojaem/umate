@@ -5,7 +5,6 @@ import 'package:danvery/routes/app_routes.dart';
 import 'package:danvery/service/login/login_service.dart';
 import 'package:danvery/ui/widgets/getx_snackbar/getx_snackbar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -60,7 +59,10 @@ class SplashScreenPageController extends GetxController
                     child: const Text("확인"),
                     onPressed: () async {
                       try {
-                        await StoreRedirect.redirect();
+                        await StoreRedirect.redirect(
+                          androidAppId: "com.vanillajaem.danvery",
+                          iOSAppId: "6448884101",
+                        );
                       } catch (e) {
                         GetXSnackBar(
                                 type: GetXSnackBarType.customError,
