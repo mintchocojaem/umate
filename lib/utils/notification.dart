@@ -1,4 +1,3 @@
-// 필요 변수
 import 'package:danvery/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -24,7 +23,7 @@ Future<void> setupFlutterNotifications() async {
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+      AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
   // iOS foreground notification 권한
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

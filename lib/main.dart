@@ -1,11 +1,13 @@
-import 'package:danvery/core/theme/app_theme.dart';
+import 'package:danvery/utils/app_text_theme.dart';
+import 'package:danvery/utils/app_theme.dart';
+import 'package:danvery/utils/notification.dart';
+import 'package:danvery/widgets/modern/modern_button.dart';
+import 'package:danvery/widgets/modern/modern_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'core/notification/setup_notification.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,7 +28,14 @@ void main() async {
   ]);
 
   runApp(
-    const App(),
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Danvery',
+      theme: AppTheme().lightThemeData,
+      darkTheme: AppTheme().darkThemeData,
+      themeMode: ThemeMode.light,
+      home: const App(),
+    ),
   );
 }
 
@@ -36,16 +45,39 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Danvery',
-      theme: appThemeData,
-      home: const Scaffold(
-        body: Center(
-          child: Text('Flutter App'),
-        )
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Danvery',
+          style: appTextTheme.labelLarge,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Center(
+          child: ModernButton(
+            style: ModernButtonStyle.filled,
+            onPressed: () {
+              showModernDialog(
+                title: "소비 내역 더 불러오기",
+                content: "소비 내역을 더 불러오시겠습니까?",
+                context: context,
+                modernButtons: [
+                  ModernButton(
+                    mode: ModernButtonMode.fullWith,
+                    style: ModernButtonStyle.tonal,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    text: '더 불러오기',
+                  ),
+                ],
+              );
+            },
+            text: '소비 내역 더 불러오기',
+          ),
+        ),
       ),
     );
   }
-
 }

@@ -9,9 +9,10 @@ class Palette{
   static Color darkWhite = const Color(0xffEEEEEE);
   static Color lightGrey = const Color(0xffE1E3E6);
   static Color grey = const Color(0xff909499);
-  static Color darkGrey = const Color(0xff454647);
-  static Color lightBlack = const Color(0xff2C2C2E);
-  static Color black = const Color(0xff19191A);
+  static Color darkGrey = const Color(0xff5e5f61);
+  static Color lightBlack = const Color(0xff454647);
+  static Color black = const Color(0xff2C2C2E);
+  static Color darkBlack = const Color(0xff19191A);
 
   static Color mint = const Color(0xff12C4CF);
   static Color sky = const Color(0xff08BCFF);
