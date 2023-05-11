@@ -44,10 +44,10 @@ dependencies:
   firebase_messaging: ^14.5.0
   firebase_analytics: ^10.3.0
   firebase_crashlytics: ^3.2.0
-  orb:
-    git:
-      url: git@github.com:chocojaem/orb.git
-      ref: main
+  #orb:
+  #  git:
+  #    url: git@github.com:chocojaem/orb.git
+  #    ref: main
 
 dev_dependencies:
   flutter_test:

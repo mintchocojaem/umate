@@ -1,15 +1,14 @@
-import 'package:danvery/utils/app_text_theme.dart';
+import 'package:danvery/module/orb/widgets/orb_button.dart';
 import 'package:flutter/material.dart';
-import 'package:orb/widgets/modern_button.dart';
 
 class ModernDialog extends Dialog {
   final String title;
   final String content;
-  final List<ModernButton> modernButtons;
+  final List<OrbButton> buttons;
 
   const ModernDialog(
       {super.key,
-      required this.modernButtons,
+      required this.buttons,
       required this.title,
       required this.content});
 
@@ -32,16 +31,19 @@ class ModernDialog extends Dialog {
                 const SizedBox(height: 16),
                 Text(
                   title,
-                  style: appTextTheme.titleMedium,
+                  //style: appTextTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
-                Text(content, style: appTextTheme.bodyLarge),
+                Text(
+                  content,
+                  //style: appTextTheme.bodyLarge,
+                ),
                 const SizedBox(height: 24),
                 Flex(
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    for (ModernButton modernButton in modernButtons)
+                    for (OrbButton modernButton in buttons)
                       Flexible(
                         flex: 1,
                         child: Padding(
@@ -51,9 +53,9 @@ class ModernDialog extends Dialog {
                       ),
                     Flexible(
                       flex: 1,
-                      child: ModernButton(
-                        mode: ModernButtonMode.fullWith,
-                        style: ModernButtonStyle.filled,
+                      child: OrbButton(
+                        mode: OrbButtonMode.fullWith,
+                        style: OrbButtonStyle.filled,
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -71,7 +73,7 @@ class ModernDialog extends Dialog {
 
 Future<T?> showModernDialog<T>({
   required BuildContext context,
-  required List<ModernButton> modernButtons,
+  required List<OrbButton> modernButtons,
   required String title,
   required String content,
 }) async {
@@ -79,7 +81,7 @@ Future<T?> showModernDialog<T>({
     barrierDismissible: true,
     context: context,
     builder: (context) => ModernDialog(
-      modernButtons: modernButtons,
+      buttons: modernButtons,
       title: title,
       content: content,
     ),

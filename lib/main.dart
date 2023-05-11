@@ -1,4 +1,3 @@
-import 'package:danvery/utils/app_text_theme.dart';
 import 'package:danvery/utils/app_theme.dart';
 import 'package:danvery/utils/notification.dart';
 import 'package:danvery/widgets/modern/modern_dialog.dart';
@@ -7,8 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:orb/orb.dart';
 import 'firebase_options.dart';
+import 'module/orb/widgets/orb_button.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +25,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  Orb().init();
 
   runApp(
     MaterialApp(
@@ -50,24 +47,24 @@ class App extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Danvery',
-          style: appTextTheme.labelLarge,
+          '안녕하세요',
+          //style: appTextTheme.labelLarge,
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Center(
-          child: ModernButton(
-            style: ModernButtonStyle.filled,
+          child: OrbButton(
+            style: OrbButtonStyle.filled,
             onPressed: () {
               showModernDialog(
                 title: "소비 내역 더 불러오기",
                 content: "소비 내역을 더 불러오시겠습니까?",
                 context: context,
                 modernButtons: [
-                  ModernButton(
-                    mode: ModernButtonMode.fullWith,
-                    style: ModernButtonStyle.tonal,
+                  OrbButton(
+                    mode: OrbButtonMode.fullWith,
+                    style: OrbButtonStyle.tonal,
                     onPressed: (){
                       Navigator.pop(context);
                     },
@@ -76,7 +73,7 @@ class App extends StatelessWidget {
                 ],
               );
             },
-            text: '소비 내역 더 불러오기',
+            text: '안녕하세요',
           ),
         ),
       ),
