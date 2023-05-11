@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Palette{
+class OrbPalette{
   ThemeData lightThemeData;
   ThemeData darkThemeData;
-  Palette({required this.lightThemeData, required this.darkThemeData});
+  OrbPalette({required this.lightThemeData, required this.darkThemeData});
 }

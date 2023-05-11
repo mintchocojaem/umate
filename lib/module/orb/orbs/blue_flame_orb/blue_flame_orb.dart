@@ -1,27 +1,25 @@
+import 'package:danvery/module/orb/core/orb_palette.dart';
+import 'package:danvery/module/orb/orb.dart';
 import 'package:flutter/material.dart';
-import 'package:orb/core/palette.dart';
-import 'package:orb/orb.dart';
-import 'package:orb/orbs/blue_flame_orb/blue_flame_palette.dart';
 
-class BlueFlameOrb implements Orb {
+import 'blue_flame_palette.dart';
 
-  final BuildContext context;
+export 'package:danvery/module/orb/orbs/blue_flame_orb/widgets/orb_button.dart';
+export 'package:danvery/module/orb/orbs/blue_flame_orb/widgets/orb_app_bar.dart';
 
-  BlueFlameOrb(this.context);
+class BlueFlameOrb extends Orb {
+  final OrbPalette palette = BlueFlamePalette();
 
-  @override
-  Palette palette = BlueFlamePalette();
-
-  @override
-  late ThemeData themeData;
+  BlueFlameOrb({
+    required Brightness brightness,
+  }) : super(brightness: brightness) {
+    lightThemeData = palette.lightThemeData;
+    darkThemeData = palette.darkThemeData;
+  }
 
   @override
   void init() {
-    // TODO: implement init
-    themeData = Theme.of(context).brightness == Brightness.light
-        ? palette.lightThemeData
-        : palette.darkThemeData;
-  }
 
+  }
 
 }

@@ -1,12 +1,12 @@
-import 'package:danvery/module/orb/widgets/orb_button.dart';
+import 'package:danvery/module/orb/orb.dart';
 import 'package:flutter/material.dart';
 
-class ModernDialog extends Dialog {
+class OrbDialog extends Dialog {
   final String title;
   final String content;
   final List<OrbButton> buttons;
 
-  const ModernDialog(
+  const OrbDialog(
       {super.key,
       required this.buttons,
       required this.title,
@@ -14,8 +14,12 @@ class ModernDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
+
+    ThemeData themeData = Theme.of(context);
+
     // TODO: implement build
     return Dialog(
+      backgroundColor: themeData.colorScheme.surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
@@ -31,12 +35,12 @@ class ModernDialog extends Dialog {
                 const SizedBox(height: 16),
                 Text(
                   title,
-                  //style: appTextTheme.titleMedium,
+                  style: themeData.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
                 Text(
                   content,
-                  //style: appTextTheme.bodyLarge,
+                  style: themeData.textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 24),
                 Flex(
@@ -80,7 +84,7 @@ Future<T?> showModernDialog<T>({
   return await showDialog<T>(
     barrierDismissible: true,
     context: context,
-    builder: (context) => ModernDialog(
+    builder: (context) => OrbDialog(
       buttons: modernButtons,
       title: title,
       content: content,

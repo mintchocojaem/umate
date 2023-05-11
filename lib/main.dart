@@ -1,13 +1,12 @@
-import 'package:danvery/utils/app_theme.dart';
 import 'package:danvery/utils/notification.dart';
-import 'package:danvery/widgets/modern/modern_dialog.dart';
+import 'package:danvery/module/orb/orbs/blue_flame_orb/widgets/orb_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'firebase_options.dart';
-import 'module/orb/widgets/orb_button.dart';
+import 'module/orb/orb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +25,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  final Orb blueFlameOrb =
+      Orb.ofType(OrbType.blueFlame, brightness: Brightness.light);
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Danvery',
-      theme: AppTheme().lightThemeData,
-      darkTheme: AppTheme().darkThemeData,
-      themeMode: ThemeMode.light,
+      theme: blueFlameOrb.lightThemeData,
+      darkTheme: blueFlameOrb.darkThemeData,
+      themeMode: ThemeMode.dark,
       home: const App(),
     ),
   );
@@ -44,36 +46,74 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '안녕하세요',
-          //style: appTextTheme.labelLarge,
-        ),
+      backgroundColor: themeData.colorScheme.background,
+      appBar: OrbAppbar(
+        leading: themeData.brightness == Brightness.light
+            ? Image.asset(
+                'assets/icons/app/danvery_light.png',
+                width: 48,
+                height: 48,
+              )
+            : Image.asset(
+                'assets/icons/app/danvery_dark.png',
+                width: 48,
+                height: 48,
+              ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Center(
-          child: OrbButton(
-            style: OrbButtonStyle.filled,
-            onPressed: () {
-              showModernDialog(
-                title: "소비 내역 더 불러오기",
-                content: "소비 내역을 더 불러오시겠습니까?",
-                context: context,
-                modernButtons: [
-                  OrbButton(
-                    mode: OrbButtonMode.fullWith,
-                    style: OrbButtonStyle.tonal,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    text: '더 불러오기',
+          child: Column(
+            children: [
+              Card(
+                color: themeData.colorScheme.surface,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    width: 300,
+                    child: Column(
+                      children: [
+                        Text(
+                          '안녕하세요',
+                          style: themeData.textTheme.titleMedium,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Danvery',
+                          style: themeData.textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              );
-            },
-            text: '안녕하세요',
+                ),
+              ),
+              OrbButton(
+                style: OrbButtonStyle.filled,
+                onPressed: () {
+                  showModernDialog(
+                    title: "소비 내역 더 불러오기",
+                    content: "소비 내역을 더 불러오시겠습니까?",
+                    context: context,
+                    modernButtons: [
+                      OrbButton(
+                        mode: OrbButtonMode.fullWith,
+                        style: OrbButtonStyle.tonal,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        text: '닫기',
+                      ),
+                    ],
+                  );
+                },
+                text: '안녕하세요',
+              ),
+            ],
           ),
         ),
       ),

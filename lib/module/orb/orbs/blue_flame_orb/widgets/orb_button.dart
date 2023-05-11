@@ -1,7 +1,7 @@
+import 'package:danvery/module/orb/orb.dart';
 import 'package:flutter/material.dart';
-import 'package:orb/orbs/blue_flame_orb/blue_flame_orb.dart';
 
-enum OrbButtonMode{
+enum OrbButtonMode {
   compact,
   full,
   fullWith,
@@ -17,10 +17,6 @@ class OrbButton extends StatelessWidget {
   final OrbButtonStyle style;
   final void Function()? onPressed;
   final String text;
-  final Color? enabledBackgroundColor;
-  final Color? disabledBackgroundColor;
-  final TextStyle? enabledTextStyle;
-  final TextStyle? disabledTextStyle;
   final bool enabled;
 
   const OrbButton({
@@ -29,10 +25,6 @@ class OrbButton extends StatelessWidget {
     this.style = OrbButtonStyle.filled,
     required this.onPressed,
     required this.text,
-    this.enabledBackgroundColor,
-    this.disabledBackgroundColor,
-    this.enabledTextStyle,
-    this.disabledTextStyle,
     this.enabled = true,
   });
 
@@ -40,21 +32,25 @@ class OrbButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final orb = BlueFlameOrb(context);
-    orb.init();
+    final blueFlameOrb = Orb.ofType(OrbType.blueFlame, brightness: Theme.of(context).brightness);
 
     final width = mode == OrbButtonMode.compact ? null : double.infinity;
     final height = mode == OrbButtonMode.full ? 58.0 : null;
 
-    return Theme(
-      data: orb.themeData,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: FilledButton(
-          onPressed: enabled ? onPressed : null,
-          child: Text(text),
-        ),
+    return SizedBox(
+      width: width,
+      height: height,
+      child: FilledButton(
+        style: style == OrbButtonStyle.tonal ? ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              blueFlameOrb.getOrbMode().colorScheme.surfaceVariant
+          ),
+          foregroundColor: MaterialStateProperty.all<Color>(
+            blueFlameOrb.getOrbMode().colorScheme.onSurfaceVariant,
+          ),
+        ) : null,
+        onPressed: enabled ? onPressed : null,
+        child: Text(text),
       ),
     );
   }
