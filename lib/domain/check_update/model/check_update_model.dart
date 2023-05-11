@@ -1,16 +1,22 @@
 class CheckUpdateModel{
-  final String minVersion;
-  final String latestVersion;
+  final String minVersionName;
+  final int minVersionCode;
+  final String latestVersionName;
+  final int latestVersionCode;
 
   CheckUpdateModel({
-    required this.minVersion,
-    required this.latestVersion
+    required this.minVersionName,
+    required this.minVersionCode,
+    required this.latestVersionName,
+    required this.latestVersionCode,
   });
 
   factory CheckUpdateModel.fromJson(Map<String, dynamic> json) {
     return CheckUpdateModel(
-      minVersion: json['min_version'],
-      latestVersion: json['latest_version'],
+      minVersionName: json['min_version']["versionName"],
+      minVersionCode: json['min_version']["versionCode"],
+      latestVersionName: json['latest_version']["versionName"],
+      latestVersionCode: json['latest_version']["versionCode"],
     );
   }
 

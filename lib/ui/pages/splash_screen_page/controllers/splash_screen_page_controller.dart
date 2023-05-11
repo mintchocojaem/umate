@@ -47,7 +47,7 @@ class SplashScreenPageController extends GetxController
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       CheckUpdateModel checkUpdateModel =
           apiResponseDTO.data as CheckUpdateModel;
-      if (checkUpdateModel.minVersion != packageInfo.version) {
+      if (checkUpdateModel.minVersionCode > int.parse(packageInfo.buildNumber)) {
         showCupertinoDialog(
             context: Get.context!,
             builder: (BuildContext context) {

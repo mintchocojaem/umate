@@ -16,8 +16,9 @@ class CheckUpdateProvider {
   factory CheckUpdateProvider() => _singleton;
 
   Future<ApiResponseDTO> getUpdate() async {
-    String url = "https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_34f4838a2b3047f39ac9cb0701558e46/main-storage/remote_config/remote_config.json";
-    final response = await _dio.get(url);
+    String productionUrl = "https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_34f4838a2b3047f39ac9cb0701558e46/main-storage/remote_config/remote_config.json";
+    String testUrl = "https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_34f4838a2b3047f39ac9cb0701558e46/main-storage/remote_config/remote_config_test.json";
+    final response = await _dio.get(productionUrl);
     try {
 
       return SuccessResponseDTO(
