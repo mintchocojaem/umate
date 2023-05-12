@@ -1,12 +1,13 @@
+import 'package:danvery/modules/orb/orbs/blue_flame_orb/widgets/dash_board/orb_list_board.dart';
 import 'package:danvery/utils/notification.dart';
-import 'package:danvery/module/orb/orbs/blue_flame_orb/widgets/orb_dialog.dart';
+import 'package:danvery/modules/orb/orbs/blue_flame_orb/widgets/orb_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'firebase_options.dart';
-import 'module/orb/orb.dart';
+import 'modules/orb/orb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ void main() async {
   ]);
 
   final Orb blueFlameOrb =
-      Orb.ofType(OrbType.blueFlame, brightness: Brightness.light);
+      Orb.ofType(OrbType.blueFlame, brightness: Brightness.dark);
 
   runApp(
     MaterialApp(
@@ -34,7 +35,7 @@ void main() async {
       title: 'Danvery',
       theme: blueFlameOrb.lightThemeData,
       darkTheme: blueFlameOrb.darkThemeData,
-      themeMode: ThemeMode.dark,
+      themeMode: blueFlameOrb.themeMode,
       home: const App(),
     ),
   );
@@ -48,6 +49,7 @@ class App extends StatelessWidget {
     // TODO: implement build
 
     final ThemeData themeData = Theme.of(context);
+
     return Scaffold(
       backgroundColor: themeData.colorScheme.background,
       appBar: OrbAppbar(
@@ -68,29 +70,31 @@ class App extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Card(
-                color: themeData.colorScheme.surface,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    width: 300,
-                    child: Column(
-                      children: [
-                        Text(
-                          '안녕하세요',
-                          style: themeData.textTheme.titleMedium,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          'Danvery',
-                          style: themeData.textTheme.titleMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              OrbListBoard(
+                title: "자유게시판",
+                tiles: [
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "11시간 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "2020/02/23", body: "안녕하세요 총학생회입니다"),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              OrbListBoard(
+                title: "청원게시판",
+                tiles: [
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "방금 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "11시간 전", body: "안녕하세요 총학생회입니다"),
+                  CompactTile(title: "2020/02/23", body: "안녕하세요 총학생회입니다"),
+                ],
+              ),
+              SizedBox(
+                height: 16,
               ),
               OrbButton(
                 style: OrbButtonStyle.filled,

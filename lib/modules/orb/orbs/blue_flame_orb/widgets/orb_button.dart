@@ -1,4 +1,4 @@
-import 'package:danvery/module/orb/orb.dart';
+import 'package:danvery/modules/orb/orb.dart';
 import 'package:flutter/material.dart';
 
 enum OrbButtonMode {
@@ -43,10 +43,10 @@ class OrbButton extends StatelessWidget {
       child: FilledButton(
         style: style == OrbButtonStyle.tonal ? ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-              blueFlameOrb.getOrbMode().colorScheme.surfaceVariant
+              blueFlameOrb.themeData.colorScheme.surfaceVariant
           ),
           foregroundColor: MaterialStateProperty.all<Color>(
-            blueFlameOrb.getOrbMode().colorScheme.onSurfaceVariant,
+            blueFlameOrb.themeData.colorScheme.onSurfaceVariant,
           ),
         ) : null,
         onPressed: enabled ? onPressed : null,

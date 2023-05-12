@@ -1,4 +1,4 @@
-import 'package:danvery/module/orb/orb.dart';
+import 'package:danvery/modules/orb/orb.dart';
 import 'package:flutter/material.dart';
 
 class OrbDialog extends Dialog {

@@ -1,5 +1,5 @@
-import 'package:danvery/module/orb/core/orb_text_theme.dart';
-import 'package:danvery/module/orb/core/orb_palette.dart';
+import 'package:danvery/modules/orb/core/orb_text_theme.dart';
+import 'package:danvery/modules/orb/core/orb_palette.dart';
 import 'package:flutter/material.dart';
 
 class BlueFlamePalette implements OrbPalette {
@@ -28,7 +28,7 @@ class BlueFlamePalette implements OrbPalette {
   static ColorScheme darkColorSchema = const ColorScheme(
     primary: Color(0xFF0D6EFA),
     secondary: Color(0xff0A95FD),
-    surface: Color(0xFF252525),
+    surface: Color(0xFF282828),
     surfaceVariant: Color(0xFF404040),
     background: Color(0xFF202020),
     error: Color(0xFFD50000),
@@ -41,10 +41,10 @@ class BlueFlamePalette implements OrbPalette {
     brightness: Brightness.dark,
   );
 
-  static final OrbTextTheme lightOrbTextTheme = OrbTextTheme(colorScheme: lightColorSchema);
+  final OrbTextTheme lightOrbTextTheme = OrbTextTheme(colorScheme: lightColorSchema);
 
   @override
-  ThemeData lightThemeData = ThemeData(
+  ThemeData get lightThemeData => ThemeData(
     scaffoldBackgroundColor: lightColorSchema.surface,
     textTheme: lightOrbTextTheme.getTextTheme,
     colorScheme: lightColorSchema,
@@ -74,10 +74,10 @@ class BlueFlamePalette implements OrbPalette {
     ),
   );
 
-  static final OrbTextTheme darkOrbTextTheme = OrbTextTheme(colorScheme: darkColorSchema);
+  final OrbTextTheme darkOrbTextTheme = OrbTextTheme(colorScheme: darkColorSchema);
 
   @override
-  ThemeData darkThemeData = ThemeData(
+  ThemeData get darkThemeData => ThemeData(
     scaffoldBackgroundColor: darkColorSchema.surface,
     textTheme: darkOrbTextTheme.getTextTheme,
     colorScheme: darkColorSchema,
@@ -106,4 +106,16 @@ class BlueFlamePalette implements OrbPalette {
       ),
     ),
   );
+
+  @override
+  set darkThemeData(ThemeData themeData) {
+    darkThemeData = themeData;
+  }
+
+  @override
+  set lightThemeData(ThemeData themeData) {
+    // TODO: implement lightThemeData
+    lightThemeData = themeData;
+  }
+
 }
