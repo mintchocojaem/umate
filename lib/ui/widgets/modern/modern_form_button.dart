@@ -79,7 +79,7 @@ class _ModernFormButton extends State<ModernFormButton> {
           style: widget.textStyle ??
               regularStyle.copyWith(
                   color: widget.isEnabled && !coolDown
-                      ? widget.enabledTextColor ?? Palette.lightGrey
+                      ? widget.enabledTextColor ?? Palette.white
                       : widget.disabledTextColor ?? Palette.grey,
                   fontWeight: FontWeight.bold),
         ),

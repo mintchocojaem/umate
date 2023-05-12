@@ -467,8 +467,9 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                           controller.commentTextController,
                                       decoration: InputDecoration(
                                         contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                vertical: 8, horizontal: 16),
+                                            const EdgeInsets.only(
+                                              left: 16, top: 8, bottom: 8, right: 36
+                                            ),
                                         counterText: "",
                                         hintText: "댓글을 입력해주세요",
                                         hintStyle: lightStyle.copyWith(

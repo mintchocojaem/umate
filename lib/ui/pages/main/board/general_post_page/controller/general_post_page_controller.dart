@@ -158,6 +158,10 @@ class GeneralPostPageController extends GetxController {
   Future<void> writeGeneralComment() async {
     FocusManager.instance.primaryFocus?.unfocus();
 
+    if (commentTextController.text.isEmpty) {
+      return;
+    }
+
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -167,10 +171,6 @@ class GeneralPostPageController extends GetxController {
       },
       barrierDismissible: false,
     );
-
-    if (commentTextController.text.isEmpty) {
-      return;
-    }
 
     final ApiResponseDTO apiResponseDTO =
         await _generalPostRepository.writeGeneralComment(

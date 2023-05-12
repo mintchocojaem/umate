@@ -367,7 +367,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.userWritePostCount.value
+                                    controller.loginService.userInfo.value.writeCount
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
@@ -397,7 +397,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.userCommentedPostCount.value
+                                    controller.loginService.userInfo.value.commentCount
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),
@@ -427,7 +427,7 @@ class MyPagePage extends GetView<MyPagePageController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.userLikedPostCount.value
+                                    controller.loginService.userInfo.value.likeCount
                                         .toString(),
                                     style: smallTitleStyle.copyWith(
                                         color: Palette.darkGrey),

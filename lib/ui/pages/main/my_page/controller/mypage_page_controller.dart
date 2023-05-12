@@ -62,9 +62,7 @@ class MyPagePageController extends GetxController {
 
   bool isRefreshing = false;
 
-  final RxInt userWritePostCount = 0.obs;
-  final RxInt userCommentedPostCount = 0.obs;
-  final RxInt userLikedPostCount = 0.obs;
+
 
   final RxInt selectedTabIndex = 0.obs;
 
@@ -422,14 +420,6 @@ class MyPagePageController extends GetxController {
                 j.thumbnailUrl, ("thumbnail_${j.originalName ?? "$i"}")))
             .path;
       }
-    }
-  }
-
-  Future<void> getUserInfo() async {
-    if (await loginService.getUserInfo()) {
-      userWritePostCount.value = loginService.userInfo.value.writeCount;
-      userCommentedPostCount.value = loginService.userInfo.value.commentCount;
-      userLikedPostCount.value = loginService.userInfo.value.likeCount;
     }
   }
 

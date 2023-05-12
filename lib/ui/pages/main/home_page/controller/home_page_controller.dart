@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:danvery/core/dto/api_response_dto.dart';
+import 'package:danvery/core/theme/app_text_theme.dart';
 import 'package:danvery/core/theme/palette.dart';
 import 'package:danvery/domain/banner/model/banner_list_model.dart';
 import 'package:danvery/domain/banner/model/banner_model.dart';
@@ -90,7 +91,7 @@ class HomePageController extends GetxController {
     ),
     CircleButton(
       imagePath: "assets/icons/main_icon_list/students_council_icon.png",
-      text: "총학생회\nVOC",
+      text: "총학생회\nWeb",
       onPressed: () {
         launchUrlString("https://dkustu.com/");
       },
@@ -254,6 +255,27 @@ class HomePageController extends GetxController {
             Flexible(
               flex: 1,
               child: BusCard(
+                info: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(48, 18),
+                    maximumSize: const Size(48, 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: BorderSide(width: 1.0, color: Palette.lightBlue),
+                  ),
+                  onPressed: () {
+                    launchUrlString("https://www.dankook.ac.kr/web/kor/-69");
+                  },
+                  child: Text(
+                    "시간표",
+                    style: tinyStyle.copyWith(
+                      color: Palette.lightBlue,
+                      height: 1.1,
+                    ),
+                  ),
+                ),
                 busNo: "셔틀",
                 busColor: Palette.lightBlue,
                 station1: "곰상 출발",
