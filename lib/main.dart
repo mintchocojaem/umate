@@ -18,10 +18,10 @@ void main() async{
   await GetStorage.init(); //setupFlutterNotification 보다 먼저 초기화 되어야 함
 
   // setting 함수
+  await FirebaseMessaging.instance.getNotificationSettings();
   await setupFlutterNotifications();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
-  // background 수신처리
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

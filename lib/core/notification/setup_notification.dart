@@ -3,6 +3,7 @@ import 'package:danvery/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -21,7 +22,7 @@ Future<void> setupFlutterNotifications() async {
     // description
     importance: Importance.high,
   );
-  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin =  FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -49,7 +50,7 @@ Future<void> setupFlutterNotifications() async {
 }
 
 Future<void> removeToken() async {
-  await FirebaseMessaging.instance.deleteToken().whenComplete((){
+  await FirebaseMessaging.instance.deleteToken().whenComplete(() {
     if (kDebugMode) {
       print('FCM token removed');
     }
@@ -64,34 +65,41 @@ Future<void> getToken() async {
   });
 }
 
+
 /// fcm 배경 처리 (종료되어있거나, 백그라운드에 경우)
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await setupFlutterNotifications(); // 셋팅 메소드
-  showFlutterNotification(message);
+  if (message.notification != null) {
+    //No need for showing Notification manually.
+    //For BackgroundMessages: Firebase automatically sends a Notification.
+    //If you call the flutterLocalNotificationsPlugin.show()-Methode for
+    //example the Notification will be displayed twice.
+  }
+  return;
 }
 
 /// fcm 전경 처리 - 로컬 알림 보이기
 void showFlutterNotification(RemoteMessage message) {
-  RemoteNotification? notification = message.notification;
-  AndroidNotification? android = message.notification?.android;
-  if (notification != null && android != null && !kIsWeb) {
-    // 웹이 아니면서 안드로이드이고, 알림이 있는경우
-    flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          // TODO add a proper drawable resource to android, for now using
-          //      one that already exists in example app.
-          icon: 'launch_background',
+  if (!kIsWeb) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null) {
+      // 웹이 아니면서 안드로이드이고, 알림이 있는경우
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            // TODO add a proper drawable resource to android, for now using
+            //      one that already exists in example app.
+            icon: "@mipmap/ic_launcher",
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

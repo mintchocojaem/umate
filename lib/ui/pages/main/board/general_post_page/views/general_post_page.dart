@@ -318,8 +318,7 @@ class GeneralPostPage extends GetView<GeneralPostPageController> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: controller.generalCommentList.value
-                                        .generalComments.length +
-                                    1,
+                                        .generalComments.length + 1,
                                 itemBuilder: (BuildContext context, int index) {
                                   final generalCommentList =
                                       controller.generalCommentList.value;
