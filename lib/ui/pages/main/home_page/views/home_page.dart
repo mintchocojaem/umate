@@ -33,6 +33,9 @@ class HomePage extends GetView<HomePageController> {
           controller.appbarOpacity.value =
               scrollController.offset / scrollController.position.maxScrollExtent;
         }
+        if(scrollController.offset < 0) {
+          scrollController.jumpTo(0);
+        }
       });
       return Scaffold(
         appBar: MainAppBar(
