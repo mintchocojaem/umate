@@ -181,13 +181,7 @@ class GeneralPostPageController extends GetxController {
       await getGeneralCommentWithRefresh(true);
       Get.back();
       commentTextController.clear();
-      if (generalPostScrollController.position.pixels >=
-          generalPostHeightKey.currentContext!.size!.height) {
-        generalPostScrollController.animateTo(
-            generalPostHeightKey.currentContext!.size!.height,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeOut);
-      }
+
     } else {
       Get.back();
       GetXSnackBar(

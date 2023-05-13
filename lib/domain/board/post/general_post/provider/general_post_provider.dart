@@ -97,7 +97,7 @@ class GeneralPostProvider {
   Future<ApiResponseDTO> getGeneralComment(
       String token, int commentId, int page, int size) async {
     String url =
-        '/post/general-forum/comment/$commentId?page=$page&size=$size&sort=createdAt,desc';
+        '/post/general-forum/comment/$commentId?page=$page&size=$size&sort=createdAt,asc';
 
     final headers = {
       'Authorization': "Bearer $token",
