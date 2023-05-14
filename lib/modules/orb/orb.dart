@@ -23,7 +23,7 @@ class Orb {
       brightness == ThemeMode.light ? lightThemeData : darkThemeData;
 
   ThemeMode get themeMode =>
-      brightness == ThemeMode.light ? ThemeMode.light : ThemeMode.dark;
+      brightness == Brightness.light ? ThemeMode.light : ThemeMode.dark;
 
   factory Orb.ofType(OrbType type, {required Brightness brightness}) {
     switch (type) {

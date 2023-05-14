@@ -27,7 +27,7 @@ void main() async {
   ]);
 
   final Orb blueFlameOrb =
-      Orb.ofType(OrbType.blueFlame, brightness: Brightness.dark);
+      Orb.ofType(OrbType.blueFlame, brightness: Brightness.light);
 
   runApp(
     MaterialApp(
