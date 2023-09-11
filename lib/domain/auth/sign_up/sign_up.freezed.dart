@@ -23,9 +23,6 @@ mixin _$SignUp {
   @JsonKey(name: "signupToken")
   String get signUpToken => throw _privateConstructorUsedError;
   Student get student => throw _privateConstructorUsedError;
-  bool get isVerified => throw _privateConstructorUsedError;
-  bool get isSignedUp => throw _privateConstructorUsedError;
-  bool get isSentSMS => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,11 +35,7 @@ abstract class $SignUpCopyWith<$Res> {
       _$SignUpCopyWithImpl<$Res, SignUp>;
   @useResult
   $Res call(
-      {@JsonKey(name: "signupToken") String signUpToken,
-      Student student,
-      bool isVerified,
-      bool isSignedUp,
-      bool isSentSMS});
+      {@JsonKey(name: "signupToken") String signUpToken, Student student});
 
   $StudentCopyWith<$Res> get student;
 }
@@ -62,9 +55,6 @@ class _$SignUpCopyWithImpl<$Res, $Val extends SignUp>
   $Res call({
     Object? signUpToken = null,
     Object? student = null,
-    Object? isVerified = null,
-    Object? isSignedUp = null,
-    Object? isSentSMS = null,
   }) {
     return _then(_value.copyWith(
       signUpToken: null == signUpToken
@@ -75,18 +65,6 @@ class _$SignUpCopyWithImpl<$Res, $Val extends SignUp>
           ? _value.student
           : student // ignore: cast_nullable_to_non_nullable
               as Student,
-      isVerified: null == isVerified
-          ? _value.isVerified
-          : isVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSignedUp: null == isSignedUp
-          ? _value.isSignedUp
-          : isSignedUp // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSentSMS: null == isSentSMS
-          ? _value.isSentSMS
-          : isSentSMS // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 
@@ -106,11 +84,7 @@ abstract class _$$_SignUpCopyWith<$Res> implements $SignUpCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "signupToken") String signUpToken,
-      Student student,
-      bool isVerified,
-      bool isSignedUp,
-      bool isSentSMS});
+      {@JsonKey(name: "signupToken") String signUpToken, Student student});
 
   @override
   $StudentCopyWith<$Res> get student;
@@ -128,9 +102,6 @@ class __$$_SignUpCopyWithImpl<$Res>
   $Res call({
     Object? signUpToken = null,
     Object? student = null,
-    Object? isVerified = null,
-    Object? isSignedUp = null,
-    Object? isSentSMS = null,
   }) {
     return _then(_$_SignUp(
       signUpToken: null == signUpToken
@@ -141,18 +112,6 @@ class __$$_SignUpCopyWithImpl<$Res>
           ? _value.student
           : student // ignore: cast_nullable_to_non_nullable
               as Student,
-      isVerified: null == isVerified
-          ? _value.isVerified
-          : isVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSignedUp: null == isSignedUp
-          ? _value.isSignedUp
-          : isSignedUp // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSentSMS: null == isSentSMS
-          ? _value.isSentSMS
-          : isSentSMS // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -162,10 +121,7 @@ class __$$_SignUpCopyWithImpl<$Res>
 class _$_SignUp implements _SignUp {
   const _$_SignUp(
       {@JsonKey(name: "signupToken") required this.signUpToken,
-      required this.student,
-      this.isVerified = false,
-      this.isSignedUp = false,
-      this.isSentSMS = false});
+      required this.student});
 
   factory _$_SignUp.fromJson(Map<String, dynamic> json) =>
       _$$_SignUpFromJson(json);
@@ -175,19 +131,10 @@ class _$_SignUp implements _SignUp {
   final String signUpToken;
   @override
   final Student student;
-  @override
-  @JsonKey()
-  final bool isVerified;
-  @override
-  @JsonKey()
-  final bool isSignedUp;
-  @override
-  @JsonKey()
-  final bool isSentSMS;
 
   @override
   String toString() {
-    return 'SignUp(signUpToken: $signUpToken, student: $student, isVerified: $isVerified, isSignedUp: $isSignedUp, isSentSMS: $isSentSMS)';
+    return 'SignUp(signUpToken: $signUpToken, student: $student)';
   }
 
   @override
@@ -197,19 +144,12 @@ class _$_SignUp implements _SignUp {
             other is _$_SignUp &&
             (identical(other.signUpToken, signUpToken) ||
                 other.signUpToken == signUpToken) &&
-            (identical(other.student, student) || other.student == student) &&
-            (identical(other.isVerified, isVerified) ||
-                other.isVerified == isVerified) &&
-            (identical(other.isSignedUp, isSignedUp) ||
-                other.isSignedUp == isSignedUp) &&
-            (identical(other.isSentSMS, isSentSMS) ||
-                other.isSentSMS == isSentSMS));
+            (identical(other.student, student) || other.student == student));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, signUpToken, student, isVerified, isSignedUp, isSentSMS);
+  int get hashCode => Object.hash(runtimeType, signUpToken, student);
 
   @JsonKey(ignore: true)
   @override
@@ -228,10 +168,7 @@ class _$_SignUp implements _SignUp {
 abstract class _SignUp implements SignUp {
   const factory _SignUp(
       {@JsonKey(name: "signupToken") required final String signUpToken,
-      required final Student student,
-      final bool isVerified,
-      final bool isSignedUp,
-      final bool isSentSMS}) = _$_SignUp;
+      required final Student student}) = _$_SignUp;
 
   factory _SignUp.fromJson(Map<String, dynamic> json) = _$_SignUp.fromJson;
 
@@ -240,12 +177,6 @@ abstract class _SignUp implements SignUp {
   String get signUpToken;
   @override
   Student get student;
-  @override
-  bool get isVerified;
-  @override
-  bool get isSignedUp;
-  @override
-  bool get isSentSMS;
   @override
   @JsonKey(ignore: true)
   _$$_SignUpCopyWith<_$_SignUp> get copyWith =>

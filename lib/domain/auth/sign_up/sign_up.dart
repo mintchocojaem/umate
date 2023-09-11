@@ -6,11 +6,8 @@ part 'sign_up.g.dart';
 @freezed
 class SignUp with _$SignUp {
   const factory SignUp({
-    @JsonKey(name : "signupToken") required final String signUpToken,
+    @JsonKey(name : "signupToken") required String signUpToken,
     required Student student,
-    @Default(false) bool isVerified,
-    @Default(false) bool isSignedUp,
-    @Default(false) bool isSentSMS,
   }) = _SignUp;
 
   factory SignUp.fromJson(Map<String, dynamic> json) => _$SignUpFromJson(json);

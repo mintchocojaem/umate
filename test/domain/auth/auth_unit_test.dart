@@ -26,26 +26,72 @@ void main() {
       );
     });
 
-    test('로그인 테스트 : Token', () async {
-      const String studentId = "studentId";
-      const String password = "password";
+    test('학생인증 테스트', () async {
+      const String dkuStudentId = "dkuStudentId";
+      const String dkuPassword = "dkuPassword";
 
-      const Map<String, dynamic> responseToken = {
-        'accessToken': "accessToken",
-        'refreshToken': 'refreshToken'
+      const Map<String, dynamic> response = {
+        "signupToken": "string",
+        "student": {
+          "studentName": "string",
+          "studentId": "string",
+          "major": "string"
+        }
       };
 
       when(
         mockDio.post(
-          '$developmentBaseUrl/user/login',
+          "$developmentBaseUrl/user/dku/verify",
           data: {
-            'studentId': studentId,
-            'password': password,
+            "dkuStudentId": dkuStudentId,
+            "dkuPassword": dkuPassword,
           },
         ),
       ).thenAnswer(
         (_) async => Response(
-          data: responseToken,
+          data: response,
+          statusCode: 200,
+          requestOptions: RequestOptions(),
+        ),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          dioProvider.overrideWithValue(mockDio),
+        ],
+      );
+
+      addTearDown(() => container.dispose());
+
+      expect(container.read(signUpProvider).value, null);
+
+      // 학생인증
+      await container.read(signUpProvider.notifier).verifyStudent(dkuStudentId, dkuPassword);
+
+      expect(container.read(signUpProvider).value, isA<SignUp>());
+
+    });
+
+    test('로그인 테스트', () async {
+      const String studentId = "studentId";
+      const String password = "password";
+
+      const Map<String, dynamic> response = {
+        "accessToken": "accessToken",
+        "refreshToken": "refreshToken"
+      };
+
+      when(
+        mockDio.post(
+          "$developmentBaseUrl/user/login",
+          data: {
+            "studentId": studentId,
+            "password": password,
+          },
+        ),
+      ).thenAnswer(
+        (_) async => Response(
+          data: response,
           statusCode: 200,
           requestOptions: RequestOptions(),
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ModernBoard extends StatelessWidget{
+class OrbBoard extends StatelessWidget{
 
-  const ModernBoard({
+  const OrbBoard({
     super.key,
     required this.title,
     this.child,
@@ -19,7 +19,7 @@ class ModernBoard extends StatelessWidget{
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: themeData.colorScheme.surfaceVariant,
+        color: themeData.colorScheme.onBackground.withOpacity(0.5),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(

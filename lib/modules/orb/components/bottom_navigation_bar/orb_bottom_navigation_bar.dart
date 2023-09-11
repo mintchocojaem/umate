@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
-class ModernBottomNavigationBar extends StatefulWidget {
+class OrbBottomNavigationBar extends StatefulWidget {
   final List<BottomNavigationBarItem> items;
 
-  const ModernBottomNavigationBar({Key? key, required this.items})
+  const OrbBottomNavigationBar({Key? key, required this.items})
       : super(key: key);
 
   @override
-  State<ModernBottomNavigationBar> createState() =>
-      _ModernBottomNavigationBar();
+  State<OrbBottomNavigationBar> createState() =>
+      _OrbBottomNavigationBar();
 }
 
-class _ModernBottomNavigationBar extends State<ModernBottomNavigationBar> {
+class _OrbBottomNavigationBar extends State<OrbBottomNavigationBar> {
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
