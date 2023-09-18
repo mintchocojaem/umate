@@ -47,7 +47,7 @@ Future<void> setupFlutterNotifications() async {
   );
   // 토큰 요청
   await getToken();
-  // 셋팅flag 설정
+  // 셋팅 flag 설정
   isFlutterLocalNotificationsInitialized = true;
 }
 

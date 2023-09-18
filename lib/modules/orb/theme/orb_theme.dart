@@ -3,18 +3,31 @@ import 'package:flutter/material.dart';
 import 'orb_palette.dart';
 
 class OrbTheme {
-  final bool isDark;
-  ThemeData _currentTheme;
 
-  OrbTheme({required this.isDark}) : _currentTheme = isDark ? _dark : _light;
+  ThemeMode themeMode;
 
-  set isDark(bool value) {
-    _currentTheme = value ? _dark : _light;
+  OrbTheme._internal({required this.themeMode});
+
+  static final OrbTheme _instance = OrbTheme._internal(themeMode: ThemeMode.system);
+
+  factory OrbTheme({ThemeMode? themeMode}) {
+    _instance.themeMode = themeMode ?? _instance.themeMode;
+    return _instance;
   }
 
-  ThemeData get currentTheme => _currentTheme;
+  ThemeData get currentTheme {
+    switch (themeMode) {
+      case ThemeMode.system:
+        final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        return brightness == Brightness.dark ? _dark : _light;
+      case ThemeMode.light:
+        return _light;
+      case ThemeMode.dark:
+        return _dark;
+    }
+  }
 
-  static final ThemeData _light = ThemeData(
+  final ThemeData _light = ThemeData(
     useMaterial3: true,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
@@ -23,19 +36,19 @@ class OrbTheme {
         fontSize: 24,
       ),
       titleMedium: TextStyle(
-        fontSize: 20,
+        fontSize: 22,
       ),
       titleSmall: TextStyle(
-        fontSize: 16,
+        fontSize: 18,
       ),
       bodyLarge: TextStyle(
-        fontSize: 20,
+        fontSize: 18,
       ),
       bodyMedium: TextStyle(
         fontSize: 16,
       ),
       bodySmall: TextStyle(
-        fontSize: 12,
+        fontSize: 14,
       ),
     ).apply(fontFamily: 'SpoqaHanSansNeo'),
     brightness: Brightness.light,
@@ -52,7 +65,7 @@ class OrbTheme {
     ),
   );
 
-  static final ThemeData _dark = ThemeData(
+  final ThemeData _dark = ThemeData(
     useMaterial3: true,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,

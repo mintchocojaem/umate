@@ -15,6 +15,13 @@ class AuthRepository {
 
   AuthRepository(this.dio);
 
+  ExceptionDto getExceptionDto(DioException e) {
+    return e.response == null ? const ExceptionDto() : ExceptionDto(
+      code : e.response!.data['code'].toString(),
+      message : e.response!.data['message'].first.toString(),
+    );
+  }
+
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
     try {
       final response = await dio.post(
@@ -27,10 +34,7 @@ class AuthRepository {
 
       return SignUp.fromJson(response.data);
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -45,10 +49,7 @@ class AuthRepository {
 
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -62,10 +63,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -81,10 +79,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -99,10 +94,7 @@ class AuthRepository {
       );
       return Token.fromJson(response.data);
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -121,10 +113,7 @@ class AuthRepository {
       );
       return Token.fromJson(response.data);
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -141,10 +130,7 @@ class AuthRepository {
 
       return User.fromJson(response.data);
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -156,10 +142,7 @@ class AuthRepository {
 
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -173,10 +156,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -190,10 +170,7 @@ class AuthRepository {
       );
       return response.data['token'];
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -208,10 +185,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 
@@ -226,10 +200,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw ExceptionDto(
-        e.response!.data['code'].toString(),
-        e.response!.data['message'].first.toString(),
-      );
+      throw getExceptionDto(e);
     }
   }
 

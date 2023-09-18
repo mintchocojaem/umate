@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OrbTextFormField extends StatelessWidget{
+class OrbTextFormField extends StatelessWidget {
 
   final TextEditingController? controller;
   final bool? obscureText;
@@ -66,3 +66,4 @@ class OrbTextFormField extends StatelessWidget{
   }
 
 }
+

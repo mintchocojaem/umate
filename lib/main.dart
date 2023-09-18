@@ -1,3 +1,4 @@
+import 'package:danvery/screens/main/profile/profile_screen.dart';
 import 'package:danvery/utils/exception_handler.dart';
 import 'package:danvery/utils/notification.dart';
 import 'package:danvery/utils/shared_preference.dart';
@@ -12,19 +13,18 @@ import 'modules/orb/components/components.dart';
 import 'modules/orb/theme/orb_theme.dart';
 import 'routes/router_provider.dart';
 
-//ScaffoldMessenger should be in MaterialApp and apply this key
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
+//should be in MaterialApp and apply this key
+final globalNavigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
   ExceptionHandler(
-    scaffoldMessengerKey: scaffoldMessengerKey,
+    key: globalNavigatorKey,
     onException: (String message) {
       OrbSnackBar.show(
-        context: scaffoldMessengerKey.currentContext!,
+        context: globalNavigatorKey.currentContext!,
         message: message,
         type: OrbSnackBarType.error,
       );
@@ -58,18 +58,15 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-
     return MaterialApp(
+      navigatorKey: globalNavigatorKey,
       title: 'Danvery',
-      theme: OrbTheme(isDark: true).currentTheme,
+      theme: ref.watch(themeProvider),
       debugShowCheckedModeBanner: false,
-      home: ScaffoldMessenger(
-        key: scaffoldMessengerKey,
-        child: Router(
-          routeInformationParser: router.routeInformationParser,
-          routeInformationProvider: router.routeInformationProvider,
-          routerDelegate: router.routerDelegate,
-        ),
+      home: Router(
+        routeInformationParser: router.routeInformationParser,
+        routeInformationProvider: router.routeInformationProvider,
+        routerDelegate: router.routerDelegate,
       ),
     );
   }

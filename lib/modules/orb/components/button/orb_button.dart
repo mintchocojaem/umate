@@ -11,28 +11,31 @@ enum OrbButtonSize {
   wide,
 }
 
-class OrbButton extends StatelessWidget {
-
-  final VoidCallback? onPressed;
-  final Widget child;
+class OrbButton extends StatefulWidget {
+  final Future Function()? onPressed;
+  final Widget? child;
+  final String? buttonText;
   final bool disabled;
   final double? borderRadius;
   final OrbButtonTheme buttonTheme;
   final OrbButtonSize buttonSize;
+  final Duration buttonCoolDown;
 
   const OrbButton({
     super.key,
     this.onPressed,
-    required this.child,
+    this.child,
+    this.buttonText,
     this.disabled = false,
     this.borderRadius,
     this.buttonTheme = OrbButtonTheme.primary,
     this.buttonSize = OrbButtonSize.wide,
+    this.buttonCoolDown = const Duration(seconds: 1),
   });
 
   OrbButton copyWith({
     Key? key,
-    VoidCallback? onPressed,
+    Future Function()? onPressed,
     Widget? child,
     double? borderRadius,
     bool? disabled,
@@ -50,28 +53,52 @@ class OrbButton extends StatelessWidget {
     );
   }
 
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return OrbButtonState();
+  }
+}
+
+class OrbButtonState extends State<OrbButton> {
+  bool coolDown = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData theme = Theme.of(context);
-    bool enabled = true;
     return FilledButton(
-      onPressed: disabled ? null : (){
-        if(enabled) onPressed?.call();
-        enabled = false;
-        Future.delayed(const Duration(seconds: 1), () {
-          enabled = true;
-        });
-      },
+      onPressed: widget.disabled
+          ? null
+          : () async{
+              if (coolDown && !isLoading) {
+                setState(() {
+                  isLoading = true;
+                });
+                widget.onPressed?.call().whenComplete((){
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+
+              }
+              coolDown = false;
+              Future.delayed(
+                widget.buttonCoolDown,
+                () {
+                  coolDown = true;
+                },
+              );
+            },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
-          buttonTheme == OrbButtonTheme.primary
+          widget.buttonTheme == OrbButtonTheme.primary
               ? theme.colorScheme.primary
               : theme.colorScheme.onSurface.withOpacity(0.2),
         ),
         foregroundColor: MaterialStateProperty.all(
-          buttonTheme == OrbButtonTheme.primary
+          widget.buttonTheme == OrbButtonTheme.primary
               ? theme.colorScheme.onPrimary
               : theme.colorScheme.onSurface,
         ),
@@ -80,16 +107,42 @@ class OrbButton extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        minimumSize: buttonSize == OrbButtonSize.compact
+        minimumSize: widget.buttonSize == OrbButtonSize.compact
             ? MaterialStateProperty.all(const Size(0, 36))
             : MaterialStateProperty.all(const Size(double.infinity, 48)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 15),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
           ),
         ),
       ),
-      child: child,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (isLoading)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: SizedBox(
+                width: theme.textTheme.bodySmall?.fontSize,
+                height: theme.textTheme.bodySmall?.fontSize,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
+          if (widget.child != null) widget.child!,
+          if (widget.buttonText != null)
+            Text(
+              widget.buttonText!,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

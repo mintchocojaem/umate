@@ -13,14 +13,12 @@ class UserNotifier extends AsyncNotifier<User?> {
   String? resetPasswordToken;
 
   Future<void> getUser(String accessToken) async {
-    state = const AsyncValue.loading();
     final AsyncValue<User?> user = await AsyncValue.guard(() async =>
         await ref.read(authRepositoryProvider).getUser(accessToken));
     state = user;
   }
 
   Future<void> findUserId(String phoneNumber) async{
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .findUserId(phoneNumber));
@@ -30,7 +28,6 @@ class UserNotifier extends AsyncNotifier<User?> {
   }
 
   Future<void> sendSMStoResetPassword(String phoneNumber) async{
-    state = const AsyncValue.loading();
     final AsyncValue<String?> result =
     await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
@@ -42,7 +39,6 @@ class UserNotifier extends AsyncNotifier<User?> {
   }
 
   Future<void> verifySMStoResetPassword(String code) async{
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifySMStoResetPassword(resetPasswordToken!, code));
@@ -52,7 +48,6 @@ class UserNotifier extends AsyncNotifier<User?> {
   }
 
   Future<void> resetPassword(String code) async{
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .resetPassword(resetPasswordToken!, code));

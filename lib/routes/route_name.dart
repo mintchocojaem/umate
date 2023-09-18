@@ -2,8 +2,14 @@
 class RouteName{
   //error
   static const error = '/error';
+  //main
+  static const main = '/main';
   //home
   static const home = '/home';
+  //search
+  static const search = '/search';
+  //profile
+  static const profile = '/profile';
   //login
   static const login = '/login';
   static const loginHelp = '/login/help';

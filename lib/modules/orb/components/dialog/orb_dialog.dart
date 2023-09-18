@@ -39,40 +39,39 @@ class OrbDialog extends StatelessWidget {
           Flex(
             direction: Axis.horizontal,
             children: [
-              leftButtonText != null
-                  ? Flexible(
-                      flex: 1,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: OrbButton(
-                          onPressed: () {
-                            onLeftButtonPressed?.call();
-                            Navigator.pop(context);
-                          },
-                          buttonTheme: OrbButtonTheme.onSurface,
-                          child: Text(leftButtonText!),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
-              rightButtonText != null && leftButtonText != null
-                  ? const SizedBox(width: 16)
-                  : const SizedBox(),
-              rightButtonText != null
-                  ? Flexible(
-                      flex: 1,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: OrbButton(
-                          onPressed: () {
-                            onRightButtonPressed?.call();
-                            Navigator.pop(context);
-                          },
-                          child: Text(rightButtonText!),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
+              if (leftButtonText != null)
+                Flexible(
+                  flex: 1,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OrbButton(
+                      onPressed: () async{
+                        onLeftButtonPressed?.call();
+                        Navigator.pop(context);
+                      },
+                      buttonTheme: OrbButtonTheme.onSurface,
+                      child: Text(leftButtonText!),
+                    ),
+                  ),
+                ),
+              SizedBox(
+                  width: rightButtonText != null && leftButtonText != null
+                      ? 16
+                      : 0),
+              if (rightButtonText != null)
+                Flexible(
+                  flex: 1,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OrbButton(
+                      onPressed: () async{
+                        onRightButtonPressed?.call();
+                        Navigator.pop(context);
+                      },
+                      child: Text(rightButtonText!),
+                    ),
+                  ),
+                ),
             ],
           ),
         ],

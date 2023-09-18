@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
+typedef OnIndexChanged = void Function(int index);
+
 class OrbBottomNavigationBar extends StatefulWidget {
   final List<BottomNavigationBarItem> items;
+  final OnIndexChanged? onIndexChanged;
 
-  const OrbBottomNavigationBar({Key? key, required this.items})
-      : super(key: key);
+  const OrbBottomNavigationBar({
+    Key? key,
+    required this.items,
+    this.onIndexChanged,
+  }) : super(key: key);
 
   @override
-  State<OrbBottomNavigationBar> createState() =>
-      _OrbBottomNavigationBar();
+  State<OrbBottomNavigationBar> createState() => _OrbBottomNavigationBar();
 }
 
 class _OrbBottomNavigationBar extends State<OrbBottomNavigationBar> {
@@ -20,26 +25,43 @@ class _OrbBottomNavigationBar extends State<OrbBottomNavigationBar> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(24), topLeft: Radius.circular(24)),
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+        ),
         boxShadow: [
           BoxShadow(
-              color: theme.colorScheme.onBackground,
-              spreadRadius: 0,
-              blurRadius: 1),
+            color: theme.colorScheme.onSurface,
+            spreadRadius: 0,
+            blurRadius: 1,
+          ),
         ],
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24.0),
-          topRight: Radius.circular(24.0),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-        child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          onTap: (value) => setState(() => selectedIndex = value),
-          currentIndex: selectedIndex,
-          items: widget.items,
+        child: Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.onSurface.withOpacity(0.1),
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            onTap: (value) => setState(() {
+              selectedIndex = value;
+              widget.onIndexChanged?.call(value);
+            }),
+            currentIndex: selectedIndex,
+            items: widget.items,
+          ),
         ),
       ),
     );

@@ -1,16 +1,30 @@
-import 'package:danvery/domain/domain.dart';
 import 'package:danvery/routes/route_name.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../domain/auth/auth.dart';
+import '../screens/screens.dart';
+
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
-      initialLocation: RouteName.home,
+      initialLocation: RouteName.login,
       routes: [
+        GoRoute(
+          path: RouteName.main,
+          builder: (context, state) => MainScreen(key: state.pageKey),
+        ),
         GoRoute(
           path: RouteName.home,
           builder: (context, state) => HomeScreen(key: state.pageKey),
+        ),
+        GoRoute(
+          path: RouteName.search,
+          builder: (context, state) => SearchScreen(key: state.pageKey),
+        ),
+        GoRoute(
+          path: RouteName.profile,
+          builder: (context, state) => ProfileScreen(key: state.pageKey),
         ),
         GoRoute(
           path: RouteName.login,
@@ -89,7 +103,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
           //page not found error
         } else if (ref.watch(tokenProvider).value == null &&
             !state.fullPath!.contains(RouteName.login)) {
-          return RouteName.login;
+          //return RouteName.login;
         }
         return null;
       },

@@ -53,6 +53,7 @@ dependencies:
   mockito: ^5.4.2
   confetti: ^0.7.0
   another_flushbar: ^1.12.30
+  carousel_slider: ^4.2.1
 
   #orb:
   #  git:
@@ -117,8 +118,9 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/icons/
+    - assets/icons/logo/
     - assets/icons/app/
+    - assets/icons/test/
   fonts:
     - family: SpoqaHanSansNeo
       fonts:

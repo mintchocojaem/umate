@@ -9,20 +9,20 @@ final dioProvider = Provider<Dio>((ref) => DioClient().dio);
 
 class DioClient {
   final Dio dio = Dio();
-
   DioClient() {
     dio.options = BaseOptions(
         baseUrl: developmentBaseUrl,
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 5),
-        sendTimeout: const Duration(seconds: 5),
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
         contentType: "application/json");
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
+        onRequest: (options, handler) async{
           // 요청 전에 처리할 내용 추가
           if (kDebugMode) {
             print("Dio Request : ${options.uri}");
+            await Future.delayed(const Duration(seconds: 2));
           }
           return handler.next(options); // 다음 Interceptor 호출
         },
@@ -39,7 +39,6 @@ class DioClient {
           if (kDebugMode) {
             //print("Dio Error : ${e.response?.data['message']}");
           }
-
           return handler.next(e); // 다음 Interceptor 호출
         },
       ),

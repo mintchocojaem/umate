@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:danvery/domain/auth/auth.dart';
 import 'package:danvery/main.dart';
-import 'package:danvery/modules/orb/components/snack_bar/orb_snack_bar.dart';
+import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../routes/route_name.dart';
 import '../../../routes/router_provider.dart';
+import '../../../screens/screens.dart';
 
 final signUpProvider =
     AsyncNotifierProvider<SignUpNotifier, SignUp?>(() => SignUpNotifier());
@@ -21,15 +22,12 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
 
     if (!ref.read(isAgreeAllProvider)) {
       OrbSnackBar.show(
-        context: scaffoldMessengerKey.currentContext!,
+        context: globalNavigatorKey.currentContext!,
         message: "개인정보 이용약관에 동의해주세요.",
         type: OrbSnackBarType.warning,
       );
       return;
     }
-
-    state = const AsyncValue.loading();
-
     final AsyncValue<SignUp?> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifyStudent(dkuStudentId, dkuPassword));
@@ -40,7 +38,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   }
 
   Future<void> sendSMS(String signUpToken, String phoneNumber) async {
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .sendSMS(signUpToken, phoneNumber));
@@ -51,7 +48,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   }
 
   Future<void> verifySMS(String signUpToken, String code) async {
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifySMS(signUpToken, code));
@@ -62,7 +58,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   }
 
   Future<void> verifyNickname(String nickname) async {
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .validNickname(nickname));
@@ -75,7 +70,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   Future<void> setValidNickname(String nickname) async{
     if( ref.read(signUpValidNicknameProvider.notifier).state != nickname){
       OrbSnackBar.show(
-        context: scaffoldMessengerKey.currentContext!,
+        context: globalNavigatorKey.currentContext!,
         message: "닉네임 중복확인을 해주세요.",
         type: OrbSnackBarType.warning,
       );
@@ -86,8 +81,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
 
   Future<void> signUp(
       String signUpToken, String nickname, String password) async {
-
-    state = const AsyncValue.loading();
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .signUp(signUpToken, nickname, password));

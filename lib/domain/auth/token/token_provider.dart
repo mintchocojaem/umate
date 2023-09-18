@@ -10,28 +10,26 @@ final tokenProvider =
 class TokenNotifier extends AsyncNotifier<Token?> {
   final SharedPreference _sharedPreference = SharedPreference();
 
-  Future<void> login(String studentId, String password) async {
-    state = const AsyncValue.loading();
-    final AsyncValue<Token?> result = await AsyncValue.guard(() async =>
-        await ref.read(authRepositoryProvider).login(studentId, password));
-    state = result;
+  Future<void> login(String studentId, String password) async{
+    final result = await AsyncValue.guard(() async =>
+    await ref.read(authRepositoryProvider).login(studentId, password));
     if (result.value != null) {
+      state = result;
       _sharedPreference.token = state.value;
     }
   }
 
   Future<void> reissueToken(String accessToken, String refreshToken) async {
-    state = const AsyncValue.loading();
-    final AsyncValue<Token?> result = await AsyncValue.guard(() async =>
-        await ref.read(authRepositoryProvider).reissueToken(accessToken, refreshToken));
-    state = result;
+    final result = await AsyncValue.guard(() async => await ref
+        .read(authRepositoryProvider)
+        .reissueToken(accessToken, refreshToken));
     if (result.value != null) {
+      state = result;
       _sharedPreference.token = state.value;
     }
   }
 
   Future<void> autoLogin() async {
-    state = const AsyncValue.loading();
     final Token? token = _sharedPreference.token;
     if (token != null) {
       //Todo accessToken 부분 나중에 수정해야함
@@ -46,10 +44,10 @@ class TokenNotifier extends AsyncNotifier<Token?> {
   }
 
   @override
-  Future<Token?> build() async{
+  Future<Token?> build() async {
     // TODO: implement build
     //await autoLogin();
     //await login("12345678", "121212");
-    return state.value;
+    return null;
   }
 }

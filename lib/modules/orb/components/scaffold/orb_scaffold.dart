@@ -11,6 +11,8 @@ class OrbScaffold extends StatelessWidget {
   final Widget? submitHelper;
   final String? pageHelpText;
   final ScrollController? scrollController;
+  final bool defaultAppBar;
+  final bool shrinkWrap;
 
   const OrbScaffold({
     super.key,
@@ -23,14 +25,18 @@ class OrbScaffold extends StatelessWidget {
     this.submitHelper,
     this.pageHelpText,
     this.scrollController,
+    this.defaultAppBar = true,
+    this.shrinkWrap = false,
   });
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData theme = Theme.of(context);
+
     return Scaffold(
-      appBar: orbAppBar ?? const OrbAppBar(),
+      appBar:
+          defaultAppBar && orbAppBar == null ? const OrbAppBar() : orbAppBar,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
@@ -42,64 +48,57 @@ class OrbScaffold extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  child: CustomScrollView(
+                  child: SingleChildScrollView(
                     controller: scrollController,
-                    slivers: [
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              pageHelpText != null
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 32),
-                                      child: Text(
-                                        pageHelpText!,
-                                        style: theme.textTheme.titleMedium
-                                            ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              body ?? const SizedBox(),
-                            ],
-                          ),
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (pageHelpText != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: Text(
+                                pageHelpText!,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          shrinkWrap
+                              ? body ?? const SizedBox()
+                              : IntrinsicHeight(
+                                  child: body,
+                                ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                submitButton != null
-                    ? Container(
-                        color: theme.colorScheme.surface,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              submitButton!,
-                              submitHelper ?? const SizedBox(),
-                            ],
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
+                if (submitButton != null)
+                  Container(
+                    color: theme.colorScheme.surface,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          submitButton!,
+                          submitHelper ?? const SizedBox(),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             ),
-            MediaQuery.of(context).viewInsets.bottom > 0
-                ? Positioned(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                    left: 0,
-                    right: 0,
-                    child: submitButton?.copyWith(borderRadius: 0) ??
-                        const SizedBox(),
-                  )
-                : const SizedBox(),
+            if (MediaQuery.of(context).viewInsets.bottom > 0)
+              Positioned(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 0,
+                right: 0,
+                child:
+                    submitButton?.copyWith(borderRadius: 0) ?? const SizedBox(),
+              ),
           ],
         ),
       ),
