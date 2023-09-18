@@ -16,7 +16,7 @@ class LoginHelpScreen extends ConsumerWidget {
       body: Column(
         children: [
           OrbListCardTile(
-            title: '회원가입을 하고 싶어요',
+            titleText: '회원가입을 하고 싶어요',
             onTap: () {
               ref
                   .read(routerProvider)
@@ -28,7 +28,7 @@ class LoginHelpScreen extends ConsumerWidget {
             height: 16,
           ),
           OrbListCardTile(
-            title: '아이디(학번)을 잊어버렸어요',
+            titleText: '아이디(학번)을 잊어버렸어요',
             onTap: () {
               ref.read(routerProvider).pushReplacement(RouteName.findUserId);
             },
@@ -38,7 +38,7 @@ class LoginHelpScreen extends ConsumerWidget {
             height: 16,
           ),
           OrbListCardTile(
-            title: '비밀번호를 잊어버렸어요',
+            titleText: '비밀번호를 잊어버렸어요',
             onTap: () {
               ref
                   .read(routerProvider)

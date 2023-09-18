@@ -143,7 +143,7 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
           ),
           const SizedBox(height: 24),
           OrbListCardTile(
-            title: '개인정보 수집 및 이용 동의하기',
+            titleText: '개인정보 수집 및 이용 동의하기',
             leading: Icon(
               Icons.check_circle_rounded,
               color: isAgreePrivacyPolicy
@@ -161,7 +161,7 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
           ),
           const SizedBox(height: 24),
           OrbListCardTile(
-            title: '개인정보 제 3자 제공 동의하기',
+            titleText: '개인정보 제 3자 제공 동의하기',
             leading: Icon(
               Icons.check_circle_rounded,
               color: isAgreeThirdParty

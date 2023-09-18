@@ -54,6 +54,7 @@ dependencies:
   confetti: ^0.7.0
   another_flushbar: ^1.12.30
   carousel_slider: ^4.2.1
+  url_launcher: ^6.1.14
 
   #orb:
   #  git:

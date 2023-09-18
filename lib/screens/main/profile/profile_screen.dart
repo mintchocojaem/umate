@@ -51,9 +51,9 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   tileTextStyle: TileTextStyle.large,
-                  boldTitle: true,
-                  title: "닉네임",
-                  content: "Jaem",
+                  boldTitleText: true,
+                  titleText: "닉네임",
+                  contentText: "Jaem",
                   contentAlign: CrossAxisAlignment.end,
                 ),
                 const SizedBox(
@@ -61,9 +61,9 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   tileTextStyle: TileTextStyle.large,
-                  boldTitle: true,
-                  title: "이름",
-                  content: "이재민",
+                  boldTitleText: true,
+                  titleText: "이름",
+                  contentText: "이재민",
                   contentAlign: CrossAxisAlignment.end,
                 ),
                 const SizedBox(
@@ -71,9 +71,9 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   tileTextStyle: TileTextStyle.large,
-                  boldTitle: true,
-                  title: "학번",
-                  content: "32193419",
+                  boldTitleText: true,
+                  titleText: "학번",
+                  contentText: "32193419",
                   contentAlign: CrossAxisAlignment.end,
                 ),
                 const SizedBox(
@@ -81,9 +81,9 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   tileTextStyle: TileTextStyle.large,
-                  boldTitle: true,
-                  title: "학과",
-                  content: "소프트웨어학과",
+                  boldTitleText: true,
+                  titleText: "학과",
+                  contentText: "소프트웨어학과",
                   contentAlign: CrossAxisAlignment.end,
                 ),
                 const SizedBox(
@@ -91,9 +91,9 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   tileTextStyle: TileTextStyle.large,
-                  boldTitle: true,
-                  title: "전화번호",
-                  content: "01099087014",
+                  boldTitleText: true,
+                  titleText: "전화번호",
+                  contentText: "01099087014",
                   contentAlign: CrossAxisAlignment.end,
                 ),
               ],
@@ -107,8 +107,8 @@ class ProfileScreen extends ConsumerWidget {
             child: Column(
               children: [
                 OrbListCardTile(
-                  title: "내가 쓴 청원",
-                  content: "3개",
+                  titleText: "내가 쓴 청원",
+                  contentText: "3개",
                   contentAlign: CrossAxisAlignment.end,
                 ),
                 const SizedBox(
@@ -116,8 +116,8 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListCardTile(
                   contentAlign: CrossAxisAlignment.end,
-                  title: "내가 동의한 청원",
-                  content: "100개",
+                  titleText: "내가 동의한 청원",
+                  contentText: "100개",
                 ),
               ],
             ),
@@ -130,7 +130,7 @@ class ProfileScreen extends ConsumerWidget {
             child: Column(
               children: [
                 OrbListTile(
-                  title: "알림",
+                  titleText: "알림",
                   trailing: Switch(
                     value: ref.watch(notificationProvider),
                     inactiveThumbColor: themeData.colorScheme.primary,
@@ -140,7 +140,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
                 OrbListTile(
-                  title: "테마",
+                  titleText: "테마",
                   trailing: DropdownButton(
                     style: themeData.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,

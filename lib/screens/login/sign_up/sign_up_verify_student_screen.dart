@@ -82,7 +82,7 @@ class _SignUpVerifyStudentScreen
             ),
             const SizedBox(height: 32),
             OrbListCardTile(
-                title: '개인정보 이용약관에 동의하기',
+                titleText: '개인정보 이용약관에 동의하기',
                 leading: Icon(
                   Icons.check_circle_rounded,
                   color: ref.watch(isAgreeAllProvider)

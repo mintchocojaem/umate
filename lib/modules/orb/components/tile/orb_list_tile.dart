@@ -9,11 +9,13 @@ enum TileTextStyle {
 
 class OrbListTile extends StatelessWidget implements OrbTile {
   @override
-  final String title;
-  final bool boldTitle;
+  final Widget? title;
+  final String? titleText;
+  final bool boldTitleText;
   final TileTextStyle? tileTextStyle;
   @override
-  final String? content;
+  final Widget? content;
+  final String? contentText;
   final CrossAxisAlignment? contentAlign;
   @override
   final VoidCallback? onTap;
@@ -22,10 +24,12 @@ class OrbListTile extends StatelessWidget implements OrbTile {
 
   const OrbListTile({
     super.key,
-    required this.title,
-    this.boldTitle = false,
+    this.title,
+    this.titleText,
+    this.boldTitleText = false,
     this.tileTextStyle = TileTextStyle.medium,
     this.content,
+    this.contentText,
     this.contentAlign = CrossAxisAlignment.start,
     this.leading,
     this.trailing,
@@ -42,31 +46,34 @@ class OrbListTile extends StatelessWidget implements OrbTile {
           Expanded(
             child: Row(
               children: [
-                if(leading != null) leading!,
+                if (leading != null) leading!,
                 SizedBox(
                   width: leading != null ? 16 : 0,
                 ),
-                Text(
-                  title,
-                  style: (tileTextStyle == TileTextStyle.medium
-                          ? theme.textTheme.bodyMedium
-                          : theme.textTheme.bodyLarge)
-                      ?.copyWith(
-                          fontWeight:
-                              boldTitle ? FontWeight.w600 : FontWeight.w500,
-                          overflow: TextOverflow.ellipsis),
-                ),
+                if (title != null) title!,
+                if (titleText != null)
+                  Text(
+                    titleText!,
+                    style: (tileTextStyle == TileTextStyle.medium
+                            ? theme.textTheme.bodyMedium
+                            : theme.textTheme.bodyLarge)
+                        ?.copyWith(
+                            fontWeight:
+                                boldTitleText ? FontWeight.w600 : FontWeight.w500,
+                            overflow: TextOverflow.ellipsis),
+                  ),
                 const SizedBox(
                   width: 32,
                 ),
-                if (content != null)
+                if (content != null) content!,
+                if (contentText != null)
                   Expanded(
                     child: Column(
                       crossAxisAlignment:
                           contentAlign ?? CrossAxisAlignment.start,
                       children: [
                         Text(
-                          content!,
+                          contentText!,
                           style: (tileTextStyle == TileTextStyle.medium
                                   ? theme.textTheme.bodyMedium
                                   : theme.textTheme.bodyLarge)
@@ -82,7 +89,7 @@ class OrbListTile extends StatelessWidget implements OrbTile {
               ],
             ),
           ),
-          if(trailing != null) trailing!
+          if (trailing != null) trailing!
         ],
       ),
     );

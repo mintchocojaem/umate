@@ -6,8 +6,8 @@ class OrbListCardTile extends OrbListTile{
 
   const OrbListCardTile({
     super.key,
-    required super.title,
-    super.content,
+    required super.titleText,
+    super.contentText,
     super.leading,
     super.trailing,
     super.onTap,

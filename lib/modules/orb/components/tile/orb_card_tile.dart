@@ -4,23 +4,31 @@ import '../components.dart';
 
 class OrbCardTile extends StatelessWidget implements OrbTile {
   @override
-  final String title;
-  final Color? titleColor;
+  final Widget? title;
+  final String? titleText;
+  final Color? titleTextColor;
   @override
-  final String? content;
+  final Widget? content;
+  final String? contentText;
   @override
   final VoidCallback? onTap;
-  final String? subContent;
-  final Color? subContentColor;
+  final Widget? subContent;
+  final String? subContentText;
+  final Color? subContentTextColor;
+  final BoxConstraints? constraints;
 
   const OrbCardTile({
     super.key,
-    required this.title,
-    this.titleColor,
+    this.title,
+    this.titleText,
+    this.titleTextColor,
     this.content,
+    this.contentText,
     this.onTap,
     this.subContent,
-    this.subContentColor,
+    this.subContentText,
+    this.subContentTextColor,
+    this.constraints,
   });
 
   @override
@@ -33,36 +41,52 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
           color: theme.colorScheme.onBackground,
           borderRadius: BorderRadius.circular(15),
         ),
+        constraints: constraints ?? const BoxConstraints(
+          minHeight: 120,
+          minWidth: 100,
+        ),
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: titleColor,
+        child: IntrinsicWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (title != null) title!,
+                  if (titleText != null)
+                    Text(
+                      titleText!,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: titleTextColor,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  SizedBox(
+                      height: (title != null) || (titleText != null) ? 4 : 0),
+                  if (content != null) content!,
+                  if (contentText != null)
+                    Text(
+                      contentText!,
+                      style: theme.textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                ],
               ),
-            ),
-            SizedBox(
-              height: content != null ? 4 : 0,
-            ),
-            if (content != null)
-              Text(
-                content!,
-                style: theme.textTheme.bodyMedium,
-              ),
-            SizedBox(
-              height: subContent != null ? 4 : 0,
-            ),
-            if (subContent != null)
-              Text(
-                subContent!,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: subContentColor ?? theme.colorScheme.secondary,
-                  fontWeight: FontWeight.w600,
+              if (subContent != null) subContent!,
+              if (subContentText != null)
+                Text(
+                  subContentText!,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: subContentTextColor ?? theme.colorScheme.secondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
