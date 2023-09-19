@@ -1,8 +1,6 @@
-import 'package:danvery/utils/exception_handler.dart';
+import 'package:danvery/screens/main/home/widgets/extra_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../modules/orb/components/components.dart';
 
@@ -11,8 +9,8 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
+      shrinkWrap: true,
       orbAppBar: const OrbAppBar(
         title: "Danvery",
       ),
@@ -81,80 +79,31 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(
             height: 16,
           ),
-          Row(
-            children: [
-              OrbCardTile(
-                constraints: const BoxConstraints(
-                  minHeight: 120,
-                  minWidth: 100,
-                ),
-                title: Text(
-                  '학교',
-                  textAlign: TextAlign.start,
-                  style: themeData.textTheme.bodySmall?.copyWith(
-                    color: themeData.colorScheme.onSurface.withOpacity(0.8),
-                  ),
-                ),
-                content: Text(
-                  '학사일정 보기',
-                  style: themeData.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                subContent: Align(
-                  alignment: Alignment.centerRight,
-                  child: Image.asset(
-                    'assets/icons/app/school_schedule.png',
-                    scale: 3,
-                  ),
-                ),
-                onTap: () async{
-                  final Uri url = Uri.parse('https://www.dankook.ac.kr/web/kor/-2014-');
-                  if (!await launchUrl(url)) {
-                  throw const ExceptionDto(
-                  code: 'CANNOT_LAUNCH_URL',
-                  message: '링크를 열 수 없어요',
-                  );
-                  }
-                },
+          const ExtraMenu(
+            items: [
+              MenuItem(
+                title: '도서관',
+                content: '열람실 자리',
+                imagePath: 'assets/icons/app/books.png',
+                url: 'https://libseat.dankook.ac.kr/mobile/PA/roomList.php?campus=J',
               ),
-              const SizedBox(
-                width: 8,
+              MenuItem(
+                title: '학식',
+                content: '오늘 메뉴',
+                imagePath: 'assets/icons/app/school_meal.png',
+                url: 'https://www.dankook.ac.kr/web/kor/-556',
               ),
-              OrbCardTile(
-                constraints: const BoxConstraints(
-                  minHeight: 120,
-                  minWidth: 100,
-                ),
-                title: Text(
-                  '학교',
-                  textAlign: TextAlign.start,
-                  style: themeData.textTheme.bodySmall?.copyWith(
-                    color: themeData.colorScheme.onSurface.withOpacity(0.8),
-                  ),
-                ),
-                content: Text(
-                  '오늘 학식 보기',
-                  style: themeData.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                subContent: Align(
-                  alignment: Alignment.centerRight,
-                  child: Image.asset(
-                    'assets/icons/app/school_meal.png',
-                    scale: 3,
-                  ),
-                ),
-                onTap: () async {
-                  final Uri url = Uri.parse('https://www.dankook.ac.kr/web/kor/-556');
-                  if (!await launchUrl(url)) {
-                    throw const ExceptionDto(
-                      code: 'CANNOT_LAUNCH_URL',
-                      message: '링크를 열 수 없어요',
-                    );
-                  }
-                },
+              MenuItem(
+                title: '학사일정',
+                content: '곧 있을 행사',
+                imagePath: 'assets/icons/app/school_schedule.png',
+                url: 'https://www.dankook.ac.kr/web/kor/-2014-',
+              ),
+              MenuItem(
+                title: '총학생회',
+                content: '웹사이트',
+                imagePath: 'assets/icons/app/student_council.png',
+                url: 'https://dkustu.com/',
               ),
             ],
           ),

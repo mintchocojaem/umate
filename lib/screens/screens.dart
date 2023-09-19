@@ -8,7 +8,7 @@ export 'main/main_screen.dart';
 export 'main/home/home_screen.dart';
 
 //search
-export 'main/search/search_screen.dart';
+export 'main/timetable/timetable_screen.dart';
 
 //profile
 export 'main/profile/profile_screen.dart';

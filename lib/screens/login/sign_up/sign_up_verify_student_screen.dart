@@ -49,11 +49,18 @@ class _SignUpVerifyStudentScreen
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '단국대학교 포털\n학생인증이 필요해요',
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '단국대학교 포털\n학생인증이 필요해요',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _dkuStudentIdController,
               labelText: '학번',

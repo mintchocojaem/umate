@@ -13,12 +13,20 @@ class FindUserIdScreen extends ConsumerWidget{
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '가입하신 휴대폰\n번호로 아이디를 보내드릴게요',
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '가입하신 휴대폰\n번호로 아이디를 보내드릴게요',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _phoneNumberController,
               labelText: '휴대폰 번호',

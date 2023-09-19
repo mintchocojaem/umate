@@ -32,8 +32,7 @@ export 'button/orb_button.dart';
 export 'dialog/orb_dialog.dart';
 
 //agreeTerms
-export 'agree_terms/agree_terms_container.dart';
-export 'agree_terms/agree_terms_content.dart';
+export '../../../screens/login/sign_up/widgets/agree_terms_container.dart';
 
 //snackBar
 export 'snack_bar/orb_snack_bar.dart';

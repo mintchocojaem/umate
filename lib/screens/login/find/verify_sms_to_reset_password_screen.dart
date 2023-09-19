@@ -13,12 +13,20 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '문자로 받은\n인증번호 6자리를 입력해주세요',
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '문자로 받은\n인증번호 6자리를 입력해주세요',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _verifySMSController,
               labelText: '인증번호(6자리 숫자)',

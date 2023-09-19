@@ -21,13 +21,20 @@ class SignUpCheckInfoScreen extends ConsumerWidget {
 
     _studentIdController.text = student.studentId;
     _majorController.text = student.major;
-
+    final themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '${student.studentName}님 정보가 맞나요?',
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '${student.studentName}님 정보가 맞나요?',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _studentIdController,
               labelText: '학번',

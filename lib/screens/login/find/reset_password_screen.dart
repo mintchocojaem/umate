@@ -15,12 +15,20 @@ class ResetPasswordScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '단버리 로그인에\n사용할 비밀번호를 입력해주세요',
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '단버리 로그인에\n사용할 비밀번호를 입력해주세요',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _passwordController,
               labelText: '비밀번호',
@@ -45,7 +53,7 @@ class ResetPasswordScreen extends ConsumerWidget {
                 if (value == null || value.isEmpty) {
                   return '비밀번호를 입력해주세요';
                 }
-                if(value != _passwordController.text){
+                if (value != _passwordController.text) {
                   return '비밀번호가 일치하지 않습니다';
                 }
                 return null;

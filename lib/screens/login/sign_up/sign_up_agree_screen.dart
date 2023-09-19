@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../routes/router_provider.dart';
 import '../../screens.dart';
+import 'widgets/agree_terms_content.dart';
 
 final _isMaxScrollPositionProvider =
     StateProvider.autoDispose<bool>((ref) => false);
@@ -38,12 +39,11 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData theme = Theme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final isMaxScrollPosition = ref.watch(_isMaxScrollPositionProvider);
     final isAgreePrivacyPolicy = ref.watch(isAgreePrivacyPolicyProvider);
     final isAgreeThirdParty = ref.watch(isAgreeThirdPartyProvider);
     return OrbScaffold(
-      pageHelpText: '단국대학교 학생임을\n인증하기 위한 동의문이에요',
       scrollController: _scrollController,
       submitButton: isMaxScrollPosition
           ? OrbButton(
@@ -71,7 +71,15 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
               buttonText: '아래로 스크롤하기',
             ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            '단국대학교 학생임을\n인증하기 위한 동의문이에요',
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 16),
           const OrbBoardContainer(
             child: AgreeTermsContainer(
               agreeTermsContents: [
@@ -148,7 +156,7 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
               Icons.check_circle_rounded,
               color: isAgreePrivacyPolicy
                   ? Colors.green
-                  : theme.colorScheme.onPrimary.withOpacity(0.5),
+                  : themeData.colorScheme.onPrimary.withOpacity(0.5),
             ),
             onTap: () {
               ref
@@ -166,7 +174,7 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
               Icons.check_circle_rounded,
               color: isAgreeThirdParty
                   ? Colors.green
-                  : theme.colorScheme.onPrimary.withOpacity(0.5),
+                  : themeData.colorScheme.onPrimary.withOpacity(0.5),
             ),
             onTap: () {
               ref

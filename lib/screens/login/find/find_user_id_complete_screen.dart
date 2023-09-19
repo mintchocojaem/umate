@@ -10,11 +10,19 @@ class FindUserIdCompleteScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '입력하신 휴대폰\n번호로 아이디를 전송했어요',
-      body: const Stack(
+      scrollBody: false,
+      body: Stack(
         children: [
-          Align(
+          Text(
+            '입력하신 휴대폰\n번호로 아이디를 전송했어요',
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Align(
             alignment: Alignment.center,
             child: Icon(
               Icons.check_rounded,

@@ -13,6 +13,7 @@ class OrbScaffold extends StatelessWidget {
   final ScrollController? scrollController;
   final bool defaultAppBar;
   final bool shrinkWrap;
+  final bool scrollBody;
 
   const OrbScaffold({
     super.key,
@@ -27,6 +28,7 @@ class OrbScaffold extends StatelessWidget {
     this.scrollController,
     this.defaultAppBar = true,
     this.shrinkWrap = false,
+    this.scrollBody = true,
   });
 
   @override
@@ -48,31 +50,18 @@ class OrbScaffold extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if (pageHelpText != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 32),
-                              child: Text(
-                                pageHelpText!,
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          shrinkWrap
-                              ? body ?? const SizedBox()
-                              : IntrinsicHeight(
-                                  child: body,
-                                ),
-                        ],
-                      ),
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: scrollBody
+                        ? SingleChildScrollView(
+                            controller: scrollController,
+                            child: shrinkWrap
+                                ? body
+                                : IntrinsicHeight(
+                                    child: body,
+                                  ),
+                          )
+                        : body,
                   ),
                 ),
                 if (submitButton != null)
@@ -96,8 +85,7 @@ class OrbScaffold extends StatelessWidget {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child:
-                    submitButton?.copyWith(borderRadius: 0) ?? const SizedBox(),
+                child: submitButton?.copyWith(borderRadius: 0) ?? const SizedBox(),
               ),
           ],
         ),

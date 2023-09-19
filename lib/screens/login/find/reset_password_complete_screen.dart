@@ -10,11 +10,18 @@ class ResetPasswordCompleteScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '단버리의\n비밀번호가 새롭게 설정되었어요',
-      body: const Stack(
+      scrollBody: false,
+      body: Stack(
         children: [
-          Align(
+          Text(
+            '단버리의\n비밀번호가 새롭게 설정되었어요',
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const Align(
             alignment: Alignment.center,
             child: Icon(
               Icons.check_rounded,
@@ -25,7 +32,7 @@ class ResetPasswordCompleteScreen extends ConsumerWidget {
         ],
       ),
       submitButton: OrbButton(
-        onPressed: () async{
+        onPressed: () async {
           ref.read(routerProvider).pop();
         },
         buttonText: '로그인하러 가기',

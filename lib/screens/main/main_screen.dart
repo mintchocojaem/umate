@@ -1,4 +1,4 @@
-import 'package:danvery/screens/main/search/search_screen.dart';
+import 'package:danvery/screens/main/board/board_screen.dart';
 import 'package:danvery/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,14 +17,16 @@ class MainScreen extends ConsumerWidget{
         index: ref.watch(currentPageIndexProvider),
         children: const [
           HomeScreen(),
-          SearchScreen(),
+          TimetableScreen(),
+          BoardScreen(),
           ProfileScreen(),
         ],
       ),
       bottomNavigationBar: OrbBottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "검색"),
+          BottomNavigationBarItem(icon: Icon(Icons.table_chart_rounded), label: "시간표"),
+          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: "게시판"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "내 정보"),
         ],
         onIndexChanged: (value) {

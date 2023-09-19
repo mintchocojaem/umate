@@ -11,10 +11,20 @@ class LoginHelpScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '로그인을 어떻게 도와드릴까요?',
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            '로그인을 어떻게 도와드릴까요?',
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
           OrbListCardTile(
             titleText: '회원가입을 하고 싶어요',
             onTap: () {

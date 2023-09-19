@@ -36,19 +36,23 @@ class OrbButton extends StatefulWidget {
   OrbButton copyWith({
     Key? key,
     Future Function()? onPressed,
-    Widget? child,
-    double? borderRadius,
+    String? buttonText,
     bool? disabled,
+    double? borderRadius,
     OrbButtonTheme? buttonTheme,
     OrbButtonSize? buttonSize,
+    Duration? buttonCoolDown,
+    Widget? child,
   }) {
     return OrbButton(
       key: key ?? this.key,
       onPressed: onPressed ?? this.onPressed,
+      buttonText: buttonText ?? this.buttonText,
       disabled: disabled ?? this.disabled,
       borderRadius: borderRadius ?? this.borderRadius,
       buttonTheme: buttonTheme ?? this.buttonTheme,
       buttonSize: buttonSize ?? this.buttonSize,
+      buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
       child: child ?? this.child,
     );
   }
@@ -68,20 +72,20 @@ class OrbButtonState extends State<OrbButton> {
   Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData theme = Theme.of(context);
-    return FilledButton(
+
+    final Widget button = FilledButton(
       onPressed: widget.disabled
           ? null
-          : () async{
+          : () async {
               if (coolDown && !isLoading) {
                 setState(() {
                   isLoading = true;
                 });
-                widget.onPressed?.call().whenComplete((){
+                widget.onPressed?.call().whenComplete(() {
                   setState(() {
                     isLoading = false;
                   });
                 });
-
               }
               coolDown = false;
               Future.delayed(
@@ -107,9 +111,11 @@ class OrbButtonState extends State<OrbButton> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        minimumSize: widget.buttonSize == OrbButtonSize.compact
-            ? MaterialStateProperty.all(const Size(0, 36))
-            : MaterialStateProperty.all(const Size(double.infinity, 48)),
+        padding: MaterialStateProperty.all(
+          widget.buttonSize == OrbButtonSize.compact
+              ? const EdgeInsets.symmetric(vertical: 8, horizontal: 16)
+              : const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
@@ -138,11 +144,15 @@ class OrbButtonState extends State<OrbButton> {
             Text(
               widget.buttonText!,
               style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
         ],
       ),
     );
+
+    return widget.buttonSize == OrbButtonSize.compact
+        ? IntrinsicWidth(child: button)
+        : button;
   }
 }

@@ -62,10 +62,17 @@ class _SignUpCompleteScreen extends ConsumerState<SignUpCompleteScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     final signup = ref.watch(signUpProvider);
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '${signup.value!.student.studentName}님의\n회원가입을 진심으로 축하드려요',
+      scrollBody: false,
       body: Stack(
         children: [
+          Text(
+            '${signup.value!.student.studentName}님의\n회원가입을 진심으로 축하드려요',
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           Align(
             alignment: Alignment.center,
             child: Image.asset(

@@ -6,8 +6,10 @@ class RouteName{
   static const main = '/main';
   //home
   static const home = '/home';
-  //search
-  static const search = '/search';
+  //timetable
+  static const timetable = '/timetable';
+  //board
+  static const board = '/borad';
   //profile
   static const profile = '/profile';
   //login

@@ -21,9 +21,15 @@ class LoginScreen extends ConsumerWidget {
       body: Form(
         key: _formKey,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              '로그인을 하기 위해\n학번과 비밀번호를 입력해주세요',
+              style: themeData.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
             OrbTextFormField(
               controller: _studentIdController,
               labelText: '학번',
