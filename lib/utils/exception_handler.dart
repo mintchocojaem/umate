@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class ExceptionDto {
   final String code;
@@ -22,12 +21,10 @@ typedef OnException = void Function(String message);
 class ExceptionHandler {
   final bool printError;
   final OnException? onException;
-  final GlobalKey? key;
 
   ExceptionHandler._({
     this.printError = true,
     this.onException,
-    this.key,
   }) {
     addHandler();
   }
@@ -37,12 +34,10 @@ class ExceptionHandler {
   factory ExceptionHandler({
     bool printError = true,
     OnException? onException,
-    GlobalKey? key,
   }) =>
       _instance ??= ExceptionHandler._(
         printError: printError,
         onException: onException,
-        key: key,
       );
 
   void addHandler() {
@@ -52,9 +47,7 @@ class ExceptionHandler {
         if (kDebugMode) {
           print(details.exception);
         }else{
-          if (key?.currentContext != null) {
-            onException?.call(details.exception.toString());
-          }
+          onException?.call(details.exception.toString());
         }
       }
     };
@@ -65,10 +58,18 @@ class ExceptionHandler {
           print(error.toString());
         }
       }
-      if (key?.currentContext != null) {
-        onException?.call(error.toString());
-      }
+      onException?.call(error.toString());
       return true;
     };
   }
+
+  void invokeException(String message){
+    if (printError) {
+      if (kDebugMode) {
+        print(message);
+      }
+    }
+    onException?.call(message);
+  }
+
 }

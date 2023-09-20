@@ -11,20 +11,18 @@ class TokenNotifier extends AsyncNotifier<Token?> {
   final SharedPreference _sharedPreference = SharedPreference();
 
   Future<void> login(String studentId, String password) async{
-    final result = await AsyncValue.guard(() async =>
+    state = await AsyncValue.guard(() async =>
     await ref.read(authRepositoryProvider).login(studentId, password));
-    if (result.value != null) {
-      state = result;
+    if(!state.hasError){
       _sharedPreference.token = state.value;
     }
   }
 
   Future<void> reissueToken(String accessToken, String refreshToken) async {
-    final result = await AsyncValue.guard(() async => await ref
+    state = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .reissueToken(accessToken, refreshToken));
-    if (result.value != null) {
-      state = result;
+    if (!state.hasError) {
       _sharedPreference.token = state.value;
     }
   }
@@ -34,7 +32,6 @@ class TokenNotifier extends AsyncNotifier<Token?> {
     if (token != null) {
       //Todo accessToken 부분 나중에 수정해야함
       await reissueToken(token.accessToken, token.refreshToken);
-      if (state.value != null) return;
     }
   }
 

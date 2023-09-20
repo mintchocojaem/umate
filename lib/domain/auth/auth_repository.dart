@@ -1,3 +1,4 @@
+import 'package:danvery/main.dart';
 import 'package:danvery/utils/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,14 +13,15 @@ final authRepositoryProvider =
 
 class AuthRepository {
   final Dio dio;
-
   AuthRepository(this.dio);
 
-  ExceptionDto getExceptionDto(DioException e) {
-    return e.response == null ? const ExceptionDto() : ExceptionDto(
+  ExceptionDto invokeException(DioException e) {
+    final exception = e.response == null ? const ExceptionDto() : ExceptionDto(
       code : e.response!.data['code'].toString(),
       message : e.response!.data['message'].first.toString(),
     );
+    exceptionHandler.invokeException(exception.message);
+    return exception;
   }
 
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
@@ -34,7 +36,7 @@ class AuthRepository {
 
       return SignUp.fromJson(response.data);
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -49,7 +51,7 @@ class AuthRepository {
 
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -63,7 +65,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -79,7 +81,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -94,7 +96,7 @@ class AuthRepository {
       );
       return Token.fromJson(response.data);
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -113,7 +115,7 @@ class AuthRepository {
       );
       return Token.fromJson(response.data);
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -130,7 +132,7 @@ class AuthRepository {
 
       return User.fromJson(response.data);
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -142,7 +144,7 @@ class AuthRepository {
 
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -156,7 +158,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -170,7 +172,7 @@ class AuthRepository {
       );
       return response.data['token'];
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -185,7 +187,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 
@@ -200,7 +202,7 @@ class AuthRepository {
       );
       return true;
     } on DioException catch (e) {
-      throw getExceptionDto(e);
+      throw invokeException(e);
     }
   }
 

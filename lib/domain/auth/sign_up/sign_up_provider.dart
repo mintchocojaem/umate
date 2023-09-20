@@ -28,11 +28,10 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
       );
       return;
     }
-    final AsyncValue<SignUp?> result = await AsyncValue.guard(() async => await ref
+    state = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifyStudent(dkuStudentId, dkuPassword));
-    state = result;
-    if (result.value != null) {
+    if (!state.hasError) {
       ref.read(routerProvider).pushReplacement(RouteName.signUpCheckInfo);
     }
   }
@@ -41,7 +40,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .sendSMS(signUpToken, phoneNumber));
-    if (result.value!) {
+    if (!result.hasError) {
       isSentSMS = true;
       ref.read(routerProvider).pushReplacement(RouteName.signUpVerifySMS);
     }
@@ -51,7 +50,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifySMS(signUpToken, code));
-    if (result.value!) {
+    if (!result.hasError) {
       isVerifiedSMS = true;
       ref.read(routerProvider).pushReplacement(RouteName.signUpNickName);
     }
@@ -61,7 +60,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .validNickname(nickname));
-    if (result.value!) {
+    if (!result.hasError) {
       ref.read(signUpValidNicknameProvider.notifier).state = nickname;
       isValidNickname = true;
     }
@@ -84,7 +83,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .signUp(signUpToken, nickname, password));
-    if(result.value!){
+    if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteName.signUpComplete);
     }
   }

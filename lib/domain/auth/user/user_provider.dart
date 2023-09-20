@@ -13,16 +13,15 @@ class UserNotifier extends AsyncNotifier<User?> {
   String? resetPasswordToken;
 
   Future<void> getUser(String accessToken) async {
-    final AsyncValue<User?> user = await AsyncValue.guard(() async =>
+    state = await AsyncValue.guard(() async =>
         await ref.read(authRepositoryProvider).getUser(accessToken));
-    state = user;
   }
 
   Future<void> findUserId(String phoneNumber) async{
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .findUserId(phoneNumber));
-    if(result.value!){
+    if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteName.findUserIdComplete);
     }
   }
@@ -32,7 +31,7 @@ class UserNotifier extends AsyncNotifier<User?> {
     await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .sendSMStoResetPassword(phoneNumber));
-    if(result.value != null){
+    if(!result.hasError){
       resetPasswordToken = result.value;
       ref.read(routerProvider).pushReplacement(RouteName.verifySMStoResetPassword);
     }
@@ -42,7 +41,7 @@ class UserNotifier extends AsyncNotifier<User?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .verifySMStoResetPassword(resetPasswordToken!, code));
-    if(result.value!){
+    if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteName.resetPassword);
     }
   }
@@ -51,7 +50,7 @@ class UserNotifier extends AsyncNotifier<User?> {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .resetPassword(resetPasswordToken!, code));
-    if(result.value!){
+    if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteName.resetPasswordComplete);
     }
   }
