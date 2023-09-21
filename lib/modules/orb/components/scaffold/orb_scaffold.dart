@@ -65,17 +65,14 @@ class OrbScaffold extends StatelessWidget {
                   ),
                 ),
                 if (submitButton != null)
-                  Container(
-                    color: theme.colorScheme.surface,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          submitButton!,
-                          submitHelper ?? const SizedBox(),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        submitButton!,
+                        submitHelper ?? const SizedBox(),
+                      ],
                     ),
                   ),
               ],

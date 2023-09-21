@@ -33,35 +33,44 @@ class OrbTheme {
     highlightColor: Colors.transparent,
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-        fontSize: 24,
-      ),
-      titleMedium: TextStyle(
         fontSize: 22,
       ),
+      titleMedium: TextStyle(
+        fontSize: 20,
+      ),
       titleSmall: TextStyle(
-        fontSize: 18,
-      ),
-      bodyLarge: TextStyle(
-        fontSize: 18,
-      ),
-      bodyMedium: TextStyle(
         fontSize: 16,
       ),
-      bodySmall: TextStyle(
+      bodyLarge: TextStyle(
+        fontSize: 16,
+      ),
+      bodyMedium: TextStyle(
         fontSize: 14,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 12,
       ),
     ).apply(fontFamily: 'SpoqaHanSansNeo'),
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
+      //메인 색상
       primary: OrbPalette.blue,
+      //메인 색상의 글자 색상
       onPrimary: OrbPalette.white,
+      //보조 색상
       secondary: OrbPalette.lightBlue,
+      //보조 색상의 글자 색상
       onSecondary: OrbPalette.white,
+      //카드, 컨테이너 등의 배경색
       surface: OrbPalette.white,
-      onSurface: OrbPalette.darkGrey,
-      surfaceVariant: OrbPalette.white,
-      background: OrbPalette.white,
-      onBackground: OrbPalette.whiteGrey,
+      //카드, 컨테이너 등의 글자 색상
+      onSurface: OrbPalette.grey,
+      //카드, 컨테이너 등의 보조 색상
+      surfaceVariant: OrbPalette.brightGrey,
+      //배경, 앱바색
+      background: OrbPalette.darkWhite,
+      //배경의 글자 색상
+      onBackground: OrbPalette.darkGrey,
     ),
   );
 
@@ -71,34 +80,43 @@ class OrbTheme {
     highlightColor: Colors.transparent,
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-        fontSize: 24,
-      ),
-      titleMedium: TextStyle(
         fontSize: 22,
       ),
+      titleMedium: TextStyle(
+        fontSize: 20,
+      ),
       titleSmall: TextStyle(
-        fontSize: 18,
-      ),
-      bodyLarge: TextStyle(
-        fontSize: 18,
-      ),
-      bodyMedium: TextStyle(
         fontSize: 16,
       ),
-      bodySmall: TextStyle(
+      bodyLarge: TextStyle(
+        fontSize: 16,
+      ),
+      bodyMedium: TextStyle(
         fontSize: 14,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 12,
       ),
     ).apply(fontFamily: 'SpoqaHanSansNeo'),
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
+      //메인 색상
       primary: OrbPalette.blue,
+      //메인 색상의 글자 색상
       onPrimary: OrbPalette.white,
+      //보조 색상
       secondary: OrbPalette.lightBlue,
+      //보조 색상의 글자 색상
       onSecondary: OrbPalette.white,
-      surface: OrbPalette.black,
-      onSurface: OrbPalette.whiteGrey,
-      surfaceVariant: OrbPalette.black,
+      //카드, 컨테이너 등의 배경색
+      surface: OrbPalette.darkGrey,
+      //카드, 컨테이너 등의 글자 색상
+      onSurface: OrbPalette.darkWhite,
+      //카드, 컨테이너 등의 보조 색상
+      surfaceVariant: OrbPalette.grey,
+      //배경, 앱바색
       background: OrbPalette.black,
+      //배경의 글자 색상
       onBackground: OrbPalette.darkGrey,
     ),
   );

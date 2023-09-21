@@ -22,6 +22,7 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return OrbCardTile(
+      color: themeData.colorScheme.surface,
       constraints: const BoxConstraints(
         minHeight: 120,
         minWidth: 120,
@@ -35,7 +36,7 @@ class MenuItem extends StatelessWidget {
       ),
       content: Text(
         content,
-        style: themeData.textTheme.bodyMedium?.copyWith(
+        style: themeData.textTheme.bodyLarge?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),

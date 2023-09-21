@@ -8,18 +8,42 @@ class TimetableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      defaultAppBar: false,
+      orbAppBar: const OrbAppBar(
+        trailing: Icon(Icons.settings),
+      ),
       scrollBody: false,
-      body: SafeArea(
-        child: Timetable(
-          schedules: [
-            Schedule(title: "컴퓨터구조", times: [
-              ScheduleTime(startTime: "10:00", endTime: "11:15", day: 1),
-              ScheduleTime(startTime: "10:00", endTime: "11:15", day: 3),
-            ], color: Colors.red),
-          ],
-        ),
+      body: Timetable(
+        tableLineColor: themeData.colorScheme.onSurface,
+        scheduleTextColor: const Color(0xFFf0f0f0),
+        barTextColor: themeData.colorScheme.onSurface,
+        schedules: [
+          Schedule(
+            title: "컴퓨터구조",
+            times: [
+              ScheduleTime(
+                startTime: "09:30",
+                endTime: "11:00",
+                day: 1,
+                place: "E3-1 101",
+              ),
+              ScheduleTime(
+                startTime: "10:00",
+                endTime: "11:00",
+                day: 2,
+                place: "E3-1 101",
+              ),
+              ScheduleTime(
+                startTime: "10:00",
+                endTime: "11:00",
+                day: 5,
+                place: "E3-1 101",
+              ),
+            ],
+            color: Colors.indigo,
+          ),
+        ],
       ),
     );
   }

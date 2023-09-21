@@ -18,6 +18,8 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
     ThemeData themeData = Theme.of(context);
 
     return AppBar(
+      backgroundColor: themeData.colorScheme.background,
+      elevation: 0,
       scrolledUnderElevation: 0,
       leading: leading,
       centerTitle: false,

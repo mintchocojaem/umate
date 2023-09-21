@@ -16,6 +16,7 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
   final String? subContentText;
   final Color? subContentTextColor;
   final BoxConstraints? constraints;
+  final Color? color;
 
   const OrbCardTile({
     super.key,
@@ -29,6 +30,7 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
     this.subContentText,
     this.subContentTextColor,
     this.constraints,
+    this.color
   });
 
   @override
@@ -38,7 +40,7 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.onBackground,
+          color: color ?? theme.colorScheme.surfaceVariant,
           borderRadius: BorderRadius.circular(15),
         ),
         constraints: constraints ?? const BoxConstraints(

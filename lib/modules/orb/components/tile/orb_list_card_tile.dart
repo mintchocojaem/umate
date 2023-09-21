@@ -20,7 +20,7 @@ class OrbListCardTile extends OrbListTile{
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(
-        color: themeData.colorScheme.onBackground,
+        color: themeData.colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(15),
       ),
       child: super.build(context),

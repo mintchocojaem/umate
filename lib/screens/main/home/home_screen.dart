@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:danvery/screens/main/home/widgets/extra_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +17,8 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          OrbImageBoard(
-            titleText: "소식 / 이벤트",
-            images: [
+          CarouselSlider(
+            items: [
               Image.asset(
                 "assets/icons/test/test1.png",
                 fit: BoxFit.fill,
@@ -31,7 +31,32 @@ class HomeScreen extends ConsumerWidget {
                 "assets/icons/test/test3.png",
                 fit: BoxFit.fill,
               ),
-            ],
+            ].map(
+              (e) {
+                return Builder(
+                  builder: (context) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: e,
+                    );
+                  },
+                );
+              },
+            ).toList(),
+            options: CarouselOptions(
+              clipBehavior: Clip.hardEdge,
+              aspectRatio: 1.2,
+              viewportFraction: 0.8,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 10),
+              autoPlayAnimationDuration: const Duration(seconds: 2),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -85,7 +110,8 @@ class HomeScreen extends ConsumerWidget {
                 title: '도서관',
                 content: '열람실 자리',
                 imagePath: 'assets/icons/app/books.png',
-                url: 'https://libseat.dankook.ac.kr/mobile/PA/roomList.php?campus=J',
+                url:
+                    'https://libseat.dankook.ac.kr/mobile/PA/roomList.php?campus=J',
               ),
               MenuItem(
                 title: '학식',

@@ -8,7 +8,7 @@ final themeProvider = StateProvider<ThemeData>((ref) {
 });
 
 final themeModeProvider = StateProvider<ThemeMode>((ref) {
-  return ThemeMode.system;
+  return ThemeMode.light;
 });
 
 final notificationProvider = StateProvider<bool>((ref) {

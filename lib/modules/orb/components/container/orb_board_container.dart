@@ -37,7 +37,7 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
       decoration: decoration != null
           ? decoration!
           : BoxDecoration(
-              color: themeData.colorScheme.onBackground.withOpacity(0.5),
+              color: themeData.colorScheme.surface,
               borderRadius: BorderRadius.circular(15),
             ),
       child: Column(
