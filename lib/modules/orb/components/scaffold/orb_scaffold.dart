@@ -34,7 +34,6 @@ class OrbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData theme = Theme.of(context);
 
     return Scaffold(
       appBar:
@@ -42,7 +41,6 @@ class OrbScaffold extends StatelessWidget {
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
-        top: false,
         child: Stack(
           fit: StackFit.expand,
           children: [
