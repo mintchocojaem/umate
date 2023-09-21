@@ -6,7 +6,7 @@ mixin OrbPalette {
   static const black = Color(0xFF151515);
   static const darkGrey = Color(0xFF202020);
   static const grey = Color(0xFF303030);
-  static const brightGrey = Color(0xFFe5e5e5);
+  static const brightGrey = Color(0xFFe0e0e0);
   static const darkWhite = Color(0xFFf0f0f0);
   static const white = Color(0xFFf8f8f8);
 }
