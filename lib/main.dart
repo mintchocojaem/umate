@@ -15,20 +15,19 @@ import 'routes/router_provider.dart';
 //should be in MaterialApp and apply this key
 final globalNavigatorKey = GlobalKey<NavigatorState>();
 
-final exceptionHandler = ExceptionHandler(
-  onException: (String message) {
-    OrbSnackBar.show(
-      context: globalNavigatorKey.currentContext!,
-      message: message,
-      type: OrbSnackBarType.error,
-    );
-  },
-);
-
-
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  ExceptionHandler(
+    onException: (String message) {
+      OrbSnackBar.show(
+        context: globalNavigatorKey.currentContext!,
+        message: message,
+        type: OrbSnackBarType.error,
+      );
+    },
+  );
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

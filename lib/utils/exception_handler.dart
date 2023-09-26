@@ -46,9 +46,9 @@ class ExceptionHandler {
       if (printError) {
         if (kDebugMode) {
           print(details.exception);
-        }else{
-          onException?.call(details.exception.toString());
+          print(details.stack);
         }
+        onException?.call(details.exception.toString());
       }
     };
     //If invokeMethod throws an error

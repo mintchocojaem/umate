@@ -17,13 +17,12 @@ final class BoardRepository extends Repository {
     int? bodySize,
     required int size,
   }) async {
-    try {
+
+    return await fetch(() async {
       final result = await dio.get(
         '${dio.options.baseUrl}/post/petition?bodySize=$bodySize&size=$size&page=$page&keyword=$keyword',
       );
       return Board.fromJson(result.data);
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 }

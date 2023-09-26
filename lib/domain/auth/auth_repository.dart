@@ -1,6 +1,5 @@
 import 'package:danvery/domain/repository.dart';
 import 'package:danvery/utils/dio_provider.dart';
-import 'package:danvery/utils/exception_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,43 +10,36 @@ import 'user/user.dart';
 final authRepositoryProvider =
     Provider<AuthRepository>((ref) => AuthRepository(ref.read(dioProvider)));
 
-final class AuthRepository extends Repository{
-
+final class AuthRepository extends Repository {
   AuthRepository(super.dio);
 
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
-    try {
-      final response = await dio.post(
+    return await fetch(() async {
+      final result = await dio.post(
         '${dio.options.baseUrl}/user/dku/verify',
         data: {
           "dkuStudentId": dkuStudentId,
           "dkuPassword": dkuPassword,
         },
       );
-
-      return SignUp.fromJson(response.data);
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+      return SignUp.fromJson(result.data);
+    });
   }
 
   Future<bool> sendSMS(String signUpToken, String phoneNumber) async {
-    try {
+    return await fetch(() async {
       await dio.post(
         '${dio.options.baseUrl}/user/sms/$signUpToken',
         data: {
           "phoneNumber": phoneNumber,
         },
       );
-
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> verifySMS(String signUpToken, String code) async {
-    try {
+    return await fetch(() async {
       await dio.post(
         '${dio.options.baseUrl}/user/sms/verify/$signUpToken',
         data: {
@@ -55,14 +47,12 @@ final class AuthRepository extends Repository{
         },
       );
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> signUp(
       String signUpToken, String nickname, String password) async {
-    try {
+    return await fetch(() async {
       await dio.post(
         '${dio.options.baseUrl}/user/$signUpToken',
         data: {
@@ -71,28 +61,24 @@ final class AuthRepository extends Repository{
         },
       );
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<Token?> login(String studentId, String password) async {
-    try {
-      final response = await dio.post(
+    return await fetch(() async {
+      final result = await dio.post(
         '${dio.options.baseUrl}/user/login',
         data: {
           "studentId": studentId,
           "password": password,
         },
       );
-      return Token.fromJson(response.data);
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+      return Token.fromJson(result.data);
+    });
   }
 
   Future<Token?> reissueToken(String accessToken, String refreshToken) async {
-    try {
+    return await fetch(() async{
       final response = await dio.post(
         '${dio.options.baseUrl}/user/reissue',
         data: {
@@ -105,13 +91,11 @@ final class AuthRepository extends Repository{
         ),
       );
       return Token.fromJson(response.data);
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<User?> getUser(String accessToken) async {
-    try {
+    return await fetch(() async{
       final response = await dio.get(
         '${dio.options.baseUrl}/user',
         options: Options(
@@ -120,27 +104,21 @@ final class AuthRepository extends Repository{
           },
         ),
       );
-
       return User.fromJson(response.data);
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> validNickname(String nickname) async {
-    try {
+    return await fetch(() async {
       await dio.get(
         '${dio.options.baseUrl}/user/valid?nickname=$nickname',
       );
-
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> findUserId(String phoneNumber) async {
-    try {
+    return await fetch(() async {
       await dio.post(
         '${dio.options.baseUrl}/user/find/id',
         data: {
@@ -148,13 +126,11 @@ final class AuthRepository extends Repository{
         },
       );
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<String?> sendSMStoResetPassword(String phoneNumber) async {
-    try {
+    return await fetch(() async {
       final response = await dio.post(
         '${dio.options.baseUrl}/user/find/pwd',
         data: {
@@ -162,13 +138,11 @@ final class AuthRepository extends Repository{
         },
       );
       return response.data['token'];
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> verifySMStoResetPassword(String token, String code) async {
-    try {
+    return await fetch(() async{
       await dio.post(
         '${dio.options.baseUrl}/user/find/pwd/verify',
         data: {
@@ -177,13 +151,11 @@ final class AuthRepository extends Repository{
         },
       );
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
 
   Future<bool> resetPassword(String token, String password) async {
-    try {
+    return await fetch(() async{
       await dio.patch(
         '${dio.options.baseUrl}/user/find/pwd/reset',
         data: {
@@ -192,9 +164,6 @@ final class AuthRepository extends Repository{
         },
       );
       return true;
-    } on DioException catch (e) {
-      throw invokeException(e);
-    }
+    });
   }
-
 }

@@ -28,6 +28,10 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
           builder: (context, state) => BoardScreen(key: state.pageKey,),
         ),
         GoRoute(
+          path: RouteName.post,
+          builder: (context, state) => PostScreen(key: state.pageKey),
+        ),
+        GoRoute(
           path: RouteName.profile,
           builder: (context, state) => ProfileScreen(key: state.pageKey),
         ),

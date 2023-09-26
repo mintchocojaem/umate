@@ -14,6 +14,7 @@ class BoardNotifier extends AsyncNotifier<Board?> {
   bool isFetching = false;
 
   Future<void> getPetitionBoard({bool firstPage = false}) async {
+
     if (isFetching) {
       return;
     }
