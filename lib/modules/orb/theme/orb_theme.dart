@@ -62,13 +62,13 @@ class OrbTheme {
       //보조 색상의 글자 색상
       onSecondary: OrbPalette.white,
       //카드, 컨테이너 등의 배경색
-      surface: OrbPalette.white,
+      surface: OrbPalette.darkWhite,
       //카드, 컨테이너 등의 글자 색상
       onSurface: OrbPalette.grey,
       //카드, 컨테이너 등의 보조 색상
       surfaceVariant: OrbPalette.brightGrey,
       //배경, 앱바색
-      background: OrbPalette.darkWhite,
+      background: OrbPalette.white,
       //배경의 글자 색상
       onBackground: OrbPalette.darkGrey,
     ),

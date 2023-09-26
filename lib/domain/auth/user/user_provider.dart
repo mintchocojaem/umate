@@ -58,6 +58,6 @@ class UserNotifier extends AsyncNotifier<User?> {
   @override
   FutureOr<User?> build() {
     // TODO: implement build
-    return null;
+    return state.value;
   }
 }

@@ -45,6 +45,6 @@ class TokenNotifier extends AsyncNotifier<Token?> {
     // TODO: implement build
     //await autoLogin();
     //await login("12345678", "121212");
-    return null;
+    return state.value;
   }
 }

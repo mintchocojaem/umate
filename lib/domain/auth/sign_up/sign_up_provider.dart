@@ -91,6 +91,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   @override
   FutureOr<SignUp?> build() {
     // TODO: implement build
-    return null;
+    return state.value;
   }
 }

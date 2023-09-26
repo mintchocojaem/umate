@@ -104,14 +104,17 @@ class Timetable extends StatelessWidget {
                           child: Text(
                             days[i],
                             style: themeData.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: barTextColor),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       : Text(
                           days[i],
                           style: themeData.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w600, color: barTextColor),
+                            fontWeight: FontWeight.w600,
+                            color: barTextColor,
+                          ),
                         ),
                 ),
               ),
@@ -151,14 +154,14 @@ class Timetable extends StatelessWidget {
           result.add(
             Positioned(
               top: (scheduleWidgetHeight / 2) + scheduleTopMargin,
-              left: scheduleLeftMargin +1,
+              left: scheduleLeftMargin + 1,
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
-                  width: scheduleWidgetWidth -2,
+                  width: scheduleWidgetWidth - 2,
                   height: scheduleHeight,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(5),
                     color: i.color,
                   ),
                   child: Padding(
@@ -171,8 +174,7 @@ class Timetable extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 i.title,
-                                style:
-                                    themeData.textTheme.bodySmall?.copyWith(
+                                style: themeData.textTheme.bodySmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   overflow: TextOverflow.ellipsis,
                                   color: scheduleTextColor,

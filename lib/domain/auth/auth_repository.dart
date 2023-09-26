@@ -1,9 +1,9 @@
-import 'package:danvery/main.dart';
+import 'package:danvery/domain/repository.dart';
 import 'package:danvery/utils/dio_provider.dart';
+import 'package:danvery/utils/exception_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../utils/exception_handler.dart';
 import 'sign_up/sign_up.dart';
 import 'token/token.dart';
 import 'user/user.dart';
@@ -11,18 +11,9 @@ import 'user/user.dart';
 final authRepositoryProvider =
     Provider<AuthRepository>((ref) => AuthRepository(ref.read(dioProvider)));
 
-class AuthRepository {
-  final Dio dio;
-  AuthRepository(this.dio);
+final class AuthRepository extends Repository{
 
-  ExceptionDto invokeException(DioException e) {
-    final exception = e.response == null ? const ExceptionDto() : ExceptionDto(
-      code : e.response!.data['code'].toString(),
-      message : e.response!.data['message'].first.toString(),
-    );
-    exceptionHandler.invokeException(exception.message);
-    return exception;
-  }
+  AuthRepository(super.dio);
 
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
     try {

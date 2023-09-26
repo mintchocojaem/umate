@@ -7,6 +7,9 @@ export 'main/main_screen.dart';
 //home
 export 'main/home/home_screen.dart';
 
+//board
+export 'main/board/board_screen.dart';
+
 //search
 export 'main/timetable/timetable_screen.dart';
 
