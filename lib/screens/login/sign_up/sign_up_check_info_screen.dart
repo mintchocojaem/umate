@@ -1,6 +1,5 @@
 import 'package:danvery/domain/auth/auth.dart';
 import 'package:danvery/modules/orb/components/components.dart';
-import 'package:danvery/utils/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

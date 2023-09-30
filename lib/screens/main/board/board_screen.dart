@@ -103,27 +103,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                         "EXPIRED" => "기간 만료",
                         String() => "알 수 없음",
                       };
-                      if (index == postList.length - 1) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: PetitionCard(
-                                remainingDate: remainingDate,
-                                title: post.title,
-                                duration: duration,
-                                agreeCount: post.agreeCount,
-                                status: status,
-                                onTap: () {
-                                  ref.read(routerProvider).push(RouteName.post);
-                                },
-                              ),
-                            ),
-                            const OrbShimmerContent(),
-                          ],
-                        );
-                      }
-                      return Padding(
+                      final Widget petitionCard = Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: PetitionCard(
                           remainingDate: remainingDate,
@@ -132,10 +112,22 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                           agreeCount: post.agreeCount,
                           status: status,
                           onTap: () {
-                            ref.read(routerProvider).push(RouteName.post);
+                            ref.read(routerProvider).push(
+                                  RouteName.petitionPost,
+                                  extra: post.id,
+                                );
                           },
                         ),
                       );
+                      if (index == postList.length - 1) {
+                        return Column(
+                          children: [
+                            petitionCard,
+                            const OrbShimmerContent(),
+                          ],
+                        );
+                      }
+                      return petitionCard;
                     },
                   ),
                 );
@@ -145,7 +137,10 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return const Column(
-                      children: [OrbShimmerContent(), OrbDivider()],
+                      children: [
+                        OrbShimmerContent(),
+                        OrbDivider(),
+                      ],
                     );
                   },
                 );
@@ -155,7 +150,10 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return const Column(
-                      children: [OrbShimmerContent(), OrbDivider()],
+                      children: [
+                        OrbShimmerContent(),
+                        OrbDivider(),
+                      ],
                     );
                   },
                 );

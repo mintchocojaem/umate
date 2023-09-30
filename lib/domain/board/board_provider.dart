@@ -10,7 +10,7 @@ final boardProvider =
 
 class BoardNotifier extends AsyncNotifier<Board?> {
   int page = 0;
-  int size = 5;
+  int size = 10;
   bool isFetching = false;
 
   Future<void> getPetitionBoard({bool firstPage = false}) async {

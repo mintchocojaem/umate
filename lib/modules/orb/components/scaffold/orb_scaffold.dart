@@ -5,7 +5,6 @@ class OrbScaffold extends StatelessWidget {
   final OrbAppBar? orbAppBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
-  final bool extendBodyBehindAppBar;
   final bool resizeToAvoidBottomInset;
   final OrbButton? submitButton;
   final Widget? submitHelper;
@@ -20,7 +19,6 @@ class OrbScaffold extends StatelessWidget {
     this.orbAppBar,
     this.body,
     this.bottomNavigationBar,
-    this.extendBodyBehindAppBar = false,
     this.resizeToAvoidBottomInset = false,
     this.submitButton,
     this.submitHelper,
@@ -37,8 +35,7 @@ class OrbScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar:
-          defaultAppBar && orbAppBar == null ? const OrbAppBar() : orbAppBar,
-      extendBodyBehindAppBar: extendBodyBehindAppBar,
+          defaultAppBar && orbAppBar == null ? OrbAppBar() : orbAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
         child: Stack(

@@ -9,7 +9,7 @@ export 'main/home/home_screen.dart';
 
 //board
 export 'main/board/board_screen.dart';
-export 'main/board/post_screen.dart';
+export 'main/board/petition_post_screen.dart';
 
 //search
 export 'main/timetable/timetable_screen.dart';

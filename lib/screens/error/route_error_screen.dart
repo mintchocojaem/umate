@@ -10,26 +10,24 @@ class RouteErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      extendBodyBehindAppBar: true,
-      body: Expanded(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset('assets/icons/app/error_404.png',scale: 5,),
-              const SizedBox(height: 32,),
-              Text(
-                '요청하신 페이지를 찾을 수 없어요',
-                style: themeData.textTheme.titleSmall,
-              ),
-              const SizedBox(height: 16,),
-              Text(
-                errorMessage,
-                textAlign: TextAlign.center,
-                style: themeData.textTheme.bodySmall,
-              ),
-            ],
-          ),
+      scrollBody: false,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/icons/app/error_404.png',scale: 8,),
+            const SizedBox(height: 32,),
+            Text(
+              '요청하신 페이지를 찾을 수 없어요',
+              style: themeData.textTheme.titleSmall,
+            ),
+            const SizedBox(height: 16,),
+            Text(
+              errorMessage,
+              textAlign: TextAlign.center,
+              style: themeData.textTheme.bodySmall,
+            ),
+          ],
         ),
       ),
     );

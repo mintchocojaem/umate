@@ -23,17 +23,12 @@ class TimetableScreen extends ConsumerWidget {
             title: "컴퓨터구조",
             times: [
               ScheduleTime(
-                startTime: "09:30",
+                startTime: "08:30",
                 endTime: "11:00",
                 day: 1,
                 place: "E3-1 101",
               ),
-              ScheduleTime(
-                startTime: "10:00",
-                endTime: "11:00",
-                day: 2,
-                place: "E3-1 101",
-              ),
+
               ScheduleTime(
                 startTime: "10:00",
                 endTime: "11:00",
@@ -41,7 +36,7 @@ class TimetableScreen extends ConsumerWidget {
                 place: "E3-1 101",
               ),
             ],
-            color: Colors.indigo,
+            color: Colors.blue,
           ),
         ],
       ),

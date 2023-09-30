@@ -39,7 +39,7 @@ class OrbTheme {
         fontSize: 20,
       ),
       titleSmall: TextStyle(
-        fontSize: 16,
+        fontSize: 18,
       ),
       bodyLarge: TextStyle(
         fontSize: 16,
@@ -86,7 +86,7 @@ class OrbTheme {
         fontSize: 20,
       ),
       titleSmall: TextStyle(
-        fontSize: 16,
+        fontSize: 18,
       ),
       bodyLarge: TextStyle(
         fontSize: 16,

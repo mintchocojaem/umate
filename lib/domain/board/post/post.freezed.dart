@@ -239,6 +239,7 @@ mixin _$Post {
   String get title => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
+  String? get answer => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   List<File?> get files => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -261,6 +262,7 @@ abstract class $PostCopyWith<$Res> {
       String title,
       String author,
       String body,
+      String? answer,
       String createdAt,
       List<File?> files,
       String status,
@@ -286,6 +288,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? title = null,
     Object? author = null,
     Object? body = null,
+    Object? answer = freezed,
     Object? createdAt = null,
     Object? files = null,
     Object? status = null,
@@ -310,6 +313,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -349,6 +356,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String title,
       String author,
       String body,
+      String? answer,
       String createdAt,
       List<File?> files,
       String status,
@@ -370,6 +378,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? title = null,
     Object? author = null,
     Object? body = null,
+    Object? answer = freezed,
     Object? createdAt = null,
     Object? files = null,
     Object? status = null,
@@ -394,6 +403,10 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -430,6 +443,7 @@ class _$_Post implements _Post {
       required this.title,
       required this.author,
       required this.body,
+      this.answer,
       required this.createdAt,
       required final List<File?> files,
       required this.status,
@@ -448,6 +462,8 @@ class _$_Post implements _Post {
   final String author;
   @override
   final String body;
+  @override
+  final String? answer;
   @override
   final String createdAt;
   final List<File?> _files;
@@ -469,7 +485,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(id: $id, title: $title, author: $author, body: $body, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded)';
+    return 'Post(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded)';
   }
 
   @override
@@ -481,6 +497,7 @@ class _$_Post implements _Post {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.body, body) || other.body == body) &&
+            (identical(other.answer, answer) || other.answer == answer) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
@@ -500,6 +517,7 @@ class _$_Post implements _Post {
       title,
       author,
       body,
+      answer,
       createdAt,
       const DeepCollectionEquality().hash(_files),
       status,
@@ -527,6 +545,7 @@ abstract class _Post implements Post {
       required final String title,
       required final String author,
       required final String body,
+      final String? answer,
       required final String createdAt,
       required final List<File?> files,
       required final String status,
@@ -544,6 +563,8 @@ abstract class _Post implements Post {
   String get author;
   @override
   String get body;
+  @override
+  String? get answer;
   @override
   String get createdAt;
   @override

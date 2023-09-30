@@ -10,7 +10,7 @@ class RouteName{
   static const timetable = '/timetable';
   //board
   static const board = '/board';
-  static const post = '/board/post';
+  static const petitionPost = '/board/post/petition';
   //profile
   static const profile = '/profile';
   //login

@@ -10,10 +10,14 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       shrinkWrap: true,
-      orbAppBar: const OrbAppBar(
+      orbAppBar: OrbAppBar(
         title: "Danvery",
+        titleStyle: themeData.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
       ),
       body: Column(
         children: [

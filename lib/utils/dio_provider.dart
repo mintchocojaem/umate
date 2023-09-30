@@ -2,14 +2,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../domain/auth/token/token.dart';
+import '../domain/auth/token/token_provider.dart';
 import 'api_constants.dart';
 
-
-final dioProvider = Provider<Dio>((ref) => DioClient().dio);
+final dioProvider = Provider<Dio>((ref) => DioClient(ref).dio);
 
 class DioClient {
   final Dio dio = Dio();
-  DioClient() {
+  final Ref ref;
+
+  DioClient(this.ref) {
     dio.options = BaseOptions(
         baseUrl: developmentBaseUrl,
         connectTimeout: const Duration(seconds: 10),
@@ -18,8 +21,16 @@ class DioClient {
         contentType: "application/json");
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) async{
+        onRequest: (options, handler) async {
           // 요청 전에 처리할 내용 추가
+          final Token? token = ref.read(tokenProvider).value;
+          if(token == null){
+            options.headers.addAll(
+              {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNjk2MzE5ODU0LCJ1c2VySWQiOiIxMSIsImlhdCI6MTY5NjA2MDY1NH0.QZQt98Y8RwHgqq-i5k9urJcz9CruEVM4eQ6chYjO8IQ",
+              },
+            );
+          }
           if (kDebugMode) {
             print("Dio Request : ${options.uri}");
             await Future.delayed(const Duration(seconds: 2));
@@ -33,7 +44,7 @@ class DioClient {
           }
           return handler.next(response); // 다음 Interceptor 호출
         },
-        onError: (DioException e, handler) async{
+        onError: (DioException e, handler) async {
           // 에러 처리 후에 처리할 내용 추가
 
           if (kDebugMode) {

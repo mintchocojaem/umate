@@ -1,5 +1,4 @@
 import 'package:danvery/routes/route_name.dart';
-import 'package:danvery/screens/main/board/board_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,11 +24,16 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           path: RouteName.board,
-          builder: (context, state) => BoardScreen(key: state.pageKey,),
+          builder: (context, state) => BoardScreen(
+            key: state.pageKey,
+          ),
         ),
         GoRoute(
-          path: RouteName.post,
-          builder: (context, state) => PostScreen(key: state.pageKey),
+          path: RouteName.petitionPost,
+          builder: (context, state) => PetitionPostScreen(
+            key: state.pageKey,
+            postId: state.extra as int,
+          ),
         ),
         GoRoute(
           path: RouteName.profile,

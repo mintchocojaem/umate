@@ -48,7 +48,7 @@ class ExceptionHandler {
           print(details.exception);
           print(details.stack);
         }
-        onException?.call(details.exception.toString());
+        //onException?.call(details.exception.toString());
       }
     };
     //If invokeMethod throws an error

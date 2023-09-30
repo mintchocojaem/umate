@@ -27,6 +27,7 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
       title: json['title'] as String,
       author: json['author'] as String,
       body: json['body'] as String,
+      answer: json['answer'] as String?,
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>)
           .map((e) =>
@@ -43,6 +44,7 @@ Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
       'title': instance.title,
       'author': instance.author,
       'body': instance.body,
+      'answer': instance.answer,
       'createdAt': instance.createdAt,
       'files': instance.files,
       'status': instance.status,

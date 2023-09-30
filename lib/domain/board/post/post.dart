@@ -23,6 +23,7 @@ class Post with _$Post {
     required String title,
     required String author,
     required String body,
+    String? answer,
     required String createdAt,
     required List<File?> files,
     required String status,
