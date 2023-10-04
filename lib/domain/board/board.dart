@@ -1,4 +1,4 @@
-import 'package:danvery/domain/board/post/post.dart';
+import 'package:danvery/domain/board/post/petition.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'board.freezed.dart';
@@ -7,7 +7,7 @@ part 'board.g.dart';
 @freezed
 class Board with _$Board {
   const factory Board({
-    required List<Post> content,
+    required List<Petition> content,
     required bool hasNext,
     required int totalPages,
     required int totalElements,

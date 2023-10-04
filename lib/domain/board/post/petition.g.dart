@@ -1,10 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post.dart';
+part of 'petition.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+_$_Agree _$$_AgreeFromJson(Map<String, dynamic> json) => _$_Agree(
+      department: json['department'] as String,
+      agreeCount: json['agreeCount'] as int,
+    );
+
+Map<String, dynamic> _$$_AgreeToJson(_$_Agree instance) => <String, dynamic>{
+      'department': instance.department,
+      'agreeCount': instance.agreeCount,
+    };
 
 _$_File _$$_FileFromJson(Map<String, dynamic> json) => _$_File(
       id: json['id'] as int,
@@ -22,7 +32,7 @@ Map<String, dynamic> _$$_FileToJson(_$_File instance) => <String, dynamic>{
       'mimeType': instance.mimeType,
     };
 
-_$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
+_$_Petition _$$_PetitionFromJson(Map<String, dynamic> json) => _$_Petition(
       id: json['id'] as int,
       title: json['title'] as String,
       author: json['author'] as String,
@@ -37,9 +47,14 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
       expiresAt: json['expiresAt'] as String,
       agreeCount: json['agreeCount'] as int,
       blinded: json['blinded'] as bool,
+      statisticList: (json['statisticList'] as List<dynamic>?)
+          ?.map((e) =>
+              e == null ? null : Agree.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+Map<String, dynamic> _$$_PetitionToJson(_$_Petition instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'author': instance.author,
@@ -51,4 +66,5 @@ Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
       'expiresAt': instance.expiresAt,
       'agreeCount': instance.agreeCount,
       'blinded': instance.blinded,
+      'statisticList': instance.statisticList,
     };

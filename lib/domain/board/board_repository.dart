@@ -1,5 +1,5 @@
 import 'package:danvery/domain/board/board.dart';
-import 'package:danvery/domain/board/post/post.dart';
+import 'package:danvery/domain/board/post/petition.dart';
 import 'package:danvery/domain/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +27,7 @@ final class BoardRepository extends Repository {
     );
   }
 
-  Future<Post> getPetitionPost({
+  Future<Petition> getPetitionPost({
     required int id,
   }) async {
     return await fetch(
@@ -35,7 +35,7 @@ final class BoardRepository extends Repository {
         final result = await dio.get(
           '${dio.options.baseUrl}/post/petition/$id',
         );
-        return Post.fromJson(result.data);
+        return Petition.fromJson(result.data);
       },
     );
   }

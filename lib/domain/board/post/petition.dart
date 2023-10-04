@@ -1,10 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'post.freezed.dart';
-part 'post.g.dart';
+part 'petition.freezed.dart';
+part 'petition.g.dart';
 
 @freezed
-class File with _$File{
+class Agree with _$Agree {
+  const factory Agree({
+    required String department,
+    required int agreeCount,
+  }) = _Agree;
+
+  factory Agree.fromJson(Map<String, dynamic> json) => _$AgreeFromJson(json);
+}
+
+@freezed
+class File with _$File {
   const factory File({
     required int id,
     required String url,
@@ -17,8 +27,8 @@ class File with _$File{
 }
 
 @freezed
-class Post with _$Post {
-  const factory Post({
+class Petition with _$Petition {
+  const factory Petition({
     required int id,
     required String title,
     required String author,
@@ -30,7 +40,8 @@ class Post with _$Post {
     required String expiresAt,
     required int agreeCount,
     required bool blinded,
-  }) = _Post;
+    List<Agree?>? statisticList,
+  }) = _Petition;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  factory Petition.fromJson(Map<String, dynamic> json) => _$PetitionFromJson(json);
 }

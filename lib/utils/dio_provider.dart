@@ -27,7 +27,7 @@ class DioClient {
           if(token == null){
             options.headers.addAll(
               {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNjk2MzE5ODU0LCJ1c2VySWQiOiIxMSIsImlhdCI6MTY5NjA2MDY1NH0.QZQt98Y8RwHgqq-i5k9urJcz9CruEVM4eQ6chYjO8IQ",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNjk2NjkyMzQ2LCJ1c2VySWQiOiIxMSIsImlhdCI6MTY5NjQzMzE0Nn0.7sbpKQLWCU56rSd1-bpGj1TmLEOMvhVr2tn39FtTIYQ",
               },
             );
           }

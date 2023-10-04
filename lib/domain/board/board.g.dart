@@ -8,7 +8,7 @@ part of 'board.dart';
 
 _$_Board _$$_BoardFromJson(Map<String, dynamic> json) => _$_Board(
       content: (json['content'] as List<dynamic>)
-          .map((e) => Post.fromJson(e as Map<String, dynamic>))
+          .map((e) => Petition.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasNext: json['hasNext'] as bool,
       totalPages: json['totalPages'] as int,

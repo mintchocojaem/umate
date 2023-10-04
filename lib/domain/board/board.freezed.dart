@@ -20,7 +20,7 @@ Board _$BoardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Board {
-  List<Post> get content => throw _privateConstructorUsedError;
+  List<Petition> get content => throw _privateConstructorUsedError;
   bool get hasNext => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   int get totalElements => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $BoardCopyWith<$Res> {
       _$BoardCopyWithImpl<$Res, Board>;
   @useResult
   $Res call(
-      {List<Post> content,
+      {List<Petition> content,
       bool hasNext,
       int totalPages,
       int totalElements,
@@ -76,7 +76,7 @@ class _$BoardCopyWithImpl<$Res, $Val extends Board>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as List<Post>,
+              as List<Petition>,
       hasNext: null == hasNext
           ? _value.hasNext
           : hasNext // ignore: cast_nullable_to_non_nullable
@@ -116,7 +116,7 @@ abstract class _$$_BoardCopyWith<$Res> implements $BoardCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<Post> content,
+      {List<Petition> content,
       bool hasNext,
       int totalPages,
       int totalElements,
@@ -148,7 +148,7 @@ class __$$_BoardCopyWithImpl<$Res> extends _$BoardCopyWithImpl<$Res, _$_Board>
       content: null == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
-              as List<Post>,
+              as List<Petition>,
       hasNext: null == hasNext
           ? _value.hasNext
           : hasNext // ignore: cast_nullable_to_non_nullable
@@ -185,7 +185,7 @@ class __$$_BoardCopyWithImpl<$Res> extends _$BoardCopyWithImpl<$Res, _$_Board>
 @JsonSerializable()
 class _$_Board implements _Board {
   const _$_Board(
-      {required final List<Post> content,
+      {required final List<Petition> content,
       required this.hasNext,
       required this.totalPages,
       required this.totalElements,
@@ -198,9 +198,9 @@ class _$_Board implements _Board {
   factory _$_Board.fromJson(Map<String, dynamic> json) =>
       _$$_BoardFromJson(json);
 
-  final List<Post> _content;
+  final List<Petition> _content;
   @override
-  List<Post> get content {
+  List<Petition> get content {
     if (_content is EqualUnmodifiableListView) return _content;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_content);
@@ -272,7 +272,7 @@ class _$_Board implements _Board {
 
 abstract class _Board implements Board {
   const factory _Board(
-      {required final List<Post> content,
+      {required final List<Petition> content,
       required final bool hasNext,
       required final int totalPages,
       required final int totalElements,
@@ -284,7 +284,7 @@ abstract class _Board implements Board {
   factory _Board.fromJson(Map<String, dynamic> json) = _$_Board.fromJson;
 
   @override
-  List<Post> get content;
+  List<Petition> get content;
   @override
   bool get hasNext;
   @override

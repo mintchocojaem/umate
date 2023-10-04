@@ -73,7 +73,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
           Expanded(
             child: ref.watch(boardProvider).when(
               data: (posts) {
-                final postList = posts!.content;
+                final petitions = posts!.content;
                 return RefreshIndicator(
                   color: themeData.colorScheme.primary,
                   onRefresh: () {
@@ -83,20 +83,20 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                   },
                   child: ListView.builder(
                     controller: _scrollController,
-                    itemCount: postList.length,
+                    itemCount: petitions.length,
                     itemBuilder: (context, index) {
-                      final post = postList[index];
+                      final petition = petitions[index];
                       final createdAt = DateFormat("yy.MM.dd")
-                          .format(DateTime.parse(post.createdAt));
+                          .format(DateTime.parse(petition.createdAt));
                       final expiresAt = DateFormat("yy.MM.dd")
-                          .format(DateTime.parse(post.createdAt));
+                          .format(DateTime.parse(petition.createdAt));
                       final today = DateTime.now();
                       final remainingDate = today
-                              .isAfter(DateTime.parse(post.expiresAt))
+                              .isAfter(DateTime.parse(petition.expiresAt))
                           ? "마감"
-                          : "${today.difference(DateTime.parse(post.createdAt)).inDays}일 남음";
+                          : "${today.difference(DateTime.parse(petition.createdAt)).inDays}일 남음";
                       final duration = "$createdAt ~ $expiresAt";
-                      final status = switch (post.status) {
+                      final status = switch (petition.status) {
                         "ACTIVE" => "청원 중",
                         "WAITING" => "대기 중",
                         "ANSWERED" => "답변 완료",
@@ -107,19 +107,19 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: PetitionCard(
                           remainingDate: remainingDate,
-                          title: post.title,
+                          title: petition.title,
                           duration: duration,
-                          agreeCount: post.agreeCount,
+                          agreeCount: petition.agreeCount,
                           status: status,
                           onTap: () {
                             ref.read(routerProvider).push(
                                   RouteName.petitionPost,
-                                  extra: post.id,
+                                  extra: petition.id,
                                 );
                           },
                         ),
                       );
-                      if (index == postList.length - 1) {
+                      if (index == petitions.length - 1) {
                         return Column(
                           children: [
                             petitionCard,

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'post.dart';
+part of 'petition.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,6 +13,155 @@ T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+Agree _$AgreeFromJson(Map<String, dynamic> json) {
+  return _Agree.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Agree {
+  String get department => throw _privateConstructorUsedError;
+  int get agreeCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AgreeCopyWith<Agree> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AgreeCopyWith<$Res> {
+  factory $AgreeCopyWith(Agree value, $Res Function(Agree) then) =
+      _$AgreeCopyWithImpl<$Res, Agree>;
+  @useResult
+  $Res call({String department, int agreeCount});
+}
+
+/// @nodoc
+class _$AgreeCopyWithImpl<$Res, $Val extends Agree>
+    implements $AgreeCopyWith<$Res> {
+  _$AgreeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? department = null,
+    Object? agreeCount = null,
+  }) {
+    return _then(_value.copyWith(
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String,
+      agreeCount: null == agreeCount
+          ? _value.agreeCount
+          : agreeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_AgreeCopyWith<$Res> implements $AgreeCopyWith<$Res> {
+  factory _$$_AgreeCopyWith(_$_Agree value, $Res Function(_$_Agree) then) =
+      __$$_AgreeCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String department, int agreeCount});
+}
+
+/// @nodoc
+class __$$_AgreeCopyWithImpl<$Res> extends _$AgreeCopyWithImpl<$Res, _$_Agree>
+    implements _$$_AgreeCopyWith<$Res> {
+  __$$_AgreeCopyWithImpl(_$_Agree _value, $Res Function(_$_Agree) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? department = null,
+    Object? agreeCount = null,
+  }) {
+    return _then(_$_Agree(
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String,
+      agreeCount: null == agreeCount
+          ? _value.agreeCount
+          : agreeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Agree implements _Agree {
+  const _$_Agree({required this.department, required this.agreeCount});
+
+  factory _$_Agree.fromJson(Map<String, dynamic> json) =>
+      _$$_AgreeFromJson(json);
+
+  @override
+  final String department;
+  @override
+  final int agreeCount;
+
+  @override
+  String toString() {
+    return 'Agree(department: $department, agreeCount: $agreeCount)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Agree &&
+            (identical(other.department, department) ||
+                other.department == department) &&
+            (identical(other.agreeCount, agreeCount) ||
+                other.agreeCount == agreeCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, department, agreeCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AgreeCopyWith<_$_Agree> get copyWith =>
+      __$$_AgreeCopyWithImpl<_$_Agree>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AgreeToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Agree implements Agree {
+  const factory _Agree(
+      {required final String department,
+      required final int agreeCount}) = _$_Agree;
+
+  factory _Agree.fromJson(Map<String, dynamic> json) = _$_Agree.fromJson;
+
+  @override
+  String get department;
+  @override
+  int get agreeCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AgreeCopyWith<_$_Agree> get copyWith =>
+      throw _privateConstructorUsedError;
+}
 
 File _$FileFromJson(Map<String, dynamic> json) {
   return _File.fromJson(json);
@@ -229,12 +378,12 @@ abstract class _File implements File {
   _$$_FileCopyWith<_$_File> get copyWith => throw _privateConstructorUsedError;
 }
 
-Post _$PostFromJson(Map<String, dynamic> json) {
-  return _Post.fromJson(json);
+Petition _$PetitionFromJson(Map<String, dynamic> json) {
+  return _Petition.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Post {
+mixin _$Petition {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
@@ -246,16 +395,18 @@ mixin _$Post {
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
   bool get blinded => throw _privateConstructorUsedError;
+  List<Agree?>? get statisticList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PostCopyWith<Post> get copyWith => throw _privateConstructorUsedError;
+  $PetitionCopyWith<Petition> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PostCopyWith<$Res> {
-  factory $PostCopyWith(Post value, $Res Function(Post) then) =
-      _$PostCopyWithImpl<$Res, Post>;
+abstract class $PetitionCopyWith<$Res> {
+  factory $PetitionCopyWith(Petition value, $Res Function(Petition) then) =
+      _$PetitionCopyWithImpl<$Res, Petition>;
   @useResult
   $Res call(
       {int id,
@@ -268,13 +419,14 @@ abstract class $PostCopyWith<$Res> {
       String status,
       String expiresAt,
       int agreeCount,
-      bool blinded});
+      bool blinded,
+      List<Agree?>? statisticList});
 }
 
 /// @nodoc
-class _$PostCopyWithImpl<$Res, $Val extends Post>
-    implements $PostCopyWith<$Res> {
-  _$PostCopyWithImpl(this._value, this._then);
+class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
+    implements $PetitionCopyWith<$Res> {
+  _$PetitionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -295,6 +447,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? expiresAt = null,
     Object? agreeCount = null,
     Object? blinded = null,
+    Object? statisticList = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -341,14 +494,19 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.blinded
           : blinded // ignore: cast_nullable_to_non_nullable
               as bool,
+      statisticList: freezed == statisticList
+          ? _value.statisticList
+          : statisticList // ignore: cast_nullable_to_non_nullable
+              as List<Agree?>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
-  factory _$$_PostCopyWith(_$_Post value, $Res Function(_$_Post) then) =
-      __$$_PostCopyWithImpl<$Res>;
+abstract class _$$_PetitionCopyWith<$Res> implements $PetitionCopyWith<$Res> {
+  factory _$$_PetitionCopyWith(
+          _$_Petition value, $Res Function(_$_Petition) then) =
+      __$$_PetitionCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -362,13 +520,16 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String status,
       String expiresAt,
       int agreeCount,
-      bool blinded});
+      bool blinded,
+      List<Agree?>? statisticList});
 }
 
 /// @nodoc
-class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
-    implements _$$_PostCopyWith<$Res> {
-  __$$_PostCopyWithImpl(_$_Post _value, $Res Function(_$_Post) _then)
+class __$$_PetitionCopyWithImpl<$Res>
+    extends _$PetitionCopyWithImpl<$Res, _$_Petition>
+    implements _$$_PetitionCopyWith<$Res> {
+  __$$_PetitionCopyWithImpl(
+      _$_Petition _value, $Res Function(_$_Petition) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -385,8 +546,9 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? expiresAt = null,
     Object? agreeCount = null,
     Object? blinded = null,
+    Object? statisticList = freezed,
   }) {
-    return _then(_$_Post(
+    return _then(_$_Petition(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -431,14 +593,18 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.blinded
           : blinded // ignore: cast_nullable_to_non_nullable
               as bool,
+      statisticList: freezed == statisticList
+          ? _value._statisticList
+          : statisticList // ignore: cast_nullable_to_non_nullable
+              as List<Agree?>?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_Post implements _Post {
-  const _$_Post(
+class _$_Petition implements _Petition {
+  const _$_Petition(
       {required this.id,
       required this.title,
       required this.author,
@@ -449,10 +615,13 @@ class _$_Post implements _Post {
       required this.status,
       required this.expiresAt,
       required this.agreeCount,
-      required this.blinded})
-      : _files = files;
+      required this.blinded,
+      final List<Agree?>? statisticList})
+      : _files = files,
+        _statisticList = statisticList;
 
-  factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
+  factory _$_Petition.fromJson(Map<String, dynamic> json) =>
+      _$$_PetitionFromJson(json);
 
   @override
   final int id;
@@ -482,17 +651,26 @@ class _$_Post implements _Post {
   final int agreeCount;
   @override
   final bool blinded;
+  final List<Agree?>? _statisticList;
+  @override
+  List<Agree?>? get statisticList {
+    final value = _statisticList;
+    if (value == null) return null;
+    if (_statisticList is EqualUnmodifiableListView) return _statisticList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Post(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded)';
+    return 'Petition(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded, statisticList: $statisticList)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Post &&
+            other is _$_Petition &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.author, author) || other.author == author) &&
@@ -506,7 +684,9 @@ class _$_Post implements _Post {
                 other.expiresAt == expiresAt) &&
             (identical(other.agreeCount, agreeCount) ||
                 other.agreeCount == agreeCount) &&
-            (identical(other.blinded, blinded) || other.blinded == blinded));
+            (identical(other.blinded, blinded) || other.blinded == blinded) &&
+            const DeepCollectionEquality()
+                .equals(other._statisticList, _statisticList));
   }
 
   @JsonKey(ignore: true)
@@ -523,24 +703,25 @@ class _$_Post implements _Post {
       status,
       expiresAt,
       agreeCount,
-      blinded);
+      blinded,
+      const DeepCollectionEquality().hash(_statisticList));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PostCopyWith<_$_Post> get copyWith =>
-      __$$_PostCopyWithImpl<_$_Post>(this, _$identity);
+  _$$_PetitionCopyWith<_$_Petition> get copyWith =>
+      __$$_PetitionCopyWithImpl<_$_Petition>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PostToJson(
+    return _$$_PetitionToJson(
       this,
     );
   }
 }
 
-abstract class _Post implements Post {
-  const factory _Post(
+abstract class _Petition implements Petition {
+  const factory _Petition(
       {required final int id,
       required final String title,
       required final String author,
@@ -551,9 +732,10 @@ abstract class _Post implements Post {
       required final String status,
       required final String expiresAt,
       required final int agreeCount,
-      required final bool blinded}) = _$_Post;
+      required final bool blinded,
+      final List<Agree?>? statisticList}) = _$_Petition;
 
-  factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
+  factory _Petition.fromJson(Map<String, dynamic> json) = _$_Petition.fromJson;
 
   @override
   int get id;
@@ -578,6 +760,9 @@ abstract class _Post implements Post {
   @override
   bool get blinded;
   @override
+  List<Agree?>? get statisticList;
+  @override
   @JsonKey(ignore: true)
-  _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;
+  _$$_PetitionCopyWith<_$_Petition> get copyWith =>
+      throw _privateConstructorUsedError;
 }
