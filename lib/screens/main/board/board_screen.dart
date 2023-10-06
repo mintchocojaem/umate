@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../routes/route_name.dart';
+import '../../../routes/route_path.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {
   const BoardScreen({Key? key}) : super(key: key);
@@ -113,7 +113,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                           status: status,
                           onTap: () {
                             ref.read(routerProvider).push(
-                                  RouteName.petitionPost,
+                                  '/main/board/petition',
                                   extra: petition.id,
                                 );
                           },

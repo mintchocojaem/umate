@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../modules/orb/components/components.dart';
-import '../../routes/route_name.dart';
+import '../../routes/route_path.dart';
 import '../../routes/router_provider.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -61,7 +61,7 @@ class LoginScreen extends ConsumerWidget {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(routerProvider).push(RouteName.signUpVerifyStudent);
+                ref.read(routerProvider).push(RouteInfo.signUpVerifyStudent.fullPath);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -87,7 +87,7 @@ class LoginScreen extends ConsumerWidget {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          ref.read(routerProvider).push(RouteName.loginHelp);
+          ref.read(routerProvider).push(RouteInfo.loginHelp.fullPath);
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

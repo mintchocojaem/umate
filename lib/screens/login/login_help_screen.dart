@@ -2,7 +2,7 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../routes/route_name.dart';
+import '../../routes/route_path.dart';
 import '../../routes/router_provider.dart';
 
 class LoginHelpScreen extends ConsumerWidget {
@@ -30,7 +30,7 @@ class LoginHelpScreen extends ConsumerWidget {
             onTap: () {
               ref
                   .read(routerProvider)
-                  .pushReplacement(RouteName.signUpVerifyStudent);
+                  .pushReplacement(RouteInfo.signUpVerifyStudent.fullPath);
             },
             trailing: const Icon(Icons.chevron_right),
           ),
@@ -40,7 +40,7 @@ class LoginHelpScreen extends ConsumerWidget {
           OrbListCardTile(
             titleText: '아이디(학번)을 잊어버렸어요',
             onTap: () {
-              ref.read(routerProvider).pushReplacement(RouteName.findUserId);
+              ref.read(routerProvider).pushReplacement(RouteInfo.findUserId.fullPath);
             },
             trailing: const Icon(Icons.chevron_right),
           ),
@@ -52,7 +52,7 @@ class LoginHelpScreen extends ConsumerWidget {
             onTap: () {
               ref
                   .read(routerProvider)
-                  .pushReplacement(RouteName.sendSMStoResetPassword);
+                  .pushReplacement(RouteInfo.sendSMStoResetPassword.fullPath);
             },
             trailing: const Icon(Icons.chevron_right),
           ),

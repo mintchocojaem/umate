@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:danvery/domain/auth/auth.dart';
-import 'package:danvery/routes/route_name.dart';
+import 'package:danvery/routes/route_path.dart';
 import 'package:danvery/routes/router_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +22,7 @@ class UserNotifier extends AsyncNotifier<User?> {
         .read(authRepositoryProvider)
         .findUserId(phoneNumber));
     if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteName.findUserIdComplete);
+      ref.read(routerProvider).pushReplacement(RouteInfo.findUserIdComplete.fullPath);
     }
   }
 
@@ -33,7 +33,7 @@ class UserNotifier extends AsyncNotifier<User?> {
         .sendSMStoResetPassword(phoneNumber));
     if(!result.hasError){
       resetPasswordToken = result.value;
-      ref.read(routerProvider).pushReplacement(RouteName.verifySMStoResetPassword);
+      ref.read(routerProvider).pushReplacement(RouteInfo.verifySMStoResetPassword.fullPath);
     }
   }
 
@@ -42,7 +42,7 @@ class UserNotifier extends AsyncNotifier<User?> {
         .read(authRepositoryProvider)
         .verifySMStoResetPassword(resetPasswordToken!, code));
     if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteName.resetPassword);
+      ref.read(routerProvider).pushReplacement(RouteInfo.resetPassword.fullPath);
     }
   }
 
@@ -51,7 +51,7 @@ class UserNotifier extends AsyncNotifier<User?> {
         .read(authRepositoryProvider)
         .resetPassword(resetPasswordToken!, code));
     if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteName.resetPasswordComplete);
+      ref.read(routerProvider).pushReplacement(RouteInfo.resetPasswordComplete.fullPath);
     }
   }
 

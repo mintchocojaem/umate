@@ -5,7 +5,7 @@ import 'package:danvery/main.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../routes/route_name.dart';
+import '../../../routes/route_path.dart';
 import '../../../routes/router_provider.dart';
 import '../../../screens/screens.dart';
 
@@ -32,7 +32,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .read(authRepositoryProvider)
         .verifyStudent(dkuStudentId, dkuPassword));
     if (!state.hasError) {
-      ref.read(routerProvider).pushReplacement(RouteName.signUpCheckInfo);
+      ref.read(routerProvider).pushReplacement(RouteInfo.signUpCheckInfo.fullPath);
     }
   }
 
@@ -42,7 +42,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .sendSMS(signUpToken, phoneNumber));
     if (!result.hasError) {
       isSentSMS = true;
-      ref.read(routerProvider).pushReplacement(RouteName.signUpVerifySMS);
+      ref.read(routerProvider).pushReplacement(RouteInfo.signUpVerifySMS.fullPath);
     }
   }
 
@@ -52,7 +52,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .verifySMS(signUpToken, code));
     if (!result.hasError) {
       isVerifiedSMS = true;
-      ref.read(routerProvider).pushReplacement(RouteName.signUpNickName);
+      ref.read(routerProvider).pushReplacement(RouteInfo.signUpNickName.fullPath);
     }
   }
 
@@ -75,7 +75,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
       );
       return;
     }
-    ref.read(routerProvider).pushReplacement(RouteName.signUpPassword);
+    ref.read(routerProvider).pushReplacement(RouteInfo.signUpPassword.fullPath);
   }
 
   Future<void> signUp(
@@ -84,7 +84,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .read(authRepositoryProvider)
         .signUp(signUpToken, nickname, password));
     if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteName.signUpComplete);
+      ref.read(routerProvider).pushReplacement(RouteInfo.signUpComplete.fullPath);
     }
   }
 

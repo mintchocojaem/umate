@@ -4,8 +4,7 @@ import 'package:danvery/routes/router_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../main.dart';
-import '../../../../routes/route_name.dart';
+import '../../../../routes/route_path.dart';
 
 final isAgreePrivacyPolicyProvider =
     StateProvider.autoDispose<bool>((ref) => false);
@@ -89,16 +88,17 @@ class _SignUpVerifyStudentScreen
             ),
             const SizedBox(height: 32),
             OrbListCardTile(
-                titleText: '개인정보 이용약관에 동의하기',
-                leading: Icon(
-                  Icons.check_circle_rounded,
-                  color: ref.watch(isAgreeAllProvider)
-                      ? Colors.green
-                      : themeData.colorScheme.onPrimary.withOpacity(0.5),
-                ),
-                onTap: () {
-                  ref.read(routerProvider).push(RouteName.signUpAgree);
-                }),
+              titleText: '개인정보 이용약관에 동의하기',
+              leading: Icon(
+                Icons.check_circle_rounded,
+                color: ref.watch(isAgreeAllProvider)
+                    ? Colors.green
+                    : themeData.colorScheme.onPrimary.withOpacity(0.5),
+              ),
+              onTap: () {
+                ref.read(routerProvider).push(RouteInfo.signUpAgree.fullPath);
+              },
+            ),
           ],
         ),
       ),
