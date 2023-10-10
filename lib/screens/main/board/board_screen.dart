@@ -28,7 +28,7 @@ class _BoardScreen extends ConsumerState {
   @override
   void initState() {
     super.initState();
-    initialTopBarSize = 64;
+    initialTopBarSize = 56;
     topContainerHeight = initialTopBarSize;
     minTopContainerHeight = 0;
     scrollSpeed = 5;
