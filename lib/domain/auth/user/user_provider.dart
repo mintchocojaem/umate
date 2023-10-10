@@ -10,54 +10,17 @@ final userProvider =
 
 class UserNotifier extends AsyncNotifier<User?> {
 
-  String? resetPasswordToken;
+  //todo user이랑 find 부분 분리해야함
 
-  Future<void> getUser(String accessToken) async {
+  Future<void> getUser() async {
     state = await AsyncValue.guard(() async =>
-        await ref.read(authRepositoryProvider).getUser(accessToken));
-  }
-
-  Future<void> findUserId(String phoneNumber) async{
-    final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-        .read(authRepositoryProvider)
-        .findUserId(phoneNumber));
-    if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteInfo.findUserIdComplete.fullPath);
-    }
-  }
-
-  Future<void> sendSMStoResetPassword(String phoneNumber) async{
-    final AsyncValue<String?> result =
-    await AsyncValue.guard(() async => await ref
-        .read(authRepositoryProvider)
-        .sendSMStoResetPassword(phoneNumber));
-    if(!result.hasError){
-      resetPasswordToken = result.value;
-      ref.read(routerProvider).pushReplacement(RouteInfo.verifySMStoResetPassword.fullPath);
-    }
-  }
-
-  Future<void> verifySMStoResetPassword(String code) async{
-    final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-        .read(authRepositoryProvider)
-        .verifySMStoResetPassword(resetPasswordToken!, code));
-    if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteInfo.resetPassword.fullPath);
-    }
-  }
-
-  Future<void> resetPassword(String code) async{
-    final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-        .read(authRepositoryProvider)
-        .resetPassword(resetPasswordToken!, code));
-    if(!result.hasError){
-      ref.read(routerProvider).pushReplacement(RouteInfo.resetPasswordComplete.fullPath);
-    }
+        await ref.read(authRepositoryProvider).getUser());
   }
 
   @override
-  FutureOr<User?> build() {
+  FutureOr<User?> build() async{
     // TODO: implement build
+    await getUser();
     return state.value;
   }
 }

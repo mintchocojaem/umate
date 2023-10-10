@@ -99,16 +99,11 @@ final class AuthRepository extends Repository {
     });
   }
 
-  Future<User?> getUser(String accessToken) async {
+  Future<User?> getUser() async {
     return await fetch(
       () async {
         final response = await dio.get(
           '/user',
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $accessToken",
-            },
-          ),
         );
         return User.fromJson(response.data);
       },
@@ -183,4 +178,5 @@ final class AuthRepository extends Repository {
       },
     );
   }
+
 }

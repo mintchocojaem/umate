@@ -2,7 +2,9 @@ import 'package:danvery/domain/board/board_provider.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/screens/main/board/widgets/petition_card.dart';
+import 'package:danvery/screens/main/board/widgets/petition_status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -12,31 +14,58 @@ class BoardScreen extends ConsumerStatefulWidget {
   const BoardScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    // TODO: implement createState
-    return _BoardScreen();
-  }
+  createState() => _BoardScreen();
 }
 
-class _BoardScreen extends ConsumerState<BoardScreen> {
-  final ScrollController _scrollController = ScrollController();
+class _BoardScreen extends ConsumerState {
+  final ScrollController _controller = ScrollController();
+
+  late double initialTopBarSize; // PetitionStatusBar()의 최대 높이
+  late double topContainerHeight; // 원하는 초기 높이값 설정
+  late final double minTopContainerHeight; // 최소 높이값 설정
+  late final double scrollSpeed;
 
   @override
   void initState() {
-    // TODO: implement initState
-    _scrollController.addListener(() async {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+    super.initState();
+    initialTopBarSize = 64;
+    topContainerHeight = initialTopBarSize;
+    minTopContainerHeight = 0;
+    scrollSpeed = 5;
+    _controller.addListener(() async{
+      if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+        if (topContainerHeight > minTopContainerHeight) {
+          setState(() {
+            topContainerHeight -= scrollSpeed;
+            if (topContainerHeight < minTopContainerHeight) {
+              topContainerHeight = minTopContainerHeight;
+            }
+          });
+        }
+      }
+
+      if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+        if (topContainerHeight < initialTopBarSize) {
+          setState(() {
+            topContainerHeight += scrollSpeed;
+            if (topContainerHeight > initialTopBarSize) {
+              topContainerHeight = initialTopBarSize;
+            }
+          });
+        }
+      }
+
+      if (_controller.position.pixels ==
+          _controller.position.maxScrollExtent) {
         await ref.read(boardProvider.notifier).getPetitionBoard();
       }
+
     });
-    super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    _scrollController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -67,8 +96,9 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
             maxLines: 1,
             maxLength: 50,
           ),
-          const SizedBox(
-            height: 16,
+          SizedBox(
+            height: topContainerHeight,
+            child: PetitionStatusBar(),
           ),
           Expanded(
             child: ref.watch(boardProvider).when(
@@ -82,7 +112,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                         .getPetitionBoard(firstPage: true);
                   },
                   child: ListView.builder(
-                    controller: _scrollController,
+                    controller: _controller,
                     itemCount: petitions.length,
                     itemBuilder: (context, index) {
                       final petition = petitions[index];
@@ -104,7 +134,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                         String() => "알 수 없음",
                       };
                       final Widget petitionCard = Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.only(bottom: 8),
                         child: PetitionCard(
                           remainingDate: remainingDate,
                           title: petition.title,
@@ -113,7 +143,7 @@ class _BoardScreen extends ConsumerState<BoardScreen> {
                           status: status,
                           onTap: () {
                             ref.read(routerProvider).push(
-                                  '/main/board/petition',
+                                  RouteInfo.petition.fullPath,
                                   extra: petition.id,
                                 );
                           },

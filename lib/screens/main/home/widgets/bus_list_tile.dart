@@ -47,7 +47,11 @@ class BusListTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      gomsangBus!.predictTime1 != 0 ? '${(gomsangBus!.predictTime1 ~/ 60)}분' : '정보 없음',
+                      switch(gomsangBus!.predictTime1) {
+                        0 => '정보 없음',
+                         <= 60 => '곧 도착',
+                        _ => '${(gomsangBus!.predictTime1 ~/ 60)}분',
+                      },
                       style: themeData.textTheme.bodyMedium,
                     ),
                   ],
@@ -62,7 +66,11 @@ class BusListTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    jungmoonBus.predictTime1 != 0 ? '${(jungmoonBus.predictTime1 ~/ 60)}분' : '정보 없음',
+                    switch(jungmoonBus.predictTime1) {
+                      0 => '정보 없음',
+                      <= 60 => '곧 도착',
+                      _ => '${(jungmoonBus.predictTime1 ~/ 60)}분',
+                    },
                     style: themeData.textTheme.bodyMedium,
                   ),
                 ],

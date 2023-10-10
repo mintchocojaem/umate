@@ -15,6 +15,8 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
   final Decoration? decoration;
   @override
   final Widget? trailing;
+  @override
+  final VoidCallback? onTap;
 
   const OrbBoardContainer({
     super.key,
@@ -26,6 +28,7 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
     this.decoration,
     this.trailing,
     this.child,
+    this.onTap
   });
 
   @override
@@ -43,31 +46,34 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              if (title != null) title!,
-              if (titleText != null)
-                Text(
-                  titleText!,
-                  style: themeData.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+          InkWell(
+            onTap: onTap,
+            child: Row(
+              children: [
+                if (title != null) title!,
+                if (titleText != null)
+                  Text(
+                    titleText!,
+                    style: themeData.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                SizedBox(
+                  width: (info != null) || (infoText != null) ? 8 : 0,
                 ),
-              SizedBox(
-                width: (info != null) || (infoText != null) ? 8 : 0,
-              ),
-              if (info != null) info!,
-              if (infoText != null)
-                Text(
-                  infoText!,
-                  style: themeData.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: infoColor ?? themeData.colorScheme.primary,
+                if (info != null) info!,
+                if (infoText != null)
+                  Text(
+                    infoText!,
+                    style: themeData.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: infoColor ?? themeData.colorScheme.primary,
+                    ),
                   ),
-                ),
-              const Spacer(),
-              if (trailing != null) trailing!,
-            ],
+                const Spacer(),
+                if (trailing != null) trailing!,
+              ],
+            ),
           ),
           const SizedBox(
             height: 16,

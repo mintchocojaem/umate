@@ -12,11 +12,11 @@ class BusNotifier extends AsyncNotifier<BusInfo?> {
   Future<void> getBusInfo() async {
     state = await AsyncValue.guard(
       () async {
-        final jungmoonInfo = await ref.read(busRepositoryProvider).getBusList("단국대정문");
-        final gomsangInfo = await ref.read(busRepositoryProvider).getBusList("곰상");
+        final jungmoonInfo = ref.read(busRepositoryProvider).getBusList("단국대정문");
+        final gomsangInfo = ref.read(busRepositoryProvider).getBusList("곰상");
         return BusInfo(
-          junmoonBus: jungmoonInfo,
-          gomsangBus: gomsangInfo,
+          junmoonBus: await jungmoonInfo,
+          gomsangBus: await gomsangInfo,
         );
       });
   }
@@ -25,6 +25,11 @@ class BusNotifier extends AsyncNotifier<BusInfo?> {
   FutureOr<BusInfo?> build() async{
     // TODO: implement build
     await getBusInfo();
+    /*
+    Timer.periodic(const Duration(seconds: 30), (timer) async{
+      await getBusInfo();
+    });
+     */
     return state.value;
   }
 }

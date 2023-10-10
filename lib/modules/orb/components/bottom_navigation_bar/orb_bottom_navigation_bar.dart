@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 
 typedef OnIndexChanged = void Function(int index);
 
-class OrbBottomNavigationBar extends StatefulWidget {
+class OrbBottomNavigationBar extends StatelessWidget {
+
   final List<BottomNavigationBarItem> items;
   final OnIndexChanged? onIndexChanged;
+  final int? currentIndex;
 
   const OrbBottomNavigationBar({
     Key? key,
     required this.items,
     this.onIndexChanged,
+    this.currentIndex,
   }) : super(key: key);
-
-  @override
-  State<OrbBottomNavigationBar> createState() => _OrbBottomNavigationBar();
-}
-
-class _OrbBottomNavigationBar extends State<OrbBottomNavigationBar> {
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +51,9 @@ class _OrbBottomNavigationBar extends State<OrbBottomNavigationBar> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
-            onTap: (value) => setState(() {
-              selectedIndex = value;
-              widget.onIndexChanged?.call(value);
-            }),
-            currentIndex: selectedIndex,
-            items: widget.items,
+            onTap: (value) => onIndexChanged?.call(value),
+            currentIndex: currentIndex ?? 0,
+            items: items,
           ),
         ),
       ),

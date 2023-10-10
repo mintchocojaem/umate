@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
+import '../../../routes/route_path.dart';
+import '../../../routes/router_provider.dart';
 
 class FindUserIdScreen extends ConsumerWidget{
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -50,7 +52,12 @@ class FindUserIdScreen extends ConsumerWidget{
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          await ref.read(userProvider.notifier).findUserId(_phoneNumberController.text);
+          final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
+              .read(authRepositoryProvider)
+              .findUserId(_phoneNumberController.text));
+          if(!result.hasError){
+            ref.read(routerProvider).pushReplacement(RouteInfo.findUserIdComplete.fullPath);
+          }
         },
         buttonText: '확인',
       ),

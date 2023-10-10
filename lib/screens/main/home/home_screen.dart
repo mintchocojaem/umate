@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:danvery/routes/route_path.dart';
+import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/screens/main/home/widgets/bus_list_tile.dart';
 import 'package:danvery/screens/main/home/widgets/extra_menu.dart';
+import 'package:danvery/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -158,6 +161,13 @@ class HomeScreen extends ConsumerWidget {
               Icons.arrow_forward_ios,
               size: themeData.textTheme.bodyMedium?.fontSize,
             ),
+            onTap: () {
+              ref.read(pageControllerProvider).animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+              );
+            },
             child: board.when(
               data: (posts) {
                 final length = board.value!.content.length >= 4
@@ -176,6 +186,12 @@ class HomeScreen extends ConsumerWidget {
                               .format(DateTime.parse(petition.createdAt)),
                           boldTitleText: true,
                           contentText: petition.title,
+                          onTap: (){
+                            ref.read(routerProvider).push(
+                              RouteInfo.petition.fullPath,
+                              extra: petition.id,
+                            );
+                          },
                         ),
                         if (index != length - 1)
                           const Padding(

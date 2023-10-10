@@ -7,6 +7,7 @@ abstract class OrbContainer extends StatelessWidget{
   final Widget? trailing;
   final Widget? child;
   final Decoration? decoration;
+  final VoidCallback? onTap;
 
   const OrbContainer({
     super.key,
@@ -15,6 +16,7 @@ abstract class OrbContainer extends StatelessWidget{
     this.trailing,
     this.child,
     this.decoration,
+    this.onTap,
   });
 
 }

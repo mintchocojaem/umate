@@ -1,8 +1,11 @@
 import 'package:danvery/domain/domain.dart';
+import 'package:danvery/screens/login/find/send_sms_to_reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
+import '../../../routes/route_path.dart';
+import '../../../routes/router_provider.dart';
 
 class VerifySMStoResetPasswordScreen extends ConsumerWidget {
   final TextEditingController _verifySMSController = TextEditingController();
@@ -50,9 +53,13 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          await ref
-              .read(userProvider.notifier)
-              .verifySMStoResetPassword(_verifySMSController.text);
+          final resetPasswordToken = ref.read(resetPasswordTokenProvider);
+          final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
+              .read(authRepositoryProvider)
+              .verifySMStoResetPassword(resetPasswordToken!, _verifySMSController.text));
+          if(!result.hasError){
+            ref.read(routerProvider).pushReplacement(RouteInfo.resetPassword.fullPath);
+          }
         },
         buttonText: '확인',
       ),

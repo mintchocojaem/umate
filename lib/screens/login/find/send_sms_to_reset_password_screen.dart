@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
+import '../../../routes/route_path.dart';
+import '../../../routes/router_provider.dart';
+
+final resetPasswordTokenProvider = StateProvider<String?>((ref) => null);
 
 class SendSMStoResetPasswordScreen extends ConsumerWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -50,9 +54,14 @@ class SendSMStoResetPasswordScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          await ref
-              .read(userProvider.notifier)
-              .sendSMStoResetPassword(_phoneNumberController.text);
+          final AsyncValue<String?> result =
+          await AsyncValue.guard(() async => await ref
+              .read(authRepositoryProvider)
+              .sendSMStoResetPassword(_phoneNumberController.text));
+          if(!result.hasError){
+            ref.read(resetPasswordTokenProvider.notifier).state = result.value;
+            ref.read(routerProvider).pushReplacement(RouteInfo.verifySMStoResetPassword.fullPath);
+          }
         },
         buttonText: '인증코드 전송하기',
       ),
