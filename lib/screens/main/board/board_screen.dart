@@ -96,9 +96,12 @@ class _BoardScreen extends ConsumerState {
             maxLines: 1,
             maxLength: 50,
           ),
-          SizedBox(
-            height: topContainerHeight,
-            child: PetitionStatusBar(),
+          Opacity(
+            opacity: topContainerHeight / initialTopBarSize,
+            child: SizedBox(
+              height: topContainerHeight <= 8 ? 8 : topContainerHeight,
+              child: PetitionStatusBar(),
+            ),
           ),
           Expanded(
             child: ref.watch(boardProvider).when(
