@@ -1,9 +1,7 @@
-import 'package:danvery/domain/board/board.dart';
-import 'package:danvery/domain/board/post/petition.dart';
-import 'package:danvery/domain/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utils/dio_provider.dart';
+import '../domain.dart';
 
 final boardRepositoryProvider =
     Provider<BoardRepository>((ref) => BoardRepository(ref.read(dioProvider)));
@@ -20,7 +18,7 @@ final class BoardRepository extends Repository {
     return await fetch(
       () async {
         final result = await dio.get(
-          '${dio.options.baseUrl}/post/petition?bodySize=$bodySize&size=$size&page=$page&keyword=$keyword',
+          '/post/petition?bodySize=$bodySize&size=$size&page=$page&keyword=$keyword&sort=createdAt,desc',
         );
         return Board.fromJson(result.data);
       },
@@ -33,7 +31,7 @@ final class BoardRepository extends Repository {
     return await fetch(
       () async {
         final result = await dio.get(
-          '${dio.options.baseUrl}/post/petition/$id',
+          '/post/petition/$id',
         );
         return Petition.fromJson(result.data);
       },

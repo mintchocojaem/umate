@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../board_repository.dart';
-import 'petition.dart';
+import '../../domain.dart';
+
 
 final postProvider =
     AsyncNotifierProvider.autoDispose.family<PostNotifier, Petition?, int>(

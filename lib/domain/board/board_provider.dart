@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'board.dart';
-import 'board_repository.dart';
+import '../domain.dart';
+
 
 final boardProvider =
     AsyncNotifierProvider<BoardNotifier, Board?>(() => BoardNotifier());

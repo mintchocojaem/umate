@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import 'package:danvery/utils/api_constants.dart';
 import 'package:danvery/utils/dio_provider.dart';
 import 'package:dio/dio.dart';

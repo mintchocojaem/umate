@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:danvery/routes/router_provider.dart';
 import 'package:flutter/material.dart';

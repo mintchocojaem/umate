@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:danvery/screens/main/home/widgets/bus_list_tile.dart';
 import 'package:danvery/screens/main/home/widgets/extra_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
+import '../../../domain/domain.dart';
 import '../../../modules/orb/components/components.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -11,6 +14,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData themeData = Theme.of(context);
+    final bus = ref.watch(busProvider);
+    final board = ref.watch(boardProvider);
     return OrbScaffold(
       shrinkWrap: true,
       orbAppBar: OrbAppBar(
@@ -65,45 +70,126 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(
             height: 16,
           ),
-          OrbCardBoard(
-            titleText: "버스 정보",
+          OrbBoardContainer(
+            titleText: "버스정보",
             infoText: "Beta",
-            orbContentTiles: [
-              OrbCardTile(
-                titleText: "24",
-                titleTextColor: Colors.lightGreen,
-                contentText: "정문 출발",
-                subContentText: "곧 도착",
-              ),
-              OrbCardTile(
-                titleText: "8100",
-                titleTextColor: Colors.red,
-                contentText: "정문 출발",
-                subContentText: "정보 없음",
-              ),
-              OrbCardTile(
-                titleText: "셔틀",
-                titleTextColor: Colors.blue,
-                contentText: "정문 출발",
-                subContentText: "2분 후",
-              ),
-            ],
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: themeData.textTheme.bodyMedium?.fontSize,
+            ),
+            child: bus.when(
+              data: (busList) {
+                final jungmoonBus24 = busList!.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "24")
+                    .single;
+                final jungmoonBus720_3 = busList.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "720-3")
+                    .single;
+                final jungmoonBus8100 = busList.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "8100")
+                    .single;
+                final jungmoonBus102 = busList.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "102")
+                    .single;
+                final jungmoonBus1101 = busList.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "1101")
+                    .single;
+                final jungmoonBusShuttle = busList.junmoonBus.busArrivalList
+                    .where((element) => element.busNo == "shuttle-bus")
+                    .single;
+                final gomsangBus24 = busList.gomsangBus.busArrivalList
+                    .where((element) => element.busNo == "24")
+                    .single;
+                final gomsangBus720_3 = busList.gomsangBus.busArrivalList
+                    .where((element) => element.busNo == "720-3")
+                    .single;
+                final gomsangBusShuttle = busList.gomsangBus.busArrivalList
+                    .where((element) => element.busNo == "shuttle-bus")
+                    .single;
+                return ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    BusListTile(
+                      jungmoonBus: jungmoonBusShuttle,
+                      gomsangBus: gomsangBusShuttle,
+                      color: Colors.blue,
+                    ),
+                    const OrbDivider(),
+                    BusListTile(
+                      jungmoonBus: jungmoonBus24,
+                      gomsangBus: gomsangBus24,
+                      color: Colors.lightGreen,
+                    ),
+                    const OrbDivider(),
+                    BusListTile(
+                      jungmoonBus: jungmoonBus720_3,
+                      gomsangBus: gomsangBus720_3,
+                      color: Colors.lightGreen,
+                    ),
+                    const OrbDivider(),
+                    BusListTile(
+                      jungmoonBus: jungmoonBus8100,
+                      color: Colors.red,
+                    ),
+                    const OrbDivider(),
+                    BusListTile(
+                      jungmoonBus: jungmoonBus102,
+                      color: Colors.red,
+                    ),
+                    const OrbDivider(),
+                    BusListTile(
+                      jungmoonBus: jungmoonBus1101,
+                      color: Colors.red,
+                    ),
+                  ],
+                );
+              },
+              loading: () => const OrbShimmerContent(),
+              error: (error, stack) => const OrbShimmerContent(),
+            ),
           ),
           const SizedBox(
             height: 16,
           ),
-          OrbListBoard(
+          OrbBoardContainer(
             titleText: "청원게시판",
-            orbListTiles: [
-              OrbListTile(
-                  titleText: '23.09.12', contentText: '상경관과 인문관 사이에 벤치 설치해주세요'),
-              OrbListTile(
-                  titleText: '23.09.12', contentText: '대운동장에 곰인형 설치해주세요'),
-              OrbListTile(
-                  titleText: '23.09.12',
-                  contentText: '안녕하세요, 저는 소프트웨어학과 동문입니다'),
-              OrbListTile(titleText: '23.09.12', contentText: '이런 청원은 어떠신가요?'),
-            ],
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: themeData.textTheme.bodyMedium?.fontSize,
+            ),
+            child: board.when(
+              data: (posts) {
+                final length = board.value!.content.length >= 4
+                    ? 4
+                    : board.value!.content.length;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: length,
+                  itemBuilder: (context, index) {
+                    final petition = board.value!.content[index];
+                    return Column(
+                      children: [
+                        OrbListTile(
+                          titleText: DateFormat("yy.MM.dd")
+                              .format(DateTime.parse(petition.createdAt)),
+                          boldTitleText: true,
+                          contentText: petition.title,
+                        ),
+                        if (index != length - 1)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            child: OrbDivider(),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              },
+              loading: () => const OrbShimmerContent(),
+              error: (error, stack) => const OrbShimmerContent(),
+            ),
           ),
           const SizedBox(
             height: 16,

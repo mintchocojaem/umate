@@ -5,11 +5,6 @@ export 'app_bar/orb_app_bar.dart';
 export 'container/orb_container.dart';
 export 'container/orb_board_container.dart';
 
-//board
-export 'board/orb_list_board.dart';
-export 'board/orb_card_board.dart';
-export 'board/orb_image_board.dart';
-
 //bottomNavigationBar
 export 'bottom_navigation_bar/orb_bottom_navigation_bar.dart';
 

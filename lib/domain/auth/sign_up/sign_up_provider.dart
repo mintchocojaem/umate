@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:danvery/domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import 'package:danvery/main.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

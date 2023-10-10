@@ -2,13 +2,13 @@ import 'package:danvery/routes/route_path.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import '../screens/screens.dart';
 
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
-      initialLocation: RouteInfo.login.fullPath,
+      initialLocation: RouteInfo.main.fullPath,
       routes: [
         GoRoute(
           path: RouteInfo.main.fullPath,
@@ -117,7 +117,6 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
         errorMessage: state.error.toString(),
       ),
       redirect: (context, state) {
-        print(state.fullPath);
         if (state.fullPath == null || state.fullPath!.isEmpty) {
           //page not found error
         } else if (ref.watch(tokenProvider).value == null &&

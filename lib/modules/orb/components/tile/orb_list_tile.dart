@@ -58,20 +58,21 @@ class OrbListTile extends StatelessWidget implements OrbTile {
                             ? theme.textTheme.bodyMedium
                             : theme.textTheme.bodyLarge)
                         ?.copyWith(
-                            fontWeight:
-                                boldTitleText ? FontWeight.w600 : FontWeight.w500,
-                            overflow: TextOverflow.ellipsis),
+                      fontWeight:
+                          boldTitleText ? FontWeight.w600 : FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 const SizedBox(
-                  width: 32,
+                  width: 16,
                 ),
-                if (content != null) content!,
-                if (contentText != null)
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment:
-                          contentAlign ?? CrossAxisAlignment.start,
-                      children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment:
+                        contentAlign ?? CrossAxisAlignment.start,
+                    children: [
+                      if (content != null) content!,
+                      if (contentText != null)
                         Text(
                           contentText!,
                           style: (tileTextStyle == TileTextStyle.medium
@@ -81,11 +82,11 @@ class OrbListTile extends StatelessWidget implements OrbTile {
                             fontWeight: FontWeight.w500,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
+                          maxLines: 1,
                         ),
-                      ],
-                    ),
+                    ],
                   ),
+                ),
               ],
             ),
           ),

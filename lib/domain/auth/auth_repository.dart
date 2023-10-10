@@ -1,11 +1,8 @@
-import 'package:danvery/domain/repository.dart';
-import 'package:danvery/utils/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'sign_up/sign_up.dart';
-import 'token/token.dart';
-import 'user/user.dart';
+import '../../utils/dio_provider.dart';
+import '../domain.dart';
 
 final authRepositoryProvider =
     Provider<AuthRepository>((ref) => AuthRepository(ref.read(dioProvider)));
@@ -17,7 +14,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         final result = await dio.post(
-          '${dio.options.baseUrl}/user/dku/verify',
+          '/user/dku/verify',
           data: {
             "dkuStudentId": dkuStudentId,
             "dkuPassword": dkuPassword,
@@ -32,7 +29,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.post(
-          '${dio.options.baseUrl}/user/sms/$signUpToken',
+          '/user/sms/$signUpToken',
           data: {
             "phoneNumber": phoneNumber,
           },
@@ -46,7 +43,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.post(
-          '${dio.options.baseUrl}/user/sms/verify/$signUpToken',
+          '/user/sms/verify/$signUpToken',
           data: {
             "code": code,
           },
@@ -61,7 +58,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.post(
-          '${dio.options.baseUrl}/user/$signUpToken',
+          '/user/$signUpToken',
           data: {
             "nickname": nickname,
             "password": password,
@@ -75,7 +72,7 @@ final class AuthRepository extends Repository {
   Future<Token?> login(String studentId, String password) async {
     return await fetch(() async {
       final result = await dio.post(
-        '${dio.options.baseUrl}/user/login',
+        '/user/login',
         data: {
           "studentId": studentId,
           "password": password,
@@ -88,7 +85,7 @@ final class AuthRepository extends Repository {
   Future<Token?> reissueToken(String accessToken, String refreshToken) async {
     return await fetch(() async {
       final response = await dio.post(
-        '${dio.options.baseUrl}/user/reissue',
+        '/user/reissue',
         data: {
           "refreshToken": refreshToken,
         },
@@ -106,7 +103,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         final response = await dio.get(
-          '${dio.options.baseUrl}/user',
+          '/user',
           options: Options(
             headers: {
               "Authorization": "Bearer $accessToken",
@@ -122,7 +119,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.get(
-          '${dio.options.baseUrl}/user/valid?nickname=$nickname',
+          '/user/valid?nickname=$nickname',
         );
         return true;
       },
@@ -133,7 +130,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.post(
-          '${dio.options.baseUrl}/user/find/id',
+          '/user/find/id',
           data: {
             "phoneNumber": phoneNumber,
           },
@@ -147,7 +144,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         final response = await dio.post(
-          '${dio.options.baseUrl}/user/find/pwd',
+          '/user/find/pwd',
           data: {
             "phoneNumber": phoneNumber,
           },
@@ -161,7 +158,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.post(
-          '${dio.options.baseUrl}/user/find/pwd/verify',
+          '/user/find/pwd/verify',
           data: {
             "token": token,
             "code": code,
@@ -176,7 +173,7 @@ final class AuthRepository extends Repository {
     return await fetch(
       () async {
         await dio.patch(
-          '${dio.options.baseUrl}/user/find/pwd/reset',
+          '/user/find/pwd/reset',
           data: {
             "token": token,
             "password": password,

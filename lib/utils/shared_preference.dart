@@ -1,4 +1,4 @@
-import 'package:danvery/domain/auth/auth.dart';
+import 'package:danvery/domain/domain.dart';
 import 'package:get_storage/get_storage.dart';
 
 enum DataKey {

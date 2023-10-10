@@ -35,17 +35,17 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    ThemeData themeData = Theme.of(context);
     return InkWell(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: color ?? theme.colorScheme.surfaceVariant,
+          color: color ?? themeData.colorScheme.surface,
           borderRadius: BorderRadius.circular(15),
         ),
         constraints: constraints ?? const BoxConstraints(
           minHeight: 120,
-          minWidth: 100,
+          minWidth: 120,
         ),
         padding: const EdgeInsets.all(16),
         child: IntrinsicWidth(
@@ -60,7 +60,7 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
                   if (titleText != null)
                     Text(
                       titleText!,
-                      style: theme.textTheme.titleLarge?.copyWith(
+                      style: themeData.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: titleTextColor,
                       ),
@@ -72,7 +72,7 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
                   if (contentText != null)
                     Text(
                       contentText!,
-                      style: theme.textTheme.bodyMedium,
+                      style: themeData.textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
                 ],
@@ -81,8 +81,8 @@ class OrbCardTile extends StatelessWidget implements OrbTile {
               if (subContentText != null)
                 Text(
                   subContentText!,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: subContentTextColor ?? theme.colorScheme.secondary,
+                  style: themeData.textTheme.bodyMedium?.copyWith(
+                    color: subContentTextColor ?? themeData.colorScheme.secondary,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
