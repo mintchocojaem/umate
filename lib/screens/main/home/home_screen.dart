@@ -82,22 +82,22 @@ class HomeScreen extends ConsumerWidget {
             ),
             child: bus.when(
               data: (busList) {
-                final jungmoonBus24 = busList!.junmoonBus.busArrivalList
+                final jungmoonBus24 = busList!.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "24")
                     .single;
-                final jungmoonBus720_3 = busList.junmoonBus.busArrivalList
+                final jungmoonBus720_3 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "720-3")
                     .single;
-                final jungmoonBus8100 = busList.junmoonBus.busArrivalList
+                final jungmoonBus8100 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "8100")
                     .single;
-                final jungmoonBus102 = busList.junmoonBus.busArrivalList
+                final jungmoonBus102 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "102")
                     .single;
-                final jungmoonBus1101 = busList.junmoonBus.busArrivalList
+                final jungmoonBus1101 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "1101")
                     .single;
-                final jungmoonBusShuttle = busList.junmoonBus.busArrivalList
+                final jungmoonBusShuttle = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "shuttle-bus")
                     .single;
                 final gomsangBus24 = busList.gomsangBus.busArrivalList
@@ -170,8 +170,8 @@ class HomeScreen extends ConsumerWidget {
             },
             child: board.when(
               data: (posts) {
-                final length = board.value!.content.length >= 4
-                    ? 4
+                final length = board.value!.content.length >= 5
+                    ? 5
                     : board.value!.content.length;
                 return ListView.builder(
                   shrinkWrap: true,

@@ -16,7 +16,7 @@ class BusList with _$BusList{
 @freezed
 class BusInfo with _$BusInfo {
   const factory BusInfo({
-    required BusList junmoonBus,
+    required BusList jungmoonBus,
     required BusList gomsangBus,
   }) = _BusInfo;
 

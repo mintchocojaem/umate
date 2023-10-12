@@ -20,13 +20,14 @@ Map<String, dynamic> _$$_BusListToJson(_$_BusList instance) =>
     };
 
 _$_BusInfo _$$_BusInfoFromJson(Map<String, dynamic> json) => _$_BusInfo(
-      junmoonBus: BusList.fromJson(json['junmoonBus'] as Map<String, dynamic>),
+      jungmoonBus:
+          BusList.fromJson(json['jungmoonBus'] as Map<String, dynamic>),
       gomsangBus: BusList.fromJson(json['gomsangBus'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_BusInfoToJson(_$_BusInfo instance) =>
     <String, dynamic>{
-      'junmoonBus': instance.junmoonBus,
+      'jungmoonBus': instance.jungmoonBus,
       'gomsangBus': instance.gomsangBus,
     };
 

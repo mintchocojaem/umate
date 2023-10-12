@@ -6,9 +6,9 @@ import '../domain.dart';
 
 
 final boardProvider =
-    AsyncNotifierProvider<BoardNotifier, Board?>(() => BoardNotifier());
+    AsyncNotifierProvider<BoardNotifier, Board>(() => BoardNotifier());
 
-class BoardNotifier extends AsyncNotifier<Board?> {
+class BoardNotifier extends AsyncNotifier<Board> {
   int page = 0;
   int size = 10;
   bool isFetching = false;
@@ -27,7 +27,7 @@ class BoardNotifier extends AsyncNotifier<Board?> {
           page: page,
           size: size,
           bodySize: 200,
-        ),
+        ) as Board,
       );
       isFetching = false;
     } else if (state.hasValue && !state.value!.hasNext) {
@@ -61,9 +61,9 @@ class BoardNotifier extends AsyncNotifier<Board?> {
   }
 
   @override
-  FutureOr<Board?> build() async {
+  FutureOr<Board> build() async {
     // TODO: implement build
     await getPetitionBoard();
-    return state.value;
+    return state.value!;
   }
 }

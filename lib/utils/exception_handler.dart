@@ -56,6 +56,7 @@ class ExceptionHandler {
       if (printError) {
         if (kDebugMode) {
           print(error.toString());
+          print(stack);
         }
       }
       onException?.call(error.toString());

@@ -6,24 +6,24 @@ import '../../domain.dart';
 
 
 final postProvider =
-    AsyncNotifierProvider.autoDispose.family<PostNotifier, Petition?, int>(
+    AsyncNotifierProvider.autoDispose.family<PostNotifier, Petition, int>(
   () => PostNotifier(),
 );
 
-class PostNotifier extends AutoDisposeFamilyAsyncNotifier<Petition?, int> {
+class PostNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
 
   Future<void> getPetitionPost({required int id}) async {
     state = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).getPetitionPost(
             id: id,
-          ),
+          ) as Petition,
     );
   }
 
   @override
-  FutureOr<Petition?> build(int arg) async {
+  FutureOr<Petition> build(int arg) async {
     // TODO: implement build
     await getPetitionPost(id: arg);
-    return state.value;
+    return state.value!;
   }
 }

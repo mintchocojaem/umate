@@ -9,7 +9,7 @@ final boardRepositoryProvider =
 final class BoardRepository extends Repository {
   BoardRepository(super.dio);
 
-  Future<Board> getPetitionBoard({
+  Future<Board?> getPetitionBoard({
     String? keyword,
     required int page,
     int? bodySize,
@@ -25,7 +25,7 @@ final class BoardRepository extends Repository {
     );
   }
 
-  Future<Petition> getPetitionPost({
+  Future<Petition?> getPetitionPost({
     required int id,
   }) async {
     return await fetch(

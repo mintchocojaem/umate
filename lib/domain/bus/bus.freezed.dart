@@ -179,7 +179,7 @@ BusInfo _$BusInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BusInfo {
-  BusList get junmoonBus => throw _privateConstructorUsedError;
+  BusList get jungmoonBus => throw _privateConstructorUsedError;
   BusList get gomsangBus => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -192,9 +192,9 @@ abstract class $BusInfoCopyWith<$Res> {
   factory $BusInfoCopyWith(BusInfo value, $Res Function(BusInfo) then) =
       _$BusInfoCopyWithImpl<$Res, BusInfo>;
   @useResult
-  $Res call({BusList junmoonBus, BusList gomsangBus});
+  $Res call({BusList jungmoonBus, BusList gomsangBus});
 
-  $BusListCopyWith<$Res> get junmoonBus;
+  $BusListCopyWith<$Res> get jungmoonBus;
   $BusListCopyWith<$Res> get gomsangBus;
 }
 
@@ -211,13 +211,13 @@ class _$BusInfoCopyWithImpl<$Res, $Val extends BusInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? junmoonBus = null,
+    Object? jungmoonBus = null,
     Object? gomsangBus = null,
   }) {
     return _then(_value.copyWith(
-      junmoonBus: null == junmoonBus
-          ? _value.junmoonBus
-          : junmoonBus // ignore: cast_nullable_to_non_nullable
+      jungmoonBus: null == jungmoonBus
+          ? _value.jungmoonBus
+          : jungmoonBus // ignore: cast_nullable_to_non_nullable
               as BusList,
       gomsangBus: null == gomsangBus
           ? _value.gomsangBus
@@ -228,9 +228,9 @@ class _$BusInfoCopyWithImpl<$Res, $Val extends BusInfo>
 
   @override
   @pragma('vm:prefer-inline')
-  $BusListCopyWith<$Res> get junmoonBus {
-    return $BusListCopyWith<$Res>(_value.junmoonBus, (value) {
-      return _then(_value.copyWith(junmoonBus: value) as $Val);
+  $BusListCopyWith<$Res> get jungmoonBus {
+    return $BusListCopyWith<$Res>(_value.jungmoonBus, (value) {
+      return _then(_value.copyWith(jungmoonBus: value) as $Val);
     });
   }
 
@@ -250,10 +250,10 @@ abstract class _$$_BusInfoCopyWith<$Res> implements $BusInfoCopyWith<$Res> {
       __$$_BusInfoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({BusList junmoonBus, BusList gomsangBus});
+  $Res call({BusList jungmoonBus, BusList gomsangBus});
 
   @override
-  $BusListCopyWith<$Res> get junmoonBus;
+  $BusListCopyWith<$Res> get jungmoonBus;
   @override
   $BusListCopyWith<$Res> get gomsangBus;
 }
@@ -268,13 +268,13 @@ class __$$_BusInfoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? junmoonBus = null,
+    Object? jungmoonBus = null,
     Object? gomsangBus = null,
   }) {
     return _then(_$_BusInfo(
-      junmoonBus: null == junmoonBus
-          ? _value.junmoonBus
-          : junmoonBus // ignore: cast_nullable_to_non_nullable
+      jungmoonBus: null == jungmoonBus
+          ? _value.jungmoonBus
+          : jungmoonBus // ignore: cast_nullable_to_non_nullable
               as BusList,
       gomsangBus: null == gomsangBus
           ? _value.gomsangBus
@@ -287,19 +287,19 @@ class __$$_BusInfoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_BusInfo implements _BusInfo {
-  const _$_BusInfo({required this.junmoonBus, required this.gomsangBus});
+  const _$_BusInfo({required this.jungmoonBus, required this.gomsangBus});
 
   factory _$_BusInfo.fromJson(Map<String, dynamic> json) =>
       _$$_BusInfoFromJson(json);
 
   @override
-  final BusList junmoonBus;
+  final BusList jungmoonBus;
   @override
   final BusList gomsangBus;
 
   @override
   String toString() {
-    return 'BusInfo(junmoonBus: $junmoonBus, gomsangBus: $gomsangBus)';
+    return 'BusInfo(jungmoonBus: $jungmoonBus, gomsangBus: $gomsangBus)';
   }
 
   @override
@@ -307,15 +307,15 @@ class _$_BusInfo implements _BusInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BusInfo &&
-            (identical(other.junmoonBus, junmoonBus) ||
-                other.junmoonBus == junmoonBus) &&
+            (identical(other.jungmoonBus, jungmoonBus) ||
+                other.jungmoonBus == jungmoonBus) &&
             (identical(other.gomsangBus, gomsangBus) ||
                 other.gomsangBus == gomsangBus));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, junmoonBus, gomsangBus);
+  int get hashCode => Object.hash(runtimeType, jungmoonBus, gomsangBus);
 
   @JsonKey(ignore: true)
   @override
@@ -333,13 +333,13 @@ class _$_BusInfo implements _BusInfo {
 
 abstract class _BusInfo implements BusInfo {
   const factory _BusInfo(
-      {required final BusList junmoonBus,
+      {required final BusList jungmoonBus,
       required final BusList gomsangBus}) = _$_BusInfo;
 
   factory _BusInfo.fromJson(Map<String, dynamic> json) = _$_BusInfo.fromJson;
 
   @override
-  BusList get junmoonBus;
+  BusList get jungmoonBus;
   @override
   BusList get gomsangBus;
   @override
