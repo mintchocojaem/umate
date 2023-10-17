@@ -43,7 +43,7 @@ _$_Petition _$$_PetitionFromJson(Map<String, dynamic> json) => _$_Petition(
           .map((e) =>
               e == null ? null : File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as String,
+      status: PetitionStatus.fromJson(json['status'] as String),
       expiresAt: json['expiresAt'] as String,
       agreeCount: json['agreeCount'] as int,
       blinded: json['blinded'] as bool,

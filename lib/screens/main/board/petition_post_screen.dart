@@ -24,13 +24,6 @@ class PetitionPostScreen extends ConsumerWidget {
       ),
       body: post.when(
         data: (data) {
-          final status = switch (data!.status) {
-            "ACTIVE" => "청원 중",
-            "WAITING" => "대기 중",
-            "ANSWERED" => "답변 완료",
-            "EXPIRED" => "기간 만료",
-            String() => "알 수 없음",
-          };
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,7 +36,7 @@ class PetitionPostScreen extends ConsumerWidget {
                 agreeCount: data.agreeCount,
                 author: data.author,
                 duration: "22",
-                status: status,
+                status: data.status.name,
                 needAgreeCount: 50,
               ),
               data.answer != null

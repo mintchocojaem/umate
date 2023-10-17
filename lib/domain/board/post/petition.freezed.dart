@@ -391,7 +391,7 @@ mixin _$Petition {
   String? get answer => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   List<File?> get files => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  PetitionStatus get status => throw _privateConstructorUsedError;
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
   bool get blinded => throw _privateConstructorUsedError;
@@ -416,7 +416,7 @@ abstract class $PetitionCopyWith<$Res> {
       String? answer,
       String createdAt,
       List<File?> files,
-      String status,
+      PetitionStatus status,
       String expiresAt,
       int agreeCount,
       bool blinded,
@@ -481,7 +481,7 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PetitionStatus,
       expiresAt: null == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
@@ -517,7 +517,7 @@ abstract class _$$_PetitionCopyWith<$Res> implements $PetitionCopyWith<$Res> {
       String? answer,
       String createdAt,
       List<File?> files,
-      String status,
+      PetitionStatus status,
       String expiresAt,
       int agreeCount,
       bool blinded,
@@ -580,7 +580,7 @@ class __$$_PetitionCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PetitionStatus,
       expiresAt: null == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
@@ -644,7 +644,7 @@ class _$_Petition implements _Petition {
   }
 
   @override
-  final String status;
+  final PetitionStatus status;
   @override
   final String expiresAt;
   @override
@@ -729,7 +729,7 @@ abstract class _Petition implements Petition {
       final String? answer,
       required final String createdAt,
       required final List<File?> files,
-      required final String status,
+      required final PetitionStatus status,
       required final String expiresAt,
       required final int agreeCount,
       required final bool blinded,
@@ -752,7 +752,7 @@ abstract class _Petition implements Petition {
   @override
   List<File?> get files;
   @override
-  String get status;
+  PetitionStatus get status;
   @override
   String get expiresAt;
   @override

@@ -32,7 +32,7 @@ class _BoardScreen extends ConsumerState {
     topContainerHeight = initialTopBarSize;
     minTopContainerHeight = 0;
     scrollSpeed = 5;
-    _controller.addListener(() async{
+    _controller.addListener(() async {
       if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
         if (topContainerHeight > minTopContainerHeight) {
           setState(() {
@@ -55,11 +55,9 @@ class _BoardScreen extends ConsumerState {
         }
       }
 
-      if (_controller.position.pixels ==
-          _controller.position.maxScrollExtent) {
+      if (_controller.position.pixels >= _controller.position.maxScrollExtent) {
         await ref.read(boardProvider.notifier).getPetitionBoard();
       }
-
     });
   }
 
@@ -96,23 +94,29 @@ class _BoardScreen extends ConsumerState {
             maxLines: 1,
             maxLength: 50,
           ),
-          Opacity(
-            opacity: topContainerHeight / initialTopBarSize,
-            child: SizedBox(
-              height: topContainerHeight <= 8 ? 8 : topContainerHeight,
-              child: PetitionStatusBar(),
-            ),
-          ),
+          ref.watch(boardProvider).hasValue
+              ? Opacity(
+                  opacity: topContainerHeight / initialTopBarSize,
+                  child: SizedBox(
+                    height: topContainerHeight <= 8 ? 8 : topContainerHeight,
+                    child: PetitionStatusBar(
+                      onSelected: (value) {
+                        ref.read(petitionStatusProvider.notifier).update((state) => value);
+                      },
+                    ),
+                  ),
+                )
+              : const SizedBox(),
           Expanded(
             child: ref.watch(boardProvider).when(
-              data: (posts) {
-                final petitions = posts!.content;
+              data: (board) {
+                final petitions = board.content;
                 return RefreshIndicator(
                   color: themeData.colorScheme.primary,
-                  onRefresh: () {
-                    return ref
+                  onRefresh: () async {
+                    return await ref
                         .read(boardProvider.notifier)
-                        .getPetitionBoard(firstPage: true);
+                        .getPetitionBoard(init: true);
                   },
                   child: ListView.builder(
                     controller: _controller,
@@ -129,13 +133,6 @@ class _BoardScreen extends ConsumerState {
                           ? "마감"
                           : "${today.difference(DateTime.parse(petition.createdAt)).inDays}일 남음";
                       final duration = "$createdAt ~ $expiresAt";
-                      final status = switch (petition.status) {
-                        "ACTIVE" => "청원 중",
-                        "WAITING" => "대기 중",
-                        "ANSWERED" => "답변 완료",
-                        "EXPIRED" => "기간 만료",
-                        String() => "알 수 없음",
-                      };
                       final Widget petitionCard = Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: PetitionCard(
@@ -143,7 +140,7 @@ class _BoardScreen extends ConsumerState {
                           title: petition.title,
                           duration: duration,
                           agreeCount: petition.agreeCount,
-                          status: status,
+                          status: petition.status.name,
                           onTap: () {
                             ref.read(routerProvider).push(
                                   RouteInfo.petition.fullPath,
@@ -152,7 +149,7 @@ class _BoardScreen extends ConsumerState {
                           },
                         ),
                       );
-                      if (index == petitions.length - 1) {
+                      if (index == petitions.length - 1 && board.hasNext) {
                         return Column(
                           children: [
                             petitionCard,

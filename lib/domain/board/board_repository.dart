@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utils/dio_provider.dart';
@@ -14,11 +15,14 @@ final class BoardRepository extends Repository {
     required int page,
     int? bodySize,
     required int size,
+    required PetitionStatus status,
+    CancelToken? cancelToken,
   }) async {
     return await fetch(
       () async {
         final result = await dio.get(
-          '/post/petition?bodySize=$bodySize&size=$size&page=$page&keyword=$keyword&sort=createdAt,desc',
+          '/post/petition?bodySize=$bodySize&size=$size&page=$page&keyword=$keyword&sort=createdAt,desc&status=${status.value}',
+          cancelToken: cancelToken,
         );
         return Board.fromJson(result.data);
       },
@@ -27,11 +31,13 @@ final class BoardRepository extends Repository {
 
   Future<Petition?> getPetitionPost({
     required int id,
+    CancelToken? cancelToken,
   }) async {
     return await fetch(
       () async {
         final result = await dio.get(
           '/post/petition/$id',
+          cancelToken: cancelToken,
         );
         return Petition.fromJson(result.data);
       },

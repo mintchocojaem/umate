@@ -12,12 +12,13 @@ abstract base class Repository {
     try {
       return await function();
     } on DioException catch (e) {
-
-      final exception = e.response?.statusCode != 200 ? const ExceptionDto() : ExceptionDto(
-        code : e.response!.data['code'].toString(),
-        message : e.response!.data['message'].first.toString(),
-      );
-      exceptionHandler.invokeException(exception.message);
+      if(e.type != DioExceptionType.cancel) {
+        final exception = e.response?.statusCode != 200 ? const ExceptionDto() : ExceptionDto(
+          code : e.response!.data['code'].toString(),
+          message : e.response!.data['message'].first.toString(),
+        );
+        exceptionHandler.invokeException(exception.message);
+      }
     }
   }
 
