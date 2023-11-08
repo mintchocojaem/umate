@@ -40,7 +40,7 @@ class MainScreen extends ConsumerWidget {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "내 정보"),
         ],
         onIndexChanged: (value) {
-         ref.read(pageControllerProvider).jumpToPage(value);
+          ref.read(pageControllerProvider).jumpToPage(value);
         },
         currentIndex: ref.watch(_currentIndexProvider),
       ),

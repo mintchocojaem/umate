@@ -5,21 +5,42 @@ import '../utils/exception_handler.dart';
 abstract base class Repository {
   final Dio dio;
   final ExceptionHandler exceptionHandler = ExceptionHandler();
-
   Repository(this.dio);
 
-  Future<dynamic> fetch(Function function) async {
-    try {
-      return await function();
-    } on DioException catch (e) {
-      if(e.type != DioExceptionType.cancel) {
-        final exception = e.response?.statusCode != 200 ? const ExceptionDto() : ExceptionDto(
-          code : e.response!.data['code'].toString(),
-          message : e.response!.data['message'].first.toString(),
-        );
-        exceptionHandler.invokeException(exception.message);
-      }
-    }
+  Future<dynamic> get({
+    required String path,
+    Map<String, dynamic>? queryParameter,
+    bool allowDuplicateRequest = true,
+  }) async {
+    return await dio.get(
+      path,
+      queryParameters: queryParameter,
+      cancelToken: allowDuplicateRequest ? null : CancelToken(),
+    );
+  }
+
+  Future<dynamic> post({
+    required String path,
+    Map<String, dynamic>? data,
+    bool allowDuplicateRequest = true,
+  }) async {
+    return await dio.post(
+      path,
+      data: data,
+      cancelToken: allowDuplicateRequest ? null : CancelToken(),
+    );
+  }
+
+  Future<dynamic> patch({
+    required String path,
+    Map<String, dynamic>? data,
+    bool allowDuplicateRequest = true,
+  }) async {
+    return await dio.patch(
+      path,
+      data: data,
+      cancelToken: allowDuplicateRequest ? null : CancelToken(),
+    );
   }
 
 }

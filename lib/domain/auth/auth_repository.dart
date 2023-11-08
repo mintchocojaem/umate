@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utils/dio_provider.dart';
@@ -11,172 +10,123 @@ final class AuthRepository extends Repository {
   AuthRepository(super.dio);
 
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
-    return await fetch(
-      () async {
-        final result = await dio.post(
-          '/user/dku/verify',
-          data: {
-            "dkuStudentId": dkuStudentId,
-            "dkuPassword": dkuPassword,
-          },
-        );
-        return SignUp.fromJson(result.data);
+    final result = await post(
+      path: '/user/dku/verify',
+      data: {
+        "dkuStudentId": dkuStudentId,
+        "dkuPassword": dkuPassword,
       },
     );
+    return SignUp.fromJson(result.data);
   }
 
   Future<bool> sendSMS(String signUpToken, String phoneNumber) async {
-    return await fetch(
-      () async {
-        await dio.post(
-          '/user/sms/$signUpToken',
-          data: {
-            "phoneNumber": phoneNumber,
-          },
-        );
-        return true;
+    final result = await post(
+      path: '/user/sms/$signUpToken',
+      data: {
+        "phoneNumber": phoneNumber,
       },
     );
+    return result.statusCode == 200;
   }
 
   Future<bool> verifySMS(String signUpToken, String code) async {
-    return await fetch(
-      () async {
-        await dio.post(
-          '/user/sms/verify/$signUpToken',
-          data: {
-            "code": code,
-          },
-        );
-        return true;
+    final result = await post(
+      path: '/user/sms/verify/$signUpToken',
+      data: {
+        "code": code,
       },
     );
+    return result.statusCode == 200;
   }
 
   Future<bool> signUp(
       String signUpToken, String nickname, String password) async {
-    return await fetch(
-      () async {
-        await dio.post(
-          '/user/$signUpToken',
-          data: {
-            "nickname": nickname,
-            "password": password,
-          },
-        );
-        return true;
+    final result = await post(
+      path: '/user/$signUpToken',
+      data: {
+        "nickname": nickname,
+        "password": password,
       },
     );
+    return result.statusCode == 200;
   }
 
   Future<Token?> login(String studentId, String password) async {
-    return await fetch(() async {
-      final result = await dio.post(
-        '/user/login',
-        data: {
-          "studentId": studentId,
-          "password": password,
-        },
-      );
-      return Token.fromJson(result.data);
-    });
+    final result = await post(
+      path: '/user/login',
+      data: {
+        "studentId": studentId,
+        "password": password,
+      },
+    );
+    return Token.fromJson(result.data);
   }
 
   Future<Token?> reissueToken(String accessToken, String refreshToken) async {
-    return await fetch(() async {
-      final response = await dio.post(
-        '/user/reissue',
-        data: {
-          "refreshToken": refreshToken,
-        },
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $accessToken",
-          },
-        ),
-      );
-      return Token.fromJson(response.data);
-    });
+    final result = await post(
+      path: '/user/reissue',
+      data: {
+        "refreshToken": refreshToken,
+      },
+    );
+    return Token.fromJson(result.data);
   }
 
   Future<User?> getUser() async {
-    return await fetch(
-      () async {
-        final response = await dio.get(
-          '/user',
-        );
-        return User.fromJson(response.data);
-      },
+    final result = await get(
+      path: '/user',
     );
+    return User.fromJson(result.data);
   }
 
   Future<bool> validNickname(String nickname) async {
-    return await fetch(
-      () async {
-        await dio.get(
-          '/user/valid?nickname=$nickname',
-        );
-        return true;
-      },
+    final result = await get(
+      path: '/user/valid?nickname=$nickname',
     );
+    return result.statusCode == 200;
   }
 
   Future<bool> findUserId(String phoneNumber) async {
-    return await fetch(
-      () async {
-        await dio.post(
-          '/user/find/id',
-          data: {
-            "phoneNumber": phoneNumber,
-          },
-        );
-        return true;
+    final result = await post(
+      path: '/user/find/id',
+      data: {
+        "phoneNumber": phoneNumber,
       },
     );
+    return result.statusCode == 200;
   }
 
   Future<String?> sendSMStoResetPassword(String phoneNumber) async {
-    return await fetch(
-      () async {
-        final response = await dio.post(
-          '/user/find/pwd',
-          data: {
-            "phoneNumber": phoneNumber,
-          },
-        );
-        return response.data['token'];
+    final result = await post(
+      path: '/user/find/pwd',
+      data: {
+        "phoneNumber": phoneNumber,
       },
     );
+    return result.data['token'];
   }
 
   Future<bool> verifySMStoResetPassword(String token, String code) async {
-    return await fetch(
-      () async {
-        await dio.post(
-          '/user/find/pwd/verify',
-          data: {
-            "token": token,
-            "code": code,
-          },
-        );
-        return true;
+    final result = await post(
+      path: '/user/find/pwd/verify',
+      data: {
+        "token": token,
+        "code": code,
       },
     );
+    return result.statusCode == 200;
   }
 
   Future<bool> resetPassword(String token, String password) async {
-    return await fetch(
-      () async {
-        await dio.patch(
-          '/user/find/pwd/reset',
-          data: {
-            "token": token,
-            "password": password,
-          },
-        );
-        return true;
+    final result = await patch(
+      path: '/user/find/pwd/reset',
+      data: {
+        "token": token,
+        "password": password,
       },
     );
+    return result.statusCode == 200;
   }
 
 }

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:danvery/utils/exception_handler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain.dart';

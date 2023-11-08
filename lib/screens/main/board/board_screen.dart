@@ -17,8 +17,13 @@ class BoardScreen extends ConsumerStatefulWidget {
   createState() => _BoardScreen();
 }
 
-class _BoardScreen extends ConsumerState {
+class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final ScrollController _controller = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   late double initialTopBarSize; // PetitionStatusBar()의 최대 높이
   late double topContainerHeight; // 원하는 초기 높이값 설정
@@ -64,11 +69,14 @@ class _BoardScreen extends ConsumerState {
   @override
   void dispose() {
     _controller.dispose();
+    _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       defaultAppBar: false,
@@ -77,6 +85,8 @@ class _BoardScreen extends ConsumerState {
       body: Column(
         children: [
           TextFormField(
+            focusNode: _searchFocusNode,
+            controller: _searchController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               hintText: '검색',
@@ -90,9 +100,45 @@ class _BoardScreen extends ConsumerState {
                 vertical: 8,
               ),
               counterText: '',
+              suffixIcon: _searchController.text.isNotEmpty
+                  ? _searchFocusNode.hasFocus
+                      ? TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _searchController.clear();
+                            });
+                          },
+                          child: Text(
+                            '취소',
+                            style: themeData.textTheme.bodyMedium,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            ref
+                                .read(searchKeywordProvider.notifier)
+                                .update((state) => '');
+                            ref
+                                .read(boardProvider.notifier)
+                                .getPetitionBoard(init: true)
+                                .whenComplete(() {
+                              _searchController.clear();
+                              _searchFocusNode.unfocus();
+                            });
+                          },
+                          icon: const Icon(Icons.clear),
+                        )
+                  : null,
             ),
             maxLines: 1,
             maxLength: 50,
+            onChanged: (value) {
+              setState(() {});
+            },
+            onFieldSubmitted: (value) {
+              ref.read(searchKeywordProvider.notifier).update((state) => value);
+              ref.read(boardProvider.notifier).getPetitionBoard(init: true);
+            },
           ),
           ref.watch(boardProvider).hasValue
               ? Opacity(
@@ -101,7 +147,9 @@ class _BoardScreen extends ConsumerState {
                     height: topContainerHeight <= 8 ? 8 : topContainerHeight,
                     child: PetitionStatusBar(
                       onSelected: (value) {
-                        ref.read(petitionStatusProvider.notifier).update((state) => value);
+                        ref
+                            .read(petitionStatusProvider.notifier)
+                            .update((state) => value);
                       },
                     ),
                   ),

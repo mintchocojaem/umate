@@ -82,7 +82,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             child: bus.when(
               data: (busList) {
-                final jungmoonBus24 = busList!.jungmoonBus.busArrivalList
+                final jungmoonBus24 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "24")
                     .single;
                 final jungmoonBus720_3 = busList.jungmoonBus.busArrivalList

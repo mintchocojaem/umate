@@ -58,7 +58,7 @@ class ProfileScreen extends ConsumerWidget {
                       tileTextStyle: TileTextStyle.large,
                       boldTitleText: true,
                       titleText: "닉네임",
-                      contentText: data!.nickname,
+                      contentText: data.nickname,
                       contentAlign: CrossAxisAlignment.end,
                     ),
                     const SizedBox(
@@ -115,14 +115,14 @@ class ProfileScreen extends ConsumerWidget {
             titleText: "활동",
             child: user.when(
               data: (data) {
-                return Column(
+                return const Column(
                   children: [
                     OrbListCardTile(
                       titleText: "내가 쓴 청원",
                       contentText: "100",
                       contentAlign: CrossAxisAlignment.end,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 16,
                     ),
                     OrbListCardTile(

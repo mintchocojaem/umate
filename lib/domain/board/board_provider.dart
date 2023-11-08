@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain.dart';
 
+final searchKeywordProvider = StateProvider<String>((ref) => '');
+
 final petitionStatusProvider = StateProvider<PetitionStatus>((ref) {
   return const PetitionStatus.active();
 });
@@ -16,39 +18,33 @@ class BoardNotifier extends AsyncNotifier<Board> {
   int page = 0;
   int size = 10;
 
-  bool isFetching = false;
   bool isFetchingNext = false;
-
-  late CancelToken cancelToken;
 
   Future<void> getPetitionBoard({bool init = false}) async {
 
     if (!state.hasValue || state.value!.content.isEmpty || init) {
-      if(isFetching) cancelToken.cancel();
-      cancelToken = CancelToken();
-      isFetching = true;
+
       page = 0;
-      final board = await AsyncValue.guard(
+      await AsyncValue.guard(
             () async =>
         await ref.read(boardRepositoryProvider).getPetitionBoard(
           page: page,
           size: size,
           bodySize: 200,
           status: ref.read(petitionStatusProvider),
-          cancelToken: cancelToken,
+          keyword: ref.read(searchKeywordProvider),
         ) as Board,
-      );
-      isFetching = false;
-      state = board;
+      ).then((value) => state = value);
 
     } else {
 
       if(isFetchingNext) {
-        // 중복 요청 방지
+        // 스크롤 시 중복 요청 방지
         return;
       }
       isFetchingNext = true;
-      final board = await AsyncValue.guard(
+
+      await AsyncValue.guard(
             () async =>
         await ref.read(boardRepositoryProvider).getPetitionBoard(
           page: page,
@@ -56,8 +52,7 @@ class BoardNotifier extends AsyncNotifier<Board> {
           bodySize: 200,
           status: ref.read(petitionStatusProvider),
         )
-      );
-      state = AsyncData(
+      ).then((board) => state = AsyncData(
         state.value!.copyWith(
           content: state.value!.content + board.value!.content,
           hasNext: board.value!.hasNext,
@@ -68,10 +63,11 @@ class BoardNotifier extends AsyncNotifier<Board> {
           first: board.value!.first,
           last: board.value!.last,
         ),
-      );
+      ));
       isFetchingNext = false;
-      page++;
     }
+
+    page++;
   }
 
   @override

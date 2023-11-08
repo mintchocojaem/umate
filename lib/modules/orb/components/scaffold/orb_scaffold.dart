@@ -35,7 +35,7 @@ class OrbScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar:
-          defaultAppBar && orbAppBar == null ? OrbAppBar() : orbAppBar,
+          defaultAppBar && orbAppBar == null ? const OrbAppBar() : orbAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
         child: Stack(

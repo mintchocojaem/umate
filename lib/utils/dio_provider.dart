@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,12 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/auth/token/token.dart';
 import '../domain/auth/token/token_provider.dart';
 import 'api_constants.dart';
+import 'exception_handler.dart';
 
 final dioProvider = Provider<Dio>((ref) => DioClient(ref).dio);
 
 class DioClient {
   final Dio dio = Dio();
+  final ExceptionHandler exceptionHandler = ExceptionHandler();
   final Ref ref;
+
+  final List<RequestOptions> _pendingRequests = [];
 
   DioClient(this.ref) {
     dio.options = BaseOptions(
@@ -23,33 +29,67 @@ class DioClient {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           // 요청 전에 처리할 내용 추가
+
+          bool isPending = false; // 동일한 요청이 있는지 확인
+
+          for (final pendingRequest in _pendingRequests) {
+            if (pendingRequest.path == options.path &&
+                pendingRequest.cancelToken != null) {
+              // 동일한 요청이 있으면 이전 요청은 취소
+              isPending = true;
+              pendingRequest.cancelToken?.cancel();
+              print("Dio canceled request : ${pendingRequest.uri}");
+            }
+          }
+
+          if (isPending) {
+            // 동일한 요청이 있으면 기존 요청 제거
+            _pendingRequests
+                .removeWhere((element) => element.path == options.path);
+          }
+
+          _pendingRequests.add(options);
+
           final Token? token = ref.read(tokenProvider).value;
-          if(token == null){
+          if (token == null) {
             options.headers.addAll(
               {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNjk3NzgxNjY1LCJ1c2VySWQiOiIxMSIsImlhdCI6MTY5NzUyMjQ2NX0.w5U0aLYJBEr26JnBxUDLfcpfIz9n6R2IFTE6RQmBmT4",
+                "Authorization":
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNjk5NjAyMTI4LCJ1c2VySWQiOiIxMSIsImlhdCI6MTY5OTM0MjkyOH0.wYLyaboY4BlxNp-s4omKfHO6xpmBiF7nH8AWh9MJu28",
               },
             );
           }
+
           if (kDebugMode) {
-            print("Dio Request : ${options.uri}");
-            await Future.delayed(const Duration(seconds: 2));
+            print("Dio request : ${options.uri}");
           }
+
+          await Future.delayed(const Duration(seconds: 1));
+
           return handler.next(options); // 다음 Interceptor 호출
         },
-        onResponse: (response, handler) {
+        onResponse: (response, handler) async {
           // 응답 처리 후에 처리할 내용 추가
           if (kDebugMode) {
-            print("Dio Response : ${response.data}");
+            print("Dio response : ${response.data}");
           }
+          _pendingRequests.removeWhere(
+              (element) => element.path == response.requestOptions.path);
+
           return handler.next(response); // 다음 Interceptor 호출
         },
         onError: (DioException e, handler) async {
           // 에러 처리 후에 처리할 내용 추가
-
-          if (kDebugMode) {
-            //print("Dio Error : ${e.response?.data['message']}");
+          if (e.type != DioExceptionType.cancel) {
+            final exception = e.response?.statusCode != 200
+                ? const ExceptionDto()
+                : ExceptionDto(
+                    code: e.response!.data['code'].toString(),
+                    message: e.response!.data['message'].first.toString(),
+                  );
+            exceptionHandler.invokeException(exception.message);
           }
+
           return handler.next(e); // 다음 Interceptor 호출
         },
       ),
