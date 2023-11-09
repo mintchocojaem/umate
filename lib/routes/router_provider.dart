@@ -8,7 +8,7 @@ import '../screens/screens.dart';
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
-      initialLocation: RouteInfo.main.fullPath,
+      initialLocation: RouteInfo.login.fullPath,
       routes: [
         GoRoute(
           path: RouteInfo.main.fullPath,

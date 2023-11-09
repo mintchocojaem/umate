@@ -15,8 +15,7 @@ class SignUpCheckInfoScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    final signup = ref.watch(signUpProvider);
-    final Student student = signup.value!.student;
+    final Student student = ref.read(signUpProvider).value!.student;
 
     _studentIdController.text = student.studentId;
     _majorController.text = student.major;
@@ -72,7 +71,7 @@ class SignUpCheckInfoScreen extends ConsumerWidget {
           final phoneNumber = _phoneNumberController.text;
           await ref
               .read(signUpProvider.notifier)
-              .sendSMS(signup.value!.signUpToken, phoneNumber);
+              .sendSMS(phoneNumber);
         },
         buttonText: '본인 인증하기',
       ),

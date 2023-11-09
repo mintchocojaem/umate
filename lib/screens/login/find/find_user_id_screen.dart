@@ -52,12 +52,7 @@ class FindUserIdScreen extends ConsumerWidget{
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-              .read(authRepositoryProvider)
-              .findUserId(_phoneNumberController.text));
-          if(!result.hasError){
-            ref.read(routerProvider).pushReplacement(RouteInfo.findUserIdComplete.fullPath);
-          }
+          await ref.read(findProvider).findUserId(_phoneNumberController.text);
         },
         buttonText: '확인',
       ),

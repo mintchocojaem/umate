@@ -8,7 +8,6 @@ final authRepositoryProvider =
 
 final class AuthRepository extends Repository {
   AuthRepository(super.dio);
-
   Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
     final result = await post(
       path: '/user/dku/verify',
@@ -83,48 +82,6 @@ final class AuthRepository extends Repository {
   Future<bool> validNickname(String nickname) async {
     final result = await get(
       path: '/user/valid?nickname=$nickname',
-    );
-    return result.statusCode == 200;
-  }
-
-  Future<bool> findUserId(String phoneNumber) async {
-    final result = await post(
-      path: '/user/find/id',
-      data: {
-        "phoneNumber": phoneNumber,
-      },
-    );
-    return result.statusCode == 200;
-  }
-
-  Future<String?> sendSMStoResetPassword(String phoneNumber) async {
-    final result = await post(
-      path: '/user/find/pwd',
-      data: {
-        "phoneNumber": phoneNumber,
-      },
-    );
-    return result.data['token'];
-  }
-
-  Future<bool> verifySMStoResetPassword(String token, String code) async {
-    final result = await post(
-      path: '/user/find/pwd/verify',
-      data: {
-        "token": token,
-        "code": code,
-      },
-    );
-    return result.statusCode == 200;
-  }
-
-  Future<bool> resetPassword(String token, String password) async {
-    final result = await patch(
-      path: '/user/find/pwd/reset',
-      data: {
-        "token": token,
-        "password": password,
-      },
     );
     return result.statusCode == 200;
   }

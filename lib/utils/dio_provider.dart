@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +37,9 @@ class DioClient {
               // 동일한 요청이 있으면 이전 요청은 취소
               isPending = true;
               pendingRequest.cancelToken?.cancel();
-              print("Dio canceled request : ${pendingRequest.uri}");
+              if (kDebugMode) {
+                print("Dio canceled request : ${pendingRequest.uri}");
+              }
             }
           }
 
@@ -81,7 +82,7 @@ class DioClient {
         onError: (DioException e, handler) async {
           // 에러 처리 후에 처리할 내용 추가
           if (e.type != DioExceptionType.cancel) {
-            final exception = e.response?.statusCode != 200
+            final exception = e.response!.data == null
                 ? const ExceptionDto()
                 : ExceptionDto(
                     code: e.response!.data['code'].toString(),

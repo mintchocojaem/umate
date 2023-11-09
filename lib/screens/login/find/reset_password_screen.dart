@@ -1,5 +1,4 @@
 import 'package:danvery/domain/domain.dart';
-import 'package:danvery/screens/login/find/send_sms_to_reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -70,13 +69,8 @@ class ResetPasswordScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          final resetPasswordToken = ref.read(resetPasswordTokenProvider);
-          final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-              .read(authRepositoryProvider)
-              .resetPassword(resetPasswordToken!, _passwordController.text));
-          if(!result.hasError){
-            ref.read(routerProvider).pushReplacement(RouteInfo.resetPasswordComplete.fullPath);
-          }
+          await ref
+              .read(findProvider).resetPassword(_passwordController.text);
         },
         buttonText: '확인',
       ),

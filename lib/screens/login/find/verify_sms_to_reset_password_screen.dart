@@ -1,11 +1,8 @@
 import 'package:danvery/domain/domain.dart';
-import 'package:danvery/screens/login/find/send_sms_to_reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
-import '../../../routes/route_path.dart';
-import '../../../routes/router_provider.dart';
 
 class VerifySMStoResetPasswordScreen extends ConsumerWidget {
   final TextEditingController _verifySMSController = TextEditingController();
@@ -45,6 +42,20 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
                 return null;
               },
             ),
+            const SizedBox(height: 16),
+            OrbButton(
+              buttonSize: OrbButtonSize.compact,
+              buttonTheme: OrbButtonTheme.onSurface,
+              borderRadius: 10,
+              onPressed: () async {
+                await ref.read(findProvider).resendSMStoResetPassword();
+              },
+              child: Text(
+                "문자 다시 받기",
+                style: themeData.textTheme.bodySmall
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
           ],
         ),
       ),
@@ -53,13 +64,9 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          final resetPasswordToken = ref.read(resetPasswordTokenProvider);
-          final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
-              .read(authRepositoryProvider)
-              .verifySMStoResetPassword(resetPasswordToken!, _verifySMSController.text));
-          if(!result.hasError){
-            ref.read(routerProvider).pushReplacement(RouteInfo.resetPassword.fullPath);
-          }
+          await ref
+              .read(findProvider)
+              .verifySMStoResetPassword(_verifySMSController.text);
         },
         buttonText: '확인',
       ),

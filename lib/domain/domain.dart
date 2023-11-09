@@ -10,6 +10,10 @@ export 'auth/user/user_provider.dart';
 export 'auth/sign_up/sign_up.dart';
 export 'auth/sign_up/sign_up_provider.dart';
 
+//find
+export 'find/find_repository.dart';
+export 'find/find_provider.dart';
+
 //board
 export 'board/board_repository.dart';
 export 'board/board.dart';

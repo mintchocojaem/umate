@@ -14,9 +14,8 @@ final signUpProvider =
 
 class SignUpNotifier extends AsyncNotifier<SignUp?> {
 
-  bool isSentSMS = false;
-  bool isVerifiedSMS = false;
-  bool isValidNickname = false;
+  String validNickname = "";
+  String validPhoneNumber = "";
 
   Future<void> verifyStudent(String dkuStudentId, String dkuPassword) async {
 
@@ -36,38 +35,44 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     }
   }
 
-  Future<void> sendSMS(String signUpToken, String phoneNumber) async {
+  Future<void> sendSMS( String phoneNumber) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .sendSMS(signUpToken, phoneNumber));
+        .sendSMS(state.value!.signUpToken, phoneNumber));
     if (!result.hasError) {
-      isSentSMS = true;
+      validPhoneNumber = phoneNumber;
       ref.read(routerProvider).pushReplacement(RouteInfo.signUpVerifySMS.fullPath);
     }
   }
 
-  Future<void> verifySMS(String signUpToken, String code) async {
+  Future<void> resendSMS() async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .verifySMS(signUpToken, code));
+        .sendSMS(state.value!.signUpToken, validPhoneNumber));
     if (!result.hasError) {
-      isVerifiedSMS = true;
+    }
+  }
+
+  Future<void> verifySMS(String code) async {
+    final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
+        .read(authRepositoryProvider)
+        .verifySMS(state.value!.signUpToken, code));
+    if (!result.hasError) {
       ref.read(routerProvider).pushReplacement(RouteInfo.signUpNickName.fullPath);
     }
   }
 
-  Future<void> verifyNickname(String nickname) async {
+  Future<void> verifyNickname(String nickName) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .validNickname(nickname));
+        .validNickname(nickName));
     if (!result.hasError) {
-      ref.read(signUpValidNicknameProvider.notifier).state = nickname;
-      isValidNickname = true;
+      validNickname = nickName;
     }
   }
 
-  Future<void> setValidNickname(String nickname) async{
-    if( ref.read(signUpValidNicknameProvider.notifier).state != nickname){
+  Future<void> setNickname(String nickname) async{
+    if(validNickname != nickname){
       OrbSnackBar.show(
         context: globalNavigatorKey.currentContext!,
         message: "닉네임 중복확인을 해주세요.",
@@ -78,11 +83,10 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     ref.read(routerProvider).pushReplacement(RouteInfo.signUpPassword.fullPath);
   }
 
-  Future<void> signUp(
-      String signUpToken, String nickname, String password) async {
+  Future<void> signUp(String password) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .signUp(signUpToken, nickname, password));
+        .signUp(state.value!.signUpToken, validNickname, password));
     if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteInfo.signUpComplete.fullPath);
     }

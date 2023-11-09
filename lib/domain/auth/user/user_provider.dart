@@ -8,7 +8,7 @@ final userProvider =
 
 class UserNotifier extends AsyncNotifier<User> {
 
-  //todo user이랑 find 부분 분리해야함
+  //user이랑 find 부분 분리 -> 안그럼 find 기능 쓰려면 User 상태값이 존재해야 함
 
   Future<void> getUser() async {
     state = await AsyncValue.guard(() async =>

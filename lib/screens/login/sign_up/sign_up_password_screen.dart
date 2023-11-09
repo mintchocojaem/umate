@@ -3,8 +3,6 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'sign_up_nickname_screen.dart';
-
 class SignUpPasswordScreen extends ConsumerWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
@@ -72,8 +70,6 @@ class SignUpPasswordScreen extends ConsumerWidget {
             return;
           }
           await ref.read(signUpProvider.notifier).signUp(
-            ref.read(signUpProvider).value!.signUpToken,
-            ref.read(signUpValidNicknameProvider)!,
             _passwordController.text,
           );
         },

@@ -113,8 +113,8 @@ class OrbButtonState extends State<OrbButton> {
         ),
         padding: MaterialStateProperty.all(
           widget.buttonSize == OrbButtonSize.compact
-              ? const EdgeInsets.symmetric(vertical: 8, horizontal: 16)
-              : const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+              ? const EdgeInsets.symmetric(vertical: 12, horizontal: 12)
+              : const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(

@@ -6,8 +6,6 @@ import '../../../modules/orb/components/components.dart';
 import '../../../routes/route_path.dart';
 import '../../../routes/router_provider.dart';
 
-final resetPasswordTokenProvider = StateProvider<String?>((ref) => null);
-
 class SendSMStoResetPasswordScreen extends ConsumerWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -54,14 +52,9 @@ class SendSMStoResetPasswordScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          final AsyncValue<String?> result =
-          await AsyncValue.guard(() async => await ref
-              .read(authRepositoryProvider)
-              .sendSMStoResetPassword(_phoneNumberController.text));
-          if(!result.hasError){
-            ref.read(resetPasswordTokenProvider.notifier).state = result.value;
-            ref.read(routerProvider).pushReplacement(RouteInfo.verifySMStoResetPassword.fullPath);
-          }
+          await ref
+              .read(findProvider)
+              .sendSMStoResetPassword(_phoneNumberController.text);
         },
         buttonText: '인증코드 전송하기',
       ),

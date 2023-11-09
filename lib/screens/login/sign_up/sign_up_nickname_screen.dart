@@ -3,8 +3,6 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final signUpValidNicknameProvider = StateProvider<String?>((ref) => null);
-
 class SignUpNicknameScreen extends ConsumerWidget {
   final TextEditingController nicknameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -52,7 +50,7 @@ class SignUpNicknameScreen extends ConsumerWidget {
                 await ref
                     .read(signUpProvider.notifier)
                     .verifyNickname(nicknameController.text);
-                if (ref.read(signUpProvider.notifier).isValidNickname) {
+                if (ref.read(signUpProvider.notifier).validNickname.isNotEmpty) {
                   if (!context.mounted) return;
                   await showDialog(
                     context: context,
@@ -76,7 +74,7 @@ class SignUpNicknameScreen extends ConsumerWidget {
           }
           await ref
               .read(signUpProvider.notifier)
-              .setValidNickname(nicknameController.text);
+              .setNickname(nicknameController.text);
         },
         buttonText: '다음',
       ),
