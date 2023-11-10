@@ -41,17 +41,17 @@ class SignUpVerifySmsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbButton(
+              showCoolDownTime: true,
+              buttonCoolDown: const Duration(seconds: 30),
               buttonSize: OrbButtonSize.compact,
-              buttonTheme: OrbButtonTheme.onSurface,
+              buttonTheme: OrbButtonTheme.secondary,
               borderRadius: 10,
               onPressed: () async {
                 await ref.read(signUpProvider.notifier).resendSMS();
               },
-              child: Text(
-                "문자 다시 받기",
-                style: themeData.textTheme.bodySmall
-                    ?.copyWith(fontWeight: FontWeight.w600),
-              ),
+              buttonText: '문자 다시 받기',
+              buttonTextStyle: themeData.textTheme.bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -61,7 +61,9 @@ class SignUpVerifySmsScreen extends ConsumerWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          await ref.read(signUpProvider.notifier).verifySMS(_smsCodeController.text);
+          await ref
+              .read(signUpProvider.notifier)
+              .verifySMS(_smsCodeController.text);
         },
         buttonText: '다음',
       ),

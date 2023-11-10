@@ -50,7 +50,7 @@ class OrbDialog extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       buttonTheme: OrbButtonTheme.onSurface,
-                      child: Text(leftButtonText!),
+                      buttonText: leftButtonText,
                     ),
                   ),
                 ),
@@ -68,7 +68,7 @@ class OrbDialog extends StatelessWidget {
                         onRightButtonPressed?.call();
                         Navigator.pop(context);
                       },
-                      child: Text(rightButtonText!),
+                      buttonText: rightButtonText,
                     ),
                   ),
                 ),

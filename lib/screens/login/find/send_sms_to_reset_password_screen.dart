@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
-import '../../../routes/route_path.dart';
-import '../../../routes/router_provider.dart';
 
 class SendSMStoResetPasswordScreen extends ConsumerWidget {
   final TextEditingController _phoneNumberController = TextEditingController();

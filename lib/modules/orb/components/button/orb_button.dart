@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 enum OrbButtonTheme {
@@ -13,24 +15,26 @@ enum OrbButtonSize {
 
 class OrbButton extends StatefulWidget {
   final Future Function()? onPressed;
-  final Widget? child;
   final String? buttonText;
+  final TextStyle? buttonTextStyle;
   final bool disabled;
   final double? borderRadius;
   final OrbButtonTheme buttonTheme;
   final OrbButtonSize buttonSize;
   final Duration buttonCoolDown;
+  final bool showCoolDownTime;
 
   const OrbButton({
     super.key,
     this.onPressed,
-    this.child,
     this.buttonText,
+    this.buttonTextStyle,
     this.disabled = false,
     this.borderRadius,
     this.buttonTheme = OrbButtonTheme.primary,
     this.buttonSize = OrbButtonSize.wide,
     this.buttonCoolDown = const Duration(seconds: 1),
+    this.showCoolDownTime = false,
   });
 
   OrbButton copyWith({
@@ -53,7 +57,6 @@ class OrbButton extends StatefulWidget {
       buttonTheme: buttonTheme ?? this.buttonTheme,
       buttonSize: buttonSize ?? this.buttonSize,
       buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
-      child: child ?? this.child,
     );
   }
 
@@ -65,8 +68,10 @@ class OrbButton extends StatefulWidget {
 }
 
 class OrbButtonState extends State<OrbButton> {
-  bool coolDown = true;
+  int coolDownTime = 0;
   bool isLoading = false;
+  bool isOnPressed = false;
+  Timer timer = Timer(Duration.zero, () {});
 
   @override
   Widget build(BuildContext context) {
@@ -77,24 +82,29 @@ class OrbButtonState extends State<OrbButton> {
       onPressed: widget.disabled
           ? null
           : () async {
-              if (coolDown && !isLoading) {
+              if (!isLoading && !isOnPressed) {
+                coolDownTime = widget.buttonCoolDown.inSeconds;
                 setState(() {
                   isLoading = true;
+                  isOnPressed = true;
                 });
                 widget.onPressed?.call().whenComplete(() {
                   setState(() {
                     isLoading = false;
                   });
                 });
+                //로직 고쳐야함 지금은 누를때마다 타이머 추가됨
+                timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+                  setState(() {
+                    coolDownTime--;
+                  });
+                  if (coolDownTime == 0) {
+                    isOnPressed = false;
+                    timer.cancel();
+                  }
+                });
               }
-              coolDown = false;
-              Future.delayed(
-                widget.buttonCoolDown,
-                () {
-                  coolDown = true;
-                },
-              );
-            },
+      },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
           widget.buttonTheme == OrbButtonTheme.primary
@@ -125,7 +135,7 @@ class OrbButtonState extends State<OrbButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (isLoading)
+          if (isLoading && !widget.showCoolDownTime)
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: SizedBox(
@@ -139,14 +149,21 @@ class OrbButtonState extends State<OrbButton> {
                 ),
               ),
             ),
-          if (widget.child != null) widget.child!,
           if (widget.buttonText != null)
-            Text(
-              widget.buttonText!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            widget.showCoolDownTime && coolDownTime != 0
+                ? Text(
+                    coolDownTime.toString(),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : Text(
+                    widget.buttonText!,
+                    style: widget.buttonTextStyle ??
+                        theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
         ],
       ),
     );

@@ -44,17 +44,17 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbButton(
+              showCoolDownTime: true,
+              buttonCoolDown: const Duration(seconds: 30),
               buttonSize: OrbButtonSize.compact,
-              buttonTheme: OrbButtonTheme.onSurface,
+              buttonTheme: OrbButtonTheme.secondary,
               borderRadius: 10,
               onPressed: () async {
                 await ref.read(findProvider).resendSMStoResetPassword();
               },
-              child: Text(
-                "문자 다시 받기",
-                style: themeData.textTheme.bodySmall
-                    ?.copyWith(fontWeight: FontWeight.w600),
-              ),
+              buttonText: '문자 다시 받기',
+              buttonTextStyle: themeData.textTheme.bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
           ],
         ),
