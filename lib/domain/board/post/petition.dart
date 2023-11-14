@@ -39,8 +39,10 @@ class Petition with _$Petition {
     required PetitionStatus status,
     required String expiresAt,
     required int agreeCount,
-    required bool blinded,
     List<Agree?>? statisticList,
+    @Default(false) bool agree,
+    @Default(false) bool mine,
+    required bool blinded,
   }) = _Petition;
 
   factory Petition.fromJson(Map<String, dynamic> json) => _$PetitionFromJson(json);

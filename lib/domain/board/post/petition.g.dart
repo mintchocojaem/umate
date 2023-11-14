@@ -46,11 +46,13 @@ _$_Petition _$$_PetitionFromJson(Map<String, dynamic> json) => _$_Petition(
       status: PetitionStatus.fromJson(json['status'] as String),
       expiresAt: json['expiresAt'] as String,
       agreeCount: json['agreeCount'] as int,
-      blinded: json['blinded'] as bool,
       statisticList: (json['statisticList'] as List<dynamic>?)
           ?.map((e) =>
               e == null ? null : Agree.fromJson(e as Map<String, dynamic>))
           .toList(),
+      agree: json['agree'] as bool? ?? false,
+      mine: json['mine'] as bool? ?? false,
+      blinded: json['blinded'] as bool,
     );
 
 Map<String, dynamic> _$$_PetitionToJson(_$_Petition instance) =>
@@ -65,6 +67,8 @@ Map<String, dynamic> _$$_PetitionToJson(_$_Petition instance) =>
       'status': instance.status,
       'expiresAt': instance.expiresAt,
       'agreeCount': instance.agreeCount,
-      'blinded': instance.blinded,
       'statisticList': instance.statisticList,
+      'agree': instance.agree,
+      'mine': instance.mine,
+      'blinded': instance.blinded,
     };

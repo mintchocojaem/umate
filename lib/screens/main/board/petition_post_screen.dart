@@ -77,8 +77,12 @@ class PetitionPostScreen extends ConsumerWidget {
       submitButton: post.isLoading
           ? null
           : OrbButton(
-              buttonText: '동의하기',
-              onPressed: () async {},
+              disabled: ref.watch(postProvider(postId)).value!.agree,
+              buttonTheme: OrbButtonTheme.onSurface,
+              buttonText: ref.watch(postProvider(postId)).value!.agree ? '이미 동의하신 청원입니다' : '동의하기',
+              onPressed: () async {
+                await ref.read(postProvider(postId).notifier).agreePetitionPost(id: postId);
+              },
             ),
     );
   }

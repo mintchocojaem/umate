@@ -394,8 +394,10 @@ mixin _$Petition {
   PetitionStatus get status => throw _privateConstructorUsedError;
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
-  bool get blinded => throw _privateConstructorUsedError;
   List<Agree?>? get statisticList => throw _privateConstructorUsedError;
+  bool get agree => throw _privateConstructorUsedError;
+  bool get mine => throw _privateConstructorUsedError;
+  bool get blinded => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -419,8 +421,10 @@ abstract class $PetitionCopyWith<$Res> {
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
-      bool blinded,
-      List<Agree?>? statisticList});
+      List<Agree?>? statisticList,
+      bool agree,
+      bool mine,
+      bool blinded});
 }
 
 /// @nodoc
@@ -446,8 +450,10 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
-    Object? blinded = null,
     Object? statisticList = freezed,
+    Object? agree = null,
+    Object? mine = null,
+    Object? blinded = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -490,14 +496,22 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
           ? _value.agreeCount
           : agreeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      blinded: null == blinded
-          ? _value.blinded
-          : blinded // ignore: cast_nullable_to_non_nullable
-              as bool,
       statisticList: freezed == statisticList
           ? _value.statisticList
           : statisticList // ignore: cast_nullable_to_non_nullable
               as List<Agree?>?,
+      agree: null == agree
+          ? _value.agree
+          : agree // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mine: null == mine
+          ? _value.mine
+          : mine // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blinded: null == blinded
+          ? _value.blinded
+          : blinded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -520,8 +534,10 @@ abstract class _$$_PetitionCopyWith<$Res> implements $PetitionCopyWith<$Res> {
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
-      bool blinded,
-      List<Agree?>? statisticList});
+      List<Agree?>? statisticList,
+      bool agree,
+      bool mine,
+      bool blinded});
 }
 
 /// @nodoc
@@ -545,8 +561,10 @@ class __$$_PetitionCopyWithImpl<$Res>
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
-    Object? blinded = null,
     Object? statisticList = freezed,
+    Object? agree = null,
+    Object? mine = null,
+    Object? blinded = null,
   }) {
     return _then(_$_Petition(
       id: null == id
@@ -589,14 +607,22 @@ class __$$_PetitionCopyWithImpl<$Res>
           ? _value.agreeCount
           : agreeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      blinded: null == blinded
-          ? _value.blinded
-          : blinded // ignore: cast_nullable_to_non_nullable
-              as bool,
       statisticList: freezed == statisticList
           ? _value._statisticList
           : statisticList // ignore: cast_nullable_to_non_nullable
               as List<Agree?>?,
+      agree: null == agree
+          ? _value.agree
+          : agree // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mine: null == mine
+          ? _value.mine
+          : mine // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blinded: null == blinded
+          ? _value.blinded
+          : blinded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -615,8 +641,10 @@ class _$_Petition implements _Petition {
       required this.status,
       required this.expiresAt,
       required this.agreeCount,
-      required this.blinded,
-      final List<Agree?>? statisticList})
+      final List<Agree?>? statisticList,
+      this.agree = false,
+      this.mine = false,
+      required this.blinded})
       : _files = files,
         _statisticList = statisticList;
 
@@ -649,8 +677,6 @@ class _$_Petition implements _Petition {
   final String expiresAt;
   @override
   final int agreeCount;
-  @override
-  final bool blinded;
   final List<Agree?>? _statisticList;
   @override
   List<Agree?>? get statisticList {
@@ -662,8 +688,17 @@ class _$_Petition implements _Petition {
   }
 
   @override
+  @JsonKey()
+  final bool agree;
+  @override
+  @JsonKey()
+  final bool mine;
+  @override
+  final bool blinded;
+
+  @override
   String toString() {
-    return 'Petition(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded, statisticList: $statisticList)';
+    return 'Petition(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, statisticList: $statisticList, agree: $agree, mine: $mine, blinded: $blinded)';
   }
 
   @override
@@ -684,9 +719,11 @@ class _$_Petition implements _Petition {
                 other.expiresAt == expiresAt) &&
             (identical(other.agreeCount, agreeCount) ||
                 other.agreeCount == agreeCount) &&
-            (identical(other.blinded, blinded) || other.blinded == blinded) &&
             const DeepCollectionEquality()
-                .equals(other._statisticList, _statisticList));
+                .equals(other._statisticList, _statisticList) &&
+            (identical(other.agree, agree) || other.agree == agree) &&
+            (identical(other.mine, mine) || other.mine == mine) &&
+            (identical(other.blinded, blinded) || other.blinded == blinded));
   }
 
   @JsonKey(ignore: true)
@@ -703,8 +740,10 @@ class _$_Petition implements _Petition {
       status,
       expiresAt,
       agreeCount,
-      blinded,
-      const DeepCollectionEquality().hash(_statisticList));
+      const DeepCollectionEquality().hash(_statisticList),
+      agree,
+      mine,
+      blinded);
 
   @JsonKey(ignore: true)
   @override
@@ -732,8 +771,10 @@ abstract class _Petition implements Petition {
       required final PetitionStatus status,
       required final String expiresAt,
       required final int agreeCount,
-      required final bool blinded,
-      final List<Agree?>? statisticList}) = _$_Petition;
+      final List<Agree?>? statisticList,
+      final bool agree,
+      final bool mine,
+      required final bool blinded}) = _$_Petition;
 
   factory _Petition.fromJson(Map<String, dynamic> json) = _$_Petition.fromJson;
 
@@ -758,9 +799,13 @@ abstract class _Petition implements Petition {
   @override
   int get agreeCount;
   @override
-  bool get blinded;
-  @override
   List<Agree?>? get statisticList;
+  @override
+  bool get agree;
+  @override
+  bool get mine;
+  @override
+  bool get blinded;
   @override
   @JsonKey(ignore: true)
   _$$_PetitionCopyWith<_$_Petition> get copyWith =>

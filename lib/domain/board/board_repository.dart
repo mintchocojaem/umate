@@ -40,4 +40,14 @@ final class BoardRepository extends Repository {
     );
     return Petition.fromJson(result.data);
   }
+
+  Future<bool> agreePetitionPost({
+    required int id,
+  }) async{
+    final result = await post(
+      path : '/post/petition/agree/$id',
+    );
+    return result.statusCode == 200;
+  }
+
 }

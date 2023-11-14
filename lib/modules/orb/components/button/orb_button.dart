@@ -104,12 +104,14 @@ class OrbButtonState extends State<OrbButton> {
                   }
                 });
               }
-      },
+            },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
-          widget.buttonTheme == OrbButtonTheme.primary
-              ? theme.colorScheme.primary
-              : theme.colorScheme.onSurface.withOpacity(0.2),
+          widget.disabled
+              ? theme.colorScheme.onSurface.withOpacity(0.3)
+              : widget.buttonTheme == OrbButtonTheme.primary
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.onSurface.withOpacity(0.1),
         ),
         foregroundColor: MaterialStateProperty.all(
           widget.buttonTheme == OrbButtonTheme.primary
@@ -118,7 +120,7 @@ class OrbButtonState extends State<OrbButton> {
         ),
         textStyle: MaterialStateProperty.all(
           theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         padding: MaterialStateProperty.all(
@@ -153,23 +155,21 @@ class OrbButtonState extends State<OrbButton> {
             widget.showCoolDownTime && coolDownTime != 0
                 ? Text(
                     coolDownTime.toString(),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
                   )
                 : Text(
                     widget.buttonText!,
-                    style: widget.buttonTextStyle ??
-                        theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
                   ),
         ],
       ),
     );
-
     return widget.buttonSize == OrbButtonSize.compact
         ? IntrinsicWidth(child: button)
         : button;
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }
