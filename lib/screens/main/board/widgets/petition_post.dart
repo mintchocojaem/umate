@@ -10,6 +10,7 @@ class PetitionPost extends StatelessWidget {
   final String status;
   final int agreeCount;
   final int needAgreeCount;
+  final List<SheetItem> menuItems;
 
   const PetitionPost({
     super.key,
@@ -20,6 +21,7 @@ class PetitionPost extends StatelessWidget {
     required this.status,
     required this.agreeCount,
     required this.needAgreeCount,
+    required this.menuItems,
   });
 
   @override
@@ -44,7 +46,14 @@ class PetitionPost extends StatelessWidget {
             const SizedBox(
               width: 8,
             ),
-            const Icon(Icons.more_vert_rounded),
+            InkWell(
+              onTap: () {
+                OrbBottomSheet(
+                  items: menuItems,
+                ).show(context);
+              },
+              child: const Icon(Icons.more_vert_rounded),
+            ),
           ],
         ),
         const SizedBox(

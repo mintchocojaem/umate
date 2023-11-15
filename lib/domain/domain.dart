@@ -20,6 +20,9 @@ export 'board/board.dart';
 export 'board/board_provider.dart';
 export 'board/post/petition.dart';
 export 'board/post/post_provider.dart';
+export 'board/post/post_report_type.dart';
+export 'board/post/petition_status.dart';
+
 
 //bus
 export 'bus/bus_repository.dart';

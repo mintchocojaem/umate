@@ -41,7 +41,8 @@ class SignUpNicknameScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             OrbButton(
               buttonSize: OrbButtonSize.compact,
-              buttonTheme: OrbButtonTheme.onSurface,
+              enabledBackgroundColor: themeData.colorScheme.secondary,
+              enabledForegroundColor: themeData.colorScheme.onSecondary,
               borderRadius: 10,
               onPressed: () async {
                 if (!formKey.currentState!.validate()) {

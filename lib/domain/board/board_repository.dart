@@ -50,4 +50,17 @@ final class BoardRepository extends Repository {
     return result.statusCode == 200;
   }
 
+  Future<bool> reportPetitionPost({
+    required int id,
+    required String categoryName,
+  }) async{
+    final result = await post(
+      path : '/report/$id',
+      queryParameter: {
+        'categoryName' : categoryName,
+      },
+    );
+    return result.statusCode == 200;
+  }
+
 }

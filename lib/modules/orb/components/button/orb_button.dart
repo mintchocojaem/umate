@@ -2,12 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum OrbButtonTheme {
-  primary,
-  secondary,
-  onSurface,
-}
-
 enum OrbButtonSize {
   compact,
   wide,
@@ -15,11 +9,14 @@ enum OrbButtonSize {
 
 class OrbButton extends StatefulWidget {
   final Future Function()? onPressed;
+  final Color? enabledBackgroundColor;
+  final Color? enabledForegroundColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledForegroundColor;
   final String? buttonText;
   final TextStyle? buttonTextStyle;
   final bool disabled;
   final double? borderRadius;
-  final OrbButtonTheme buttonTheme;
   final OrbButtonSize buttonSize;
   final Duration buttonCoolDown;
   final bool showCoolDownTime;
@@ -27,11 +24,14 @@ class OrbButton extends StatefulWidget {
   const OrbButton({
     super.key,
     this.onPressed,
+    this.enabledBackgroundColor,
+    this.enabledForegroundColor,
+    this.disabledBackgroundColor,
+    this.disabledForegroundColor,
     this.buttonText,
     this.buttonTextStyle,
     this.disabled = false,
     this.borderRadius,
-    this.buttonTheme = OrbButtonTheme.primary,
     this.buttonSize = OrbButtonSize.wide,
     this.buttonCoolDown = const Duration(seconds: 1),
     this.showCoolDownTime = false,
@@ -40,24 +40,36 @@ class OrbButton extends StatefulWidget {
   OrbButton copyWith({
     Key? key,
     Future Function()? onPressed,
+    Color? enabledBackgroundColor,
+    Color? enabledForegroundColor,
+    Color? disabledBackgroundColor,
+    Color? disabledForegroundColor,
     String? buttonText,
+    TextStyle? buttonTextStyle,
     bool? disabled,
     double? borderRadius,
-    OrbButtonTheme? buttonTheme,
     OrbButtonSize? buttonSize,
     Duration? buttonCoolDown,
     Widget? child,
   }) {
     return OrbButton(
-      key: key ?? this.key,
-      onPressed: onPressed ?? this.onPressed,
-      buttonText: buttonText ?? this.buttonText,
-      disabled: disabled ?? this.disabled,
-      borderRadius: borderRadius ?? this.borderRadius,
-      buttonTheme: buttonTheme ?? this.buttonTheme,
-      buttonSize: buttonSize ?? this.buttonSize,
-      buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
-    );
+        key: key ?? this.key,
+        onPressed: onPressed ?? this.onPressed,
+        enabledBackgroundColor:
+            enabledBackgroundColor ?? this.enabledBackgroundColor,
+        enabledForegroundColor:
+            enabledForegroundColor ?? this.enabledForegroundColor,
+        disabledBackgroundColor:
+            disabledBackgroundColor ?? this.disabledBackgroundColor,
+        disabledForegroundColor:
+            disabledForegroundColor ?? this.disabledForegroundColor,
+        buttonText: buttonText ?? this.buttonText,
+        buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
+        disabled: disabled ?? this.disabled,
+        borderRadius: borderRadius ?? this.borderRadius,
+        buttonSize: buttonSize ?? this.buttonSize,
+        buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
+        showCoolDownTime: showCoolDownTime);
   }
 
   @override
@@ -89,6 +101,7 @@ class OrbButtonState extends State<OrbButton> {
                   isOnPressed = true;
                 });
                 widget.onPressed?.call().whenComplete(() {
+                  if(!context.mounted) return;
                   setState(() {
                     isLoading = false;
                   });
@@ -108,15 +121,13 @@ class OrbButtonState extends State<OrbButton> {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
           widget.disabled
-              ? theme.colorScheme.onSurface.withOpacity(0.3)
-              : widget.buttonTheme == OrbButtonTheme.primary
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onSurface.withOpacity(0.1),
+              ? widget.disabledBackgroundColor ?? theme.colorScheme.primary
+              : widget.enabledBackgroundColor ?? theme.colorScheme.primary,
         ),
         foregroundColor: MaterialStateProperty.all(
-          widget.buttonTheme == OrbButtonTheme.primary
-              ? theme.colorScheme.onPrimary
-              : theme.colorScheme.onSurface,
+          widget.disabled
+              ? widget.disabledForegroundColor ?? theme.colorScheme.onSurface
+              : widget.enabledForegroundColor ?? theme.colorScheme.onSurface,
         ),
         textStyle: MaterialStateProperty.all(
           theme.textTheme.bodyMedium?.copyWith(
@@ -145,8 +156,12 @@ class OrbButtonState extends State<OrbButton> {
                 height: theme.textTheme.bodySmall?.fontSize,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    theme.colorScheme.onSurface,
+                  valueColor: AlwaysStoppedAnimation(
+                    widget.disabled
+                        ? widget.disabledForegroundColor ??
+                            theme.colorScheme.onSurface
+                        : widget.enabledForegroundColor ??
+                            theme.colorScheme.onSurface,
                   ),
                 ),
               ),

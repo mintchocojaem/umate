@@ -6,8 +6,8 @@ class OrbDialog extends StatelessWidget {
   final String message;
   final String? rightButtonText;
   final String? leftButtonText;
-  final VoidCallback? onRightButtonPressed;
-  final VoidCallback? onLeftButtonPressed;
+  final Future Function()? onRightButtonPressed;
+  final Future Function()? onLeftButtonPressed;
 
   const OrbDialog({
     super.key,
@@ -19,66 +19,75 @@ class OrbDialog extends StatelessWidget {
     this.onLeftButtonPressed,
   });
 
+  Future<void> show(BuildContext context) {
+    return showDialog<void>(
+      builder: (BuildContext context) => this,
+      context: context,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-        surfaceTintColor: theme.colorScheme.onSurface,
-        title: Text(
-          title,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onSurface,
-            fontWeight: FontWeight.w600,
-          ),
+      surfaceTintColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.background,
+      title: Text(
+        title,
+        style: theme.textTheme.titleSmall?.copyWith(
+          color: theme.colorScheme.onSurface,
+          fontWeight: FontWeight.w600,
         ),
-        content: Text(
-          message,
-          style: theme.textTheme.bodyMedium,
-        ),
-        actions: [
-          Flex(
-            direction: Axis.horizontal,
-            children: [
-              if (leftButtonText != null)
-                Flexible(
-                  flex: 1,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OrbButton(
-                      onPressed: () async{
-                        onLeftButtonPressed?.call();
-                        Navigator.pop(context);
-                      },
-                      buttonTheme: OrbButtonTheme.onSurface,
-                      buttonText: leftButtonText,
-                    ),
+      ),
+      content: Text(
+        message,
+        style: theme.textTheme.bodyMedium,
+      ),
+      actions: [
+        Flex(
+          direction: Axis.horizontal,
+          children: [
+            if (leftButtonText != null)
+              Flexible(
+                flex: 1,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OrbButton(
+                    onPressed: () async{
+                      onLeftButtonPressed?.call().whenComplete(() => Navigator.pop(context));
+                    },
+                    enabledBackgroundColor: theme.colorScheme.surfaceVariant,
+                    enabledForegroundColor: theme.colorScheme.onSurface,
+                    buttonText: leftButtonText,
                   ),
                 ),
-              SizedBox(
-                  width: rightButtonText != null && leftButtonText != null
-                      ? 16
-                      : 0),
-              if (rightButtonText != null)
-                Flexible(
-                  flex: 1,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OrbButton(
-                      onPressed: () async{
-                        onRightButtonPressed?.call();
-                        Navigator.pop(context);
-                      },
-                      buttonText: rightButtonText,
-                    ),
+              ),
+            SizedBox(
+                width:
+                    rightButtonText != null && leftButtonText != null ? 16 : 0),
+            if (rightButtonText != null)
+              Flexible(
+                flex: 1,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OrbButton(
+                    onPressed: () async{
+                      onRightButtonPressed?.call().whenComplete(() => Navigator.pop(context));
+                    },
+                    buttonText: rightButtonText,
+                    enabledBackgroundColor: theme.colorScheme.secondary,
+                    enabledForegroundColor: theme.colorScheme.onSecondary,
                   ),
                 ),
-            ],
-          ),
-        ],
-        actionsPadding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ));
+              ),
+          ],
+        ),
+      ],
+      actionsPadding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
   }
 }

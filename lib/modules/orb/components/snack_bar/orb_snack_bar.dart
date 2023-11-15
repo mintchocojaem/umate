@@ -25,9 +25,12 @@ class OrbSnackBar {
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       borderRadius: BorderRadius.circular(15),
       padding: const EdgeInsets.all(16),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       messageText: Text(
         message,
-        style: Theme.of(context).textTheme.bodyMedium!,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
       ),

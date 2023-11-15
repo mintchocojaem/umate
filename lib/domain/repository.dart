@@ -23,10 +23,12 @@ abstract base class Repository {
     required String path,
     Map<String, dynamic>? data,
     bool allowDuplicateRequest = true,
+    Map<String, dynamic>? queryParameter,
   }) async {
     return await dio.post(
       path,
       data: data,
+      queryParameters: queryParameter,
       cancelToken: allowDuplicateRequest ? null : CancelToken(),
     );
   }

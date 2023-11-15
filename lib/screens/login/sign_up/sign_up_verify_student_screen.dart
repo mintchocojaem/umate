@@ -90,10 +90,10 @@ class _SignUpVerifyStudentScreen
             OrbListCardTile(
               titleText: '개인정보 이용약관에 동의하기',
               leading: Icon(
-                Icons.check_circle_rounded,
+                Icons.check,
                 color: ref.watch(isAgreeAllProvider)
                     ? Colors.green
-                    : themeData.colorScheme.onPrimary.withOpacity(0.5),
+                    : themeData.colorScheme.onSurface,
               ),
               onTap: () {
                 ref.read(routerProvider).push(RouteInfo.signUpAgree.fullPath);

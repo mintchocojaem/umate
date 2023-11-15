@@ -44,7 +44,8 @@ class SignUpVerifySmsScreen extends ConsumerWidget {
               showCoolDownTime: true,
               buttonCoolDown: const Duration(seconds: 30),
               buttonSize: OrbButtonSize.compact,
-              buttonTheme: OrbButtonTheme.secondary,
+              enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
+              enabledForegroundColor: themeData.colorScheme.onSurface,
               borderRadius: 10,
               onPressed: () async {
                 await ref.read(signUpProvider.notifier).resendSMS();

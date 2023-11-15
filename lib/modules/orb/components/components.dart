@@ -37,3 +37,6 @@ export 'shimmer/orb_shimmer_content.dart';
 
 //divider
 export 'divider/orb_divider.dart';
+
+//bottomSheet
+export 'bottom_sheet/orb_bottom_sheet.dart';

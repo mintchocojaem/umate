@@ -153,10 +153,10 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
           OrbListCardTile(
             titleText: '개인정보 수집 및 이용 동의하기',
             leading: Icon(
-              Icons.check_circle_rounded,
+              Icons.check,
               color: isAgreePrivacyPolicy
                   ? Colors.green
-                  : themeData.colorScheme.onPrimary.withOpacity(0.5),
+                  : themeData.colorScheme.onSurface,
             ),
             onTap: () {
               ref
@@ -171,10 +171,10 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
           OrbListCardTile(
             titleText: '개인정보 제 3자 제공 동의하기',
             leading: Icon(
-              Icons.check_circle_rounded,
+              Icons.check,
               color: isAgreeThirdParty
                   ? Colors.green
-                  : themeData.colorScheme.onPrimary.withOpacity(0.5),
+                  : themeData.colorScheme.onSurface,
             ),
             onTap: () {
               ref

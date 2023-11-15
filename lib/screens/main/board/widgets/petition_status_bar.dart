@@ -1,5 +1,7 @@
-import 'package:danvery/domain/board/post/petition.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../domain/domain.dart';
+
 
 class PetitionStatusBar extends StatefulWidget{
 
@@ -55,8 +57,10 @@ class _PetitionStatusBar extends State<PetitionStatusBar> {
                 child: Text(
                   widget.status[i].name,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white,
-                      ),
+                    color: selectedIndex == i
+                        ? themeData.colorScheme.onPrimary
+                        : themeData.colorScheme.onSurface,
+                  ),
                 ),
               ),
             ),
