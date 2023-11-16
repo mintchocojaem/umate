@@ -1,7 +1,7 @@
-import 'package:danvery/screens/main/profile/profile_screen.dart';
 import 'package:danvery/utils/exception_handler.dart';
-import 'package:danvery/utils/notification.dart';
+import 'package:danvery/utils/notification_provider.dart';
 import 'package:danvery/utils/shared_preference.dart';
+import 'package:danvery/utils/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

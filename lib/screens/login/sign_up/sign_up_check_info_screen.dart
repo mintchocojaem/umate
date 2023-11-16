@@ -3,26 +3,51 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpCheckInfoScreen extends ConsumerWidget {
-  final TextEditingController _studentIdController = TextEditingController();
-  final TextEditingController _majorController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  SignUpCheckInfoScreen({super.key});
+class SignUpCheckInfoScreen extends ConsumerStatefulWidget{
+  const SignUpCheckInfoScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
+  createState() => _SignUpCheckInfoScreen();
+}
+
+class _SignUpCheckInfoScreen extends ConsumerState<SignUpCheckInfoScreen> {
+  late final TextEditingController studentIdController;
+  late final TextEditingController majorController;
+  late final TextEditingController phoneNumberController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    studentIdController = TextEditingController();
+    majorController = TextEditingController();
+    phoneNumberController = TextEditingController();
+    formKey = GlobalKey<FormState>();
 
     final Student student = ref.read(signUpProvider).value!.student;
+    studentIdController.text = student.studentId;
+    majorController.text = student.major;
+    super.initState();
+  }
 
-    _studentIdController.text = student.studentId;
-    _majorController.text = student.major;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    studentIdController.dispose();
+    majorController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    final Student student = ref.watch(signUpProvider).value!.student;
+
     final themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,19 +59,19 @@ class SignUpCheckInfoScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _studentIdController,
+              controller: studentIdController,
               labelText: '학번',
               readOnly: true,
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _majorController,
+              controller: majorController,
               labelText: '학과',
               readOnly: true,
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _phoneNumberController,
+              controller: phoneNumberController,
               maxLength: 11,
               labelText: '휴대폰 번호',
               textInputAction: TextInputAction.done,
@@ -65,10 +90,10 @@ class SignUpCheckInfoScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
-          final phoneNumber = _phoneNumberController.text;
+          final phoneNumber = phoneNumberController.text;
           await ref
               .read(signUpProvider.notifier)
               .sendSMS(phoneNumber);

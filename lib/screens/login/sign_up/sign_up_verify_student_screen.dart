@@ -6,41 +6,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../routes/route_path.dart';
 
-final isAgreePrivacyPolicyProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
-
-final isAgreeThirdPartyProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
-
-final isAgreeAllProvider = StateProvider.autoDispose<bool>((ref) =>
-    (ref.watch(isAgreePrivacyPolicyProvider) &&
-        ref.watch(isAgreeThirdPartyProvider)) ||
-    (ref.watch(isAgreeThirdPartyProvider) &&
-        ref.watch(isAgreePrivacyPolicyProvider)));
-
 class SignUpVerifyStudentScreen extends ConsumerStatefulWidget {
   const SignUpVerifyStudentScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    // TODO: implement createState
-    return _SignUpVerifyStudentScreen();
-  }
+  createState() => _SignUpVerifyStudentScreen();
 }
 
-class _SignUpVerifyStudentScreen
-    extends ConsumerState<SignUpVerifyStudentScreen> {
-  late final TextEditingController _dkuStudentIdController;
-  late final TextEditingController _dkuPasswordController;
-  late final GlobalKey<FormState> _formKey;
+class _SignUpVerifyStudentScreen extends ConsumerState<SignUpVerifyStudentScreen> {
+  late final TextEditingController dkuStudentIdController;
+  late final TextEditingController dkuPasswordController;
+  late final GlobalKey<FormState> formKey;
 
   @override
   void initState() {
     // TODO: implement initState
-    _dkuPasswordController = TextEditingController();
-    _dkuStudentIdController = TextEditingController();
-    _formKey = GlobalKey<FormState>();
+    dkuPasswordController = TextEditingController();
+    dkuStudentIdController = TextEditingController();
+    formKey = GlobalKey<FormState>();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    dkuPasswordController.dispose();
+    dkuStudentIdController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,7 +41,7 @@ class _SignUpVerifyStudentScreen
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,7 +53,7 @@ class _SignUpVerifyStudentScreen
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _dkuStudentIdController,
+              controller: dkuStudentIdController,
               labelText: '학번',
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
@@ -75,7 +67,7 @@ class _SignUpVerifyStudentScreen
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _dkuPasswordController,
+              controller: dkuPasswordController,
               labelText: '비밀번호',
               obscureText: true,
               textInputAction: TextInputAction.done,
@@ -91,7 +83,8 @@ class _SignUpVerifyStudentScreen
               titleText: '개인정보 이용약관에 동의하기',
               leading: Icon(
                 Icons.check,
-                color: ref.watch(isAgreeAllProvider)
+                color: ref.watch(isAgreePrivacyPolicyProvider) &&
+                        ref.watch(isAgreeThirdPartyProvider)
                     ? Colors.green
                     : themeData.colorScheme.onSurface,
               ),
@@ -104,12 +97,12 @@ class _SignUpVerifyStudentScreen
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
 
           await ref.read(signUpProvider.notifier).verifyStudent(
-              _dkuStudentIdController.text, _dkuPasswordController.text);
+              dkuStudentIdController.text, dkuPasswordController.text);
         },
         buttonText: '학생 인증하기',
       ),

@@ -6,6 +6,7 @@ class OrbTextFormField extends StatelessWidget {
   final bool? obscureText;
   final String? labelText;
   final String? hintText;
+  final String? helperText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final bool autocorrect;
@@ -22,6 +23,7 @@ class OrbTextFormField extends StatelessWidget {
     this.obscureText,
     this.labelText,
     this.hintText,
+    this.helperText,
     this.keyboardType,
     this.textInputAction,
     this.autocorrect = false,
@@ -47,6 +49,7 @@ class OrbTextFormField extends StatelessWidget {
         counterText: "",
         labelText: labelText,
         hintText: hintText,
+        helperText: helperText,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface,
         ),

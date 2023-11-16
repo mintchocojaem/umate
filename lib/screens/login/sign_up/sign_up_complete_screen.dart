@@ -12,24 +12,24 @@ class SignUpCompleteScreen extends ConsumerStatefulWidget {
   const SignUpCompleteScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SignUpCompleteScreen();
+  createState() => _SignUpCompleteScreen();
 }
 
 class _SignUpCompleteScreen extends ConsumerState<SignUpCompleteScreen> {
-  late ConfettiController _controller;
+  late ConfettiController confettiController;
 
   @override
   void initState() {
     // TODO: implement initState
-    _controller = ConfettiController(duration: const Duration(seconds: 3));
+    confettiController =
+        ConfettiController(duration: const Duration(seconds: 3));
     super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    confettiController.dispose();
     super.dispose();
   }
 
@@ -87,10 +87,10 @@ class _SignUpCompleteScreen extends ConsumerState<SignUpCompleteScreen> {
               ),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  _controller.play();
+                  confettiController.play();
                 }
                 return ConfettiWidget(
-                  confettiController: _controller,
+                  confettiController: confettiController,
                   blastDirectionality: BlastDirectionality.explosive,
                   shouldLoop: false,
                   colors: const [
@@ -108,7 +108,7 @@ class _SignUpCompleteScreen extends ConsumerState<SignUpCompleteScreen> {
         ],
       ),
       submitButton: OrbButton(
-        onPressed: () async{
+        onPressed: () async {
           ref.read(routerProvider).pop();
         },
         buttonText: '로그인하러 가기',

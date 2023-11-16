@@ -1,33 +1,33 @@
+import 'package:danvery/domain/auth/sign_up/sign_up_provider.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../routes/router_provider.dart';
-import '../../screens.dart';
 import 'widgets/agree_terms_content.dart';
 
 final _isMaxScrollPositionProvider =
     StateProvider.autoDispose<bool>((ref) => false);
 
 class SignUpAgreeScreen extends ConsumerStatefulWidget {
-  const SignUpAgreeScreen({Key? key}) : super(key: key);
+  const SignUpAgreeScreen({super.key});
 
   @override
   createState() => _SignUpAgreeScreen();
 }
 
 class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
-  late final ScrollController _scrollController;
+  late final ScrollController scrollController;
 
   @override
   void initState() {
     // TODO: implement initState
     final isMaxScrollPositionNotifier =
         ref.read(_isMaxScrollPositionProvider.notifier);
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset <
-          _scrollController.position.maxScrollExtent) {
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.offset <
+          scrollController.position.maxScrollExtent) {
         isMaxScrollPositionNotifier.update((state) => false);
       } else {
         isMaxScrollPositionNotifier.update((state) => true);
@@ -44,16 +44,12 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
     final isAgreePrivacyPolicy = ref.watch(isAgreePrivacyPolicyProvider);
     final isAgreeThirdParty = ref.watch(isAgreeThirdPartyProvider);
     return OrbScaffold(
-      scrollController: _scrollController,
+      scrollController: scrollController,
       submitButton: isMaxScrollPosition
           ? OrbButton(
               onPressed: () async{
-                ref
-                    .read(isAgreePrivacyPolicyProvider.notifier)
-                    .update((state) => true);
-                ref
-                    .read(isAgreeThirdPartyProvider.notifier)
-                    .update((state) => true);
+                ref.read(isAgreePrivacyPolicyProvider.notifier).update((state) => true);
+                ref.read(isAgreeThirdPartyProvider.notifier).update((state) => true);
                 ref.read(routerProvider).pop();
               },
               buttonText: '모두 동의하기',
@@ -61,8 +57,8 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
           : OrbButton(
               onPressed: () async{
                 if (!isMaxScrollPosition) {
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent,
                     duration: const Duration(seconds: 1),
                     curve: Curves.ease,
                   );
@@ -160,9 +156,9 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
             ),
             onTap: () {
               ref
-                  .read(isAgreePrivacyPolicyProvider.notifier)
-                  .update((state) => !state);
-              if (ref.read(isAgreeAllProvider)) {
+                  .read(isAgreePrivacyPolicyProvider.notifier).update((state) => !isAgreePrivacyPolicy);
+              if (ref.read(isAgreePrivacyPolicyProvider) &&
+                  ref.read(isAgreeThirdPartyProvider)) {
                 ref.read(routerProvider).pop();
               }
             },
@@ -178,9 +174,9 @@ class _SignUpAgreeScreen extends ConsumerState<SignUpAgreeScreen> {
             ),
             onTap: () {
               ref
-                  .read(isAgreeThirdPartyProvider.notifier)
-                  .update((state) => !state);
-              if (ref.read(isAgreeAllProvider)) {
+                  .read(isAgreeThirdPartyProvider.notifier).update((state) => !isAgreeThirdParty);
+              if (ref.read(isAgreePrivacyPolicyProvider) &&
+                  ref.read(isAgreeThirdPartyProvider)) {
                 ref.read(routerProvider).pop();
               }
             },

@@ -4,21 +4,42 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
 
-class ResetPasswordScreen extends ConsumerWidget {
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  ResetPasswordScreen({super.key});
+class ResetPasswordScreen extends ConsumerStatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _ResetPasswordScreen();
+}
+
+class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
+  late final TextEditingController passwordController;
+  late final TextEditingController passwordConfirmController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    passwordController = TextEditingController();
+    passwordConfirmController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +51,7 @@ class ResetPasswordScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _passwordController,
+              controller: passwordController,
               labelText: '비밀번호',
               textInputAction: TextInputAction.next,
               maxLength: 20,
@@ -44,7 +65,7 @@ class ResetPasswordScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _passwordConfirmController,
+              controller: passwordConfirmController,
               labelText: '비밀번호 확인',
               textInputAction: TextInputAction.done,
               maxLength: 20,
@@ -53,7 +74,7 @@ class ResetPasswordScreen extends ConsumerWidget {
                 if (value == null || value.isEmpty) {
                   return '비밀번호를 입력해주세요';
                 }
-                if (value != _passwordController.text) {
+                if (value != passwordController.text) {
                   return '비밀번호가 일치하지 않습니다';
                 }
                 return null;
@@ -64,11 +85,11 @@ class ResetPasswordScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
           await ref
-              .read(findProvider).resetPassword(_passwordController.text);
+              .read(findProvider).resetPassword(passwordController.text);
         },
         buttonText: '확인',
       ),

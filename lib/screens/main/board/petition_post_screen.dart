@@ -36,7 +36,7 @@ class PetitionPostScreen extends ConsumerWidget {
         showLoadingIndicator: post.isLoading,
       ),
       body: post.when(
-        data: (data) {
+        data: (value) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,12 +44,12 @@ class PetitionPostScreen extends ConsumerWidget {
                 height: 8,
               ),
               PetitionPost(
-                title: data.title,
-                body: data.body,
-                agreeCount: data.agreeCount,
-                author: data.author,
+                title: value.title,
+                body: value.body,
+                agreeCount: value.agreeCount,
+                author: value.author,
                 duration: "22",
-                status: data.status.name,
+                status: value.status.name,
                 needAgreeCount: 50,
                 menuItems: [
                   SheetItem(
@@ -72,6 +72,7 @@ class PetitionPostScreen extends ConsumerWidget {
                                     '정말로 해당 청원 게시글을 "${postReportType.value}" 사유로 신고하시겠어요?',
                                     leftButtonText: '취소',
                                     rightButtonText: '확인',
+                                    onLeftButtonPressed: () async{},
                                     onRightButtonPressed: () async{
                                       ref.read(postProvider(postId).notifier).reportPetitionPost(
                                         id: postId,
@@ -88,23 +89,23 @@ class PetitionPostScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              data.answer != null
+              value.answer != null
                   ? PetitionComment(
-                      body: data.answer!,
+                      body: value.answer!,
                     )
                   : const SizedBox(),
               SizedBox(
-                height: data.answer != null ? 16 : 0,
+                height: value.answer != null ? 16 : 0,
               ),
               const OrbDivider(),
               const SizedBox(
                 height: 16,
               ),
-              data.statisticList != null
+              value.statisticList != null
                   ? PetitionStatistic(
-                      agreeCount: data.agreeCount,
+                      agreeCount: value.agreeCount,
                       agrees: [
-                        for (var agree in data.statisticList!)
+                        for (var agree in value.statisticList!)
                           ChartData(
                             name: agree!.department,
                             value: agree.agreeCount,
@@ -142,6 +143,7 @@ class PetitionPostScreen extends ConsumerWidget {
                     message: '정말로 해당 청원 게시글에 동의하시겠어요?',
                     leftButtonText: '취소',
                     rightButtonText: '확인',
+                    onLeftButtonPressed: () async{},
                     onRightButtonPressed: () async {
                       await ref
                           .read(postProvider(postId).notifier)

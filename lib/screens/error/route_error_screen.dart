@@ -15,7 +15,7 @@ class RouteErrorScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/icons/app/error_404.png',scale: 8,),
+            Image.asset('assets/icons/app/page_error.png',scale: 8,),
             const SizedBox(height: 32,),
             Text(
               '요청하신 페이지를 찾을 수 없어요',

@@ -7,7 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../routes/route_path.dart';
 import '../../../routes/router_provider.dart';
-import '../../../screens/screens.dart';
+
+final isAgreePrivacyPolicyProvider =
+  StateProvider.autoDispose<bool>((ref) => false);
+
+final isAgreeThirdPartyProvider =
+  StateProvider.autoDispose<bool>((ref) => false);
 
 final signUpProvider =
     AsyncNotifierProvider<SignUpNotifier, SignUp?>(() => SignUpNotifier());
@@ -19,7 +24,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
 
   Future<void> verifyStudent(String dkuStudentId, String dkuPassword) async {
 
-    if (!ref.read(isAgreeAllProvider)) {
+    if (!ref.read(isAgreePrivacyPolicyProvider) || !ref.read(isAgreeThirdPartyProvider)) {
       OrbSnackBar.show(
         context: globalNavigatorKey.currentContext!,
         message: "개인정보 이용약관에 동의해주세요.",

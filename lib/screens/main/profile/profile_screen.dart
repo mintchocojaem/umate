@@ -4,18 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/domain.dart';
-
-final themeProvider = StateProvider<ThemeData>((ref) {
-  return OrbTheme(themeMode: ref.watch(themeModeProvider)).currentTheme;
-});
-
-final themeModeProvider = StateProvider<ThemeMode>((ref) {
-  return ThemeMode.dark;
-});
-
-final notificationProvider = StateProvider<bool>((ref) {
-  return true;
-});
+import '../../../utils/notification_provider.dart';
+import '../../../utils/theme_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -152,7 +142,7 @@ class ProfileScreen extends ConsumerWidget {
                     value: ref.watch(notificationProvider),
                     inactiveThumbColor: themeData.colorScheme.primary,
                     onChanged: (value) {
-                      ref.read(notificationProvider.notifier).state = value;
+                      ref.read(notificationProvider.notifier).update((state) => value);
                     },
                   ),
                 ),

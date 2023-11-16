@@ -3,19 +3,39 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpVerifySmsScreen extends ConsumerWidget {
-  final TextEditingController _smsCodeController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
+class SignUpVerifySmsScreen extends ConsumerStatefulWidget{
   SignUpVerifySmsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _SignUpVerifySmsScreen();
+}
+
+class _SignUpVerifySmsScreen extends ConsumerState {
+  late final TextEditingController smsCodeController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    smsCodeController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    smsCodeController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,7 +47,7 @@ class SignUpVerifySmsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _smsCodeController,
+              controller: smsCodeController,
               labelText: '인증번호(6자리 숫자)',
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.number,
@@ -59,12 +79,12 @@ class SignUpVerifySmsScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
           await ref
               .read(signUpProvider.notifier)
-              .verifySMS(_smsCodeController.text);
+              .verifySMS(smsCodeController.text);
         },
         buttonText: '다음',
       ),

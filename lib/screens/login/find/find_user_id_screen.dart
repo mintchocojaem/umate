@@ -4,19 +4,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
 
-class FindUserIdScreen extends ConsumerWidget{
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  FindUserIdScreen({super.key});
+class FindUserIdScreen extends ConsumerStatefulWidget {
+  const FindUserIdScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _FindUserIdScreen();
+
+}
+
+class _FindUserIdScreen extends ConsumerState<FindUserIdScreen>{
+  late final TextEditingController phoneNumberController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    phoneNumberController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,7 +49,7 @@ class FindUserIdScreen extends ConsumerWidget{
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _phoneNumberController,
+              controller: phoneNumberController,
               labelText: '휴대폰 번호',
               maxLength: 11,
               textInputAction: TextInputAction.done,
@@ -47,10 +68,10 @@ class FindUserIdScreen extends ConsumerWidget{
       ),
       submitButton: OrbButton(
         onPressed: () async{
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
-          await ref.read(findProvider).findUserId(_phoneNumberController.text);
+          await ref.read(findProvider).findUserId(phoneNumberController.text);
         },
         buttonText: '확인',
       ),

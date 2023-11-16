@@ -6,8 +6,8 @@ class OrbDialog extends StatelessWidget {
   final String message;
   final String? rightButtonText;
   final String? leftButtonText;
-  final Future Function()? onRightButtonPressed;
-  final Future Function()? onLeftButtonPressed;
+  final Future Function() onRightButtonPressed;
+  final Future Function() onLeftButtonPressed;
 
   const OrbDialog({
     super.key,
@@ -15,8 +15,8 @@ class OrbDialog extends StatelessWidget {
     required this.message,
     this.rightButtonText,
     this.leftButtonText,
-    this.onRightButtonPressed,
-    this.onLeftButtonPressed,
+    required this.onRightButtonPressed,
+    required this.onLeftButtonPressed,
   });
 
   Future<void> show(BuildContext context) {
@@ -54,7 +54,7 @@ class OrbDialog extends StatelessWidget {
                   width: double.infinity,
                   child: OrbButton(
                     onPressed: () async{
-                      onLeftButtonPressed?.call().whenComplete(() => Navigator.pop(context));
+                      onLeftButtonPressed.call().whenComplete(() => Navigator.pop(context));
                     },
                     enabledBackgroundColor: theme.colorScheme.surfaceVariant,
                     enabledForegroundColor: theme.colorScheme.onSurface,
@@ -72,7 +72,7 @@ class OrbDialog extends StatelessWidget {
                   width: double.infinity,
                   child: OrbButton(
                     onPressed: () async{
-                      onRightButtonPressed?.call().whenComplete(() => Navigator.pop(context));
+                      onRightButtonPressed.call().whenComplete(() => Navigator.pop(context));
                     },
                     buttonText: rightButtonText,
                     enabledBackgroundColor: theme.colorScheme.secondary,

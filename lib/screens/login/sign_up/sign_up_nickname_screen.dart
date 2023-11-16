@@ -3,14 +3,35 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpNicknameScreen extends ConsumerWidget {
-  final TextEditingController nicknameController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-
-  SignUpNicknameScreen({super.key});
+class SignUpNicknameScreen extends ConsumerStatefulWidget{
+  const SignUpNicknameScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _SignUpNicknameScreen();
+}
+
+
+class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
+  late final TextEditingController nicknameController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    nicknameController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nicknameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
@@ -26,44 +47,49 @@ class SignUpNicknameScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            OrbTextFormField(
-              controller: nicknameController,
-              labelText: '닉네임',
-              textInputAction: TextInputAction.next,
-              maxLength: 20,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return '닉네임을 입력해주세요';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            OrbButton(
-              buttonSize: OrbButtonSize.compact,
-              enabledBackgroundColor: themeData.colorScheme.secondary,
-              enabledForegroundColor: themeData.colorScheme.onSecondary,
-              borderRadius: 10,
-              onPressed: () async {
-                if (!formKey.currentState!.validate()) {
-                  return;
-                }
-                await ref
-                    .read(signUpProvider.notifier)
-                    .verifyNickname(nicknameController.text);
-                if (ref.read(signUpProvider.notifier).validNickname.isNotEmpty) {
-                  if (!context.mounted) return;
-                  await showDialog(
-                    context: context,
-                    builder: (context) => const OrbDialog(
-                      title: '닉네임 중복확인',
-                      message: '선택한 닉네임을 사용할 수 있어요!',
-                      rightButtonText: '닫기',
-                    ),
-                  );
-                }
-              },
-              buttonText: '중복확인',
+            Row(
+              children: [
+                Expanded(
+                  child: OrbTextFormField(
+                    controller: nicknameController,
+                    labelText: '닉네임',
+                    textInputAction: TextInputAction.next,
+                    helperText: "",
+                    maxLength: 20,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '닉네임을 입력해주세요';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                OrbButton(
+                  buttonSize: OrbButtonSize.compact,
+                  enabledBackgroundColor: themeData.colorScheme.secondary,
+                  enabledForegroundColor: themeData.colorScheme.onSecondary,
+                  borderRadius: 10,
+                  onPressed: () async {
+                    final signupNotifier = ref.read(signUpProvider.notifier);
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    await signupNotifier.verifyNickname(nicknameController.text);
+                    if (signupNotifier.validNickname.isNotEmpty) {
+                      if (!context.mounted) return;
+                      await OrbDialog(
+                        title: '닉네임 중복확인',
+                        message: '선택한 닉네임을 사용할 수 있어요!',
+                        rightButtonText: '닫기',
+                        onLeftButtonPressed:  () async{},
+                        onRightButtonPressed: () async{},
+                      ).show(context);
+                    }
+                  },
+                  buttonText: '중복확인',
+                ),
+              ],
             ),
           ],
         ),

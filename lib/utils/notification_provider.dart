@@ -3,10 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 앱이 foreground 상태일 때 안드로이드에선 알림을 수신이 불가능하므로 flutter local notification을 사용
 /// 앱이 background 상태일 땐 FCM의 onBackgroundMessage와 onMessage.listen를 통해 알림을 수신
 /// 앱이 terminated 상태일 때 알림을 수신할 수 있는건 OS에서 처리하기 때문(파이어베이스 웹에서 작성하는 FCM으론 가능하지만, json으로 직접 쏴줄땐 따로 payload 설정 필요)
+
+final notificationProvider = StateProvider<bool>((ref) {
+  return true;
+});
 
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 late AndroidNotificationChannel channel;

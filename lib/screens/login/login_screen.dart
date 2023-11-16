@@ -6,20 +6,52 @@ import '../../modules/orb/components/components.dart';
 import '../../routes/route_path.dart';
 import '../../routes/router_provider.dart';
 
-class LoginScreen extends ConsumerWidget {
-  final TextEditingController _studentIdController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  LoginScreen({super.key});
+class LoginScreen extends ConsumerStatefulWidget{
+  const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _LoginScreen();
+}
+
+class _LoginScreen extends ConsumerState<LoginScreen>{
+  late final TextEditingController studentIdController;
+  late final TextEditingController passwordController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    studentIdController = TextEditingController();
+    passwordController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant LoginScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    studentIdController.clear();
+    passwordController.clear();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    studentIdController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       pageHelpText: '로그인을 하기 위해\n학번과 비밀번호를 입력해주세요',
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,7 +63,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _studentIdController,
+              controller: studentIdController,
               labelText: '학번',
               keyboardType: TextInputType.number,
               maxLength: 8,
@@ -44,7 +76,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _passwordController,
+              controller: passwordController,
               labelText: '비밀번호',
               obscureText: true,
               textInputAction: TextInputAction.done,
@@ -76,12 +108,12 @@ class LoginScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
           await ref
               .read(tokenProvider.notifier)
-              .login(_studentIdController.text, _passwordController.text);
+              .login(studentIdController.text, passwordController.text);
         },
         buttonText: '로그인하기',
       ),

@@ -4,19 +4,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
 
-class VerifySMStoResetPasswordScreen extends ConsumerWidget {
-  final TextEditingController _verifySMSController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  VerifySMStoResetPasswordScreen({super.key});
+class VerifySMStoResetPasswordScreen extends ConsumerStatefulWidget{
+  const VerifySMStoResetPasswordScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  createState() => _VerifySMStoResetPasswordScreen();
+}
+
+class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPasswordScreen> {
+
+  late final TextEditingController verifySMSController;
+  late final GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    verifySMSController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    verifySMSController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,7 +49,7 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _verifySMSController,
+              controller: verifySMSController,
               labelText: '인증번호(6자리 숫자)',
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.phone,
@@ -62,12 +83,12 @@ class VerifySMStoResetPasswordScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
           await ref
               .read(findProvider)
-              .verifySMStoResetPassword(_verifySMSController.text);
+              .verifySMStoResetPassword(verifySMSController.text);
         },
         buttonText: '확인',
       ),

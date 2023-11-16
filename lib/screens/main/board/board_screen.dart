@@ -21,9 +21,9 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  final ScrollController _controller = ScrollController();
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
+  final ScrollController controller = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
 
   late double initialTopBarSize; // PetitionStatusBar()의 최대 높이
   late double topContainerHeight; // 원하는 초기 높이값 설정
@@ -37,8 +37,8 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
     topContainerHeight = initialTopBarSize;
     minTopContainerHeight = 0;
     scrollSpeed = 5;
-    _controller.addListener(() async {
-      if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+    controller.addListener(() async {
+      if (controller.position.userScrollDirection == ScrollDirection.reverse) {
         if (topContainerHeight > minTopContainerHeight) {
           setState(() {
             topContainerHeight -= scrollSpeed;
@@ -49,7 +49,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
         }
       }
 
-      if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+      if (controller.position.userScrollDirection == ScrollDirection.forward) {
         if (topContainerHeight < initialTopBarSize) {
           setState(() {
             topContainerHeight += scrollSpeed;
@@ -60,7 +60,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
         }
       }
 
-      if (_controller.position.pixels >= _controller.position.maxScrollExtent) {
+      if (controller.position.pixels >= controller.position.maxScrollExtent) {
         await ref.read(boardProvider.notifier).getPetitionBoard();
       }
     });
@@ -68,9 +68,9 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
-    _searchController.dispose();
-    _searchFocusNode.dispose();
+    controller.dispose();
+    searchController.dispose();
+    searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -78,6 +78,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     final ThemeData themeData = Theme.of(context);
+    final board = ref.watch(boardProvider);
     return OrbScaffold(
       defaultAppBar: false,
       shrinkWrap: true,
@@ -85,8 +86,8 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
       body: Column(
         children: [
           TextFormField(
-            focusNode: _searchFocusNode,
-            controller: _searchController,
+            focusNode: searchFocusNode,
+            controller: searchController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               hintText: '검색',
@@ -100,12 +101,12 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                 vertical: 8,
               ),
               counterText: '',
-              suffixIcon: _searchController.text.isNotEmpty
-                  ? _searchFocusNode.hasFocus
+              suffixIcon: searchController.text.isNotEmpty
+                  ? searchFocusNode.hasFocus
                       ? TextButton(
                           onPressed: () {
                             setState(() {
-                              _searchController.clear();
+                              searchController.clear();
                             });
                           },
                           child: Text(
@@ -122,8 +123,8 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                                 .read(boardProvider.notifier)
                                 .getPetitionBoard(init: true)
                                 .whenComplete(() {
-                              _searchController.clear();
-                              _searchFocusNode.unfocus();
+                              searchController.clear();
+                              searchFocusNode.unfocus();
                             });
                           },
                           icon: const Icon(Icons.clear),
@@ -136,11 +137,14 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
               setState(() {});
             },
             onFieldSubmitted: (value) {
+              if (ref.read(searchKeywordProvider) == value) {
+                return;
+              }
               ref.read(searchKeywordProvider.notifier).update((state) => value);
               ref.read(boardProvider.notifier).getPetitionBoard(init: true);
             },
           ),
-          ref.watch(boardProvider).hasValue
+          board.hasValue
               ? Opacity(
                   opacity: topContainerHeight / initialTopBarSize,
                   child: SizedBox(
@@ -156,9 +160,9 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                 )
               : const SizedBox(),
           Expanded(
-            child: ref.watch(boardProvider).when(
-              data: (board) {
-                final petitions = board.content;
+            child: board.when(
+              data: (value) {
+                final petitions = value.content;
                 return RefreshIndicator(
                   color: themeData.colorScheme.primary,
                   onRefresh: () async {
@@ -166,48 +170,63 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                         .read(boardProvider.notifier)
                         .getPetitionBoard(init: true);
                   },
-                  child: ListView.builder(
-                    controller: _controller,
-                    itemCount: petitions.length,
-                    itemBuilder: (context, index) {
-                      final petition = petitions[index];
-                      final createdAt = DateFormat("yy.MM.dd")
-                          .format(DateTime.parse(petition.createdAt));
-                      final expiresAt = DateFormat("yy.MM.dd")
-                          .format(DateTime.parse(petition.createdAt));
-                      final today = DateTime.now();
-                      final remainingDate = today
-                              .isAfter(DateTime.parse(petition.expiresAt))
-                          ? "마감"
-                          : "${today.difference(DateTime.parse(petition.createdAt)).inDays}일 남음";
-                      final duration = "$createdAt ~ $expiresAt";
-                      final Widget petitionCard = Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: PetitionCard(
-                          remainingDate: remainingDate,
-                          title: petition.title,
-                          duration: duration,
-                          agreeCount: petition.agreeCount,
-                          status: petition.status.name,
-                          onTap: () {
-                            ref.read(routerProvider).push(
-                                  RouteInfo.petition.fullPath,
-                                  extra: petition.id,
-                                );
+                  child: petitions.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text("😢", style: TextStyle(fontSize: 64),),
+                              const SizedBox(height: 16,),
+                              Text(
+                                '연관된 게시글이 존재하지 않아요',
+                                style: themeData.textTheme.titleSmall,
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          controller: controller,
+                          itemCount: petitions.length,
+                          itemBuilder: (context, index) {
+                            final petition = petitions[index];
+                            final createdAt = DateFormat("yy.MM.dd")
+                                .format(DateTime.parse(petition.createdAt));
+                            final expiresAt = DateFormat("yy.MM.dd")
+                                .format(DateTime.parse(petition.expiresAt));
+                            final today = DateTime.now();
+                            final remainingDate = today
+                                    .isAfter(DateTime.parse(petition.expiresAt))
+                                ? "마감"
+                                : "${DateTime.parse(petition.expiresAt).difference(today).inDays}일 남음";
+                            final duration = "$createdAt ~ $expiresAt";
+                            final Widget petitionCard = Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: PetitionCard(
+                                remainingDate: remainingDate,
+                                title: petition.title,
+                                duration: duration,
+                                agreeCount: petition.agreeCount,
+                                status: petition.status.name,
+                                onTap: () {
+                                  ref.read(routerProvider).push(
+                                        RouteInfo.petition.fullPath,
+                                        extra: petition.id,
+                                      );
+                                },
+                              ),
+                            );
+                            if (index == petitions.length - 1 &&
+                                value.hasNext) {
+                              return Column(
+                                children: [
+                                  petitionCard,
+                                  const OrbShimmerContent(),
+                                ],
+                              );
+                            }
+                            return petitionCard;
                           },
                         ),
-                      );
-                      if (index == petitions.length - 1 && board.hasNext) {
-                        return Column(
-                          children: [
-                            petitionCard,
-                            const OrbShimmerContent(),
-                          ],
-                        );
-                      }
-                      return petitionCard;
-                    },
-                  ),
                 );
               },
               loading: () {
