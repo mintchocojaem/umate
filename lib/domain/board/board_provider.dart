@@ -24,7 +24,7 @@ class BoardNotifier extends AsyncNotifier<Board> {
     if (!state.hasValue || state.value!.content.isEmpty || init) {
 
       page = 0;
-      await AsyncValue.guard(
+      state = await AsyncValue.guard(
             () async =>
         await ref.read(boardRepositoryProvider).getPetitionBoard(
           page: page,
@@ -32,8 +32,8 @@ class BoardNotifier extends AsyncNotifier<Board> {
           bodySize: 200,
           status: ref.read(petitionStatusProvider),
           keyword: ref.read(searchKeywordProvider),
-        ) as Board,
-      ).then((value) => state = value);
+        ),
+      );
 
     } else {
 
@@ -43,7 +43,7 @@ class BoardNotifier extends AsyncNotifier<Board> {
       }
       isFetchingNext = true;
 
-      await AsyncValue.guard(
+      state = await AsyncValue.guard(
             () async =>
         await ref.read(boardRepositoryProvider).getPetitionBoard(
           page: page,
@@ -51,7 +51,7 @@ class BoardNotifier extends AsyncNotifier<Board> {
           bodySize: 200,
           status: ref.read(petitionStatusProvider),
         )
-      ).then((board) => state = AsyncData(
+      ).then((board) => AsyncData(
         state.value!.copyWith(
           content: state.value!.content + board.value!.content,
           hasNext: board.value!.hasNext,

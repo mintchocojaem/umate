@@ -9,13 +9,13 @@ final busRepositoryProvider = Provider<BusRepository>((ref) => BusRepository(ref
 final class BusRepository extends Repository{
   BusRepository(super.dio);
 
-  Future<BusList?> getBusList(String stationName) async {
+  Future<BusList> getBusList(String stationName) async {
     final result = await get(
       path: '/bus',
       queryParameter: {
         'stationName': stationName,
       },
     );
-    return BusList.fromJson(result.data);
+    return BusList.fromJson(result!.data);
   }
 }

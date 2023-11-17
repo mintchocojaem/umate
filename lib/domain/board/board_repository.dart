@@ -9,7 +9,7 @@ final boardRepositoryProvider =
 final class BoardRepository extends Repository {
   BoardRepository(super.dio);
 
-  Future<Board?> getPetitionBoard({
+  Future<Board> getPetitionBoard({
     String? keyword,
     required int page,
     int? bodySize,
@@ -28,17 +28,17 @@ final class BoardRepository extends Repository {
       },
       allowDuplicateRequest: false,
     );
-    return Board.fromJson(result.data);
+    return Board.fromJson(result!.data);
   }
 
-  Future<Petition?> getPetitionPost({
+  Future<Petition> getPetitionPost({
     required int id,
   }) async {
     final result = await get(
       path : '/post/petition/$id',
       allowDuplicateRequest: false,
     );
-    return Petition.fromJson(result.data);
+    return Petition.fromJson(result!.data);
   }
 
   Future<bool> agreePetitionPost({
@@ -47,7 +47,7 @@ final class BoardRepository extends Repository {
     final result = await post(
       path : '/post/petition/agree/$id',
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
   Future<bool> reportPetitionPost({
@@ -60,7 +60,7 @@ final class BoardRepository extends Repository {
         'categoryName' : categoryName,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
 }

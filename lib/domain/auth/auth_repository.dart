@@ -8,7 +8,7 @@ final authRepositoryProvider =
 
 final class AuthRepository extends Repository {
   AuthRepository(super.dio);
-  Future<SignUp?> verifyStudent(String dkuStudentId, String dkuPassword) async {
+  Future<SignUp> verifyStudent(String dkuStudentId, String dkuPassword) async {
     final result = await post(
       path: '/user/dku/verify',
       data: {
@@ -16,7 +16,7 @@ final class AuthRepository extends Repository {
         "dkuPassword": dkuPassword,
       },
     );
-    return SignUp.fromJson(result.data);
+    return SignUp.fromJson(result!.data);
   }
 
   Future<bool> sendSMS(String signUpToken, String phoneNumber) async {
@@ -26,7 +26,7 @@ final class AuthRepository extends Repository {
         "phoneNumber": phoneNumber,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
   Future<bool> verifySMS(String signUpToken, String code) async {
@@ -36,7 +36,7 @@ final class AuthRepository extends Repository {
         "code": code,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
   Future<bool> signUp(
@@ -48,10 +48,10 @@ final class AuthRepository extends Repository {
         "password": password,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
-  Future<Token?> login(String studentId, String password) async {
+  Future<Token> login(String studentId, String password) async {
     final result = await post(
       path: '/user/login',
       data: {
@@ -59,31 +59,31 @@ final class AuthRepository extends Repository {
         "password": password,
       },
     );
-    return Token.fromJson(result.data);
+    return Token.fromJson(result!.data);
   }
 
-  Future<Token?> reissueToken(String accessToken, String refreshToken) async {
+  Future<Token> reissueToken(String accessToken, String refreshToken) async {
     final result = await post(
       path: '/user/reissue',
       data: {
         "refreshToken": refreshToken,
       },
     );
-    return Token.fromJson(result.data);
+    return Token.fromJson(result!.data);
   }
 
-  Future<User?> getUser() async {
+  Future<User> getUser() async {
     final result = await get(
       path: '/user',
     );
-    return User.fromJson(result.data);
+    return User.fromJson(result!.data);
   }
 
   Future<bool> validNickname(String nickname) async {
     final result = await get(
       path: '/user/valid?nickname=$nickname',
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
 }

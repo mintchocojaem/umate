@@ -52,6 +52,7 @@ class DioClient {
           _pendingRequests.add(options);
 
           final Token? token = ref.read(tokenProvider).value;
+
           if (token == null) {
             //find, login, signup 할땐 토큰 넣으면 안됨 -> 만료된 상태면 오류남
             options.headers.addAll(
@@ -69,7 +70,7 @@ class DioClient {
 
           return handler.next(options); // 다음 Interceptor 호출
         },
-        onResponse: (response, handler) async {
+        onResponse: (response, handler) {
           // 응답 처리 후에 처리할 내용 추가
           if (kDebugMode) {
             print("Dio response : ${response.data}");
@@ -79,10 +80,10 @@ class DioClient {
 
           return handler.next(response); // 다음 Interceptor 호출
         },
-        onError: (DioException e, handler) async {
+        onError: (DioException e, handler) {
           // 에러 처리 후에 처리할 내용 추가
           if (e.type != DioExceptionType.cancel) {
-            final exception = e.response!.data == null
+            final exception = e.response?.data == null
                 ? const ExceptionDto()
                 : ExceptionDto(
                     code: e.response!.data['code'].toString(),

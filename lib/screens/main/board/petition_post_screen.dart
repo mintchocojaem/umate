@@ -55,29 +55,34 @@ class PetitionPostScreen extends ConsumerWidget {
                   SheetItem(
                     title: "신고하기",
                     color: themeData.colorScheme.error,
-                    onPressed: () async{
+                    onPressed: () async {
                       await OrbBottomSheet(
                         items: [
                           for (var item in reportTypes)
                             SheetItem(
                               title: item.value,
                               color: themeData.colorScheme.error,
-                              onPressed: () async{
-                                ref.read(postReportProvider.notifier).update((state) => item);
-                                final postReportType = ref.read(postReportProvider);
+                              onPressed: () async {
+                                ref
+                                    .read(postReportProvider.notifier)
+                                    .update((state) => item);
+                                final postReportType =
+                                    ref.read(postReportProvider);
                                 if (postReportType != null) {
                                   await OrbDialog(
                                     title: '청원 게시글 신고',
                                     message:
-                                    '정말로 해당 청원 게시글을 "${postReportType.value}" 사유로 신고하시겠어요?',
+                                        '정말로 해당 청원 게시글을 "${postReportType.value}" 사유로 신고하시겠어요?',
                                     leftButtonText: '취소',
                                     rightButtonText: '확인',
-                                    onLeftButtonPressed: () async{},
-                                    onRightButtonPressed: () async{
-                                      ref.read(postProvider(postId).notifier).reportPetitionPost(
-                                        id: postId,
-                                        categoryName: postReportType.name,
-                                      );
+                                    onLeftButtonPressed: () async {},
+                                    onRightButtonPressed: () async {
+                                      ref
+                                          .read(postProvider(postId).notifier)
+                                          .reportPetitionPost(
+                                            id: postId,
+                                            categoryName: postReportType.name,
+                                          );
                                     },
                                   ).show(context);
                                 }
@@ -126,9 +131,8 @@ class PetitionPostScreen extends ConsumerWidget {
           return const SizedBox();
         },
       ),
-      submitButton: post.isLoading
-          ? null
-          : OrbButton(
+      submitButton: post.hasValue
+          ? OrbButton(
               disabled: ref.watch(postProvider(postId)).value!.agree,
               disabledBackgroundColor: themeData.colorScheme.surface,
               disabledForegroundColor: themeData.colorScheme.onSurface,
@@ -143,7 +147,7 @@ class PetitionPostScreen extends ConsumerWidget {
                     message: '정말로 해당 청원 게시글에 동의하시겠어요?',
                     leftButtonText: '취소',
                     rightButtonText: '확인',
-                    onLeftButtonPressed: () async{},
+                    onLeftButtonPressed: () async {},
                     onRightButtonPressed: () async {
                       await ref
                           .read(postProvider(postId).notifier)
@@ -152,7 +156,8 @@ class PetitionPostScreen extends ConsumerWidget {
                   ),
                 );
               },
-            ),
+            )
+          : null,
     );
   }
 }

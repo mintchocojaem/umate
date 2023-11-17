@@ -12,7 +12,7 @@ class UserNotifier extends AsyncNotifier<User> {
 
   Future<void> getUser() async {
     state = await AsyncValue.guard(() async =>
-        await ref.read(authRepositoryProvider).getUser() as User);
+        await ref.read(authRepositoryProvider).getUser());
   }
 
   @override

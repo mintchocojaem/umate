@@ -23,8 +23,12 @@ export 'board/post/post_provider.dart';
 export 'board/post/post_report_type.dart';
 export 'board/post/petition_status.dart';
 
-
 //bus
 export 'bus/bus_repository.dart';
 export 'bus/bus.dart';
 export 'bus/bus_provider.dart';
+
+//timetable
+export 'timetable/timetable_repository.dart';
+export 'timetable/timetable.dart';
+export 'timetable/timetable_provider.dart';

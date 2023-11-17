@@ -4,7 +4,7 @@ import '../../utils/dio_provider.dart';
 import '../domain.dart';
 
 final findRepositoryProvider =
-Provider<FindRepository>((ref) => FindRepository(ref.read(dioProvider)));
+    Provider<FindRepository>((ref) => FindRepository(ref.read(dioProvider)));
 
 final class FindRepository extends Repository {
   FindRepository(super.dio);
@@ -16,17 +16,17 @@ final class FindRepository extends Repository {
         "phoneNumber": phoneNumber,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
-  Future<String?> sendSMStoResetPassword(String phoneNumber) async {
+  Future<String> sendSMStoResetPassword(String phoneNumber) async {
     final result = await post(
       path: '/user/find/pwd',
       data: {
         "phoneNumber": phoneNumber,
       },
     );
-    return result.data['token'];
+    return result!.data['token'];
   }
 
   Future<bool> verifySMStoResetPassword(String token, String code) async {
@@ -37,7 +37,7 @@ final class FindRepository extends Repository {
         "code": code,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
 
   Future<bool> resetPassword(String token, String password) async {
@@ -48,7 +48,6 @@ final class FindRepository extends Repository {
         "password": password,
       },
     );
-    return result.statusCode == 200;
+    return result!.statusCode == 200;
   }
-
 }
