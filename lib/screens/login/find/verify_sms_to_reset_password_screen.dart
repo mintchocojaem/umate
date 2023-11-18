@@ -68,9 +68,9 @@ class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPass
               showCoolDownTime: true,
               buttonCoolDown: const Duration(seconds: 30),
               buttonSize: OrbButtonSize.compact,
+              buttonRadius: OrbButtonRadius.small,
               enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
               enabledForegroundColor: themeData.colorScheme.onSurface,
-              borderRadius: 10,
               onPressed: () async {
                 await ref.read(findProvider).resendSMStoResetPassword();
               },

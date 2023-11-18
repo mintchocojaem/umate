@@ -67,9 +67,9 @@ class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
                 const SizedBox(width: 16),
                 OrbButton(
                   buttonSize: OrbButtonSize.compact,
+                  buttonRadius: OrbButtonRadius.small,
                   enabledBackgroundColor: themeData.colorScheme.secondary,
                   enabledForegroundColor: themeData.colorScheme.onSecondary,
-                  borderRadius: 10,
                   onPressed: () async {
                     final signupNotifier = ref.read(signUpProvider.notifier);
                     if (!formKey.currentState!.validate()) {

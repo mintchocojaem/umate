@@ -9,22 +9,16 @@ final timetableRepositoryProvider = Provider<TimetableRepository>(
 final class TimetableRepository extends Repository {
   TimetableRepository(super.dio);
 
-  Future<List<Timetable>?> getTimetableInfo() async {
+  Future<List<Timetable>> getTimetableInfo() async {
     final response = await dio.get('/timetable');
-    if (response.statusCode == 200) {
-      return (response.data as List)
-          .map((e) => Timetable.fromJson(e))
-          .toList();
-    }
-    return null;
+    return (response.data as List)
+        .map((e) => Timetable.fromJson(e))
+        .toList();
   }
 
-  Future<Timetable?> getTimetable(int id) async {
+  Future<Timetable> getTimetable(int id) async {
     final response = await dio.get('/timetable/$id');
-    if (response.statusCode == 200) {
-      return Timetable.fromJson(response.data);
-    }
-    return null;
+    return Timetable.fromJson(response.data);
   }
 
 }

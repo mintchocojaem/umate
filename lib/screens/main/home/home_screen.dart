@@ -82,8 +82,6 @@ class HomeScreen extends ConsumerWidget {
             ),
             child: bus.when(
               data: (busList) {
-                if(busList == null ) return const OrbShimmerContent();
-
                 final jungmoonBus24 = busList.jungmoonBus.busArrivalList
                     .where((element) => element.busNo == "24")
                     .single;

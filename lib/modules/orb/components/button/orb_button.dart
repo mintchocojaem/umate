@@ -2,8 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+enum OrbButtonRadius {
+  none,
+  small,
+  normal,
+}
+
 enum OrbButtonSize {
   compact,
+  normal,
   wide,
 }
 
@@ -16,10 +23,11 @@ class OrbButton extends StatefulWidget {
   final String? buttonText;
   final TextStyle? buttonTextStyle;
   final bool disabled;
-  final double? borderRadius;
   final OrbButtonSize buttonSize;
   final Duration buttonCoolDown;
   final bool showCoolDownTime;
+  final Size? minimumSize;
+  final OrbButtonRadius? buttonRadius;
 
   const OrbButton({
     super.key,
@@ -31,10 +39,11 @@ class OrbButton extends StatefulWidget {
     this.buttonText,
     this.buttonTextStyle,
     this.disabled = false,
-    this.borderRadius,
     this.buttonSize = OrbButtonSize.wide,
     this.buttonCoolDown = const Duration(seconds: 1),
     this.showCoolDownTime = false,
+    this.minimumSize,
+    this.buttonRadius = OrbButtonRadius.normal,
   });
 
   OrbButton copyWith({
@@ -47,29 +56,32 @@ class OrbButton extends StatefulWidget {
     String? buttonText,
     TextStyle? buttonTextStyle,
     bool? disabled,
-    double? borderRadius,
     OrbButtonSize? buttonSize,
     Duration? buttonCoolDown,
-    Widget? child,
+    bool? showCoolDownTime,
+    Size? minimumSize,
+    OrbButtonRadius? buttonRadius,
   }) {
     return OrbButton(
-        key: key ?? this.key,
-        onPressed: onPressed ?? this.onPressed,
-        enabledBackgroundColor:
-            enabledBackgroundColor ?? this.enabledBackgroundColor,
-        enabledForegroundColor:
-            enabledForegroundColor ?? this.enabledForegroundColor,
-        disabledBackgroundColor:
-            disabledBackgroundColor ?? this.disabledBackgroundColor,
-        disabledForegroundColor:
-            disabledForegroundColor ?? this.disabledForegroundColor,
-        buttonText: buttonText ?? this.buttonText,
-        buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
-        disabled: disabled ?? this.disabled,
-        borderRadius: borderRadius ?? this.borderRadius,
-        buttonSize: buttonSize ?? this.buttonSize,
-        buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
-        showCoolDownTime: showCoolDownTime);
+      key: key ?? this.key,
+      onPressed: onPressed ?? this.onPressed,
+      enabledBackgroundColor:
+          enabledBackgroundColor ?? this.enabledBackgroundColor,
+      enabledForegroundColor:
+          enabledForegroundColor ?? this.enabledForegroundColor,
+      disabledBackgroundColor:
+          disabledBackgroundColor ?? this.disabledBackgroundColor,
+      disabledForegroundColor:
+          disabledForegroundColor ?? this.disabledForegroundColor,
+      buttonText: buttonText ?? this.buttonText,
+      buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
+      disabled: disabled ?? this.disabled,
+      buttonSize: buttonSize ?? this.buttonSize,
+      buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
+      showCoolDownTime: showCoolDownTime ?? this.showCoolDownTime,
+      minimumSize: minimumSize ?? this.minimumSize,
+      buttonRadius: buttonRadius ?? this.buttonRadius,
+    );
   }
 
   @override
@@ -101,12 +113,11 @@ class OrbButtonState extends State<OrbButton> {
                   isOnPressed = true;
                 });
                 widget.onPressed?.call().whenComplete(() {
-                  if(!context.mounted) return;
+                  if (!context.mounted) return;
                   setState(() {
                     isLoading = false;
                   });
                 });
-                //로직 고쳐야함 지금은 누를때마다 타이머 추가됨
                 timer = Timer.periodic(const Duration(seconds: 1), (timer) {
                   setState(() {
                     coolDownTime--;
@@ -130,18 +141,41 @@ class OrbButtonState extends State<OrbButton> {
               : widget.enabledForegroundColor ?? theme.colorScheme.onSurface,
         ),
         textStyle: MaterialStateProperty.all(
-          theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          widget.buttonTextStyle ??
+              theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
         ),
         padding: MaterialStateProperty.all(
-          widget.buttonSize == OrbButtonSize.compact
-              ? const EdgeInsets.symmetric(vertical: 12, horizontal: 12)
-              : const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          EdgeInsets.symmetric(
+            horizontal: switch (widget.buttonSize) {
+              OrbButtonSize.compact => 12,
+              OrbButtonSize.normal => 16,
+              OrbButtonSize.wide => 24,
+            },
+            vertical: switch (widget.buttonSize) {
+              OrbButtonSize.compact => 8,
+              OrbButtonSize.normal => 10,
+              OrbButtonSize.wide => 12,
+            },
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all(
+          widget.minimumSize ??
+              switch (widget.buttonSize) {
+                OrbButtonSize.compact => const Size(48, 32),
+                OrbButtonSize.normal => const Size(48, 40),
+                OrbButtonSize.wide => const Size(64, 48),
+              },
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
+            borderRadius: BorderRadius.circular(switch (widget.buttonRadius) {
+              OrbButtonRadius.none => 0,
+              OrbButtonRadius.small => 10,
+              OrbButtonRadius.normal => 15,
+              _ => 15,
+            }),
           ),
         ),
       ),
@@ -169,7 +203,7 @@ class OrbButtonState extends State<OrbButton> {
           if (widget.buttonText != null)
             widget.showCoolDownTime && coolDownTime != 0
                 ? Text(
-                    coolDownTime.toString(),
+                    "${widget.buttonText!}  |  $coolDownTime",
                   )
                 : Text(
                     widget.buttonText!,
@@ -177,7 +211,7 @@ class OrbButtonState extends State<OrbButton> {
         ],
       ),
     );
-    return widget.buttonSize == OrbButtonSize.compact
+    return widget.buttonSize != OrbButtonSize.wide
         ? IntrinsicWidth(child: button)
         : button;
   }

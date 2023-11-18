@@ -54,7 +54,9 @@ class TimetableHeader extends SliverPersistentHeaderDelegate {
   }
 }
 
-class Timetable extends StatelessWidget {
+typedef OnTapSchedule = void Function(Schedule schedule);
+
+class ScheduleTable extends StatelessWidget {
   final int tableStartHour;
   final int tableEndHour;
   final List<String> days;
@@ -62,8 +64,9 @@ class Timetable extends StatelessWidget {
   final Color? barTextColor;
   final Color? scheduleTextColor;
   final Color? tableLineColor;
+  final OnTapSchedule? onTapSchedule;
 
-  const Timetable({
+  const ScheduleTable({
     Key? key,
     this.tableStartHour = 8,
     this.tableEndHour = 24,
@@ -72,6 +75,7 @@ class Timetable extends StatelessWidget {
     this.barTextColor,
     this.scheduleTextColor,
     this.tableLineColor,
+    this.onTapSchedule,
   }) : super(key: key);
 
   @override
@@ -156,7 +160,9 @@ class Timetable extends StatelessWidget {
               top: (scheduleWidgetHeight / 2) + scheduleTopMargin,
               left: scheduleLeftMargin + 1,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  onTapSchedule?.call(i);
+                },
                 child: Container(
                   width: scheduleWidgetWidth - 2,
                   height: scheduleHeight,
@@ -221,10 +227,12 @@ class Timetable extends StatelessWidget {
                       minHeight: scheduleWidgetHeight,
                     ),
                     child: Center(
-                      child: Text(i.toString(),
-                          style: themeData.textTheme.bodySmall?.copyWith(
-                            color: barTextColor,
-                          )),
+                      child: Text(
+                        i.toString(),
+                        style: themeData.textTheme.bodySmall?.copyWith(
+                          color: barTextColor,
+                        ),
+                      ),
                     ),
                   ),
               ],

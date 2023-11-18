@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class OrbTextFormField extends StatelessWidget {
-
   final TextEditingController? controller;
   final bool? obscureText;
   final String? labelText;
@@ -16,6 +15,8 @@ class OrbTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final int? maxLength;
   final String? Function(String?)? validator;
+  final InputBorder? border;
+  final Widget? suffixIcon;
 
   const OrbTextFormField({
     super.key,
@@ -33,6 +34,8 @@ class OrbTextFormField extends StatelessWidget {
     this.onChanged,
     this.maxLength,
     this.validator,
+    this.border,
+    this.suffixIcon,
   });
 
   @override
@@ -53,6 +56,13 @@ class OrbTextFormField extends StatelessWidget {
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface,
         ),
+        enabledBorder: border ??
+            UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: theme.colorScheme.surfaceVariant,
+              ),
+            ),
+        suffixIcon: suffixIcon,
       ),
       style: theme.textTheme.bodyLarge?.copyWith(
         fontWeight: FontWeight.w500,
@@ -67,6 +77,4 @@ class OrbTextFormField extends StatelessWidget {
       validator: validator,
     );
   }
-
 }
-

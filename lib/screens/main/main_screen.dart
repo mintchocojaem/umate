@@ -2,7 +2,7 @@ import 'package:danvery/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../modules/orb/components/components.dart';
+import '../../modules/orb/components/components.dart';
 
 final pageControllerProvider = StateProvider<PageController>((ref) {
   return PageController(initialPage: 0);

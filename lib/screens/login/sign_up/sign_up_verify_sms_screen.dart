@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignUpVerifySmsScreen extends ConsumerStatefulWidget{
-  SignUpVerifySmsScreen({super.key});
+  const SignUpVerifySmsScreen({super.key});
 
   @override
   createState() => _SignUpVerifySmsScreen();
@@ -38,6 +38,7 @@ class _SignUpVerifySmsScreen extends ConsumerState {
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '문자로 받은\n인증번호 6자리를 입력해주세요',
@@ -64,14 +65,14 @@ class _SignUpVerifySmsScreen extends ConsumerState {
               showCoolDownTime: true,
               buttonCoolDown: const Duration(seconds: 30),
               buttonSize: OrbButtonSize.compact,
+              buttonRadius: OrbButtonRadius.small,
               enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
               enabledForegroundColor: themeData.colorScheme.onSurface,
-              borderRadius: 10,
               onPressed: () async {
                 await ref.read(signUpProvider.notifier).resendSMS();
               },
               buttonText: '문자 다시 받기',
-              buttonTextStyle: themeData.textTheme.bodySmall
+              buttonTextStyle: themeData.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
           ],

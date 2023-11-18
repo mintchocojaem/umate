@@ -40,3 +40,4 @@ export 'divider/orb_divider.dart';
 
 //bottomSheet
 export 'bottom_sheet/orb_bottom_sheet.dart';
+export 'bottom_sheet/orb_modal_bottom_sheet.dart';

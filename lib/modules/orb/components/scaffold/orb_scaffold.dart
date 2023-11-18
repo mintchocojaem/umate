@@ -77,7 +77,7 @@ class OrbScaffold extends StatelessWidget {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child: submitButton?.copyWith(borderRadius: 0) ?? const SizedBox(),
+                child: submitButton?.copyWith(buttonRadius: OrbButtonRadius.none) ?? const SizedBox(),
               ),
           ],
         ),
