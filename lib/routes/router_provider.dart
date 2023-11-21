@@ -32,7 +32,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
                     path: RouteInfo.petition.path,
                     builder: (context, state) => PetitionPostScreen(
                       key: state.pageKey,
-                      postId: state.extra as int,
+                      id: state.extra as int,
                     ),
                   ),
                 ]),

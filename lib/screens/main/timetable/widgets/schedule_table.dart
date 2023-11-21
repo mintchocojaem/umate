@@ -19,39 +19,14 @@ class Schedule {
   final String title;
   final List<ScheduleTime> times;
   final Color color;
+  final String memo;
 
   Schedule({
     required this.title,
     required this.times,
     required this.color,
+    required this.memo,
   });
-}
-
-class TimetableHeader extends SliverPersistentHeaderDelegate {
-  final Widget widget;
-
-  TimetableHeader({required this.widget});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
-    return widget;
-  }
-
-  @override
-  // TODO: implement maxExtent
-  double get maxExtent => 40;
-
-  @override
-  // TODO: implement minExtent
-  double get minExtent => 40;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
-    return true;
-  }
 }
 
 typedef OnTapSchedule = void Function(Schedule schedule);
@@ -154,7 +129,6 @@ class ScheduleTable extends StatelessWidget {
               (((endTime.subtract(startDuration).hour * 60) +
                       endTime.subtract(startDuration).minute) ~/
                   30);
-
           result.add(
             Positioned(
               top: (scheduleWidgetHeight / 2) + scheduleTopMargin,
@@ -269,20 +243,13 @@ class ScheduleTable extends StatelessWidget {
       );
     }
 
-    return CustomScrollView(
-      shrinkWrap: true,
-      slivers: [
-        SliverPersistentHeader(
-          floating: true,
-          pinned: true,
-          delegate: TimetableHeader(
-            widget: dayBar(),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: scheduleTable(),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          dayBar(),
+          scheduleTable(),
+        ],
+      ),
     );
   }
 }

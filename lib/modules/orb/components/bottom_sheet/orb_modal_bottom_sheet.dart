@@ -5,9 +5,11 @@ class OrbModalBottomSheet extends StatelessWidget {
   const OrbModalBottomSheet({
     Key? key,
     this.child,
+    this.topAction,
   }) : super(key: key);
 
   final Widget? child;
+  final Widget? topAction;
 
   Future<void> show(context) async {
     await showCupertinoModalPopup(
@@ -23,7 +25,7 @@ class OrbModalBottomSheet extends StatelessWidget {
     final themeData = Theme.of(context);
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.6,
       decoration: BoxDecoration(
         color: themeData.colorScheme.background,
         borderRadius: const BorderRadius.only(
@@ -44,6 +46,7 @@ class OrbModalBottomSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
+            if (topAction != null) topAction!,
             Expanded(
               child: child ?? const SizedBox(),
             ),

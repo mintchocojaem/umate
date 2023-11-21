@@ -10,23 +10,25 @@ final postReportProvider = StateProvider.autoDispose<PostReportType?>((ref) => n
 
 final petitionAgreeProvider = StateProvider.autoDispose<bool>((ref) => false);
 
-final postProvider =
-    AsyncNotifierProvider.autoDispose.family<PostNotifier, Petition, int>(
-  () => PostNotifier(),
+final petitionProvider =
+    AsyncNotifierProvider.autoDispose.family<PetitionNotifier, Petition, int>(
+      () => PetitionNotifier(),
 );
 
-class PostNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
-
-  Future<void> getPetitionPost({required int id}) async {
+class PetitionNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
+  
+  late final int id = arg;
+  
+  Future<void> getPetitionPost() async {
     state = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).getPetitionPost(
             id: id,
-          ) as Petition,
+          ),
     );
     ref.read(petitionAgreeProvider.notifier).update((value) => state.value!.agree);
   }
 
-  Future<void> agreePetitionPost({required int id}) async {
+  Future<void> agreePetitionPost() async {
 
     final result = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).agreePetitionPost(
@@ -45,7 +47,7 @@ class PostNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
 
   }
 
-  Future<void> reportPetitionPost({required int id, required String categoryName}) async {
+  Future<void> reportPetitionPost({required String categoryName}) async {
 
     final result = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).reportPetitionPost(
@@ -63,9 +65,9 @@ class PostNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
   }
 
   @override
-  FutureOr<Petition> build(int arg) async {
+  FutureOr<Petition> build(arg) async {
     // TODO: implement build
-    await getPetitionPost(id: arg);
+    await getPetitionPost();
     return state.value!;
   }
 }

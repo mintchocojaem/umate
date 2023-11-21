@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../domain/board/post/post_provider.dart';
 import '../../../routes/route_path.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {
@@ -211,7 +212,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                                   ref.read(routerProvider).push(
                                         RouteInfo.petition.fullPath,
                                         extra: petition.id,
-                                      );
+                                  );
                                 },
                               ),
                             );

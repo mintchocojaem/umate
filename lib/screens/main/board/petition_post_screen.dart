@@ -9,12 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/board/post/post_provider.dart';
 
 class PetitionPostScreen extends ConsumerWidget {
-  const PetitionPostScreen({
+  PetitionPostScreen({
     super.key,
-    required this.postId,
+    required this.id,
   });
 
-  final int postId;
+  final int id;
+
   final List<PostReportType> reportTypes = const [
     PostReportType.profanity(),
     PostReportType.fighting(),
@@ -27,15 +28,15 @@ class PetitionPostScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final post = ref.watch(postProvider(postId));
+    final petition = ref.watch(petitionProvider(id));
     final themeData = Theme.of(context);
     return OrbScaffold(
       orbAppBar: OrbAppBar(
         title: "청원 게시글",
         centerTitle: true,
-        showLoadingIndicator: post.isLoading,
+        showLoadingIndicator: petition.isLoading,
       ),
-      body: post.when(
+      body: petition.when(
         data: (value) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +79,10 @@ class PetitionPostScreen extends ConsumerWidget {
                                     onLeftButtonPressed: () async {},
                                     onRightButtonPressed: () async {
                                       ref
-                                          .read(postProvider(postId).notifier)
+                                          .read(petitionProvider(id).notifier)
                                           .reportPetitionPost(
-                                            id: postId,
-                                            categoryName: postReportType.name,
-                                          );
+                                              categoryName:
+                                                  postReportType.name);
                                     },
                                   ).show(context);
                                 }
@@ -131,14 +131,12 @@ class PetitionPostScreen extends ConsumerWidget {
           return const SizedBox();
         },
       ),
-      submitButton: post.hasValue
+      submitButton: petition.hasValue
           ? OrbButton(
-              disabled: ref.watch(postProvider(postId)).value!.agree,
+              disabled: petition.value!.agree,
               disabledBackgroundColor: themeData.colorScheme.surface,
               disabledForegroundColor: themeData.colorScheme.onSurface,
-              buttonText: ref.watch(postProvider(postId)).value!.agree
-                  ? '이미 동의하신 청원입니다'
-                  : '동의하기',
+              buttonText: petition.value!.agree ? '이미 동의하신 청원입니다' : '동의하기',
               onPressed: () async {
                 await showDialog(
                   context: context,
@@ -150,8 +148,8 @@ class PetitionPostScreen extends ConsumerWidget {
                     onLeftButtonPressed: () async {},
                     onRightButtonPressed: () async {
                       await ref
-                          .read(postProvider(postId).notifier)
-                          .agreePetitionPost(id: postId);
+                          .read(petitionProvider(id).notifier)
+                          .agreePetitionPost();
                     },
                   ),
                 );
