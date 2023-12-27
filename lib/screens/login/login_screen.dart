@@ -49,7 +49,6 @@ class _LoginScreen extends ConsumerState<LoginScreen>{
 
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
-      pageHelpText: '로그인을 하기 위해\n학번과 비밀번호를 입력해주세요',
       body: Form(
         key: formKey,
         child: Column(

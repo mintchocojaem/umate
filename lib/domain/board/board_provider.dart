@@ -19,9 +19,14 @@ class BoardNotifier extends AsyncNotifier<Board> {
 
   bool isFetchingNext = false;
 
-  Future<void> getPetitionBoard({bool init = false}) async {
+  Future<void> getPetitionBoard({bool refresh = false}) async {
 
-    if (!state.hasValue || state.value!.content.isEmpty || init) {
+    if(state.hasValue && state.value!.last && !refresh) {
+      // 마지막 페이지일 경우 호출 안함
+      return;
+    }
+
+    if (!state.hasValue || state.value!.content.isEmpty || refresh) {
 
       page = 0;
       state = await AsyncValue.guard(
@@ -76,7 +81,7 @@ class BoardNotifier extends AsyncNotifier<Board> {
     ref.listen(petitionStatusProvider, (previous, next) async{
       if (previous != next) {
         state = const AsyncLoading();
-        await getPetitionBoard(init: true);
+        await getPetitionBoard(refresh: true);
       }
     });
     return state.value!;

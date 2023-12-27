@@ -30,6 +30,8 @@ mixin _$User {
   int get writePostCount => throw _privateConstructorUsedError;
   int get commentedPostCount => throw _privateConstructorUsedError;
   int get likedPostCount => throw _privateConstructorUsedError;
+  int get petitionCount => throw _privateConstructorUsedError;
+  int get agreedPetitionCount => throw _privateConstructorUsedError;
   bool get admin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,6 +55,8 @@ abstract class $UserCopyWith<$Res> {
       int writePostCount,
       int commentedPostCount,
       int likedPostCount,
+      int petitionCount,
+      int agreedPetitionCount,
       bool admin});
 }
 
@@ -79,6 +83,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? writePostCount = null,
     Object? commentedPostCount = null,
     Object? likedPostCount = null,
+    Object? petitionCount = null,
+    Object? agreedPetitionCount = null,
     Object? admin = null,
   }) {
     return _then(_value.copyWith(
@@ -122,6 +128,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.likedPostCount
           : likedPostCount // ignore: cast_nullable_to_non_nullable
               as int,
+      petitionCount: null == petitionCount
+          ? _value.petitionCount
+          : petitionCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      agreedPetitionCount: null == agreedPetitionCount
+          ? _value.agreedPetitionCount
+          : agreedPetitionCount // ignore: cast_nullable_to_non_nullable
+              as int,
       admin: null == admin
           ? _value.admin
           : admin // ignore: cast_nullable_to_non_nullable
@@ -131,9 +145,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 }
 
 /// @nodoc
-abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$$_UserCopyWith(_$_User value, $Res Function(_$_User) then) =
-      __$$_UserCopyWithImpl<$Res>;
+abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$$UserImplCopyWith(
+          _$UserImpl value, $Res Function(_$UserImpl) then) =
+      __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -147,13 +162,16 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       int writePostCount,
       int commentedPostCount,
       int likedPostCount,
+      int petitionCount,
+      int agreedPetitionCount,
       bool admin});
 }
 
 /// @nodoc
-class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
-    implements _$$_UserCopyWith<$Res> {
-  __$$_UserCopyWithImpl(_$_User _value, $Res Function(_$_User) _then)
+class __$$UserImplCopyWithImpl<$Res>
+    extends _$UserCopyWithImpl<$Res, _$UserImpl>
+    implements _$$UserImplCopyWith<$Res> {
+  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -169,9 +187,11 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? writePostCount = null,
     Object? commentedPostCount = null,
     Object? likedPostCount = null,
+    Object? petitionCount = null,
+    Object? agreedPetitionCount = null,
     Object? admin = null,
   }) {
-    return _then(_$_User(
+    return _then(_$UserImpl(
       studentId: null == studentId
           ? _value.studentId
           : studentId // ignore: cast_nullable_to_non_nullable
@@ -212,6 +232,14 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.likedPostCount
           : likedPostCount // ignore: cast_nullable_to_non_nullable
               as int,
+      petitionCount: null == petitionCount
+          ? _value.petitionCount
+          : petitionCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      agreedPetitionCount: null == agreedPetitionCount
+          ? _value.agreedPetitionCount
+          : agreedPetitionCount // ignore: cast_nullable_to_non_nullable
+              as int,
       admin: null == admin
           ? _value.admin
           : admin // ignore: cast_nullable_to_non_nullable
@@ -222,8 +250,8 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 
 /// @nodoc
 @JsonSerializable()
-class _$_User implements _User {
-  const _$_User(
+class _$UserImpl implements _User {
+  const _$UserImpl(
       {required this.studentId,
       required this.username,
       required this.nickname,
@@ -234,9 +262,12 @@ class _$_User implements _User {
       required this.writePostCount,
       required this.commentedPostCount,
       required this.likedPostCount,
+      required this.petitionCount,
+      required this.agreedPetitionCount,
       required this.admin});
 
-  factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
+  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserImplFromJson(json);
 
   @override
   final String studentId;
@@ -259,18 +290,22 @@ class _$_User implements _User {
   @override
   final int likedPostCount;
   @override
+  final int petitionCount;
+  @override
+  final int agreedPetitionCount;
+  @override
   final bool admin;
 
   @override
   String toString() {
-    return 'User(studentId: $studentId, username: $username, nickname: $nickname, yearOfAdmission: $yearOfAdmission, major: $major, department: $department, phoneNumber: $phoneNumber, writePostCount: $writePostCount, commentedPostCount: $commentedPostCount, likedPostCount: $likedPostCount, admin: $admin)';
+    return 'User(studentId: $studentId, username: $username, nickname: $nickname, yearOfAdmission: $yearOfAdmission, major: $major, department: $department, phoneNumber: $phoneNumber, writePostCount: $writePostCount, commentedPostCount: $commentedPostCount, likedPostCount: $likedPostCount, petitionCount: $petitionCount, agreedPetitionCount: $agreedPetitionCount, admin: $admin)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_User &&
+            other is _$UserImpl &&
             (identical(other.studentId, studentId) ||
                 other.studentId == studentId) &&
             (identical(other.username, username) ||
@@ -290,6 +325,10 @@ class _$_User implements _User {
                 other.commentedPostCount == commentedPostCount) &&
             (identical(other.likedPostCount, likedPostCount) ||
                 other.likedPostCount == likedPostCount) &&
+            (identical(other.petitionCount, petitionCount) ||
+                other.petitionCount == petitionCount) &&
+            (identical(other.agreedPetitionCount, agreedPetitionCount) ||
+                other.agreedPetitionCount == agreedPetitionCount) &&
             (identical(other.admin, admin) || other.admin == admin));
   }
 
@@ -307,17 +346,19 @@ class _$_User implements _User {
       writePostCount,
       commentedPostCount,
       likedPostCount,
+      petitionCount,
+      agreedPetitionCount,
       admin);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserCopyWith<_$_User> get copyWith =>
-      __$$_UserCopyWithImpl<_$_User>(this, _$identity);
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserToJson(
+    return _$$UserImplToJson(
       this,
     );
   }
@@ -335,9 +376,11 @@ abstract class _User implements User {
       required final int writePostCount,
       required final int commentedPostCount,
       required final int likedPostCount,
-      required final bool admin}) = _$_User;
+      required final int petitionCount,
+      required final int agreedPetitionCount,
+      required final bool admin}) = _$UserImpl;
 
-  factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
+  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   String get studentId;
@@ -360,8 +403,13 @@ abstract class _User implements User {
   @override
   int get likedPostCount;
   @override
+  int get petitionCount;
+  @override
+  int get agreedPetitionCount;
+  @override
   bool get admin;
   @override
   @JsonKey(ignore: true)
-  _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

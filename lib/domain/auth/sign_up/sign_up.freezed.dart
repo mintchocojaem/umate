@@ -78,9 +78,10 @@ class _$SignUpCopyWithImpl<$Res, $Val extends SignUp>
 }
 
 /// @nodoc
-abstract class _$$_SignUpCopyWith<$Res> implements $SignUpCopyWith<$Res> {
-  factory _$$_SignUpCopyWith(_$_SignUp value, $Res Function(_$_SignUp) then) =
-      __$$_SignUpCopyWithImpl<$Res>;
+abstract class _$$SignUpImplCopyWith<$Res> implements $SignUpCopyWith<$Res> {
+  factory _$$SignUpImplCopyWith(
+          _$SignUpImpl value, $Res Function(_$SignUpImpl) then) =
+      __$$SignUpImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -91,10 +92,11 @@ abstract class _$$_SignUpCopyWith<$Res> implements $SignUpCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SignUpCopyWithImpl<$Res>
-    extends _$SignUpCopyWithImpl<$Res, _$_SignUp>
-    implements _$$_SignUpCopyWith<$Res> {
-  __$$_SignUpCopyWithImpl(_$_SignUp _value, $Res Function(_$_SignUp) _then)
+class __$$SignUpImplCopyWithImpl<$Res>
+    extends _$SignUpCopyWithImpl<$Res, _$SignUpImpl>
+    implements _$$SignUpImplCopyWith<$Res> {
+  __$$SignUpImplCopyWithImpl(
+      _$SignUpImpl _value, $Res Function(_$SignUpImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -103,7 +105,7 @@ class __$$_SignUpCopyWithImpl<$Res>
     Object? signUpToken = null,
     Object? student = null,
   }) {
-    return _then(_$_SignUp(
+    return _then(_$SignUpImpl(
       signUpToken: null == signUpToken
           ? _value.signUpToken
           : signUpToken // ignore: cast_nullable_to_non_nullable
@@ -118,13 +120,13 @@ class __$$_SignUpCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SignUp implements _SignUp {
-  const _$_SignUp(
+class _$SignUpImpl implements _SignUp {
+  const _$SignUpImpl(
       {@JsonKey(name: "signupToken") required this.signUpToken,
       required this.student});
 
-  factory _$_SignUp.fromJson(Map<String, dynamic> json) =>
-      _$$_SignUpFromJson(json);
+  factory _$SignUpImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SignUpImplFromJson(json);
 
   @override
   @JsonKey(name: "signupToken")
@@ -138,10 +140,10 @@ class _$_SignUp implements _SignUp {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignUp &&
+            other is _$SignUpImpl &&
             (identical(other.signUpToken, signUpToken) ||
                 other.signUpToken == signUpToken) &&
             (identical(other.student, student) || other.student == student));
@@ -154,12 +156,12 @@ class _$_SignUp implements _SignUp {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignUpCopyWith<_$_SignUp> get copyWith =>
-      __$$_SignUpCopyWithImpl<_$_SignUp>(this, _$identity);
+  _$$SignUpImplCopyWith<_$SignUpImpl> get copyWith =>
+      __$$SignUpImplCopyWithImpl<_$SignUpImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SignUpToJson(
+    return _$$SignUpImplToJson(
       this,
     );
   }
@@ -168,9 +170,9 @@ class _$_SignUp implements _SignUp {
 abstract class _SignUp implements SignUp {
   const factory _SignUp(
       {@JsonKey(name: "signupToken") required final String signUpToken,
-      required final Student student}) = _$_SignUp;
+      required final Student student}) = _$SignUpImpl;
 
-  factory _SignUp.fromJson(Map<String, dynamic> json) = _$_SignUp.fromJson;
+  factory _SignUp.fromJson(Map<String, dynamic> json) = _$SignUpImpl.fromJson;
 
   @override
   @JsonKey(name: "signupToken")
@@ -179,7 +181,7 @@ abstract class _SignUp implements SignUp {
   Student get student;
   @override
   @JsonKey(ignore: true)
-  _$$_SignUpCopyWith<_$_SignUp> get copyWith =>
+  _$$SignUpImplCopyWith<_$SignUpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -241,20 +243,21 @@ class _$StudentCopyWithImpl<$Res, $Val extends Student>
 }
 
 /// @nodoc
-abstract class _$$_StudentCopyWith<$Res> implements $StudentCopyWith<$Res> {
-  factory _$$_StudentCopyWith(
-          _$_Student value, $Res Function(_$_Student) then) =
-      __$$_StudentCopyWithImpl<$Res>;
+abstract class _$$StudentImplCopyWith<$Res> implements $StudentCopyWith<$Res> {
+  factory _$$StudentImplCopyWith(
+          _$StudentImpl value, $Res Function(_$StudentImpl) then) =
+      __$$StudentImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String studentName, String studentId, String major});
 }
 
 /// @nodoc
-class __$$_StudentCopyWithImpl<$Res>
-    extends _$StudentCopyWithImpl<$Res, _$_Student>
-    implements _$$_StudentCopyWith<$Res> {
-  __$$_StudentCopyWithImpl(_$_Student _value, $Res Function(_$_Student) _then)
+class __$$StudentImplCopyWithImpl<$Res>
+    extends _$StudentCopyWithImpl<$Res, _$StudentImpl>
+    implements _$$StudentImplCopyWith<$Res> {
+  __$$StudentImplCopyWithImpl(
+      _$StudentImpl _value, $Res Function(_$StudentImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -264,7 +267,7 @@ class __$$_StudentCopyWithImpl<$Res>
     Object? studentId = null,
     Object? major = null,
   }) {
-    return _then(_$_Student(
+    return _then(_$StudentImpl(
       studentName: null == studentName
           ? _value.studentName
           : studentName // ignore: cast_nullable_to_non_nullable
@@ -283,14 +286,14 @@ class __$$_StudentCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Student implements _Student {
-  const _$_Student(
+class _$StudentImpl implements _Student {
+  const _$StudentImpl(
       {required this.studentName,
       required this.studentId,
       required this.major});
 
-  factory _$_Student.fromJson(Map<String, dynamic> json) =>
-      _$$_StudentFromJson(json);
+  factory _$StudentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StudentImplFromJson(json);
 
   @override
   final String studentName;
@@ -305,10 +308,10 @@ class _$_Student implements _Student {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Student &&
+            other is _$StudentImpl &&
             (identical(other.studentName, studentName) ||
                 other.studentName == studentName) &&
             (identical(other.studentId, studentId) ||
@@ -323,12 +326,12 @@ class _$_Student implements _Student {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StudentCopyWith<_$_Student> get copyWith =>
-      __$$_StudentCopyWithImpl<_$_Student>(this, _$identity);
+  _$$StudentImplCopyWith<_$StudentImpl> get copyWith =>
+      __$$StudentImplCopyWithImpl<_$StudentImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StudentToJson(
+    return _$$StudentImplToJson(
       this,
     );
   }
@@ -338,9 +341,9 @@ abstract class _Student implements Student {
   const factory _Student(
       {required final String studentName,
       required final String studentId,
-      required final String major}) = _$_Student;
+      required final String major}) = _$StudentImpl;
 
-  factory _Student.fromJson(Map<String, dynamic> json) = _$_Student.fromJson;
+  factory _Student.fromJson(Map<String, dynamic> json) = _$StudentImpl.fromJson;
 
   @override
   String get studentName;
@@ -350,6 +353,6 @@ abstract class _Student implements Student {
   String get major;
   @override
   @JsonKey(ignore: true)
-  _$$_StudentCopyWith<_$_Student> get copyWith =>
+  _$$StudentImplCopyWith<_$StudentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

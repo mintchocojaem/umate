@@ -57,7 +57,7 @@ class DioClient {
             //find, login, signup 할땐 토큰 넣으면 안됨 -> 만료된 상태면 오류남
             options.headers.addAll(
               {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzAwODEyNjU5LCJ1c2VySWQiOiIxMSIsImlhdCI6MTcwMDU1MzQ1OX0.ypayLKMfwzOYHsFozMll3U11_gJkyz_PowIMnOjJ0s4"
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzAzODM4NDEwLCJ1c2VySWQiOiI0IiwiaWF0IjoxNzAzNTc5MjEwfQ.7qE27scwmXZp2Q5Rb9DFdRH_JV-B7anDPTEgdz8hEU0"
               },
             );
           }

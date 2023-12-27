@@ -7,6 +7,7 @@ export 'main/home/home_screen.dart';
 export 'main/board/board_screen.dart';
 export 'main/board/petition_post_screen.dart';
 export 'main/timetable/timetable_screen.dart';
+export 'main/timetable/timetable_search_screen.dart';
 export 'main/profile/profile_screen.dart';
 
 //login

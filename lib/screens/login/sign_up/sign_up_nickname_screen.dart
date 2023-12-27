@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignUpNicknameScreen extends ConsumerStatefulWidget{
-  const SignUpNicknameScreen({Key? key}) : super(key: key);
+  const SignUpNicknameScreen({super.key});
 
   @override
   createState() => _SignUpNicknameScreen();

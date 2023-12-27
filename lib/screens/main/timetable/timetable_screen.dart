@@ -1,4 +1,6 @@
 import 'package:danvery/modules/orb/components/components.dart';
+import 'package:danvery/routes/route_path.dart';
+import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/screens/main/timetable/widgets/schedule_modal.dart';
 import 'package:danvery/screens/main/timetable/widgets/schedule_table.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import '../../../domain/timetable/timetable.dart';
 import '../../../domain/timetable/timetable_provider.dart';
 
 class TimetableScreen extends ConsumerWidget {
-  const TimetableScreen({Key? key}) : super(key: key);
+  const TimetableScreen({super.key});
 
   final List<String> weekDays = const [
     "MONDAY",
@@ -17,6 +19,8 @@ class TimetableScreen extends ConsumerWidget {
     "THURSDAY",
     "FRIDAY",
   ];
+  final int tableStartHour = 9;
+  final int tableEndHour = 24;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,44 +28,90 @@ class TimetableScreen extends ConsumerWidget {
     final timetable = ref.watch(timetableProvider);
     return OrbScaffold(
       orbAppBar: OrbAppBar(
-        trailing: const Icon(Icons.settings),
-        showLoadingIndicator: timetable.isLoading || timetable.value?.lectures == null,
+        title: "시간표",
+        trailing: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                ScheduleModal(
+                  timetableStartHour: tableStartHour,
+                  timetableEndHour: tableEndHour,
+                  weekOfDay: WeekDays.values[DateTime.now().weekday - 1],
+                  lectureStartTime: const ScheduleTimeFormat(
+                    hour: tableStartHour,
+                    minute: 0,
+                  ),
+                  onAdded: (lecture) async {
+                    await ref
+                        .read(timetableProvider.notifier)
+                        .addLecture(lecture);
+                  },
+                  onSearch: () async {
+                    final LectureInfo? lectureInfo = await ref.read(routerProvider).push(
+                          RouteInfo.timetableSearch.fullPath,
+                        );
+                    return lectureInfo;
+                  },
+                ).show(context);
+              },
+              icon: const Icon(Icons.add_rounded),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_vert_rounded),
+            ),
+          ],
+        ),
+        showLoadingIndicator:
+            !timetable.hasValue || timetable.value?.lectures == null,
       ),
       scrollBody: false,
       body: timetable.when(
           data: (value) {
-            if(value.lectures == null) return null;
             return ScheduleTable(
+              tableStartHour: tableStartHour,
+              tableEndHour: tableEndHour,
               tableLineColor: themeData.colorScheme.onSurface,
-              scheduleTextColor: const Color(0xFFffffff),
+              scheduleTextColor: Colors.white,
               barTextColor: themeData.colorScheme.onSurface,
-              onTapSchedule: (Schedule schedule) {
+              onLongPressTable: (day, hour) {
                 ScheduleModal(
-                    schedule: schedule,
+                  timetableStartHour: tableStartHour,
+                  timetableEndHour: tableEndHour,
+                  lecture: null,
+                  weekOfDay: WeekDays.values[day],
+                  lectureStartTime: ScheduleTimeFormat(
+                    hour: hour,
+                    minute: 0,
+                  ),
+                  onEdited: (oldLecture, newLecture) async {
+                    //add lecture
+                  },
+                  onAdded: (lecture) async {
+                    await ref
+                        .read(timetableProvider.notifier)
+                        .addLecture(lecture);
+                  },
                 ).show(context);
               },
-              schedules: timetable.when(
-                data: (value) => [
-                  for (final Lecture lecture in value.lectures ?? [])
-                    Schedule(
-                      title: lecture.name,
-                      times: [
-                        for (final LectureTime time in lecture.times)
-                          ScheduleTime(
-                            startTime: time.start,
-                            endTime: time.end,
-                            day: weekDays.indexOf(time.week) + 1,
-                            place: time.place,
-                          ),
-                      ],
-                      color: Color(
-                        int.parse(lecture.color),
-                      ), memo: lecture.memo,
-                    ),
-                ],
-                loading: () => [],
-                error: (error, stackTrace) => [],
-              ),
+              onTapSchedule: (Lecture lecture) {
+                ScheduleModal(
+                  timetableStartHour: tableStartHour,
+                  timetableEndHour: tableEndHour,
+                  lecture: lecture,
+                  onEdited: (oldLecture, newLecture) async {
+                    await ref
+                        .read(timetableProvider.notifier)
+                        .setLecture(oldLecture, newLecture);
+                  },
+                  onDeleted: () async {
+                    await ref
+                        .read(timetableProvider.notifier)
+                        .deleteLecture(lecture);
+                  },
+                ).show(context);
+              },
+              lectures: value.lectures!,
             );
           },
           error: (error, trace) => null,

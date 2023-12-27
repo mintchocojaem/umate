@@ -1,57 +1,118 @@
+import 'package:danvery/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ScheduleTime {
-  final String startTime;
-  final String endTime;
-  final int day;
-  final String? place;
+typedef OnTapLecture = void Function(Lecture lecture);
+typedef OnLongPressTable = void Function(int day, int hour);
 
-  ScheduleTime({
-    required this.startTime,
-    required this.endTime,
-    required this.day,
-    this.place,
-  });
+enum ScheduleType{
+  lecture("LECTURE"),
+  schedule("SCHEDULE");
+
+  final String value;
+  const ScheduleType(this.value);
 }
 
-class Schedule {
-  final String title;
-  final List<ScheduleTime> times;
-  final Color color;
-  final String memo;
+class ScheduleTimeFormat {
+  final int hour;
+  final int minute;
 
-  Schedule({
-    required this.title,
-    required this.times,
-    required this.color,
-    required this.memo,
-  });
+  const ScheduleTimeFormat({required this.hour, required this.minute});
+
+  ScheduleTimeFormat add(ScheduleTimeFormat scheduleTimeFormat) {
+    final now = DateTime.now();
+    final newTime = DateTime(now.year, now.month, now.day, hour, minute).add(
+      Duration(
+        hours: scheduleTimeFormat.hour,
+        minutes: scheduleTimeFormat.minute,
+      ),
+    );
+    return ScheduleTimeFormat(
+      hour: newTime.hour,
+      minute: newTime.minute,
+    );
+  }
+
+  ScheduleTimeFormat subtract(ScheduleTimeFormat scheduleTimeFormat) {
+    final now = DateTime.now();
+    final newTime =
+    DateTime(now.year, now.month, now.day, hour, minute).subtract(
+      Duration(
+        hours: scheduleTimeFormat.hour,
+        minutes: scheduleTimeFormat.minute,
+      ),
+    );
+    return ScheduleTimeFormat(
+      hour: newTime.hour,
+      minute: newTime.minute,
+    );
+  }
+
+  bool isAfter(ScheduleTimeFormat scheduleTimeFormat) {
+    final now = DateTime.now();
+    final newTime = DateTime(now.year, now.month, now.day, hour, minute);
+    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    return newTime.isAfter(compareTime);
+  }
+
+  bool isAtSameMomentAs(ScheduleTimeFormat scheduleTimeFormat) {
+    final now = DateTime.now();
+    final newTime = DateTime(now.year, now.month, now.day, hour, minute);
+    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    return newTime.isAtSameMomentAs(compareTime);
+  }
+
+  bool isBefore(ScheduleTimeFormat scheduleTimeFormat) {
+    final now = DateTime.now();
+    final newTime = DateTime(now.year, now.month, now.day, hour, minute);
+    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    return newTime.isBefore(compareTime);
+  }
+
+  @override
+  String toString() {
+    return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
+  }
 }
 
-typedef OnTapSchedule = void Function(Schedule schedule);
+enum WeekDays {
+  monday("MONDAY", "월"),
+  tuesday("TUESDAY", "화"),
+  wednesday("WEDNESDAY", "수"),
+  thursday("THURSDAY", "목"),
+  friday("FRIDAY", "금"),
+  sat("SATURDAY", "토"),
+  sun("SUNDAY", "일");
+
+  final String english;
+  final String korean;
+
+  const WeekDays(this.english, this.korean);
+}
 
 class ScheduleTable extends StatelessWidget {
   final int tableStartHour;
   final int tableEndHour;
   final List<String> days;
-  final List<Schedule> schedules;
+  final List<Lecture> lectures;
   final Color? barTextColor;
   final Color? scheduleTextColor;
   final Color? tableLineColor;
-  final OnTapSchedule? onTapSchedule;
+  final OnTapLecture? onTapSchedule;
+  final OnLongPressTable? onLongPressTable;
 
   const ScheduleTable({
-    Key? key,
+    super.key,
     this.tableStartHour = 8,
     this.tableEndHour = 24,
     this.days = const ['월', '화', '수', '목', '금'],
-    required this.schedules,
+    required this.lectures,
     this.barTextColor,
     this.scheduleTextColor,
     this.tableLineColor,
     this.onTapSchedule,
-  }) : super(key: key);
+    this.onLongPressTable,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,16 +164,24 @@ class ScheduleTable extends StatelessWidget {
     }
 
     List<Widget> scheduleWidget() {
+      List<String> weekDays = [
+        WeekDays.monday.english,
+        WeekDays.tuesday.english,
+        WeekDays.wednesday.english,
+        WeekDays.thursday.english,
+        WeekDays.friday.english,
+      ];
+
       final tableStartTime = DateFormat.H().parse(tableStartHour.toString());
       final tableStartDuration = Duration(hours: tableStartTime.hour);
 
       List<Widget> result = [];
-      for (Schedule i in schedules) {
-        for (ScheduleTime j in i.times) {
-          final DateTime startTime = DateFormat.Hm().parse(j.startTime);
+      for (Lecture i in lectures) {
+        for (LectureTime j in i.times) {
+          final DateTime startTime = DateFormat.Hm().parse(j.start);
           final Duration startDuration =
               Duration(hours: startTime.hour, minutes: startTime.minute);
-          final DateTime endTime = DateFormat.Hm().parse(j.endTime);
+          final DateTime endTime = DateFormat.Hm().parse(j.end);
           final scheduleHeight =
               (endTime.subtract(startDuration).hour * scheduleWidgetHeight) +
                   (endTime.subtract(startDuration).minute *
@@ -124,14 +193,15 @@ class ScheduleTable extends StatelessWidget {
                   (startTime.subtract(tableStartDuration).minute *
                       scheduleWidgetHeight /
                       60);
-          final scheduleLeftMargin = scheduleWidgetWidth * (j.day - 1);
+          final scheduleLeftMargin =
+              scheduleWidgetWidth * (weekDays.indexOf(j.week));
           final scheduleTextMaxLine =
               (((endTime.subtract(startDuration).hour * 60) +
                       endTime.subtract(startDuration).minute) ~/
                   30);
           result.add(
             Positioned(
-              top: (scheduleWidgetHeight / 2) + scheduleTopMargin,
+              top: scheduleTopMargin,
               left: scheduleLeftMargin + 1,
               child: GestureDetector(
                 onTap: () {
@@ -142,7 +212,7 @@ class ScheduleTable extends StatelessWidget {
                   height: scheduleHeight,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: i.color,
+                    color: Color(int.parse(i.color)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
@@ -153,7 +223,7 @@ class ScheduleTable extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                i.title,
+                                i.name,
                                 style: themeData.textTheme.bodySmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   overflow: TextOverflow.ellipsis,
@@ -191,53 +261,61 @@ class ScheduleTable extends StatelessWidget {
 
     Widget scheduleTable() {
       return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            child: Column(
-              children: [
-                for (int i = tableStartHour; i <= tableEndHour; i++)
-                  Container(
-                    constraints: BoxConstraints(
-                      minHeight: scheduleWidgetHeight,
-                    ),
-                    child: Center(
-                      child: Text(
-                        i.toString(),
-                        style: themeData.textTheme.bodySmall?.copyWith(
-                          color: barTextColor,
-                        ),
+          Column(
+            children: [
+              for (int i = tableStartHour; i <= tableEndHour; i++)
+                SizedBox(
+                  width: scheduleWidgetWidth / 2,
+                  height: scheduleWidgetHeight,
+                  child: Center(
+                    child: Text(
+                      i.toString(),
+                      style: themeData.textTheme.bodySmall?.copyWith(
+                        color: barTextColor,
                       ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
-          Stack(
-            children: [
-              Row(
-                children: [
-                  for (int i = 0; i < days.length; i++)
-                    Column(
-                      children: [
-                        for (int j = tableStartHour; j <= tableEndHour; j++)
-                          IntrinsicWidth(
-                            child: Container(
-                              constraints: BoxConstraints(
-                                minHeight: scheduleWidgetHeight,
-                                minWidth: scheduleWidgetWidth,
-                              ),
-                              child: Divider(
-                                color: tableLineColor,
-                                thickness: 0.5,
+          Padding(
+            padding: EdgeInsets.only(top: scheduleWidgetHeight / 2),
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    for (int i = 0; i < days.length; i++)
+                      Column(
+                        children: [
+                          for (int j = tableStartHour; j <= tableEndHour; j++)
+                            IntrinsicWidth(
+                              child: InkWell(
+                                onLongPress: () {
+                                  onLongPressTable?.call(i, j >= 24 ? 23 : j);
+                                },
+                                child: Container(
+                                  width: scheduleWidgetWidth,
+                                  height: scheduleWidgetHeight,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: tableLineColor!,
+                                        width: 0.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                ],
-              ),
-              ...scheduleWidget(),
-            ],
+                        ],
+                      ),
+                  ],
+                ),
+                ...scheduleWidget(),
+              ],
+            ),
           ),
         ],
       );

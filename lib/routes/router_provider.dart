@@ -21,6 +21,13 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
             GoRoute(
               path: RouteInfo.timetable.path,
               builder: (context, state) => TimetableScreen(key: state.pageKey),
+              routes: [
+                GoRoute(
+                  path: RouteInfo.timetableSearch.path,
+                  builder: (context, state) =>
+                      TimetableSearchScreen(key: state.pageKey),
+                ),
+              ],
             ),
             GoRoute(
                 path: RouteInfo.board.path,

@@ -8,11 +8,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../domain/board/post/post_provider.dart';
 import '../../../routes/route_path.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {
-  const BoardScreen({Key? key}) : super(key: key);
+  const BoardScreen({super.key});
 
   @override
   createState() => _BoardScreen();
@@ -21,8 +20,7 @@ class BoardScreen extends ConsumerStatefulWidget {
 class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
-  final ScrollController controller = ScrollController();
+  final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
 
@@ -38,8 +36,8 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
     topContainerHeight = initialTopBarSize;
     minTopContainerHeight = 0;
     scrollSpeed = 5;
-    controller.addListener(() async {
-      if (controller.position.userScrollDirection == ScrollDirection.reverse) {
+    scrollController.addListener(() async {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (topContainerHeight > minTopContainerHeight) {
           setState(() {
             topContainerHeight -= scrollSpeed;
@@ -50,7 +48,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
         }
       }
 
-      if (controller.position.userScrollDirection == ScrollDirection.forward) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
         if (topContainerHeight < initialTopBarSize) {
           setState(() {
             topContainerHeight += scrollSpeed;
@@ -61,7 +59,9 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
         }
       }
 
-      if (controller.position.pixels >= controller.position.maxScrollExtent) {
+      if (scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent - 100 &&
+          scrollController.position.pixels <= scrollController.position.maxScrollExtent) {
         await ref.read(boardProvider.notifier).getPetitionBoard();
       }
     });
@@ -69,7 +69,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
-    controller.dispose();
+    scrollController.dispose();
     searchController.dispose();
     searchFocusNode.dispose();
     super.dispose();
@@ -122,7 +122,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                                 .update((state) => '');
                             ref
                                 .read(boardProvider.notifier)
-                                .getPetitionBoard(init: true)
+                                .getPetitionBoard(refresh: true)
                                 .whenComplete(() {
                               searchController.clear();
                               searchFocusNode.unfocus();
@@ -142,7 +142,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                 return;
               }
               ref.read(searchKeywordProvider.notifier).update((state) => value);
-              ref.read(boardProvider.notifier).getPetitionBoard(init: true);
+              ref.read(boardProvider.notifier).getPetitionBoard(refresh: true);
             },
           ),
           board.hasValue
@@ -169,15 +169,20 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                   onRefresh: () async {
                     return await ref
                         .read(boardProvider.notifier)
-                        .getPetitionBoard(init: true);
+                        .getPetitionBoard(refresh: true);
                   },
                   child: petitions.isEmpty
                       ? Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text("😢", style: TextStyle(fontSize: 64),),
-                              const SizedBox(height: 16,),
+                              const Text(
+                                "😢",
+                                style: TextStyle(fontSize: 64),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
                               Text(
                                 '연관된 게시글이 존재하지 않아요',
                                 style: themeData.textTheme.titleSmall,
@@ -186,7 +191,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                           ),
                         )
                       : ListView.builder(
-                          controller: controller,
+                          controller: scrollController,
                           itemCount: petitions.length,
                           itemBuilder: (context, index) {
                             final petition = petitions[index];
@@ -212,7 +217,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                                   ref.read(routerProvider).push(
                                         RouteInfo.petition.fullPath,
                                         extra: petition.id,
-                                  );
+                                      );
                                 },
                               ),
                             );

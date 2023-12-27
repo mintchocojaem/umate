@@ -11,12 +11,12 @@ class MenuItem extends StatelessWidget {
   final String url;
 
   const MenuItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.imagePath,
     required this.url,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,9 @@ class ExtraMenu extends StatelessWidget {
   final List<MenuItem> items;
 
   const ExtraMenu({
-    Key? key,
+    super.key,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

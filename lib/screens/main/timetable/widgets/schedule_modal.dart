@@ -1,17 +1,48 @@
+import 'dart:math';
+
+import 'package:danvery/domain/domain.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:danvery/screens/main/timetable/widgets/schedule_table.dart';
+import 'package:danvery/screens/main/timetable/widgets/schedule_time_picker.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleModal extends StatefulWidget {
-  const ScheduleModal({Key? key, required this.schedule}) : super(key: key);
+  const ScheduleModal({
+    super.key,
+    this.lecture,
+    this.weekOfDay,
+    required this.timetableStartHour,
+    required this.timetableEndHour,
+    this.lectureStartTime,
+    this.onAdded,
+    this.onEdited,
+    this.onDeleted,
+    this.onSearch,
+  });
 
-  final Schedule schedule;
+  final Lecture? lecture;
+  final WeekDays? weekOfDay;
+  final int timetableStartHour;
+  final int timetableEndHour;
+  final ScheduleTimeFormat? lectureStartTime;
+  final Future Function(Lecture newLecture)? onAdded;
+  final Future Function(Lecture oldLecture, Lecture newLecture)? onEdited;
+  final Future Function()? onDeleted;
+  final Future<LectureInfo?> Function()? onSearch;
 
   void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => ScheduleModal(
-        schedule: schedule,
+        lecture: lecture,
+        weekOfDay: weekOfDay,
+        timetableStartHour: timetableStartHour,
+        timetableEndHour: timetableEndHour,
+        lectureStartTime: lectureStartTime,
+        onAdded: onAdded,
+        onEdited: onEdited,
+        onDeleted: onDeleted,
+        onSearch: onSearch,
       ),
     );
   }
@@ -23,25 +54,25 @@ class ScheduleModal extends StatefulWidget {
 class _ScheduleModal extends State<ScheduleModal> {
 
   final List<Color> colors = const [
-    Color(0xffFFC3B0),
-    Color(0xffFF937C),
+    Color(0xffFF9D7E),
+    Color(0xffFF7E63),
     Color(0xffF9684A),
-    Color(0xffFBD470),
+    Color(0xffF9BE25),
     Color(0xffFFB84F),
     Color(0xffFF9838),
-    Color(0xff86D26A),
-    Color(0xffB6E388),
-    Color(0xffA8C7FA),
+    Color(0xff78BD5F),
+    Color(0xffA3DB69),
+    Color(0xff90B7F9),
     Color(0xff6F97FA),
     Color(0xff3468EE),
-    Color(0xffC1AEFC),
+    Color(0xffB49EFB),
     Color(0xff8D7EEF),
     Color(0xff6553D7),
-    Color(0xffB7B7B7),
-    Color(0xff939393),
+    Color(0xffAAAAAA),
+    Color(0xff707070),
     Color(0xff505050),
-    Color(0xffD6C3A8),
-    Color(0xffBC9E73),
+    Color(0xffC6AB85),
+    Color(0xffB49262),
     Color(0xff8D7047),
   ];
 
@@ -51,22 +82,69 @@ class _ScheduleModal extends State<ScheduleModal> {
   late final TextEditingController endTimeController;
   late final TextEditingController placeController;
   late final TextEditingController memoController;
+  late Color selectedColor;
 
-  late List<ScheduleTime> scheduleTimes;
+  late List<LectureTime> lectureTimes;
+
+  late final GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    titleController = TextEditingController(text: widget.schedule.title);
-    dayController =
-        TextEditingController(text: widget.schedule.times[0].day.toString());
-    placeController =
-        TextEditingController(text: widget.schedule.times[0].place);
-    memoController = TextEditingController(text: widget.schedule.memo);
 
-    scheduleTimes = List.from(widget.schedule.times);
-    scheduleTimes.sort((a, b) => a.day.compareTo(b.day));
+    _formKey = GlobalKey<FormState>();
+
+    if (widget.lecture != null) {
+      titleController = TextEditingController(text: widget.lecture!.name);
+      dayController =
+          TextEditingController(text: widget.lecture!.times[0].week.toString());
+      placeController =
+          TextEditingController(text: widget.lecture!.times[0].place);
+      memoController = TextEditingController(text: widget.lecture!.memo);
+
+      lectureTimes = List.from(widget.lecture!.times);
+      lectureTimes.sort((a, b) => WeekDays.values
+          .indexWhere((element) => element.english == a.week)
+          .compareTo(WeekDays.values
+              .indexWhere((element) => element.english == b.week)));
+      selectedColor = Color(int.parse(widget.lecture!.color));
+    } else {
+      titleController = TextEditingController();
+      dayController = TextEditingController();
+      placeController = TextEditingController();
+      memoController = TextEditingController();
+      lectureTimes = [
+        LectureTime(
+          start: widget.lectureStartTime != null
+              ? ScheduleTimeFormat(
+                      hour: widget.lectureStartTime!.hour,
+                      minute: widget.lectureStartTime!.minute)
+                  .toString()
+              : const ScheduleTimeFormat(
+                  hour: 9,
+                  minute: 0,
+                ).toString(),
+          end: widget.lectureStartTime != null
+              ? ScheduleTimeFormat(
+                      hour: widget.lectureStartTime!.hour,
+                      minute: widget.lectureStartTime!.minute)
+                  .add(const ScheduleTimeFormat(
+                    hour: 1,
+                    minute: 0,
+                  ))
+                  .toString()
+              : const ScheduleTimeFormat(
+                  hour: 10,
+                  minute: 0,
+                ).toString(),
+          week: widget.weekOfDay != null
+              ? widget.weekOfDay!.english
+              : WeekDays.monday.english,
+        ),
+      ];
+      selectedColor = Color(colors[Random().nextInt(colors.length)].value);
+    }
   }
 
   @override
@@ -77,16 +155,49 @@ class _ScheduleModal extends State<ScheduleModal> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OrbButton(
-            onPressed: () async {},
-            buttonText: "삭제",
+            onPressed: () async {
+              if(widget.lecture != null) {
+                await widget.onDeleted?.call().whenComplete(() => Navigator.pop(context));
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            buttonText: widget.lecture == null ? "취소" : "삭제",
             buttonSize: OrbButtonSize.compact,
             buttonRadius: OrbButtonRadius.small,
             enabledBackgroundColor: themeData.colorScheme.background,
             enabledForegroundColor: themeData.colorScheme.error,
           ),
           OrbButton(
-            onPressed: () async {},
-            buttonText: "저장",
+            onPressed: () async {
+              if (!_formKey.currentState!.validate()) {
+                return;
+              }
+              final Lecture newLecture;
+              if (widget.lecture == null) {
+                newLecture = Lecture(
+                  name: titleController.text,
+                  times: lectureTimes,
+                  memo: memoController.text,
+                  type: ScheduleType.schedule.value,
+                  color: selectedColor.value.toString(),
+                );
+                await widget.onAdded
+                    ?.call(newLecture)
+                    .whenComplete(() => Navigator.pop(context));
+              } else {
+                newLecture = widget.lecture!.copyWith(
+                  name: titleController.text,
+                  times: lectureTimes,
+                  memo: memoController.text,
+                  color: selectedColor.value.toString(),
+                );
+                await widget.onEdited
+                    ?.call(widget.lecture!, newLecture)
+                    .whenComplete(() => Navigator.pop(context));
+              }
+            },
+            buttonText: widget.lecture == null ? "추가" : "저장",
             buttonSize: OrbButtonSize.compact,
             buttonRadius: OrbButtonRadius.small,
             enabledBackgroundColor: themeData.colorScheme.background,
@@ -96,74 +207,161 @@ class _ScheduleModal extends State<ScheduleModal> {
       ),
       child: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              OrbTextFormField(
-                hintText: "제목",
-                textInputAction: TextInputAction.next,
-                controller: titleController,
-              ),
-              const SizedBox(height: 8),
-              ListView.builder(
-                itemCount: scheduleTimes.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ScheduleTimeTile(
-                    key: ValueKey(scheduleTimes[index]),
-                    scheduleTime: scheduleTimes[index],
-                    last: index == scheduleTimes.length - 1,
-                    onTapAddIcon: () {
-                      setState(() {
-                        scheduleTimes.add(ScheduleTime(
-                          day: 0,
-                          startTime: "00:00",
-                          endTime: "00:00",
-                          place: "",
-                        ));
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                OrbTextFormField(
+                  hintText: "제목",
+                  textInputAction: TextInputAction.next,
+                  controller: titleController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "제목을 입력해주세요.";
+                    }
+                    return null;
+                  },
+                  suffixIcon: widget.onSearch != null ? IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: (){
+                      widget.onSearch?.call().then((value){
+                        final LectureInfo? lectureInfo = value;
+                        if(lectureInfo != null) {
+                          setState(() {
+                            titleController.text = lectureInfo.name;
+                            dayController.text = lectureInfo.times[0].week.toString();
+                            placeController.text = lectureInfo.times.map((e) => e.place).toSet().join(", ").replaceAll("null", "");
+                            lectureTimes = List.from(lectureInfo.times);
+                            lectureTimes.sort((a, b) => WeekDays.values
+                                .indexWhere((element) => element.english == a.week)
+                                .compareTo(WeekDays.values
+                                .indexWhere((element) => element.english == b.week)));
+                          });
+                        }
                       });
                     },
-                    onTapRemoveIcon: (scheduleTime) {
-                      setState(() {
-                        scheduleTimes.remove(scheduleTime);
-                      });
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 8),
-              OrbTextFormField(
-                hintText: "강의실",
-                controller: placeController,
-              ),
-              const SizedBox(height: 8),
-              OrbTextFormField(
-                hintText: "메모",
-                controller: memoController,
-              ),
-              const SizedBox(height: 16),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for (final Color color in colors)
-                      Padding(
-                        padding: color == colors.last
-                            ? const EdgeInsets.only(right: 0)
-                            : const EdgeInsets.only(right: 16),
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
+                  ) : null,
+                ),
+                const SizedBox(height: 8),
+                ListView.builder(
+                  itemCount: lectureTimes.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ScheduleTimeWidget(
+                      timetableStartHour: widget.timetableStartHour,
+                      timetableEndHour: widget.timetableEndHour,
+                      key: ValueKey(lectureTimes[index]),
+                      lectureTime: lectureTimes[index],
+                      last: index == lectureTimes.length - 1,
+                      onTapAddIcon: () {
+                        setState(() {
+                          lectureTimes.add(
+                            LectureTime(
+                              start: ScheduleTimeFormat(
+                                      hour: DateTime.now().hour,
+                                      minute: DateTime.now().minute)
+                                  .toString(),
+                              end: ScheduleTimeFormat(
+                                      hour: DateTime.now().hour,
+                                      minute: DateTime.now().minute)
+                                  .add(
+                                    const ScheduleTimeFormat(
+                                      hour: 1,
+                                      minute: 0,
+                                    ),
+                                  )
+                                  .toString(),
+                              week: WeekDays
+                                  .values[WeekDays.values.indexWhere((element) =>
+                                      element.english ==
+                                      lectureTimes[index].week)]
+                                  .english,
+                            ),
+                          );
+                        });
+                      },
+                      onTapRemoveIcon: (scheduleTime) {
+                        setState(() {
+                          lectureTimes.remove(scheduleTime);
+                        });
+                      },
+                      onWeekOfDayChanged: (WeekDays value) {
+                        lectureTimes[index] = lectureTimes[index].copyWith(
+                          week: value.english,
+                        );
+                      },
+                      onStartTimeChanged: (ScheduleTimeFormat value) {
+                        lectureTimes[index] = lectureTimes[index].copyWith(
+                          start: ScheduleTimeFormat(
+                                  hour: value.hour, minute: value.minute)
+                              .toString(),
+                        );
+                      },
+                      onEndTimeChanged: (ScheduleTimeFormat value) {
+                        lectureTimes[index] = lectureTimes[index].copyWith(
+                          end: ScheduleTimeFormat(
+                                  hour: value.hour, minute: value.minute)
+                              .toString(),
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 8),
+                OrbTextFormField(
+                  hintText: "강의실",
+                  controller: placeController,
+                ),
+                const SizedBox(height: 8),
+                OrbTextFormField(
+                  hintText: "메모",
+                  controller: memoController,
+                ),
+                const SizedBox(height: 16),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (final Color color in colors)
+                        Padding(
+                          padding: color == colors.last
+                              ? const EdgeInsets.only(right: 0)
+                              : const EdgeInsets.only(right: 16),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedColor = color;
+                              });
+                            },
+                            child: selectedColor == color
+                                ? Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: color,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: color,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -171,50 +369,30 @@ class _ScheduleModal extends State<ScheduleModal> {
   }
 }
 
-class ScheduleTimeTile extends StatefulWidget {
-  const ScheduleTimeTile({
+class ScheduleTimeWidget extends StatelessWidget {
+  const ScheduleTimeWidget({
     super.key,
-    required this.scheduleTime,
+    required this.timetableStartHour,
+    required this.timetableEndHour,
+    required this.lectureTime,
     this.last = false,
     required this.onTapAddIcon,
     required this.onTapRemoveIcon,
+    required this.onWeekOfDayChanged,
+    required this.onStartTimeChanged,
+    required this.onEndTimeChanged,
   });
 
-  final ScheduleTime scheduleTime;
+  final int timetableStartHour;
+  final int timetableEndHour;
+  final LectureTime lectureTime;
   final bool last;
   final VoidCallback onTapAddIcon;
-  final void Function(ScheduleTime) onTapRemoveIcon;
+  final void Function(LectureTime) onTapRemoveIcon;
 
-  @override
-  createState() => _ScheduleTimeTile();
-}
-
-class _ScheduleTimeTile extends State<ScheduleTimeTile> {
-  final weekDays = const ['월', '화', '수', '목', '금'];
-
-  late final TextEditingController startTimeController;
-  late final TextEditingController endTimeController;
-  late final TextEditingController dayController;
-
-  @override
-  void initState() {
-    super.initState();
-    startTimeController = TextEditingController(
-        text: widget.scheduleTime.startTime.substring(0, 5));
-    endTimeController = TextEditingController(
-        text: widget.scheduleTime.endTime.substring(0, 5));
-    dayController =
-        TextEditingController(text: weekDays[widget.scheduleTime.day - 1]);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    startTimeController.dispose();
-    endTimeController.dispose();
-    dayController.dispose();
-  }
+  final ValueChanged<WeekDays> onWeekOfDayChanged;
+  final ValueChanged<ScheduleTimeFormat> onStartTimeChanged;
+  final ValueChanged<ScheduleTimeFormat> onEndTimeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -223,38 +401,49 @@ class _ScheduleTimeTile extends State<ScheduleTimeTile> {
       direction: Axis.horizontal,
       children: [
         Flexible(
-          flex: 2,
-          child: OrbTextFormField(
-            hintText: "요일",
-            controller: dayController,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          flex: 3,
-          child: OrbTextFormField(
-            hintText: "시작 시간",
-            controller: startTimeController,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          flex: 3,
-          child: OrbTextFormField(
-            hintText: "종료 시간",
-            controller: endTimeController,
+          flex: 10,
+          child: ScheduleTimePicker(
+            timetableStartHour: timetableStartHour,
+            timetableEndHour: timetableEndHour,
+            weekOfDay: WeekDays.values[WeekDays.values
+                .indexWhere((element) => element.english == lectureTime.week)],
+            lectureStartTime: TimeOfDay(
+              hour: int.parse(
+                lectureTime.start.substring(0, 2),
+              ),
+              minute: int.parse(
+                lectureTime.start.substring(3, 5),
+              ),
+            ),
+            lectureEndTime: TimeOfDay(
+              hour: int.parse(
+                lectureTime.end.substring(0, 2),
+              ),
+              minute: int.parse(
+                lectureTime.end.substring(3, 5),
+              ),
+            ),
+            onWeekOfDayChanged: (weekOfDay) {
+              onWeekOfDayChanged(weekOfDay);
+            },
+            onStartTimeChanged: (time) {
+              onStartTimeChanged(time);
+            },
+            onEndTimeChanged: (time) {
+              onEndTimeChanged(time);
+            },
           ),
         ),
         Flexible(
           flex: 2,
           child: Center(
-            child: widget.last
+            child: last
                 ? IconButton(
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: Colors.lightGreenAccent,
                     ),
-                    onPressed: widget.onTapAddIcon,
+                    onPressed: onTapAddIcon,
                   )
                 : IconButton(
                     icon: const Icon(
@@ -262,7 +451,7 @@ class _ScheduleTimeTile extends State<ScheduleTimeTile> {
                       color: Colors.red,
                     ),
                     onPressed: () {
-                      widget.onTapRemoveIcon(widget.scheduleTime);
+                      onTapRemoveIcon(lectureTime);
                     },
                   ),
           ),

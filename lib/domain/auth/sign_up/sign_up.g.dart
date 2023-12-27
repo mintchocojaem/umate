@@ -6,23 +6,25 @@ part of 'sign_up.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SignUp _$$_SignUpFromJson(Map<String, dynamic> json) => _$_SignUp(
+_$SignUpImpl _$$SignUpImplFromJson(Map<String, dynamic> json) => _$SignUpImpl(
       signUpToken: json['signupToken'] as String,
       student: Student.fromJson(json['student'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_SignUpToJson(_$_SignUp instance) => <String, dynamic>{
+Map<String, dynamic> _$$SignUpImplToJson(_$SignUpImpl instance) =>
+    <String, dynamic>{
       'signupToken': instance.signUpToken,
-      'student': instance.student,
+      'student': instance.student.toJson(),
     };
 
-_$_Student _$$_StudentFromJson(Map<String, dynamic> json) => _$_Student(
+_$StudentImpl _$$StudentImplFromJson(Map<String, dynamic> json) =>
+    _$StudentImpl(
       studentName: json['studentName'] as String,
       studentId: json['studentId'] as String,
       major: json['major'] as String,
     );
 
-Map<String, dynamic> _$$_StudentToJson(_$_Student instance) =>
+Map<String, dynamic> _$$StudentImplToJson(_$StudentImpl instance) =>
     <String, dynamic>{
       'studentName': instance.studentName,
       'studentId': instance.studentId,

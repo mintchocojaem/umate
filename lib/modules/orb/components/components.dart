@@ -26,9 +26,6 @@ export 'button/orb_button.dart';
 //dialog
 export 'dialog/orb_dialog.dart';
 
-//agreeTerms
-export '../../../screens/login/sign_up/widgets/agree_terms_container.dart';
-
 //snackBar
 export 'snack_bar/orb_snack_bar.dart';
 

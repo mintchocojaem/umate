@@ -17,6 +17,7 @@ class OrbTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final InputBorder? border;
   final Widget? suffixIcon;
+  final void Function()? onTap;
 
   const OrbTextFormField({
     super.key,
@@ -36,6 +37,7 @@ class OrbTextFormField extends StatelessWidget {
     this.validator,
     this.border,
     this.suffixIcon,
+    this.onTap,
   });
 
   @override
@@ -48,6 +50,7 @@ class OrbTextFormField extends StatelessWidget {
       controller: controller,
       onChanged: onChanged,
       obscureText: obscureText ?? false,
+      onTap: onTap,
       decoration: InputDecoration(
         counterText: "",
         labelText: labelText,

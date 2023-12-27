@@ -1,19 +1,20 @@
 import 'package:dio/dio.dart';
 
-abstract base class Repository {
-  final Dio dio;
 
-  Repository(this.dio);
+abstract base class Repository {
+  final Dio _dio;
+
+  Repository(this._dio);
 
   Future<Response?> get({
     required String path,
-    Map<String, dynamic>? queryParameter,
+    Map<String, dynamic>? queryParameters,
     bool allowDuplicateRequest = true,
   }) async {
     try{
-      return await dio.get(
+      return await _dio.get(
         path,
-        queryParameters: queryParameter,
+        queryParameters: queryParameters,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),
       );
     } on DioException{
@@ -25,13 +26,13 @@ abstract base class Repository {
     required String path,
     Map<String, dynamic>? data,
     bool allowDuplicateRequest = true,
-    Map<String, dynamic>? queryParameter,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try{
-      return await dio.post(
+      return await _dio.post(
         path,
         data: data,
-        queryParameters: queryParameter,
+        queryParameters: queryParameters,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),
       );
     } on DioException{
@@ -45,7 +46,7 @@ abstract base class Repository {
     bool allowDuplicateRequest = true,
   }) async {
     try{
-      return await dio.patch(
+      return await _dio.patch(
         path,
         data: data,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),

@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/board/post/post_provider.dart';
 
 class PetitionPostScreen extends ConsumerWidget {
-  PetitionPostScreen({
+  const PetitionPostScreen({
     super.key,
     required this.id,
   });
@@ -34,7 +34,7 @@ class PetitionPostScreen extends ConsumerWidget {
       orbAppBar: OrbAppBar(
         title: "청원 게시글",
         centerTitle: true,
-        showLoadingIndicator: petition.isLoading,
+        showLoadingIndicator: !petition.hasValue,
       ),
       body: petition.when(
         data: (value) {

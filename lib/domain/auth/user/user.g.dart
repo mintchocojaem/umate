@@ -6,7 +6,7 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
+_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       studentId: json['studentId'] as String,
       username: json['username'] as String,
       nickname: json['nickname'] as String,
@@ -17,10 +17,13 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       writePostCount: json['writePostCount'] as int,
       commentedPostCount: json['commentedPostCount'] as int,
       likedPostCount: json['likedPostCount'] as int,
+      petitionCount: json['petitionCount'] as int,
+      agreedPetitionCount: json['agreedPetitionCount'] as int,
       admin: json['admin'] as bool,
     );
 
-Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
+Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
+    <String, dynamic>{
       'studentId': instance.studentId,
       'username': instance.username,
       'nickname': instance.nickname,
@@ -31,5 +34,7 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'writePostCount': instance.writePostCount,
       'commentedPostCount': instance.commentedPostCount,
       'likedPostCount': instance.likedPostCount,
+      'petitionCount': instance.petitionCount,
+      'agreedPetitionCount': instance.agreedPetitionCount,
       'admin': instance.admin,
     };

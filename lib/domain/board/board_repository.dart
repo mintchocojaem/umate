@@ -18,7 +18,7 @@ final class BoardRepository extends Repository {
   }) async {
     final result = await get(
       path : '/post/petition',
-      queryParameter: {
+      queryParameters: {
         'keyword': keyword,
         'page': page,
         'size': size,
@@ -56,7 +56,7 @@ final class BoardRepository extends Repository {
   }) async{
     final result = await post(
       path : '/report/$id',
-      queryParameter: {
+      queryParameters: {
         'categoryName' : categoryName,
       },
     );

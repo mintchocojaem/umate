@@ -66,20 +66,21 @@ class _$BusListCopyWithImpl<$Res, $Val extends BusList>
 }
 
 /// @nodoc
-abstract class _$$_BusListCopyWith<$Res> implements $BusListCopyWith<$Res> {
-  factory _$$_BusListCopyWith(
-          _$_BusList value, $Res Function(_$_BusList) then) =
-      __$$_BusListCopyWithImpl<$Res>;
+abstract class _$$BusListImplCopyWith<$Res> implements $BusListCopyWith<$Res> {
+  factory _$$BusListImplCopyWith(
+          _$BusListImpl value, $Res Function(_$BusListImpl) then) =
+      __$$BusListImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String capturedAt, List<Bus> busArrivalList});
 }
 
 /// @nodoc
-class __$$_BusListCopyWithImpl<$Res>
-    extends _$BusListCopyWithImpl<$Res, _$_BusList>
-    implements _$$_BusListCopyWith<$Res> {
-  __$$_BusListCopyWithImpl(_$_BusList _value, $Res Function(_$_BusList) _then)
+class __$$BusListImplCopyWithImpl<$Res>
+    extends _$BusListCopyWithImpl<$Res, _$BusListImpl>
+    implements _$$BusListImplCopyWith<$Res> {
+  __$$BusListImplCopyWithImpl(
+      _$BusListImpl _value, $Res Function(_$BusListImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +89,7 @@ class __$$_BusListCopyWithImpl<$Res>
     Object? capturedAt = null,
     Object? busArrivalList = null,
   }) {
-    return _then(_$_BusList(
+    return _then(_$BusListImpl(
       capturedAt: null == capturedAt
           ? _value.capturedAt
           : capturedAt // ignore: cast_nullable_to_non_nullable
@@ -103,13 +104,13 @@ class __$$_BusListCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BusList implements _BusList {
-  const _$_BusList(
+class _$BusListImpl implements _BusList {
+  const _$BusListImpl(
       {required this.capturedAt, required final List<Bus> busArrivalList})
       : _busArrivalList = busArrivalList;
 
-  factory _$_BusList.fromJson(Map<String, dynamic> json) =>
-      _$$_BusListFromJson(json);
+  factory _$BusListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BusListImplFromJson(json);
 
   @override
   final String capturedAt;
@@ -127,10 +128,10 @@ class _$_BusList implements _BusList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BusList &&
+            other is _$BusListImpl &&
             (identical(other.capturedAt, capturedAt) ||
                 other.capturedAt == capturedAt) &&
             const DeepCollectionEquality()
@@ -145,12 +146,12 @@ class _$_BusList implements _BusList {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BusListCopyWith<_$_BusList> get copyWith =>
-      __$$_BusListCopyWithImpl<_$_BusList>(this, _$identity);
+  _$$BusListImplCopyWith<_$BusListImpl> get copyWith =>
+      __$$BusListImplCopyWithImpl<_$BusListImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BusListToJson(
+    return _$$BusListImplToJson(
       this,
     );
   }
@@ -159,9 +160,9 @@ class _$_BusList implements _BusList {
 abstract class _BusList implements BusList {
   const factory _BusList(
       {required final String capturedAt,
-      required final List<Bus> busArrivalList}) = _$_BusList;
+      required final List<Bus> busArrivalList}) = _$BusListImpl;
 
-  factory _BusList.fromJson(Map<String, dynamic> json) = _$_BusList.fromJson;
+  factory _BusList.fromJson(Map<String, dynamic> json) = _$BusListImpl.fromJson;
 
   @override
   String get capturedAt;
@@ -169,7 +170,7 @@ abstract class _BusList implements BusList {
   List<Bus> get busArrivalList;
   @override
   @JsonKey(ignore: true)
-  _$$_BusListCopyWith<_$_BusList> get copyWith =>
+  _$$BusListImplCopyWith<_$BusListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -244,10 +245,10 @@ class _$BusInfoCopyWithImpl<$Res, $Val extends BusInfo>
 }
 
 /// @nodoc
-abstract class _$$_BusInfoCopyWith<$Res> implements $BusInfoCopyWith<$Res> {
-  factory _$$_BusInfoCopyWith(
-          _$_BusInfo value, $Res Function(_$_BusInfo) then) =
-      __$$_BusInfoCopyWithImpl<$Res>;
+abstract class _$$BusInfoImplCopyWith<$Res> implements $BusInfoCopyWith<$Res> {
+  factory _$$BusInfoImplCopyWith(
+          _$BusInfoImpl value, $Res Function(_$BusInfoImpl) then) =
+      __$$BusInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({BusList jungmoonBus, BusList gomsangBus});
@@ -259,10 +260,11 @@ abstract class _$$_BusInfoCopyWith<$Res> implements $BusInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BusInfoCopyWithImpl<$Res>
-    extends _$BusInfoCopyWithImpl<$Res, _$_BusInfo>
-    implements _$$_BusInfoCopyWith<$Res> {
-  __$$_BusInfoCopyWithImpl(_$_BusInfo _value, $Res Function(_$_BusInfo) _then)
+class __$$BusInfoImplCopyWithImpl<$Res>
+    extends _$BusInfoCopyWithImpl<$Res, _$BusInfoImpl>
+    implements _$$BusInfoImplCopyWith<$Res> {
+  __$$BusInfoImplCopyWithImpl(
+      _$BusInfoImpl _value, $Res Function(_$BusInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -271,7 +273,7 @@ class __$$_BusInfoCopyWithImpl<$Res>
     Object? jungmoonBus = null,
     Object? gomsangBus = null,
   }) {
-    return _then(_$_BusInfo(
+    return _then(_$BusInfoImpl(
       jungmoonBus: null == jungmoonBus
           ? _value.jungmoonBus
           : jungmoonBus // ignore: cast_nullable_to_non_nullable
@@ -286,11 +288,11 @@ class __$$_BusInfoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BusInfo implements _BusInfo {
-  const _$_BusInfo({required this.jungmoonBus, required this.gomsangBus});
+class _$BusInfoImpl implements _BusInfo {
+  const _$BusInfoImpl({required this.jungmoonBus, required this.gomsangBus});
 
-  factory _$_BusInfo.fromJson(Map<String, dynamic> json) =>
-      _$$_BusInfoFromJson(json);
+  factory _$BusInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BusInfoImplFromJson(json);
 
   @override
   final BusList jungmoonBus;
@@ -303,10 +305,10 @@ class _$_BusInfo implements _BusInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BusInfo &&
+            other is _$BusInfoImpl &&
             (identical(other.jungmoonBus, jungmoonBus) ||
                 other.jungmoonBus == jungmoonBus) &&
             (identical(other.gomsangBus, gomsangBus) ||
@@ -320,12 +322,12 @@ class _$_BusInfo implements _BusInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BusInfoCopyWith<_$_BusInfo> get copyWith =>
-      __$$_BusInfoCopyWithImpl<_$_BusInfo>(this, _$identity);
+  _$$BusInfoImplCopyWith<_$BusInfoImpl> get copyWith =>
+      __$$BusInfoImplCopyWithImpl<_$BusInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BusInfoToJson(
+    return _$$BusInfoImplToJson(
       this,
     );
   }
@@ -334,9 +336,9 @@ class _$_BusInfo implements _BusInfo {
 abstract class _BusInfo implements BusInfo {
   const factory _BusInfo(
       {required final BusList jungmoonBus,
-      required final BusList gomsangBus}) = _$_BusInfo;
+      required final BusList gomsangBus}) = _$BusInfoImpl;
 
-  factory _BusInfo.fromJson(Map<String, dynamic> json) = _$_BusInfo.fromJson;
+  factory _BusInfo.fromJson(Map<String, dynamic> json) = _$BusInfoImpl.fromJson;
 
   @override
   BusList get jungmoonBus;
@@ -344,7 +346,7 @@ abstract class _BusInfo implements BusInfo {
   BusList get gomsangBus;
   @override
   @JsonKey(ignore: true)
-  _$$_BusInfoCopyWith<_$_BusInfo> get copyWith =>
+  _$$BusInfoImplCopyWith<_$BusInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -405,18 +407,18 @@ class _$BusCopyWithImpl<$Res, $Val extends Bus> implements $BusCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_BusCopyWith<$Res> implements $BusCopyWith<$Res> {
-  factory _$$_BusCopyWith(_$_Bus value, $Res Function(_$_Bus) then) =
-      __$$_BusCopyWithImpl<$Res>;
+abstract class _$$BusImplCopyWith<$Res> implements $BusCopyWith<$Res> {
+  factory _$$BusImplCopyWith(_$BusImpl value, $Res Function(_$BusImpl) then) =
+      __$$BusImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int locationNo1, int predictTime1, String busNo});
 }
 
 /// @nodoc
-class __$$_BusCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$_Bus>
-    implements _$$_BusCopyWith<$Res> {
-  __$$_BusCopyWithImpl(_$_Bus _value, $Res Function(_$_Bus) _then)
+class __$$BusImplCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$BusImpl>
+    implements _$$BusImplCopyWith<$Res> {
+  __$$BusImplCopyWithImpl(_$BusImpl _value, $Res Function(_$BusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -426,7 +428,7 @@ class __$$_BusCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$_Bus>
     Object? predictTime1 = null,
     Object? busNo = null,
   }) {
-    return _then(_$_Bus(
+    return _then(_$BusImpl(
       locationNo1: null == locationNo1
           ? _value.locationNo1
           : locationNo1 // ignore: cast_nullable_to_non_nullable
@@ -445,11 +447,12 @@ class __$$_BusCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$_Bus>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Bus implements _Bus {
-  const _$_Bus(
+class _$BusImpl implements _Bus {
+  const _$BusImpl(
       {this.locationNo1 = 0, this.predictTime1 = 0, required this.busNo});
 
-  factory _$_Bus.fromJson(Map<String, dynamic> json) => _$$_BusFromJson(json);
+  factory _$BusImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BusImplFromJson(json);
 
   @override
   @JsonKey()
@@ -466,10 +469,10 @@ class _$_Bus implements _Bus {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Bus &&
+            other is _$BusImpl &&
             (identical(other.locationNo1, locationNo1) ||
                 other.locationNo1 == locationNo1) &&
             (identical(other.predictTime1, predictTime1) ||
@@ -485,12 +488,12 @@ class _$_Bus implements _Bus {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BusCopyWith<_$_Bus> get copyWith =>
-      __$$_BusCopyWithImpl<_$_Bus>(this, _$identity);
+  _$$BusImplCopyWith<_$BusImpl> get copyWith =>
+      __$$BusImplCopyWithImpl<_$BusImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BusToJson(
+    return _$$BusImplToJson(
       this,
     );
   }
@@ -500,9 +503,9 @@ abstract class _Bus implements Bus {
   const factory _Bus(
       {final int locationNo1,
       final int predictTime1,
-      required final String busNo}) = _$_Bus;
+      required final String busNo}) = _$BusImpl;
 
-  factory _Bus.fromJson(Map<String, dynamic> json) = _$_Bus.fromJson;
+  factory _Bus.fromJson(Map<String, dynamic> json) = _$BusImpl.fromJson;
 
   @override
   int get locationNo1;
@@ -512,5 +515,6 @@ abstract class _Bus implements Bus {
   String get busNo;
   @override
   @JsonKey(ignore: true)
-  _$$_BusCopyWith<_$_Bus> get copyWith => throw _privateConstructorUsedError;
+  _$$BusImplCopyWith<_$BusImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

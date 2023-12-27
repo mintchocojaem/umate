@@ -8,7 +8,6 @@ class OrbScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   final OrbButton? submitButton;
   final Widget? submitHelper;
-  final String? pageHelpText;
   final ScrollController? scrollController;
   final bool defaultAppBar;
   final bool shrinkWrap;
@@ -22,7 +21,6 @@ class OrbScaffold extends StatelessWidget {
     this.resizeToAvoidBottomInset = false,
     this.submitButton,
     this.submitHelper,
-    this.pageHelpText,
     this.scrollController,
     this.defaultAppBar = true,
     this.shrinkWrap = false,

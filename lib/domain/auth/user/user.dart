@@ -16,6 +16,8 @@ class User with _$User {
     required int writePostCount,
     required int commentedPostCount,
     required int likedPostCount,
+    required int petitionCount,
+    required int agreedPetitionCount,
     required bool admin,
   }) = _User;
 

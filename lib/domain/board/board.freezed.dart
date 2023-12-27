@@ -110,9 +110,10 @@ class _$BoardCopyWithImpl<$Res, $Val extends Board>
 }
 
 /// @nodoc
-abstract class _$$_BoardCopyWith<$Res> implements $BoardCopyWith<$Res> {
-  factory _$$_BoardCopyWith(_$_Board value, $Res Function(_$_Board) then) =
-      __$$_BoardCopyWithImpl<$Res>;
+abstract class _$$BoardImplCopyWith<$Res> implements $BoardCopyWith<$Res> {
+  factory _$$BoardImplCopyWith(
+          _$BoardImpl value, $Res Function(_$BoardImpl) then) =
+      __$$BoardImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,9 +128,11 @@ abstract class _$$_BoardCopyWith<$Res> implements $BoardCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BoardCopyWithImpl<$Res> extends _$BoardCopyWithImpl<$Res, _$_Board>
-    implements _$$_BoardCopyWith<$Res> {
-  __$$_BoardCopyWithImpl(_$_Board _value, $Res Function(_$_Board) _then)
+class __$$BoardImplCopyWithImpl<$Res>
+    extends _$BoardCopyWithImpl<$Res, _$BoardImpl>
+    implements _$$BoardImplCopyWith<$Res> {
+  __$$BoardImplCopyWithImpl(
+      _$BoardImpl _value, $Res Function(_$BoardImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +147,7 @@ class __$$_BoardCopyWithImpl<$Res> extends _$BoardCopyWithImpl<$Res, _$_Board>
     Object? first = null,
     Object? last = null,
   }) {
-    return _then(_$_Board(
+    return _then(_$BoardImpl(
       content: null == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
@@ -183,8 +186,8 @@ class __$$_BoardCopyWithImpl<$Res> extends _$BoardCopyWithImpl<$Res, _$_Board>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Board implements _Board {
-  const _$_Board(
+class _$BoardImpl implements _Board {
+  const _$BoardImpl(
       {required final List<Petition> content,
       required this.hasNext,
       required this.totalPages,
@@ -195,8 +198,8 @@ class _$_Board implements _Board {
       required this.last})
       : _content = content;
 
-  factory _$_Board.fromJson(Map<String, dynamic> json) =>
-      _$$_BoardFromJson(json);
+  factory _$BoardImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BoardImplFromJson(json);
 
   final List<Petition> _content;
   @override
@@ -227,10 +230,10 @@ class _$_Board implements _Board {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Board &&
+            other is _$BoardImpl &&
             const DeepCollectionEquality().equals(other._content, _content) &&
             (identical(other.hasNext, hasNext) || other.hasNext == hasNext) &&
             (identical(other.totalPages, totalPages) ||
@@ -259,12 +262,12 @@ class _$_Board implements _Board {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BoardCopyWith<_$_Board> get copyWith =>
-      __$$_BoardCopyWithImpl<_$_Board>(this, _$identity);
+  _$$BoardImplCopyWith<_$BoardImpl> get copyWith =>
+      __$$BoardImplCopyWithImpl<_$BoardImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BoardToJson(
+    return _$$BoardImplToJson(
       this,
     );
   }
@@ -279,9 +282,9 @@ abstract class _Board implements Board {
       required final int page,
       required final int size,
       required final bool first,
-      required final bool last}) = _$_Board;
+      required final bool last}) = _$BoardImpl;
 
-  factory _Board.fromJson(Map<String, dynamic> json) = _$_Board.fromJson;
+  factory _Board.fromJson(Map<String, dynamic> json) = _$BoardImpl.fromJson;
 
   @override
   List<Petition> get content;
@@ -301,6 +304,6 @@ abstract class _Board implements Board {
   bool get last;
   @override
   @JsonKey(ignore: true)
-  _$$_BoardCopyWith<_$_Board> get copyWith =>
+  _$$BoardImplCopyWith<_$BoardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

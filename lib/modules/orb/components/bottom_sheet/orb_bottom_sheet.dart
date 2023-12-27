@@ -15,9 +15,9 @@ class SheetItem {
 
 class OrbBottomSheet extends StatelessWidget {
   const OrbBottomSheet({
-    Key? key,
+    super.key,
     required this.items,
-  }) : super(key: key);
+  });
 
   final List<SheetItem> items;
 

@@ -6,7 +6,7 @@ part of 'board.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Board _$$_BoardFromJson(Map<String, dynamic> json) => _$_Board(
+_$BoardImpl _$$BoardImplFromJson(Map<String, dynamic> json) => _$BoardImpl(
       content: (json['content'] as List<dynamic>)
           .map((e) => Petition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,8 +19,9 @@ _$_Board _$$_BoardFromJson(Map<String, dynamic> json) => _$_Board(
       last: json['last'] as bool,
     );
 
-Map<String, dynamic> _$$_BoardToJson(_$_Board instance) => <String, dynamic>{
-      'content': instance.content,
+Map<String, dynamic> _$$BoardImplToJson(_$BoardImpl instance) =>
+    <String, dynamic>{
+      'content': instance.content.map((e) => e.toJson()).toList(),
       'hasNext': instance.hasNext,
       'totalPages': instance.totalPages,
       'totalElements': instance.totalElements,

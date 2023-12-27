@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class OrbModalBottomSheet extends StatelessWidget {
   const OrbModalBottomSheet({
-    Key? key,
+    super.key,
     this.child,
     this.topAction,
-  }) : super(key: key);
+  });
 
   final Widget? child;
   final Widget? topAction;

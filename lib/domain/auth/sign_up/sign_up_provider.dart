@@ -67,12 +67,12 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     }
   }
 
-  Future<void> verifyNickname(String nickName) async {
+  Future<void> verifyNickname(String nickname) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .validNickname(nickName));
+        .validNickname(nickname));
     if (!result.hasError) {
-      validNickname = nickName;
+      validNickname = nickname;
     }
   }
 

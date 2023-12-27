@@ -5,8 +5,7 @@ import 'agree_terms_content.dart';
 class AgreeTermsContainer extends StatelessWidget {
   final List<AgreeTermsContent> agreeTermsContents;
 
-  const AgreeTermsContainer({Key? key, required this.agreeTermsContents})
-      : super(key: key);
+  const AgreeTermsContainer({super.key, required this.agreeTermsContents});
 
   @override
   Widget build(BuildContext context) {

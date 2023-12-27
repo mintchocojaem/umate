@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../routes/router_provider.dart';
+import 'widgets/agree_terms_container.dart';
 import 'widgets/agree_terms_content.dart';
 
 final _isMaxScrollPositionProvider =

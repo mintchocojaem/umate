@@ -6,17 +6,18 @@ part of 'petition.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Agree _$$_AgreeFromJson(Map<String, dynamic> json) => _$_Agree(
+_$AgreeImpl _$$AgreeImplFromJson(Map<String, dynamic> json) => _$AgreeImpl(
       department: json['department'] as String,
       agreeCount: json['agreeCount'] as int,
     );
 
-Map<String, dynamic> _$$_AgreeToJson(_$_Agree instance) => <String, dynamic>{
+Map<String, dynamic> _$$AgreeImplToJson(_$AgreeImpl instance) =>
+    <String, dynamic>{
       'department': instance.department,
       'agreeCount': instance.agreeCount,
     };
 
-_$_File _$$_FileFromJson(Map<String, dynamic> json) => _$_File(
+_$FileImpl _$$FileImplFromJson(Map<String, dynamic> json) => _$FileImpl(
       id: json['id'] as int,
       url: json['url'] as String,
       thumbnailUrl: json['thumbnailUrl'] as String,
@@ -24,7 +25,8 @@ _$_File _$$_FileFromJson(Map<String, dynamic> json) => _$_File(
       mimeType: json['mimeType'] as String,
     );
 
-Map<String, dynamic> _$$_FileToJson(_$_File instance) => <String, dynamic>{
+Map<String, dynamic> _$$FileImplToJson(_$FileImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'url': instance.url,
       'thumbnailUrl': instance.thumbnailUrl,
@@ -32,7 +34,8 @@ Map<String, dynamic> _$$_FileToJson(_$_File instance) => <String, dynamic>{
       'mimeType': instance.mimeType,
     };
 
-_$_Petition _$$_PetitionFromJson(Map<String, dynamic> json) => _$_Petition(
+_$PetitionImpl _$$PetitionImplFromJson(Map<String, dynamic> json) =>
+    _$PetitionImpl(
       id: json['id'] as int,
       title: json['title'] as String,
       author: json['author'] as String,
@@ -55,7 +58,7 @@ _$_Petition _$$_PetitionFromJson(Map<String, dynamic> json) => _$_Petition(
       blinded: json['blinded'] as bool,
     );
 
-Map<String, dynamic> _$$_PetitionToJson(_$_Petition instance) =>
+Map<String, dynamic> _$$PetitionImplToJson(_$PetitionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -63,11 +66,11 @@ Map<String, dynamic> _$$_PetitionToJson(_$_Petition instance) =>
       'body': instance.body,
       'answer': instance.answer,
       'createdAt': instance.createdAt,
-      'files': instance.files,
-      'status': instance.status,
+      'files': instance.files.map((e) => e?.toJson()).toList(),
+      'status': instance.status.toJson(),
       'expiresAt': instance.expiresAt,
       'agreeCount': instance.agreeCount,
-      'statisticList': instance.statisticList,
+      'statisticList': instance.statisticList?.map((e) => e?.toJson()).toList(),
       'agree': instance.agree,
       'mine': instance.mine,
       'blinded': instance.blinded,

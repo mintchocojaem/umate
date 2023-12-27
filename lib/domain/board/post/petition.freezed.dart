@@ -66,18 +66,21 @@ class _$AgreeCopyWithImpl<$Res, $Val extends Agree>
 }
 
 /// @nodoc
-abstract class _$$_AgreeCopyWith<$Res> implements $AgreeCopyWith<$Res> {
-  factory _$$_AgreeCopyWith(_$_Agree value, $Res Function(_$_Agree) then) =
-      __$$_AgreeCopyWithImpl<$Res>;
+abstract class _$$AgreeImplCopyWith<$Res> implements $AgreeCopyWith<$Res> {
+  factory _$$AgreeImplCopyWith(
+          _$AgreeImpl value, $Res Function(_$AgreeImpl) then) =
+      __$$AgreeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String department, int agreeCount});
 }
 
 /// @nodoc
-class __$$_AgreeCopyWithImpl<$Res> extends _$AgreeCopyWithImpl<$Res, _$_Agree>
-    implements _$$_AgreeCopyWith<$Res> {
-  __$$_AgreeCopyWithImpl(_$_Agree _value, $Res Function(_$_Agree) _then)
+class __$$AgreeImplCopyWithImpl<$Res>
+    extends _$AgreeCopyWithImpl<$Res, _$AgreeImpl>
+    implements _$$AgreeImplCopyWith<$Res> {
+  __$$AgreeImplCopyWithImpl(
+      _$AgreeImpl _value, $Res Function(_$AgreeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -86,7 +89,7 @@ class __$$_AgreeCopyWithImpl<$Res> extends _$AgreeCopyWithImpl<$Res, _$_Agree>
     Object? department = null,
     Object? agreeCount = null,
   }) {
-    return _then(_$_Agree(
+    return _then(_$AgreeImpl(
       department: null == department
           ? _value.department
           : department // ignore: cast_nullable_to_non_nullable
@@ -101,11 +104,11 @@ class __$$_AgreeCopyWithImpl<$Res> extends _$AgreeCopyWithImpl<$Res, _$_Agree>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Agree implements _Agree {
-  const _$_Agree({required this.department, required this.agreeCount});
+class _$AgreeImpl implements _Agree {
+  const _$AgreeImpl({required this.department, required this.agreeCount});
 
-  factory _$_Agree.fromJson(Map<String, dynamic> json) =>
-      _$$_AgreeFromJson(json);
+  factory _$AgreeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AgreeImplFromJson(json);
 
   @override
   final String department;
@@ -118,10 +121,10 @@ class _$_Agree implements _Agree {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Agree &&
+            other is _$AgreeImpl &&
             (identical(other.department, department) ||
                 other.department == department) &&
             (identical(other.agreeCount, agreeCount) ||
@@ -135,12 +138,12 @@ class _$_Agree implements _Agree {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AgreeCopyWith<_$_Agree> get copyWith =>
-      __$$_AgreeCopyWithImpl<_$_Agree>(this, _$identity);
+  _$$AgreeImplCopyWith<_$AgreeImpl> get copyWith =>
+      __$$AgreeImplCopyWithImpl<_$AgreeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AgreeToJson(
+    return _$$AgreeImplToJson(
       this,
     );
   }
@@ -149,9 +152,9 @@ class _$_Agree implements _Agree {
 abstract class _Agree implements Agree {
   const factory _Agree(
       {required final String department,
-      required final int agreeCount}) = _$_Agree;
+      required final int agreeCount}) = _$AgreeImpl;
 
-  factory _Agree.fromJson(Map<String, dynamic> json) = _$_Agree.fromJson;
+  factory _Agree.fromJson(Map<String, dynamic> json) = _$AgreeImpl.fromJson;
 
   @override
   String get department;
@@ -159,7 +162,7 @@ abstract class _Agree implements Agree {
   int get agreeCount;
   @override
   @JsonKey(ignore: true)
-  _$$_AgreeCopyWith<_$_Agree> get copyWith =>
+  _$$AgreeImplCopyWith<_$AgreeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -238,9 +241,10 @@ class _$FileCopyWithImpl<$Res, $Val extends File>
 }
 
 /// @nodoc
-abstract class _$$_FileCopyWith<$Res> implements $FileCopyWith<$Res> {
-  factory _$$_FileCopyWith(_$_File value, $Res Function(_$_File) then) =
-      __$$_FileCopyWithImpl<$Res>;
+abstract class _$$FileImplCopyWith<$Res> implements $FileCopyWith<$Res> {
+  factory _$$FileImplCopyWith(
+          _$FileImpl value, $Res Function(_$FileImpl) then) =
+      __$$FileImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -252,9 +256,10 @@ abstract class _$$_FileCopyWith<$Res> implements $FileCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_FileCopyWithImpl<$Res> extends _$FileCopyWithImpl<$Res, _$_File>
-    implements _$$_FileCopyWith<$Res> {
-  __$$_FileCopyWithImpl(_$_File _value, $Res Function(_$_File) _then)
+class __$$FileImplCopyWithImpl<$Res>
+    extends _$FileCopyWithImpl<$Res, _$FileImpl>
+    implements _$$FileImplCopyWith<$Res> {
+  __$$FileImplCopyWithImpl(_$FileImpl _value, $Res Function(_$FileImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -266,7 +271,7 @@ class __$$_FileCopyWithImpl<$Res> extends _$FileCopyWithImpl<$Res, _$_File>
     Object? originalName = null,
     Object? mimeType = null,
   }) {
-    return _then(_$_File(
+    return _then(_$FileImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -293,15 +298,16 @@ class __$$_FileCopyWithImpl<$Res> extends _$FileCopyWithImpl<$Res, _$_File>
 
 /// @nodoc
 @JsonSerializable()
-class _$_File implements _File {
-  const _$_File(
+class _$FileImpl implements _File {
+  const _$FileImpl(
       {required this.id,
       required this.url,
       required this.thumbnailUrl,
       required this.originalName,
       required this.mimeType});
 
-  factory _$_File.fromJson(Map<String, dynamic> json) => _$$_FileFromJson(json);
+  factory _$FileImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FileImplFromJson(json);
 
   @override
   final int id;
@@ -320,10 +326,10 @@ class _$_File implements _File {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_File &&
+            other is _$FileImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
@@ -342,12 +348,12 @@ class _$_File implements _File {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FileCopyWith<_$_File> get copyWith =>
-      __$$_FileCopyWithImpl<_$_File>(this, _$identity);
+  _$$FileImplCopyWith<_$FileImpl> get copyWith =>
+      __$$FileImplCopyWithImpl<_$FileImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FileToJson(
+    return _$$FileImplToJson(
       this,
     );
   }
@@ -359,9 +365,9 @@ abstract class _File implements File {
       required final String url,
       required final String thumbnailUrl,
       required final String originalName,
-      required final String mimeType}) = _$_File;
+      required final String mimeType}) = _$FileImpl;
 
-  factory _File.fromJson(Map<String, dynamic> json) = _$_File.fromJson;
+  factory _File.fromJson(Map<String, dynamic> json) = _$FileImpl.fromJson;
 
   @override
   int get id;
@@ -375,7 +381,8 @@ abstract class _File implements File {
   String get mimeType;
   @override
   @JsonKey(ignore: true)
-  _$$_FileCopyWith<_$_File> get copyWith => throw _privateConstructorUsedError;
+  _$$FileImplCopyWith<_$FileImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 Petition _$PetitionFromJson(Map<String, dynamic> json) {
@@ -517,10 +524,11 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
 }
 
 /// @nodoc
-abstract class _$$_PetitionCopyWith<$Res> implements $PetitionCopyWith<$Res> {
-  factory _$$_PetitionCopyWith(
-          _$_Petition value, $Res Function(_$_Petition) then) =
-      __$$_PetitionCopyWithImpl<$Res>;
+abstract class _$$PetitionImplCopyWith<$Res>
+    implements $PetitionCopyWith<$Res> {
+  factory _$$PetitionImplCopyWith(
+          _$PetitionImpl value, $Res Function(_$PetitionImpl) then) =
+      __$$PetitionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -541,11 +549,11 @@ abstract class _$$_PetitionCopyWith<$Res> implements $PetitionCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PetitionCopyWithImpl<$Res>
-    extends _$PetitionCopyWithImpl<$Res, _$_Petition>
-    implements _$$_PetitionCopyWith<$Res> {
-  __$$_PetitionCopyWithImpl(
-      _$_Petition _value, $Res Function(_$_Petition) _then)
+class __$$PetitionImplCopyWithImpl<$Res>
+    extends _$PetitionCopyWithImpl<$Res, _$PetitionImpl>
+    implements _$$PetitionImplCopyWith<$Res> {
+  __$$PetitionImplCopyWithImpl(
+      _$PetitionImpl _value, $Res Function(_$PetitionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -566,7 +574,7 @@ class __$$_PetitionCopyWithImpl<$Res>
     Object? mine = null,
     Object? blinded = null,
   }) {
-    return _then(_$_Petition(
+    return _then(_$PetitionImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -629,8 +637,8 @@ class __$$_PetitionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Petition implements _Petition {
-  const _$_Petition(
+class _$PetitionImpl implements _Petition {
+  const _$PetitionImpl(
       {required this.id,
       required this.title,
       required this.author,
@@ -648,8 +656,8 @@ class _$_Petition implements _Petition {
       : _files = files,
         _statisticList = statisticList;
 
-  factory _$_Petition.fromJson(Map<String, dynamic> json) =>
-      _$$_PetitionFromJson(json);
+  factory _$PetitionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PetitionImplFromJson(json);
 
   @override
   final int id;
@@ -702,10 +710,10 @@ class _$_Petition implements _Petition {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Petition &&
+            other is _$PetitionImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.author, author) || other.author == author) &&
@@ -748,12 +756,12 @@ class _$_Petition implements _Petition {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PetitionCopyWith<_$_Petition> get copyWith =>
-      __$$_PetitionCopyWithImpl<_$_Petition>(this, _$identity);
+  _$$PetitionImplCopyWith<_$PetitionImpl> get copyWith =>
+      __$$PetitionImplCopyWithImpl<_$PetitionImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PetitionToJson(
+    return _$$PetitionImplToJson(
       this,
     );
   }
@@ -774,9 +782,10 @@ abstract class _Petition implements Petition {
       final List<Agree?>? statisticList,
       final bool agree,
       final bool mine,
-      required final bool blinded}) = _$_Petition;
+      required final bool blinded}) = _$PetitionImpl;
 
-  factory _Petition.fromJson(Map<String, dynamic> json) = _$_Petition.fromJson;
+  factory _Petition.fromJson(Map<String, dynamic> json) =
+      _$PetitionImpl.fromJson;
 
   @override
   int get id;
@@ -808,6 +817,6 @@ abstract class _Petition implements Petition {
   bool get blinded;
   @override
   @JsonKey(ignore: true)
-  _$$_PetitionCopyWith<_$_Petition> get copyWith =>
+  _$$PetitionImplCopyWith<_$PetitionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

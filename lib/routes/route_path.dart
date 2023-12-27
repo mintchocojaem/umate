@@ -35,6 +35,11 @@ class RouteInfo {
     path: 'timetable',
     fullPath: '${main.fullPath}/timetable',
   );
+  static RouteData timetableSearch = RouteData(
+    name: 'timetableSearch',
+    path: 'search',
+    fullPath: '${timetable.fullPath}/search',
+  );
   //board
   static RouteData board = RouteData(
     name: 'board',

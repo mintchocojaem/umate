@@ -12,7 +12,7 @@ final class BusRepository extends Repository{
   Future<BusList> getBusList(String stationName) async {
     final result = await get(
       path: '/bus',
-      queryParameter: {
+      queryParameters: {
         'stationName': stationName,
       },
     );

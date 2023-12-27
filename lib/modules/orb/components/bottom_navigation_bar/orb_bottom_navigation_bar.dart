@@ -9,11 +9,11 @@ class OrbBottomNavigationBar extends StatelessWidget {
   final int? currentIndex;
 
   const OrbBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.items,
     this.onIndexChanged,
     this.currentIndex,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
