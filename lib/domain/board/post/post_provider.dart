@@ -57,7 +57,6 @@ class PetitionNotifier extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
     );
     if(!result.hasError) {
       OrbSnackBar.show(
-        context: globalNavigatorKey.currentContext!,
         message: '해당 청원 게시글이 신고되었습니다.',
         type: OrbSnackBarType.info,
       );

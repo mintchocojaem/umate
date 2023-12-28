@@ -49,8 +49,8 @@ final class TimetableRepository extends Repository {
 
     lectureTimeToJson(LectureTime lectureTime) {
       return {
-        'start': "${lectureTime.start}:00",
-        'end': "${lectureTime.end}:00",
+        'start': lectureTime.start.padRight(6, ':00'),
+        'end': lectureTime.end.padRight(6, ':00'),
         'week': lectureTime.week,
         'place': lectureTime.place,
       };
@@ -70,6 +70,16 @@ final class TimetableRepository extends Repository {
       path: '/timetable/$id',
       data: {
         'lectures': lectures.map((e) => lectureToJson(e)).toList(),
+      },
+    );
+    return response?.statusCode == 200;
+  }
+
+  Future<bool> changeTimetableName({required int id, required String name}) async {
+    final response = await patch(
+      path: '/timetable/name/$id',
+      data: {
+        'name': name,
       },
     );
     return response?.statusCode == 200;

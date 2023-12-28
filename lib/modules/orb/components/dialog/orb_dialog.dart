@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class OrbDialog extends StatelessWidget {
   final String title;
-  final String message;
+  final Widget content;
   final String? rightButtonText;
   final String? leftButtonText;
   final Future Function() onRightButtonPressed;
@@ -12,7 +12,7 @@ class OrbDialog extends StatelessWidget {
   const OrbDialog({
     super.key,
     required this.title,
-    required this.message,
+    required this.content,
     this.rightButtonText,
     this.leftButtonText,
     required this.onRightButtonPressed,
@@ -39,10 +39,7 @@ class OrbDialog extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
-      content: Text(
-        message,
-        style: theme.textTheme.bodyMedium,
-      ),
+      content: content,
       actions: [
         Flex(
           direction: Axis.horizontal,

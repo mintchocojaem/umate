@@ -3,13 +3,12 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpNicknameScreen extends ConsumerStatefulWidget{
+class SignUpNicknameScreen extends ConsumerStatefulWidget {
   const SignUpNicknameScreen({super.key});
 
   @override
   createState() => _SignUpNicknameScreen();
 }
-
 
 class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
   late final TextEditingController nicknameController;
@@ -75,15 +74,19 @@ class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
                     if (!formKey.currentState!.validate()) {
                       return;
                     }
-                    await signupNotifier.verifyNickname(nicknameController.text);
+                    await signupNotifier
+                        .verifyNickname(nicknameController.text);
                     if (signupNotifier.validNickname.isNotEmpty) {
                       if (!context.mounted) return;
                       await OrbDialog(
                         title: '닉네임 중복확인',
-                        message: '선택한 닉네임을 사용할 수 있어요!',
+                        content: Text(
+                          '선택한 닉네임을 사용할 수 있어요!',
+                          style: themeData.textTheme.bodyMedium,
+                        ),
                         rightButtonText: '닫기',
-                        onLeftButtonPressed:  () async{},
-                        onRightButtonPressed: () async{},
+                        onLeftButtonPressed: () async {},
+                        onRightButtonPressed: () async {},
                       ).show(context);
                     }
                   },

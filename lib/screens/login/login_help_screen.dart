@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../routes/route_path.dart';
 import '../../routes/router_provider.dart';
 
+
+
 class LoginHelpScreen extends ConsumerWidget {
   const LoginHelpScreen({super.key});
 
@@ -26,6 +28,7 @@ class LoginHelpScreen extends ConsumerWidget {
             height: 16,
           ),
           OrbListCardTile(
+            leading: const Icon(Icons.login_rounded),
             titleText: '회원가입을 하고 싶어요',
             onTap: () {
               ref
@@ -38,6 +41,7 @@ class LoginHelpScreen extends ConsumerWidget {
             height: 16,
           ),
           OrbListCardTile(
+            leading: const Icon(Icons.person_rounded),
             titleText: '아이디(학번)을 잊어버렸어요',
             onTap: () {
               ref.read(routerProvider).pushReplacement(RouteInfo.findUserId.fullPath);
@@ -48,6 +52,7 @@ class LoginHelpScreen extends ConsumerWidget {
             height: 16,
           ),
           OrbListCardTile(
+            leading: const Icon(Icons.lock),
             titleText: '비밀번호를 잊어버렸어요',
             onTap: () {
               ref

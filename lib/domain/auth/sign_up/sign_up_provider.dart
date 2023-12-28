@@ -26,7 +26,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
 
     if (!ref.read(isAgreePrivacyPolicyProvider) || !ref.read(isAgreeThirdPartyProvider)) {
       OrbSnackBar.show(
-        context: globalNavigatorKey.currentContext!,
         message: "개인정보 이용약관에 동의해주세요.",
         type: OrbSnackBarType.warning,
       );
@@ -79,7 +78,6 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   Future<void> setNickname(String nickname) async{
     if(validNickname != nickname){
       OrbSnackBar.show(
-        context: globalNavigatorKey.currentContext!,
         message: "닉네임 중복확인을 해주세요.",
         type: OrbSnackBarType.warning,
       );

@@ -22,7 +22,7 @@ class OrbBottomSheet extends StatelessWidget {
   final List<SheetItem> items;
 
   Future<void> show(context) async {
-    await showCupertinoModalPopup(
+    await showModalBottomSheet(
       context: context,
       builder: (context) => OrbBottomSheet(
         items: items,

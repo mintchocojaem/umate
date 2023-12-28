@@ -14,6 +14,7 @@ class OrbTextFormField extends StatelessWidget {
   final bool autofocus;
   final ValueChanged<String>? onChanged;
   final int? maxLength;
+  final int? maxLines;
   final String? Function(String?)? validator;
   final InputBorder? border;
   final Widget? suffixIcon;
@@ -33,6 +34,7 @@ class OrbTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.autofocus = false,
     this.onChanged,
+    this.maxLines = 1,
     this.maxLength,
     this.validator,
     this.border,
@@ -78,6 +80,7 @@ class OrbTextFormField extends StatelessWidget {
       autofocus: autofocus,
       maxLength: maxLength,
       validator: validator,
+      maxLines: maxLines,
     );
   }
 }

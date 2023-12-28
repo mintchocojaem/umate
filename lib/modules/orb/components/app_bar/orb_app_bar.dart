@@ -3,7 +3,6 @@ import 'package:shimmer/shimmer.dart';
 
 class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
 
-  final double height = 60;
   final Widget? leading;
   final String title;
   final TextStyle? titleStyle;
@@ -58,6 +57,6 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(height);
+  Size get preferredSize => const Size.fromHeight(60);
 
 }

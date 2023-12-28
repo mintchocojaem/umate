@@ -72,8 +72,10 @@ class PetitionPostScreen extends ConsumerWidget {
                                 if (postReportType != null) {
                                   await OrbDialog(
                                     title: '청원 게시글 신고',
-                                    message:
-                                        '정말로 해당 청원 게시글을 "${postReportType.value}" 사유로 신고하시겠어요?',
+                                    content: Text(
+                                      '정말로 해당 청원 게시글을 "${postReportType.value}" 사유로 신고하시겠어요?',
+                                      style: themeData.textTheme.bodyMedium,
+                                    ),
                                     leftButtonText: '취소',
                                     rightButtonText: '확인',
                                     onLeftButtonPressed: () async {},
@@ -142,7 +144,10 @@ class PetitionPostScreen extends ConsumerWidget {
                   context: context,
                   builder: (context) => OrbDialog(
                     title: '청원 게시글 동의',
-                    message: '정말로 해당 청원 게시글에 동의하시겠어요?',
+                    content: Text(
+                      '정말로 해당 청원 게시글에 동의하시겠어요?',
+                      style: themeData.textTheme.bodyMedium,
+                    ),
                     leftButtonText: '취소',
                     rightButtonText: '확인',
                     onLeftButtonPressed: () async {},

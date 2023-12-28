@@ -8,15 +8,39 @@ enum OrbSnackBarType {
 }
 
 class OrbSnackBar {
-  final BuildContext context;
-  final String message;
-  final OrbSnackBarType type;
+  late final GlobalKey<NavigatorState> navigatorKey;
+  late final String message;
+  late final OrbSnackBarType type;
 
-  OrbSnackBar.show({
-    required this.context,
-    required this.message,
-    required this.type,
+  static final OrbSnackBar _instance = OrbSnackBar._internal();
+
+  OrbSnackBar._internal();
+
+  factory OrbSnackBar() {
+    return _instance;
+  }
+
+  OrbSnackBar.init({
+    required this.navigatorKey,
+  }){
+    final snackBar = OrbSnackBar();
+    snackBar.navigatorKey = navigatorKey;
+  }
+
+  factory OrbSnackBar.show({
+    required String message,
+    required OrbSnackBarType type,
   }) {
+    final snackBar = OrbSnackBar();
+    snackBar._show(
+      message: message,
+      type: type,
+    );
+    return snackBar;
+  }
+
+  void _show({required String message, required OrbSnackBarType type}) {
+    final context = navigatorKey.currentContext!;
     Flushbar(
       animationDuration: const Duration(seconds: 1),
       duration: const Duration(seconds: 3),
@@ -35,22 +59,23 @@ class OrbSnackBar {
         maxLines: 3,
       ),
       icon: switch (type) {
-        // TODO: Handle this case.
+      // TODO: Handle this case.
         OrbSnackBarType.info => const Icon(
-            Icons.info,
-            color: Colors.blue,
-          ),
-        // TODO: Handle this case.
+          Icons.info,
+          color: Colors.blue,
+        ),
+      // TODO: Handle this case.
         OrbSnackBarType.warning => const Icon(
-            Icons.info,
-            color: Colors.amber,
-          ),
-        // TODO: Handle this case.
+          Icons.info,
+          color: Colors.amber,
+        ),
+      // TODO: Handle this case.
         OrbSnackBarType.error => const Icon(
-            Icons.info,
-            color: Colors.red,
-          ),
+          Icons.info,
+          color: Colors.red,
+        ),
       },
     ).show(context);
   }
+
 }

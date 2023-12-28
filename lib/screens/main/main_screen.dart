@@ -24,7 +24,7 @@ class MainScreen extends ConsumerWidget {
         onPageChanged: (value){
           ref.read(_currentIndexProvider.notifier).update((state) => value);
         },
-        children: const [
+        children: const[
           HomeScreen(),
           BoardScreen(),
           TimetableScreen(),

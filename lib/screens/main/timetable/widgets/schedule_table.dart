@@ -5,14 +5,6 @@ import 'package:intl/intl.dart';
 typedef OnTapLecture = void Function(Lecture lecture);
 typedef OnLongPressTable = void Function(int day, int hour);
 
-enum ScheduleType{
-  lecture("LECTURE"),
-  schedule("SCHEDULE");
-
-  final String value;
-  const ScheduleType(this.value);
-}
-
 class ScheduleTimeFormat {
   final int hour;
   final int minute;

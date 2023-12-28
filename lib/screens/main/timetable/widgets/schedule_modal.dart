@@ -6,6 +6,15 @@ import 'package:danvery/screens/main/timetable/widgets/schedule_table.dart';
 import 'package:danvery/screens/main/timetable/widgets/schedule_time_picker.dart';
 import 'package:flutter/material.dart';
 
+enum ScheduleType {
+  lecture("LECTURE"),
+  schedule("SCHEDULE");
+
+  final String value;
+
+  const ScheduleType(this.value);
+}
+
 class ScheduleModal extends StatefulWidget {
   const ScheduleModal({
     super.key,
@@ -25,24 +34,28 @@ class ScheduleModal extends StatefulWidget {
   final int timetableStartHour;
   final int timetableEndHour;
   final ScheduleTimeFormat? lectureStartTime;
-  final Future Function(Lecture newLecture)? onAdded;
-  final Future Function(Lecture oldLecture, Lecture newLecture)? onEdited;
-  final Future Function()? onDeleted;
+  final Future<bool> Function(Lecture newLecture)? onAdded;
+  final Future<bool> Function(Lecture oldLecture, Lecture newLecture)? onEdited;
+  final Future<bool> Function()? onDeleted;
   final Future<LectureInfo?> Function()? onSearch;
 
   void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ScheduleModal(
-        lecture: lecture,
-        weekOfDay: weekOfDay,
-        timetableStartHour: timetableStartHour,
-        timetableEndHour: timetableEndHour,
-        lectureStartTime: lectureStartTime,
-        onAdded: onAdded,
-        onEdited: onEdited,
-        onDeleted: onDeleted,
-        onSearch: onSearch,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: ScheduleModal(
+          lecture: lecture,
+          weekOfDay: weekOfDay,
+          timetableStartHour: timetableStartHour,
+          timetableEndHour: timetableEndHour,
+          lectureStartTime: lectureStartTime,
+          onAdded: onAdded,
+          onEdited: onEdited,
+          onDeleted: onDeleted,
+          onSearch: onSearch,
+        ),
       ),
     );
   }
@@ -52,7 +65,6 @@ class ScheduleModal extends StatefulWidget {
 }
 
 class _ScheduleModal extends State<ScheduleModal> {
-
   final List<Color> colors = const [
     Color(0xffFF9D7E),
     Color(0xffFF7E63),
@@ -83,6 +95,7 @@ class _ScheduleModal extends State<ScheduleModal> {
   late final TextEditingController placeController;
   late final TextEditingController memoController;
   late Color selectedColor;
+  late ScheduleType scheduleType;
 
   late List<LectureTime> lectureTimes;
 
@@ -96,6 +109,8 @@ class _ScheduleModal extends State<ScheduleModal> {
     _formKey = GlobalKey<FormState>();
 
     if (widget.lecture != null) {
+      scheduleType = ScheduleType.values
+          .firstWhere((element) => element.value == widget.lecture!.type);
       titleController = TextEditingController(text: widget.lecture!.name);
       dayController =
           TextEditingController(text: widget.lecture!.times[0].week.toString());
@@ -110,6 +125,7 @@ class _ScheduleModal extends State<ScheduleModal> {
               .indexWhere((element) => element.english == b.week)));
       selectedColor = Color(int.parse(widget.lecture!.color));
     } else {
+      scheduleType = ScheduleType.schedule;
       titleController = TextEditingController();
       dayController = TextEditingController();
       placeController = TextEditingController();
@@ -156,8 +172,12 @@ class _ScheduleModal extends State<ScheduleModal> {
         children: [
           OrbButton(
             onPressed: () async {
-              if(widget.lecture != null) {
-                await widget.onDeleted?.call().whenComplete(() => Navigator.pop(context));
+              if (widget.lecture != null) {
+                await widget.onDeleted?.call().then((value){
+                  if(value) {
+                    Navigator.pop(context);
+                  }
+                });
               } else {
                 Navigator.pop(context);
               }
@@ -179,22 +199,28 @@ class _ScheduleModal extends State<ScheduleModal> {
                   name: titleController.text,
                   times: lectureTimes,
                   memo: memoController.text,
-                  type: ScheduleType.schedule.value,
+                  type: scheduleType.value,
                   color: selectedColor.value.toString(),
                 );
-                await widget.onAdded
-                    ?.call(newLecture)
-                    .whenComplete(() => Navigator.pop(context));
+                await widget.onAdded?.call(newLecture).then((value) {
+                  if (value) {
+                    Navigator.pop(context);
+                  }
+                });
               } else {
                 newLecture = widget.lecture!.copyWith(
                   name: titleController.text,
-                  times: lectureTimes,
+                  times: lectureTimes
+                      .map((e) => e.copyWith(place: placeController.text))
+                      .toList(),
                   memo: memoController.text,
                   color: selectedColor.value.toString(),
                 );
-                await widget.onEdited
-                    ?.call(widget.lecture!, newLecture)
-                    .whenComplete(() => Navigator.pop(context));
+                await widget.onEdited?.call(widget.lecture!, newLecture).then((value){
+                  if(value) {
+                    Navigator.pop(context);
+                  }
+                });
               }
             },
             buttonText: widget.lecture == null ? "추가" : "저장",
@@ -214,7 +240,7 @@ class _ScheduleModal extends State<ScheduleModal> {
               children: [
                 OrbTextFormField(
                   hintText: "제목",
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   controller: titleController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -222,26 +248,36 @@ class _ScheduleModal extends State<ScheduleModal> {
                     }
                     return null;
                   },
-                  suffixIcon: widget.onSearch != null ? IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: (){
-                      widget.onSearch?.call().then((value){
-                        final LectureInfo? lectureInfo = value;
-                        if(lectureInfo != null) {
-                          setState(() {
-                            titleController.text = lectureInfo.name;
-                            dayController.text = lectureInfo.times[0].week.toString();
-                            placeController.text = lectureInfo.times.map((e) => e.place).toSet().join(", ").replaceAll("null", "");
-                            lectureTimes = List.from(lectureInfo.times);
-                            lectureTimes.sort((a, b) => WeekDays.values
-                                .indexWhere((element) => element.english == a.week)
-                                .compareTo(WeekDays.values
-                                .indexWhere((element) => element.english == b.week)));
-                          });
-                        }
-                      });
-                    },
-                  ) : null,
+                  suffixIcon: widget.onSearch != null
+                      ? IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            widget.onSearch?.call().then((value) {
+                              final LectureInfo? lectureInfo = value;
+                              if (lectureInfo != null) {
+                                setState(() {
+                                  scheduleType = ScheduleType.lecture;
+                                  titleController.text = lectureInfo.name;
+                                  dayController.text =
+                                      lectureInfo.times[0].week.toString();
+                                  placeController.text = lectureInfo.times
+                                      .map((e) => e.place)
+                                      .toSet()
+                                      .join(", ")
+                                      .replaceAll("null", "");
+                                  lectureTimes = List.from(lectureInfo.times);
+                                  lectureTimes.sort((a, b) => WeekDays.values
+                                      .indexWhere((element) =>
+                                          element.english == a.week)
+                                      .compareTo(WeekDays.values.indexWhere(
+                                          (element) =>
+                                              element.english == b.week)));
+                                });
+                              }
+                            });
+                          },
+                        )
+                      : null,
                 ),
                 const SizedBox(height: 8),
                 ListView.builder(
@@ -259,23 +295,18 @@ class _ScheduleModal extends State<ScheduleModal> {
                           lectureTimes.add(
                             LectureTime(
                               start: ScheduleTimeFormat(
-                                      hour: DateTime.now().hour,
-                                      minute: DateTime.now().minute)
+                                      hour: widget.timetableStartHour,
+                                      minute: 0)
                                   .toString(),
                               end: ScheduleTimeFormat(
-                                      hour: DateTime.now().hour,
-                                      minute: DateTime.now().minute)
-                                  .add(
-                                    const ScheduleTimeFormat(
-                                      hour: 1,
-                                      minute: 0,
-                                    ),
-                                  )
+                                      hour: widget.timetableStartHour + 1,
+                                      minute: 0)
                                   .toString(),
                               week: WeekDays
-                                  .values[WeekDays.values.indexWhere((element) =>
-                                      element.english ==
-                                      lectureTimes[index].week)]
+                                  .values[WeekDays.values.indexWhere(
+                                      (element) =>
+                                          element.english ==
+                                          lectureTimes[index].week)]
                                   .english,
                             ),
                           );
@@ -308,15 +339,23 @@ class _ScheduleModal extends State<ScheduleModal> {
                     );
                   },
                 ),
-                const SizedBox(height: 8),
-                OrbTextFormField(
-                  hintText: "강의실",
-                  controller: placeController,
-                ),
+                scheduleType == ScheduleType.lecture
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          OrbTextFormField(
+                            hintText: "강의실",
+                            controller: placeController,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 8),
                 OrbTextFormField(
                   hintText: "메모",
                   controller: memoController,
+                  maxLines: null,
+                  textInputAction: TextInputAction.newline,
                 ),
                 const SizedBox(height: 16),
                 SingleChildScrollView(
@@ -441,7 +480,7 @@ class ScheduleTimeWidget extends StatelessWidget {
                 ? IconButton(
                     icon: const Icon(
                       Icons.add_circle_outline,
-                      color: Colors.lightGreenAccent,
+                      color: Colors.green,
                     ),
                     onPressed: onTapAddIcon,
                   )

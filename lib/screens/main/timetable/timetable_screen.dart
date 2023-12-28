@@ -12,6 +12,9 @@ import '../../../domain/timetable/timetable_provider.dart';
 class TimetableScreen extends ConsumerWidget {
   const TimetableScreen({super.key});
 
+  final int tableStartHour = 9;
+  final int tableEndHour = 24;
+
   final List<String> weekDays = const [
     "MONDAY",
     "TUESDAY",
@@ -19,16 +22,18 @@ class TimetableScreen extends ConsumerWidget {
     "THURSDAY",
     "FRIDAY",
   ];
-  final int tableStartHour = 9;
-  final int tableEndHour = 24;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData themeData = Theme.of(context);
     final timetable = ref.watch(timetableProvider);
+
     return OrbScaffold(
       orbAppBar: OrbAppBar(
-        title: "시간표",
+        title: timetable.when(
+            data: (value) => value.name,
+            error: (error, trace) => "",
+            loading: () => ""),
         trailing: Row(
           children: [
             IconButton(
@@ -37,19 +42,20 @@ class TimetableScreen extends ConsumerWidget {
                   timetableStartHour: tableStartHour,
                   timetableEndHour: tableEndHour,
                   weekOfDay: WeekDays.values[DateTime.now().weekday - 1],
-                  lectureStartTime: const ScheduleTimeFormat(
+                  lectureStartTime: ScheduleTimeFormat(
                     hour: tableStartHour,
                     minute: 0,
                   ),
                   onAdded: (lecture) async {
-                    await ref
+                    return await ref
                         .read(timetableProvider.notifier)
                         .addLecture(lecture);
                   },
                   onSearch: () async {
-                    final LectureInfo? lectureInfo = await ref.read(routerProvider).push(
-                          RouteInfo.timetableSearch.fullPath,
-                        );
+                    final LectureInfo? lectureInfo =
+                        await ref.read(routerProvider).push(
+                              RouteInfo.timetableSearch.fullPath,
+                            );
                     return lectureInfo;
                   },
                 ).show(context);
@@ -57,7 +63,73 @@ class TimetableScreen extends ConsumerWidget {
               icon: const Icon(Icons.add_rounded),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                OrbModalBottomSheet(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  showTopDragHolder: false,
+                  titleText: "시간표 설정",
+                  child: Column(
+                    children: [
+                      OrbListCardTile(
+                        titleText: "시간표 이름 변경",
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          if (!ref.read(timetableProvider).hasValue) return;
+                          final TextEditingController textEditingController =
+                              TextEditingController();
+                          textEditingController.text =
+                              ref.read(timetableProvider).value!.name;
+                          OrbDialog(
+                            title: '시간표 이름 변경',
+                            content: OrbTextFormField(
+                              controller: textEditingController,
+                              textInputAction: TextInputAction.done,
+                              hintText: ref.read(timetableProvider).value?.name,
+                            ),
+                            rightButtonText: "변경",
+                            leftButtonText: "취소",
+                            onRightButtonPressed: () async {
+                              await ref
+                                  .read(timetableProvider.notifier)
+                                  .changeTimetableName(
+                                      textEditingController.text).whenComplete(
+                                      () => Navigator.pop(context));
+                            },
+                            onLeftButtonPressed: () async {
+                            },
+                          ).show(context);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      OrbListCardTile(
+                        titleText: "시간표 초기화",
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          if (!ref.read(timetableProvider).hasValue) return;
+                          OrbDialog(
+                            title: '시간표 초기화',
+                            content: const Text(
+                              '정말로 시간표를 초기화 할까요?\n(시간표 초기화시 모든 일정이 삭제되어요)',
+                            ),
+                            rightButtonText: "초기화",
+                            leftButtonText: "취소",
+                            onRightButtonPressed: () async {
+                              await ref
+                                  .read(timetableProvider.notifier)
+                                  .initTimetable()
+                                  .whenComplete(() => Navigator.pop(context));
+                            },
+                            onLeftButtonPressed: () async {
+                            },
+                          ).show(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ).show(context);
+              },
               icon: const Icon(Icons.more_vert_rounded),
             ),
           ],
@@ -84,11 +156,8 @@ class TimetableScreen extends ConsumerWidget {
                     hour: hour,
                     minute: 0,
                   ),
-                  onEdited: (oldLecture, newLecture) async {
-                    //add lecture
-                  },
                   onAdded: (lecture) async {
-                    await ref
+                    return await ref
                         .read(timetableProvider.notifier)
                         .addLecture(lecture);
                   },
@@ -100,12 +169,12 @@ class TimetableScreen extends ConsumerWidget {
                   timetableEndHour: tableEndHour,
                   lecture: lecture,
                   onEdited: (oldLecture, newLecture) async {
-                    await ref
+                    return await ref
                         .read(timetableProvider.notifier)
                         .setLecture(oldLecture, newLecture);
                   },
                   onDeleted: () async {
-                    await ref
+                    return await ref
                         .read(timetableProvider.notifier)
                         .deleteLecture(lecture);
                   },

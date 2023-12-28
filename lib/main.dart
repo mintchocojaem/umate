@@ -22,12 +22,13 @@ void main() async {
   ExceptionHandler(
     onException: (String message) {
       OrbSnackBar.show(
-        context: globalNavigatorKey.currentContext!,
         message: message,
         type: OrbSnackBarType.error,
       );
     },
   );
+
+  OrbSnackBar.init(navigatorKey: globalNavigatorKey);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -56,6 +57,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+
     return MaterialApp(
       navigatorKey: globalNavigatorKey,
       title: 'Danvery',

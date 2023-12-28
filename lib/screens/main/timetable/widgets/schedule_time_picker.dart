@@ -76,6 +76,10 @@ class _ScheduleTimePicker extends State<ScheduleTimePicker> {
               final dayScrollController = FixedExtentScrollController(
                 initialItem: widget.weekOfDay.index,
               );
+              final availableDays = <WeekDays>[];
+              availableDays.addAll(WeekDays.values);
+              availableDays.remove(WeekDays.sat);
+              availableDays.remove(WeekDays.sun);
               await showCupertinoModalPopup(
                 context: context,
                 builder: (context) => Container(
@@ -89,7 +93,7 @@ class _ScheduleTimePicker extends State<ScheduleTimePicker> {
                       widget.onWeekOfDayChanged?.call(WeekDays.values[value]);
                     },
                     children: [
-                      for (final day in WeekDays.values)
+                      for (final day in availableDays)
                         Center(
                           child: Text(day.korean),
                         ),

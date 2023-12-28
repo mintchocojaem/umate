@@ -104,22 +104,22 @@ class ProfileScreen extends ConsumerWidget {
             titleText: "활동",
             child: user.when(
               data: (data) {
-                return Column(
+                return const Column(
                   children: [
                     OrbListCardTile(
                       titleText: "내가 쓴 청원",
                       contentText: "100",
                       contentAlign: CrossAxisAlignment.end,
-                      backgroundColor: themeData.colorScheme.surfaceVariant,
+                      style: OrbListCardTileStyle.surfaceVariant,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 16,
                     ),
                     OrbListCardTile(
                       titleText: "내가 동의한 청원",
                       contentText: "100개",
                       contentAlign: CrossAxisAlignment.end,
-                      backgroundColor: themeData.colorScheme.surfaceVariant,
+                      style: OrbListCardTileStyle.surfaceVariant,
                     ),
                   ],
                 );
