@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData themeData = Theme.of(context);
     final bus = ref.watch(busProvider);
-    final board = ref.watch(boardProvider);
+    final homeBoard = ref.watch(homeBoardProvider);
     return OrbScaffold(
       shrinkWrap: true,
       orbAppBar: OrbAppBar(
@@ -168,17 +168,17 @@ class HomeScreen extends ConsumerWidget {
                     curve: Curves.easeInOut,
               );
             },
-            child: board.when(
+            child: homeBoard.when(
               data: (posts) {
-                final length = board.value!.content.length >= 5
+                final length = homeBoard.value!.content.length >= 5
                     ? 5
-                    : board.value!.content.length;
+                    : homeBoard.value!.content.length;
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: length,
                   itemBuilder: (context, index) {
-                    final petition = board.value!.content[index];
+                    final petition = homeBoard.value!.content[index];
                     return Column(
                       children: [
                         OrbListTile(

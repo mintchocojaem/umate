@@ -101,9 +101,9 @@ class PetitionDetailScreen extends ConsumerWidget {
       ),
       body: petition.when(
         data: (value) {
-          final image = value.images.first;
+          final image = value.images.firstOrNull;
 
-          final file = value.files.first;
+          final file = value.files.firstOrNull;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

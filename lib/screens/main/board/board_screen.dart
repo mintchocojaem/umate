@@ -170,6 +170,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                     child: SizedBox(
                       height: topContainerHeight <= 8 ? 8 : topContainerHeight,
                       child: PetitionStatusBar(
+                        currentStatus: ref.watch(petitionStatusProvider),
                         onSelected: (value) {
                           ref
                               .read(petitionStatusProvider.notifier)

@@ -103,21 +103,21 @@ class ProfileScreen extends ConsumerWidget {
           OrbBoardContainer(
             titleText: "활동",
             child: user.when(
-              data: (data) {
-                return const Column(
+              data: (value) {
+                return Column(
                   children: [
                     OrbListCardTile(
                       titleText: "내가 쓴 청원",
-                      contentText: "100",
+                      contentText: "${value.petitionCount}개",
                       contentAlign: CrossAxisAlignment.end,
                       style: OrbListCardTileStyle.surfaceVariant,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     OrbListCardTile(
                       titleText: "내가 동의한 청원",
-                      contentText: "100개",
+                      contentText: "${value.agreedPetitionCount}개",
                       contentAlign: CrossAxisAlignment.end,
                       style: OrbListCardTileStyle.surfaceVariant,
                     ),

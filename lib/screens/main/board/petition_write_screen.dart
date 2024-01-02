@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../domain/board/post/petition.dart';
 import '../../../domain/board/post/post_provider.dart';
 
 class PetitionWriteScreen extends ConsumerStatefulWidget {
@@ -67,6 +66,7 @@ class _PetitionWriteScreen extends ConsumerState<PetitionWriteScreen> {
                   )
                   .then((value) {
                 if (value) {
+                  ref.invalidate(petitionStatusProvider);
                   ref.read(boardProvider.notifier).getPetitionBoard(refresh: true).whenComplete(() {
                     Navigator.pop(context);
                     OrbSnackBar.show(

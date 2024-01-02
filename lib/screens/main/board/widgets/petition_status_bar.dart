@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/domain.dart';
 
+class PetitionStatusBar extends StatelessWidget {
 
-class PetitionStatusBar extends StatefulWidget{
+  final PetitionStatus currentStatus;
 
   final List<PetitionStatus> status = [
     const PetitionStatus.active(),
@@ -11,39 +12,24 @@ class PetitionStatusBar extends StatefulWidget{
     const PetitionStatus.answered(),
     const PetitionStatus.expired(),
   ];
+
   final void Function(PetitionStatus) onSelected;
 
-  PetitionStatusBar({
-    super.key,
-    required this.onSelected,
-  });
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _PetitionStatusBar();
-  }
-
-}
-
-class _PetitionStatusBar extends State<PetitionStatusBar> {
-
-  int selectedIndex = 0;
+  PetitionStatusBar({super.key, required this.currentStatus, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
+    int selectedIndex = status.indexOf(currentStatus);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          for (int i = 0; i < widget.status.length; i++)
+          for (int i = 0; i < status.length; i++)
             InkWell(
               onTap: () {
-                setState(() {
-                  selectedIndex = i;
-                });
-                widget.onSelected(widget.status[i]);
+                selectedIndex = i;
+                onSelected(status[i]);
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 16, top: 4,),
@@ -52,10 +38,10 @@ class _PetitionStatusBar extends State<PetitionStatusBar> {
                   borderRadius: BorderRadius.circular(15),
                   color: selectedIndex == i
                       ? themeData.colorScheme.primary
-                      : themeData.colorScheme.surface,
+                      : themeData.colorScheme.surfaceVariant,
                 ),
                 child: Text(
-                  widget.status[i].name,
+                  status[i].name,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: selectedIndex == i
                         ? themeData.colorScheme.onPrimary
