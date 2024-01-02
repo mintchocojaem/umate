@@ -132,13 +132,13 @@ class OrbButtonState extends State<OrbButton> {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
           widget.disabled
-              ? widget.disabledBackgroundColor ?? theme.colorScheme.primary
+              ? widget.disabledBackgroundColor ?? theme.colorScheme.surfaceVariant
               : widget.enabledBackgroundColor ?? theme.colorScheme.primary,
         ),
         foregroundColor: MaterialStateProperty.all(
           widget.disabled
-              ? widget.disabledForegroundColor ?? theme.colorScheme.onSurface
-              : widget.enabledForegroundColor ?? Colors.white,
+              ? widget.disabledForegroundColor ?? theme.colorScheme.onSurfaceVariant
+              : widget.enabledForegroundColor ?? theme.colorScheme.onPrimary,
         ),
         textStyle: MaterialStateProperty.all(
           widget.buttonTextStyle ??

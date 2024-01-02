@@ -166,12 +166,12 @@ abstract class _Agree implements Agree {
       throw _privateConstructorUsedError;
 }
 
-File _$FileFromJson(Map<String, dynamic> json) {
-  return _File.fromJson(json);
+PostImage _$PostImageFromJson(Map<String, dynamic> json) {
+  return _PostImage.fromJson(json);
 }
 
 /// @nodoc
-mixin _$File {
+mixin _$PostImage {
   int get id => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String get thumbnailUrl => throw _privateConstructorUsedError;
@@ -180,13 +180,14 @@ mixin _$File {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FileCopyWith<File> get copyWith => throw _privateConstructorUsedError;
+  $PostImageCopyWith<PostImage> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FileCopyWith<$Res> {
-  factory $FileCopyWith(File value, $Res Function(File) then) =
-      _$FileCopyWithImpl<$Res, File>;
+abstract class $PostImageCopyWith<$Res> {
+  factory $PostImageCopyWith(PostImage value, $Res Function(PostImage) then) =
+      _$PostImageCopyWithImpl<$Res, PostImage>;
   @useResult
   $Res call(
       {int id,
@@ -197,9 +198,9 @@ abstract class $FileCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FileCopyWithImpl<$Res, $Val extends File>
-    implements $FileCopyWith<$Res> {
-  _$FileCopyWithImpl(this._value, this._then);
+class _$PostImageCopyWithImpl<$Res, $Val extends PostImage>
+    implements $PostImageCopyWith<$Res> {
+  _$PostImageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -241,10 +242,11 @@ class _$FileCopyWithImpl<$Res, $Val extends File>
 }
 
 /// @nodoc
-abstract class _$$FileImplCopyWith<$Res> implements $FileCopyWith<$Res> {
-  factory _$$FileImplCopyWith(
-          _$FileImpl value, $Res Function(_$FileImpl) then) =
-      __$$FileImplCopyWithImpl<$Res>;
+abstract class _$$PostImageImplCopyWith<$Res>
+    implements $PostImageCopyWith<$Res> {
+  factory _$$PostImageImplCopyWith(
+          _$PostImageImpl value, $Res Function(_$PostImageImpl) then) =
+      __$$PostImageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -256,10 +258,11 @@ abstract class _$$FileImplCopyWith<$Res> implements $FileCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$FileImplCopyWithImpl<$Res>
-    extends _$FileCopyWithImpl<$Res, _$FileImpl>
-    implements _$$FileImplCopyWith<$Res> {
-  __$$FileImplCopyWithImpl(_$FileImpl _value, $Res Function(_$FileImpl) _then)
+class __$$PostImageImplCopyWithImpl<$Res>
+    extends _$PostImageCopyWithImpl<$Res, _$PostImageImpl>
+    implements _$$PostImageImplCopyWith<$Res> {
+  __$$PostImageImplCopyWithImpl(
+      _$PostImageImpl _value, $Res Function(_$PostImageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -271,7 +274,7 @@ class __$$FileImplCopyWithImpl<$Res>
     Object? originalName = null,
     Object? mimeType = null,
   }) {
-    return _then(_$FileImpl(
+    return _then(_$PostImageImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -298,16 +301,16 @@ class __$$FileImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FileImpl implements _File {
-  const _$FileImpl(
+class _$PostImageImpl implements _PostImage {
+  const _$PostImageImpl(
       {required this.id,
       required this.url,
       required this.thumbnailUrl,
       required this.originalName,
       required this.mimeType});
 
-  factory _$FileImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FileImplFromJson(json);
+  factory _$PostImageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostImageImplFromJson(json);
 
   @override
   final int id;
@@ -322,14 +325,14 @@ class _$FileImpl implements _File {
 
   @override
   String toString() {
-    return 'File(id: $id, url: $url, thumbnailUrl: $thumbnailUrl, originalName: $originalName, mimeType: $mimeType)';
+    return 'PostImage(id: $id, url: $url, thumbnailUrl: $thumbnailUrl, originalName: $originalName, mimeType: $mimeType)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FileImpl &&
+            other is _$PostImageImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
@@ -348,26 +351,27 @@ class _$FileImpl implements _File {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FileImplCopyWith<_$FileImpl> get copyWith =>
-      __$$FileImplCopyWithImpl<_$FileImpl>(this, _$identity);
+  _$$PostImageImplCopyWith<_$PostImageImpl> get copyWith =>
+      __$$PostImageImplCopyWithImpl<_$PostImageImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FileImplToJson(
+    return _$$PostImageImplToJson(
       this,
     );
   }
 }
 
-abstract class _File implements File {
-  const factory _File(
+abstract class _PostImage implements PostImage {
+  const factory _PostImage(
       {required final int id,
       required final String url,
       required final String thumbnailUrl,
       required final String originalName,
-      required final String mimeType}) = _$FileImpl;
+      required final String mimeType}) = _$PostImageImpl;
 
-  factory _File.fromJson(Map<String, dynamic> json) = _$FileImpl.fromJson;
+  factory _PostImage.fromJson(Map<String, dynamic> json) =
+      _$PostImageImpl.fromJson;
 
   @override
   int get id;
@@ -381,7 +385,200 @@ abstract class _File implements File {
   String get mimeType;
   @override
   @JsonKey(ignore: true)
-  _$$FileImplCopyWith<_$FileImpl> get copyWith =>
+  _$$PostImageImplCopyWith<_$PostImageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PostFile _$PostFileFromJson(Map<String, dynamic> json) {
+  return _PostFile.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PostFile {
+  int get id => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+  String get originalName => throw _privateConstructorUsedError;
+  String get mimeType => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PostFileCopyWith<PostFile> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PostFileCopyWith<$Res> {
+  factory $PostFileCopyWith(PostFile value, $Res Function(PostFile) then) =
+      _$PostFileCopyWithImpl<$Res, PostFile>;
+  @useResult
+  $Res call({int id, String url, String originalName, String mimeType});
+}
+
+/// @nodoc
+class _$PostFileCopyWithImpl<$Res, $Val extends PostFile>
+    implements $PostFileCopyWith<$Res> {
+  _$PostFileCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? url = null,
+    Object? originalName = null,
+    Object? mimeType = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalName: null == originalName
+          ? _value.originalName
+          : originalName // ignore: cast_nullable_to_non_nullable
+              as String,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PostFileImplCopyWith<$Res>
+    implements $PostFileCopyWith<$Res> {
+  factory _$$PostFileImplCopyWith(
+          _$PostFileImpl value, $Res Function(_$PostFileImpl) then) =
+      __$$PostFileImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String url, String originalName, String mimeType});
+}
+
+/// @nodoc
+class __$$PostFileImplCopyWithImpl<$Res>
+    extends _$PostFileCopyWithImpl<$Res, _$PostFileImpl>
+    implements _$$PostFileImplCopyWith<$Res> {
+  __$$PostFileImplCopyWithImpl(
+      _$PostFileImpl _value, $Res Function(_$PostFileImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? url = null,
+    Object? originalName = null,
+    Object? mimeType = null,
+  }) {
+    return _then(_$PostFileImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalName: null == originalName
+          ? _value.originalName
+          : originalName // ignore: cast_nullable_to_non_nullable
+              as String,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PostFileImpl implements _PostFile {
+  const _$PostFileImpl(
+      {required this.id,
+      required this.url,
+      required this.originalName,
+      required this.mimeType});
+
+  factory _$PostFileImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostFileImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final String url;
+  @override
+  final String originalName;
+  @override
+  final String mimeType;
+
+  @override
+  String toString() {
+    return 'PostFile(id: $id, url: $url, originalName: $originalName, mimeType: $mimeType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostFileImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.originalName, originalName) ||
+                other.originalName == originalName) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, url, originalName, mimeType);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostFileImplCopyWith<_$PostFileImpl> get copyWith =>
+      __$$PostFileImplCopyWithImpl<_$PostFileImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PostFileImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PostFile implements PostFile {
+  const factory _PostFile(
+      {required final int id,
+      required final String url,
+      required final String originalName,
+      required final String mimeType}) = _$PostFileImpl;
+
+  factory _PostFile.fromJson(Map<String, dynamic> json) =
+      _$PostFileImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get url;
+  @override
+  String get originalName;
+  @override
+  String get mimeType;
+  @override
+  @JsonKey(ignore: true)
+  _$$PostFileImplCopyWith<_$PostFileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -397,7 +594,8 @@ mixin _$Petition {
   String get body => throw _privateConstructorUsedError;
   String? get answer => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
-  List<File?> get files => throw _privateConstructorUsedError;
+  List<PostFile?> get files => throw _privateConstructorUsedError;
+  List<PostImage?> get images => throw _privateConstructorUsedError;
   PetitionStatus get status => throw _privateConstructorUsedError;
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
@@ -424,7 +622,8 @@ abstract class $PetitionCopyWith<$Res> {
       String body,
       String? answer,
       String createdAt,
-      List<File?> files,
+      List<PostFile?> files,
+      List<PostImage?> images,
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
@@ -454,6 +653,7 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
     Object? answer = freezed,
     Object? createdAt = null,
     Object? files = null,
+    Object? images = null,
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
@@ -490,7 +690,11 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
       files: null == files
           ? _value.files
           : files // ignore: cast_nullable_to_non_nullable
-              as List<File?>,
+              as List<PostFile?>,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<PostImage?>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -538,7 +742,8 @@ abstract class _$$PetitionImplCopyWith<$Res>
       String body,
       String? answer,
       String createdAt,
-      List<File?> files,
+      List<PostFile?> files,
+      List<PostImage?> images,
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
@@ -566,6 +771,7 @@ class __$$PetitionImplCopyWithImpl<$Res>
     Object? answer = freezed,
     Object? createdAt = null,
     Object? files = null,
+    Object? images = null,
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
@@ -602,7 +808,11 @@ class __$$PetitionImplCopyWithImpl<$Res>
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
-              as List<File?>,
+              as List<PostFile?>,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<PostImage?>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -645,7 +855,8 @@ class _$PetitionImpl implements _Petition {
       required this.body,
       this.answer,
       required this.createdAt,
-      required final List<File?> files,
+      required final List<PostFile?> files,
+      required final List<PostImage?> images,
       required this.status,
       required this.expiresAt,
       required this.agreeCount,
@@ -654,6 +865,7 @@ class _$PetitionImpl implements _Petition {
       this.mine = false,
       required this.blinded})
       : _files = files,
+        _images = images,
         _statisticList = statisticList;
 
   factory _$PetitionImpl.fromJson(Map<String, dynamic> json) =>
@@ -671,12 +883,20 @@ class _$PetitionImpl implements _Petition {
   final String? answer;
   @override
   final String createdAt;
-  final List<File?> _files;
+  final List<PostFile?> _files;
   @override
-  List<File?> get files {
+  List<PostFile?> get files {
     if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
+  }
+
+  final List<PostImage?> _images;
+  @override
+  List<PostImage?> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
   }
 
   @override
@@ -706,7 +926,7 @@ class _$PetitionImpl implements _Petition {
 
   @override
   String toString() {
-    return 'Petition(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, statisticList: $statisticList, agree: $agree, mine: $mine, blinded: $blinded)';
+    return 'Petition(id: $id, title: $title, author: $author, body: $body, answer: $answer, createdAt: $createdAt, files: $files, images: $images, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, statisticList: $statisticList, agree: $agree, mine: $mine, blinded: $blinded)';
   }
 
   @override
@@ -722,6 +942,7 @@ class _$PetitionImpl implements _Petition {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -745,6 +966,7 @@ class _$PetitionImpl implements _Petition {
       answer,
       createdAt,
       const DeepCollectionEquality().hash(_files),
+      const DeepCollectionEquality().hash(_images),
       status,
       expiresAt,
       agreeCount,
@@ -775,7 +997,8 @@ abstract class _Petition implements Petition {
       required final String body,
       final String? answer,
       required final String createdAt,
-      required final List<File?> files,
+      required final List<PostFile?> files,
+      required final List<PostImage?> images,
       required final PetitionStatus status,
       required final String expiresAt,
       required final int agreeCount,
@@ -800,7 +1023,9 @@ abstract class _Petition implements Petition {
   @override
   String get createdAt;
   @override
-  List<File?> get files;
+  List<PostFile?> get files;
+  @override
+  List<PostImage?> get images;
   @override
   PetitionStatus get status;
   @override

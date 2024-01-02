@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,11 +18,14 @@ class DioClient {
 
   DioClient(this.ref) {
     dio.options = BaseOptions(
-        baseUrl: developmentBaseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        sendTimeout: const Duration(seconds: 10),
-        contentType: "application/json");
+      baseUrl: developmentBaseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+      sendTimeout: const Duration(seconds: 10),
+      headers: {
+        "accept": "application/json",
+      },
+    );
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -57,7 +59,8 @@ class DioClient {
             //find, login, signup 할땐 토큰 넣으면 안됨 -> 만료된 상태면 오류남
             options.headers.addAll(
               {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzAzODM4NDEwLCJ1c2VySWQiOiI0IiwiaWF0IjoxNzAzNTc5MjEwfQ.7qE27scwmXZp2Q5Rb9DFdRH_JV-B7anDPTEgdz8hEU0"
+                "Authorization":
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzA0NDM2ODE3LCJ1c2VySWQiOiI0IiwiaWF0IjoxNzA0MTc3NjE3fQ.5qor5BY18rQ4jLB4hIf5zyDdrMsZBmH2Kp8xCXThbyI"
               },
             );
           }

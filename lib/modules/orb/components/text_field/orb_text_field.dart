@@ -6,6 +6,7 @@ class OrbTextFormField extends StatelessWidget {
   final String? labelText;
   final String? hintText;
   final String? helperText;
+  final TextStyle? inputTextStyle;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final bool autocorrect;
@@ -16,9 +17,10 @@ class OrbTextFormField extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final String? Function(String?)? validator;
-  final InputBorder? border;
   final Widget? suffixIcon;
   final void Function()? onTap;
+  final Color? enabledBoarderColor;
+  final Color? focusedBoarderColor;
 
   const OrbTextFormField({
     super.key,
@@ -27,6 +29,7 @@ class OrbTextFormField extends StatelessWidget {
     this.labelText,
     this.hintText,
     this.helperText,
+    this.inputTextStyle,
     this.keyboardType,
     this.textInputAction,
     this.autocorrect = false,
@@ -37,9 +40,10 @@ class OrbTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.maxLength,
     this.validator,
-    this.border,
     this.suffixIcon,
     this.onTap,
+    this.enabledBoarderColor,
+    this.focusedBoarderColor,
   });
 
   @override
@@ -61,15 +65,20 @@ class OrbTextFormField extends StatelessWidget {
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface,
         ),
-        enabledBorder: border ??
-            UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: theme.colorScheme.surfaceVariant,
-              ),
-            ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: focusedBoarderColor ?? theme.colorScheme.primary,
+          ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: enabledBoarderColor ?? theme.colorScheme.surfaceVariant,
+          ),
+        ),
         suffixIcon: suffixIcon,
       ),
-      style: theme.textTheme.bodyLarge?.copyWith(
+      style: inputTextStyle ?? theme.textTheme.bodyLarge?.copyWith(
         fontWeight: FontWeight.w500,
       ),
       keyboardType: keyboardType,

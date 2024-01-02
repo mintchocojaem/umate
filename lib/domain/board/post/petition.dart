@@ -16,16 +16,28 @@ class Agree with _$Agree {
 }
 
 @freezed
-class File with _$File {
-  const factory File({
+class PostImage with _$PostImage {
+  const factory PostImage({
     required int id,
     required String url,
     required String thumbnailUrl,
     required String originalName,
     required String mimeType,
-  }) = _File;
+  }) = _PostImage;
 
-  factory File.fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
+  factory PostImage.fromJson(Map<String, dynamic> json) => _$PostImageFromJson(json);
+}
+
+@freezed
+class PostFile with _$PostFile {
+  const factory PostFile({
+    required int id,
+    required String url,
+    required String originalName,
+    required String mimeType,
+  }) = _PostFile;
+
+  factory PostFile.fromJson(Map<String, dynamic> json) => _$PostFileFromJson(json);
 }
 
 @freezed
@@ -37,7 +49,8 @@ class Petition with _$Petition {
     required String body,
     String? answer,
     required String createdAt,
-    required List<File?> files,
+    required List<PostFile?> files,
+    required List<PostImage?> images,
     required PetitionStatus status,
     required String expiresAt,
     required int agreeCount,

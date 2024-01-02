@@ -1,6 +1,5 @@
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
 
 class PetitionPost extends StatelessWidget {
   final String title;
@@ -10,7 +9,6 @@ class PetitionPost extends StatelessWidget {
   final String status;
   final int agreeCount;
   final int needAgreeCount;
-  final List<SheetItem> menuItems;
 
   const PetitionPost({
     super.key,
@@ -21,7 +19,6 @@ class PetitionPost extends StatelessWidget {
     required this.status,
     required this.agreeCount,
     required this.needAgreeCount,
-    required this.menuItems,
   });
 
   @override
@@ -45,14 +42,6 @@ class PetitionPost extends StatelessWidget {
             ),
             const SizedBox(
               width: 8,
-            ),
-            InkWell(
-              onTap: () {
-                OrbBottomSheet(
-                  items: menuItems,
-                ).show(context);
-              },
-              child: const Icon(Icons.more_vert_rounded),
             ),
           ],
         ),
@@ -155,7 +144,7 @@ class PetitionPost extends StatelessWidget {
           height: 16,
         ),
         Text(
-          parse(body).documentElement!.text.trimRight(),
+          body,
           style: themeData.textTheme.bodyMedium,
         ),
         const SizedBox(

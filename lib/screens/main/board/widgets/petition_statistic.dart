@@ -32,8 +32,8 @@ class PetitionStatistic extends StatelessWidget {
           children: [
             Text(
               "청원동의",
-              style: themeData.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+              style: themeData.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(
@@ -41,8 +41,8 @@ class PetitionStatistic extends StatelessWidget {
             ),
             Text(
               "$agreeCount명",
-              style: themeData.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+              style: themeData.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
                 color: themeData.colorScheme.secondary,
               ),
             ),

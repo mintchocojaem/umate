@@ -30,8 +30,8 @@ class OrbDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      surfaceTintColor: theme.colorScheme.background,
-      backgroundColor: theme.colorScheme.background,
+      surfaceTintColor: theme.colorScheme.surface,
+      backgroundColor: theme.colorScheme.surface,
       title: Text(
         title,
         style: theme.textTheme.titleSmall?.copyWith(

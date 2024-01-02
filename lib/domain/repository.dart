@@ -10,12 +10,14 @@ abstract base class Repository {
     required String path,
     Map<String, dynamic>? queryParameters,
     bool allowDuplicateRequest = true,
+    Options? options,
   }) async {
     try{
       return await _dio.get(
         path,
         queryParameters: queryParameters,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),
+        options: options,
       );
     } on DioException{
       return null;
@@ -24,9 +26,10 @@ abstract base class Repository {
 
   Future<Response?> post({
     required String path,
-    Map<String, dynamic>? data,
+    dynamic data,
     bool allowDuplicateRequest = true,
     Map<String, dynamic>? queryParameters,
+    Options? options,
   }) async {
     try{
       return await _dio.post(
@@ -34,6 +37,7 @@ abstract base class Repository {
         data: data,
         queryParameters: queryParameters,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),
+        options: options,
       );
     } on DioException{
       return null;
@@ -42,14 +46,16 @@ abstract base class Repository {
 
   Future<Response?> patch({
     required String path,
-    Map<String, dynamic>? data,
+    dynamic data,
     bool allowDuplicateRequest = true,
+    Options? options,
   }) async {
     try{
       return await _dio.patch(
         path,
         data: data,
         cancelToken: allowDuplicateRequest ? null : CancelToken(),
+        options: options,
       );
     } on DioException{
       return null;

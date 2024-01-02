@@ -62,7 +62,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .read(authRepositoryProvider)
         .verifySMS(state.value!.signUpToken, code));
     if (!result.hasError) {
-      ref.read(routerProvider).pushReplacement(RouteInfo.signUpNickName.fullPath);
+      ref.read(routerProvider).pushReplacement(RouteInfo.signUpNickname.fullPath);
     }
   }
 

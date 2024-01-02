@@ -1,11 +1,13 @@
 import 'package:danvery/domain/domain.dart';
+import 'package:danvery/domain/find/find_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
 
 class VerifySMStoResetPasswordScreen extends ConsumerStatefulWidget{
-  const VerifySMStoResetPasswordScreen({super.key});
+  final FindInfo findInfo;
+  const VerifySMStoResetPasswordScreen({super.key, required this.findInfo});
 
   @override
   createState() => _VerifySMStoResetPasswordScreen();
@@ -21,6 +23,7 @@ class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPass
     // TODO: implement initState
     verifySMSController = TextEditingController();
     formKey = GlobalKey<FormState>();
+
     super.initState();
   }
 
@@ -35,6 +38,7 @@ class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPass
   Widget build(BuildContext context) {
     // TODO: implement build
     final ThemeData themeData = Theme.of(context);
+
     return OrbScaffold(
       body: Form(
         key: formKey,
@@ -72,7 +76,7 @@ class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPass
               enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
               enabledForegroundColor: themeData.colorScheme.onSurface,
               onPressed: () async {
-                await ref.read(findProvider).resendSMStoResetPassword();
+                await ref.read(findProvider).resendSMStoResetPassword(widget.findInfo.phoneNumber);
               },
               buttonText: '문자 다시 받기',
               buttonTextStyle: themeData.textTheme.bodySmall
@@ -88,7 +92,7 @@ class _VerifySMStoResetPasswordScreen extends ConsumerState<VerifySMStoResetPass
           }
           await ref
               .read(findProvider)
-              .verifySMStoResetPassword(verifySMSController.text);
+              .verifySMStoResetPassword(widget.findInfo.resetPasswordToken,verifySMSController.text);
         },
         buttonText: '확인',
       ),

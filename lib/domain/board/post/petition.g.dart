@@ -17,7 +17,8 @@ Map<String, dynamic> _$$AgreeImplToJson(_$AgreeImpl instance) =>
       'agreeCount': instance.agreeCount,
     };
 
-_$FileImpl _$$FileImplFromJson(Map<String, dynamic> json) => _$FileImpl(
+_$PostImageImpl _$$PostImageImplFromJson(Map<String, dynamic> json) =>
+    _$PostImageImpl(
       id: json['id'] as int,
       url: json['url'] as String,
       thumbnailUrl: json['thumbnailUrl'] as String,
@@ -25,11 +26,27 @@ _$FileImpl _$$FileImplFromJson(Map<String, dynamic> json) => _$FileImpl(
       mimeType: json['mimeType'] as String,
     );
 
-Map<String, dynamic> _$$FileImplToJson(_$FileImpl instance) =>
+Map<String, dynamic> _$$PostImageImplToJson(_$PostImageImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'url': instance.url,
       'thumbnailUrl': instance.thumbnailUrl,
+      'originalName': instance.originalName,
+      'mimeType': instance.mimeType,
+    };
+
+_$PostFileImpl _$$PostFileImplFromJson(Map<String, dynamic> json) =>
+    _$PostFileImpl(
+      id: json['id'] as int,
+      url: json['url'] as String,
+      originalName: json['originalName'] as String,
+      mimeType: json['mimeType'] as String,
+    );
+
+Map<String, dynamic> _$$PostFileImplToJson(_$PostFileImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'url': instance.url,
       'originalName': instance.originalName,
       'mimeType': instance.mimeType,
     };
@@ -44,7 +61,11 @@ _$PetitionImpl _$$PetitionImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>)
           .map((e) =>
-              e == null ? null : File.fromJson(e as Map<String, dynamic>))
+              e == null ? null : PostFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      images: (json['images'] as List<dynamic>)
+          .map((e) =>
+              e == null ? null : PostImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: PetitionStatus.fromJson(json['status'] as String),
       expiresAt: json['expiresAt'] as String,
@@ -67,6 +88,7 @@ Map<String, dynamic> _$$PetitionImplToJson(_$PetitionImpl instance) =>
       'answer': instance.answer,
       'createdAt': instance.createdAt,
       'files': instance.files.map((e) => e?.toJson()).toList(),
+      'images': instance.images.map((e) => e?.toJson()).toList(),
       'status': instance.status.toJson(),
       'expiresAt': instance.expiresAt,
       'agreeCount': instance.agreeCount,

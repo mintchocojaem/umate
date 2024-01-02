@@ -13,7 +13,7 @@ import 'modules/orb/components/components.dart';
 import 'routes/router_provider.dart';
 
 //should be in MaterialApp and apply this key
-final globalNavigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
 
@@ -28,7 +28,7 @@ void main() async {
     },
   );
 
-  OrbSnackBar.init(navigatorKey: globalNavigatorKey);
+  OrbSnackBar.init(navigatorKey: navigatorKey);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -59,7 +59,7 @@ class App extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp(
-      navigatorKey: globalNavigatorKey,
+      navigatorKey: navigatorKey,
       title: 'Danvery',
       theme: ref.watch(themeProvider),
       debugShowCheckedModeBanner: false,

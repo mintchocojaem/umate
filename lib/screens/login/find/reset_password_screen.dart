@@ -1,11 +1,14 @@
 import 'package:danvery/domain/domain.dart';
+import 'package:danvery/domain/find/find_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../modules/orb/components/components.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final FindInfo findInfo;
+
+  const ResetPasswordScreen({super.key, required this.findInfo});
 
   @override
   createState() => _ResetPasswordScreen();
@@ -88,8 +91,10 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
           if (!formKey.currentState!.validate()) {
             return;
           }
-          await ref
-              .read(findProvider).resetPassword(passwordController.text);
+          await ref.read(findProvider).resetPassword(
+                widget.findInfo.resetPasswordToken,
+                passwordController.text,
+              );
         },
         buttonText: '확인',
       ),

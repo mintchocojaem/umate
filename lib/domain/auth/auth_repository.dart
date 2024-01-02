@@ -8,6 +8,7 @@ final authRepositoryProvider =
 
 final class AuthRepository extends Repository {
   AuthRepository(super.dio);
+
   Future<SignUp> verifyStudent(String dkuStudentId, String dkuPassword) async {
     final result = await post(
       path: '/user/dku/verify',

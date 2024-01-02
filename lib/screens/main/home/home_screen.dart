@@ -188,7 +188,7 @@ class HomeScreen extends ConsumerWidget {
                           contentText: petition.title,
                           onTap: (){
                             ref.read(routerProvider).push(
-                              RouteInfo.petition.fullPath,
+                              RouteInfo.petitionDetail.fullPath,
                               extra: petition.id,
                             );
                           },

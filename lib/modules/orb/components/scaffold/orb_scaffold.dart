@@ -7,11 +7,14 @@ class OrbScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
   final OrbButton? submitButton;
+  final Widget? customSubmitButton;
   final Widget? submitHelper;
   final ScrollController? scrollController;
   final bool defaultAppBar;
   final bool shrinkWrap;
   final bool scrollBody;
+  final FloatingActionButton? floatingActionButton;
+  final bool bottomPadding;
 
   const OrbScaffold({
     super.key,
@@ -19,12 +22,15 @@ class OrbScaffold extends StatelessWidget {
     this.body,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
+    this.customSubmitButton,
     this.submitButton,
     this.submitHelper,
     this.scrollController,
     this.defaultAppBar = true,
     this.shrinkWrap = false,
     this.scrollBody = true,
+    this.floatingActionButton,
+    this.bottomPadding = true,
   });
 
   @override
@@ -36,6 +42,7 @@ class OrbScaffold extends StatelessWidget {
           defaultAppBar && orbAppBar == null ? const OrbAppBar() : orbAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
+        bottom: bottomPadding,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -57,8 +64,8 @@ class OrbScaffold extends StatelessWidget {
                         : body,
                   ),
                 ),
-                if (submitButton != null)
-                  Padding(
+                if (customSubmitButton != null || submitButton != null)
+                  customSubmitButton ?? Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -75,12 +82,15 @@ class OrbScaffold extends StatelessWidget {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child: submitButton?.copyWith(buttonRadius: OrbButtonRadius.none) ?? const SizedBox(),
+                child: customSubmitButton ?? submitButton?.copyWith(
+                        buttonRadius: OrbButtonRadius.none) ??
+                    const SizedBox(),
               ),
           ],
         ),
       ),
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 }

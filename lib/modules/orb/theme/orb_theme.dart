@@ -64,13 +64,15 @@ class OrbTheme {
       //카드, 컨테이너 등의 배경색
       surface: OrbPalette.darkWhite,
       //카드, 컨테이너 등의 글자 색상
-      onSurface: OrbPalette.grey,
+      onSurface: OrbPalette.darkGrey,
       //카드, 컨테이너 등의 보조 색상
-      surfaceVariant: OrbPalette.brightGrey,
+      surfaceVariant: OrbPalette.lightGrey,
+      //카드, 컨테이너 등의 보조글자 색상
+      onSurfaceVariant: OrbPalette.grey,
       //배경, 앱바색
       background: OrbPalette.white,
       //배경의 글자 색상
-      onBackground: OrbPalette.darkGrey,
+      onBackground: OrbPalette.lightBlack,
     ),
   );
 
@@ -109,15 +111,17 @@ class OrbTheme {
       //보조 색상의 글자 색상
       onSecondary: OrbPalette.white,
       //카드, 컨테이너 등의 배경색
-      surface: OrbPalette.darkGrey,
+      surface: OrbPalette.lightBlack,
       //카드, 컨테이너 등의 글자 색상
       onSurface: OrbPalette.darkWhite,
       //카드, 컨테이너 등의 보조 색상
-      surfaceVariant: OrbPalette.grey,
+      surfaceVariant: OrbPalette.darkGrey,
+      //카드, 컨테이너 등의 보조글자 색상
+      onSurfaceVariant: OrbPalette.grey,
       //배경, 앱바색
       background: OrbPalette.black,
       //배경의 글자 색상
-      onBackground: OrbPalette.darkGrey,
+      onBackground: OrbPalette.lightBlack,
     ),
   );
 
