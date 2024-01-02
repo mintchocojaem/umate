@@ -46,8 +46,8 @@ class _PetitionStatusBar extends State<PetitionStatusBar> {
                 widget.onSelected(widget.status[i]);
               },
               child: Container(
-                margin: const EdgeInsets.only(right: 16),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                margin: const EdgeInsets.only(right: 16, top: 4,),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: selectedIndex == i

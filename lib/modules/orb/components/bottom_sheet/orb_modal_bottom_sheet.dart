@@ -18,7 +18,7 @@ class OrbModalBottomSheet extends StatelessWidget {
   final String? titleText;
 
   Future<void> show(context) async {
-    await showCupertinoModalPopup(
+    await showModalBottomSheet(
       context: context,
       builder: (context) => OrbModalBottomSheet(
         showTopDragHolder: showTopDragHolder,

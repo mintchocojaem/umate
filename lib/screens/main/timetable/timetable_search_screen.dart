@@ -56,9 +56,21 @@ class _TimetableSearchScreen extends ConsumerState<TimetableSearchScreen> {
             decoration: InputDecoration(
               hintText: '과목명',
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon: Icon(Icons.search, color: themeData.colorScheme.onSurface),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(
+                  color: themeData.colorScheme.surfaceVariant,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(
+                  color: themeData.colorScheme.surfaceVariant,
+                ),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,

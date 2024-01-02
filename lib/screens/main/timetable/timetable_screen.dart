@@ -60,7 +60,7 @@ class TimetableScreen extends ConsumerWidget {
                   },
                 ).show(context);
               },
-              icon: const Icon(Icons.add_rounded),
+              icon: Icon(Icons.add_rounded, color: themeData.colorScheme.onBackground,),
             ),
             IconButton(
               onPressed: () {
@@ -130,7 +130,7 @@ class TimetableScreen extends ConsumerWidget {
                   ),
                 ).show(context);
               },
-              icon: const Icon(Icons.more_vert_rounded),
+              icon: Icon(Icons.more_vert_rounded, color: themeData.colorScheme.onBackground),
             ),
           ],
         ),

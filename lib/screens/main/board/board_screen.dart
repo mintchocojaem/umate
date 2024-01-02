@@ -96,13 +96,25 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
               decoration: InputDecoration(
                 hintText: '검색',
                 hintStyle: Theme.of(context).textTheme.bodyMedium,
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search, color: themeData.colorScheme.onSurface),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    color: themeData.colorScheme.surfaceVariant,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    color: themeData.colorScheme.surfaceVariant,
+                  ),
                 ),
                 counterText: '',
                 suffixIcon: searchController.text.isNotEmpty

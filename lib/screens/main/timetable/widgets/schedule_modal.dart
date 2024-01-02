@@ -250,7 +250,7 @@ class _ScheduleModal extends State<ScheduleModal> {
                   },
                   suffixIcon: widget.onSearch != null
                       ? IconButton(
-                          icon: const Icon(Icons.search),
+                          icon: Icon(Icons.search, color: themeData.colorScheme.onSurface),
                           onPressed: () {
                             widget.onSearch?.call().then((value) {
                               final LectureInfo? lectureInfo = value;

@@ -113,7 +113,7 @@ class OrbTheme {
       //카드, 컨테이너 등의 배경색
       surface: OrbPalette.lightBlack,
       //카드, 컨테이너 등의 글자 색상
-      onSurface: OrbPalette.darkWhite,
+      onSurface: OrbPalette.lightGrey,
       //카드, 컨테이너 등의 보조 색상
       surfaceVariant: OrbPalette.darkGrey,
       //카드, 컨테이너 등의 보조글자 색상
@@ -121,7 +121,7 @@ class OrbTheme {
       //배경, 앱바색
       background: OrbPalette.black,
       //배경의 글자 색상
-      onBackground: OrbPalette.lightBlack,
+      onBackground: OrbPalette.darkWhite,
     ),
   );
 
