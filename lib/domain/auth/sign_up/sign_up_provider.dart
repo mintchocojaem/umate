@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:danvery/domain/domain.dart';
-import 'package:danvery/main.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,9 +17,6 @@ final signUpProvider =
     AsyncNotifierProvider<SignUpNotifier, SignUp?>(() => SignUpNotifier());
 
 class SignUpNotifier extends AsyncNotifier<SignUp?> {
-
-  String validNickname = "";
-  String validPhoneNumber = "";
 
   Future<void> verifyStudent(String dkuStudentId, String dkuPassword) async {
 
@@ -39,12 +35,12 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
     }
   }
 
-  Future<void> sendSMS( String phoneNumber) async {
+  Future<void> sendSMS(String phoneNumber) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
         .sendSMS(state.value!.signUpToken, phoneNumber));
     if (!result.hasError) {
-      validPhoneNumber = phoneNumber;
+      state = AsyncValue.data(state.value!.copyWith(validPhoneNumber: phoneNumber));
       ref.read(routerProvider).pushReplacement(RouteInfo.signUpVerifySMS.fullPath);
     }
   }
@@ -52,7 +48,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   Future<void> resendSMS() async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .sendSMS(state.value!.signUpToken, validPhoneNumber));
+        .sendSMS(state.value!.signUpToken, state.value!.validPhoneNumber!));
     if (!result.hasError) {
     }
   }
@@ -71,12 +67,12 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
         .read(authRepositoryProvider)
         .validNickname(nickname));
     if (!result.hasError) {
-      validNickname = nickname;
+      state = AsyncValue.data(state.value!.copyWith(validNickname: nickname));
     }
   }
 
   Future<void> setNickname(String nickname) async{
-    if(validNickname != nickname){
+    if(state.value!.validNickname != nickname){
       OrbSnackBar.show(
         message: "닉네임 중복확인을 해주세요.",
         type: OrbSnackBarType.warning,
@@ -89,7 +85,7 @@ class SignUpNotifier extends AsyncNotifier<SignUp?> {
   Future<void> signUp(String password) async {
     final AsyncValue<bool> result = await AsyncValue.guard(() async => await ref
         .read(authRepositoryProvider)
-        .signUp(state.value!.signUpToken, validNickname, password));
+        .signUp(state.value!.signUpToken, state.value!.validNickname!, password));
     if(!result.hasError){
       ref.read(routerProvider).pushReplacement(RouteInfo.signUpComplete.fullPath);
     }

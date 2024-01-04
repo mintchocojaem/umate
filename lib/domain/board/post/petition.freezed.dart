@@ -599,7 +599,7 @@ mixin _$Petition {
   PetitionStatus get status => throw _privateConstructorUsedError;
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
-  List<Agree?>? get statisticList => throw _privateConstructorUsedError;
+  List<Agree?> get statisticList => throw _privateConstructorUsedError;
   bool get agree => throw _privateConstructorUsedError;
   bool get mine => throw _privateConstructorUsedError;
   bool get blinded => throw _privateConstructorUsedError;
@@ -627,7 +627,7 @@ abstract class $PetitionCopyWith<$Res> {
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
-      List<Agree?>? statisticList,
+      List<Agree?> statisticList,
       bool agree,
       bool mine,
       bool blinded});
@@ -657,7 +657,7 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
-    Object? statisticList = freezed,
+    Object? statisticList = null,
     Object? agree = null,
     Object? mine = null,
     Object? blinded = null,
@@ -707,10 +707,10 @@ class _$PetitionCopyWithImpl<$Res, $Val extends Petition>
           ? _value.agreeCount
           : agreeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      statisticList: freezed == statisticList
+      statisticList: null == statisticList
           ? _value.statisticList
           : statisticList // ignore: cast_nullable_to_non_nullable
-              as List<Agree?>?,
+              as List<Agree?>,
       agree: null == agree
           ? _value.agree
           : agree // ignore: cast_nullable_to_non_nullable
@@ -747,7 +747,7 @@ abstract class _$$PetitionImplCopyWith<$Res>
       PetitionStatus status,
       String expiresAt,
       int agreeCount,
-      List<Agree?>? statisticList,
+      List<Agree?> statisticList,
       bool agree,
       bool mine,
       bool blinded});
@@ -775,7 +775,7 @@ class __$$PetitionImplCopyWithImpl<$Res>
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
-    Object? statisticList = freezed,
+    Object? statisticList = null,
     Object? agree = null,
     Object? mine = null,
     Object? blinded = null,
@@ -825,10 +825,10 @@ class __$$PetitionImplCopyWithImpl<$Res>
           ? _value.agreeCount
           : agreeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      statisticList: freezed == statisticList
+      statisticList: null == statisticList
           ? _value._statisticList
           : statisticList // ignore: cast_nullable_to_non_nullable
-              as List<Agree?>?,
+              as List<Agree?>,
       agree: null == agree
           ? _value.agree
           : agree // ignore: cast_nullable_to_non_nullable
@@ -860,7 +860,7 @@ class _$PetitionImpl implements _Petition {
       required this.status,
       required this.expiresAt,
       required this.agreeCount,
-      final List<Agree?>? statisticList,
+      final List<Agree?> statisticList = const [],
       this.agree = false,
       this.mine = false,
       required this.blinded})
@@ -905,14 +905,13 @@ class _$PetitionImpl implements _Petition {
   final String expiresAt;
   @override
   final int agreeCount;
-  final List<Agree?>? _statisticList;
+  final List<Agree?> _statisticList;
   @override
-  List<Agree?>? get statisticList {
-    final value = _statisticList;
-    if (value == null) return null;
+  @JsonKey()
+  List<Agree?> get statisticList {
     if (_statisticList is EqualUnmodifiableListView) return _statisticList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_statisticList);
   }
 
   @override
@@ -1002,7 +1001,7 @@ abstract class _Petition implements Petition {
       required final PetitionStatus status,
       required final String expiresAt,
       required final int agreeCount,
-      final List<Agree?>? statisticList,
+      final List<Agree?> statisticList,
       final bool agree,
       final bool mine,
       required final bool blinded}) = _$PetitionImpl;
@@ -1033,7 +1032,7 @@ abstract class _Petition implements Petition {
   @override
   int get agreeCount;
   @override
-  List<Agree?>? get statisticList;
+  List<Agree?> get statisticList;
   @override
   bool get agree;
   @override

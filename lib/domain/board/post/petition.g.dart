@@ -71,9 +71,10 @@ _$PetitionImpl _$$PetitionImplFromJson(Map<String, dynamic> json) =>
       expiresAt: json['expiresAt'] as String,
       agreeCount: json['agreeCount'] as int,
       statisticList: (json['statisticList'] as List<dynamic>?)
-          ?.map((e) =>
-              e == null ? null : Agree.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) =>
+                  e == null ? null : Agree.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       agree: json['agree'] as bool? ?? false,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool,
@@ -92,7 +93,7 @@ Map<String, dynamic> _$$PetitionImplToJson(_$PetitionImpl instance) =>
       'status': instance.status.toJson(),
       'expiresAt': instance.expiresAt,
       'agreeCount': instance.agreeCount,
-      'statisticList': instance.statisticList?.map((e) => e?.toJson()).toList(),
+      'statisticList': instance.statisticList.map((e) => e?.toJson()).toList(),
       'agree': instance.agree,
       'mine': instance.mine,
       'blinded': instance.blinded,

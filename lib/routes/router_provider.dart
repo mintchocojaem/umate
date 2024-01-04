@@ -130,6 +130,23 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
             GoRoute(
               path: RouteInfo.profile.path,
               builder: (context, state) => ProfileScreen(key: state.pageKey),
+              routes: [
+                GoRoute(
+                  path: RouteInfo.profileEdit.path,
+                  builder: (context, state) => ProfileEditScreen(
+                    key: state.pageKey,
+                  ),
+                  routes: [
+                    GoRoute(
+                      path: RouteInfo.profileEditVerifySMS.path,
+                      builder: (context, state) => ProfileEditVerifySmsScreen(
+                        key: state.pageKey,
+                        phoneNumber: state.extra as String,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

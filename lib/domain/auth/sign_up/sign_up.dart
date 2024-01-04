@@ -8,6 +8,8 @@ class SignUp with _$SignUp {
   const factory SignUp({
     @JsonKey(name : "signupToken") required String signUpToken,
     required Student student,
+    String? validPhoneNumber,
+    String? validNickname,
   }) = _SignUp;
 
   factory SignUp.fromJson(Map<String, dynamic> json) => _$SignUpFromJson(json);

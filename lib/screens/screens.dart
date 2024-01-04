@@ -10,6 +10,8 @@ export 'main/board/petition_write_screen.dart';
 export 'main/timetable/timetable_screen.dart';
 export 'main/timetable/timetable_search_screen.dart';
 export 'main/profile/profile_screen.dart';
+export 'main/profile/profile_edit_screen.dart';
+export 'main/profile/profile_edit_verify_sms_screen.dart';
 
 //login
 export 'login/login_screen.dart';

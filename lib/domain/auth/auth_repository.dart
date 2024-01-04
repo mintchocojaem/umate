@@ -87,4 +87,37 @@ final class AuthRepository extends Repository {
     return result!.statusCode == 200;
   }
 
+  Future<bool> changeNickname(String nickname) async {
+    final result = await patch(
+      path: '/user/change/nickname',
+      data: {
+        "nickname": nickname,
+      },
+    );
+    return result!.statusCode == 200;
+  }
+
+  Future<String> verifyPhoneNumber(String phoneNumber) async {
+    final result = await post(
+      path: '/user/change/phone/verify',
+      data: {
+        "phoneNumber": phoneNumber,
+      },
+    );
+    return result!.data['token'];
+    return "123";
+  }
+
+Future<bool> changePhoneNumber(String token, String code) async {
+    final result = await patch(
+      path: '/user/change/phone',
+      data: {
+        "token": token,
+        "code": code,
+      },
+    );
+    return result!.statusCode == 200;
+  return true;
+  }
+
 }

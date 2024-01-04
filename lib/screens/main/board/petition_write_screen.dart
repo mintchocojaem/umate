@@ -187,9 +187,13 @@ class _PetitionWriteScreen extends ConsumerState<PetitionWriteScreen> {
                                         const SizedBox(
                                           width: 8,
                                         ),
-                                        Text(
-                                          file!.files.first.name,
-                                          style: themeData.textTheme.bodyMedium,
+                                        Expanded(
+                                          child: Text(
+                                            file!.files.first.name,
+                                            style: themeData.textTheme.bodyMedium?.copyWith(
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          ),
                                         ),
                                       ],
                                     ),

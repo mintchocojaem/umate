@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:danvery/main.dart';
+import 'package:danvery/screens/main/board/widgets/petition_statistic.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,12 +26,11 @@ class PetitionWriteProvider {
 
   PetitionWriteProvider(this.ref);
 
-  Future<bool> writePetitionPost({
-    required String title,
-    required String body,
-    XFile? image,
-    FilePickerResult? file
-  }) async {
+  Future<bool> writePetitionPost(
+      {required String title,
+      required String body,
+      XFile? image,
+      FilePickerResult? file}) async {
     final result = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).writePetitionPost(
             title: title,
@@ -69,14 +69,9 @@ class PetitionDetailNotifier
             id: id,
           ),
     );
+
     if (!result.hasError) {
-      state = AsyncData(
-        state.value!.copyWith(
-          agreeCount: state.value!.agreeCount + 1,
-          agree: true,
-        ),
-      );
-      ref.read(petitionAgreeProvider.notifier).update((value) => true);
+      await getPetitionPost();
     }
   }
 

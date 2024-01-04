@@ -6,8 +6,8 @@ class OrbDialog extends StatelessWidget {
   final Widget content;
   final String? rightButtonText;
   final String? leftButtonText;
-  final Future Function() onRightButtonPressed;
-  final Future Function() onLeftButtonPressed;
+  final Function() onRightButtonPressed;
+  final Function() onLeftButtonPressed;
 
   const OrbDialog({
     super.key,
@@ -29,9 +29,12 @@ class OrbDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+
+    bool disableButtonAction = false;
+
     return AlertDialog(
-      surfaceTintColor: theme.colorScheme.surface,
-      backgroundColor: theme.colorScheme.surface,
+      surfaceTintColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.background,
       title: Text(
         title,
         style: theme.textTheme.titleSmall?.copyWith(
@@ -50,8 +53,15 @@ class OrbDialog extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: OrbButton(
-                    onPressed: () async{
-                      onLeftButtonPressed.call().whenComplete(() => Navigator.pop(context));
+                    onPressed: () {
+                      if(disableButtonAction) return;
+                      disableButtonAction = true;
+                      Future(() async{
+                        await onLeftButtonPressed.call();
+                      }).whenComplete((){
+                        disableButtonAction = false;
+                        Navigator.pop(context);
+                      });
                     },
                     enabledBackgroundColor: theme.colorScheme.surfaceVariant,
                     enabledForegroundColor: theme.colorScheme.onSurface,
@@ -68,8 +78,15 @@ class OrbDialog extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: OrbButton(
-                    onPressed: () async{
-                      onRightButtonPressed.call().whenComplete(() => Navigator.pop(context));
+                    onPressed: () {
+                      if(disableButtonAction) return;
+                      disableButtonAction = true;
+                      Future(() async{
+                        await onRightButtonPressed.call();
+                      }).whenComplete((){
+                        disableButtonAction = false;
+                        Navigator.pop(context);
+                      });
                     },
                     buttonText: rightButtonText,
                     enabledBackgroundColor: theme.colorScheme.secondary,

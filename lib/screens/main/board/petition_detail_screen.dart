@@ -174,9 +174,14 @@ class PetitionDetailScreen extends ConsumerWidget {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(
-                                  file.originalName,
-                                  style: themeData.textTheme.bodyMedium,
+                                Expanded(
+                                  child: Text(
+                                    file.originalName,
+                                    style: themeData.textTheme.bodyMedium
+                                        ?.copyWith(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

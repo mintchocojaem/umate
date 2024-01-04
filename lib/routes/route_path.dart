@@ -56,6 +56,14 @@ class RouteInfo {
     path: 'profile',
     parent: main,
   );
+  static RouteData profileEdit = RouteData(
+    path: 'edit',
+    parent: profile,
+  );
+  static RouteData profileEditVerifySMS = RouteData(
+    path: 'verifySMS',
+    parent: profileEdit,
+  );
 
   //login
   static RouteData login = const RouteData(

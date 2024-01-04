@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/domain.dart';
+import '../../../routes/route_path.dart';
+import '../../../routes/router_provider.dart';
 import '../../../utils/notification_provider.dart';
 import '../../../utils/theme_provider.dart';
 
@@ -16,14 +18,23 @@ class ProfileScreen extends ConsumerWidget {
     final user = ref.watch(userProvider);
     return OrbScaffold(
       orbAppBar: OrbAppBar(
+        title: "프로필",
         trailing: TextButton(
-          onPressed: () {},
-          child: Text(
-            "수정",
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+          onPressed: () {
+            ref.read(routerProvider).push(RouteInfo.profileEdit.fullPath);
+          },
+          child: ref.watch(userProvider).when(
+            data: (data) {
+             return Text(
+                "수정",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
+              );
+            },
+            loading: () => const SizedBox(),
+            error: (error, stackTrace) => const SizedBox(),
           ),
         ),
       ),
@@ -154,7 +165,7 @@ class ProfileScreen extends ConsumerWidget {
                     value: themeMode,
                     onChanged: (value) {
                       if (value != null) {
-                        ref.read(themeModeProvider.notifier).state = value;
+                        ref.read(themeModeProvider.notifier).update((state) => value);
                       }
                     },
                     items: const [

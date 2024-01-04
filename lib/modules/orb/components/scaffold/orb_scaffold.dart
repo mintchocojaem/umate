@@ -10,7 +10,6 @@ class OrbScaffold extends StatelessWidget {
   final Widget? customSubmitButton;
   final Widget? submitHelper;
   final ScrollController? scrollController;
-  final bool defaultAppBar;
   final bool shrinkWrap;
   final bool scrollBody;
   final FloatingActionButton? floatingActionButton;
@@ -18,7 +17,7 @@ class OrbScaffold extends StatelessWidget {
 
   const OrbScaffold({
     super.key,
-    this.orbAppBar,
+    this.orbAppBar = const OrbAppBar(),
     this.body,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
@@ -26,7 +25,6 @@ class OrbScaffold extends StatelessWidget {
     this.submitButton,
     this.submitHelper,
     this.scrollController,
-    this.defaultAppBar = true,
     this.shrinkWrap = false,
     this.scrollBody = true,
     this.floatingActionButton,
@@ -38,8 +36,7 @@ class OrbScaffold extends StatelessWidget {
     // TODO: implement build
 
     return Scaffold(
-      appBar:
-          defaultAppBar && orbAppBar == null ? const OrbAppBar() : orbAppBar,
+      appBar: orbAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
         bottom: bottomPadding,

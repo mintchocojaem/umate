@@ -28,7 +28,7 @@ class ScheduleTimeFormat {
   ScheduleTimeFormat subtract(ScheduleTimeFormat scheduleTimeFormat) {
     final now = DateTime.now();
     final newTime =
-    DateTime(now.year, now.month, now.day, hour, minute).subtract(
+        DateTime(now.year, now.month, now.day, hour, minute).subtract(
       Duration(
         hours: scheduleTimeFormat.hour,
         minutes: scheduleTimeFormat.minute,
@@ -43,21 +43,24 @@ class ScheduleTimeFormat {
   bool isAfter(ScheduleTimeFormat scheduleTimeFormat) {
     final now = DateTime.now();
     final newTime = DateTime(now.year, now.month, now.day, hour, minute);
-    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    final compareTime = DateTime(now.year, now.month, now.day,
+        scheduleTimeFormat.hour, scheduleTimeFormat.minute);
     return newTime.isAfter(compareTime);
   }
 
   bool isAtSameMomentAs(ScheduleTimeFormat scheduleTimeFormat) {
     final now = DateTime.now();
     final newTime = DateTime(now.year, now.month, now.day, hour, minute);
-    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    final compareTime = DateTime(now.year, now.month, now.day,
+        scheduleTimeFormat.hour, scheduleTimeFormat.minute);
     return newTime.isAtSameMomentAs(compareTime);
   }
 
   bool isBefore(ScheduleTimeFormat scheduleTimeFormat) {
     final now = DateTime.now();
     final newTime = DateTime(now.year, now.month, now.day, hour, minute);
-    final compareTime = DateTime(now.year, now.month, now.day, scheduleTimeFormat.hour, scheduleTimeFormat.minute);
+    final compareTime = DateTime(now.year, now.month, now.day,
+        scheduleTimeFormat.hour, scheduleTimeFormat.minute);
     return newTime.isBefore(compareTime);
   }
 
@@ -313,13 +316,15 @@ class ScheduleTable extends StatelessWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          dayBar(),
-          scheduleTable(),
-        ],
-      ),
+    return Column(
+      children: [
+        dayBar(),
+        Expanded(
+          child: SingleChildScrollView(
+            child: scheduleTable(),
+          ),
+        ),
+      ],
     );
   }
 }

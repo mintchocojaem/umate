@@ -54,7 +54,7 @@ class Petition with _$Petition {
     required PetitionStatus status,
     required String expiresAt,
     required int agreeCount,
-    List<Agree?>? statisticList,
+    @Default([])List<Agree?> statisticList,
     @Default(false) bool agree,
     @Default(false) bool mine,
     required bool blinded,

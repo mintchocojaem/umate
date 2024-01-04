@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+typedef DisabledCallback = bool Function();
+
 enum OrbButtonRadius {
   none,
   small,
@@ -15,7 +17,7 @@ enum OrbButtonSize {
 }
 
 class OrbButton extends StatefulWidget {
-  final Future Function()? onPressed;
+  final Function()? onPressed;
   final Color? enabledBackgroundColor;
   final Color? enabledForegroundColor;
   final Color? disabledBackgroundColor;
@@ -48,7 +50,7 @@ class OrbButton extends StatefulWidget {
 
   OrbButton copyWith({
     Key? key,
-    Future Function()? onPressed,
+    Function()? onPressed,
     Color? enabledBackgroundColor,
     Color? enabledForegroundColor,
     Color? disabledBackgroundColor,
@@ -61,6 +63,7 @@ class OrbButton extends StatefulWidget {
     bool? showCoolDownTime,
     Size? minimumSize,
     OrbButtonRadius? buttonRadius,
+    DisabledCallback? disabledCallback,
   }) {
     return OrbButton(
       key: key ?? this.key,
@@ -97,6 +100,14 @@ class OrbButtonState extends State<OrbButton> {
   bool isOnPressed = false;
   Timer timer = Timer(Duration.zero, () {});
 
+  bool disabled = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -105,14 +116,16 @@ class OrbButtonState extends State<OrbButton> {
     final Widget button = FilledButton(
       onPressed: widget.disabled
           ? null
-          : () async {
+          : () {
               if (!isLoading && !isOnPressed) {
                 coolDownTime = widget.buttonCoolDown.inSeconds;
                 setState(() {
                   isLoading = true;
                   isOnPressed = true;
                 });
-                widget.onPressed?.call().whenComplete(() {
+                Future(() async{
+                  await widget.onPressed?.call();
+                }).whenComplete((){
                   if (!context.mounted) return;
                   setState(() {
                     isLoading = false;

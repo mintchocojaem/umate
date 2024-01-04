@@ -23,6 +23,8 @@ mixin _$SignUp {
   @JsonKey(name: "signupToken")
   String get signUpToken => throw _privateConstructorUsedError;
   Student get student => throw _privateConstructorUsedError;
+  String? get validPhoneNumber => throw _privateConstructorUsedError;
+  String? get validNickname => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,10 @@ abstract class $SignUpCopyWith<$Res> {
       _$SignUpCopyWithImpl<$Res, SignUp>;
   @useResult
   $Res call(
-      {@JsonKey(name: "signupToken") String signUpToken, Student student});
+      {@JsonKey(name: "signupToken") String signUpToken,
+      Student student,
+      String? validPhoneNumber,
+      String? validNickname});
 
   $StudentCopyWith<$Res> get student;
 }
@@ -55,6 +60,8 @@ class _$SignUpCopyWithImpl<$Res, $Val extends SignUp>
   $Res call({
     Object? signUpToken = null,
     Object? student = null,
+    Object? validPhoneNumber = freezed,
+    Object? validNickname = freezed,
   }) {
     return _then(_value.copyWith(
       signUpToken: null == signUpToken
@@ -65,6 +72,14 @@ class _$SignUpCopyWithImpl<$Res, $Val extends SignUp>
           ? _value.student
           : student // ignore: cast_nullable_to_non_nullable
               as Student,
+      validPhoneNumber: freezed == validPhoneNumber
+          ? _value.validPhoneNumber
+          : validPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      validNickname: freezed == validNickname
+          ? _value.validNickname
+          : validNickname // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -85,7 +100,10 @@ abstract class _$$SignUpImplCopyWith<$Res> implements $SignUpCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "signupToken") String signUpToken, Student student});
+      {@JsonKey(name: "signupToken") String signUpToken,
+      Student student,
+      String? validPhoneNumber,
+      String? validNickname});
 
   @override
   $StudentCopyWith<$Res> get student;
@@ -104,6 +122,8 @@ class __$$SignUpImplCopyWithImpl<$Res>
   $Res call({
     Object? signUpToken = null,
     Object? student = null,
+    Object? validPhoneNumber = freezed,
+    Object? validNickname = freezed,
   }) {
     return _then(_$SignUpImpl(
       signUpToken: null == signUpToken
@@ -114,6 +134,14 @@ class __$$SignUpImplCopyWithImpl<$Res>
           ? _value.student
           : student // ignore: cast_nullable_to_non_nullable
               as Student,
+      validPhoneNumber: freezed == validPhoneNumber
+          ? _value.validPhoneNumber
+          : validPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      validNickname: freezed == validNickname
+          ? _value.validNickname
+          : validNickname // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -123,7 +151,9 @@ class __$$SignUpImplCopyWithImpl<$Res>
 class _$SignUpImpl implements _SignUp {
   const _$SignUpImpl(
       {@JsonKey(name: "signupToken") required this.signUpToken,
-      required this.student});
+      required this.student,
+      this.validPhoneNumber,
+      this.validNickname});
 
   factory _$SignUpImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpImplFromJson(json);
@@ -133,10 +163,14 @@ class _$SignUpImpl implements _SignUp {
   final String signUpToken;
   @override
   final Student student;
+  @override
+  final String? validPhoneNumber;
+  @override
+  final String? validNickname;
 
   @override
   String toString() {
-    return 'SignUp(signUpToken: $signUpToken, student: $student)';
+    return 'SignUp(signUpToken: $signUpToken, student: $student, validPhoneNumber: $validPhoneNumber, validNickname: $validNickname)';
   }
 
   @override
@@ -146,12 +180,17 @@ class _$SignUpImpl implements _SignUp {
             other is _$SignUpImpl &&
             (identical(other.signUpToken, signUpToken) ||
                 other.signUpToken == signUpToken) &&
-            (identical(other.student, student) || other.student == student));
+            (identical(other.student, student) || other.student == student) &&
+            (identical(other.validPhoneNumber, validPhoneNumber) ||
+                other.validPhoneNumber == validPhoneNumber) &&
+            (identical(other.validNickname, validNickname) ||
+                other.validNickname == validNickname));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, signUpToken, student);
+  int get hashCode => Object.hash(
+      runtimeType, signUpToken, student, validPhoneNumber, validNickname);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +209,9 @@ class _$SignUpImpl implements _SignUp {
 abstract class _SignUp implements SignUp {
   const factory _SignUp(
       {@JsonKey(name: "signupToken") required final String signUpToken,
-      required final Student student}) = _$SignUpImpl;
+      required final Student student,
+      final String? validPhoneNumber,
+      final String? validNickname}) = _$SignUpImpl;
 
   factory _SignUp.fromJson(Map<String, dynamic> json) = _$SignUpImpl.fromJson;
 
@@ -179,6 +220,10 @@ abstract class _SignUp implements SignUp {
   String get signUpToken;
   @override
   Student get student;
+  @override
+  String? get validPhoneNumber;
+  @override
+  String? get validNickname;
   @override
   @JsonKey(ignore: true)
   _$$SignUpImplCopyWith<_$SignUpImpl> get copyWith =>

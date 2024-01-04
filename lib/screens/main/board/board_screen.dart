@@ -84,7 +84,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
     final ThemeData themeData = Theme.of(context);
     final board = ref.watch(boardProvider);
     return OrbScaffold(
-        defaultAppBar: false,
+        orbAppBar: null,
         shrinkWrap: true,
         scrollBody: false,
         body: Column(
@@ -196,9 +196,10 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Text(
-                                  "😢",
-                                  style: TextStyle(fontSize: 64),
+                                Icon(
+                                  Icons.search_off_rounded,
+                                  size: 48,
+                                  color: themeData.colorScheme.secondary,
                                 ),
                                 const SizedBox(
                                   height: 16,

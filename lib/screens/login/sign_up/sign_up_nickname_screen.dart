@@ -71,12 +71,13 @@ class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
                   enabledForegroundColor: themeData.colorScheme.onSecondary,
                   onPressed: () async {
                     final signupNotifier = ref.read(signUpProvider.notifier);
+                    final signup = ref.read(signUpProvider);
                     if (!formKey.currentState!.validate()) {
                       return;
                     }
                     await signupNotifier
                         .verifyNickname(nicknameController.text);
-                    if (signupNotifier.validNickname.isNotEmpty) {
+                    if (signup.value!.validNickname!.isNotEmpty) {
                       if (!context.mounted) return;
                       await OrbDialog(
                         title: '닉네임 중복확인',
