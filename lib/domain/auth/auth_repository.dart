@@ -105,7 +105,6 @@ final class AuthRepository extends Repository {
       },
     );
     return result!.data['token'];
-    return "123";
   }
 
 Future<bool> changePhoneNumber(String token, String code) async {
@@ -117,7 +116,6 @@ Future<bool> changePhoneNumber(String token, String code) async {
       },
     );
     return result!.statusCode == 200;
-  return true;
   }
 
 }
