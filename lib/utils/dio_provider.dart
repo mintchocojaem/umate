@@ -12,11 +12,21 @@ final dioProvider = Provider<Dio>((ref) => DioClient(ref).dio);
 class DioClient {
   final Dio dio = Dio();
   final ExceptionHandler exceptionHandler = ExceptionHandler();
-  final Ref ref;
-
+  late final Ref ref;
   final List<RequestOptions> _pendingRequests = [];
 
-  DioClient(this.ref) {
+  static final _instance = DioClient._internal();
+
+  factory DioClient(Ref ref) {
+    _instance.ref = ref;
+    return _instance;
+  }
+
+  DioClient._internal() {
+    _setupInterceptors();
+  }
+
+  void _setupInterceptors() async{
     dio.options = BaseOptions(
       baseUrl: developmentBaseUrl,
       connectTimeout: const Duration(seconds: 10),
@@ -57,9 +67,7 @@ class DioClient {
 
           options.headers.addAll(
             {
-              "Authorization": token != null
-                  ? "Bearer ${token.accessToken}"
-                  : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzA0NDM2ODE3LCJ1c2VySWQiOiI0IiwiaWF0IjoxNzA0MTc3NjE3fQ.5qor5BY18rQ4jLB4hIf5zyDdrMsZBmH2Kp8xCXThbyI"
+              if (token != null) "Authorization": "Bearer ${token.accessToken}",
             },
           );
 
@@ -77,23 +85,23 @@ class DioClient {
             print("Dio response : ${response.data}");
           }
           _pendingRequests.removeWhere(
-              (element) => element.path == response.requestOptions.path);
+                  (element) => element.path == response.requestOptions.path);
 
           return handler.next(response); // 다음 Interceptor 호출
         },
-        onError: (DioException e, handler) {
+        onError: (DioException e, handler){
           // 에러 처리 후에 처리할 내용 추가
           if (e.type != DioExceptionType.cancel) {
             final exception = e.response?.data == null
                 ? const ExceptionDto()
                 : ExceptionDto(
-                    code: e.response!.data['code'].toString(),
-                    message: e.response!.data['message'].first.toString(),
-                  );
+              code: e.response!.data['code'].toString(),
+              message: e.response!.data['message'].first.toString(),
+            );
             exceptionHandler.invokeException(exception.message);
           }
 
-          if((e.response?.statusCode ?? 403) > 400){
+          if ((e.response?.statusCode ?? 403) > 400) {
             //http status code가 400 이상일 경우 토큰 문제로 간주
             ref.read(tokenProvider.notifier).logout();
           }
@@ -103,4 +111,5 @@ class DioClient {
       ),
     );
   }
+
 }

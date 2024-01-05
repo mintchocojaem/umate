@@ -24,18 +24,18 @@ class ProfileScreen extends ConsumerWidget {
             ref.read(routerProvider).push(RouteInfo.profileEdit.fullPath);
           },
           child: ref.watch(userProvider).when(
-            data: (data) {
-             return Text(
-                "수정",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              );
-            },
-            loading: () => const SizedBox(),
-            error: (error, stackTrace) => const SizedBox(),
-          ),
+                data: (data) {
+                  return Text(
+                    "수정",
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                  );
+                },
+                loading: () => const SizedBox(),
+                error: (error, stackTrace) => const SizedBox(),
+              ),
         ),
       ),
       shrinkWrap: true,
@@ -152,7 +152,9 @@ class ProfileScreen extends ConsumerWidget {
                     value: ref.watch(notificationProvider),
                     inactiveThumbColor: themeData.colorScheme.primary,
                     onChanged: (value) {
-                      ref.read(notificationProvider.notifier).update((state) => value);
+                      ref
+                          .read(notificationProvider.notifier)
+                          .update((state) => value);
                     },
                   ),
                 ),
@@ -165,7 +167,9 @@ class ProfileScreen extends ConsumerWidget {
                     value: themeMode,
                     onChanged: (value) {
                       if (value != null) {
-                        ref.read(themeModeProvider.notifier).update((state) => value);
+                        ref
+                            .read(themeModeProvider.notifier)
+                            .update((state) => value);
                       }
                     },
                     items: const [
@@ -186,6 +190,36 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          OrbListCardTile(
+            leading: Icon(
+              Icons.logout,
+              color: themeData.colorScheme.error,
+            ),
+            titleText: "로그아웃",
+            titleTextColor: themeData.colorScheme.error,
+            onTap: () async {
+              OrbDialog(
+                title: "로그아웃",
+                content: Text(
+                  "정말로 로그아웃 하시겠어요?",
+                  style: themeData.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                leftButtonText: "취소",
+                rightButtonText: "로그아웃",
+                onLeftButtonPressed: () {
+                },
+                onRightButtonPressed: () {
+                  ref.read(tokenProvider.notifier).logout();
+                  //ref.read(routerProvider).pushReplacement(RouteInfo.login.fullPath);
+                },
+              ).show(context);
+            },
           ),
           const SizedBox(
             height: 16,

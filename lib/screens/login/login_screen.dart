@@ -6,15 +6,14 @@ import '../../modules/orb/components/components.dart';
 import '../../routes/route_path.dart';
 import '../../routes/router_provider.dart';
 
-
-class LoginScreen extends ConsumerStatefulWidget{
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
   createState() => _LoginScreen();
 }
 
-class _LoginScreen extends ConsumerState<LoginScreen>{
+class _LoginScreen extends ConsumerState<LoginScreen> {
   late final TextEditingController studentIdController;
   late final TextEditingController passwordController;
   late final GlobalKey<FormState> formKey;
@@ -46,7 +45,6 @@ class _LoginScreen extends ConsumerState<LoginScreen>{
 
   @override
   Widget build(BuildContext context) {
-
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
@@ -92,7 +90,9 @@ class _LoginScreen extends ConsumerState<LoginScreen>{
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(routerProvider).push(RouteInfo.signUpVerifyStudent.fullPath);
+                ref
+                    .read(routerProvider)
+                    .push(RouteInfo.signUpVerifyStudent.fullPath);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -107,12 +107,16 @@ class _LoginScreen extends ConsumerState<LoginScreen>{
       ),
       submitButton: OrbButton(
         onPressed: () async {
+          await ref.read(tokenProvider.notifier).login("12345678", "12121212");
+          /*
           if (!formKey.currentState!.validate()) {
             return;
           }
+
           await ref
               .read(tokenProvider.notifier)
               .login(studentIdController.text, passwordController.text);
+           */
         },
         buttonText: '로그인하기',
       ),

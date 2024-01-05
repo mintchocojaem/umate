@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../modules/orb/components/components.dart';
 
-final pageControllerProvider = StateProvider<PageController>((ref) {
+final pageControllerProvider = StateProvider.autoDispose<PageController>((ref) {
   return PageController(initialPage: 0);
 });
 
-final _currentIndexProvider = StateProvider<int>((ref) {
+final _currentIndexProvider = StateProvider.autoDispose<int>((ref) {
   return 0;
 });
 

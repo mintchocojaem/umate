@@ -5,7 +5,6 @@ import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/utils/shared_preference.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../modules/orb/components/components.dart';
 import '../../../routes/route_path.dart';
 
 final tokenProvider =
@@ -36,7 +35,7 @@ class TokenNotifier extends AsyncNotifier<Token?> {
     final Token? token = _sharedPreference.token;
     if (token != null) {
       //Todo accessToken 부분 나중에 수정해야함
-      await reissueToken(token.accessToken, token.refreshToken);
+      //await reissueToken(token.accessToken, token.refreshToken);
     }
   }
 
@@ -55,12 +54,8 @@ class TokenNotifier extends AsyncNotifier<Token?> {
         _sharedPreference.token = next;
       }
        */
-      if(previous?.value != null && (next.value?.accessToken == null)){
+      if(previous?.value != null && next.value?.accessToken == null){
         ref.read(routerProvider).pushReplacement(RouteInfo.login.fullPath);
-        OrbSnackBar.show(
-          message: '로그인 정보가 만료되었어요.',
-          type: OrbSnackBarType.warning,
-        );
       }
     });
 

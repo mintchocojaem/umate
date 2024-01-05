@@ -45,10 +45,9 @@ void main() async {
   ]);
 
   runApp(
-    const ProviderScope(
-      child: App(),
-    ),
+    const ProviderScope(child: App()),
   );
+
 }
 
 class App extends ConsumerWidget {
@@ -57,10 +56,8 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Danvery',
       theme: ref.watch(themeProvider),
       debugShowCheckedModeBanner: false,
       home: Router(

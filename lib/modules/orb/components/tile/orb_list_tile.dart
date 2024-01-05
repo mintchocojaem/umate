@@ -11,6 +11,7 @@ class OrbListTile extends StatelessWidget implements OrbTile {
   @override
   final Widget? title;
   final String? titleText;
+  final Color? titleTextColor;
   final bool boldTitleText;
   final TileTextStyle? tileTextStyle;
   @override
@@ -26,6 +27,7 @@ class OrbListTile extends StatelessWidget implements OrbTile {
     super.key,
     this.title,
     this.titleText,
+    this.titleTextColor,
     this.boldTitleText = false,
     this.tileTextStyle = TileTextStyle.medium,
     this.content,
@@ -61,6 +63,7 @@ class OrbListTile extends StatelessWidget implements OrbTile {
                       fontWeight:
                           boldTitleText ? FontWeight.w600 : FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
+                      color: titleTextColor,
                     ),
                   ),
                 const SizedBox(

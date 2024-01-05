@@ -13,6 +13,7 @@ class OrbListCardTile extends OrbListTile {
   const OrbListCardTile({
     super.key,
     required super.titleText,
+    super.titleTextColor,
     super.contentText,
     super.leading,
     super.trailing,
