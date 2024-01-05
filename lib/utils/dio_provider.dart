@@ -55,15 +55,13 @@ class DioClient {
 
           final Token? token = ref.read(tokenProvider).value;
 
-          if (token == null) {
-            //find, login, signup 할땐 토큰 넣으면 안됨 -> 만료된 상태면 오류남
-            options.headers.addAll(
-              {
-                "Authorization":
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzA0NDM2ODE3LCJ1c2VySWQiOiI0IiwiaWF0IjoxNzA0MTc3NjE3fQ.5qor5BY18rQ4jLB4hIf5zyDdrMsZBmH2Kp8xCXThbyI"
-              },
-            );
-          }
+          options.headers.addAll(
+            {
+              "Authorization": token != null
+                  ? "Bearer ${token.accessToken}"
+                  : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwiZXhwIjoxNzA0NDM2ODE3LCJ1c2VySWQiOiI0IiwiaWF0IjoxNzA0MTc3NjE3fQ.5qor5BY18rQ4jLB4hIf5zyDdrMsZBmH2Kp8xCXThbyI"
+            },
+          );
 
           if (kDebugMode) {
             print("Dio request : ${options.uri}");
@@ -93,6 +91,11 @@ class DioClient {
                     message: e.response!.data['message'].first.toString(),
                   );
             exceptionHandler.invokeException(exception.message);
+          }
+
+          if((e.response?.statusCode ?? 403) > 400){
+            //http status code가 400 이상일 경우 토큰 문제로 간주
+            ref.read(tokenProvider.notifier).logout();
           }
 
           return handler.next(e); // 다음 Interceptor 호출

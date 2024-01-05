@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:danvery/domain/domain.dart';
+import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/utils/shared_preference.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../modules/orb/components/components.dart';
+import '../../../routes/route_path.dart';
 
 final tokenProvider =
     AsyncNotifierProvider<TokenNotifier, Token?>(() => TokenNotifier());
@@ -15,6 +19,7 @@ class TokenNotifier extends AsyncNotifier<Token?> {
     await ref.read(authRepositoryProvider).login(studentId, password));
     if(!state.hasError){
       _sharedPreference.token = state.value;
+      ref.read(routerProvider).pushReplacement(RouteInfo.main.fullPath);
     }
   }
 
@@ -44,7 +49,21 @@ class TokenNotifier extends AsyncNotifier<Token?> {
   Future<Token?> build() async {
     // TODO: implement build
     //await autoLogin();
-    //await login("12345678", "121212");
+    ref.listenSelf((previous, next) {
+      /*
+      if (previous != next) {
+        _sharedPreference.token = next;
+      }
+       */
+      if(previous?.value != null && (next.value?.accessToken == null)){
+        ref.read(routerProvider).pushReplacement(RouteInfo.login.fullPath);
+        OrbSnackBar.show(
+          message: '로그인 정보가 만료되었어요.',
+          type: OrbSnackBarType.warning,
+        );
+      }
+    });
+
     return state.value;
   }
 }

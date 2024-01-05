@@ -3,13 +3,12 @@ import 'package:danvery/routes/route_path.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:danvery/domain/domain.dart';
 import '../screens/screens.dart';
 
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
-      initialLocation: RouteInfo.main.path,
+      initialLocation: RouteInfo.login.path,
       routes: [
         GoRoute(
           path: RouteInfo.login.path,
@@ -21,7 +20,8 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
               routes: [
                 GoRoute(
                   path: RouteInfo.findUserId.path,
-                  builder: (context, state) => FindUserIdScreen(key: state.pageKey),
+                  builder: (context, state) =>
+                      FindUserIdScreen(key: state.pageKey),
                 ),
                 GoRoute(
                   path: RouteInfo.findUserIdComplete.path,
@@ -35,13 +35,15 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
                 ),
                 GoRoute(
                   path: RouteInfo.verifySMStoResetPassword.path,
-                  builder: (context, state) =>
-                      VerifySMStoResetPasswordScreen(key: state.pageKey, findInfo: state.extra as FindInfo,),
+                  builder: (context, state) => VerifySMStoResetPasswordScreen(
+                    key: state.pageKey,
+                    findInfo: state.extra as FindInfo,
+                  ),
                 ),
                 GoRoute(
                   path: RouteInfo.resetPassword.path,
-                  builder: (context, state) =>
-                      ResetPasswordScreen(key: state.pageKey,findInfo: state.extra as FindInfo),
+                  builder: (context, state) => ResetPasswordScreen(
+                      key: state.pageKey, findInfo: state.extra as FindInfo),
                 ),
                 GoRoute(
                   path: RouteInfo.resetPasswordComplete.path,
@@ -157,10 +159,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
       ),
       redirect: (context, state) {
         if (state.fullPath == null || state.fullPath!.isEmpty) {
-          //page not found error
-        } else if (ref.watch(tokenProvider).value == null &&
-            !state.fullPath!.contains(RouteInfo.login.path)) {
-          //return RouteName.login;
+          return RouteInfo.error.fullPath;
         }
         return null;
       },
