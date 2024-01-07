@@ -17,6 +17,7 @@ class ProfileScreen extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
     final user = ref.watch(userProvider);
     return OrbScaffold(
+      shrinkWrap: true,
       orbAppBar: OrbAppBar(
         title: "프로필",
         trailing: TextButton(
@@ -38,7 +39,6 @@ class ProfileScreen extends ConsumerWidget {
               ),
         ),
       ),
-      shrinkWrap: true,
       body: Column(
         children: [
           OrbBoardContainer(
@@ -47,13 +47,6 @@ class ProfileScreen extends ConsumerWidget {
               data: (data) {
                 return Column(
                   children: [
-                    Image.asset(
-                      'assets/icons/app/profile.png',
-                      scale: 3,
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
                     OrbListTile(
                       tileTextStyle: TileTextStyle.large,
                       boldTitleText: true,
@@ -148,6 +141,8 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 OrbListTile(
                   titleText: "알림",
+                  tileTextStyle: TileTextStyle.large,
+                  boldTitleText: true,
                   trailing: Switch(
                     value: ref.watch(notificationProvider),
                     inactiveThumbColor: themeData.colorScheme.primary,
@@ -160,6 +155,8 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 OrbListTile(
                   titleText: "테마",
+                  tileTextStyle: TileTextStyle.large,
+                  boldTitleText: true,
                   trailing: DropdownButton(
                     style: themeData.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -212,8 +209,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 leftButtonText: "취소",
                 rightButtonText: "로그아웃",
-                onLeftButtonPressed: () {
-                },
+                onLeftButtonPressed: () {},
                 onRightButtonPressed: () {
                   ref.read(tokenProvider.notifier).logout();
                   //ref.read(routerProvider).pushReplacement(RouteInfo.login.fullPath);
