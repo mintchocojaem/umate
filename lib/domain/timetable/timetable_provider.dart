@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:danvery/main.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:danvery/screens/main/timetable/widgets/schedule_table.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -176,16 +175,16 @@ class TimetableNotifier extends AsyncNotifier<Timetable> {
     if (!state.hasError) {}
   }
 
-  Future<void> changeTimetableName(String name) async {
+  Future<bool> changeTimetableName(String name) async {
     final id = state.value!.id;
-    await ref
+    final result = await ref
         .read(timetableRepositoryProvider)
-        .changeTimetableName(id: id, name: name)
-        .then((value) {
-      if (value) {
-        state = AsyncValue.data(state.value!.copyWith(name: name));
-      }
-    });
+        .changeTimetableName(id: id, name: name);
+
+    if (result) {
+      state = AsyncValue.data(state.value!.copyWith(name: name));
+    }
+    return result;
   }
 
   Future<void> initTimetable() async {

@@ -2,8 +2,6 @@ import 'package:danvery/modules/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../utils/exception_handler.dart';
-
 class MenuItem extends StatelessWidget {
   final String title;
   final String content;
@@ -44,10 +42,13 @@ class MenuItem extends StatelessWidget {
       ),
       onTap: () async {
         if (!await launchUrl(Uri.parse(url))) {
+          /*
           throw const ExceptionDto(
             code: 'CANNOT_LAUNCH_URL',
             message: '링크를 열 수 없어요',
           );
+
+           */
         }
       },
     );

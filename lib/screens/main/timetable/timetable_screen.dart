@@ -1,4 +1,3 @@
-import 'package:danvery/domain/auth/token/token_provider.dart';
 import 'package:danvery/modules/orb/components/components.dart';
 import 'package:danvery/routes/route_path.dart';
 import 'package:danvery/routes/router_provider.dart';
@@ -61,7 +60,10 @@ class TimetableScreen extends ConsumerWidget {
                   },
                 ).show(context);
               },
-              icon: Icon(Icons.add_rounded, color: themeData.colorScheme.onBackground,),
+              icon: Icon(
+                Icons.add_rounded,
+                color: themeData.colorScheme.onBackground,
+              ),
             ),
             IconButton(
               onPressed: () {
@@ -89,16 +91,22 @@ class TimetableScreen extends ConsumerWidget {
                             ),
                             rightButtonText: "변경",
                             leftButtonText: "취소",
-                            onRightButtonPressed: () async {
-                              await ref
+                            onRightButtonPressed: () async{
+                              final result = await ref
                                   .read(timetableProvider.notifier)
                                   .changeTimetableName(
-                                      textEditingController.text).whenComplete(
-                                      () => Navigator.pop(context));
+                                      textEditingController.text);
+                              if (result) {
+                                if(context.mounted) Navigator.pop(context);
+                                return true;
+                              } else {
+                                return false;
+                              }
                             },
                             onLeftButtonPressed: () async {
+                              return true;
                             },
-                          ).show(context);
+                          ).show();
                         },
                       ),
                       const SizedBox(
@@ -121,17 +129,20 @@ class TimetableScreen extends ConsumerWidget {
                                   .read(timetableProvider.notifier)
                                   .initTimetable()
                                   .whenComplete(() => Navigator.pop(context));
+                              return false;
                             },
                             onLeftButtonPressed: () async {
+                              return true;
                             },
-                          ).show(context);
+                          ).show();
                         },
                       ),
                     ],
                   ),
                 ).show(context);
               },
-              icon: Icon(Icons.more_vert_rounded, color: themeData.colorScheme.onBackground),
+              icon: Icon(Icons.more_vert_rounded,
+                  color: themeData.colorScheme.onBackground),
             ),
           ],
         ),

@@ -1,18 +1,21 @@
 import 'package:danvery/domain/auth/user/user_provider.dart';
 import 'package:danvery/modules/orb/components/components.dart';
-import 'package:danvery/routes/router_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileEditVerifySmsScreen extends ConsumerStatefulWidget{
+class ProfileEditVerifySmsScreen extends ConsumerStatefulWidget {
+  final String token;
   final String phoneNumber;
-  const ProfileEditVerifySmsScreen({super.key, required this.phoneNumber});
+
+  const ProfileEditVerifySmsScreen(
+      {super.key, required this.token, required this.phoneNumber});
 
   @override
   createState() => _ProfileEditVerifySmsScreen();
 }
 
-class _ProfileEditVerifySmsScreen extends ConsumerState<ProfileEditVerifySmsScreen> {
+class _ProfileEditVerifySmsScreen
+    extends ConsumerState<ProfileEditVerifySmsScreen> {
   late final TextEditingController smsCodeController;
   late final GlobalKey<FormState> formKey;
 
@@ -22,6 +25,7 @@ class _ProfileEditVerifySmsScreen extends ConsumerState<ProfileEditVerifySmsScre
   void initState() {
     // TODO: implement initState
     smsCodeController = TextEditingController();
+    token = widget.token;
     formKey = GlobalKey<FormState>();
     super.initState();
   }
@@ -73,7 +77,9 @@ class _ProfileEditVerifySmsScreen extends ConsumerState<ProfileEditVerifySmsScre
               enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
               enabledForegroundColor: themeData.colorScheme.onSurface,
               onPressed: () async {
-                token = await ref.read(userProvider.notifier).verifyPhoneNumber(widget.phoneNumber);
+                token = await ref
+                    .read(userProvider.notifier)
+                    .verifyPhoneNumber(widget.phoneNumber);
               },
               buttonText: '문자 다시 받기',
               buttonTextStyle: themeData.textTheme.bodyMedium
@@ -84,17 +90,11 @@ class _ProfileEditVerifySmsScreen extends ConsumerState<ProfileEditVerifySmsScre
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          if (!formKey.currentState!.validate()) {
-            return;
-          }
-          token = await ref
-              .read(userProvider.notifier).verifyPhoneNumber(widget.phoneNumber);
-
-          if(token != null) {
-            await ref
+          if (formKey.currentState!.validate() && token != null) {
+            final bool result = await ref
                 .read(userProvider.notifier)
-                .changePhoneNumber(token!, widget.phoneNumber);
-            ref.read(routerProvider).pop();
+                .changePhoneNumber(token!, smsCodeController.text);
+            if(context.mounted) Navigator.of(context).pop(result);
           }
         },
         buttonText: '인증하기',

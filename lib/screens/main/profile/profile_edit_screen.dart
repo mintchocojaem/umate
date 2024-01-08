@@ -102,8 +102,9 @@ class _ProfileEditScreen extends ConsumerState<ProfileEditScreen> {
           buttonText: "수정완료",
           disabled: !ref.watch(profileEditableProvider),
           onPressed: () async {
+
             if (_formKey.currentState!.validate()) {
-              bool validNickname = false;
+              bool validNickname = true;
 
               if (_nicknameController.text !=
                   ref.read(userProvider).value?.nickname) {
@@ -114,8 +115,10 @@ class _ProfileEditScreen extends ConsumerState<ProfileEditScreen> {
               }
 
               if (_phoneNumberController.text !=
-                  ref.read(userProvider).value?.phoneNumber) {
+                  ref.read(userProvider).value?.phoneNumber && validNickname) {
+
                 if (!mounted) return;
+
                 await OrbDialog(
                   title: "전화번호 변경",
                   content: Text(
@@ -124,21 +127,34 @@ class _ProfileEditScreen extends ConsumerState<ProfileEditScreen> {
                   ),
                   leftButtonText: "취소",
                   rightButtonText: "인증하기",
-                  onLeftButtonPressed: () {},
-                  onRightButtonPressed: () async {
-                    ref
-                        .read(routerProvider)
-                        .push(RouteInfo.profileEditVerifySMS.fullPath,
-                            extra: _phoneNumberController.text)
-                        .whenComplete(() async {
-                      if (validNickname) {
-                        await ref
-                            .read(userProvider.notifier)
-                            .changeNickname(_nicknameController.text);
-                      }
-                    });
+                  onLeftButtonPressed: () async {
+                    return true;
                   },
-                ).show(context);
+                  onRightButtonPressed: () async {
+                    final String? token = await ref
+                        .read(userProvider.notifier)
+                        .verifyPhoneNumber(_phoneNumberController.text);
+                    if (token != null) {
+                      ref.read(routerProvider).push(
+                        RouteInfo.profileEditVerifySMS.fullPath,
+                        extra: [
+                          token,
+                          _phoneNumberController.text,
+                        ],
+                      ).then((value) {
+                        final success = value as bool;
+                        if (validNickname && success && _nicknameController.text !=
+                            ref.read(userProvider).value?.nickname) {
+                          ref
+                              .read(userProvider.notifier)
+                              .changeNickname(_nicknameController.text);
+                        }
+                      });
+                      return true;
+                    }
+                    return false;
+                  },
+                ).show();
               } else {
                 if (validNickname) {
                   await ref

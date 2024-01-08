@@ -209,12 +209,15 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 leftButtonText: "취소",
                 rightButtonText: "로그아웃",
-                onLeftButtonPressed: () {},
-                onRightButtonPressed: () {
+                onLeftButtonPressed: () async{
+                  return true;
+                },
+                onRightButtonPressed: () async{
                   ref.read(tokenProvider.notifier).logout();
+                  return true;
                   //ref.read(routerProvider).pushReplacement(RouteInfo.login.fullPath);
                 },
-              ).show(context);
+              ).show();
             },
           ),
           const SizedBox(

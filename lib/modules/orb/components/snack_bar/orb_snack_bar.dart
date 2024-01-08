@@ -41,7 +41,11 @@ class OrbSnackBar {
   }
 
   void _show({required String message, required OrbSnackBarType type}) {
-    final context = navigatorKey.currentContext!;
+    final BuildContext? context = navigatorKey.currentState?.overlay?.context;
+
+    if (context == null) {
+      return;
+    }
 
     final flushBar = Flushbar(
       animationDuration: const Duration(milliseconds: 500),

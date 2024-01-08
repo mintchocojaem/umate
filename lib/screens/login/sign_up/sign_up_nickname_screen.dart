@@ -79,16 +79,20 @@ class _SignUpNicknameScreen extends ConsumerState<SignUpNicknameScreen> {
                         .verifyNickname(nicknameController.text);
                     if (signup.value!.validNickname!.isNotEmpty) {
                       if (!context.mounted) return;
-                      await OrbDialog(
+                      OrbDialog(
                         title: '닉네임 중복확인',
                         content: Text(
                           '선택한 닉네임을 사용할 수 있어요!',
                           style: themeData.textTheme.bodyMedium,
                         ),
                         rightButtonText: '닫기',
-                        onLeftButtonPressed: () async {},
-                        onRightButtonPressed: () async {},
-                      ).show(context);
+                        onLeftButtonPressed: () async {
+                          return true;
+                        },
+                        onRightButtonPressed: () async {
+                          return true;
+                        },
+                      ).show();
                     }
                   },
                   buttonText: '중복확인',

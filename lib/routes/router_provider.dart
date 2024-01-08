@@ -143,7 +143,8 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
                       path: RouteInfo.profileEditVerifySMS.path,
                       builder: (context, state) => ProfileEditVerifySmsScreen(
                         key: state.pageKey,
-                        phoneNumber: state.extra as String,
+                        token: (state.extra as List<String>)[0],
+                        phoneNumber: (state.extra as List<String>)[1],
                       ),
                     ),
                   ],

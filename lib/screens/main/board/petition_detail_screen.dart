@@ -5,7 +5,6 @@ import 'package:danvery/screens/main/board/widgets/petition_post.dart';
 import 'package:danvery/screens/main/board/widgets/petition_statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../domain/board/post/post_provider.dart';
@@ -74,15 +73,18 @@ class PetitionDetailScreen extends ConsumerWidget {
                                   ),
                                   leftButtonText: '취소',
                                   rightButtonText: '확인',
-                                  onLeftButtonPressed: () async {},
+                                  onLeftButtonPressed: () async {
+                                    return true;
+                                  },
                                   onRightButtonPressed: () async {
                                     ref
                                         .read(
                                             petitionDetailProvider(id).notifier)
                                         .reportPetitionPost(
                                             categoryName: postReportType.name);
+                                    return true;
                                   },
-                                ).show(context);
+                                ).show();
                               }
                             },
                           ),
@@ -140,24 +142,24 @@ class PetitionDetailScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => OrbDialog(
-                              title: '첨부파일 다운로드',
-                              content: Text(
-                                '해당 첨부파일을 다운로드 하시겠어요?',
-                                style: themeData.textTheme.bodyMedium,
-                              ),
-                              leftButtonText: '취소',
-                              rightButtonText: '확인',
-                              onLeftButtonPressed: () async {},
-                              onRightButtonPressed: () async {
-                                await launchUrlString(
-                                  file.url,
-                                );
-                              },
+                          await OrbDialog(
+                            title: '첨부파일 열기',
+                            content: Text(
+                              '정말로 해당 첨부파일을 여시겠어요?',
+                              style: themeData.textTheme.bodyMedium,
                             ),
-                          );
+                            leftButtonText: '취소',
+                            rightButtonText: '확인',
+                            onLeftButtonPressed: () async {
+                              return true;
+                            },
+                            onRightButtonPressed: () async {
+                              await launchUrlString(
+                                file.url,
+                              );
+                              return true;
+                            },
+                          ).show();
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
@@ -207,18 +209,16 @@ class PetitionDetailScreen extends ConsumerWidget {
               const SizedBox(
                 height: 16,
               ),
-              value.statisticList != null
-                  ? PetitionStatistic(
-                      agreeCount: value.agreeCount,
-                      agrees: [
-                        for (var agree in value.statisticList!)
-                          ChartData(
-                            name: agree!.department,
-                            value: agree.agreeCount,
-                          ),
-                      ],
-                    )
-                  : const SizedBox(),
+              PetitionStatistic(
+                agreeCount: value.agreeCount,
+                agrees: [
+                  for (var agree in value.statisticList)
+                    ChartData(
+                      name: agree!.department,
+                      value: agree.agreeCount,
+                    ),
+                ],
+              ),
               const SizedBox(
                 height: 32,
               ),
@@ -239,24 +239,24 @@ class PetitionDetailScreen extends ConsumerWidget {
               disabledForegroundColor: themeData.colorScheme.onSurface,
               buttonText: petition.value!.agree ? '이미 동의하신 청원입니다' : '동의하기',
               onPressed: () async {
-                await showDialog(
-                  context: context,
-                  builder: (context) => OrbDialog(
-                    title: '청원 게시글 동의',
-                    content: Text(
-                      '정말로 해당 청원 게시글에 동의하시겠어요?',
-                      style: themeData.textTheme.bodyMedium,
-                    ),
-                    leftButtonText: '취소',
-                    rightButtonText: '확인',
-                    onLeftButtonPressed: () async {},
-                    onRightButtonPressed: () async {
-                      await ref
-                          .read(petitionDetailProvider(id).notifier)
-                          .agreePetitionPost();
-                    },
+                 await OrbDialog(
+                  title: '청원 게시글 동의',
+                  content: Text(
+                    '정말로 해당 청원 게시글에 동의하시겠어요?',
+                    style: themeData.textTheme.bodyMedium,
                   ),
-                );
+                  leftButtonText: '취소',
+                  rightButtonText: '확인',
+                  onLeftButtonPressed: () async {
+                    return true;
+                  },
+                  onRightButtonPressed: () async {
+                    await ref
+                        .read(petitionDetailProvider(id).notifier)
+                        .agreePetitionPost();
+                    return true;
+                  },
+                ).show();
               },
             )
           : null,

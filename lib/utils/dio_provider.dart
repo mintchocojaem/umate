@@ -5,13 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/auth/token/token.dart';
 import '../domain/auth/token/token_provider.dart';
 import 'api_constants.dart';
-import 'exception_handler.dart';
 
 final dioProvider = Provider<Dio>((ref) => DioClient(ref).dio);
 
 class DioClient {
   final Dio dio = Dio();
-  final ExceptionHandler exceptionHandler = ExceptionHandler();
   late final Ref ref;
   final List<RequestOptions> _pendingRequests = [];
 
@@ -26,7 +24,7 @@ class DioClient {
     _setupInterceptors();
   }
 
-  void _setupInterceptors() async{
+  void _setupInterceptors() async {
     dio.options = BaseOptions(
       baseUrl: developmentBaseUrl,
       connectTimeout: const Duration(seconds: 10),
@@ -85,23 +83,21 @@ class DioClient {
             print("Dio response : ${response.data}");
           }
           _pendingRequests.removeWhere(
-                  (element) => element.path == response.requestOptions.path);
+              (element) => element.path == response.requestOptions.path);
 
           return handler.next(response); // 다음 Interceptor 호출
         },
-        onError: (DioException e, handler){
+        onError: (DioException e, handler) {
           // 에러 처리 후에 처리할 내용 추가
-          if (e.type != DioExceptionType.cancel) {
-            final exception = e.response?.data == null
-                ? const ExceptionDto()
-                : ExceptionDto(
-              code: e.response!.data['code'].toString(),
-              message: e.response!.data['message'].first.toString(),
-            );
-            exceptionHandler.invokeException(exception.message);
+
+          final int statusCode = e.response?.statusCode ?? 500;
+          final String message = (e.response?.data['message']).toString();
+
+          if (kDebugMode) {
+            print("Dio error : code = $statusCode, message = $message");
           }
 
-          if ((e.response?.statusCode ?? 403) > 400) {
+          if (statusCode > 400) {
             //http status code가 400 이상일 경우 토큰 문제로 간주
             ref.read(tokenProvider.notifier).logout();
           }
@@ -111,5 +107,4 @@ class DioClient {
       ),
     );
   }
-
 }

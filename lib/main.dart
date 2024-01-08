@@ -1,4 +1,3 @@
-import 'package:danvery/utils/exception_handler.dart';
 import 'package:danvery/utils/notification_provider.dart';
 import 'package:danvery/utils/shared_preference.dart';
 import 'package:danvery/utils/theme_provider.dart';
@@ -12,21 +11,11 @@ import 'firebase_options.dart';
 import 'modules/orb/components/components.dart';
 import 'routes/router_provider.dart';
 
-//should be in MaterialApp and apply this key
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  ExceptionHandler(
-    onException: (String message) {
-      OrbSnackBar.show(
-        message: message,
-        type: OrbSnackBarType.error,
-      );
-    },
-  );
 
   OrbSnackBar.init(navigatorKey: navigatorKey);
 

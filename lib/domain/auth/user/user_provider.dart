@@ -39,7 +39,10 @@ class UserNotifier extends AsyncNotifier<User> {
   Future<bool> validNickname(String nickname) async {
     final result = await AsyncValue.guard(() async =>
         await ref.read(authRepositoryProvider).validNickname(nickname));
-    return result.value ?? false;
+    if (!result.hasError) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> changeNickname(String nickname) async {
@@ -55,15 +58,17 @@ class UserNotifier extends AsyncNotifier<User> {
   }
 
   Future<String?> verifyPhoneNumber(String phoneNumber) async {
+
     final result = await AsyncValue.guard(() async =>
         await ref.read(authRepositoryProvider).verifyPhoneNumber(phoneNumber));
-    if(!result.hasError) {
-      return result.value!;
+    if(!result.hasError){
+      return result.value;
     }
     return null;
   }
 
-  Future<void> changePhoneNumber(String token, String phoneNumber) async {
+  Future<bool> changePhoneNumber(String token, String phoneNumber) async {
+
     final result = await AsyncValue.guard(() async =>
         await ref.read(authRepositoryProvider).changePhoneNumber(token, phoneNumber));
     if (!result.hasError) {
@@ -73,6 +78,7 @@ class UserNotifier extends AsyncNotifier<User> {
         type: OrbSnackBarType.info,
       );
     }
+    return result.value ?? false;
   }
 
   @override
