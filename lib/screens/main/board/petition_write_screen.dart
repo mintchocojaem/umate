@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../domain/board/post/post_provider.dart';
+import '../../../domain/board/post/petition_provider.dart';
 
 class PetitionWriteScreen extends ConsumerStatefulWidget {
   const PetitionWriteScreen({
@@ -68,7 +68,7 @@ class _PetitionWriteScreen extends ConsumerState<PetitionWriteScreen> {
                 if (value) {
                   ref.invalidate(petitionStatusProvider);
                   ref.read(boardProvider.notifier).getPetitionBoard(refresh: true).whenComplete(() {
-                    Navigator.pop(context);
+                    Navigator.of(context).pop(true);
                     OrbSnackBar.show(
                       message: '청원 게시글이 등록되었습니다.',
                       type: OrbSnackBarType.info,

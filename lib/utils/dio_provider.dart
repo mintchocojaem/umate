@@ -97,7 +97,7 @@ class DioClient {
             print("Dio error : code = $statusCode, message = $message");
           }
 
-          if (statusCode > 400) {
+          if (statusCode > 400 && statusCode < 500) {
             //http status code가 400 이상일 경우 토큰 문제로 간주
             ref.read(tokenProvider.notifier).logout();
           }

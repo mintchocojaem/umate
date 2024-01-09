@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../domain/board/post/post_provider.dart';
+import '../../../domain/board/post/petition_provider.dart';
 
 class PetitionDetailScreen extends ConsumerWidget {
   const PetitionDetailScreen({
@@ -60,10 +60,10 @@ class PetitionDetailScreen extends ConsumerWidget {
                             color: themeData.colorScheme.error,
                             onPressed: () async {
                               ref
-                                  .read(postReportProvider.notifier)
+                                  .read(petitionReportProvider.notifier)
                                   .update((state) => item);
                               final postReportType =
-                                  ref.read(postReportProvider);
+                                  ref.read(petitionReportProvider);
                               if (postReportType != null) {
                                 await OrbDialog(
                                   title: '청원 게시글 신고',

@@ -13,7 +13,7 @@ import '../../domain.dart';
 final petitionContentLengthProvider =
     StateProvider.autoDispose<int>((ref) => 0);
 
-final postReportProvider =
+final petitionReportProvider =
     StateProvider.autoDispose<PostReportType?>((ref) => null);
 
 final petitionAgreeProvider = StateProvider.autoDispose<bool>((ref) => false);

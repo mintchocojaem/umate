@@ -142,7 +142,7 @@ class _ProfileEditScreen extends ConsumerState<ProfileEditScreen> {
                           _phoneNumberController.text,
                         ],
                       ).then((value) {
-                        final success = value as bool;
+                        final success = value as bool? ?? false;
                         if (validNickname && success && _nicknameController.text !=
                             ref.read(userProvider).value?.nickname) {
                           ref
