@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:danvery/main.dart';
-import 'package:danvery/screens/main/board/widgets/petition_statistic.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -50,12 +47,12 @@ final petitionDetailProvider = AsyncNotifierProvider.autoDispose
 
 class PetitionDetailNotifier
     extends AutoDisposeFamilyAsyncNotifier<Petition, int> {
-  late final int id = arg;
+  late final int _id = arg;
 
   Future<void> getPetitionPost() async {
     state = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).getPetitionPost(
-            id: id,
+            id: _id,
           ),
     );
     ref
@@ -66,7 +63,7 @@ class PetitionDetailNotifier
   Future<void> agreePetitionPost() async {
     final result = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).agreePetitionPost(
-            id: id,
+            id: _id,
           ),
     );
 
@@ -78,7 +75,7 @@ class PetitionDetailNotifier
   Future<void> reportPetitionPost({required String categoryName}) async {
     final result = await AsyncValue.guard(
       () async => await ref.read(boardRepositoryProvider).reportPetitionPost(
-            id: id,
+            id: _id,
             categoryName: categoryName,
           ),
     );

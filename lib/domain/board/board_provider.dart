@@ -23,11 +23,12 @@ final boardProvider =
     AsyncNotifierProvider<BoardNotifier, Board>(() => BoardNotifier());
 
 class BoardNotifier extends AsyncNotifier<Board> {
-  int page = 0;
-  int size = 10;
-  int bodySize = 200;
+  // ignore: avoid_public_notifier_properties
+  int _page = 0;
+  final int _size = 10;
+  final int _bodySize = 200;
 
-  bool isFetchingNext = false;
+  bool _isFetchingNext = false;
 
   Future<bool> getPetitionBoard(
       {bool firstPage = false, bool refresh = false}) async {
@@ -37,16 +38,16 @@ class BoardNotifier extends AsyncNotifier<Board> {
     }
 
     if (!state.hasValue || state.value!.content.isEmpty || firstPage || refresh) {
-      page = 0;
+      _page = 0;
       state = const AsyncLoading();
 
       if (refresh) {
 
         state = await AsyncValue.guard(
           () async => await ref.read(boardRepositoryProvider).getPetitionBoard(
-                page: page,
-                size: size,
-                bodySize: bodySize,
+                page: _page,
+                size: _size,
+                bodySize: _bodySize,
                 status: const PetitionStatus.active(),
               ),
         );
@@ -60,9 +61,9 @@ class BoardNotifier extends AsyncNotifier<Board> {
       } else {
         state = await AsyncValue.guard(
           () async => await ref.read(boardRepositoryProvider).getPetitionBoard(
-                page: page,
-                size: size,
-                bodySize: bodySize,
+                page: _page,
+                size: _size,
+                bodySize: _bodySize,
                 status: ref.read(petitionStatusProvider),
                 keyword: ref.read(searchKeywordProvider),
               ),
@@ -70,17 +71,17 @@ class BoardNotifier extends AsyncNotifier<Board> {
       }
       ref.invalidate(homeBoardProvider); // 홈 화면에 있는 청원 목록을 갱신
     } else {
-      if (isFetchingNext) {
+      if (_isFetchingNext) {
         // 스크롤 시 중복 요청 방지
         return false;
       }
-      isFetchingNext = true;
+      _isFetchingNext = true;
 
       final result = await AsyncValue.guard(
         () async => await ref.read(boardRepositoryProvider).getPetitionBoard(
-              page: page,
-              size: size,
-              bodySize: bodySize,
+              page: _page,
+              size: _size,
+              bodySize: _bodySize,
               status: ref.read(petitionStatusProvider),
               keyword: ref.read(searchKeywordProvider),
             ),
@@ -102,10 +103,10 @@ class BoardNotifier extends AsyncNotifier<Board> {
           last: result.value!.last,
         ),
       );
-      isFetchingNext = false;
+      _isFetchingNext = false;
     }
 
-    page++;
+    _page++;
     return true;
   }
 

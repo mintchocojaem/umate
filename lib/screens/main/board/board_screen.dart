@@ -4,11 +4,9 @@ import 'package:danvery/routes/router_provider.dart';
 import 'package:danvery/screens/main/board/widgets/petition_card.dart';
 import 'package:danvery/screens/main/board/widgets/petition_status_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../domain/board/post/petition_status.dart';
 import '../../../routes/route_path.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {

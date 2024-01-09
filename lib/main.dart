@@ -14,7 +14,6 @@ import 'routes/router_provider.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   OrbSnackBar.init(navigatorKey: navigatorKey);
@@ -34,9 +33,10 @@ void main() async {
   ]);
 
   runApp(
-    const ProviderScope(child: App()),
+    const ProviderScope(
+      child: App(),
+    ),
   );
-
 }
 
 class App extends ConsumerWidget {
