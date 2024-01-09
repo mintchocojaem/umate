@@ -32,7 +32,7 @@ class PetitionStatusBar extends StatelessWidget {
                 onSelected(status[i]);
               },
               child: Container(
-                margin: const EdgeInsets.only(right: 16, top: 4,),
+                margin: const EdgeInsets.only(right: 16,),
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),

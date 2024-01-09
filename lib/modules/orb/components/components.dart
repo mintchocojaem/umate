@@ -4,6 +4,7 @@ export 'app_bar/orb_app_bar.dart';
 //container
 export 'container/orb_container.dart';
 export 'container/orb_board_container.dart';
+export 'container/orb_foldable_container.dart';
 
 //bottomNavigationBar
 export 'bottom_navigation_bar/orb_bottom_navigation_bar.dart';

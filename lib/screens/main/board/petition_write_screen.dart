@@ -67,7 +67,7 @@ class _PetitionWriteScreen extends ConsumerState<PetitionWriteScreen> {
                   .then((value) {
                 if (value) {
                   ref.invalidate(petitionStatusProvider);
-                  ref.read(boardProvider.notifier).getPetitionBoard(refresh: true).whenComplete(() {
+                  ref.read(boardProvider.notifier).getPetitionBoard(firstPage: true).whenComplete(() {
                     Navigator.of(context).pop(true);
                     OrbSnackBar.show(
                       message: '청원 게시글이 등록되었습니다.',

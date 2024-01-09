@@ -90,16 +90,19 @@ class DioClient {
         onError: (DioException e, handler) {
           // 에러 처리 후에 처리할 내용 추가
 
-          final int statusCode = e.response?.statusCode ?? 500;
-          final String message = (e.response?.data['message']).toString();
+          if(e.type != DioExceptionType.cancel) {
+            final int statusCode = e.response?.statusCode ?? 500;
+            final String message = (e.response?.data['message']).toString();
 
-          if (kDebugMode) {
-            print("Dio error : code = $statusCode, message = $message");
-          }
+            if (kDebugMode) {
+              print("Dio error : code = $statusCode, message = $message");
+            }
 
-          if (statusCode > 400 && statusCode < 500) {
-            //http status code가 400 이상일 경우 토큰 문제로 간주
-            ref.read(tokenProvider.notifier).logout();
+            if (statusCode > 400 && statusCode < 500) {
+              //http status code가 400 이상일 경우 토큰 문제로 간주
+              ref.read(tokenProvider.notifier).logout();
+            }
+
           }
 
           return handler.next(e); // 다음 Interceptor 호출

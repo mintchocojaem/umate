@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../domain/board/post/petition_status.dart';
 import '../../../routes/route_path.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {
@@ -20,59 +21,18 @@ class BoardScreen extends ConsumerStatefulWidget {
 class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  final ScrollController scrollController = ScrollController();
+  final foldableScrollController = FoldableScrollController(
+    scrollController: ScrollController(),
+    height: 56,
+    maxHeight: 56,
+    minHeight: 8,
+  );
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
 
-  late double initialTopBarSize; // PetitionStatusBar()의 최대 높이
-  late double topContainerHeight; // 원하는 초기 높이값 설정
-  late final double minTopContainerHeight; // 최소 높이값 설정
-  late final double scrollSpeed;
-
-  @override
-  void initState() {
-    super.initState();
-    initialTopBarSize = 56;
-    topContainerHeight = initialTopBarSize;
-    minTopContainerHeight = 0;
-    scrollSpeed = 5;
-    scrollController.addListener(() async {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (topContainerHeight > minTopContainerHeight) {
-          setState(() {
-            topContainerHeight -= scrollSpeed;
-            if (topContainerHeight < minTopContainerHeight) {
-              topContainerHeight = minTopContainerHeight;
-            }
-          });
-        }
-      }
-
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        if (topContainerHeight < initialTopBarSize) {
-          setState(() {
-            topContainerHeight += scrollSpeed;
-            if (topContainerHeight > initialTopBarSize) {
-              topContainerHeight = initialTopBarSize;
-            }
-          });
-        }
-      }
-
-      if (scrollController.position.pixels >=
-              scrollController.position.maxScrollExtent - 100 &&
-          scrollController.position.pixels <=
-              scrollController.position.maxScrollExtent) {
-        await ref.read(boardProvider.notifier).getPetitionBoard();
-      }
-    });
-  }
-
   @override
   void dispose() {
-    scrollController.dispose();
+    foldableScrollController.dispose();
     searchController.dispose();
     searchFocusNode.dispose();
     super.dispose();
@@ -118,65 +78,81 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                 ),
               ),
               counterText: '',
-              suffixIcon: searchController.text.isNotEmpty
-                  ? searchFocusNode.hasFocus
-                      ? TextButton(
+              suffixIcon: ref.watch(searchKeywordProvider).isEmpty &&
+                      searchController.text.isNotEmpty
+                  ? TextButton(
+                      onPressed: () {
+                        setState(() {
+                          searchController.clear();
+                        });
+                      },
+                      child: Text(
+                        '취소',
+                        style: themeData.textTheme.bodyMedium,
+                      ),
+                    )
+                  : ref.watch(searchKeywordProvider).isNotEmpty
+                      ? IconButton(
                           onPressed: () {
-                            setState(() {
-                              searchController.clear();
-                            });
-                          },
-                          child: Text(
-                            '취소',
-                            style: themeData.textTheme.bodyMedium,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            ref
-                                .read(searchKeywordProvider.notifier)
-                                .update((state) => '');
                             ref
                                 .read(boardProvider.notifier)
                                 .getPetitionBoard(refresh: true)
-                                .whenComplete(() {
-                              searchController.clear();
-                              searchFocusNode.unfocus();
+                                .then((value) {
+                              if (value) {
+                                searchController.clear();
+                                searchFocusNode.unfocus();
+                                foldableScrollController.initScrollPosition();
+                              }
                             });
                           },
                           icon: const Icon(Icons.clear),
                         )
-                  : null,
+                      : null,
             ),
             maxLines: 1,
             maxLength: 50,
             onChanged: (value) {
               setState(() {});
             },
-            onFieldSubmitted: (value) {
+            onFieldSubmitted: (value) async {
               if (ref.read(searchKeywordProvider) == value) {
                 return;
               }
               ref.read(searchKeywordProvider.notifier).update((state) => value);
-              ref.read(boardProvider.notifier).getPetitionBoard(refresh: true);
+              await ref
+                  .read(boardProvider.notifier)
+                  .getPetitionBoard(firstPage: true)
+                  .then((value) {
+                if (value) {
+                  searchFocusNode.unfocus();
+                  foldableScrollController.initScrollPosition();
+                }
+              });
             },
           ),
-          board.hasValue
-              ? Opacity(
-                  opacity: topContainerHeight / initialTopBarSize,
-                  child: SizedBox(
-                    height: topContainerHeight <= 8 ? 8 : topContainerHeight,
-                    child: PetitionStatusBar(
-                      currentStatus: ref.watch(petitionStatusProvider),
-                      onSelected: (value) {
-                        ref
-                            .read(petitionStatusProvider.notifier)
-                            .update((state) => value);
-                      },
-                    ),
-                  ),
-                )
-              : const SizedBox(),
+          OrbFoldableContainer(
+            scrollController: foldableScrollController,
+            child: PetitionStatusBar(
+              currentStatus: ref.watch(petitionStatusProvider),
+              onSelected: (value) {
+                if(value == ref.read(petitionStatusProvider)){
+                  return;
+                }
+                ref
+                    .read(petitionStatusProvider.notifier)
+                    .update((state) => value);
+                ref.read(boardProvider.notifier).getPetitionBoard(
+                      firstPage: true,
+                    );
+              },
+            ),
+            onScroll: (position) async {
+              if (position.pixels >= position.maxScrollExtent - 100 &&
+                  position.pixels <= position.maxScrollExtent) {
+                await ref.read(boardProvider.notifier).getPetitionBoard();
+              }
+            },
+          ),
           Expanded(
             child: board.when(
               data: (value) {
@@ -184,9 +160,9 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                 return RefreshIndicator(
                   color: themeData.colorScheme.primary,
                   onRefresh: () async {
-                    return await ref
+                    await ref
                         .read(boardProvider.notifier)
-                        .getPetitionBoard(refresh: true);
+                        .getPetitionBoard(firstPage: true);
                   },
                   child: petitions.isEmpty
                       ? Center(
@@ -209,7 +185,7 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
                           ),
                         )
                       : ListView.builder(
-                          controller: scrollController,
+                          controller: foldableScrollController.scrollController,
                           itemCount: petitions.length,
                           itemBuilder: (context, index) {
                             final petition = petitions[index];
@@ -285,13 +261,13 @@ class _BoardScreen extends ConsumerState with AutomaticKeepAliveClientMixin {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(routerProvider).push(RouteInfo.petitionWrite.fullPath).then((value){
+          ref
+              .read(routerProvider)
+              .push(RouteInfo.petitionWrite.fullPath)
+              .then((value) {
             final bool? isRefresh = value as bool?;
-            if(isRefresh == true){
-              scrollController.jumpTo(0);
-              setState(() {
-                topContainerHeight = 56;
-              });
+            if (isRefresh == true) {
+              foldableScrollController.initScrollPosition();
             }
           });
         },
