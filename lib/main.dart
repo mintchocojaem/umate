@@ -1,15 +1,11 @@
-import 'package:danvery/utils/notification_provider.dart';
-import 'package:danvery/utils/shared_preference.dart';
-import 'package:danvery/utils/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/core.dart';
 import 'firebase_options.dart';
-import 'modules/orb/components/components.dart';
-import 'routes/router_provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -17,6 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   OrbSnackBar.init(navigatorKey: navigatorKey);
+
+  OrbDialog.init(navigatorKey: navigatorKey);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -33,8 +31,11 @@ void main() async {
   ]);
 
   runApp(
-    const ProviderScope(
-      child: App(),
+    ProviderScope(
+      observers: [
+        ProviderLogger(),
+      ],
+      child: const App(),
     ),
   );
 }
