@@ -1,6 +1,6 @@
+import 'package:danvery/src/module/orb/components/components.dart';
 import 'package:flutter/material.dart';
 
-import '../module/orb/components/components.dart';
 
 class RouteErrorScreen extends StatelessWidget {
   final String errorMessage;

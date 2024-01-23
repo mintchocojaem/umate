@@ -13,6 +13,3 @@ export 'notification/notification.dart';
 
 //theme
 export 'theme/theme_provider.dart';
-
-//widgets
-export 'widgets/screen_widget.dart';

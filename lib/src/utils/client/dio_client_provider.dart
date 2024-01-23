@@ -1,10 +1,10 @@
+import 'package:danvery/src/constants/api_url.dart';
 import 'package:danvery/src/module/orb/components/components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../constants/constants.dart';
-import '../utils.dart';
+import 'dio_client.dart';
 
 final dioClientProvider = Provider<DioClient>((ref) {
   return DioClient(
@@ -22,7 +22,7 @@ final dioClientProvider = Provider<DioClient>((ref) {
         print('DioClient > (Request) : ${requestOptions.uri}');
       }
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 2));
     },
     onResponse: (response) async {
       // 응답 전에 처리할 내용 추가

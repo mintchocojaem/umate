@@ -21,7 +21,7 @@ class OrbListCardTile extends OrbListTile {
     super.contentAlign,
     super.tileTextStyle,
     super.boldTitleText,
-    this.style = OrbListCardTileStyle.surfaceVariant,
+    this.style = OrbListCardTileStyle.surface,
   });
 
   final OrbListCardTileStyle style;

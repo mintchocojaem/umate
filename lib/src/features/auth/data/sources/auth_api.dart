@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
+import 'package:danvery/src/features/auth/domain/domain.dart';
+import 'package:danvery/src/utils/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../utils/utils.dart';
-import '../data.dart';
 
 final authApiProvider = Provider.autoDispose<AuthApi>(
   (ref) {
@@ -17,18 +15,32 @@ class AuthApi {
 
   AuthApi({required DioClient dioClient}) : _dioClient = dioClient;
 
-  Future<SignUpModel> verifyStudent(
-    CancelToken? cancelToken, {
+  Future<TokenModel> login({
     required String studentId,
-    required String studentPassword,
+    required String password,
   }) async {
-    final response = await _dioClient.dio.post(
-      '/user/dku/verify',
+    final response = await _dioClient.request(
+      path: '/user/login',
+      method: RequestType.post,
       data: {
-        'dkuStudentId': studentId,
-        'dkuPassword': studentPassword,
+        'studentId': studentId,
+        'password': password,
       },
-      cancelToken: cancelToken,
+    );
+    return TokenModel.fromJson(response.data);
+  }
+
+  Future<SignUpModel> verifyStudent({
+    required String dkuStudentId,
+    required String dkuPassword,
+  }) async {
+    final response = await _dioClient.request(
+      path: '/user/dku/verify',
+      method: RequestType.post,
+      data: {
+        'dkuStudentId': dkuStudentId,
+        'dkuPassword': dkuPassword,
+      },
     );
     return SignUpModel.fromJson(response.data);
   }

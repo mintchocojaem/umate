@@ -181,32 +181,32 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                         ),
                       ),
                     ),
-                    const TestWidget(
-                      title: 'OrbListCardTile',
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            OrbListCardTile(
-                              titleText: "Title1",
-                              contentText: "Content1",
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            OrbListCardTile(
-                              titleText: "Title2",
-                              contentText: "Content2",
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            OrbListCardTile(
-                              titleText: "Title3",
-                              contentText: "Content3",
-                            ),
-                          ],
-                        ),
-                      ),
+                  ],
+                ),
+              ),
+            ),
+            const TestWidget(
+              title: 'OrbListCardTile',
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    OrbListCardTile(
+                      titleText: "Title1",
+                      contentText: "Content1",
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    OrbListCardTile(
+                      titleText: "Title2",
+                      contentText: "Content2",
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    OrbListCardTile(
+                      titleText: "Title3",
+                      contentText: "Content3",
                     ),
                   ],
                 ),

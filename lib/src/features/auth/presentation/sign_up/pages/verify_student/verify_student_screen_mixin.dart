@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../presentation.dart';
-
-
-mixin VerifyStudentScreenEvent {
-  //event logic of screen
+mixin VerifyStudentScreenMixin {
+  final TextEditingController dkuStudentIdController = TextEditingController();
+  final TextEditingController dkuPasswordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String? checkStudentId({required String? studentId}) {
     if (studentId == null || studentId.isEmpty) {
@@ -37,12 +37,10 @@ mixin VerifyStudentScreenEvent {
 
   Future<void> verifyStudent(
     WidgetRef ref, {
-    CancelToken? cancelToken,
-        required GlobalKey<FormState> formKey,
-        required TextEditingController dkuStudentIdController,
-        required TextEditingController dkuPasswordController,
+    required GlobalKey<FormState> formKey,
+    required TextEditingController dkuStudentIdController,
+    required TextEditingController dkuPasswordController,
   }) async {
-
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -52,9 +50,8 @@ mixin VerifyStudentScreenEvent {
     }
 
     await ref.read(signUpProvider.notifier).verifyStudent(
-          cancelToken,
-          studentId: dkuStudentIdController.text,
-          studentPassword: dkuPasswordController.text,
+          dkuStudentId: dkuStudentIdController.text,
+          dkuPassword: dkuPasswordController.text,
         );
   }
 }

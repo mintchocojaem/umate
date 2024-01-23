@@ -1,31 +1,26 @@
+import 'package:danvery/src/features/auth/data/data.dart';
+import 'package:danvery/src/features/auth/domain/domain.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/domain.dart';
-import '../data.dart';
-
-final signUpRepositoryProvider = Provider.autoDispose<SignUpRepositoryImpl>((ref) {
-  return SignUpRepositoryImpl(authDataSource: ref.watch(authApiProvider));
+final signUpRepositoryProvider = Provider.autoDispose<SignUpRepository>((ref) {
+  return SignUpRepository(authDataSource: ref.watch(authApiProvider));
 });
 
-class SignUpRepositoryImpl extends SignUpRepository{
-
+class SignUpRepository {
   final AuthApi _authDataSource;
 
-  SignUpRepositoryImpl({
+  SignUpRepository({
     required AuthApi authDataSource,
   }) : _authDataSource = authDataSource;
 
-  @override
-  Future<SignUpModel> verifyStudent(CancelToken? cancelToken, {
-    required String studentId,
-    required String studentPassword,
-  }) async{
+  Future<SignUpModel> verifyStudent({
+    required String dkuStudentId,
+    required String dkuPassword,
+  }) async {
     return await _authDataSource.verifyStudent(
-      cancelToken,
-      studentId: studentId,
-      studentPassword: studentPassword,
+      dkuStudentId: dkuStudentId,
+      dkuPassword: dkuPassword,
     );
   }
-
 }

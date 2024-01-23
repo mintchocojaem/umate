@@ -1,28 +1,18 @@
-import 'package:danvery/src/route/app_route.dart';
+import 'package:danvery/src/module/orb/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../module/orb/components/components.dart';
-import '../../../../../route/router_provider.dart';
-import '../../../../../utils/utils.dart';
+import 'login_screen_mixin.dart';
 
-
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerWidget with LoginScreenMixin {
   LoginScreen({super.key});
-
-  final TextEditingController _studentIdController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ScreenManager _screenManager = ScreenManager();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final ThemeData themeData = Theme.of(context);
-
     return OrbScaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,22 +24,22 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _studentIdController,
+              controller: studentIdController,
               labelText: '학번',
               keyboardType: TextInputType.number,
               maxLength: 8,
               validator: (value) {
-                return value!.isEmpty ? '학번을 입력해주세요' : null;
+                return validateStudentId(studentId: value);
               },
             ),
             const SizedBox(height: 16),
             OrbTextFormField(
-              controller: _passwordController,
+              controller: passwordController,
               labelText: '비밀번호',
               obscureText: true,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                return value!.isEmpty ? '비밀번호를 입력해주세요' : null;
+                return validatePassword(password: value);
               },
             ),
             const SizedBox(height: 8),
@@ -58,7 +48,7 @@ class LoginScreen extends ConsumerWidget {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(routerProvider).pushNamed(AppRoute.signUpVerifyStudent.name);
+                pushSignUpVerifyStudent(ref);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -73,7 +63,12 @@ class LoginScreen extends ConsumerWidget {
       ),
       submitButton: OrbButton(
         onPressed: () async {
-          //await screenController.login();
+          await login(
+            ref,
+            formKey: formKey,
+            studentIdController: studentIdController,
+            passwordController: passwordController,
+          );
         },
         buttonText: '로그인하기',
       ),

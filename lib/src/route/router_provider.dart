@@ -1,33 +1,55 @@
-import 'package:danvery/src/module/orb/test_widget/orb_test_widget.dart';
+import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:danvery/src/route/app_route.dart';
-import 'package:danvery/src/utils/theme/theme_provider.dart';
+import 'package:danvery/src/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../features/auth/presentation/sign_up/verify_student/pages/verify_student_screen.dart';
 import 'route_error_screen.dart';
+
+class RouteObServer extends NavigatorObserver {
+
+  final Ref ref;
+
+  RouteObServer(this.ref);
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    // TODO: implement didPop
+    if (kDebugMode) {
+      print('Route Observer > didPop : ${route.settings.name}');
+    }
+    _cancelAllRequest();
+    super.didPop(route, previousRoute);
+  }
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    if (kDebugMode) {
+      print('Route Observer > didPush : ${route.settings.name}');
+    }
+    _cancelAllRequest();
+    super.didPush(route, previousRoute);
+  }
+
+  _cancelAllRequest() {
+    final dioClient = ref.read(dioClientProvider);
+    dioClient.cancelAllRequests();
+  }
+}
 
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
       initialLocation: '/',
+      observers: [
+        RouteObServer(ref),
+      ],
       routes: [
         GoRoute(
           path: '/',
           name: AppRoute.login.name,
-          builder: (context, state) => OrbTestWidget(
-            onPressLightTheme: () {
-              ref
-                  .read(themeModeProvider.notifier)
-                  .update((state) => ThemeMode.light);
-            },
-            onPressDarkTheme: () {
-              ref
-                  .read(themeModeProvider.notifier)
-                  .update((state) => ThemeMode.dark);
-            },
-          ),
+          builder: (context, state) => LoginScreen(),
           routes: [
             GoRoute(
               path: 'signUp/verifyStudent',
