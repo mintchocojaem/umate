@@ -1,9 +1,8 @@
 //client
 export 'client/dio_client.dart';
-export 'client/dio_client_provider.dart';
 
-//database
-export 'database/shared_preference.dart';
+//constants
+export 'constants/api_url.dart';
 
 //log
 export 'log/provider_logger.dart';
@@ -11,5 +10,5 @@ export 'log/provider_logger.dart';
 //notification
 export 'notification/notification.dart';
 
-//theme
-export 'theme/theme_provider.dart';
+//storage
+export 'storage/shared_preference.dart';

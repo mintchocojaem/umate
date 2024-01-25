@@ -1,42 +1,16 @@
 import 'package:danvery/src/features/auth/presentation/presentation.dart';
-import 'package:danvery/src/route/app_route.dart';
+import 'package:danvery/src/module/orb/components/components.dart';
 import 'package:danvery/src/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'route_error_screen.dart';
 
-class RouteObServer extends NavigatorObserver {
+part 'app_route.dart';
 
-  final Ref ref;
+part 'route_error_screen.dart';
 
-  RouteObServer(this.ref);
-
-  @override
-  void didPop(Route route, Route? previousRoute) {
-    // TODO: implement didPop
-    if (kDebugMode) {
-      print('Route Observer > didPop : ${route.settings.name}');
-    }
-    _cancelAllRequest();
-    super.didPop(route, previousRoute);
-  }
-
-  @override
-  void didPush(Route route, Route? previousRoute) {
-    if (kDebugMode) {
-      print('Route Observer > didPush : ${route.settings.name}');
-    }
-    _cancelAllRequest();
-    super.didPush(route, previousRoute);
-  }
-
-  _cancelAllRequest() {
-    final dioClient = ref.read(dioClientProvider);
-    dioClient.cancelAllRequests();
-  }
-}
+part 'route_orbserver.dart';
 
 final Provider<GoRouter> routerProvider = Provider<GoRouter>(
   (ref) {

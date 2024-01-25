@@ -1,3 +1,4 @@
+import 'package:danvery/src/config/config.dart';
 import 'package:danvery/src/module/orb/components/components.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,8 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 
-import 'src/module/orb/theme/orb_theme.dart';
-import 'src/route/router_provider.dart';
 import 'src/utils/utils.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -49,15 +48,15 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final OrbTheme orbTheme = OrbTheme();
-    orbTheme.setThemeMode = ref.watch(themeModeProvider);
     return MaterialApp(
       navigatorKey: navigatorKey,
-      theme: orbTheme.getThemeMode,
+      theme: ref.watch(themeProvider).getThemeMode,
       debugShowCheckedModeBanner: false,
       home: Router(
-        routeInformationParser: ref.watch(routerProvider).routeInformationParser,
-        routeInformationProvider: ref.watch(routerProvider).routeInformationProvider,
+        routeInformationParser:
+            ref.watch(routerProvider).routeInformationParser,
+        routeInformationProvider:
+            ref.watch(routerProvider).routeInformationProvider,
         routerDelegate: ref.watch(routerProvider).routerDelegate,
       ),
     );

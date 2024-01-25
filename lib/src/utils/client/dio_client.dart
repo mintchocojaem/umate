@@ -1,4 +1,10 @@
+import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/utils/constants/api_url.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+part 'dio_client_provider.dart';
 
 enum RequestType {
   get("GET"),
@@ -89,7 +95,6 @@ base class DioClient {
     );
   }
 
-
   CancelToken getCancelToken() {
     final cancelToken = CancelToken();
     _cancelTokens.add(cancelToken);
@@ -120,7 +125,6 @@ base class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-
     final cancelToken = getCancelToken();
 
     final response = await _dio.request(
@@ -135,5 +139,4 @@ base class DioClient {
 
     return response;
   }
-
 }

@@ -1,10 +1,4 @@
-import 'package:danvery/src/constants/api_url.dart';
-import 'package:danvery/src/module/orb/components/components.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'dio_client.dart';
+part of 'dio_client.dart';
 
 final dioClientProvider = Provider<DioClient>((ref) {
   return DioClient(

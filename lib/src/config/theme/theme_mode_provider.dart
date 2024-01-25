@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+part of 'theme_provider.dart';
 
 final themeModeProvider = StateProvider<ThemeMode>(
-  (ref) {
+      (ref) {
     const ThemeMode themeMode = ThemeMode.system;
     return themeMode;
   },
