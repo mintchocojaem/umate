@@ -7,8 +7,8 @@ class OrbScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
-  final OrbButton? submitButton;
-  final Widget? customSubmitButton;
+  final Widget? submitButton;
+  final Widget? submitButtonAboveKeyboard;
   final Widget? submitHelper;
   final ScrollController? scrollController;
   final bool shrinkWrap;
@@ -22,8 +22,8 @@ class OrbScaffold extends StatelessWidget {
     this.body,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
-    this.customSubmitButton,
     this.submitButton,
+    this.submitButtonAboveKeyboard,
     this.submitHelper,
     this.scrollController,
     this.shrinkWrap = false,
@@ -62,8 +62,8 @@ class OrbScaffold extends StatelessWidget {
                         : body,
                   ),
                 ),
-                if (customSubmitButton != null || submitButton != null)
-                  customSubmitButton ?? Padding(
+                if (submitButton != null)
+                  Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -75,14 +75,13 @@ class OrbScaffold extends StatelessWidget {
                   ),
               ],
             ),
-            if (MediaQuery.of(context).viewInsets.bottom > 0)
+            if (MediaQuery.of(context).viewInsets.bottom > 0 &&
+                submitButtonAboveKeyboard != null)
               Positioned(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child: customSubmitButton ?? submitButton?.copyWith(
-                        buttonRadius: OrbButtonRadius.none) ??
-                    const SizedBox(),
+                child: submitButtonAboveKeyboard!
               ),
           ],
         ),

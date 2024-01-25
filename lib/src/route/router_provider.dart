@@ -52,9 +52,19 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
           builder: (context, state) => LoginScreen(),
           routes: [
             GoRoute(
+              path: 'loginHelp',
+              name: AppRoute.loginHelp.name,
+              builder: (context, state) => const LoginHelpScreen(),
+            ),
+            GoRoute(
               path: 'signUp/verifyStudent',
               name: AppRoute.signUpVerifyStudent.name,
-              builder: (context, state) => VerifyStudentScreen(),
+              builder: (context, state) => const VerifyStudentScreen(),
+            ),
+            GoRoute(
+              path: 'signUp/agreePolicy',
+              name: AppRoute.signUpAgreePolicy.name,
+              builder: (context, state) => const AgreePolicyScreen(),
             ),
           ],
         ),

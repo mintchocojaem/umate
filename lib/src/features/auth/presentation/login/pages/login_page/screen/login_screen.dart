@@ -1,14 +1,21 @@
+import 'package:danvery/src/features/auth/presentation/login/provders/token_provider.dart';
 import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/route/app_route.dart';
+import 'package:danvery/src/route/router_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'login_screen_mixin.dart';
+part 'login_screen_event.dart';
 
-class LoginScreen extends ConsumerWidget with LoginScreenMixin {
+class LoginScreen extends ConsumerWidget with LoginScreenEvent {
   LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController studentIdController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Form(
@@ -48,7 +55,7 @@ class LoginScreen extends ConsumerWidget with LoginScreenMixin {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                pushSignUpVerifyStudent(ref);
+                pushVerifyStudentPage(ref);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -74,7 +81,7 @@ class LoginScreen extends ConsumerWidget with LoginScreenMixin {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          //screenController.pushLoginHelpPage();
+          pushLoginHelpPage(ref);
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

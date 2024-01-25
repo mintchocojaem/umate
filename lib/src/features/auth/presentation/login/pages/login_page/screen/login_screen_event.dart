@@ -1,14 +1,6 @@
-import 'package:danvery/src/features/auth/presentation/presentation.dart';
-import 'package:danvery/src/route/app_route.dart';
-import 'package:danvery/src/route/router_provider.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+part of 'login_screen.dart';
 
-mixin LoginScreenMixin {
-  final TextEditingController studentIdController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+mixin class LoginScreenEvent {
 
   String? validateStudentId({String? studentId}) {
     if (studentId == null || studentId.isEmpty) {
@@ -27,8 +19,12 @@ mixin LoginScreenMixin {
     return null;
   }
 
-  void pushSignUpVerifyStudent(WidgetRef ref) {
+  void pushVerifyStudentPage(WidgetRef ref) {
     ref.read(routerProvider).pushNamed(AppRoute.signUpVerifyStudent.name);
+  }
+
+  void pushLoginHelpPage(WidgetRef ref) {
+    ref.read(routerProvider).pushNamed(AppRoute.loginHelp.name);
   }
 
   Future<void> login(

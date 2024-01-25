@@ -1,15 +1,6 @@
-import 'dart:async';
+part of 'verify_student_screen.dart';
 
-import 'package:danvery/src/features/auth/presentation/presentation.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-mixin VerifyStudentScreenMixin {
-  final TextEditingController dkuStudentIdController = TextEditingController();
-  final TextEditingController dkuPasswordController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+mixin class VerifyStudentScreenEvent {
   String? checkStudentId({required String? studentId}) {
     if (studentId == null || studentId.isEmpty) {
       return '학번을 입력해주세요';
@@ -24,12 +15,12 @@ mixin VerifyStudentScreenMixin {
     return null;
   }
 
-  void agreePrivacyPolicy(WidgetRef ref) {
-    ref.read(agreePolicyProvider.notifier).update((state) => true);
+  void agreePolicy(WidgetRef ref) {
+    ref.read(routerProvider).pushNamed(AppRoute.signUpAgreePolicy.name);
   }
 
-  Color getAgreePrivacyPolicyColor(WidgetRef ref) {
-    if (ref.watch(agreePolicyProvider)) {
+  Color getAgreedPolicyColor({required bool agreePolicy}) {
+    if (agreePolicy) {
       return Colors.green;
     }
     return Colors.grey;

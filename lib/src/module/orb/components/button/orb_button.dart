@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:danvery/src/module/orb/theme/orb_palette.dart';
 import 'package:flutter/material.dart';
 
-typedef DisabledCallback = bool Function();
-
 enum OrbButtonRadius {
   none,
   small,
@@ -17,20 +15,20 @@ enum OrbButtonSize {
   wide,
 }
 
-class OrbButton extends StatefulWidget {
+class OrbButton extends StatefulWidget{
   final Function()? onPressed;
+  final String? buttonText;
   final Color? enabledBackgroundColor;
   final Color? enabledForegroundColor;
   final Color? disabledBackgroundColor;
   final Color? disabledForegroundColor;
-  final String? buttonText;
   final TextStyle? buttonTextStyle;
   final bool disabled;
   final OrbButtonSize buttonSize;
   final Duration buttonCoolDown;
   final bool showCoolDownTime;
   final Size? minimumSize;
-  final OrbButtonRadius? buttonRadius;
+  final OrbButtonRadius buttonRadius;
 
   const OrbButton({
     super.key,
@@ -64,7 +62,6 @@ class OrbButton extends StatefulWidget {
     bool? showCoolDownTime,
     Size? minimumSize,
     OrbButtonRadius? buttonRadius,
-    DisabledCallback? disabledCallback,
   }) {
     return OrbButton(
       key: key ?? this.key,
@@ -91,11 +88,11 @@ class OrbButton extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return OrbButtonState();
+    return OrbPrimaryButtonState();
   }
 }
 
-class OrbButtonState extends State<OrbButton> {
+class OrbPrimaryButtonState extends State<OrbButton> {
   int coolDownTime = 0;
   bool isLoading = false;
   bool isOnPressed = false;
