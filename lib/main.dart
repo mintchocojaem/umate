@@ -1,5 +1,4 @@
-import 'package:danvery/src/config/config.dart';
-import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/src.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
-
-import 'src/utils/utils.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

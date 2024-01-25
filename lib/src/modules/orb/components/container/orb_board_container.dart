@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../components.dart';
+import 'orb_container.dart';
+
 
 class OrbBoardContainer extends StatelessWidget implements OrbContainer {
   @override

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+part of 'orb_test_widget.dart';
 
-class TestWidget extends StatelessWidget {
+class ModelWidget extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const TestWidget({
+  const ModelWidget({
     super.key,
     required this.title,
     required this.child,

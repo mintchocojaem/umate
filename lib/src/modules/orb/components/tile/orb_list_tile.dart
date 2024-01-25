@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components.dart';
+import 'orb_tile.dart';
 
 enum TileTextStyle {
   medium,

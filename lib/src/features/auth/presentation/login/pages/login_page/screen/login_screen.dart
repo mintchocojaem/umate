@@ -1,6 +1,6 @@
 import 'package:danvery/src/config/config.dart';
-import 'package:danvery/src/features/auth/presentation/login/provders/token_provider.dart';
-import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/modules/modules.dart';
+import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

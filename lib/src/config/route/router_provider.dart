@@ -1,5 +1,5 @@
-import 'package:danvery/src/features/auth/presentation/presentation.dart';
-import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/features/auth/auth.dart';
+import 'package:danvery/src/modules/modules.dart';
 import 'package:danvery/src/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

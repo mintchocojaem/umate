@@ -1,7 +1,7 @@
-import 'package:danvery/src/module/orb/theme/orb_palette.dart';
-import 'package:danvery/src/module/orb/theme/orb_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/theme.dart';
 
 class SheetItem {
   final String title;

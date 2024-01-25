@@ -1,4 +1,3 @@
-import 'package:danvery/src/features/auth/domain/domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'student_model.dart';

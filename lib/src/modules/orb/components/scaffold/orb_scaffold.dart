@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components.dart';
+import '../app_bar/orb_app_bar.dart';
 
 class OrbScaffold extends StatelessWidget {
   final OrbAppBar? orbAppBar;

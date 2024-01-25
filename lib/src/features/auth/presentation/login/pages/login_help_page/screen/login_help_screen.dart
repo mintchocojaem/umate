@@ -1,5 +1,5 @@
 import 'package:danvery/src/config/config.dart';
-import 'package:danvery/src/module/orb/components/components.dart';
+import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

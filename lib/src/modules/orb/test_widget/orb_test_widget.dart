@@ -1,7 +1,8 @@
-import 'package:danvery/src/module/orb/test_widget/test_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../components/components.dart';
+
+part 'model_widget.dart';
 
 class OrbTestWidget extends StatefulWidget {
   final VoidCallback onPressLightTheme;
@@ -46,7 +47,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
         controller: _foldableScrollController.scrollController,
         child: Column(
           children: [
-            TestWidget(
+            ModelWidget(
               title: 'OrbFoldableContainer',
               child: OrbFoldableContainer(
                 scrollController: _foldableScrollController,
@@ -62,12 +63,12 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                 ),
               ),
             ),
-            TestWidget(
+            ModelWidget(
               title: 'OrbBoardContainer',
               child: OrbBoardContainer(
                 child: Column(
                   children: [
-                    const TestWidget(
+                    const ModelWidget(
                       title: 'OrbTextField',
                       child: OrbTextFormField(
                         labelText: "Label",
@@ -77,7 +78,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                     const SizedBox(
                       height: 16,
                     ),
-                    TestWidget(
+                    ModelWidget(
                       title: 'OrbButton',
                       child: Column(
                         children: [
@@ -100,7 +101,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                         ],
                       ),
                     ),
-                    TestWidget(
+                    ModelWidget(
                       title: 'OrbBottomSheet',
                       child: OrbButton(
                         buttonSize: OrbButtonSize.compact,
@@ -117,7 +118,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                         },
                       ),
                     ),
-                    TestWidget(
+                    ModelWidget(
                       title: 'OrbModalBottomSheet',
                       child: OrbButton(
                         buttonSize: OrbButtonSize.normal,
@@ -130,7 +131,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                         },
                       ),
                     ),
-                    TestWidget(
+                    ModelWidget(
                       title: 'OrbDialog',
                       child: OrbButton(
                         buttonText: "Show Dialog",
@@ -150,11 +151,11 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                         },
                       ),
                     ),
-                    const TestWidget(
+                    const ModelWidget(
                       title: 'OrbShimmerContent',
                       child: OrbShimmerContent(),
                     ),
-                    const TestWidget(
+                    const ModelWidget(
                       title: 'OrbListTile',
                       child: SingleChildScrollView(
                         child: Column(
@@ -185,7 +186,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                 ),
               ),
             ),
-            const TestWidget(
+            const ModelWidget(
               title: 'OrbListCardTile',
               child: SingleChildScrollView(
                 child: Column(
@@ -212,7 +213,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                 ),
               ),
             ),
-            const TestWidget(
+            const ModelWidget(
               title: 'OrbCardTile',
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

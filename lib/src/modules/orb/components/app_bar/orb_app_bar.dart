@@ -1,6 +1,7 @@
-import 'package:danvery/src/module/orb/theme/orb_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../theme/theme.dart';
 
 class OrbAppBar extends StatelessWidget implements PreferredSizeWidget{
 

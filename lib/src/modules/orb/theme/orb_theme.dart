@@ -1,5 +1,6 @@
-import 'package:danvery/src/module/orb/theme/orb_palette.dart';
 import 'package:flutter/material.dart';
+
+part 'orb_palette.dart';
 
 class OrbTheme {
   late ThemeMode _themeMode;

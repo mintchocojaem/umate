@@ -1,4 +1,4 @@
-import 'dart:ui';
+part of 'orb_theme.dart';
 
 class OrbPalette {
   //light theme 기준

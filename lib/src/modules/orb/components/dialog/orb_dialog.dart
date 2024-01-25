@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../components.dart';
+import '../button/orb_button.dart';
+
 
 class OrbDialog extends StatelessWidget {
   final String title;
