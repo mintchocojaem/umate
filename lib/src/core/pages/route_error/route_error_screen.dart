@@ -1,5 +1,5 @@
-part of 'router_provider.dart';
-
+import 'package:danvery/src/modules/modules.dart';
+import 'package:flutter/material.dart';
 
 class RouteErrorScreen extends StatelessWidget {
   final String errorMessage;
@@ -20,12 +20,16 @@ class RouteErrorScreen extends StatelessWidget {
               size: 48,
               color: themeData.colorScheme.error,
             ),
-            const SizedBox(height: 32,),
+            const SizedBox(
+              height: 32,
+            ),
             Text(
               '요청하신 페이지를 찾을 수 없어요',
               style: themeData.textTheme.titleSmall,
             ),
-            const SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             Text(
               errorMessage,
               textAlign: TextAlign.center,

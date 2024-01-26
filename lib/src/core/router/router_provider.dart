@@ -1,14 +1,13 @@
+import 'package:danvery/src/core/pages/route_error/route_error_screen.dart';
 import 'package:danvery/src/features/auth/auth.dart';
-import 'package:danvery/src/modules/modules.dart';
-import 'package:danvery/src/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-part 'app_route.dart';
+import '../client/dio_client.dart';
 
-part 'route_error_screen.dart';
+part 'app_route.dart';
 
 part 'route_orbserver.dart';
 

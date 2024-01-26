@@ -1,4 +1,4 @@
-import 'package:danvery/src/config/config.dart';
+import 'package:danvery/src/core/core.dart';
 import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,7 @@ class AgreePolicyScreen extends ConsumerWidget
     initScrollController(ref, scrollController: scrollController);
 
     OrbButton orbButton(WidgetRef ref){
+      print(2);
       return OrbButton(
         buttonText: agreeButtonText(maxScrollExtent: maxScrollExtent(ref)),
         onPressed: () {
@@ -32,6 +33,8 @@ class AgreePolicyScreen extends ConsumerWidget
         },
       );
     }
+
+    print(1);
 
     return OrbScaffold(
       scrollController: scrollController,
@@ -116,19 +119,7 @@ class AgreePolicyScreen extends ConsumerWidget
           ),
         ],
       ),
-      submitButton: Consumer(
-        builder: (context, ref, child) {
-          return orbButton(ref);
-        },
-      ),
-      submitButtonAboveKeyboard: Consumer(
-        builder: (context, ref, child) {
-          return orbButton(ref).copyWith(
-            buttonSize: OrbButtonSize.wide,
-            buttonRadius: OrbButtonRadius.none
-          );
-        },
-      )
+      submitButton: orbButton(ref),
     );
   }
 }

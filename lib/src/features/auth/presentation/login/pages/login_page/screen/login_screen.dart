@@ -1,4 +1,4 @@
-import 'package:danvery/src/config/config.dart';
+import 'package:danvery/src/core/core.dart';
 import 'package:danvery/src/modules/modules.dart';
 import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:flutter/material.dart';

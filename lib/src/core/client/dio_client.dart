@@ -1,5 +1,5 @@
 import 'package:danvery/src/modules/modules.dart';
-import 'package:danvery/src/utils/constants/api_url.dart';
+import 'package:danvery/src/core/constants/api_url.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

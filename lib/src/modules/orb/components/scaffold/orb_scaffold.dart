@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../app_bar/orb_app_bar.dart';
+import '../components.dart';
 
 class OrbScaffold extends StatelessWidget {
   final OrbAppBar? orbAppBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
-  final Widget? submitButton;
-  final Widget? submitButtonAboveKeyboard;
+  final OrbButton? submitButton;
   final Widget? submitHelper;
   final ScrollController? scrollController;
   final bool shrinkWrap;
@@ -23,7 +22,6 @@ class OrbScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
     this.submitButton,
-    this.submitButtonAboveKeyboard,
     this.submitHelper,
     this.scrollController,
     this.shrinkWrap = false,
@@ -68,7 +66,17 @@ class OrbScaffold extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        submitButton!,
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return submitButton!.copyWith(
+                              onPressed: () {
+                                setState(() {
+                                  submitButton!.onPressed();
+                                });
+                              },
+                            );
+                          },
+                        ),
                         submitHelper ?? const SizedBox(),
                       ],
                     ),
@@ -76,12 +84,24 @@ class OrbScaffold extends StatelessWidget {
               ],
             ),
             if (MediaQuery.of(context).viewInsets.bottom > 0 &&
-                submitButtonAboveKeyboard != null)
+                submitButton != null)
               Positioned(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child: submitButtonAboveKeyboard!
+                child: StatefulBuilder(
+                  builder: (context, setState) {
+                    return submitButton!.copyWith(
+                      onPressed: () {
+                        setState(() {
+                          submitButton!.onPressed();
+                        });
+                      },
+                      buttonRadius: OrbButtonRadius.none,
+                      buttonSize: OrbButtonSize.wide,
+                    );
+                  },
+                ),
               ),
           ],
         ),

@@ -17,7 +17,7 @@ enum OrbButtonSize {
 }
 
 class OrbButton extends StatefulWidget{
-  final Function()? onPressed;
+  final Function() onPressed;
   final String? buttonText;
   final Color? enabledBackgroundColor;
   final Color? enabledForegroundColor;
@@ -33,7 +33,7 @@ class OrbButton extends StatefulWidget{
 
   const OrbButton({
     super.key,
-    this.onPressed,
+    required this.onPressed,
     this.enabledBackgroundColor,
     this.enabledForegroundColor,
     this.disabledBackgroundColor,
@@ -51,38 +51,15 @@ class OrbButton extends StatefulWidget{
   OrbButton copyWith({
     Key? key,
     Function()? onPressed,
-    Color? enabledBackgroundColor,
-    Color? enabledForegroundColor,
-    Color? disabledBackgroundColor,
-    Color? disabledForegroundColor,
-    String? buttonText,
-    TextStyle? buttonTextStyle,
-    bool? disabled,
     OrbButtonSize? buttonSize,
-    Duration? buttonCoolDown,
-    bool? showCoolDownTime,
-    Size? minimumSize,
     OrbButtonRadius? buttonRadius,
   }) {
     return OrbButton(
       key: key ?? this.key,
+      buttonText: buttonText ?? buttonText,
       onPressed: onPressed ?? this.onPressed,
-      enabledBackgroundColor:
-          enabledBackgroundColor ?? this.enabledBackgroundColor,
-      enabledForegroundColor:
-          enabledForegroundColor ?? this.enabledForegroundColor,
-      disabledBackgroundColor:
-          disabledBackgroundColor ?? this.disabledBackgroundColor,
-      disabledForegroundColor:
-          disabledForegroundColor ?? this.disabledForegroundColor,
-      buttonText: buttonText ?? this.buttonText,
-      buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
-      disabled: disabled ?? this.disabled,
-      buttonSize: buttonSize ?? this.buttonSize,
-      buttonCoolDown: buttonCoolDown ?? this.buttonCoolDown,
-      showCoolDownTime: showCoolDownTime ?? this.showCoolDownTime,
-      minimumSize: minimumSize ?? this.minimumSize,
       buttonRadius: buttonRadius ?? this.buttonRadius,
+      buttonSize: buttonSize ?? this.buttonSize,
     );
   }
 
@@ -122,8 +99,8 @@ class OrbPrimaryButtonState extends State<OrbButton> {
                   isLoading = true;
                   isOnPressed = true;
                 });
-                Future(() async {
-                  await widget.onPressed?.call();
+                Future(()async{
+                  await widget.onPressed();
                 }).whenComplete(() {
                   if (!context.mounted) return;
                   setState(() {
@@ -188,7 +165,6 @@ class OrbPrimaryButtonState extends State<OrbButton> {
               OrbButtonRadius.none => 0,
               OrbButtonRadius.small => 10,
               OrbButtonRadius.normal => 15,
-              _ => 15,
             }),
           ),
         ),

@@ -1,5 +1,4 @@
-import 'package:danvery/src/config/config.dart';
-import 'package:danvery/src/utils/utils.dart';
+import 'package:danvery/src/core/core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

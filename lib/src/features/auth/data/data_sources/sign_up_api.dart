@@ -1,34 +1,19 @@
 import 'package:danvery/src/features/auth/domain/domain.dart';
-import 'package:danvery/src/utils/utils.dart';
+import 'package:danvery/src/core/core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authApiProvider = Provider.autoDispose<AuthApi>(
+final signUpApiProvider = Provider.autoDispose<SignUpApi>(
   (ref) {
-    return AuthApi(
+    return SignUpApi(
       dioClient: ref.watch(dioClientProvider),
     );
   },
 );
 
-class AuthApi {
+class SignUpApi {
   final DioClient _dioClient;
 
-  AuthApi({required DioClient dioClient}) : _dioClient = dioClient;
-
-  Future<TokenModel> login({
-    required String studentId,
-    required String password,
-  }) async {
-    final response = await _dioClient.request(
-      path: '/user/login',
-      method: RequestType.post,
-      data: {
-        'studentId': studentId,
-        'password': password,
-      },
-    );
-    return TokenModel.fromJson(response.data);
-  }
+  SignUpApi({required DioClient dioClient}) : _dioClient = dioClient;
 
   Future<SignUpModel> verifyStudent({
     required String dkuStudentId,

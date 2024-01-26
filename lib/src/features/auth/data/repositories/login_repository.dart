@@ -3,21 +3,21 @@ import 'package:danvery/src/features/auth/domain/domain.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loginRepositoryProvider = Provider.autoDispose<LoginRepository>((ref) {
-  return LoginRepository(authDataSource: ref.watch(authApiProvider));
+  return LoginRepository(loginApi: ref.watch(loginApiProvider));
 });
 
 class LoginRepository {
-  final AuthApi _authDataSource;
+  final LoginApi loginApi;
 
   LoginRepository({
-    required AuthApi authDataSource,
-  }) : _authDataSource = authDataSource;
+    required this.loginApi,
+  });
 
   Future<TokenModel> login({
     required String studentId,
     required String password,
   }) async {
-    return await _authDataSource.login(
+    return await loginApi.login(
       studentId: studentId,
       password: password,
     );
