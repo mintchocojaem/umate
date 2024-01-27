@@ -1,6 +1,6 @@
 part of 'login_screen.dart';
 
-mixin class LoginScreenEvent {
+mixin class LoginScreenController {
 
   String? validateStudentId({String? studentId}) {
     if (studentId == null || studentId.isEmpty) {

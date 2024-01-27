@@ -1,15 +1,14 @@
+import 'dart:async';
+
 import 'package:danvery/src/core/core.dart';
 import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'agree_policy_screen_event.dart';
+part 'agree_policy_screen_controller.dart';
 
-part 'agree_policy_screen_state.dart';
-
-class AgreePolicyScreen extends ConsumerWidget
-    with AgreePolicyScreenState, AgreePolicyScreenEvent {
+class AgreePolicyScreen extends ConsumerWidget with AgreePolicyScreenController{
   const AgreePolicyScreen({super.key});
 
   @override
@@ -18,23 +17,20 @@ class AgreePolicyScreen extends ConsumerWidget
     final ScrollController scrollController = ScrollController();
     final themeData = Theme.of(context);
 
-    initScrollController(ref, scrollController: scrollController);
-
-    OrbButton orbButton(WidgetRef ref){
-      print(2);
-      return OrbButton(
-        buttonText: agreeButtonText(maxScrollExtent: maxScrollExtent(ref)),
-        onPressed: () {
-          agreePolicy(
-            ref,
-            scrollController: scrollController,
-            maxScrollExtent: maxScrollExtent(ref),
+    Consumer submitButton({OrbButtonRadius? buttonRadius}) {
+      return Consumer(
+        builder: (context, ref, child) {
+          return OrbButton(
+            buttonText: submitButtonText(ref),
+            onPressed: () async {
+              await agreePolicy(ref, scrollController: scrollController);
+            },
+          ).copyWith(
+            buttonRadius: buttonRadius,
           );
         },
       );
     }
-
-    print(1);
 
     return OrbScaffold(
       scrollController: scrollController,
@@ -119,7 +115,10 @@ class AgreePolicyScreen extends ConsumerWidget
           ),
         ],
       ),
-      submitButton: orbButton(ref),
+      submitButton: submitButton(),
+      submitButtonOnKeyboard: submitButton(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }

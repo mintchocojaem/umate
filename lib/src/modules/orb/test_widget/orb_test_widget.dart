@@ -27,6 +27,18 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
     maxHeight: 100,
   );
 
+  final submitButton = OrbButton(
+    buttonText: "Show OrbSnackBar",
+    onPressed: () async {
+      await Future.delayed(const Duration(seconds: 1), () {
+        OrbSnackBar.show(
+          message: "OrbSnackBar",
+          type: OrbSnackBarType.info,
+        );
+      });
+    },
+  );
+
   @override
   void initState() {
     // TODO: implement initState
@@ -121,7 +133,7 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
                     ModelWidget(
                       title: 'OrbModalBottomSheet',
                       child: OrbButton(
-                        buttonSize: OrbButtonSize.normal,
+                        buttonSize: OrbButtonSize.fit,
                         buttonText: "Show ModalBottomSheet",
                         onPressed: () async {
                           await const OrbModalBottomSheet(
@@ -244,16 +256,9 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
           ],
         ),
       ),
-      submitButton: OrbButton(
-        buttonText: "Show OrbSnackBar",
-        onPressed: () async {
-          await Future.delayed(const Duration(seconds: 1), () {
-            OrbSnackBar.show(
-              message: "OrbSnackBar",
-              type: OrbSnackBarType.info,
-            );
-          });
-        },
+      submitButton: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
       ),
       bottomNavigationBar: OrbBottomNavigationBar(
         currentIndex: _selectedIndex,

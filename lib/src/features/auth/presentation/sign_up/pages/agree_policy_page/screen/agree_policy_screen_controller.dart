@@ -1,6 +1,10 @@
 part of 'agree_policy_screen.dart';
 
-mixin class AgreePolicyScreenEvent {
+final _maxScrollExtentProvider =
+    StateProvider.autoDispose<bool>((ref) => false);
+
+mixin class AgreePolicyScreenController {
+
   void initScrollController(
     WidgetRef ref, {
     required ScrollController scrollController,
@@ -18,9 +22,8 @@ mixin class AgreePolicyScreenEvent {
   Future<void> agreePolicy(
     WidgetRef ref, {
     required ScrollController scrollController,
-    required bool maxScrollExtent,
   }) async {
-    if (maxScrollExtent) {
+    if (ref.read(_maxScrollExtentProvider)) {
       ref.read(agreePolicyProvider.notifier).update((state) => true);
       ref.read(routerProvider).pop();
     } else {
@@ -29,10 +32,13 @@ mixin class AgreePolicyScreenEvent {
         duration: const Duration(seconds: 1),
         curve: Curves.easeInOut,
       );
+      ref.read(_maxScrollExtentProvider.notifier).update((state) => true);
     }
   }
 
-  String agreeButtonText({required bool maxScrollExtent}) {
+  String submitButtonText(WidgetRef ref) {
+    final maxScrollExtent = ref.watch(_maxScrollExtentProvider);
     return maxScrollExtent ? '모두 동의하기' : '아래로 스크롤하기';
   }
+
 }

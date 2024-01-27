@@ -4,12 +4,10 @@ import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'verify_student_screen_state.dart';
-
-part 'verify_student_screen_event.dart';
+part 'verify_student_screen_controller.dart';
 
 class VerifyStudentScreen extends ConsumerWidget
-    with VerifyStudentScreenState, VerifyStudentScreenEvent {
+    with VerifyStudentScreenController {
   const VerifyStudentScreen({super.key});
 
   @override
@@ -74,7 +72,7 @@ class VerifyStudentScreen extends ConsumerWidget
                   return Icon(
                     Icons.check_circle,
                     color: getAgreedPolicyColor(
-                      agreePolicy: isAgreedPolicy(ref),
+                      ref,
                     ),
                   );
                 },
@@ -87,6 +85,9 @@ class VerifyStudentScreen extends ConsumerWidget
         ),
       ),
       submitButton: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }

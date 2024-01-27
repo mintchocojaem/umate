@@ -12,7 +12,7 @@ enum OrbButtonRadius {
 
 enum OrbButtonSize {
   compact,
-  normal,
+  fit,
   wide,
 }
 
@@ -141,12 +141,12 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           EdgeInsets.symmetric(
             horizontal: switch (widget.buttonSize) {
               OrbButtonSize.compact => 12,
-              OrbButtonSize.normal => 16,
+              OrbButtonSize.fit => 16,
               OrbButtonSize.wide => 24,
             },
             vertical: switch (widget.buttonSize) {
               OrbButtonSize.compact => 8,
-              OrbButtonSize.normal => 10,
+              OrbButtonSize.fit => 10,
               OrbButtonSize.wide => 12,
             },
           ),
@@ -155,7 +155,7 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           widget.minimumSize ??
               switch (widget.buttonSize) {
                 OrbButtonSize.compact => const Size(48, 32),
-                OrbButtonSize.normal => const Size(48, 40),
+                OrbButtonSize.fit => const Size(48, 40),
                 OrbButtonSize.wide => const Size(64, 48),
               },
         ),

@@ -1,6 +1,6 @@
 part of 'verify_student_screen.dart';
 
-mixin class VerifyStudentScreenEvent {
+mixin class VerifyStudentScreenController {
   String? checkStudentId({required String? studentId}) {
     if (studentId == null || studentId.isEmpty) {
       return '학번을 입력해주세요';
@@ -19,8 +19,9 @@ mixin class VerifyStudentScreenEvent {
     ref.read(routerProvider).pushNamed(AppRoute.signUpAgreePolicy.name);
   }
 
-  Color getAgreedPolicyColor({required bool agreePolicy}) {
-    if (agreePolicy) {
+  Color getAgreedPolicyColor(WidgetRef ref) {
+
+    if (ref.watch(agreePolicyProvider)) {
       return Colors.green;
     }
     return Colors.grey;

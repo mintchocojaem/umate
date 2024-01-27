@@ -7,7 +7,8 @@ class OrbScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
-  final OrbButton? submitButton;
+  final Widget? submitButton;
+  final Widget? submitButtonOnKeyboard;
   final Widget? submitHelper;
   final ScrollController? scrollController;
   final bool shrinkWrap;
@@ -22,6 +23,7 @@ class OrbScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
     this.submitButton,
+    this.submitButtonOnKeyboard,
     this.submitHelper,
     this.scrollController,
     this.shrinkWrap = false,
@@ -66,17 +68,7 @@ class OrbScaffold extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        StatefulBuilder(
-                          builder: (context, setState) {
-                            return submitButton!.copyWith(
-                              onPressed: () {
-                                setState(() {
-                                  submitButton!.onPressed();
-                                });
-                              },
-                            );
-                          },
-                        ),
+                        submitButton!,
                         submitHelper ?? const SizedBox(),
                       ],
                     ),
@@ -84,24 +76,12 @@ class OrbScaffold extends StatelessWidget {
               ],
             ),
             if (MediaQuery.of(context).viewInsets.bottom > 0 &&
-                submitButton != null)
+                submitButtonOnKeyboard != null)
               Positioned(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 left: 0,
                 right: 0,
-                child: StatefulBuilder(
-                  builder: (context, setState) {
-                    return submitButton!.copyWith(
-                      onPressed: () {
-                        setState(() {
-                          submitButton!.onPressed();
-                        });
-                      },
-                      buttonRadius: OrbButtonRadius.none,
-                      buttonSize: OrbButtonSize.wide,
-                    );
-                  },
-                ),
+                child: submitButtonOnKeyboard!,
               ),
           ],
         ),

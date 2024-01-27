@@ -3,9 +3,9 @@ import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'login_help_screen_event.dart';
+part 'login_help_screen_controller.dart';
 
-class LoginHelpScreen extends ConsumerWidget with LoginHelpScreenEvent{
+class LoginHelpScreen extends ConsumerWidget with LoginHelpScreenController{
   const LoginHelpScreen({super.key});
 
   @override

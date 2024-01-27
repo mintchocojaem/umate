@@ -4,9 +4,9 @@ import 'package:danvery/src/features/auth/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'login_screen_event.dart';
+part 'login_screen_controller.dart';
 
-class LoginScreen extends ConsumerWidget with LoginScreenEvent {
+class LoginScreen extends ConsumerWidget with LoginScreenController {
   LoginScreen({super.key});
 
   @override
@@ -14,8 +14,20 @@ class LoginScreen extends ConsumerWidget with LoginScreenEvent {
     final TextEditingController studentIdController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
     final ThemeData themeData = Theme.of(context);
+
+    final OrbButton submitButton = OrbButton(
+      onPressed: () async {
+        await login(
+          ref,
+          formKey: formKey,
+          studentIdController: studentIdController,
+          passwordController: passwordController,
+        );
+      },
+      buttonText: '로그인하기',
+    );
+
     return OrbScaffold(
       body: Form(
         key: formKey,
@@ -67,16 +79,9 @@ class LoginScreen extends ConsumerWidget with LoginScreenEvent {
           ],
         ),
       ),
-      submitButton: OrbButton(
-        onPressed: () async {
-          await login(
-            ref,
-            formKey: formKey,
-            studentIdController: studentIdController,
-            passwordController: passwordController,
-          );
-        },
-        buttonText: '로그인하기',
+      submitButton: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
       ),
       submitHelper: TextButton(
         onPressed: () {
