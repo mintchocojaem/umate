@@ -1,12 +1,10 @@
 import 'package:danvery/src/core/core.dart';
+import 'package:danvery/src/modules/modules.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'firebase_options.dart';
-import 'src/modules/modules.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
