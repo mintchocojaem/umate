@@ -6,7 +6,7 @@ import '../configs.dart';
 import 'main_screen.dart';
 import 'route_error_screen.dart';
 
-final Provider<GoRouter> routerProvider = Provider<GoRouter>(
+final routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
       initialLocation: '/',
@@ -22,7 +22,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
         GoRoute(
           path: '/login',
           name: AppRoute.login.name,
-          builder: (context, state) => LoginScreen(),
+          builder: (context, state) => const LoginScreen(),
           routes: [
             GoRoute(
               path: 'help',
@@ -47,7 +47,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>(
       },
       redirect: (context, state) {
         final token = ref.read(tokenProvider);
-        if (!token.hasValue) {
+        if (!(token.hasValue || state.fullPath!.contains('/login'))) {
           //return '/login';
         }
         return null;

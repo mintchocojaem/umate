@@ -15,8 +15,9 @@ class PetitionBoardNotifier
   late final KeepAliveLink _link;
 
   @override
-  FutureOr<PetitionBoardModel> build() {
+  FutureOr<PetitionBoardModel> build() async{
     _petitionBoardRepository = ref.watch(petitionRepositoryProvider);
+    getPetitionBoard();
     return future;
   }
 

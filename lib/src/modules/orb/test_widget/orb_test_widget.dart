@@ -20,12 +20,6 @@ class OrbTestWidget extends StatefulWidget {
 
 class _OrbTestWidgetState extends State<OrbTestWidget> {
   int _selectedIndex = 0;
-  final FoldableScrollController _foldableScrollController =
-      FoldableScrollController(
-    scrollController: ScrollController(),
-    height: 100,
-    maxHeight: 100,
-  );
 
   final submitButton = OrbButton(
     buttonText: "Show OrbSnackBar",
@@ -48,7 +42,6 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       scrollBody: false,
       orbAppBar: const OrbAppBar(
@@ -56,25 +49,8 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
         showLoadingIndicator: true,
       ),
       body: SingleChildScrollView(
-        controller: _foldableScrollController.scrollController,
         child: Column(
           children: [
-            ModelWidget(
-              title: 'OrbFoldableContainer',
-              child: OrbFoldableContainer(
-                scrollController: _foldableScrollController,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: themeData.colorScheme.surfaceVariant,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 100,
-                  child: const Center(
-                    child: Text("Child"),
-                  ),
-                ),
-              ),
-            ),
             ModelWidget(
               title: 'OrbBoardContainer',
               child: OrbBoardContainer(

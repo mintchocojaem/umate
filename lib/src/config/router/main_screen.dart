@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../features/features.dart';
 import '../../modules/modules.dart';
 
 final _currentIndexProvider = StateProvider.autoDispose<int>((ref) {
@@ -16,15 +17,18 @@ class MainScreen extends ConsumerWidget {
     final pageController = PageController(initialPage: 0);
 
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Container(color: Colors.red),
-          Container(color: Colors.blue),
-          Container(color: Colors.green),
-          Container(color: Colors.yellow),
-        ],
+      body: SafeArea(
+
+        child: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            Container(color: Colors.red),
+            PetitionBoardScreen(),
+            Container(color: Colors.green),
+            Container(color: Colors.yellow),
+          ],
+        ),
       ),
       bottomNavigationBar: OrbBottomNavigationBar(
         items: const [
