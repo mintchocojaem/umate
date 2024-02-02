@@ -11,7 +11,6 @@ final tokenProvider =
 
 class TokenNotifier extends AutoDisposeAsyncNotifier<TokenModel> {
   late final AuthRepository _authRepository;
-  late final KeepAliveLink _link;
 
   @override
   FutureOr<TokenModel> build() {
@@ -23,7 +22,7 @@ class TokenNotifier extends AutoDisposeAsyncNotifier<TokenModel> {
     required String studentId,
     required String password,
   }) async {
-    _link = ref.keepAlive();
+    final link = ref.keepAlive();
 
     state = await AsyncValue.guard(
       () async => await _authRepository.login(
@@ -33,7 +32,7 @@ class TokenNotifier extends AutoDisposeAsyncNotifier<TokenModel> {
     );
 
     if (state.hasError) {
-      _link.close();
+      link.close();
     }
   }
 }

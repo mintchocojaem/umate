@@ -19,7 +19,6 @@ export 'petition/data/repositories/petition_repository.dart';
 export 'petition/domain/models/petition_board_model.dart';
 export 'petition/domain/models/petition_post_detail_model.dart';
 export 'petition/domain/models/petition_statistic_model.dart';
-export 'petition/presentation/providers/petition_board_provider.dart';
 export 'petition/presentation/screens/petition_board_screen/petition_board_screen.dart';
 export 'petition/utils/petition_status.dart';
 export 'petition/utils/petition_date_format.dart';

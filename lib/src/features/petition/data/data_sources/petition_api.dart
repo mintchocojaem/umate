@@ -17,7 +17,7 @@ class PetitionApi {
     required int page,
     int? bodySize,
     required int size,
-    //required PetitionStatus status,
+    required String status,
   }) async {
     final result = await _dioClient.request(
       path: '/post/petition',
@@ -27,7 +27,7 @@ class PetitionApi {
         'page': page,
         'size': size,
         'bodySize': bodySize,
-        //'status': status.value,
+        'status': status,
         'sort': 'createdAt,desc',
       },
     );

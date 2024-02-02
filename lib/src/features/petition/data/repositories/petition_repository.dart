@@ -20,14 +20,14 @@ class PetitionRepository {
     required int page,
     int? bodySize,
     required int size,
-    //required PetitionStatus status,
+    required String status,
   }) async {
     return await _petitionApi.getPetitionBoard(
       keyword: keyword,
       page: page,
       bodySize: bodySize,
       size: size,
-      //status: status,
+      status: status,
     );
   }
 }

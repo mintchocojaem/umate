@@ -22,7 +22,7 @@ final dioClientProvider = Provider<DioClient>((ref) {
         print('DioClient > (Request) : ${requestOptions.uri}');
       }
 
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
     },
     onResponse: (response) async {
       // 응답 전에 처리할 내용 추가
