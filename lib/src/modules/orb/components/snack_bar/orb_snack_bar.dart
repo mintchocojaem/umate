@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 enum OrbSnackBarType {
@@ -8,10 +7,10 @@ enum OrbSnackBarType {
 }
 
 class OrbSnackBar {
-  late final GlobalKey<NavigatorState> navigatorKey;
+  late final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
   late final String message;
   late final OrbSnackBarType type;
-  final List<Flushbar> _snackBarQueue = [];
+  final List<SnackBar> _snackBarQueue = [];
 
   static final OrbSnackBar _instance = OrbSnackBar._internal();
 
@@ -22,10 +21,10 @@ class OrbSnackBar {
   }
 
   OrbSnackBar.init({
-    required this.navigatorKey,
+    required this.scaffoldMessengerKey,
   }) {
     final snackBar = OrbSnackBar();
-    snackBar.navigatorKey = navigatorKey;
+    snackBar.scaffoldMessengerKey = scaffoldMessengerKey;
   }
 
   factory OrbSnackBar.show({
@@ -41,62 +40,62 @@ class OrbSnackBar {
   }
 
   void _show({required String message, required OrbSnackBarType type}) {
-    final BuildContext? context = navigatorKey.currentState?.overlay?.context;
-
-    if (context == null) {
+    if (!scaffoldMessengerKey.currentState!.mounted) {
       return;
     }
 
-    final flushBar = Flushbar(
-      animationDuration: const Duration(milliseconds: 500),
-      duration: const Duration(milliseconds: 2500),
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      flushbarStyle: FlushbarStyle.FLOATING,
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      borderRadius: BorderRadius.circular(15),
-      padding: const EdgeInsets.all(16),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      messageText: Text(
-        message,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
+    const Duration duration = Duration(milliseconds: 3000);
+    final BuildContext context = scaffoldMessengerKey.currentContext!;
+    final themeData = Theme.of(context);
+
+    final snackBar = SnackBar(
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: BoxDecoration(
+          color: themeData.colorScheme.onSurfaceVariant,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.info,
+              color: switch (type) {
+                // TODO: Handle this case.
+                OrbSnackBarType.info => Colors.blue,
+                // TODO: Handle this case.
+                OrbSnackBarType.warning => Colors.amber,
+                // TODO: Handle this case.
+                OrbSnackBarType.error => Colors.red,
+              },
             ),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 3,
+            const SizedBox(width: 16),
+            Text(
+              message,
+              style: themeData.textTheme.bodyMedium?.copyWith(
+                color: themeData.colorScheme.background,
+              ),
+            ),
+          ],
+        ),
       ),
-      icon: switch (type) {
-        // TODO: Handle this case.
-        OrbSnackBarType.info => const Icon(
-            Icons.info,
-            color: Colors.blue,
-          ),
-        // TODO: Handle this case.
-        OrbSnackBarType.warning => const Icon(
-            Icons.info,
-            color: Colors.amber,
-          ),
-        // TODO: Handle this case.
-        OrbSnackBarType.error => const Icon(
-            Icons.info,
-            color: Colors.red,
-          ),
-      },
-      onStatusChanged: (status) {
-        if (status == FlushbarStatus.DISMISSED) {
+      duration: duration,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      padding: const EdgeInsets.all(16),
+      onVisible: () {
+        Future.delayed(duration, () {
+          _snackBarQueue.removeAt(0);
           if (_snackBarQueue.isNotEmpty) {
-            _snackBarQueue.removeAt(0);
-            if (_snackBarQueue.isNotEmpty) {
-              _snackBarQueue[0].show(context);
-            }
+            scaffoldMessengerKey.currentState!.showSnackBar(_snackBarQueue[0]);
           }
-        }
+        });
       },
     );
 
-    _snackBarQueue.add(flushBar);
+    _snackBarQueue.add(snackBar);
 
     if (_snackBarQueue.length == 1) {
-      flushBar.show(context);
+      scaffoldMessengerKey.currentState!.showSnackBar(snackBar);
     }
   }
 }

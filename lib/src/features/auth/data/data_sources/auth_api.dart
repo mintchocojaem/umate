@@ -10,15 +10,15 @@ final authApiProvider = Provider.autoDispose<AuthApi>((ref) {
 });
 
 class AuthApi {
-  final DioClient _dioClient;
+  final DioClient dioClient;
 
-  AuthApi({required DioClient dioClient}) : _dioClient = dioClient;
+  AuthApi({required this.dioClient});
 
   Future<TokenModel> login({
     required String studentId,
     required String password,
   }) async {
-    final response = await _dioClient.request(
+    final response = await dioClient.request(
       path: '/user/login',
       method: RequestType.post,
       data: {
@@ -33,7 +33,7 @@ class AuthApi {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final response = await _dioClient.request(
+    final response = await dioClient.request(
       path: '/user/dku/verify',
       method: RequestType.post,
       data: {
@@ -48,7 +48,7 @@ class AuthApi {
     required String signUpToken,
     required String phoneNumber,
   }) async {
-    final result = await _dioClient.request(
+    final result = await dioClient.request(
       path: '/user/sms/$signUpToken',
       method: RequestType.post,
       data: {
@@ -62,7 +62,7 @@ class AuthApi {
     required String signUpToken,
     required String code,
   }) async {
-    final result = await _dioClient.request(
+    final result = await dioClient.request(
       path: '/user/sms/verify/$signUpToken',
       method: RequestType.post,
       data: {
@@ -73,7 +73,7 @@ class AuthApi {
   }
 
   Future<bool> validNickname({required String nickname}) async {
-    final result = await _dioClient.request(
+    final result = await dioClient.request(
       path: '/user/valid?nickname=$nickname',
       method: RequestType.get,
     );
@@ -85,7 +85,7 @@ class AuthApi {
     required String nickname,
     required String password,
   }) async {
-    final result = await _dioClient.request(
+    final result = await dioClient.request(
       path: '/user/$signUpToken',
       method: RequestType.post,
       data: {

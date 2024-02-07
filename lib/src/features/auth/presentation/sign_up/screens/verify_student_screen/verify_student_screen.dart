@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +8,7 @@ import '../../../../../../modules/modules.dart';
 
 part 'verify_student_screen_provider.dart';
 
+@RoutePage()
 class VerifyStudentScreen extends ConsumerWidget {
 
   const VerifyStudentScreen({super.key});
@@ -82,7 +84,7 @@ class VerifyStudentScreen extends ConsumerWidget {
                 },
               ),
               onTap: () {
-                screenNotifier.agreePolicy(ref);
+                screenNotifier.goAgreePolicyScreen(ref);
               },
             ),
           ],

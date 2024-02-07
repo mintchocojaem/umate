@@ -7,7 +7,7 @@ final petitionBoardScreenProvider = NotifierProvider.autoDispose<
 
 class PetitionBoardScreenState {
   PetitionStatus status;
-  Future<PetitionBoardModel> petitionBoard;
+  AsyncValue<PetitionBoardModel> petitionBoard;
 
   PetitionBoardScreenState({
     required this.status,
@@ -16,7 +16,7 @@ class PetitionBoardScreenState {
 
   copyWith({
     PetitionStatus? status,
-    Future<PetitionBoardModel>? petitionBoard,
+    AsyncValue<PetitionBoardModel>? petitionBoard,
   }) {
     return PetitionBoardScreenState(
       status: status ?? this.status,
@@ -40,47 +40,57 @@ class PetitionBoardScreenNotifier
     });
 
      */
+    Future(() async {
+      await getPetitionBoard(status: PetitionStatus.active);
+    });
     return PetitionBoardScreenState(
       status: PetitionStatus.active,
-      petitionBoard: _getPetitionBoard(status: PetitionStatus.active),
+      petitionBoard: const AsyncValue.loading(),
     );
   }
 
-  Future<PetitionBoardModel> _getPetitionBoard({
+  Future<void> getPetitionBoard({
     required PetitionStatus status,
   }) async {
-    final petitionBoardRepository = ref.watch(petitionRepositoryProvider);
-    final petitionBoard = await petitionBoardRepository.getPetitionBoard(
-      page: 0,
-      size: 10,
-      status: status.value,
-    );
-    return petitionBoard;
-  }
-
-  void onStatusChanged({required PetitionStatus status}) {
-    //ref.read(petitionStatusProvider.notifier).update((state) => status);
     state = state.copyWith(
       status: status,
-      petitionBoard: _getPetitionBoard(status: status),
+      petitionBoard: const AsyncValue.loading(),
     );
+    final petitionBoard = await AsyncValue.guard(
+        () => ref.read(petitionRepositoryProvider).getPetitionBoard(
+              status: status.value,
+              page: 0,
+              size: 10,
+            ));
+    state = state.copyWith(petitionBoard: petitionBoard);
   }
 
-  String petitionRemainingDate(String expiresAt) {
+  Future<void> onStatusChanged({required PetitionStatus status}) async {
+    if (status != state.status) {
+      ref.read(dioClientProvider).cancelAllRequests();
+      await getPetitionBoard(status: status);
+    }
+  }
+
+  String petitionRemainingDate({required String expiresAt}) {
     final date = DateTime.parse(expiresAt);
     final now = DateTime.now();
     return now.isBefore(date) ? 'D-${date.difference(now).inDays}' : '마감';
   }
 
-  String petitionDuration(String createdAt, String expiresAt) {
+  String petitionDuration({
+    required String createdAt,
+    required String expiresAt,
+  }) {
     final createdDate = dateFormatCompact(createdAt);
     final expiresDate = dateFormatCompact(expiresAt);
     return '$createdDate ~ $expiresDate';
   }
 
-  String getPetitionStatus(String status) {
+  String getPetitionStatus({required String status}) {
     return PetitionStatus.values
         .firstWhere((element) => element.value == status)
         .display;
   }
+
 }

@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +8,7 @@ import '../../../../../../modules/modules.dart';
 
 part 'login_screen_provider.dart';
 
+@RoutePage()
 class LoginScreen extends ConsumerWidget with AuthValidator {
   const LoginScreen({super.key});
 
@@ -21,7 +23,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
 
     final OrbButton submitButton = OrbButton(
       onPressed: () async {
-        await  screenNotifier.login(
+        await screenNotifier.login(
           ref,
           formKey: formKey,
           studentId: studentIdController.text,
@@ -69,7 +71,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                screenNotifier .pushVerifyStudentPage(ref);
+                screenNotifier.goVerifyStudentScreen(ref);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -88,7 +90,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          screenNotifier .pushLoginHelpPage(ref);
+          screenNotifier.goLoginHelpScreen(ref);
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

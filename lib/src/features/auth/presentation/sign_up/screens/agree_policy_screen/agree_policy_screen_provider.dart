@@ -46,7 +46,7 @@ class AgreePolicyScreenNotifier
   }) async {
     if (state.maxScrollExtent) {
       ref.read(agreePolicyProvider.notifier).update((state) => true);
-      ref.read(routerProvider).pop();
+      ref.read(appRouterProvider).pop();
     } else {
       await scrollController.animateTo(
         scrollController.position.maxScrollExtent,

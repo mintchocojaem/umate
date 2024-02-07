@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +14,7 @@ part 'agree_terms_content.dart';
 
 part 'agree_terms_container.dart';
 
+@RoutePage()
 class AgreePolicyScreen extends ConsumerWidget {
   const AgreePolicyScreen({super.key});
 

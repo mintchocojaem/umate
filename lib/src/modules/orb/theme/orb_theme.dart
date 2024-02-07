@@ -79,8 +79,7 @@ class OrbTheme {
         onError: OrbPalette.onError,
       ),
       textTheme: _textTheme.apply(
-        bodyColor: Colors.black,
-        displayColor: Colors.black,
+        bodyColor: OrbPalette.onSurfaceVariant,
         fontFamily: 'SpoqaHanSansNeo',
       ),
     );
@@ -96,18 +95,17 @@ class OrbTheme {
         onPrimary: OrbPalette.onMainColor,
         secondary: OrbPalette.subColor,
         onSecondary: OrbPalette.onSubColor,
-        background: OrbPalette.onBackground,
-        onBackground: OrbPalette.background,
-        surface: OrbPalette.onSurface,
-        onSurface: OrbPalette.surface,
+        background: OrbPalette.onSurface,
+        onBackground: OrbPalette.surface,
+        surface: OrbPalette.onBackground,
+        onSurface: OrbPalette.background,
         surfaceVariant: OrbPalette.onSurfaceVariant,
         onSurfaceVariant: OrbPalette.surfaceVariant,
         error: OrbPalette.error,
         onError: OrbPalette.onError,
       ),
       textTheme: _textTheme.apply(
-        bodyColor: Colors.white,
-        displayColor: Colors.white,
+        bodyColor: OrbPalette.surfaceVariant,
         fontFamily: 'SpoqaHanSansNeo',
       ),
     );

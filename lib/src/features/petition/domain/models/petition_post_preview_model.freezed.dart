@@ -27,6 +27,7 @@ mixin _$PetitionPostPreviewModel {
   String get createdAt =>
       throw _privateConstructorUsedError; //required List<PostFile?> files,
 //required List<PostImage?> images,
+  String get body => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   String get expiresAt => throw _privateConstructorUsedError;
   int get agreeCount => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $PetitionPostPreviewModelCopyWith<$Res> {
       String title,
       String author,
       String createdAt,
+      String body,
       String status,
       String expiresAt,
       int agreeCount,
@@ -73,6 +75,7 @@ class _$PetitionPostPreviewModelCopyWithImpl<$Res,
     Object? title = null,
     Object? author = null,
     Object? createdAt = null,
+    Object? body = null,
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
@@ -94,6 +97,10 @@ class _$PetitionPostPreviewModelCopyWithImpl<$Res,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -129,6 +136,7 @@ abstract class _$$PetitionPostPreviewModelImplCopyWith<$Res>
       String title,
       String author,
       String createdAt,
+      String body,
       String status,
       String expiresAt,
       int agreeCount,
@@ -152,6 +160,7 @@ class __$$PetitionPostPreviewModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? author = null,
     Object? createdAt = null,
+    Object? body = null,
     Object? status = null,
     Object? expiresAt = null,
     Object? agreeCount = null,
@@ -173,6 +182,10 @@ class __$$PetitionPostPreviewModelImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -202,6 +215,7 @@ class _$PetitionPostPreviewModelImpl implements _PetitionPostPreviewModel {
       required this.title,
       required this.author,
       required this.createdAt,
+      required this.body,
       required this.status,
       required this.expiresAt,
       required this.agreeCount,
@@ -221,6 +235,8 @@ class _$PetitionPostPreviewModelImpl implements _PetitionPostPreviewModel {
 //required List<PostFile?> files,
 //required List<PostImage?> images,
   @override
+  final String body;
+  @override
   final String status;
   @override
   final String expiresAt;
@@ -231,7 +247,7 @@ class _$PetitionPostPreviewModelImpl implements _PetitionPostPreviewModel {
 
   @override
   String toString() {
-    return 'PetitionPostPreviewModel(id: $id, title: $title, author: $author, createdAt: $createdAt, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded)';
+    return 'PetitionPostPreviewModel(id: $id, title: $title, author: $author, createdAt: $createdAt, body: $body, status: $status, expiresAt: $expiresAt, agreeCount: $agreeCount, blinded: $blinded)';
   }
 
   @override
@@ -244,6 +260,7 @@ class _$PetitionPostPreviewModelImpl implements _PetitionPostPreviewModel {
             (identical(other.author, author) || other.author == author) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.body, body) || other.body == body) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -255,7 +272,7 @@ class _$PetitionPostPreviewModelImpl implements _PetitionPostPreviewModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, author, createdAt,
-      status, expiresAt, agreeCount, blinded);
+      body, status, expiresAt, agreeCount, blinded);
 
   @JsonKey(ignore: true)
   @override
@@ -278,6 +295,7 @@ abstract class _PetitionPostPreviewModel implements PetitionPostPreviewModel {
       required final String title,
       required final String author,
       required final String createdAt,
+      required final String body,
       required final String status,
       required final String expiresAt,
       required final int agreeCount,
@@ -296,6 +314,8 @@ abstract class _PetitionPostPreviewModel implements PetitionPostPreviewModel {
   String get createdAt;
   @override //required List<PostFile?> files,
 //required List<PostImage?> images,
+  String get body;
+  @override
   String get status;
   @override
   String get expiresAt;

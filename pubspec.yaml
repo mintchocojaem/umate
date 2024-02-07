@@ -51,7 +51,8 @@ dependencies:
 
   #util
   flutter_local_notifications: ^16.2.0
-  go_router: ^13.0.0
+  auto_route: ^7.8.4
+  auto_route_generator: ^7.3.2
   dio: ^5.1.1
   mime_type: ^1.0.0
   intl: ^0.18.1

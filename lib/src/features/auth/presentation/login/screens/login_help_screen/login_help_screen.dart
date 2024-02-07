@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +7,7 @@ import '../../../../../../modules/modules.dart';
 
 part 'login_help_screen_provider.dart';
 
+@RoutePage()
 class LoginHelpScreen extends ConsumerWidget with LoginHelpScreenController{
   const LoginHelpScreen({super.key});
 
@@ -30,7 +32,7 @@ class LoginHelpScreen extends ConsumerWidget with LoginHelpScreenController{
             leading: const Icon(Icons.login_rounded),
             titleText: '회원가입을 하고 싶어요',
             onTap: () {
-              pushVerifyStudentPage(ref);
+              goVerifyStudentScreen(ref);
             },
             trailing: const Icon(Icons.chevron_right),
           ),

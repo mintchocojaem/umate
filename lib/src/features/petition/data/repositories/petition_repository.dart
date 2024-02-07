@@ -10,10 +10,9 @@ final petitionRepositoryProvider = Provider.autoDispose<PetitionRepository>((ref
 });
 
 class PetitionRepository {
-  final PetitionApi _petitionApi;
+  final PetitionApi petitionApi;
 
-  PetitionRepository({required PetitionApi petitionApi})
-      : _petitionApi = petitionApi;
+  PetitionRepository({required this.petitionApi});
 
   Future<PetitionBoardModel> getPetitionBoard({
     String? keyword,
@@ -22,7 +21,7 @@ class PetitionRepository {
     required int size,
     required String status,
   }) async {
-    return await _petitionApi.getPetitionBoard(
+    return await petitionApi.getPetitionBoard(
       keyword: keyword,
       page: page,
       bodySize: bodySize,

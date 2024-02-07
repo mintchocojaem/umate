@@ -14,12 +14,12 @@ class LoginScreenNotifier extends AutoDisposeNotifier<LoginScreenState> {
     return LoginScreenState();
   }
 
-  void pushVerifyStudentPage(WidgetRef ref) {
-    ref.read(routerProvider).pushNamed(AppRoute.signUpVerifyStudent.name);
+  void goVerifyStudentScreen(WidgetRef ref) {
+    ref.read(appRouterProvider).push(const VerifyStudentRoute());
   }
 
-  void pushLoginHelpPage(WidgetRef ref) {
-    ref.read(routerProvider).pushNamed(AppRoute.loginHelp.name);
+  void goLoginHelpScreen(WidgetRef ref) {
+    ref.read(appRouterProvider).push(const LoginHelpRoute());
   }
 
   Future<void> login(

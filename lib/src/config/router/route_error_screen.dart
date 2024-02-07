@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
+part of 'app_router.dart';
 
-import '../../modules/modules.dart';
-
+@RoutePage()
 class RouteErrorScreen extends StatelessWidget {
   final String errorMessage;
 
@@ -10,8 +9,7 @@ class RouteErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return OrbScaffold(
-      scrollBody: false,
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

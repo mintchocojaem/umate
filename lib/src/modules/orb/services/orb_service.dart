@@ -1,9 +1,9 @@
 import 'package:danvery/src/modules/modules.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class OrbService{
 
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   static final OrbService _instance = OrbService._internal();
 
@@ -13,12 +13,9 @@ class OrbService{
     return _instance;
   }
 
-  OrbService.init({GlobalKey<NavigatorState>? newNavigatorKey}){
-    if(newNavigatorKey != null){
-      navigatorKey = newNavigatorKey;
-    }
-      OrbSnackBar.init(
-      navigatorKey: navigatorKey,
+  OrbService.init(){
+    OrbSnackBar.init(
+      scaffoldMessengerKey: scaffoldMessengerKey,
     );
   }
 

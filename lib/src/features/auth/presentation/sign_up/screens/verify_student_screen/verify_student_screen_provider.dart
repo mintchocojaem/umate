@@ -15,8 +15,8 @@ class VerifyStudentScreenNotifier
     return VerifyStudentScreenState();
   }
 
-  void agreePolicy(WidgetRef ref) {
-    ref.read(routerProvider).pushNamed(AppRoute.signUpAgreePolicy.name);
+  void goAgreePolicyScreen(WidgetRef ref) {
+    ref.read(appRouterProvider).push(const AgreePolicyRoute());
   }
 
   Color agreePolicyIconColor({required bool agreePolicy}) {

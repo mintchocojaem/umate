@@ -1,7 +1,6 @@
 part of 'petition_board_screen.dart';
 
 class PetitionStatusBar extends StatelessWidget {
-
   final PetitionStatus currentStatus;
   final List<PetitionStatus> statusList;
   final void Function(PetitionStatus status) onStatusChanged;
@@ -23,7 +22,7 @@ class PetitionStatusBar extends StatelessWidget {
         for (int i = 0; i < statusList.length; i++)
           InkWell(
             onTap: () {
-             onStatusChanged(statusList[i]);
+              onStatusChanged(statusList[i]);
             },
             child: Container(
               padding: const EdgeInsets.only(
@@ -32,16 +31,16 @@ class PetitionStatusBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 color: selectedIndex == i
                     ? themeData.colorScheme.primary
-                    : themeData.colorScheme.surface,
+                    : themeData.colorScheme.surfaceVariant,
               ),
               child: Text(
                 statusList[i].display,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: selectedIndex == i
-                      ? themeData.colorScheme.onPrimary
-                      : themeData.colorScheme.onSurface,
-                ),
+                      fontWeight: FontWeight.w500,
+                      color: selectedIndex == i
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.colorScheme.onSurface,
+                    ),
               ),
             ),
           ),

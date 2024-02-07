@@ -13,6 +13,7 @@ class PetitionPostPreviewModel with _$PetitionPostPreviewModel {
     required String createdAt,
     //required List<PostFile?> files,
     //required List<PostImage?> images,
+    required String body,
     required String status,
     required String expiresAt,
     required int agreeCount,

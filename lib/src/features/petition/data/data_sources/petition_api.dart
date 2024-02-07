@@ -8,9 +8,9 @@ final petitionApiProvider = Provider.autoDispose<PetitionApi>((ref) {
 });
 
 class PetitionApi {
-  final DioClient _dioClient;
+  final DioClient dioClient;
 
-  PetitionApi({required DioClient dioClient}) : _dioClient = dioClient;
+  PetitionApi({required this.dioClient});
 
   Future<PetitionBoardModel> getPetitionBoard({
     String? keyword,
@@ -19,7 +19,7 @@ class PetitionApi {
     required int size,
     required String status,
   }) async {
-    final result = await _dioClient.request(
+    final result = await dioClient.request(
       path: '/post/petition',
       method: RequestType.get,
       queryParameters: {

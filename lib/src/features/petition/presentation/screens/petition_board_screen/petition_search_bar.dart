@@ -2,10 +2,12 @@ part of 'petition_board_screen.dart';
 
 class PetitionSearchBar extends StatefulWidget {
   final TextEditingController keywordController;
+  final FocusNode? focusNode;
 
   const PetitionSearchBar({
     super.key,
     required this.keywordController,
+    this.focusNode,
   });
 
   @override
@@ -13,23 +15,19 @@ class PetitionSearchBar extends StatefulWidget {
 }
 
 class _PetitionSearchBarState extends State<PetitionSearchBar> {
-  late final FocusNode focusNode;
-  late final TextEditingController searchController;
   bool onSearch = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    focusNode = FocusNode();
-    searchController = widget.keywordController;
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    focusNode.dispose();
-    searchController.dispose();
+    widget.focusNode?.dispose();
+    widget.keywordController.dispose();
     super.dispose();
   }
 
@@ -41,40 +39,33 @@ class _PetitionSearchBarState extends State<PetitionSearchBar> {
       children: [
         Expanded(
           child: TextFormField(
-            focusNode: focusNode,
-            controller: searchController,
+            focusNode: widget.focusNode,
+            controller: widget.keywordController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               hintText: '검색',
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
               ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+              filled: true,
+              fillColor: themeData.colorScheme.surfaceVariant,
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+                borderSide: BorderSide.none,
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
-                  color: themeData.colorScheme.surfaceVariant,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
-                  color: themeData.colorScheme.surfaceVariant,
-                ),
-              ),
               counterText: '',
-              suffixIcon: searchController.text.isNotEmpty
+              suffixIcon: widget.keywordController.text.isNotEmpty
                   ? IconButton(
                       onPressed: () {
                         setState(() {
-                          searchController.clear();
+                          widget.keywordController.clear();
                         });
                       },
                       icon: const Icon(
@@ -95,6 +86,9 @@ class _PetitionSearchBarState extends State<PetitionSearchBar> {
                 onSearch = true;
               });
             },
+            onTapOutside: (pointerDownEvent) {
+              widget.focusNode?.unfocus();
+            },
           ),
         ),
         AnimatedSize(
@@ -106,7 +100,7 @@ class _PetitionSearchBarState extends State<PetitionSearchBar> {
                     onTap: () {
                       setState(() {
                         onSearch = false;
-                        searchController.clear();
+                        widget.keywordController.clear();
                       });
                     },
                     child: Padding(

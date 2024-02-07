@@ -7,17 +7,17 @@ final authRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
 });
 
 class AuthRepository {
-  final AuthApi _authApi;
+  final AuthApi authApi;
 
   AuthRepository({
-    required AuthApi authApi,
-  }) : _authApi = authApi;
+    required this.authApi,
+  });
 
   Future<TokenModel> login({
     required String studentId,
     required String password,
   }) async {
-    return await _authApi.login(
+    return await authApi.login(
       studentId: studentId,
       password: password,
     );
@@ -28,7 +28,7 @@ class AuthRepository {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    return await _authApi.verifyStudent(
+    return await authApi.verifyStudent(
       dkuStudentId: dkuStudentId,
       dkuPassword: dkuPassword,
     );
@@ -38,7 +38,7 @@ class AuthRepository {
     required String phoneNumber,
     required String signUpToken,
   }) async {
-    return await _authApi.sendSMS(
+    return await authApi.sendSMS(
       phoneNumber: phoneNumber,
       signUpToken: signUpToken,
     );
@@ -48,14 +48,14 @@ class AuthRepository {
     required String signUpToken,
     required String code,
   }) async {
-    return await _authApi.verifySMS(
+    return await authApi.verifySMS(
       signUpToken: signUpToken,
       code: code,
     );
   }
 
   Future<bool> validNickname({required String nickname}) async {
-    return await _authApi.validNickname(
+    return await authApi.validNickname(
       nickname: nickname,
     );
   }
@@ -65,7 +65,7 @@ class AuthRepository {
     required String nickname,
     required String password,
   }) async {
-    return await _authApi.signUp(
+    return await authApi.signUp(
       signUpToken: signUpToken,
       nickname: nickname,
       password: password,

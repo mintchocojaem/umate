@@ -3,13 +3,13 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../theme/theme.dart';
 
-class OrbAppBar extends StatelessWidget implements PreferredSizeWidget{
-
+class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final String title;
   final Widget? trailing;
   final bool centerTitle;
   final bool showLoadingIndicator;
+  final Color? backgroundColor;
 
   const OrbAppBar({
     super.key,
@@ -18,6 +18,7 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget{
     this.trailing,
     this.centerTitle = false,
     this.showLoadingIndicator = false,
+    this.backgroundColor,
   });
 
   @override
@@ -25,14 +26,14 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget{
     ThemeData themeData = Theme.of(context);
     return AppBar(
       automaticallyImplyLeading: true,
-      backgroundColor: themeData.colorScheme.background,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
       leading: leading,
       centerTitle: centerTitle,
       title: Text(
         title,
-        style: themeData.textTheme.titleSmall?.copyWith(
+        style: themeData.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -42,22 +43,23 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget{
           child: trailing ?? const SizedBox(),
         ),
       ],
-      bottom: showLoadingIndicator ? PreferredSize(
-        preferredSize: const Size.fromHeight(2),
-        child: Shimmer.fromColors(
-          baseColor: themeData.colorScheme.surface,
-          highlightColor: OrbPalette.mainColor,
-          child: LinearProgressIndicator(
-            minHeight: 2,
-            value: 1,
-            color: OrbPalette.mainColor,
-          ),
-        ),
-      ) : null,
+      bottom: showLoadingIndicator
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(2),
+              child: Shimmer.fromColors(
+                baseColor: themeData.colorScheme.surface,
+                highlightColor: OrbPalette.mainColor,
+                child: LinearProgressIndicator(
+                  minHeight: 2,
+                  value: 1,
+                  color: OrbPalette.mainColor,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
-
 }

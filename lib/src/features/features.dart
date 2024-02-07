@@ -17,8 +17,13 @@ export 'auth/utils/auth_validator.dart';
 export 'petition/data/data_sources/petition_api.dart';
 export 'petition/data/repositories/petition_repository.dart';
 export 'petition/domain/models/petition_board_model.dart';
+export 'petition/domain/models/petition_post_preview_model.dart';
 export 'petition/domain/models/petition_post_detail_model.dart';
 export 'petition/domain/models/petition_statistic_model.dart';
 export 'petition/presentation/screens/petition_board_screen/petition_board_screen.dart';
 export 'petition/utils/petition_status.dart';
 export 'petition/utils/petition_date_format.dart';
+
+//dashboard
+export 'dashboard/application/dashboard_service.dart';
+export 'dashboard/presentation/screens/home_screen/home_screen.dart';
