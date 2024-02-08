@@ -34,7 +34,6 @@ class HomePetitionBoard extends StatelessWidget {
       itemBuilder: (context, index) {
         final petition = petitionInfoList[index];
         return ListTile(
-          dense: true,
           contentPadding: const EdgeInsets.all(0),
           visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
           title: Text(
@@ -45,12 +44,20 @@ class HomePetitionBoard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
+          subtitle: Text(
+            petition.body,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           onTap: () {
             petition.onTap(petition.id);
           },
           leading: Text(
             petition.createdAt,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           trailing: const Icon(
             Icons.chevron_right_outlined,

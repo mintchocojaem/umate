@@ -17,7 +17,6 @@ class OrbListTile extends StatelessWidget implements OrbTile {
   @override
   final Widget? content;
   final String? contentText;
-  final CrossAxisAlignment? contentAlign;
   @override
   final VoidCallback? onTap;
   final Widget? leading;
@@ -32,7 +31,6 @@ class OrbListTile extends StatelessWidget implements OrbTile {
     this.tileTextStyle = TileTextStyle.medium,
     this.content,
     this.contentText,
-    this.contentAlign = CrossAxisAlignment.start,
     this.leading,
     this.trailing,
     this.onTap,
@@ -71,8 +69,6 @@ class OrbListTile extends StatelessWidget implements OrbTile {
                 ),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment:
-                        contentAlign ?? CrossAxisAlignment.start,
                     children: [
                       if (content != null) content!,
                       if (contentText != null)

@@ -5,6 +5,7 @@ import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../common_widgets/common_widgets.dart';
 import '../../../../../utils/utils.dart';
 import '../../../../features.dart';
 
@@ -15,37 +16,6 @@ part 'petition_search_bar.dart';
 part 'petition_status_bar.dart';
 
 part 'petition_preview_card.dart';
-
-class PetitionStatusBarSliverDelegate extends SliverPersistentHeaderDelegate {
-  PetitionStatusBarSliverDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
-
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => maxHeight;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(PetitionStatusBarSliverDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
-  }
-}
 
 @RoutePage()
 class PetitionBoardScreen extends ConsumerWidget {
@@ -60,9 +30,17 @@ class PetitionBoardScreen extends ConsumerWidget {
     final screenNotifier = ref.watch(petitionBoardScreenProvider.notifier);
     final themeData = Theme.of(context);
 
-    print("build");
-
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: themeData.colorScheme.background,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: false,
+        title: PetitionSearchBar(
+          keywordController: keywordController,
+          focusNode: focusNode,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: NestedScrollView(
@@ -71,31 +49,27 @@ class PetitionBoardScreen extends ConsumerWidget {
             return <Widget>[
               SliverPersistentHeader(
                 floating: true,
-                delegate: PetitionStatusBarSliverDelegate(
-                  minHeight: 100,
-                  maxHeight: 100,
+                delegate: SliverPersistentHeaderDelegateImpl(
+                  minHeight: 56,
+                  maxHeight: 56,
                   child: Container(
                     color: themeData.colorScheme.background,
-                    child: Column(
-                      children: [
-                        PetitionSearchBar(
-                          keywordController: keywordController,
-                          focusNode: focusNode,
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: PetitionStatusBar(
-                              currentStatus: ref.watch(
-                                  petitionBoardScreenProvider
-                                      .select((value) => value.status)),
-                              statusList: PetitionStatus.values,
-                              onStatusChanged: (status) {
-                                screenNotifier.onStatusChanged(status: status);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: Center(
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          final petitionStatus = ref.watch(
+                              petitionBoardScreenProvider
+                                  .select((value) => value.status));
+                          return PetitionStatusBar(
+                            currentStatus: petitionStatus,
+                            statusList: PetitionStatus.values,
+                            onStatusChanged: (status) {
+                              screenNotifier.onStatusChanged(
+                                  status: status);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

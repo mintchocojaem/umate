@@ -27,3 +27,9 @@ export 'petition/utils/petition_date_format.dart';
 //dashboard
 export 'dashboard/application/dashboard_service.dart';
 export 'dashboard/presentation/screens/home_screen/home_screen.dart';
+
+//bus
+export 'bus/data/data_sources/bus_api.dart';
+export 'bus/data/repositories/bus_repository.dart';
+export 'bus/domain/models/bus_arrival_info_model.dart';
+export 'bus/domain/models/bus_model.dart';

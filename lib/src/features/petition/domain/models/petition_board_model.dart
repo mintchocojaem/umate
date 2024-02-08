@@ -1,7 +1,6 @@
-import 'package:danvery/src/features/petition/domain/models/petition_post_preview_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'petition_post_detail_model.dart';
+import 'petition_post_preview_model.dart';
 
 part 'petition_board_model.freezed.dart';
 

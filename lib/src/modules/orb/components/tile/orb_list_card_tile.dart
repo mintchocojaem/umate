@@ -18,7 +18,6 @@ class OrbListCardTile extends OrbListTile {
     super.leading,
     super.trailing,
     super.onTap,
-    super.contentAlign,
     super.tileTextStyle,
     super.boldTitleText,
     this.style = OrbListCardTileStyle.surface,

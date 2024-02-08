@@ -21,9 +21,9 @@ BusModel _$BusModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BusModel {
   @JsonKey(name: 'locationNo1')
-  int get location => throw _privateConstructorUsedError;
+  int? get remainingStation => throw _privateConstructorUsedError;
   @JsonKey(name: 'predictTime1')
-  int get predictTime => throw _privateConstructorUsedError;
+  int? get predictTime => throw _privateConstructorUsedError;
   String get busNo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,8 +38,8 @@ abstract class $BusModelCopyWith<$Res> {
       _$BusModelCopyWithImpl<$Res, BusModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'locationNo1') int location,
-      @JsonKey(name: 'predictTime1') int predictTime,
+      {@JsonKey(name: 'locationNo1') int? remainingStation,
+      @JsonKey(name: 'predictTime1') int? predictTime,
       String busNo});
 }
 
@@ -56,19 +56,19 @@ class _$BusModelCopyWithImpl<$Res, $Val extends BusModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? location = null,
-    Object? predictTime = null,
+    Object? remainingStation = freezed,
+    Object? predictTime = freezed,
     Object? busNo = null,
   }) {
     return _then(_value.copyWith(
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as int,
-      predictTime: null == predictTime
+      remainingStation: freezed == remainingStation
+          ? _value.remainingStation
+          : remainingStation // ignore: cast_nullable_to_non_nullable
+              as int?,
+      predictTime: freezed == predictTime
           ? _value.predictTime
           : predictTime // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       busNo: null == busNo
           ? _value.busNo
           : busNo // ignore: cast_nullable_to_non_nullable
@@ -86,8 +86,8 @@ abstract class _$$BusModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'locationNo1') int location,
-      @JsonKey(name: 'predictTime1') int predictTime,
+      {@JsonKey(name: 'locationNo1') int? remainingStation,
+      @JsonKey(name: 'predictTime1') int? predictTime,
       String busNo});
 }
 
@@ -102,19 +102,19 @@ class __$$BusModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? location = null,
-    Object? predictTime = null,
+    Object? remainingStation = freezed,
+    Object? predictTime = freezed,
     Object? busNo = null,
   }) {
     return _then(_$BusModelImpl(
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as int,
-      predictTime: null == predictTime
+      remainingStation: freezed == remainingStation
+          ? _value.remainingStation
+          : remainingStation // ignore: cast_nullable_to_non_nullable
+              as int?,
+      predictTime: freezed == predictTime
           ? _value.predictTime
           : predictTime // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       busNo: null == busNo
           ? _value.busNo
           : busNo // ignore: cast_nullable_to_non_nullable
@@ -127,8 +127,8 @@ class __$$BusModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BusModelImpl implements _BusModel {
   const _$BusModelImpl(
-      {@JsonKey(name: 'locationNo1') this.location = 0,
-      @JsonKey(name: 'predictTime1') this.predictTime = 0,
+      {@JsonKey(name: 'locationNo1') this.remainingStation,
+      @JsonKey(name: 'predictTime1') this.predictTime,
       required this.busNo});
 
   factory _$BusModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -136,16 +136,16 @@ class _$BusModelImpl implements _BusModel {
 
   @override
   @JsonKey(name: 'locationNo1')
-  final int location;
+  final int? remainingStation;
   @override
   @JsonKey(name: 'predictTime1')
-  final int predictTime;
+  final int? predictTime;
   @override
   final String busNo;
 
   @override
   String toString() {
-    return 'BusModel(location: $location, predictTime: $predictTime, busNo: $busNo)';
+    return 'BusModel(remainingStation: $remainingStation, predictTime: $predictTime, busNo: $busNo)';
   }
 
   @override
@@ -153,8 +153,8 @@ class _$BusModelImpl implements _BusModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BusModelImpl &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            (identical(other.remainingStation, remainingStation) ||
+                other.remainingStation == remainingStation) &&
             (identical(other.predictTime, predictTime) ||
                 other.predictTime == predictTime) &&
             (identical(other.busNo, busNo) || other.busNo == busNo));
@@ -162,7 +162,8 @@ class _$BusModelImpl implements _BusModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, location, predictTime, busNo);
+  int get hashCode =>
+      Object.hash(runtimeType, remainingStation, predictTime, busNo);
 
   @JsonKey(ignore: true)
   @override
@@ -180,8 +181,8 @@ class _$BusModelImpl implements _BusModel {
 
 abstract class _BusModel implements BusModel {
   const factory _BusModel(
-      {@JsonKey(name: 'locationNo1') final int location,
-      @JsonKey(name: 'predictTime1') final int predictTime,
+      {@JsonKey(name: 'locationNo1') final int? remainingStation,
+      @JsonKey(name: 'predictTime1') final int? predictTime,
       required final String busNo}) = _$BusModelImpl;
 
   factory _BusModel.fromJson(Map<String, dynamic> json) =
@@ -189,10 +190,10 @@ abstract class _BusModel implements BusModel {
 
   @override
   @JsonKey(name: 'locationNo1')
-  int get location;
+  int? get remainingStation;
   @override
   @JsonKey(name: 'predictTime1')
-  int get predictTime;
+  int? get predictTime;
   @override
   String get busNo;
   @override

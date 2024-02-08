@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'orb_container.dart';
 
-
 class OrbBoardContainer extends StatelessWidget implements OrbContainer {
   @override
   final Widget? title;
@@ -20,18 +19,17 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
   @override
   final VoidCallback? onTap;
 
-  const OrbBoardContainer({
-    super.key,
-    this.title,
-    this.titleText,
-    this.info,
-    this.infoText,
-    this.infoColor,
-    this.decoration,
-    this.trailing,
-    this.child,
-    this.onTap
-  });
+  const OrbBoardContainer(
+      {super.key,
+      this.title,
+      this.titleText,
+      this.info,
+      this.infoText,
+      this.infoColor,
+      this.decoration,
+      this.trailing,
+      this.child,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +81,11 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            if (child != null) child!,
+            if (child != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: child!,
+              ),
           ],
         ),
       ),

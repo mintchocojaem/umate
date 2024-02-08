@@ -13,11 +13,8 @@ class MainScreen extends StatelessWidget {
         PetitionBoardRoute(),
       ],
       builder: (context, child, animation) {
-        final themeData = Theme.of(context);
         return Scaffold(
-          body: SafeArea(
-            child: child,
-          ),
+          body: child,
           bottomNavigationBar: OrbBottomNavigationBar(
             currentIndex: context.tabsRouter.activeIndex,
             onIndexChanged: (index) {

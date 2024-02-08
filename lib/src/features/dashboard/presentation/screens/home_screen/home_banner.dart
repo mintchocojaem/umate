@@ -27,9 +27,9 @@ class HomeBanner extends StatelessWidget {
         },
       ).toList(),
       options: CarouselOptions(
-        aspectRatio: 5 / 4,
+        aspectRatio: 1 / 1,
         clipBehavior: Clip.hardEdge,
-        viewportFraction: 0.75,
+        viewportFraction: 0.8,
         initialPage: 0,
         enableInfiniteScroll: true,
         reverse: false,

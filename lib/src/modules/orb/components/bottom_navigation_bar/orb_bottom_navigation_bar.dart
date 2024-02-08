@@ -51,6 +51,7 @@ class OrbBottomNavigationBar extends StatelessWidget {
             ],
           ),
           child: BottomNavigationBar(
+            backgroundColor: theme.colorScheme.surface,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,

@@ -8,14 +8,14 @@ part of 'bus_model.dart';
 
 _$BusModelImpl _$$BusModelImplFromJson(Map<String, dynamic> json) =>
     _$BusModelImpl(
-      location: json['locationNo1'] as int? ?? 0,
-      predictTime: json['predictTime1'] as int? ?? 0,
+      remainingStation: json['locationNo1'] as int?,
+      predictTime: json['predictTime1'] as int?,
       busNo: json['busNo'] as String,
     );
 
 Map<String, dynamic> _$$BusModelImplToJson(_$BusModelImpl instance) =>
     <String, dynamic>{
-      'locationNo1': instance.location,
+      'locationNo1': instance.remainingStation,
       'predictTime1': instance.predictTime,
       'busNo': instance.busNo,
     };

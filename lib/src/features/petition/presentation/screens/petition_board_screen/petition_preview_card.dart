@@ -31,9 +31,9 @@ class PetitionPreviewCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: themeData.colorScheme.onSurface.withOpacity(0.1),
-              blurRadius: 3,
-              offset: const Offset(0, 3),
+              color: themeData.colorScheme.onBackground.withOpacity(0.1),
+              offset: const Offset(0, 1),
+              blurRadius: 1,
             ),
           ],
         ),
