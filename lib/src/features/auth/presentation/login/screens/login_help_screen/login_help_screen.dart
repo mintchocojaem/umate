@@ -2,10 +2,8 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
 import '../../../../../../modules/modules.dart';
-
-part 'login_help_screen_provider.dart';
+import '../../../../../features.dart';
 
 @RoutePage()
 class LoginHelpScreen extends ConsumerWidget with LoginHelpScreenController{

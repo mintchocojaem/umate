@@ -1,19 +1,10 @@
-part of 'login_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loginScreenProvider =
-    NotifierProvider.autoDispose<LoginScreenNotifier, LoginScreenState>(
-  () => LoginScreenNotifier(),
-);
+import '../../../../../../config/configs.dart';
+import '../../../../../features.dart';
 
-class LoginScreenState {}
-
-class LoginScreenNotifier extends AutoDisposeNotifier<LoginScreenState> {
-  @override
-  LoginScreenState build() {
-    // TODO: implement build
-    return LoginScreenState();
-  }
-
+mixin class LoginScreenController {
   void goVerifyStudentScreen(WidgetRef ref) {
     ref.read(appRouterProvider).push(const VerifyStudentRoute());
   }
@@ -32,7 +23,7 @@ class LoginScreenNotifier extends AutoDisposeNotifier<LoginScreenState> {
       return;
     }
 
-    await ref.read(tokenProvider.notifier).login(
+    await ref.read(loginServiceProvider.notifier).login(
           studentId: studentId,
           password: password,
         );

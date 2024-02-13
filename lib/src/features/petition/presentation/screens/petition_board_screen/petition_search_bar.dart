@@ -1,4 +1,4 @@
-part of 'petition_board_screen.dart';
+import 'package:flutter/material.dart';
 
 class PetitionSearchBar extends StatefulWidget {
   final TextEditingController keywordController;

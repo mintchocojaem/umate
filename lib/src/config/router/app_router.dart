@@ -1,3 +1,4 @@
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,11 @@ class AppRouter extends _$AppRouter {
         /// routes go here
         AutoRoute(
           page: LoginRoute.page,
+          //initial: true,
         ),
         AutoRoute(page: LoginHelpRoute.page),
         AutoRoute(page: VerifyStudentRoute.page),
+        AutoRoute(page: AgreePolicyRoute.page),
         AutoRoute(
           page: MainRoute.page,
           initial: true,

@@ -37,7 +37,7 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
     final ThemeData themeData = Theme.of(context);
     return AnimatedSize(
       key: key,
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       duration: const Duration(milliseconds: 500),
       curve: Curves.fastOutSlowIn,
       reverseDuration: const Duration(milliseconds: 500),

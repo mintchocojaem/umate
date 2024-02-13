@@ -1,7 +1,7 @@
 
 mixin AuthValidator{
 
-  String? validateStudentId({String? studentId}) {
+  static String? validateStudentId({String? studentId}) {
     if (studentId == null || studentId.isEmpty) {
       return '학번을 입력해주세요';
     }
@@ -11,7 +11,7 @@ mixin AuthValidator{
     return null;
   }
 
-  String? validatePassword({String? password}) {
+  static String? validatePassword({String? password}) {
     if (password == null || password.isEmpty) {
       return '비밀번호를 입력해주세요';
     }

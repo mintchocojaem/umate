@@ -1,4 +1,6 @@
-part of 'home_screen.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 
 class HomeBanner extends StatelessWidget {
   final List<String> bannerPath;
@@ -27,9 +29,9 @@ class HomeBanner extends StatelessWidget {
         },
       ).toList(),
       options: CarouselOptions(
-        aspectRatio: 1 / 1,
+        aspectRatio: 12 / 9,
         clipBehavior: Clip.hardEdge,
-        viewportFraction: 0.8,
+        viewportFraction: 0.75,
         initialPage: 0,
         enableInfiniteScroll: true,
         reverse: false,

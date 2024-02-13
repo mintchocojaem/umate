@@ -1,13 +1,13 @@
 import 'package:intl/intl.dart';
 
-mixin class PetitionDateFormat {
+mixin PetitionDateFormat {
 
-  String dateFormatCompact(String dateTime) {
+  static String dateFormatCompact(String dateTime) {
     final date = DateTime.parse(dateTime);
     return DateFormat('yy.MM.dd').format(date);
   }
 
-  String dateFormatRelative(String dateTime) {
+  static String dateFormatRelative(String dateTime) {
     final date = DateTime.parse(dateTime);
     final now = DateTime.now();
     final difference = now.difference(date);

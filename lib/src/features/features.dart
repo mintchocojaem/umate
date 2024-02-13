@@ -1,16 +1,22 @@
 //auth
-export 'auth/data/data_sources/auth_api.dart';
-export 'auth/data/repositories/auth_repository.dart';
+export 'auth/application/login_service.dart';
+export 'auth/application/sign_up_service.dart';
+export 'auth/application/agree_privacy_policy_service.dart';
+export 'auth/data/data_sources/remote_auth_api.dart';
+export 'auth/data/repositories/remote_auth_repository.dart';
 export 'auth/domain/models/token_model.dart';
 export 'auth/domain/models/sign_up_model.dart';
 export 'auth/domain/models/student_model.dart';
-export 'auth/presentation/login/providers/token_provider.dart';
 export 'auth/presentation/login/screens/login_screen/login_screen.dart';
+export 'auth/presentation/login/screens/login_screen/login_screen_controller.dart';
 export 'auth/presentation/login/screens/login_help_screen/login_help_screen.dart';
-export 'auth/presentation/sign_up/providers/agree_policy_provider.dart';
-export 'auth/presentation/sign_up/providers/sign_up_provider.dart';
+export 'auth/presentation/login/screens/login_help_screen/login_help_screen_controller.dart';
 export 'auth/presentation/sign_up/screens/agree_policy_screen/agree_policy_screen.dart';
+export 'auth/presentation/sign_up/screens/agree_policy_screen/agree_policy_screen_controller.dart';
+export 'auth/presentation/sign_up/screens/agree_policy_screen/agree_policy_submit_button.dart';
+export 'auth/presentation/sign_up/screens/agree_policy_screen/agree_terms_container.dart';
 export 'auth/presentation/sign_up/screens/verify_student_screen/verify_student_screen.dart';
+export 'auth/presentation/sign_up/screens/verify_student_screen/verify_student_screen_controller.dart';
 export 'auth/utils/auth_validator.dart';
 
 //petition
@@ -21,15 +27,24 @@ export 'petition/domain/models/petition_post_preview_model.dart';
 export 'petition/domain/models/petition_post_detail_model.dart';
 export 'petition/domain/models/petition_statistic_model.dart';
 export 'petition/presentation/screens/petition_board_screen/petition_board_screen.dart';
+export 'petition/presentation/screens/petition_board_screen/petition_board_screen_controller.dart';
+export 'petition/presentation/screens/petition_board_screen/petition_preview_card.dart';
+export 'petition/presentation/screens/petition_board_screen/petition_search_bar.dart';
+export 'petition/presentation/screens/petition_board_screen/petition_status_bar.dart';
 export 'petition/utils/petition_status.dart';
 export 'petition/utils/petition_date_format.dart';
 
 //dashboard
-export 'dashboard/application/dashboard_service.dart';
 export 'dashboard/presentation/screens/home_screen/home_screen.dart';
+export 'dashboard/presentation/screens/home_screen/home_screen_controller.dart';
+export 'dashboard/presentation/screens/home_screen/home_banner.dart';
+export 'dashboard/presentation/screens/home_screen/home_bottom_menu_bar.dart';
+export 'dashboard/presentation/screens/home_screen/home_bus_info.dart';
+export 'dashboard/presentation/screens/home_screen/home_petition_board.dart';
+export 'dashboard/utils/bus_arrival_info.dart';
 
 //bus
-export 'bus/data/data_sources/bus_api.dart';
+export 'bus/data/data_sources/bus_remote_api.dart';
 export 'bus/data/repositories/bus_repository.dart';
 export 'bus/domain/models/bus_arrival_info_model.dart';
 export 'bus/domain/models/bus_model.dart';

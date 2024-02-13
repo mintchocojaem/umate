@@ -1,53 +1,40 @@
-import 'dart:async';
-
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
-import '../../../../../features.dart';
 import '../../../../../../modules/modules.dart';
-
-part 'agree_policy_screen_provider.dart';
-
-part 'agree_terms_content.dart';
-
-part 'agree_terms_container.dart';
+import '../../../../../features.dart';
 
 @RoutePage()
-class AgreePolicyScreen extends ConsumerWidget {
+class AgreePolicyScreen extends ConsumerWidget
+    with AgreePolicyScreenController {
   const AgreePolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
-    final ScrollController scrollController = ScrollController();
     final themeData = Theme.of(context);
+    final ScrollController scrollController = ScrollController();
+    ValueNotifier<bool> maxScrollExtent = ValueNotifier<bool>(false);
 
-    final screenNotifier = ref.watch(agreePolicyScreenProvider.notifier);
+    addMaxScrollExtentListener(
+      scrollController: scrollController,
+      onChangeMaxScrollExtent: (value) {
+        maxScrollExtent.value = value;
+      },
+    );
 
-    screenNotifier.initScrollController(scrollController: scrollController);
-
-    Consumer submitButton({OrbButtonRadius? buttonRadius}) {
-      return Consumer(
-        builder: (context, ref, child) {
-          final maxScrollExtent = ref.watch(agreePolicyScreenProvider
-              .select((value) => value.maxScrollExtent));
-          return OrbButton(
-            buttonText: screenNotifier.submitButtonText(
-              maxScrollExtent: maxScrollExtent,
-            ),
-            onPressed: () async {
-              await screenNotifier.agreePolicy(
-                scrollController: scrollController,
-              );
-            },
-          ).copyWith(
-            buttonRadius: buttonRadius,
-          );
-        },
-      );
-    }
+    final submitButton = AgreePolicySubmitButton(
+      valueNotifier: maxScrollExtent,
+      submitButtonText: () => submitButtonText(
+        maxScrollExtent: maxScrollExtent.value,
+      ),
+      onPressed: () => agreePolicy(
+        ref,
+        maxScrollExtent: maxScrollExtent.value,
+        scrollController: scrollController,
+      ),
+    );
 
     return OrbScaffold(
       scrollController: scrollController,
@@ -132,8 +119,8 @@ class AgreePolicyScreen extends ConsumerWidget {
           ),
         ],
       ),
-      submitButton: submitButton(),
-      submitButtonOnKeyboard: submitButton(
+      submitButton: submitButton,
+      submitButtonOnKeyboard: submitButton.changeButtonRadius(
         buttonRadius: OrbButtonRadius.none,
       ),
     );

@@ -2,14 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
 import '../../../../../features.dart';
 import '../../../../../../modules/modules.dart';
 
-part 'login_screen_provider.dart';
-
 @RoutePage()
-class LoginScreen extends ConsumerWidget with AuthValidator {
+class LoginScreen extends ConsumerWidget with LoginScreenController {
   const LoginScreen({super.key});
 
   @override
@@ -19,11 +16,9 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final ThemeData themeData = Theme.of(context);
 
-    final screenNotifier = ref.watch(loginScreenProvider.notifier);
-
     final OrbButton submitButton = OrbButton(
       onPressed: () async {
-        await screenNotifier.login(
+        await login(
           ref,
           formKey: formKey,
           studentId: studentIdController.text,
@@ -52,7 +47,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
               keyboardType: TextInputType.number,
               maxLength: 8,
               validator: (value) {
-                return validateStudentId(studentId: value);
+                return AuthValidator.validateStudentId(studentId: value);
               },
             ),
             const SizedBox(height: 16),
@@ -62,7 +57,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
               obscureText: true,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                return validatePassword(password: value);
+                return AuthValidator.validatePassword(password: value);
               },
             ),
             const SizedBox(height: 8),
@@ -71,7 +66,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                screenNotifier.goVerifyStudentScreen(ref);
+                goVerifyStudentScreen(ref);
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -90,7 +85,7 @@ class LoginScreen extends ConsumerWidget with AuthValidator {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          screenNotifier.goLoginHelpScreen(ref);
+          goLoginHelpScreen(ref);
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

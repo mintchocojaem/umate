@@ -1,69 +1,91 @@
-part of 'home_screen.dart';
+import 'package:flutter/material.dart';
 
-class HomePetitionPostInfo{
-  final int id;
-  final String title;
-  final String body;
-  final String createdAt;
-  final Function(int id) onTap;
-
-  const HomePetitionPostInfo({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.createdAt,
-    required this.onTap,
-  });
-}
+import '../../../../../common_widgets/common_widgets.dart';
+import '../../../../../modules/modules.dart';
+import '../../../../features.dart';
 
 class HomePetitionBoard extends StatelessWidget {
-  final List<HomePetitionPostInfo> petitionInfoList;
+  final Future<PetitionBoardModel> homePetitionBoard;
 
   const HomePetitionBoard({
     super.key,
-    required this.petitionInfoList,
+    required this.homePetitionBoard,
   });
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: petitionInfoList.length,
-      itemBuilder: (context, index) {
-        final petition = petitionInfoList[index];
-        return ListTile(
-          contentPadding: const EdgeInsets.all(0),
-          visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-          title: Text(
-            petition.title,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w500,
+    return OrbBoardContainer(
+      titleText: "청원 게시판",
+      child: FutureWidget(
+        future: homePetitionBoard,
+        isLoading: const OrbShimmerContent(),
+        hasData: (snapshot) {
+          final petitionList = (snapshot.data as PetitionBoardModel).content;
+          return Column(
+            children: [
+              for (final petition in petitionList)
+                HomePetitionListTile(
+                  title: petition.title,
+                  body: petition.body,
+                  createdAt: PetitionDateFormat.dateFormatRelative(
+                    petition.createdAt,
+                  ),
                 ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            petition.body,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          onTap: () {
-            petition.onTap(petition.id);
-          },
-          leading: Text(
-            petition.createdAt,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          trailing: const Icon(
-            Icons.chevron_right_outlined,
-          ),
-        );
+            ],
+          );
+        },
+        hasError: (error, stackTrace) {
+          return const OrbShimmerContent();
+        },
+      ),
+    );
+  }
+}
+
+class HomePetitionListTile extends StatelessWidget {
+  final String title;
+  final String body;
+  final String createdAt;
+
+  const HomePetitionListTile({
+    super.key,
+    required this.title,
+    required this.body,
+    required this.createdAt,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.all(0),
+      visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        body,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      onTap: () {
+        //
       },
+      leading: Text(
+        createdAt,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: const Icon(
+        Icons.chevron_right_outlined,
+      ),
     );
   }
 }

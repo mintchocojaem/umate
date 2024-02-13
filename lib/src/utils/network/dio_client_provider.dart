@@ -39,7 +39,8 @@ final dioClientProvider = Provider<DioClient>((ref) {
           print('DioClient > (Canceled) : ${dioException.requestOptions.uri}');
         }
       } else {
-        final List<dynamic> message = dioException.response?.data['message'];
+        final List<dynamic> message =
+            dioException.response?.data['message'] ?? ["알 수 없는 오류가 발생했어요!"];
         final int statusCode = dioException.response?.statusCode ?? 500;
 
         if (kDebugMode) {

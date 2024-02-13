@@ -2,22 +2,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../features.dart';
 
-final authRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
-  return AuthRepository(authApi: ref.watch(authApiProvider));
+final remoteAuthRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
+  return AuthRepository(remoteAuthApi: ref.watch(remoteAuthApiProvider));
 });
 
 class AuthRepository {
-  final AuthApi authApi;
+  final RemoteAuthApi remoteAuthApi;
 
   AuthRepository({
-    required this.authApi,
+    required this.remoteAuthApi,
   });
 
   Future<TokenModel> login({
     required String studentId,
     required String password,
   }) async {
-    return await authApi.login(
+    return await remoteAuthApi.login(
       studentId: studentId,
       password: password,
     );
@@ -28,7 +28,7 @@ class AuthRepository {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    return await authApi.verifyStudent(
+    return await remoteAuthApi.verifyStudent(
       dkuStudentId: dkuStudentId,
       dkuPassword: dkuPassword,
     );
@@ -38,7 +38,7 @@ class AuthRepository {
     required String phoneNumber,
     required String signUpToken,
   }) async {
-    return await authApi.sendSMS(
+    return await remoteAuthApi.sendSMS(
       phoneNumber: phoneNumber,
       signUpToken: signUpToken,
     );
@@ -48,14 +48,14 @@ class AuthRepository {
     required String signUpToken,
     required String code,
   }) async {
-    return await authApi.verifySMS(
+    return await remoteAuthApi.verifySMS(
       signUpToken: signUpToken,
       code: code,
     );
   }
 
   Future<bool> validNickname({required String nickname}) async {
-    return await authApi.validNickname(
+    return await remoteAuthApi.validNickname(
       nickname: nickname,
     );
   }
@@ -65,7 +65,7 @@ class AuthRepository {
     required String nickname,
     required String password,
   }) async {
-    return await authApi.signUp(
+    return await remoteAuthApi.signUp(
       signUpToken: signUpToken,
       nickname: nickname,
       password: password,

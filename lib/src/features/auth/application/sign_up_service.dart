@@ -2,21 +2,22 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../features.dart';
+import '../../features.dart';
 
-final signUpProvider =
-    AsyncNotifierProvider.autoDispose<SignUpNotifier, SignUpModel>(
-  () => SignUpNotifier(),
+
+final signUpServiceProvider =
+    AsyncNotifierProvider.autoDispose<SignUpServiceNotifier, SignUpModel>(
+  () => SignUpServiceNotifier(),
 );
 
-class SignUpNotifier extends AutoDisposeAsyncNotifier<SignUpModel> {
+class SignUpServiceNotifier extends AutoDisposeAsyncNotifier<SignUpModel> {
   late final AuthRepository _authRepository;
   late final KeepAliveLink _link;
 
   @override
   FutureOr<SignUpModel> build() {
     // TODO: implement build
-    _authRepository = ref.watch(authRepositoryProvider);
+    _authRepository = ref.watch(remoteAuthRepositoryProvider);
     return future;
   }
 

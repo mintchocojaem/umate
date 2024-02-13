@@ -7,6 +7,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.pageView(
+      homeIndex: 0,
       physics: const NeverScrollableScrollPhysics(),
       routes: const [
         HomeRoute(),

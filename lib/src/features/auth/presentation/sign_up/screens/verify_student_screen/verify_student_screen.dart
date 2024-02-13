@@ -2,14 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
 import '../../../../../features.dart';
 import '../../../../../../modules/modules.dart';
 
-part 'verify_student_screen_provider.dart';
-
 @RoutePage()
-class VerifyStudentScreen extends ConsumerWidget {
+class VerifyStudentScreen extends ConsumerWidget with VerifyStudentScreenController{
 
   const VerifyStudentScreen({super.key});
 
@@ -22,11 +19,9 @@ class VerifyStudentScreen extends ConsumerWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final ThemeData themeData = Theme.of(context);
 
-    final screenNotifier = ref.read(verifyStudentScreenProvider.notifier);
-
     final submitButton = OrbButton(
       onPressed: () async {
-        await screenNotifier.verifyStudent(
+        await verifyStudent(
           ref,
           formKey: formKey,
           dkuStudentId: dkuStudentIdController.text,
@@ -56,7 +51,7 @@ class VerifyStudentScreen extends ConsumerWidget {
               textInputAction: TextInputAction.next,
               maxLength: 8,
               validator: (value) {
-                return screenNotifier.validateStudentId(studentId: value);
+                return AuthValidator.validateStudentId(studentId: value);
               },
             ),
             const SizedBox(height: 16),
@@ -66,7 +61,7 @@ class VerifyStudentScreen extends ConsumerWidget {
               obscureText: true,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                return screenNotifier.validatePassword(password: value);
+                return AuthValidator.validatePassword(password: value);
               },
             ),
             const SizedBox(height: 32),
@@ -74,17 +69,19 @@ class VerifyStudentScreen extends ConsumerWidget {
               titleText: '개인정보 이용약관에 동의하기',
               leading: Consumer(
                 builder: (context, ref, child) {
-                  final agreePolicy = ref.watch(agreePolicyProvider);
+                  final agreePolicy = ref.watch(
+                    agreePrivacyPolicyServiceProvider,
+                  );
                   return Icon(
                     Icons.check_circle,
-                    color: screenNotifier.agreePolicyIconColor(
+                    color: agreePolicyIconColor(
                       agreePolicy: agreePolicy,
                     ),
                   );
                 },
               ),
               onTap: () {
-                screenNotifier.goAgreePolicyScreen(ref);
+                goAgreePolicyScreen(ref);
               },
             ),
           ],

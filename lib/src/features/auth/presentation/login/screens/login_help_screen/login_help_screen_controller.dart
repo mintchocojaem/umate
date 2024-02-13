@@ -1,4 +1,6 @@
-part of 'login_help_screen.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../config/configs.dart';
 
 mixin class LoginHelpScreenController{
 

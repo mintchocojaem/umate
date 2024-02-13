@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../utils/utils.dart';
 import '../../../features.dart';
 
-final authApiProvider = Provider.autoDispose<AuthApi>((ref) {
-  return AuthApi(
+final remoteAuthApiProvider = Provider.autoDispose<RemoteAuthApi>((ref) {
+  return RemoteAuthApi(
     dioClient: ref.watch(dioClientProvider),
   );
 });
 
-class AuthApi {
+class RemoteAuthApi {
   final DioClient dioClient;
 
-  AuthApi({required this.dioClient});
+  RemoteAuthApi({required this.dioClient});
 
   Future<TokenModel> login({
     required String studentId,

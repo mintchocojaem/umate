@@ -1,20 +1,11 @@
-part of 'verify_student_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final verifyStudentScreenProvider = NotifierProvider.autoDispose<
-    VerifyStudentScreenNotifier, VerifyStudentScreenState>(() {
-  return VerifyStudentScreenNotifier();
-});
+import '../../../../../../config/configs.dart';
+import '../../../../../../modules/modules.dart';
+import '../../../../../features.dart';
 
-class VerifyStudentScreenState {}
-
-class VerifyStudentScreenNotifier
-    extends AutoDisposeNotifier<VerifyStudentScreenState> with AuthValidator {
-  @override
-  build() {
-    // TODO: implement build
-    return VerifyStudentScreenState();
-  }
-
+mixin class VerifyStudentScreenController {
   void goAgreePolicyScreen(WidgetRef ref) {
     ref.read(appRouterProvider).push(const AgreePolicyRoute());
   }
@@ -36,7 +27,9 @@ class VerifyStudentScreenNotifier
       return;
     }
 
-    if (!ref.read(agreePolicyProvider)) {
+    final bool agreePolicy = ref.read(agreePrivacyPolicyServiceProvider);
+
+    if (!agreePolicy) {
       OrbSnackBar.show(
         type: OrbSnackBarType.warning,
         message: '개인정보 이용약관에 동의가 필요해요',
@@ -44,7 +37,7 @@ class VerifyStudentScreenNotifier
       return;
     }
 
-    await ref.read(signUpProvider.notifier).verifyStudent(
+    await ref.read(signUpServiceProvider.notifier).verifyStudent(
           dkuStudentId: dkuStudentId,
           dkuPassword: dkuPassword,
         );

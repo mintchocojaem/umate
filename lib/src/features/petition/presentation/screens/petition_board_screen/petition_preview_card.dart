@@ -1,4 +1,4 @@
-part of 'petition_board_screen.dart';
+import 'package:flutter/material.dart';
 
 class PetitionPreviewCard extends StatelessWidget {
   final String remainingDate;
@@ -52,8 +52,8 @@ class PetitionPreviewCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               const SizedBox(height: 8),
               Row(

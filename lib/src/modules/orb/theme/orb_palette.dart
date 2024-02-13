@@ -6,10 +6,10 @@ class OrbPalette {
   static Color onMainColor = const Color(0xFFFFFFFF);
   static Color subColor = const Color(0xFF3d94ff);
   static Color onSubColor = const Color(0xFFFFFFFF);
-  static Color surface = const Color(0xFFFFFFFF);
-  static Color onSurface = const Color(0xFF151515);
-  static Color background = const Color(0xFFf2f2f2);
-  static Color onBackground = const Color(0xFF222222);
+  static Color surface = const Color(0xFFf2f2f2);
+  static Color onSurface = const Color(0xFF222222);
+  static Color background = const Color(0xFFFFFFFF);
+  static Color onBackground = const Color(0xFF151515);
   static Color surfaceVariant = const Color(0xFFd9d9d9);
   static Color onSurfaceVariant = const Color(0xFF323232);
   static Color error = const Color(0xFFff5151);

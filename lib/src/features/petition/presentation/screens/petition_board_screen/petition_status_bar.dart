@@ -1,4 +1,6 @@
-part of 'petition_board_screen.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../features.dart';
 
 class PetitionStatusBar extends StatelessWidget {
   final PetitionStatus currentStatus;
@@ -25,8 +27,8 @@ class PetitionStatusBar extends StatelessWidget {
               onStatusChanged(statusList[i]);
             },
             child: Container(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, top: 8, bottom: 8),
+              padding:
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: selectedIndex == i

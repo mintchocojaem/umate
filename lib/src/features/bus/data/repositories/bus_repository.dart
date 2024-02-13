@@ -4,13 +4,13 @@ import '../../../features.dart';
 
 final busRepositoryProvider = Provider.autoDispose<BusRepository>(
   (ref) {
-    final busApiClient = ref.watch(busApiProvider);
+    final busApiClient = ref.watch(busRemoteApiProvider);
     return BusRepository(busApi: busApiClient);
   },
 );
 
 class BusRepository {
-  final BusApi busApi;
+  final BusRemoteApi busApi;
 
   BusRepository({required this.busApi});
 
