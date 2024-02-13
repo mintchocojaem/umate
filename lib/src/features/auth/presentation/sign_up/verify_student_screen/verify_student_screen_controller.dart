@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
-import '../../../../../../modules/modules.dart';
-import '../../../../../features.dart';
+import '../../../../../config/configs.dart';
+import '../../../../../modules/modules.dart';
+import '../../../../features.dart';
 
 mixin class VerifyStudentScreenController {
   void goAgreePolicyScreen(WidgetRef ref) {

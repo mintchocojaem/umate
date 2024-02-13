@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../features.dart';
+import '../../../features.dart';
 
 mixin class HomeScreenController {
   Future<PetitionBoardModel> getHomePetitionBoard(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../modules/modules.dart';
+import '../../../../../modules/modules.dart';
 
 class AgreePolicySubmitButton extends StatelessWidget {
   final ValueNotifier<bool> valueNotifier;

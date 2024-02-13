@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../../config/configs.dart';
-import '../../../../../features.dart';
+import '../../../../config/configs.dart';
+import '../../../features.dart';
 
 mixin class LoginScreenController {
   void goVerifyStudentScreen(WidgetRef ref) {

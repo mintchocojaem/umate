@@ -5,8 +5,8 @@ import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../common_widgets/common_widgets.dart';
-import '../../../../features.dart';
+import '../../../../common_widgets/common_widgets.dart';
+import '../../../features.dart';
 
 
 @RoutePage()

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../modules/modules.dart';
+import '../../../../modules/modules.dart';
 
 class HomeExtraMenu extends StatelessWidget {
   final String title;

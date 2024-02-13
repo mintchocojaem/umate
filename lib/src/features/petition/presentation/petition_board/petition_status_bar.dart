@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../features.dart';
+import '../../../features.dart';
 
 class PetitionStatusBar extends StatelessWidget {
   final PetitionStatus currentStatus;

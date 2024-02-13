@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../common_widgets/common_widgets.dart';
-import '../../../../../modules/modules.dart';
-import '../../../../features.dart';
+import '../../../../common_widgets/common_widgets.dart';
+import '../../../../modules/modules.dart';
+import '../../../features.dart';
 
 class HomeBusInfo extends StatelessWidget {
   final Future<List<BusArrivalInfo>> homeBusArrivalInfo;
