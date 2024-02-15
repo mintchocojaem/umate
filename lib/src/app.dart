@@ -2,7 +2,8 @@ import 'package:danvery/src/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'config/configs.dart';
+import 'core/core.dart';
+
 
 class App extends ConsumerWidget {
   const App({super.key});

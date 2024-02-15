@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../utils/utils.dart';
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 final remoteAuthApiProvider = Provider.autoDispose<RemoteAuthApi>((ref) {
