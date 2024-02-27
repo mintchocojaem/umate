@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,7 +8,7 @@ import '../view_models/agree_privacy_policy_view_model.dart';
 import '../view_models/sign_up_view_model.dart';
 
 @RoutePage()
-class VerifyStudentScreen extends ConsumerStatefulWidget {
+class VerifyStudentScreen extends ConsumerStatefulWidget{
   const VerifyStudentScreen({super.key});
 
   @override
@@ -16,7 +17,7 @@ class VerifyStudentScreen extends ConsumerStatefulWidget {
   }
 }
 
-class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> {
+class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> with AuthValidator{
   late final TextEditingController dkuStudentIdController;
   late final TextEditingController dkuPasswordController;
 
@@ -73,7 +74,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> {
               textInputAction: TextInputAction.next,
               maxLength: 8,
               validator: (value) {
-                return value;
+                return validateStudentId(studentId: value);
               },
             ),
             const SizedBox(height: 16),
@@ -83,7 +84,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> {
               obscureText: true,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                return value;
+                return validatePassword(password: value);
               },
             ),
             const SizedBox(height: 32),
