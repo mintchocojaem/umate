@@ -12,7 +12,7 @@ abstract class AuthRepository {
     required String dkuPassword,
   });
 
-  Future<bool> sendSmsCode({
+  Future<bool> sendSignUpCode({
     required String phoneNumber,
     required String signUpToken,
   });

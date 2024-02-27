@@ -1,6 +1,7 @@
-import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/utils/async_result.dart';
+import '../../../../core/utils/auth_validator.dart';
 import '../../../../core/utils/use_case.dart';
 import '../models/token_model.dart';
 import '../repositories/auth_repository.dart';
@@ -26,7 +27,7 @@ class LoginUseCase extends UseCase<TokenModel, LoginParams> with AuthValidator {
   Future<AsyncValue<TokenModel>> call({
     required LoginParams params,
   }) async {
-    return await AsyncValue.guard(
+    return await AsyncResult.fetch(
       () {
         final studentIdError = validateStudentId(studentId: params.studentId);
         if (studentIdError != null) {

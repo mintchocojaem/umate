@@ -41,11 +41,11 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<bool> sendSmsCode({
+  Future<bool> sendSignUpCode({
     required String phoneNumber,
     required String signUpToken,
   }) async {
-    return await authRemoteDataSource.sendSmsCode(
+    return await authRemoteDataSource.sendSignUpCode(
       phoneNumber: phoneNumber,
       signUpToken: signUpToken,
     );

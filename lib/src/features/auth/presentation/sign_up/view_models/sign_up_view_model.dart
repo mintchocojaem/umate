@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:danvery/src/core/services/router/router_service.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/send_sms_code_use_case.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/send_sign_up_code_use_case.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +22,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
   KeepAliveLink? _link;
 
   late final VerifyStudentUseCase _verifyStudentUseCase;
-  late final SendSmsCodeUseCase _sendSmsCodeUseCase;
+  late final SendSignUpCodeUseCase _sendSmsCodeUseCase;
 
   @override
   FutureOr<SignUpInfoModel> build() {
@@ -31,7 +31,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
     _verifyStudentUseCase = VerifyStudentUseCase(
       authRepository: authRepository,
     );
-    _sendSmsCodeUseCase = SendSmsCodeUseCase(
+    _sendSmsCodeUseCase = SendSignUpCodeUseCase(
       authRepository: authRepository,
     );
     return future;
@@ -87,7 +87,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
     }
 
     await _sendSmsCodeUseCase(
-      params: SendSmsCodeParams(
+      params: SendSignUpCodeParams(
         signUpToken: state.requireValue.signUpToken,
         phoneNumber: phoneNumber,
       ),

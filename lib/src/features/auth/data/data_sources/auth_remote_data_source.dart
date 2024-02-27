@@ -45,7 +45,7 @@ class AuthRemoteDataSource {
     return SignUpInfoDto.fromJson(response.data);
   }
 
-  Future<bool> sendSmsCode({
+  Future<bool> sendSignUpCode({
     required String signUpToken,
     required String phoneNumber,
   }) async {
