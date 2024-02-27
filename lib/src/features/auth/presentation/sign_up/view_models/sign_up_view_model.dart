@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:danvery/src/core/services/router/router_service.dart';
 import 'package:danvery/src/features/auth/domain/use_cases/send_sms_code_use_case.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/components/components.dart';
@@ -17,6 +18,8 @@ final signUpViewModelProvider =
 );
 
 class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
+  KeepAliveLink? _link;
+
   late final VerifyStudentUseCase _verifyStudentUseCase;
   late final SendSmsCodeUseCase _sendSmsCodeUseCase;
 
@@ -42,7 +45,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
       return;
     }
 
-    final link = ref.keepAlive();
+    _link ??= ref.keepAlive();
 
     final agreePolicy = ref.read(agreePrivacyPolicyViewModelProvider);
 
@@ -62,7 +65,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
     );
 
     if (state.hasError) {
-      link.close();
+      _link?.close();
     }
   }
 

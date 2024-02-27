@@ -14,6 +14,8 @@ final loginViewModelProvider =
 );
 
 class LoginViewModel extends AutoDisposeAsyncNotifier<TokenModel> {
+  KeepAliveLink? _link;
+
   late final LoginUseCase _loginUseCase;
 
   @override
@@ -34,7 +36,7 @@ class LoginViewModel extends AutoDisposeAsyncNotifier<TokenModel> {
       return;
     }
 
-    final link = ref.keepAlive();
+    _link ??= ref.keepAlive();
 
     state = await _loginUseCase(
       params: LoginParams(
@@ -44,7 +46,7 @@ class LoginViewModel extends AutoDisposeAsyncNotifier<TokenModel> {
     );
 
     if (state.hasError) {
-      link.close();
+      _link?.close();
     }
   }
 
