@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/auth/presentation/login/views/login_help_screen.dart';
-import '../../../features/auth/presentation/login/views/login_screen.dart';
+import '../../../features/auth/presentation/login/screens/login_help_screen.dart';
+import '../../../features/auth/presentation/login/screens/login_screen.dart';
 import '../../../features/auth/presentation/sign_up/screens/agree_policy_screen.dart';
 import '../../../features/auth/presentation/sign_up/screens/verify_student_screen.dart';
 
