@@ -1,9 +1,9 @@
-import 'package:danvery/src/modules/modules.dart';
+import 'package:danvery/src/core/services/router/router_service.dart';
+import 'package:danvery/src/design_system/orb/orb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/core.dart';
-
+import 'core/services/theme/theme_service.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -13,9 +13,9 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      theme: ref.watch(themeProvider).getThemeMode,
+      theme: ref.watch(themeServiceProvider).getThemeMode(),
       debugShowCheckedModeBanner: false,
-      routerConfig: ref.watch(appRouterProvider).config(),
+      routerConfig: ref.watch(routerServiceProvider).config(),
       scaffoldMessengerKey: OrbService.scaffoldMessengerKey,
     );
   }

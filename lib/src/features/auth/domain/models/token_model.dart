@@ -1,16 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class TokenModel{
+  String accessToken;
+  String refreshToken;
 
-part 'token_model.freezed.dart';
-part 'token_model.g.dart';
-
-
-@freezed
-class TokenModel with _$TokenModel{
-  const factory TokenModel({
-    required String accessToken,
-    required String refreshToken,
-  }) = _TokenModel;
-
-  factory TokenModel.fromJson(Map<String, dynamic> json) =>
-      _$TokenModelFromJson(json);
+  TokenModel({
+    required this.accessToken,
+    required this.refreshToken,
+  });
 }
