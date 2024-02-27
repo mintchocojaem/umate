@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/services/router/router_service.dart';
@@ -45,16 +46,21 @@ class LoginViewModel extends AutoDisposeAsyncNotifier<TokenModel> {
       ),
     );
 
-    if (state.hasError) {
+    if(state.hasError){
       _link?.close();
     }
+
   }
 
-  void goToSignUp() {
+  void pushToSignUpScreen() {
     ref.read(routerServiceProvider).push(const VerifyStudentRoute());
   }
 
-  void goToLoginHelp() {
+  void replaceToSignUpScreen() {
+    ref.read(routerServiceProvider).replace(const VerifyStudentRoute());
+  }
+
+  void pushToLoginHelpScreen() {
     ref.read(routerServiceProvider).push(const LoginHelpRoute());
   }
 }

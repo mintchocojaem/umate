@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../features/auth/presentation/login/screens/login_help_screen.dart';
 import '../../../features/auth/presentation/login/screens/login_screen.dart';
 import '../../../features/auth/presentation/sign_up/screens/agree_policy_screen.dart';
+import '../../../features/auth/presentation/sign_up/screens/verify_phone_number_screen.dart';
 import '../../../features/auth/presentation/sign_up/screens/verify_student_screen.dart';
 
 import 'main_screen.dart';
@@ -30,12 +31,13 @@ class RouterService extends _$RouterService {
         AutoRoute(page: LoginHelpRoute.page),
         AutoRoute(page: VerifyStudentRoute.page),
         AutoRoute(page: AgreePolicyRoute.page),
+        AutoRoute(page: VerifyPhoneNumberRoute.page),
         AutoRoute(
           page: MainRoute.page,
           //initial: true,
           children: [
-            AutoRoute(page: HomeRoute.page),
-            AutoRoute(page: PetitionBoardRoute.page),
+            //AutoRoute(page: HomeRoute.page),
+            //AutoRoute(page: PetitionBoardRoute.page),
           ],
         ),
       ];

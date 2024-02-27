@@ -84,19 +84,16 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
             const SizedBox(height: 32),
             OrbListCardTile(
               titleText: '개인정보 이용약관에 동의하기',
-              leading: Consumer(
-                builder: (context, ref, child) {
-                  final agreePrivacyPolicy = ref.watch(
-                    agreePrivacyPolicyViewModelProvider,
-                  );
-                  return Icon(
-                    Icons.check_circle,
-                    color: agreePrivacyPolicy ? Colors.green : Colors.grey,
-                  );
-                },
+              leading: Icon(
+                Icons.check_circle,
+                color: ref.watch(agreePrivacyPolicyViewModelProvider)
+                    ? Colors.green
+                    : Colors.grey,
               ),
               onTap: () {
-                ref.read(signUpViewModelProvider.notifier).goToAgreePolicy();
+                ref
+                    .read(signUpViewModelProvider.notifier)
+                    .pushToAgreePolicyScreen();
               },
             ),
           ],

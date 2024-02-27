@@ -21,7 +21,6 @@ abstract class _$RouterService extends RootStackRouter {
         child: const AgreePolicyScreen(),
       );
     },
-
     LoginHelpRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -40,7 +39,6 @@ abstract class _$RouterService extends RootStackRouter {
         child: const MainScreen(),
       );
     },
-
     RouteErrorRoute.name: (routeData) {
       final args = routeData.argsAs<RouteErrorRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -49,6 +47,12 @@ abstract class _$RouterService extends RootStackRouter {
           key: args.key,
           errorMessage: args.errorMessage,
         ),
+      );
+    },
+    VerifyPhoneNumberRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const VerifyPhoneNumberScreen(),
       );
     },
     VerifyStudentRoute.name: (routeData) {
@@ -70,20 +74,6 @@ class AgreePolicyRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AgreePolicyRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [HomeScreen]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -131,20 +121,6 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [PetitionBoardScreen]
-class PetitionBoardRoute extends PageRouteInfo<void> {
-  const PetitionBoardRoute({List<PageRouteInfo>? children})
-      : super(
-          PetitionBoardRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'PetitionBoardRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [RouteErrorScreen]
 class RouteErrorRoute extends PageRouteInfo<RouteErrorRouteArgs> {
   RouteErrorRoute({
@@ -180,6 +156,20 @@ class RouteErrorRouteArgs {
   String toString() {
     return 'RouteErrorRouteArgs{key: $key, errorMessage: $errorMessage}';
   }
+}
+
+/// generated route for
+/// [VerifyPhoneNumberScreen]
+class VerifyPhoneNumberRoute extends PageRouteInfo<void> {
+  const VerifyPhoneNumberRoute({List<PageRouteInfo>? children})
+      : super(
+          VerifyPhoneNumberRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'VerifyPhoneNumberRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

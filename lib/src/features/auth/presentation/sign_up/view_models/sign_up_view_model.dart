@@ -4,6 +4,7 @@ import 'package:danvery/src/core/services/router/router_service.dart';
 import 'package:danvery/src/features/auth/domain/use_cases/send_sms_code_use_case.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/components/components.dart';
@@ -45,7 +46,7 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
       return;
     }
 
-    _link ??= ref.keepAlive();
+    _link = ref.keepAlive();
 
     final agreePolicy = ref.read(agreePrivacyPolicyViewModelProvider);
 
@@ -64,30 +65,36 @@ class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfoModel> {
       ),
     );
 
-    if (state.hasError) {
-      _link?.close();
+    if (state.hasValue) {
+      await ref
+          .read(routerServiceProvider)
+          .replace(const VerifyPhoneNumberRoute());
     }
+
+    _link?.close();
   }
 
-  Future<bool> sendSMS(
-    String signUpToken, {
+  Future<void> sendSMS(
+    GlobalKey<FormState> formKey, {
     required String phoneNumber,
   }) async {
-    if (state.hasError || !state.hasValue) {
-      return false;
+    if (!formKey.currentState!.validate()) {
+      return;
     }
 
-    final result = await _sendSmsCodeUseCase(
+    if(!state.hasValue){
+      return;
+    }
+
+    await _sendSmsCodeUseCase(
       params: SendSmsCodeParams(
-        signUpToken: signUpToken,
+        signUpToken: state.requireValue.signUpToken,
         phoneNumber: phoneNumber,
       ),
     );
-
-    return result.hasValue;
   }
 
-  void goToAgreePolicy() {
+  void pushToAgreePolicyScreen() {
     ref.read(routerServiceProvider).push(const AgreePolicyRoute());
   }
 }

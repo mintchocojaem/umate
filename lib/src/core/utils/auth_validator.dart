@@ -15,4 +15,14 @@ mixin class AuthValidator {
     }
     return null;
   }
+
+  String? validatePhoneNumber({String? phoneNumber}) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return '휴대폰 번호를 입력해주세요';
+    }
+    if (phoneNumber.length != 11) {
+      return '휴대폰 번호는 11자리의 숫자에요';
+    }
+    return null;
+  }
 }

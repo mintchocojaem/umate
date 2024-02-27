@@ -91,7 +91,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(loginViewModelProvider.notifier).goToSignUp();
+                ref.read(loginViewModelProvider.notifier).pushToSignUpScreen();
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -110,7 +110,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          ref.read(loginViewModelProvider.notifier).goToLoginHelp();
+          ref.read(loginViewModelProvider.notifier).pushToLoginHelpScreen();
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

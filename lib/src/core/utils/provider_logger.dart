@@ -2,13 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProviderLogger extends ProviderObserver {
+  int _counter = 0;
+
   @override
   void didAddProvider(ProviderBase<Object?> provider, Object? value,
       ProviderContainer container) {
     // TODO: implement didAddProvider
     super.didAddProvider(provider, value, container);
     if (kDebugMode) {
-      print("ProviderLogger > ${provider.runtimeType} created");
+      _counter++;
+      print("ProviderLogger[$_counter] > ${provider.runtimeType} created");
     }
   }
 
@@ -18,7 +21,8 @@ class ProviderLogger extends ProviderObserver {
     // TODO: implement didDisposeProvider
     super.didDisposeProvider(provider, container);
     if (kDebugMode) {
-      print("ProviderLogger > ${provider.runtimeType} disposed");
+      _counter++;
+      print("ProviderLogger[$_counter] > ${provider.runtimeType} disposed");
     }
   }
 }

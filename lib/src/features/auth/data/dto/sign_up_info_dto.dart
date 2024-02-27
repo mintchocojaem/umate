@@ -9,11 +9,11 @@ part 'sign_up_info_dto.g.dart';
 @JsonSerializable()
 class SignUpInfoDto extends DataMapper<SignUpInfoModel>{
 
-  final String signUpToken;
+  final String signupToken;
   final StudentDto student;
 
   SignUpInfoDto({
-    required this.signUpToken,
+    required this.signupToken,
     required this.student,
   });
 
@@ -24,7 +24,7 @@ class SignUpInfoDto extends DataMapper<SignUpInfoModel>{
   @override
   SignUpInfoModel mapToModel() {
     return SignUpInfoModel(
-      signUpToken: signUpToken,
+      signUpToken: signupToken,
       student: student.mapToModel(),
     );
   }

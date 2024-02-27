@@ -8,12 +8,12 @@ part of 'sign_up_info_dto.dart';
 
 SignUpInfoDto _$SignUpInfoDtoFromJson(Map<String, dynamic> json) =>
     SignUpInfoDto(
-      signUpToken: json['signUpToken'] as String,
+      signupToken: json['signupToken'] as String,
       student: StudentDto.fromJson(json['student'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SignUpInfoDtoToJson(SignUpInfoDto instance) =>
     <String, dynamic>{
-      'signUpToken': instance.signUpToken,
+      'signupToken': instance.signupToken,
       'student': instance.student.toJson(),
     };

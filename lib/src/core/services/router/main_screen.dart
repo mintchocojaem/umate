@@ -14,8 +14,8 @@ class MainScreen extends StatelessWidget {
       homeIndex: 0,
       physics: const NeverScrollableScrollPhysics(),
       routes: const [
-        HomeRoute(),
-        PetitionBoardRoute(),
+        //HomeRoute(),
+        //PetitionBoardRoute(),
       ],
       builder: (context, child, animation) {
         return Scaffold(

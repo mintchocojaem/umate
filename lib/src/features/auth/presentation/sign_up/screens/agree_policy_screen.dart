@@ -29,7 +29,19 @@ class _AgreePolicyScreenState extends ConsumerState {
     super.initState();
 
     scrollController = ScrollController();
-    addMaxScrollExtentListener(scrollController);
+    scrollController.addListener(() {
+      if (scrollController.offset >=
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          maxScrollExtent = true;
+        });
+      } else if (scrollController.offset <
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          maxScrollExtent = false;
+        });
+      }
+    });
   }
 
   @override
@@ -37,22 +49,6 @@ class _AgreePolicyScreenState extends ConsumerState {
     // TODO: implement dispose
     scrollController.dispose();
     super.dispose();
-  }
-
-  addMaxScrollExtentListener(ScrollController scrollController) {
-    scrollController.addListener(() {
-      if (scrollController.offset >=
-              scrollController.position.maxScrollExtent) {
-        setState(() {
-          maxScrollExtent = true;
-        });
-      } else if (scrollController.offset <
-              scrollController.position.maxScrollExtent) {
-        setState(() {
-          maxScrollExtent = false;
-        });
-      }
-    });
   }
 
   @override
