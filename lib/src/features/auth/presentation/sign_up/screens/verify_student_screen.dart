@@ -8,7 +8,7 @@ import '../view_models/agree_privacy_policy_view_model.dart';
 import '../view_models/sign_up_view_model.dart';
 
 @RoutePage()
-class VerifyStudentScreen extends ConsumerStatefulWidget{
+class VerifyStudentScreen extends ConsumerStatefulWidget {
   const VerifyStudentScreen({super.key});
 
   @override
@@ -17,7 +17,8 @@ class VerifyStudentScreen extends ConsumerStatefulWidget{
   }
 }
 
-class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> with AuthValidator{
+class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
+    with AuthValidator {
   late final TextEditingController dkuStudentIdController;
   late final TextEditingController dkuPasswordController;
 
@@ -30,13 +31,6 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> with 
     dkuStudentIdController = TextEditingController();
     dkuPasswordController = TextEditingController();
     formKey = GlobalKey<FormState>();
-  }
-
-  Color agreePolicyIconColor({required bool agreePolicy}) {
-    if (agreePolicy) {
-      return Colors.green;
-    }
-    return Colors.grey;
   }
 
   @override
@@ -97,9 +91,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen> with 
                   );
                   return Icon(
                     Icons.check_circle,
-                    color: agreePolicyIconColor(
-                      agreePolicy: agreePrivacyPolicy,
-                    ),
+                    color: agreePrivacyPolicy ? Colors.green : Colors.grey,
                   );
                 },
               ),
