@@ -40,17 +40,14 @@ class _AgreePolicyScreenState extends ConsumerState {
   }
 
   addMaxScrollExtentListener(ScrollController scrollController) {
-    final state = ref.read(agreePrivacyPolicyViewModelProvider);
     scrollController.addListener(() {
       if (scrollController.offset >=
-              scrollController.position.maxScrollExtent &&
-          !state) {
+              scrollController.position.maxScrollExtent) {
         setState(() {
           maxScrollExtent = true;
         });
       } else if (scrollController.offset <
-              scrollController.position.maxScrollExtent &&
-          state) {
+              scrollController.position.maxScrollExtent) {
         setState(() {
           maxScrollExtent = false;
         });
