@@ -1,25 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/network/network_service.dart';
+import '../../../../core/services/network/network_client_service.dart';
 import '../dto/sign_up_info_dto.dart';
 import '../dto/token_dto.dart';
 
-final authRemoteDataSourceProvider = Provider.autoDispose<AuthRemoteDataSource>((ref) {
+final authRemoteDataSourceProvider =
+    Provider.autoDispose<AuthRemoteDataSource>((ref) {
   return AuthRemoteDataSource(
-    networkService: ref.watch(networkServiceProvider),
+    networkClientService: ref.watch(networkClientServiceProvider),
   );
 });
 
 class AuthRemoteDataSource {
-  final NetworkService networkService;
+  final NetworkClientService networkClientService;
 
-  AuthRemoteDataSource({required this.networkService});
+  AuthRemoteDataSource({required this.networkClientService});
 
   Future<TokenDto> login({
     required String studentId,
     required String password,
   }) async {
-    final response = await networkService.request(
+    final response = await networkClientService.request(
       path: '/user/login',
       method: RequestType.post,
       data: {
@@ -34,7 +35,7 @@ class AuthRemoteDataSource {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final response = await networkService.request(
+    final response = await networkClientService.request(
       path: '/user/dku/verify',
       method: RequestType.post,
       data: {
@@ -49,7 +50,7 @@ class AuthRemoteDataSource {
     required String signUpToken,
     required String phoneNumber,
   }) async {
-    final result = await networkService.request(
+    final result = await networkClientService.request(
       path: '/user/sms/$signUpToken',
       method: RequestType.post,
       data: {
@@ -63,7 +64,7 @@ class AuthRemoteDataSource {
     required String signUpToken,
     required String code,
   }) async {
-    final result = await networkService.request(
+    final result = await networkClientService.request(
       path: '/user/sms/verify/$signUpToken',
       method: RequestType.post,
       data: {
@@ -74,7 +75,7 @@ class AuthRemoteDataSource {
   }
 
   Future<bool> validNickname({required String nickname}) async {
-    final result = await networkService.request(
+    final result = await networkClientService.request(
       path: '/user/valid?nickname=$nickname',
       method: RequestType.get,
     );
@@ -86,7 +87,7 @@ class AuthRemoteDataSource {
     required String nickname,
     required String password,
   }) async {
-    final result = await networkService.request(
+    final result = await networkClientService.request(
       path: '/user/$signUpToken',
       method: RequestType.post,
       data: {
@@ -96,5 +97,4 @@ class AuthRemoteDataSource {
     );
     return result.statusCode == 200;
   }
-
 }

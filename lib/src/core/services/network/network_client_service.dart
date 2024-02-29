@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../design_system/orb/components/components.dart';
 import '../../constants/api_url.dart';
 
-final networkServiceProvider = Provider<NetworkService>((ref) {
-  final networkService = NetworkService();
+final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
+  final networkService = NetworkClientService();
   return networkService;
 });
 
@@ -21,11 +21,11 @@ enum RequestType {
   const RequestType(this.value);
 }
 
-base class NetworkService {
+base class NetworkClientService {
   final Dio _dio = Dio();
   final List<CancelToken> _cancelTokens = [];
 
-  NetworkService(){
+  NetworkClientService(){
     _initialize();
   }
 
@@ -129,5 +129,7 @@ base class NetworkService {
   void removeCancelToken(CancelToken cancelToken) {
     _cancelTokens.remove(cancelToken);
   }
+
+
 
 }

@@ -39,6 +39,12 @@ abstract class _$RouterService extends RootStackRouter {
         child: const MainScreen(),
       );
     },
+    NoInternetRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NoInternetScreen(),
+      );
+    },
     RouteErrorRoute.name: (routeData) {
       final args = routeData.argsAs<RouteErrorRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -116,6 +122,20 @@ class MainRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [NoInternetScreen]
+class NoInternetRoute extends PageRouteInfo<void> {
+  const NoInternetRoute({List<PageRouteInfo>? children})
+      : super(
+          NoInternetRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NoInternetRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -9,6 +9,7 @@ import '../../../features/auth/presentation/sign_up/screens/verify_phone_number_
 import '../../../features/auth/presentation/sign_up/screens/verify_student_screen.dart';
 
 import 'main_screen.dart';
+import 'no_internet_screen.dart';
 import 'route_error_screen.dart';
 
 part 'router_service.gr.dart';
@@ -27,6 +28,11 @@ class RouterService extends _$RouterService {
         AutoRoute(
           page: LoginRoute.page,
           initial: true,
+        ),
+        CustomRoute(
+          page: NoInternetRoute.page,
+          opaque: false,
+          fullscreenDialog: true,
         ),
         AutoRoute(page: LoginHelpRoute.page),
         AutoRoute(page: VerifyStudentRoute.page),
