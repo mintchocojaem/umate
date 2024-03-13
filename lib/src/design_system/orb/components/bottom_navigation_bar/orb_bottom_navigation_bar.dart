@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
-
-
 typedef OnIndexChanged = void Function(int index);
 
 class OrbBottomNavigationBar extends StatelessWidget {
@@ -58,7 +55,7 @@ class OrbBottomNavigationBar extends StatelessWidget {
             onTap: (value) => onIndexChanged?.call(value),
             currentIndex: currentIndex ?? 0,
             items: items,
-            selectedItemColor: OrbPalette.mainColor,
+            selectedItemColor: theme.colorScheme.primary,
           ),
         ),
       ),

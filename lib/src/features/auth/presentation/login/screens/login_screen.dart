@@ -3,8 +3,9 @@ import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
 import '../../../../../design_system/orb/orb.dart';
-import '../view_models/login_view_model.dart';
+import '../providers/login_provider.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerStatefulWidget {
@@ -41,9 +42,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      loginProvider,
+      (prev, next) {
+        if (!next.isLoading && next.hasError) {
+          ref.read(snackBarServiceProvider).show(
+                context,
+                message: next.message!,
+                type: OrbSnackBarType.error,
+              );
+        }
+      },
+    );
+
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(loginViewModelProvider.notifier).login(
+        await ref.read(loginProvider.notifier).login(
               formKey,
               studentId: studentIdController.text,
               password: passwordController.text,
@@ -91,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(loginViewModelProvider.notifier).pushToSignUpScreen();
+                ref.read(loginProvider.notifier).pushToSignUpScreen();
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -110,7 +124,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          ref.read(loginViewModelProvider.notifier).pushToLoginHelpScreen();
+          ref.read(loginProvider.notifier).pushToLoginHelpScreen();
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

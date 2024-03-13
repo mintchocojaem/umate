@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/components/components.dart';
-import '../view_models/agree_privacy_policy_view_model.dart';
+import '../providers/sign_up_privacy_policy_provider.dart';
 
 part 'agree_terms_container.dart';
 
@@ -54,12 +54,11 @@ class _AgreePolicyScreenState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     final submitButton = OrbButton(
       buttonText: maxScrollExtent ? '모두 동의하기' : '아래로 스크롤하기',
       onPressed: () async {
-        await ref
-            .read(agreePrivacyPolicyViewModelProvider.notifier)
-            .agreePrivacyPolicy(
+        await ref.read(signUpPrivacyPolicyProvider.notifier).agreePrivacyPolicy(
               maxScrollExtent: maxScrollExtent,
               scrollController: scrollController,
             );

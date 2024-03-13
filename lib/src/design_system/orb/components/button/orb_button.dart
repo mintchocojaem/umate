@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
-
 enum OrbButtonRadius {
   none,
   small,
@@ -16,7 +14,7 @@ enum OrbButtonSize {
   wide,
 }
 
-class OrbButton extends StatefulWidget{
+class OrbButton extends StatefulWidget {
   final Function() onPressed;
   final String? buttonText;
   final Color? enabledBackgroundColor;
@@ -71,7 +69,7 @@ class OrbButton extends StatefulWidget{
 }
 
 class OrbPrimaryButtonState extends State<OrbButton> {
-  int coolDownTime = 0;
+  Duration coolDownTime = Duration.zero;
   bool isLoading = false;
   bool isOnPressed = false;
   Timer timer = Timer(Duration.zero, () {});
@@ -84,6 +82,16 @@ class OrbPrimaryButtonState extends State<OrbButton> {
     super.initState();
   }
 
+  String _printDuration(Duration duration) {
+    String result = '';
+    if (duration.inHours > 0) {
+      result += '${duration.inHours}:';
+    }
+    result += '${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:';
+    result += duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -94,12 +102,12 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           ? null
           : () {
               if (!isLoading && !isOnPressed) {
-                coolDownTime = widget.buttonCoolDown.inSeconds;
+                coolDownTime = widget.buttonCoolDown;
                 setState(() {
                   isLoading = true;
                   isOnPressed = true;
                 });
-                Future(()async{
+                Future(() async {
                   await widget.onPressed();
                 }).whenComplete(() {
                   if (!context.mounted) return;
@@ -109,9 +117,9 @@ class OrbPrimaryButtonState extends State<OrbButton> {
                 });
                 timer = Timer.periodic(const Duration(seconds: 1), (timer) {
                   setState(() {
-                    coolDownTime--;
+                    coolDownTime -= const Duration(seconds: 1);
                   });
-                  if (coolDownTime == 0) {
+                  if (coolDownTime == Duration.zero) {
                     isOnPressed = false;
                     timer.cancel();
                   }
@@ -123,13 +131,14 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           widget.disabled
               ? widget.disabledBackgroundColor ??
                   themeData.colorScheme.surfaceVariant
-              : widget.enabledBackgroundColor ?? OrbPalette.mainColor,
+              : widget.enabledBackgroundColor ?? themeData.colorScheme.primary,
         ),
         foregroundColor: MaterialStateProperty.all(
           widget.disabled
               ? widget.disabledForegroundColor ??
                   themeData.colorScheme.onSurfaceVariant
-              : widget.enabledForegroundColor ?? OrbPalette.onMainColor,
+              : widget.enabledForegroundColor ??
+                  themeData.colorScheme.onPrimary,
         ),
         textStyle: MaterialStateProperty.all(
           widget.buttonTextStyle ??
@@ -173,34 +182,31 @@ class OrbPrimaryButtonState extends State<OrbButton> {
         width: double.infinity,
         child: Center(
           child: isLoading && !widget.showCoolDownTime
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: SizedBox(
-                    width: themeData.textTheme.bodySmall?.fontSize,
-                    height: themeData.textTheme.bodySmall?.fontSize,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation(
-                        widget.disabled
-                            ? widget.disabledForegroundColor ??
-                                OrbPalette.onMainColor
-                            : widget.enabledForegroundColor ??
-                                OrbPalette.onMainColor,
-                      ),
+              ? SizedBox(
+                  width: themeData.textTheme.bodySmall?.fontSize,
+                  height: themeData.textTheme.bodySmall?.fontSize,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation(
+                      widget.disabled
+                          ? widget.disabledForegroundColor ??
+                              themeData.colorScheme.onPrimary
+                          : widget.enabledForegroundColor ??
+                              themeData.colorScheme.onPrimary,
                     ),
                   ),
                 )
               : widget.buttonText != null &&
                       widget.showCoolDownTime &&
-                      coolDownTime != 0
+                      coolDownTime != Duration.zero
                   ? Text(
-                      "${widget.buttonText!}  |  $coolDownTime",
+                      _printDuration(coolDownTime),
                       overflow: TextOverflow.ellipsis,
                     )
                   : Text(
-                    widget.buttonText!,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                      widget.buttonText!,
+                      overflow: TextOverflow.ellipsis,
+                    ),
         ),
       ),
     );

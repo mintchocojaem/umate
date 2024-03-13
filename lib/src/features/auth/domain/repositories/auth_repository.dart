@@ -17,12 +17,12 @@ abstract class AuthRepository {
     required String signUpToken,
   });
 
-  Future<bool> verifySMS({
+  Future<bool> verifySignUpCode({
     required String signUpToken,
     required String code,
   });
 
-  Future<bool> validNickname({
+  Future<bool> verifyNickname({
     required String nickname,
   });
 

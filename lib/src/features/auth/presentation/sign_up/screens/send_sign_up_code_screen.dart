@@ -1,31 +1,37 @@
 import 'package:auto_route/annotations.dart';
+import 'package:danvery/src/core/services/snack_bar/snack_bar_service.dart';
 import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:danvery/src/features/auth/domain/models/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/components/components.dart';
-import '../view_models/sign_up_view_model.dart';
+import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class VerifyPhoneNumberScreen extends ConsumerStatefulWidget {
-  const VerifyPhoneNumberScreen({super.key});
+class SendSignUpCodeScreen extends ConsumerStatefulWidget {
+  final String signUpToken;
+  final StudentModel student;
+
+  const SendSignUpCodeScreen({
+    super.key,
+    required this.signUpToken,
+    required this.student,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _VerifyPhoneNumberScreenState();
+    return _SendSignUpCodeScreenState();
   }
 }
 
-class _VerifyPhoneNumberScreenState
-    extends ConsumerState<VerifyPhoneNumberScreen> with AuthValidator {
+class _SendSignUpCodeScreenState extends ConsumerState<SendSignUpCodeScreen>
+    with AuthValidator {
   late final TextEditingController studentIdController;
   late final TextEditingController majorController;
   late final TextEditingController phoneNumberController;
   late final GlobalKey<FormState> formKey;
-
-  late final StudentModel student;
 
   @override
   void initState() {
@@ -34,12 +40,10 @@ class _VerifyPhoneNumberScreenState
     studentIdController = TextEditingController();
     phoneNumberController = TextEditingController();
 
-    student = ref.read(signUpViewModelProvider).requireValue.student;
-
-    majorController.text = student.major;
-    studentIdController.text = student.studentId;
-
     formKey = GlobalKey<FormState>();
+
+    majorController.text = widget.student.major;
+    studentIdController.text = widget.student.studentId;
   }
 
   @override
@@ -55,10 +59,24 @@ class _VerifyPhoneNumberScreenState
   Widget build(BuildContext context) {
     // TODO: implement build
 
+    ref.listen(
+      signUpProvider,
+      (prev, next) {
+        if (!next.isLoading && next.hasError) {
+          ref.read(snackBarServiceProvider).show(
+                context,
+                message: next.message!,
+                type: OrbSnackBarType.error,
+              );
+        }
+      },
+    );
+
     final submitButton = OrbButton(
       onPressed: () async {
-        ref.read(signUpViewModelProvider.notifier).sendSMS(
+        await ref.read(signUpProvider.notifier).sendSignUpCode(
               formKey,
+              signUpToken: widget.signUpToken,
               phoneNumber: phoneNumberController.text,
             );
       },
@@ -73,7 +91,7 @@ class _VerifyPhoneNumberScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${student.studentName}님 정보가 맞나요?',
+              '${widget.student.studentName}님 정보가 맞나요?',
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),

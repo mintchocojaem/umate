@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum OrbSnackBarType {
@@ -6,97 +7,68 @@ enum OrbSnackBarType {
   error,
 }
 
-class OrbSnackBar {
-  late final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
-  late final String message;
-  late final OrbSnackBarType type;
-  final List<SnackBar> _snackBarQueue = [];
+class OrbSnackBar extends SnackBar {
+  final Color color;
+  final String message;
+  final TextStyle messageStyle;
+  final OrbSnackBarType type;
 
-  static final OrbSnackBar _instance = OrbSnackBar._internal();
+  const OrbSnackBar({
+    super.key,
+    required this.color,
+    required this.message,
+    required this.messageStyle,
+    required this.type,
+    super.content = const SizedBox(),
+    super.onVisible,
+    super.duration,
+  });
 
-  OrbSnackBar._internal();
-
-  factory OrbSnackBar() {
-    return _instance;
-  }
-
-  OrbSnackBar.init({
-    required this.scaffoldMessengerKey,
-  }) {
-    final snackBar = OrbSnackBar();
-    snackBar.scaffoldMessengerKey = scaffoldMessengerKey;
-  }
-
-  factory OrbSnackBar.show({
-    required String message,
-    required OrbSnackBarType type,
-  }) {
-    final snackBar = OrbSnackBar();
-    snackBar._show(
-      message: message,
-      type: type,
-    );
-    return snackBar;
-  }
-
-  void _show({required String message, required OrbSnackBarType type}) {
-    if (!scaffoldMessengerKey.currentState!.mounted) {
-      return;
-    }
-
-    const Duration duration = Duration(milliseconds: 3000);
-    final BuildContext context = scaffoldMessengerKey.currentContext!;
-    final themeData = Theme.of(context);
-
-    final snackBar = SnackBar(
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          color: themeData.colorScheme.onSurfaceVariant,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.info,
-              color: switch (type) {
-                // TODO: Handle this case.
-                OrbSnackBarType.info => Colors.blue,
-                // TODO: Handle this case.
-                OrbSnackBarType.warning => Colors.amber,
-                // TODO: Handle this case.
-                OrbSnackBarType.error => Colors.red,
-              },
-            ),
-            const SizedBox(width: 16),
-            Text(
-              message,
-              style: themeData.textTheme.bodyMedium?.copyWith(
-                color: themeData.colorScheme.background,
-              ),
-            ),
-          ],
-        ),
+  @override
+  // TODO: implement content
+  Widget get content {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(20),
       ),
-      duration: duration,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      padding: const EdgeInsets.all(16),
-      onVisible: () {
-        Future.delayed(duration, () {
-          if (_snackBarQueue.isNotEmpty) {
-            scaffoldMessengerKey.currentState!.showSnackBar(_snackBarQueue[0]);
-            _snackBarQueue.removeAt(0);
-          }
-        });
-      },
+      child: Row(
+        children: [
+          Icon(
+            Icons.info,
+            color: switch (type) {
+              // TODO: Handle this case.
+              OrbSnackBarType.info => Colors.blue,
+              // TODO: Handle this case.
+              OrbSnackBarType.warning => Colors.amber,
+              // TODO: Handle this case.
+              OrbSnackBarType.error => Colors.red,
+            },
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              message,
+              style: messageStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          ),
+        ],
+      ),
     );
-
-    _snackBarQueue.add(snackBar);
-
-    if (_snackBarQueue.length == 1) {
-      scaffoldMessengerKey.currentState!.showSnackBar(snackBar);
-      _snackBarQueue.removeAt(0);
-    }
   }
+
+  @override
+  // TODO: implement elevation
+  double? get elevation => 0;
+
+  @override
+  // TODO: implement backgroundColor
+  Color? get backgroundColor => Colors.transparent;
+
+  @override
+  // TODO: implement padding
+  EdgeInsetsGeometry? get padding => const EdgeInsets.all(16);
 }

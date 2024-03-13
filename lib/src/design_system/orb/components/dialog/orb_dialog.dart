@@ -4,6 +4,7 @@ import '../button/orb_button.dart';
 
 
 class OrbDialog extends StatelessWidget {
+
   final String title;
   final Widget content;
   final String? rightButtonText;

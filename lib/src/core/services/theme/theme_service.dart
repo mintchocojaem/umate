@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../design_system/orb/theme/theme.dart';
+import '../../../design_system/orb/theme/orb_theme.dart';
 
-final themeServiceProvider = NotifierProvider<ThemeServiceNotifier, OrbTheme>(() {
-  return ThemeServiceNotifier();
+final themeServiceProvider =
+    NotifierProvider<OrbThemeServiceViewModel, ThemeData>(() {
+  final orbThemeService = OrbTheme();
+  return OrbThemeServiceViewModel(orbThemeService: orbThemeService);
 });
 
-class ThemeServiceNotifier extends Notifier<OrbTheme> {
+class OrbThemeServiceViewModel extends Notifier<ThemeData> {
+  final OrbTheme _orbThemeService;
+
+  OrbThemeServiceViewModel({
+    required OrbTheme orbThemeService,
+  }) : _orbThemeService = orbThemeService;
+
   @override
-  OrbTheme build() {
+  ThemeData build() {
     // TODO: implement build
-    final OrbTheme orbTheme = OrbTheme();
-    return orbTheme;
+    return _orbThemeService.getThemeMode();
   }
 
   void setThemeMode(ThemeMode themeMode) {
-    state = state..setThemeMode(themeMode);
+    _orbThemeService.setThemeMode(themeMode);
+    state = _orbThemeService.getThemeMode();
+  }
+
+  ThemeData getThemeMode() {
+    return _orbThemeService.getThemeMode();
   }
 }

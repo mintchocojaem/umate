@@ -1,4 +1,4 @@
-class StudentModel{
+class StudentModel {
   final String studentName;
   final String studentId;
   final String major;
@@ -12,4 +12,5 @@ class StudentModel{
     required this.age,
     required this.gender,
   });
+
 }

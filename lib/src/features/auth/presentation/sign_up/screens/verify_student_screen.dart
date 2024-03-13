@@ -1,11 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:danvery/src/core/utils/auth_validator.dart';
+import 'package:danvery/src/features/auth/presentation/sign_up/providers/sign_up_privacy_policy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
 import '../../../../../design_system/orb/components/components.dart';
-import '../view_models/agree_privacy_policy_view_model.dart';
-import '../view_models/sign_up_view_model.dart';
+import '../providers/sign_up_provider.dart';
 
 @RoutePage()
 class VerifyStudentScreen extends ConsumerStatefulWidget {
@@ -36,9 +37,28 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    ref.listen(signUpProvider, (previous, next) {
+      if (!next.isLoading && next.hasError) {
+        ref.read(snackBarServiceProvider).show(
+              context,
+              type: OrbSnackBarType.error,
+              message: next.message!,
+            );
+      }
+    });
+
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpViewModelProvider.notifier).verifyStudent(
+        if (!ref.read(signUpPrivacyPolicyProvider)) {
+          ref.read(snackBarServiceProvider).show(
+                context,
+                type: OrbSnackBarType.warning,
+                message: '개인정보 이용약관에 동의가 필요해요',
+              );
+          return;
+        }
+        await ref.read(signUpProvider.notifier).verifyStudent(
               formKey,
               dkuStudentId: dkuStudentIdController.text,
               dkuPassword: dkuPasswordController.text,
@@ -86,14 +106,12 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
               titleText: '개인정보 이용약관에 동의하기',
               leading: Icon(
                 Icons.check_circle,
-                color: ref.watch(agreePrivacyPolicyViewModelProvider)
+                color: ref.watch(signUpPrivacyPolicyProvider)
                     ? Colors.green
                     : Colors.grey,
               ),
               onTap: () {
-                ref
-                    .read(signUpViewModelProvider.notifier)
-                    .pushToAgreePolicyScreen();
+                ref.read(signUpProvider.notifier).pushToAgreePolicyScreen();
               },
             ),
           ],

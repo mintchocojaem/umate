@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../design_system/orb/components/bottom_navigation_bar/orb_bottom_navigation_bar.dart';
-import 'router_service.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {

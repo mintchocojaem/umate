@@ -1,6 +1,5 @@
+import 'package:danvery/src/design_system/orb/orb.dart';
 import 'package:flutter/material.dart';
-
-import '../components/components.dart';
 
 part 'model_widget.dart';
 
@@ -25,10 +24,11 @@ class _OrbTestWidgetState extends State<OrbTestWidget> {
     buttonText: "Show OrbSnackBar",
     onPressed: () async {
       await Future.delayed(const Duration(seconds: 1), () {
-        OrbSnackBar.show(
+        /*
+        OrbService.showSnackBar(
           message: "OrbSnackBar",
           type: OrbSnackBarType.info,
-        );
+        );*/
       });
     },
   );

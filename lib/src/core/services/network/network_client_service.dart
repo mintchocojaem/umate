@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../design_system/orb/components/components.dart';
 import '../../constants/api_url.dart';
+import '../../utils/app_exception.dart';
 
 final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
   final networkService = NetworkClientService();
@@ -22,14 +22,15 @@ enum RequestType {
 }
 
 base class NetworkClientService {
-  final Dio _dio = Dio();
-  final List<CancelToken> _cancelTokens = [];
-
-  NetworkClientService(){
+  NetworkClientService() {
     _initialize();
   }
 
+  final Dio _dio = Dio();
+
   Dio get dio => _dio;
+
+  final List<CancelToken> _cancelTokens = [];
 
   void _initialize() {
     _dio.options = BaseOptions(
@@ -53,31 +54,39 @@ base class NetworkClientService {
         },
         onResponse: (response, handler) async {
           if (kDebugMode) {
-            print('DioClient > (Response) : ${response.data}');
+            print('NetworkClientService > (Response) : ${response.data}');
           }
           handler.next(response);
         },
         onError: (dioException, handler) async {
           if (dioException.type == DioExceptionType.cancel) {
             if (kDebugMode) {
-              print('DioClient > (Canceled) : ${dioException.requestOptions.uri}');
+              print(
+                  'NetworkClientService > (Canceled) : ${dioException.requestOptions.uri}');
             }
           } else {
-            final List<dynamic> message =
-                dioException.response?.data['message'] ?? ["알 수 없는 오류가 발생했어요!"];
+            final List<dynamic> messages =
+                dioException.response?.data['message'];
+
+            String message = '서버 연결 중 오류가 발생했어요.';
+
+            dynamic firstMessage = messages.firstOrNull;
+
+            if(firstMessage != null && firstMessage is Map<String, dynamic>){
+              message = firstMessage['error'];
+            } else if (firstMessage is String) {
+              message = firstMessage;
+            }
+
             final int statusCode = dioException.response?.statusCode ?? 500;
 
             if (kDebugMode) {
               print(
-                  'DioClient > (Error) : code = $statusCode : message = $message');
+                  'NetworkClientService > (Error) : code = $statusCode, message = $messages');
             }
-
-            for (var message in message) {
-              OrbSnackBar.show(
-                message: message.toString(),
-                type: OrbSnackBarType.error,
-              );
-            }
+            dioException = dioException.copyWith(
+              message: message,
+            );
           }
           handler.next(dioException);
         },
@@ -95,17 +104,25 @@ base class NetworkClientService {
   }) async {
     final cancelToken = getCancelToken();
 
-    final response = await _dio.request(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: Options(method: method.value),
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    return response;
+    try {
+      final response = await _dio.request(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(method: method.value),
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on DioException catch(error, stackTrace){
+      throw AppException(
+        message: error.message,
+        stackTrace: stackTrace,
+      );
+    } finally {
+      removeCancelToken(cancelToken);
+    }
   }
 
   CancelToken getCancelToken() {
@@ -129,7 +146,4 @@ base class NetworkClientService {
   void removeCancelToken(CancelToken cancelToken) {
     _cancelTokens.remove(cancelToken);
   }
-
-
-
 }

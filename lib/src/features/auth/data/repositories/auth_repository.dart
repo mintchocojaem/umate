@@ -5,11 +5,13 @@ import '../../domain/models/token_model.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_remote_data_source.dart';
 
-final authRepositoryImplProvider = Provider.autoDispose<AuthRepositoryImpl>((ref) {
-  return AuthRepositoryImpl(authRemoteDataSource: ref.watch(authRemoteDataSourceProvider));
+final authRepositoryImplProvider =
+    Provider.autoDispose<AuthRepositoryImpl>((ref) {
+  return AuthRepositoryImpl(
+      authRemoteDataSource: ref.watch(authRemoteDataSourceProvider));
 });
 
-class AuthRepositoryImpl implements AuthRepository{
+class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
 
   AuthRepositoryImpl({
@@ -21,11 +23,11 @@ class AuthRepositoryImpl implements AuthRepository{
     required String studentId,
     required String password,
   }) async {
-    final tokenEntity = await authRemoteDataSource.login(
+    final result = await authRemoteDataSource.login(
       studentId: studentId,
       password: password,
     );
-    return tokenEntity.mapToModel();
+    return result.mapToModel();
   }
 
   @override
@@ -33,11 +35,11 @@ class AuthRepositoryImpl implements AuthRepository{
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final signUpInfoEntity = await authRemoteDataSource.verifyStudent(
+    final result = await authRemoteDataSource.verifyStudent(
       dkuStudentId: dkuStudentId,
       dkuPassword: dkuPassword,
     );
-    return signUpInfoEntity.mapToModel();
+    return result.mapToModel();
   }
 
   @override
@@ -45,28 +47,33 @@ class AuthRepositoryImpl implements AuthRepository{
     required String phoneNumber,
     required String signUpToken,
   }) async {
-    return await authRemoteDataSource.sendSignUpCode(
+    final result = await authRemoteDataSource.sendSignUpCode(
       phoneNumber: phoneNumber,
       signUpToken: signUpToken,
     );
+    return result;
   }
 
   @override
-  Future<bool> verifySMS({
+  Future<bool> verifySignUpCode({
     required String signUpToken,
     required String code,
   }) async {
-    return await authRemoteDataSource.verifySMS(
+    final result = await authRemoteDataSource.verifySignUpCode(
       signUpToken: signUpToken,
       code: code,
     );
+    return result;
   }
 
   @override
-  Future<bool> validNickname({required String nickname}) async {
-    return await authRemoteDataSource.validNickname(
+  Future<bool> verifyNickname({
+    required String nickname,
+  }) async {
+    final result = await authRemoteDataSource.verifyNickname(
       nickname: nickname,
     );
+    return result;
   }
 
   @override
@@ -75,10 +82,11 @@ class AuthRepositoryImpl implements AuthRepository{
     required String nickname,
     required String password,
   }) async {
-    return await authRemoteDataSource.signUp(
+    final result = await authRemoteDataSource.signUp(
       signUpToken: signUpToken,
       nickname: nickname,
       password: password,
     );
+    return result;
   }
 }

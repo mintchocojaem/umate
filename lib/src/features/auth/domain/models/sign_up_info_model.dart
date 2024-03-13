@@ -8,4 +8,15 @@ class SignUpInfoModel{
     required this.signUpToken,
     required this.student,
   });
+
+  SignUpInfoModel copyWith({
+    String? signUpToken,
+    StudentModel? student,
+  }) {
+    return SignUpInfoModel(
+      signUpToken: signUpToken ?? this.signUpToken,
+      student: student ?? this.student,
+    );
+  }
+
 }

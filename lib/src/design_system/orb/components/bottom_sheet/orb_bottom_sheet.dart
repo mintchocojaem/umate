@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
-
 class SheetItem {
   final String title;
   final Color? color;
@@ -67,7 +65,7 @@ class OrbBottomSheet extends StatelessWidget {
               "취소",
               style: themeData.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: OrbPalette.subColor,
+                color: themeData.colorScheme.secondary,
               ),
             ),
           ),

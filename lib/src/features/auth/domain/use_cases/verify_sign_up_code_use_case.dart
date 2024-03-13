@@ -1,30 +1,30 @@
 import '../../../../core/utils/use_case.dart';
 import '../repositories/auth_repository.dart';
 
-class SendSignUpCodeParams {
+class VerifySignUpCodeParams {
   final String signUpToken;
-  final String phoneNumber;
+  final String code;
 
-  SendSignUpCodeParams({
+  VerifySignUpCodeParams({
     required this.signUpToken,
-    required this.phoneNumber,
+    required this.code,
   });
 }
 
-class SendSignUpCodeUseCase extends UseCase<bool, SendSignUpCodeParams> {
+class VerifySignUpCodeUseCase extends UseCase<bool, VerifySignUpCodeParams> {
   final AuthRepository authRepository;
 
-  SendSignUpCodeUseCase({
+  VerifySignUpCodeUseCase({
     required this.authRepository,
   });
 
   @override
   Future<bool> call({
-    required SendSignUpCodeParams params,
+    required VerifySignUpCodeParams params,
   }) async {
-    return await authRepository.sendSignUpCode(
+    return await authRepository.verifySignUpCode(
       signUpToken: params.signUpToken,
-      phoneNumber: params.phoneNumber,
+      code: params.code,
     );
   }
 }

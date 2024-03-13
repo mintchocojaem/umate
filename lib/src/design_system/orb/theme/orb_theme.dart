@@ -1,38 +1,21 @@
 import 'package:flutter/material.dart';
 
-part 'orb_palette.dart';
+class OrbTheme{
 
-class OrbTheme {
-  late ThemeMode _themeMode;
+  final primaryColor = const Color(0xFF137eff);
+  final onPrimaryColor = const Color(0xFFFFFFFF);
+  final secondaryColor = const Color(0xFF3d94ff);
+  final onSecondaryColor = const Color(0xFFFFFFFF);
+  final surfaceColor = const Color(0xFFf2f2f2);
+  final onSurfaceColor = const Color(0xFF222222);
+  final backgroundColor = const Color(0xFFFFFFFF);
+  final onBackgroundColor = const Color(0xFF151515);
+  final surfaceVariantColor = const Color(0xFFd9d9d9);
+  final onSurfaceVariantColor = const Color(0xFF323232);
+  final errorColor = const Color(0xFFff5151);
+  final onErrorColor = const Color(0xFFFFFFFF);
 
-  OrbTheme._internal() {
-    _themeMode = ThemeMode.system;
-  }
-
-  static final OrbTheme _instance = OrbTheme._internal();
-
-  factory OrbTheme() {
-    return _instance;
-  }
-
-  void setThemeMode(ThemeMode themeMode) {
-    _themeMode = themeMode;
-  }
-
-  ThemeData getThemeMode() {
-    switch (_themeMode) {
-      case ThemeMode.system:
-        final brightness =
-            WidgetsBinding.instance.platformDispatcher.platformBrightness;
-        return brightness == Brightness.dark ? _darkTheme : _lightTheme;
-      case ThemeMode.light:
-        return _lightTheme;
-      case ThemeMode.dark:
-        return _darkTheme;
-    }
-  }
-
-  final TextTheme _textTheme = const TextTheme(
+  static const TextTheme textTheme = TextTheme(
     titleLarge: TextStyle(
       fontSize: 22,
     ),
@@ -53,27 +36,48 @@ class OrbTheme {
     ),
   );
 
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void setThemeMode(ThemeMode themeMode) {
+    _themeMode = themeMode;
+  }
+
+  ThemeData getThemeMode() {
+    switch (_themeMode) {
+      case ThemeMode.system:
+        final brightness =
+            WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        return brightness == Brightness.dark
+            ? _darkTheme
+            : _lightTheme;
+      case ThemeMode.light:
+        return _lightTheme;
+      case ThemeMode.dark:
+        return _darkTheme;
+    }
+  }
+
   ThemeData get _lightTheme {
     return ThemeData(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       colorScheme: ColorScheme.light(
         brightness: Brightness.light,
-        primary: OrbPalette.mainColor,
-        onPrimary: OrbPalette.onMainColor,
-        secondary: OrbPalette.subColor,
-        onSecondary: OrbPalette.onSubColor,
-        background: OrbPalette.background,
-        onBackground: OrbPalette.onBackground,
-        surface: OrbPalette.surface,
-        onSurface: OrbPalette.onSurface,
-        surfaceVariant: OrbPalette.surfaceVariant,
-        onSurfaceVariant: OrbPalette.onSurfaceVariant,
-        error: OrbPalette.error,
-        onError: OrbPalette.onError,
+        primary: primaryColor,
+        onPrimary: onPrimaryColor,
+        secondary: secondaryColor,
+        onSecondary: onSecondaryColor,
+        background: backgroundColor,
+        onBackground: onBackgroundColor,
+        surface: surfaceColor,
+        onSurface: onSurfaceColor,
+        surfaceVariant: surfaceVariantColor,
+        onSurfaceVariant: onSurfaceVariantColor,
+        error: errorColor,
+        onError: onErrorColor,
       ),
-      textTheme: _textTheme.apply(
-        bodyColor: OrbPalette.onSurfaceVariant,
+      textTheme: textTheme.apply(
+        bodyColor: onSurfaceVariantColor,
         fontFamily: 'SpoqaHanSansNeo',
       ),
     );
@@ -85,21 +89,21 @@ class OrbTheme {
       highlightColor: Colors.transparent,
       colorScheme: ColorScheme.dark(
         brightness: Brightness.dark,
-        primary: OrbPalette.mainColor,
-        onPrimary: OrbPalette.onMainColor,
-        secondary: OrbPalette.subColor,
-        onSecondary: OrbPalette.onSubColor,
-        background: OrbPalette.onSurface,
-        onBackground: OrbPalette.surface,
-        surface: OrbPalette.onBackground,
-        onSurface: OrbPalette.background,
-        surfaceVariant: OrbPalette.onSurfaceVariant,
-        onSurfaceVariant: OrbPalette.surfaceVariant,
-        error: OrbPalette.error,
-        onError: OrbPalette.onError,
+        primary: primaryColor,
+        onPrimary: onPrimaryColor,
+        secondary: secondaryColor,
+        onSecondary: onSecondaryColor,
+        background: onSurfaceColor,
+        onBackground: surfaceColor,
+        surface: onBackgroundColor,
+        onSurface: backgroundColor,
+        surfaceVariant: onSurfaceVariantColor,
+        onSurfaceVariant: surfaceVariantColor,
+        error: errorColor,
+        onError: onErrorColor,
       ),
-      textTheme: _textTheme.apply(
-        bodyColor: OrbPalette.surfaceVariant,
+      textTheme: OrbTheme.textTheme.apply(
+        bodyColor: surfaceVariantColor,
         fontFamily: 'SpoqaHanSansNeo',
       ),
     );

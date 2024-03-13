@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/orb.dart';
-import '../view_models/login_view_model.dart';
+import '../providers/login_provider.dart';
 
 @RoutePage()
 class LoginHelpScreen extends ConsumerWidget {
@@ -29,7 +29,7 @@ class LoginHelpScreen extends ConsumerWidget {
             leading: const Icon(Icons.login_rounded),
             titleText: '회원가입을 하고 싶어요',
             onTap: () {
-              ref.read(loginViewModelProvider.notifier).replaceToSignUpScreen();
+              ref.read(loginProvider.notifier).replaceToSignUpScreen();
             },
             trailing: const Icon(Icons.chevron_right),
           ),

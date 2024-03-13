@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../theme/theme.dart';
-
 class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final String title;
@@ -48,11 +46,11 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
               preferredSize: const Size.fromHeight(2),
               child: Shimmer.fromColors(
                 baseColor: themeData.colorScheme.surface,
-                highlightColor: OrbPalette.mainColor,
+                highlightColor: themeData.colorScheme.primary,
                 child: LinearProgressIndicator(
                   minHeight: 2,
                   value: 1,
-                  color: OrbPalette.mainColor,
+                  color:  themeData.colorScheme.primary,
                 ),
               ),
             )

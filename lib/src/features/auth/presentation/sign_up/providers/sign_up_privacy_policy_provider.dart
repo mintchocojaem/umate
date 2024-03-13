@@ -1,18 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/services/router/router_service.dart';
 
-final agreePrivacyPolicyViewModelProvider =
-    NotifierProvider.autoDispose<AgreePrivacyPolicyViewModel, bool>(
-  () => AgreePrivacyPolicyViewModel(),
+final signUpPrivacyPolicyProvider = NotifierProvider.autoDispose<SingUpPrivacyPolicyNotifier, bool>(
+  () => SingUpPrivacyPolicyNotifier(),
 );
 
-class AgreePrivacyPolicyViewModel extends AutoDisposeNotifier<bool> {
+class SingUpPrivacyPolicyNotifier extends AutoDisposeNotifier<bool> {
+
+  late final RouterService _routerService;
+
   @override
   bool build() {
     // TODO: implement build
+    _routerService = ref.watch(routerServiceProvider);
     return false;
   }
 
@@ -22,7 +24,7 @@ class AgreePrivacyPolicyViewModel extends AutoDisposeNotifier<bool> {
   }) async {
     if (maxScrollExtent) {
       state = true;
-      ref.read(routerServiceProvider).pop();
+      _routerService.pop();
     } else {
       await scrollController.animateTo(
         scrollController.position.maxScrollExtent,
@@ -31,4 +33,5 @@ class AgreePrivacyPolicyViewModel extends AutoDisposeNotifier<bool> {
       );
     }
   }
+
 }

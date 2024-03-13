@@ -8,8 +8,6 @@ import 'src/app.dart';
 import 'src/core/config/firebase_config.dart';
 import 'src/core/utils/provider_logger.dart';
 import 'src/core/services/notification/notification_service.dart';
-import 'src/core/services/storage/storage_service.dart';
-import 'src/design_system/orb/orb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +15,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  await StorageService.init(); //setupFlutterNotification 보다 먼저 초기화 되어야 함
-
-  OrbService.init();
 
   //Notification Setup
   await setupFlutterNotifications();
