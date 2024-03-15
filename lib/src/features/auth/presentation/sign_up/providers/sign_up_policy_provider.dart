@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/services/router/router_service.dart';
 
-final signUpPrivacyPolicyProvider = NotifierProvider.autoDispose<SingUpPrivacyPolicyNotifier, bool>(
-  () => SingUpPrivacyPolicyNotifier(),
+final signUpPrivacyProvider =
+    NotifierProvider.autoDispose<SingUpPolicyNotifier, bool>(
+  () => SingUpPolicyNotifier(),
 );
 
-class SingUpPrivacyPolicyNotifier extends AutoDisposeNotifier<bool> {
-
+class SingUpPolicyNotifier extends AutoDisposeNotifier<bool> {
   late final RouterService _routerService;
 
   @override
@@ -33,5 +33,4 @@ class SingUpPrivacyPolicyNotifier extends AutoDisposeNotifier<bool> {
       );
     }
   }
-
 }

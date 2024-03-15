@@ -2,31 +2,31 @@ import '../../../../core/utils/use_case.dart';
 import '../models/sign_up_info_model.dart';
 import '../repositories/auth_repository.dart';
 
-class VerifyStudentParams {
+class SignUpVerifyStudentParams {
   final String dkuStudentId;
   final String dkuPassword;
 
-  VerifyStudentParams({
+  SignUpVerifyStudentParams({
     required this.dkuStudentId,
     required this.dkuPassword,
   });
 }
 
-class VerifyStudentUseCase
-    extends UseCase<SignUpInfoModel, VerifyStudentParams> {
+class SignUpVerifyStudentUseCase
+    extends UseCase<SignUpInfoModel, SignUpVerifyStudentParams> {
   final AuthRepository authRepository;
 
-  VerifyStudentUseCase({
+  SignUpVerifyStudentUseCase({
     required this.authRepository,
   });
 
   @override
-  Future<SignUpInfoModel> call({
-    required VerifyStudentParams params,
-  }) async {
-    return await authRepository.verifyStudent(
+  Future<SignUpInfoModel> execute(SignUpVerifyStudentParams params) async{
+    // TODO: implement execute
+    return await authRepository.signUpVerifyStudent(
       dkuStudentId: params.dkuStudentId,
       dkuPassword: params.dkuPassword,
     );
   }
+
 }

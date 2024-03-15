@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:danvery/src/core/utils/state.dart';
+import 'package:danvery/src/core/utils/async_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,22 +41,20 @@ class LoginNotifier extends AutoDisposeNotifier<AsyncState<TokenModel>> {
 
     state = AsyncState.loading();
 
-    state = await AsyncState.guard(
-      () => _loginUseCase(
-        params: LoginParams(
-          studentId: studentId,
-          password: password,
-        ),
+    state = await _loginUseCase(
+      LoginParams(
+        studentId: studentId,
+        password: password,
       ),
     );
   }
 
   void pushToSignUpScreen() {
-    _routerService.push(const VerifyStudentRoute());
+    _routerService.push(const SignUpVerifyStudentRoute());
   }
 
   void replaceToSignUpScreen() {
-    _routerService.replace(const VerifyStudentRoute());
+    _routerService.replace(const SignUpVerifyStudentRoute());
   }
 
   void pushToLoginHelpScreen() {

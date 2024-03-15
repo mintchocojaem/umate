@@ -8,11 +8,11 @@ import '../../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class VerifySignUpCodeScreen extends ConsumerStatefulWidget {
+class SignUpVerifyCodeScreen extends ConsumerStatefulWidget {
   final String signUpToken;
   final String phoneNumber;
 
-  const VerifySignUpCodeScreen({
+  const SignUpVerifyCodeScreen({
     super.key,
     required this.signUpToken,
     required this.phoneNumber,
@@ -21,11 +21,11 @@ class VerifySignUpCodeScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _VerifySignUpCodeScreenState();
+    return _SignUpVerifyCodeScreenState();
   }
 }
 
-class _VerifySignUpCodeScreenState extends ConsumerState<VerifySignUpCodeScreen>
+class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
     with AuthValidator {
   late final TextEditingController codeController;
   late final GlobalKey<FormState> formKey;
@@ -62,7 +62,7 @@ class _VerifySignUpCodeScreenState extends ConsumerState<VerifySignUpCodeScreen>
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).verifySignUpCode(
+        await ref.read(signUpProvider.notifier).verifyCodeFlow(
               formKey,
               signUpToken: widget.signUpToken,
               code: codeController.text,
@@ -109,7 +109,7 @@ class _VerifySignUpCodeScreenState extends ConsumerState<VerifySignUpCodeScreen>
                   enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
                   enabledForegroundColor: themeData.colorScheme.onSurface,
                   onPressed: () async {
-                    await ref.read(signUpProvider.notifier).resendSignUpCode(
+                    await ref.read(signUpProvider.notifier).sendCode(
                       signUpToken: widget.signUpToken,
                       phoneNumber: widget.phoneNumber,
                     );

@@ -1,6 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:danvery/src/core/utils/auth_validator.dart';
-import 'package:danvery/src/features/auth/presentation/sign_up/providers/sign_up_privacy_policy_provider.dart';
+import 'package:danvery/src/features/auth/presentation/sign_up/providers/sign_up_policy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,17 +9,17 @@ import '../../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class VerifyStudentScreen extends ConsumerStatefulWidget {
-  const VerifyStudentScreen({super.key});
+class SignUpVerifyStudentScreen extends ConsumerStatefulWidget {
+  const SignUpVerifyStudentScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _VerifyStudentScreenState();
+    return _SignUpVerifyStudentScreenState();
   }
 }
 
-class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
-    with AuthValidator {
+class _SignUpVerifyStudentScreenState
+    extends ConsumerState<SignUpVerifyStudentScreen> with AuthValidator {
   late final TextEditingController dkuStudentIdController;
   late final TextEditingController dkuPasswordController;
 
@@ -50,7 +50,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
 
     final submitButton = OrbButton(
       onPressed: () async {
-        if (!ref.read(signUpPrivacyPolicyProvider)) {
+        if (!ref.read(signUpPrivacyProvider)) {
           ref.read(snackBarServiceProvider).show(
                 context,
                 type: OrbSnackBarType.warning,
@@ -58,7 +58,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
               );
           return;
         }
-        await ref.read(signUpProvider.notifier).verifyStudent(
+        await ref.read(signUpProvider.notifier).verifyStudentFlow(
               formKey,
               dkuStudentId: dkuStudentIdController.text,
               dkuPassword: dkuPasswordController.text,
@@ -106,7 +106,7 @@ class _VerifyStudentScreenState extends ConsumerState<VerifyStudentScreen>
               titleText: '개인정보 이용약관에 동의하기',
               leading: Icon(
                 Icons.check_circle,
-                color: ref.watch(signUpPrivacyPolicyProvider)
+                color: ref.watch(signUpPrivacyProvider)
                     ? Colors.green
                     : Colors.grey,
               ),

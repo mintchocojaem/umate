@@ -47,10 +47,6 @@ final class AsyncState<T> {
     try {
       return AsyncState.data(await future());
     } on AppException catch (e) {
-      if (kDebugMode) {
-        print(
-            'AsyncState > (Error) : Error = ${e.message}, StackTrace = ${e.stackTrace}');
-      }
       return AsyncState.error(e.message, e.stackTrace);
     }
   }

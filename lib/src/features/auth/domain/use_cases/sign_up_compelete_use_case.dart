@@ -1,30 +1,29 @@
 import '../../../../core/utils/use_case.dart';
 import '../repositories/auth_repository.dart';
 
-class SignUpParams {
+class SignUpCompleteParams {
   final String signUpToken;
   final String nickname;
   final String password;
 
-  SignUpParams({
+  SignUpCompleteParams({
     required this.signUpToken,
     required this.nickname,
     required this.password,
   });
 }
 
-class SignUpUseCase extends UseCase<bool, SignUpParams> {
+class SignUpCompleteUseCase extends UseCase<bool, SignUpCompleteParams> {
   final AuthRepository authRepository;
 
-  SignUpUseCase({
+  SignUpCompleteUseCase({
     required this.authRepository,
   });
 
   @override
-  Future<bool> call({
-    required SignUpParams params,
-  }) async {
-    return await authRepository.signUp(
+  Future<bool> execute(SignUpCompleteParams params) async{
+    // TODO: implement execute
+    return await authRepository.signUpComplete(
       signUpToken: params.signUpToken,
       nickname: params.nickname,
       password: params.password,

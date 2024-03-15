@@ -7,26 +7,26 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<SignUpInfoModel> verifyStudent({
+  Future<SignUpInfoModel> signUpVerifyStudent({
     required String dkuStudentId,
     required String dkuPassword,
   });
 
-  Future<bool> sendSignUpCode({
+  Future<bool> signUpSendCode({
     required String phoneNumber,
     required String signUpToken,
   });
 
-  Future<bool> verifySignUpCode({
+  Future<bool> signUpVerifyCode({
     required String signUpToken,
     required String code,
   });
 
-  Future<bool> verifyNickname({
+  Future<bool> signUpVerifyNickname({
     required String nickname,
   });
 
-  Future<bool> signUp({
+  Future<bool> signUpComplete({
     required String signUpToken,
     required String nickname,
     required String password,

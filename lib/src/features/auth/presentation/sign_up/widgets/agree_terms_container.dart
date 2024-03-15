@@ -1,4 +1,4 @@
-part of 'agree_policy_screen.dart';
+part of '../screens/sign_up_policy_screen.dart';
 
 class AgreeTermsContainer extends StatelessWidget {
   final List<AgreeTermsContent> agreeTermsContents;

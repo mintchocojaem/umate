@@ -30,7 +30,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     );
   }
 
-  Future<SignUpInfoDto> verifyStudent({
+  Future<SignUpInfoDto> signUpVerifyStudent({
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
@@ -45,7 +45,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     );
   }
 
-  Future<bool> sendSignUpCode({
+  Future<bool> signUpSendCode({
     required String signUpToken,
     required String phoneNumber,
   }) async {
@@ -59,7 +59,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     );
   }
 
-  Future<bool> verifySignUpCode({
+  Future<bool> signUpVerifyCode({
     required String signUpToken,
     required String code,
   }) async {
@@ -73,7 +73,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     );
   }
 
-  Future<bool> verifyNickname({
+  Future<bool> signUpVerifyNickname({
     required String nickname,
   }) async {
     return request(
@@ -83,7 +83,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     );
   }
 
-  Future<bool> signUp({
+  Future<bool> signUpComplete({
     required String signUpToken,
     required String nickname,
     required String password,

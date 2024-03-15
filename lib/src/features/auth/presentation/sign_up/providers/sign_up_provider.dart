@@ -1,17 +1,18 @@
 import 'dart:async';
 
 import 'package:danvery/src/core/services/router/router_service.dart';
-import 'package:danvery/src/core/utils/state.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/send_sign_up_code_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/verify_nickname_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/verify_sign_up_code_use_case.dart';
+import 'package:danvery/src/core/utils/async_state.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/sign_up_confirm_nickname_use_case.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/sign_up_send_code_use_case.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/sign_up_compelete_use_case.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/sign_up_verify_nickname_use_case.dart';
+import 'package:danvery/src/features/auth/domain/use_cases/sign_up_verify_code_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../../domain/models/sign_up_info_model.dart';
-import '../../../domain/use_cases/verify_student_use_case.dart';
+import '../../../domain/use_cases/sign_up_verify_student_use_case.dart';
 
 final signUpProvider =
     NotifierProvider.autoDispose<SignUpNotifier, AsyncState<SignUpInfoModel>>(
@@ -19,11 +20,12 @@ final signUpProvider =
 );
 
 class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
-  late final VerifyStudentUseCase _verifyStudentUseCase;
-  late final SendSignUpCodeUseCase _sendSignUpCodeCodeUseCase;
-  late final VerifySignUpCodeUseCase _verifySignUpCodeUseCase;
-  late final VerifyNicknameUseCase _verifyNicknameUseCase;
-  late final SignUpUseCase _signUpUseCase;
+  late final SignUpVerifyStudentUseCase _signUpVerifyStudentUseCase;
+  late final SignUpSendCodeUseCase _signUpSendCodeCodeUseCase;
+  late final SignUpVerifyCodeUseCase _signUpVerifyCodeUseCase;
+  late final SignUpConfirmNicknameUseCase _signUpConfirmNicknameUseCase;
+  late final SignUpVerifyNicknameUseCase _signUpVerifyNicknameUseCase;
+  late final SignUpCompleteUseCase _signUpCompleteUseCase;
 
   late final RouterService _routerService;
 
@@ -33,19 +35,22 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     _routerService = ref.watch(routerServiceProvider);
 
     final authRepository = ref.watch(authRepositoryImplProvider);
-    _verifyStudentUseCase = VerifyStudentUseCase(
+    _signUpVerifyStudentUseCase = SignUpVerifyStudentUseCase(
       authRepository: authRepository,
     );
-    _sendSignUpCodeCodeUseCase = SendSignUpCodeUseCase(
+    _signUpSendCodeCodeUseCase = SignUpSendCodeUseCase(
       authRepository: authRepository,
     );
-    _verifySignUpCodeUseCase = VerifySignUpCodeUseCase(
+    _signUpVerifyCodeUseCase = SignUpVerifyCodeUseCase(
       authRepository: authRepository,
     );
-    _verifyNicknameUseCase = VerifyNicknameUseCase(
+    _signUpVerifyNicknameUseCase = SignUpVerifyNicknameUseCase(
       authRepository: authRepository,
     );
-    _signUpUseCase = SignUpUseCase(
+    _signUpConfirmNicknameUseCase = SignUpConfirmNicknameUseCase(
+      signUpVerifyNicknameUseCase: _signUpVerifyNicknameUseCase,
+    );
+    _signUpCompleteUseCase = SignUpCompleteUseCase(
       authRepository: authRepository,
     );
     return AsyncState.initial();
@@ -59,7 +64,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     );
   }
 
-  Future<void> verifyStudent(
+  Future<void> verifyStudentFlow(
     GlobalKey<FormState> formKey, {
     required String dkuStudentId,
     required String dkuPassword,
@@ -70,18 +75,16 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
 
     state = AsyncState.loading();
 
-    state = await AsyncState.guard(
-      () => _verifyStudentUseCase(
-        params: VerifyStudentParams(
-          dkuStudentId: dkuStudentId,
-          dkuPassword: dkuPassword,
-        ),
+    state = await _signUpVerifyStudentUseCase(
+      SignUpVerifyStudentParams(
+        dkuStudentId: dkuStudentId,
+        dkuPassword: dkuPassword,
       ),
     );
 
     if (state.hasData) {
       await _routerService.replace(
-        SendSignUpCodeRoute(
+        SignUpSendCodeRoute(
           signUpToken: state.data!.signUpToken,
           student: state.data!.student,
         ),
@@ -89,103 +92,14 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     }
   }
 
-  Future<void> sendSignUpCode(
-    GlobalKey<FormState> formKey, {
+  Future<bool> sendCode({
     required String signUpToken,
     required String phoneNumber,
   }) async {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-
-    final result = await AsyncState.guard(
-      () => _sendSignUpCodeCodeUseCase(
-        params: SendSignUpCodeParams(
-          signUpToken: signUpToken,
-          phoneNumber: phoneNumber,
-        ),
-      ),
-    );
-
-    if (result.hasError) {
-      _setErrorState(
-        result.message,
-        result.stackTrace ?? StackTrace.current,
-      );
-    } else {
-      await _routerService.replace(
-        VerifySignUpCodeRoute(
-          signUpToken: signUpToken,
-          phoneNumber: phoneNumber,
-        ),
-      );
-    }
-  }
-
-  Future<void> resendSignUpCode({
-    required String signUpToken,
-    required String phoneNumber,
-  }) async {
-    final result = await AsyncState.guard(
-      () => _sendSignUpCodeCodeUseCase(
-        params: SendSignUpCodeParams(
-          signUpToken: signUpToken,
-          phoneNumber: phoneNumber,
-        ),
-      ),
-    );
-
-    if (result.hasError) {
-      _setErrorState(
-        result.message,
-        result.stackTrace ?? StackTrace.current,
-      );
-    }
-  }
-
-  Future<void> verifySignUpCode(
-    GlobalKey<FormState> formKey, {
-    required String signUpToken,
-    required String code,
-  }) async {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-
-    final result = await AsyncState.guard(
-      () => _verifySignUpCodeUseCase(
-        params: VerifySignUpCodeParams(
-          signUpToken: signUpToken,
-          code: code,
-        ),
-      ),
-    );
-
-    if (result.hasError) {
-      _setErrorState(
-        result.message,
-        result.stackTrace ?? StackTrace.current,
-      );
-    } else {
-      await _routerService.replace(
-        VerifyNicknameRoute(signUpToken: signUpToken),
-      );
-    }
-  }
-
-  Future<bool> checkNickname(
-    GlobalKey<FormState> formKey, {
-    required String nickname,
-  }) async {
-    if (!formKey.currentState!.validate()) {
-      return false;
-    }
-
-    final result = await AsyncState.guard(
-      () => _verifyNicknameUseCase(
-        params: VerifyNicknameParams(
-          nickname: nickname,
-        ),
+    final result = await _signUpSendCodeCodeUseCase(
+      SignUpSendCodeParams(
+        signUpToken: signUpToken,
+        phoneNumber: phoneNumber,
       ),
     );
 
@@ -199,7 +113,83 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     return result.hasData;
   }
 
-  Future<void> verifyNickname(
+  Future<void> sendCodeFlow(
+    GlobalKey<FormState> formKey, {
+    required String signUpToken,
+    required String phoneNumber,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    final result = await sendCode(
+      signUpToken: signUpToken,
+      phoneNumber: phoneNumber,
+    );
+
+    if (result) {
+      await _routerService.replace(
+        SignUpVerifyCodeRoute(
+          signUpToken: signUpToken,
+          phoneNumber: phoneNumber,
+        ),
+      );
+    }
+  }
+
+  Future<void> verifyCodeFlow(
+    GlobalKey<FormState> formKey, {
+    required String signUpToken,
+    required String code,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    final result = await _signUpVerifyCodeUseCase(
+      SignUpVerifyCodeParams(
+        signUpToken: signUpToken,
+        code: code,
+      ),
+    );
+
+    if (result.hasError) {
+      _setErrorState(
+        result.message,
+        result.stackTrace ?? StackTrace.current,
+      );
+    } else {
+      await _routerService.replace(
+        SignUpNicknameRoute(signUpToken: signUpToken),
+      );
+    }
+  }
+
+  Future<bool> verifyNickname(
+    GlobalKey<FormState> formKey, {
+    required String nickname,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return false;
+    }
+
+    final result = await _signUpVerifyNicknameUseCase(
+      SignUpVerifyNicknameParams(
+        nickname: nickname,
+      ),
+    );
+
+    if (result.hasError) {
+      _setErrorState(
+        result.message,
+        result.stackTrace ?? StackTrace.current,
+      );
+    }
+
+    return result.hasData;
+  }
+
+  Future<void> confirmNicknameFlow(
     GlobalKey<FormState> formKey, {
     required String signUpToken,
     required String availableNickname,
@@ -209,19 +199,21 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return;
     }
 
-    if (availableNickname != currentNickname) {
+    final result = await _signUpConfirmNicknameUseCase(
+      SignUpConfirmNicknameParams(
+        availableNickname: availableNickname,
+        currentNickname: currentNickname,
+      ),
+    );
+
+    if (result.hasError) {
       _setErrorState(
-        '닉네임 중복을 확인해주세요',
-        StackTrace.current,
+        result.message,
+        result.stackTrace ?? StackTrace.current,
       );
-      return;
-    }
-
-    final result = await checkNickname(formKey, nickname: currentNickname);
-
-    if (result) {
+    } else {
       await _routerService.replace(
-        InputUserPasswordRoute(
+        SignUpPasswordRoute(
           signUpToken: signUpToken,
           nickname: currentNickname,
         ),
@@ -229,7 +221,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     }
   }
 
-  Future<void> signUp(
+  Future<void> completeFlow(
     GlobalKey<FormState> formKey, {
     required String signUpToken,
     required String nickname,
@@ -239,13 +231,11 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return;
     }
 
-    final result = await AsyncState.guard(
-      () => _signUpUseCase(
-        params: SignUpParams(
-          signUpToken: signUpToken,
-          nickname: nickname,
-          password: password,
-        ),
+    final result = await _signUpCompleteUseCase(
+      SignUpCompleteParams(
+        signUpToken: signUpToken,
+        nickname: nickname,
+        password: password,
       ),
     );
 
@@ -262,7 +252,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
   }
 
   void pushToAgreePolicyScreen() {
-    _routerService.push(const AgreePolicyRoute());
+    _routerService.push(const SignUpPolicyRoute());
   }
 
   void pushToLoginScreen() {

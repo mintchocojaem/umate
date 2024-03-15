@@ -15,23 +15,6 @@ abstract class _$RouterService extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    AgreePolicyRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AgreePolicyScreen(),
-      );
-    },
-    InputUserPasswordRoute.name: (routeData) {
-      final args = routeData.argsAs<InputUserPasswordRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: InputUserPasswordScreen(
-          key: args.key,
-          signUpToken: args.signUpToken,
-          nickname: args.nickname,
-        ),
-      );
-    },
     LoginHelpRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -66,108 +49,68 @@ abstract class _$RouterService extends RootStackRouter {
         ),
       );
     },
-    SendSignUpCodeRoute.name: (routeData) {
-      final args = routeData.argsAs<SendSignUpCodeRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendSignUpCodeScreen(
-          key: args.key,
-          signUpToken: args.signUpToken,
-          student: args.student,
-        ),
-      );
-    },
     SignUpCompleteRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SignUpCompleteScreen(),
       );
     },
-    VerifyNicknameRoute.name: (routeData) {
-      final args = routeData.argsAs<VerifyNicknameRouteArgs>();
+    SignUpNicknameRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpNicknameRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: VerifyNicknameScreen(
+        child: SignUpNicknameScreen(
           key: args.key,
           signUpToken: args.signUpToken,
         ),
       );
     },
-    VerifySignUpCodeRoute.name: (routeData) {
-      final args = routeData.argsAs<VerifySignUpCodeRouteArgs>();
+    SignUpPasswordRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpPasswordRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: VerifySignUpCodeScreen(
+        child: SignUpPasswordScreen(
+          key: args.key,
+          signUpToken: args.signUpToken,
+          nickname: args.nickname,
+        ),
+      );
+    },
+    SignUpPolicyRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SignUpPolicyScreen(),
+      );
+    },
+    SignUpSendCodeRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpSendCodeRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SignUpSendCodeScreen(
+          key: args.key,
+          signUpToken: args.signUpToken,
+          student: args.student,
+        ),
+      );
+    },
+    SignUpVerifyCodeRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpVerifyCodeRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SignUpVerifyCodeScreen(
           key: args.key,
           signUpToken: args.signUpToken,
           phoneNumber: args.phoneNumber,
         ),
       );
     },
-    VerifyStudentRoute.name: (routeData) {
+    SignUpVerifyStudentRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const VerifyStudentScreen(),
+        child: const SignUpVerifyStudentScreen(),
       );
     },
   };
-}
-
-/// generated route for
-/// [AgreePolicyScreen]
-class AgreePolicyRoute extends PageRouteInfo<void> {
-  const AgreePolicyRoute({List<PageRouteInfo>? children})
-      : super(
-          AgreePolicyRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AgreePolicyRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [InputUserPasswordScreen]
-class InputUserPasswordRoute extends PageRouteInfo<InputUserPasswordRouteArgs> {
-  InputUserPasswordRoute({
-    Key? key,
-    required String signUpToken,
-    required String nickname,
-    List<PageRouteInfo>? children,
-  }) : super(
-          InputUserPasswordRoute.name,
-          args: InputUserPasswordRouteArgs(
-            key: key,
-            signUpToken: signUpToken,
-            nickname: nickname,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'InputUserPasswordRoute';
-
-  static const PageInfo<InputUserPasswordRouteArgs> page =
-      PageInfo<InputUserPasswordRouteArgs>(name);
-}
-
-class InputUserPasswordRouteArgs {
-  const InputUserPasswordRouteArgs({
-    this.key,
-    required this.signUpToken,
-    required this.nickname,
-  });
-
-  final Key? key;
-
-  final String signUpToken;
-
-  final String nickname;
-
-  @override
-  String toString() {
-    return 'InputUserPasswordRouteArgs{key: $key, signUpToken: $signUpToken, nickname: $nickname}';
-  }
 }
 
 /// generated route for
@@ -265,49 +208,6 @@ class RouteErrorRouteArgs {
 }
 
 /// generated route for
-/// [SendSignUpCodeScreen]
-class SendSignUpCodeRoute extends PageRouteInfo<SendSignUpCodeRouteArgs> {
-  SendSignUpCodeRoute({
-    Key? key,
-    required String signUpToken,
-    required StudentModel student,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendSignUpCodeRoute.name,
-          args: SendSignUpCodeRouteArgs(
-            key: key,
-            signUpToken: signUpToken,
-            student: student,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendSignUpCodeRoute';
-
-  static const PageInfo<SendSignUpCodeRouteArgs> page =
-      PageInfo<SendSignUpCodeRouteArgs>(name);
-}
-
-class SendSignUpCodeRouteArgs {
-  const SendSignUpCodeRouteArgs({
-    this.key,
-    required this.signUpToken,
-    required this.student,
-  });
-
-  final Key? key;
-
-  final String signUpToken;
-
-  final StudentModel student;
-
-  @override
-  String toString() {
-    return 'SendSignUpCodeRouteArgs{key: $key, signUpToken: $signUpToken, student: $student}';
-  }
-}
-
-/// generated route for
 /// [SignUpCompleteScreen]
 class SignUpCompleteRoute extends PageRouteInfo<void> {
   const SignUpCompleteRoute({List<PageRouteInfo>? children})
@@ -322,29 +222,29 @@ class SignUpCompleteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [VerifyNicknameScreen]
-class VerifyNicknameRoute extends PageRouteInfo<VerifyNicknameRouteArgs> {
-  VerifyNicknameRoute({
+/// [SignUpNicknameScreen]
+class SignUpNicknameRoute extends PageRouteInfo<SignUpNicknameRouteArgs> {
+  SignUpNicknameRoute({
     Key? key,
     required String signUpToken,
     List<PageRouteInfo>? children,
   }) : super(
-          VerifyNicknameRoute.name,
-          args: VerifyNicknameRouteArgs(
+          SignUpNicknameRoute.name,
+          args: SignUpNicknameRouteArgs(
             key: key,
             signUpToken: signUpToken,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'VerifyNicknameRoute';
+  static const String name = 'SignUpNicknameRoute';
 
-  static const PageInfo<VerifyNicknameRouteArgs> page =
-      PageInfo<VerifyNicknameRouteArgs>(name);
+  static const PageInfo<SignUpNicknameRouteArgs> page =
+      PageInfo<SignUpNicknameRouteArgs>(name);
 }
 
-class VerifyNicknameRouteArgs {
-  const VerifyNicknameRouteArgs({
+class SignUpNicknameRouteArgs {
+  const SignUpNicknameRouteArgs({
     this.key,
     required this.signUpToken,
   });
@@ -355,21 +255,121 @@ class VerifyNicknameRouteArgs {
 
   @override
   String toString() {
-    return 'VerifyNicknameRouteArgs{key: $key, signUpToken: $signUpToken}';
+    return 'SignUpNicknameRouteArgs{key: $key, signUpToken: $signUpToken}';
   }
 }
 
 /// generated route for
-/// [VerifySignUpCodeScreen]
-class VerifySignUpCodeRoute extends PageRouteInfo<VerifySignUpCodeRouteArgs> {
-  VerifySignUpCodeRoute({
+/// [SignUpPasswordScreen]
+class SignUpPasswordRoute extends PageRouteInfo<SignUpPasswordRouteArgs> {
+  SignUpPasswordRoute({
+    Key? key,
+    required String signUpToken,
+    required String nickname,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SignUpPasswordRoute.name,
+          args: SignUpPasswordRouteArgs(
+            key: key,
+            signUpToken: signUpToken,
+            nickname: nickname,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SignUpPasswordRoute';
+
+  static const PageInfo<SignUpPasswordRouteArgs> page =
+      PageInfo<SignUpPasswordRouteArgs>(name);
+}
+
+class SignUpPasswordRouteArgs {
+  const SignUpPasswordRouteArgs({
+    this.key,
+    required this.signUpToken,
+    required this.nickname,
+  });
+
+  final Key? key;
+
+  final String signUpToken;
+
+  final String nickname;
+
+  @override
+  String toString() {
+    return 'SignUpPasswordRouteArgs{key: $key, signUpToken: $signUpToken, nickname: $nickname}';
+  }
+}
+
+/// generated route for
+/// [SignUpPolicyScreen]
+class SignUpPolicyRoute extends PageRouteInfo<void> {
+  const SignUpPolicyRoute({List<PageRouteInfo>? children})
+      : super(
+          SignUpPolicyRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignUpPolicyRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SignUpSendCodeScreen]
+class SignUpSendCodeRoute extends PageRouteInfo<SignUpSendCodeRouteArgs> {
+  SignUpSendCodeRoute({
+    Key? key,
+    required String signUpToken,
+    required StudentModel student,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SignUpSendCodeRoute.name,
+          args: SignUpSendCodeRouteArgs(
+            key: key,
+            signUpToken: signUpToken,
+            student: student,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SignUpSendCodeRoute';
+
+  static const PageInfo<SignUpSendCodeRouteArgs> page =
+      PageInfo<SignUpSendCodeRouteArgs>(name);
+}
+
+class SignUpSendCodeRouteArgs {
+  const SignUpSendCodeRouteArgs({
+    this.key,
+    required this.signUpToken,
+    required this.student,
+  });
+
+  final Key? key;
+
+  final String signUpToken;
+
+  final StudentModel student;
+
+  @override
+  String toString() {
+    return 'SignUpSendCodeRouteArgs{key: $key, signUpToken: $signUpToken, student: $student}';
+  }
+}
+
+/// generated route for
+/// [SignUpVerifyCodeScreen]
+class SignUpVerifyCodeRoute extends PageRouteInfo<SignUpVerifyCodeRouteArgs> {
+  SignUpVerifyCodeRoute({
     Key? key,
     required String signUpToken,
     required String phoneNumber,
     List<PageRouteInfo>? children,
   }) : super(
-          VerifySignUpCodeRoute.name,
-          args: VerifySignUpCodeRouteArgs(
+          SignUpVerifyCodeRoute.name,
+          args: SignUpVerifyCodeRouteArgs(
             key: key,
             signUpToken: signUpToken,
             phoneNumber: phoneNumber,
@@ -377,14 +377,14 @@ class VerifySignUpCodeRoute extends PageRouteInfo<VerifySignUpCodeRouteArgs> {
           initialChildren: children,
         );
 
-  static const String name = 'VerifySignUpCodeRoute';
+  static const String name = 'SignUpVerifyCodeRoute';
 
-  static const PageInfo<VerifySignUpCodeRouteArgs> page =
-      PageInfo<VerifySignUpCodeRouteArgs>(name);
+  static const PageInfo<SignUpVerifyCodeRouteArgs> page =
+      PageInfo<SignUpVerifyCodeRouteArgs>(name);
 }
 
-class VerifySignUpCodeRouteArgs {
-  const VerifySignUpCodeRouteArgs({
+class SignUpVerifyCodeRouteArgs {
+  const SignUpVerifyCodeRouteArgs({
     this.key,
     required this.signUpToken,
     required this.phoneNumber,
@@ -398,20 +398,20 @@ class VerifySignUpCodeRouteArgs {
 
   @override
   String toString() {
-    return 'VerifySignUpCodeRouteArgs{key: $key, signUpToken: $signUpToken, phoneNumber: $phoneNumber}';
+    return 'SignUpVerifyCodeRouteArgs{key: $key, signUpToken: $signUpToken, phoneNumber: $phoneNumber}';
   }
 }
 
 /// generated route for
-/// [VerifyStudentScreen]
-class VerifyStudentRoute extends PageRouteInfo<void> {
-  const VerifyStudentRoute({List<PageRouteInfo>? children})
+/// [SignUpVerifyStudentScreen]
+class SignUpVerifyStudentRoute extends PageRouteInfo<void> {
+  const SignUpVerifyStudentRoute({List<PageRouteInfo>? children})
       : super(
-          VerifyStudentRoute.name,
+          SignUpVerifyStudentRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'VerifyStudentRoute';
+  static const String name = 'SignUpVerifyStudentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

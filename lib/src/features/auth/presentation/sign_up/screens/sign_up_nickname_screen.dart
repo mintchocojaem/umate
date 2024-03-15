@@ -8,10 +8,10 @@ import '../../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class VerifyNicknameScreen extends ConsumerStatefulWidget {
+class SignUpNicknameScreen extends ConsumerStatefulWidget {
   final String signUpToken;
 
-  const VerifyNicknameScreen({
+  const SignUpNicknameScreen({
     super.key,
     required this.signUpToken,
   });
@@ -19,11 +19,11 @@ class VerifyNicknameScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _VerifyNicknameScreenState();
+    return _SignUpNicknameScreenState();
   }
 }
 
-class _VerifyNicknameScreenState extends ConsumerState<VerifyNicknameScreen>
+class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
     with AuthValidator {
   late final TextEditingController nicknameController;
   late final GlobalKey<FormState> formKey;
@@ -63,7 +63,7 @@ class _VerifyNicknameScreenState extends ConsumerState<VerifyNicknameScreen>
     final submitButton = OrbButton(
       buttonText: '다음',
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).verifyNickname(
+        await ref.read(signUpProvider.notifier).confirmNicknameFlow(
               formKey,
               signUpToken: widget.signUpToken,
               currentNickname: nicknameController.text,
@@ -110,7 +110,7 @@ class _VerifyNicknameScreenState extends ConsumerState<VerifyNicknameScreen>
                   enabledForegroundColor: themeData.colorScheme.onSurface,
                   onPressed: () async {
                     final result =
-                        await ref.read(signUpProvider.notifier).checkNickname(
+                        await ref.read(signUpProvider.notifier).verifyNickname(
                               formKey,
                               nickname: nicknameController.text,
                             );

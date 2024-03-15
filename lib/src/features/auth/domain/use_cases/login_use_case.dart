@@ -20,9 +20,8 @@ class LoginUseCase extends UseCase<TokenModel, LoginParams> {
   });
 
   @override
-  Future<TokenModel> call({
-    required LoginParams params,
-  }) async {
+  Future<TokenModel> execute(LoginParams params) async{
+    // TODO: implement execute
     return await authRepository.login(
       studentId: params.studentId,
       password: params.password,

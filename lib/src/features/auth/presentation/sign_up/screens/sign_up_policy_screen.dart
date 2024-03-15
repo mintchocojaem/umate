@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_privacy_policy_provider.dart';
+import '../providers/sign_up_policy_provider.dart';
 
-part 'agree_terms_container.dart';
+part '../widgets/agree_terms_container.dart';
 
 @RoutePage()
-class AgreePolicyScreen extends ConsumerStatefulWidget {
-  const AgreePolicyScreen({super.key});
+class SignUpPolicyScreen extends ConsumerStatefulWidget {
+  const SignUpPolicyScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _AgreePolicyScreenState();
+    return _SignUpPolicyScreenState();
   }
 }
 
-class _AgreePolicyScreenState extends ConsumerState {
+class _SignUpPolicyScreenState extends ConsumerState {
   late final ScrollController scrollController;
 
   bool maxScrollExtent = false;
@@ -58,7 +58,7 @@ class _AgreePolicyScreenState extends ConsumerState {
     final submitButton = OrbButton(
       buttonText: maxScrollExtent ? '모두 동의하기' : '아래로 스크롤하기',
       onPressed: () async {
-        await ref.read(signUpPrivacyPolicyProvider.notifier).agreePrivacyPolicy(
+        await ref.read(signUpPrivacyProvider.notifier).agreePrivacyPolicy(
               maxScrollExtent: maxScrollExtent,
               scrollController: scrollController,
             );

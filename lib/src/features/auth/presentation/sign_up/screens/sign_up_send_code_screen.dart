@@ -9,11 +9,11 @@ import '../../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class SendSignUpCodeScreen extends ConsumerStatefulWidget {
+class SignUpSendCodeScreen extends ConsumerStatefulWidget {
   final String signUpToken;
   final StudentModel student;
 
-  const SendSignUpCodeScreen({
+  const SignUpSendCodeScreen({
     super.key,
     required this.signUpToken,
     required this.student,
@@ -22,11 +22,11 @@ class SendSignUpCodeScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _SendSignUpCodeScreenState();
+    return _SignUpSendCodeScreenState();
   }
 }
 
-class _SendSignUpCodeScreenState extends ConsumerState<SendSignUpCodeScreen>
+class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
     with AuthValidator {
   late final TextEditingController studentIdController;
   late final TextEditingController majorController;
@@ -74,7 +74,7 @@ class _SendSignUpCodeScreenState extends ConsumerState<SendSignUpCodeScreen>
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).sendSignUpCode(
+        await ref.read(signUpProvider.notifier).sendCodeFlow(
               formKey,
               signUpToken: widget.signUpToken,
               phoneNumber: phoneNumberController.text,

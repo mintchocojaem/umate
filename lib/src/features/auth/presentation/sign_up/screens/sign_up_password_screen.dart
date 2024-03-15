@@ -8,11 +8,11 @@ import '../../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class InputUserPasswordScreen extends ConsumerStatefulWidget {
+class SignUpPasswordScreen extends ConsumerStatefulWidget {
   final String signUpToken;
   final String nickname;
 
-  const InputUserPasswordScreen({
+  const SignUpPasswordScreen({
     super.key,
     required this.signUpToken,
     required this.nickname,
@@ -21,12 +21,12 @@ class InputUserPasswordScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _InputUserPasswordScreenState();
+    return _SignUpPasswordScreenState();
   }
 }
 
-class _InputUserPasswordScreenState
-    extends ConsumerState<InputUserPasswordScreen> with AuthValidator {
+class _SignUpPasswordScreenState
+    extends ConsumerState<SignUpPasswordScreen> with AuthValidator {
   late final TextEditingController passwordController;
   late final TextEditingController passwordConfirmController;
 
@@ -66,7 +66,7 @@ class _InputUserPasswordScreenState
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).signUp(
+        await ref.read(signUpProvider.notifier).completeFlow(
               formKey,
               signUpToken: widget.signUpToken,
               nickname: widget.nickname,

@@ -31,11 +31,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<SignUpInfoModel> verifyStudent({
+  Future<SignUpInfoModel> signUpVerifyStudent({
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final result = await authRemoteDataSource.verifyStudent(
+    final result = await authRemoteDataSource.signUpVerifyStudent(
       dkuStudentId: dkuStudentId,
       dkuPassword: dkuPassword,
     );
@@ -43,11 +43,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> sendSignUpCode({
+  Future<bool> signUpSendCode({
     required String phoneNumber,
     required String signUpToken,
   }) async {
-    final result = await authRemoteDataSource.sendSignUpCode(
+    final result = await authRemoteDataSource.signUpSendCode(
       phoneNumber: phoneNumber,
       signUpToken: signUpToken,
     );
@@ -55,11 +55,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> verifySignUpCode({
+  Future<bool> signUpVerifyCode({
     required String signUpToken,
     required String code,
   }) async {
-    final result = await authRemoteDataSource.verifySignUpCode(
+    final result = await authRemoteDataSource.signUpVerifyCode(
       signUpToken: signUpToken,
       code: code,
     );
@@ -67,22 +67,22 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> verifyNickname({
+  Future<bool> signUpVerifyNickname({
     required String nickname,
   }) async {
-    final result = await authRemoteDataSource.verifyNickname(
+    final result = await authRemoteDataSource.signUpVerifyNickname(
       nickname: nickname,
     );
     return result;
   }
 
   @override
-  Future<bool> signUp({
+  Future<bool> signUpComplete({
     required String signUpToken,
     required String nickname,
     required String password,
   }) async {
-    final result = await authRemoteDataSource.signUp(
+    final result = await authRemoteDataSource.signUpComplete(
       signUpToken: signUpToken,
       nickname: nickname,
       password: password,

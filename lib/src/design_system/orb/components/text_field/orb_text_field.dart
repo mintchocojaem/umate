@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class OrbTextFormField extends StatelessWidget {
+class OrbTextFormField extends StatefulWidget {
   final TextEditingController? controller;
-  final bool? obscureText;
+  final bool obscureText;
   final String? labelText;
   final String? hintText;
   final String? helperText;
@@ -25,7 +25,7 @@ class OrbTextFormField extends StatelessWidget {
   const OrbTextFormField({
     super.key,
     this.controller,
-    this.obscureText,
+    this.obscureText = false,
     this.labelText,
     this.hintText,
     this.helperText,
@@ -47,49 +47,78 @@ class OrbTextFormField extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _OrbTextFormFieldState();
+  }
+}
+
+class _OrbTextFormFieldState extends State<OrbTextFormField> {
+  bool _obscureText = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
     final ThemeData theme = Theme.of(context);
-
     return TextFormField(
-      controller: controller,
-      onChanged: onChanged,
-      obscureText: obscureText ?? false,
-      onTap: onTap,
+      controller: widget.controller,
+      onChanged: widget.onChanged,
+      obscureText: _obscureText,
+      onTap: widget.onTap,
       decoration: InputDecoration(
         counterText: "",
-        labelText: labelText,
-        hintText: hintText,
-        helperText: helperText,
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        helperText: widget.helperText,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface,
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             width: 2,
-            color: focusedBoarderColor ?? theme.colorScheme.primary,
+            color: widget.focusedBoarderColor ?? theme.colorScheme.primary,
           ),
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: enabledBoarderColor ?? theme.colorScheme.surfaceVariant,
+            color:
+                widget.enabledBoarderColor ?? theme.colorScheme.surfaceVariant,
           ),
         ),
-        suffixIcon: suffixIcon,
+        suffixIcon: widget.obscureText
+            ? InkWell(
+                child: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: theme.colorScheme.secondary,
+                ),
+                onTap: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                })
+            : widget.suffixIcon,
       ),
-      style: inputTextStyle ?? theme.textTheme.bodyLarge?.copyWith(
-        fontWeight: FontWeight.w500,
-      ),
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      autocorrect: autocorrect,
-      enableSuggestions: enableSuggestions,
-      readOnly: readOnly,
-      autofocus: autofocus,
-      maxLength: maxLength,
-      validator: validator,
-      maxLines: maxLines,
+      style: widget.inputTextStyle ??
+          theme.textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      autocorrect: widget.autocorrect,
+      enableSuggestions: widget.enableSuggestions,
+      readOnly: widget.readOnly,
+      autofocus: widget.autofocus,
+      maxLength: widget.maxLength,
+      validator: widget.validator,
+      maxLines: widget.maxLines,
     );
   }
 }
