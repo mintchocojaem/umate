@@ -8,7 +8,7 @@ import '../data_sources/auth_remote_data_source.dart';
 final authRepositoryImplProvider =
     Provider.autoDispose<AuthRepositoryImpl>((ref) {
   return AuthRepositoryImpl(
-      authRemoteDataSource: ref.watch(authRemoteDataSourceProvider));
+      authRemoteDataSource: ref.read(authRemoteDataSourceProvider));
 });
 
 class AuthRepositoryImpl implements AuthRepository {

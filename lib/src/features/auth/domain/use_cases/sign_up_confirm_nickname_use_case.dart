@@ -1,13 +1,21 @@
 import 'package:danvery/src/core/utils/app_exception.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
 import 'sign_up_verify_nickname_use_case.dart';
+
+final signUpConfirmNicknameUseCaseProvider =
+    Provider.autoDispose<SignUpConfirmNicknameUseCase>(
+  (ref) => SignUpConfirmNicknameUseCase(
+    signUpVerifyNicknameUseCase: ref.read(signUpVerifyNicknameUseCaseProvider),
+  ),
+);
 
 class SignUpConfirmNicknameParams {
   final String availableNickname;
   final String currentNickname;
 
-  SignUpConfirmNicknameParams({
+  const SignUpConfirmNicknameParams({
     required this.availableNickname,
     required this.currentNickname,
   });

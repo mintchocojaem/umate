@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../core/services/router/router_service.dart';
+import '../../../../core/services/router/router_service.dart';
 
 final signUpPrivacyProvider =
     NotifierProvider.autoDispose<SingUpPolicyNotifier, bool>(
@@ -14,7 +14,7 @@ class SingUpPolicyNotifier extends AutoDisposeNotifier<bool> {
   @override
   bool build() {
     // TODO: implement build
-    _routerService = ref.watch(routerServiceProvider);
+    _routerService = ref.read(routerServiceProvider);
     return false;
   }
 

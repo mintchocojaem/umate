@@ -97,7 +97,7 @@ class _OrbTextFormFieldState extends State<OrbTextFormField> {
             ? InkWell(
                 child: Icon(
                   _obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: theme.colorScheme.secondary,
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 onTap: () {
                   setState(() {

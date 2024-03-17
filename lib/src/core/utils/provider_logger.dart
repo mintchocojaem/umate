@@ -11,9 +11,20 @@ class ProviderLogger extends ProviderObserver {
     super.didAddProvider(provider, value, container);
     if (kDebugMode) {
       _counter++;
-      print("ProviderLogger[$_counter] > ${provider.runtimeType} created");
+      print("ProviderLogger[$_counter] > (Created) ${provider.runtimeType}");
     }
   }
+
+  @override
+  void providerDidFail(ProviderBase<Object?> provider, Object error, StackTrace stackTrace, ProviderContainer container) {
+    // TODO: implement providerDidFail
+    super.providerDidFail(provider, error, stackTrace, container);
+    if (kDebugMode) {
+      _counter++;
+      print("ProviderLogger[$_counter] > (Failed) ${provider.runtimeType}");
+    }
+  }
+
 
   @override
   void didDisposeProvider(
@@ -22,7 +33,7 @@ class ProviderLogger extends ProviderObserver {
     super.didDisposeProvider(provider, container);
     if (kDebugMode) {
       _counter++;
-      print("ProviderLogger[$_counter] > ${provider.runtimeType} disposed");
+      print("ProviderLogger[$_counter] > (Disposed) ${provider.runtimeType}");
     }
   }
 }

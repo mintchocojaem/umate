@@ -3,45 +3,37 @@ import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../../design_system/orb/components/components.dart';
+import '../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
-class SignUpNicknameScreen extends ConsumerStatefulWidget {
+class SignUpVerifyCodeScreen extends ConsumerStatefulWidget {
   final String signUpToken;
+  final String phoneNumber;
 
-  const SignUpNicknameScreen({
+  const SignUpVerifyCodeScreen({
     super.key,
     required this.signUpToken,
+    required this.phoneNumber,
   });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _SignUpNicknameScreenState();
+    return _SignUpVerifyCodeScreenState();
   }
 }
 
-class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
+class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
     with AuthValidator {
-  late final TextEditingController nicknameController;
-  late final GlobalKey<FormState> formKey;
-
-  String availableNickname = '';
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    nicknameController = TextEditingController();
-    formKey = GlobalKey<FormState>();
-  }
+  final TextEditingController codeController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     // TODO: implement dispose
-    nicknameController.dispose();
+    codeController.dispose();
     super.dispose();
   }
 
@@ -49,27 +41,26 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
   Widget build(BuildContext context) {
     ref.listen(
       signUpProvider,
-      (prev, next) {
+      (previous, next) {
         if (!next.isLoading && next.hasError) {
           ref.read(snackBarServiceProvider).show(
                 context,
-                message: next.message!,
                 type: OrbSnackBarType.error,
+                message: next.message!,
               );
         }
       },
     );
 
     final submitButton = OrbButton(
-      buttonText: '다음',
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).confirmNicknameFlow(
+        await ref.read(signUpProvider.notifier).verifyCodeFlow(
               formKey,
               signUpToken: widget.signUpToken,
-              currentNickname: nicknameController.text,
-              availableNickname: availableNickname,
+              code: codeController.text,
             );
       },
+      buttonText: '다음',
     );
 
     final ThemeData themeData = Theme.of(context);
@@ -80,7 +71,7 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '단버리에서 사용할\n닉네임을 입력해주세요',
+              '문자로 받은\n인증번호 6자리를 입력해주세요',
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -90,43 +81,38 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
               children: [
                 Expanded(
                   child: OrbTextFormField(
-                    controller: nicknameController,
-                    labelText: '닉네임',
-                    textInputAction: TextInputAction.next,
-                    helperText: "",
-                    //reason for the height
-                    maxLength: 20,
+                    controller: codeController,
+                    labelText: '인증번호(6자리 숫자)',
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
                     validator: (value) {
-                      return validateNickname(nickname: value);
+                      return validateCode(code: value);
                     },
+                    helperText: '',
                   ),
                 ),
                 const SizedBox(width: 8),
                 OrbButton(
-                  buttonText: '중복확인',
+                  showCoolDownTime: true,
+                  buttonCoolDown: const Duration(seconds: 30),
                   buttonSize: OrbButtonSize.compact,
                   buttonRadius: OrbButtonRadius.small,
                   enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
                   enabledForegroundColor: themeData.colorScheme.onSurface,
                   onPressed: () async {
-                    final result =
-                        await ref.read(signUpProvider.notifier).verifyNickname(
-                              formKey,
-                              nickname: nicknameController.text,
-                            );
-
-                    if (context.mounted && result) {
-                      availableNickname = nicknameController.text;
-                      ref.read(snackBarServiceProvider).show(
-                            context,
-                            message: '사용 가능한 닉네임이에요.',
-                            type: OrbSnackBarType.info,
-                          );
-                    }
+                    await ref.read(signUpProvider.notifier).sendCode(
+                      signUpToken: widget.signUpToken,
+                      phoneNumber: widget.phoneNumber,
+                    );
                   },
+                  buttonText: '재전송',
+                  buttonTextStyle: themeData.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

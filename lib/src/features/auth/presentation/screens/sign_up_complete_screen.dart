@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:danvery/src/features/auth/domain/models/student_model.dart';
-import 'package:danvery/src/features/auth/presentation/sign_up/providers/sign_up_provider.dart';
+import 'package:danvery/src/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../design_system/orb/components/components.dart';
+import '../../../../design_system/orb/components/components.dart';
 
 @RoutePage()
 class SignUpCompleteScreen extends ConsumerStatefulWidget {
@@ -20,7 +20,8 @@ class SignUpCompleteScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
-  late final ConfettiController confettiController;
+  final ConfettiController confettiController =
+      ConfettiController(duration: const Duration(seconds: 3));
 
   late final StudentModel student;
 
@@ -28,8 +29,6 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    confettiController =
-        ConfettiController(duration: const Duration(seconds: 3));
     student = ref.read(signUpProvider).data!.student;
   }
 

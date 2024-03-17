@@ -1,18 +1,16 @@
 import 'dart:async';
-
-import 'package:danvery/src/core/services/router/router_service.dart';
-import 'package:danvery/src/core/utils/async_state.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_confirm_nickname_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_send_code_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_compelete_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_verify_nickname_use_case.dart';
-import 'package:danvery/src/features/auth/domain/use_cases/sign_up_verify_code_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/repositories/auth_repository.dart';
-import '../../../domain/models/sign_up_info_model.dart';
-import '../../../domain/use_cases/sign_up_verify_student_use_case.dart';
+import '../../../../core/services/router/router_service.dart';
+import '../../../../core/utils/async_state.dart';
+import '../../domain/models/sign_up_info_model.dart';
+import '../../domain/use_cases/sign_up_compelete_use_case.dart';
+import '../../domain/use_cases/sign_up_confirm_nickname_use_case.dart';
+import '../../domain/use_cases/sign_up_send_code_use_case.dart';
+import '../../domain/use_cases/sign_up_verify_code_use_case.dart';
+import '../../domain/use_cases/sign_up_verify_nickname_use_case.dart';
+import '../../domain/use_cases/sign_up_verify_student_use_case.dart';
 
 final signUpProvider =
     NotifierProvider.autoDispose<SignUpNotifier, AsyncState<SignUpInfoModel>>(
@@ -20,39 +18,12 @@ final signUpProvider =
 );
 
 class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
-  late final SignUpVerifyStudentUseCase _signUpVerifyStudentUseCase;
-  late final SignUpSendCodeUseCase _signUpSendCodeCodeUseCase;
-  late final SignUpVerifyCodeUseCase _signUpVerifyCodeUseCase;
-  late final SignUpConfirmNicknameUseCase _signUpConfirmNicknameUseCase;
-  late final SignUpVerifyNicknameUseCase _signUpVerifyNicknameUseCase;
-  late final SignUpCompleteUseCase _signUpCompleteUseCase;
-
   late final RouterService _routerService;
 
   @override
   AsyncState<SignUpInfoModel> build() {
     // TODO: implement build
-    _routerService = ref.watch(routerServiceProvider);
-
-    final authRepository = ref.watch(authRepositoryImplProvider);
-    _signUpVerifyStudentUseCase = SignUpVerifyStudentUseCase(
-      authRepository: authRepository,
-    );
-    _signUpSendCodeCodeUseCase = SignUpSendCodeUseCase(
-      authRepository: authRepository,
-    );
-    _signUpVerifyCodeUseCase = SignUpVerifyCodeUseCase(
-      authRepository: authRepository,
-    );
-    _signUpVerifyNicknameUseCase = SignUpVerifyNicknameUseCase(
-      authRepository: authRepository,
-    );
-    _signUpConfirmNicknameUseCase = SignUpConfirmNicknameUseCase(
-      signUpVerifyNicknameUseCase: _signUpVerifyNicknameUseCase,
-    );
-    _signUpCompleteUseCase = SignUpCompleteUseCase(
-      authRepository: authRepository,
-    );
+    _routerService = ref.read(routerServiceProvider);
     return AsyncState.initial();
   }
 
@@ -75,7 +46,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
 
     state = AsyncState.loading();
 
-    state = await _signUpVerifyStudentUseCase(
+    state = await ref.read(signUpVerifyStudentUseCaseProvider)(
       SignUpVerifyStudentParams(
         dkuStudentId: dkuStudentId,
         dkuPassword: dkuPassword,
@@ -96,7 +67,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
     required String signUpToken,
     required String phoneNumber,
   }) async {
-    final result = await _signUpSendCodeCodeUseCase(
+    final result = await ref.read(signUpSendCodeUseCaseProvider)(
       SignUpSendCodeParams(
         signUpToken: signUpToken,
         phoneNumber: phoneNumber,
@@ -146,7 +117,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return;
     }
 
-    final result = await _signUpVerifyCodeUseCase(
+    final result = await ref.read(signUpVerifyCodeUseCaseProvider)(
       SignUpVerifyCodeParams(
         signUpToken: signUpToken,
         code: code,
@@ -173,7 +144,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return false;
     }
 
-    final result = await _signUpVerifyNicknameUseCase(
+    final result = await ref.read(signUpVerifyNicknameUseCaseProvider)(
       SignUpVerifyNicknameParams(
         nickname: nickname,
       ),
@@ -199,7 +170,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return;
     }
 
-    final result = await _signUpConfirmNicknameUseCase(
+    final result = await ref.read(signUpConfirmNicknameUseCaseProvider)(
       SignUpConfirmNicknameParams(
         availableNickname: availableNickname,
         currentNickname: currentNickname,
@@ -231,7 +202,7 @@ class SignUpNotifier extends AutoDisposeNotifier<AsyncState<SignUpInfoModel>> {
       return;
     }
 
-    final result = await _signUpCompleteUseCase(
+    final result = await ref.read(signUpCompleteUseCaseProvider)(
       SignUpCompleteParams(
         signUpToken: signUpToken,
         nickname: nickname,

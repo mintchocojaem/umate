@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:danvery/src/core/utils/auth_validator.dart';
-import 'package:danvery/src/features/auth/presentation/sign_up/providers/sign_up_policy_provider.dart';
+import 'package:danvery/src/features/auth/presentation/providers/sign_up_policy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../../design_system/orb/components/components.dart';
+import '../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
@@ -20,19 +20,10 @@ class SignUpVerifyStudentScreen extends ConsumerStatefulWidget {
 
 class _SignUpVerifyStudentScreenState
     extends ConsumerState<SignUpVerifyStudentScreen> with AuthValidator {
-  late final TextEditingController dkuStudentIdController;
-  late final TextEditingController dkuPasswordController;
+  final TextEditingController dkuStudentIdController = TextEditingController();
+  final TextEditingController dkuPasswordController = TextEditingController();
 
-  late final GlobalKey<FormState> formKey;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    dkuStudentIdController = TextEditingController();
-    dkuPasswordController = TextEditingController();
-    formKey = GlobalKey<FormState>();
-  }
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

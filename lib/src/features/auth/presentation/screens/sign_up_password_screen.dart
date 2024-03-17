@@ -3,8 +3,8 @@ import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../../design_system/orb/components/components.dart';
+import '../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
@@ -25,21 +25,13 @@ class SignUpPasswordScreen extends ConsumerStatefulWidget {
   }
 }
 
-class _SignUpPasswordScreenState
-    extends ConsumerState<SignUpPasswordScreen> with AuthValidator {
-  late final TextEditingController passwordController;
-  late final TextEditingController passwordConfirmController;
+class _SignUpPasswordScreenState extends ConsumerState<SignUpPasswordScreen>
+    with AuthValidator {
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController =
+      TextEditingController();
 
-  late final GlobalKey<FormState> formKey;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    passwordController = TextEditingController();
-    passwordConfirmController = TextEditingController();
-    formKey = GlobalKey<FormState>();
-  }
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {

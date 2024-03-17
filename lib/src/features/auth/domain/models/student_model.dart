@@ -2,7 +2,7 @@ class StudentModel {
   final String studentName;
   final String studentId;
   final String major;
-  final String age;
+  final int age;
   final String gender;
 
   StudentModel({

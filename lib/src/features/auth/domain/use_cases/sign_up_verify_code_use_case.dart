@@ -1,11 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/utils/use_case.dart';
+import '../../data/repositories/auth_repository_impl.dart';
 import '../repositories/auth_repository.dart';
+
+final signUpVerifyCodeUseCaseProvider =
+    Provider.autoDispose<SignUpVerifyCodeUseCase>(
+  (ref) => SignUpVerifyCodeUseCase(
+    authRepository: ref.read(authRepositoryImplProvider),
+  ),
+);
 
 class SignUpVerifyCodeParams {
   final String signUpToken;
   final String code;
 
-  SignUpVerifyCodeParams({
+  const SignUpVerifyCodeParams({
     required this.signUpToken,
     required this.code,
   });

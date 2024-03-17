@@ -8,7 +8,7 @@ import '../dto/token_dto.dart';
 final authRemoteDataSourceProvider =
     Provider.autoDispose<AuthRemoteDataSource>((ref) {
   return AuthRemoteDataSource(
-    networkClientService: ref.watch(networkClientServiceProvider),
+    networkClientService: ref.read(networkClientServiceProvider),
   );
 });
 

@@ -32,7 +32,7 @@ class StudentDto extends DataMapper<StudentModel> {
       studentName: studentName,
       studentId: studentId,
       major: major,
-      age: age,
+      age: int.parse(age),
       gender: gender,
     );
   }

@@ -5,7 +5,7 @@ import 'package:danvery/src/features/auth/domain/models/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../design_system/orb/components/components.dart';
+import '../../../../design_system/orb/components/components.dart';
 import '../providers/sign_up_provider.dart';
 
 @RoutePage()
@@ -28,20 +28,14 @@ class SignUpSendCodeScreen extends ConsumerStatefulWidget {
 
 class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
     with AuthValidator {
-  late final TextEditingController studentIdController;
-  late final TextEditingController majorController;
-  late final TextEditingController phoneNumberController;
-  late final GlobalKey<FormState> formKey;
+  final TextEditingController studentIdController = TextEditingController();
+  final TextEditingController majorController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    majorController = TextEditingController();
-    studentIdController = TextEditingController();
-    phoneNumberController = TextEditingController();
-
-    formKey = GlobalKey<FormState>();
-
     majorController.text = widget.student.major;
     studentIdController.text = widget.student.studentId;
   }
