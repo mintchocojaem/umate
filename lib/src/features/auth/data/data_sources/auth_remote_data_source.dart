@@ -1,16 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/remote_data_source.dart';
 import '../dto/sign_up_info_dto.dart';
 import '../dto/token_dto.dart';
-
-final authRemoteDataSourceProvider =
-    Provider.autoDispose<AuthRemoteDataSource>((ref) {
-  return AuthRemoteDataSource(
-    networkClientService: ref.read(networkClientServiceProvider),
-  );
-});
 
 class AuthRemoteDataSource extends RemoteDataSource {
   AuthRemoteDataSource({required super.networkClientService});
@@ -26,7 +17,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
         'studentId': studentId,
         'password': password,
       },
-      fromJson: (json) => TokenDto.fromJson(json),
+      fromJson: TokenDto.fromJson,
     );
   }
 
@@ -41,7 +32,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
         'dkuStudentId': dkuStudentId,
         'dkuPassword': dkuPassword,
       },
-      fromJson: (json) => SignUpInfoDto.fromJson(json),
+      fromJson: SignUpInfoDto.fromJson,
     );
   }
 
@@ -55,7 +46,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
       data: {
         "phoneNumber": phoneNumber,
       },
-      fromJson: (json) => true,
+      fromJson: (_) => true,
     );
   }
 
@@ -69,7 +60,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
       data: {
         "code": code,
       },
-      fromJson: (json) => true,
+      fromJson: (_) => true,
     );
   }
 
@@ -79,7 +70,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
     return request(
       path: '/user/valid?nickname=$nickname',
       method: RequestType.get,
-      fromJson: (json) => true,
+      fromJson: (_) => true,
     );
   }
 
@@ -95,7 +86,7 @@ class AuthRemoteDataSource extends RemoteDataSource {
         "nickname": nickname,
         "password": password,
       },
-      fromJson: (json) => true,
+      fromJson: (_) => true,
     );
   }
 }

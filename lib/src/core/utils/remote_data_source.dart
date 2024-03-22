@@ -1,7 +1,7 @@
+import 'package:danvery/src/core/utils/app_exception.dart';
 import 'package:flutter/foundation.dart';
 
 import '../services/network/network_client_service.dart';
-import 'app_exception.dart';
 
 class RemoteDataSource {
   final NetworkClientService networkClientService;
@@ -12,7 +12,7 @@ class RemoteDataSource {
     required String path,
     required RequestType method,
     Map<String, dynamic>? data,
-    required T Function(Map<String, dynamic>) fromJson,
+    required T Function(Map<String, dynamic> json) fromJson,
   }) async {
     try {
       final response = await networkClientService.request(
@@ -21,13 +21,13 @@ class RemoteDataSource {
         data: data,
       );
       return fromJson(response.data);
-    } on AppException catch (error, stackTrace) {
+    } on AppException {
+      rethrow;
+    } catch (error, stackTrace) {
       if (kDebugMode) {
-        print(
-            'RemoteDataSource > (Error) : Message = ${error.message}, StackTrace = $stackTrace');
+        print('RemoteDataSource > message : $error, stackTrace : $stackTrace');
       }
-      throw AppException(
-        message: error.message,
+      throw AppError(
         stackTrace: stackTrace,
       );
     }

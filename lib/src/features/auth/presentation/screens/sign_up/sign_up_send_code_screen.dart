@@ -1,22 +1,20 @@
 import 'package:auto_route/annotations.dart';
-import 'package:danvery/src/core/services/snack_bar/snack_bar_service.dart';
-import 'package:danvery/src/core/utils/auth_validator.dart';
-import 'package:danvery/src/features/auth/domain/models/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_provider.dart';
+import '../../../../../core/services/router/route_error_screen.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../core/utils/auth_validator.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_send_code_state.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpSendCodeScreen extends ConsumerStatefulWidget {
-  final String signUpToken;
-  final StudentModel student;
-
   const SignUpSendCodeScreen({
     super.key,
-    required this.signUpToken,
-    required this.student,
   });
 
   @override
@@ -34,13 +32,6 @@ class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-    majorController.text = widget.student.major;
-    studentIdController.text = widget.student.studentId;
-  }
-
-  @override
   void dispose() {
     // TODO: implement dispose
     majorController.dispose();
@@ -52,25 +43,40 @@ class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    final signUpVerifyStudentState = ref.watch(signUpVerifyStudentProvider);
+
+    if (signUpVerifyStudentState is! SignUpVerifyStudentSuccess) {
+      return const RouteErrorScreen();
+    }
+
+    studentIdController.text =
+        signUpVerifyStudentState.signUpInfo.student.studentId;
+    majorController.text = signUpVerifyStudentState.signUpInfo.student.major;
 
     ref.listen(
-      signUpProvider,
+      signUpSendCodeProvider,
       (prev, next) {
-        if (!next.isLoading && next.hasError) {
-          ref.read(snackBarServiceProvider).show(
+        if (next is SignUpSendCodeFailure) {
+          ref.read(snackBarServiceProvider).showException(
                 context,
-                message: next.message!,
-                type: OrbSnackBarType.error,
+                next.exception,
               );
+        } else if (next is SignUpSendCodeSuccess) {
+          ref
+              .read(routerServiceProvider)
+              .replace(const SignUpVerifyCodeRoute());
         }
       },
     );
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).sendCodeFlow(
-              formKey,
-              signUpToken: widget.signUpToken,
+        if (!formKey.currentState!.validate()) {
+          return;
+        }
+
+        await ref.read(signUpSendCodeProvider.notifier).sendCode(
+              signUpToken: signUpVerifyStudentState.signUpInfo.signUpToken,
               phoneNumber: phoneNumberController.text,
             );
       },
@@ -85,7 +91,7 @@ class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.student.studentName}님 정보가 맞나요?',
+              '${signUpVerifyStudentState.signUpInfo.student.studentName}님 정보가 맞나요?',
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -119,7 +125,9 @@ class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
         ),
       ),
       submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
       /*
       submitHelper: TextButton(
         onPressed: () {},

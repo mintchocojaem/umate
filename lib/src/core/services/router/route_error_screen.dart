@@ -1,39 +1,78 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class RouteErrorScreen extends StatelessWidget {
+class RouteErrorScreen extends StatefulWidget {
   final String errorMessage;
+  final String reasonMessage;
 
-  const RouteErrorScreen({super.key, required this.errorMessage});
+  const RouteErrorScreen(
+      {super.key, this.errorMessage = 'Route Error', this.reasonMessage = '해당 페이지로 접근할 수 없어요.'});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _RouteErrorScreenState();
+  }
+}
+
+class _RouteErrorScreenState extends State<RouteErrorScreen>
+    with SingleTickerProviderStateMixin {
+
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      lowerBound: 0.2,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: themeData.colorScheme.background,
+      ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 48,
-              color: themeData.colorScheme.error,
+            FadeTransition(
+              opacity: _animationController,
+              child: Icon(
+                Icons.warning_amber_rounded,
+                size: 64,
+                color: themeData.colorScheme.error,
+              ),
             ),
             const SizedBox(
               height: 32,
             ),
             Text(
-              '요청하신 페이지를 찾을 수 없어요',
-              style: themeData.textTheme.titleSmall,
+              widget.errorMessage,
+              style: themeData.textTheme.titleMedium,
             ),
             const SizedBox(
               height: 16,
             ),
             Text(
-              errorMessage,
+              widget.reasonMessage,
               textAlign: TextAlign.center,
-              style: themeData.textTheme.bodySmall,
+              style: themeData.textTheme.bodyMedium,
             ),
           ],
         ),

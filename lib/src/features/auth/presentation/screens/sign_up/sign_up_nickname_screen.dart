@@ -3,17 +3,18 @@ import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_provider.dart';
+import '../../../../../core/services/router/route_error_screen.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_nickname_state.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpNicknameScreen extends ConsumerStatefulWidget {
-  final String signUpToken;
-
   const SignUpNicknameScreen({
     super.key,
-    required this.signUpToken,
   });
 
   @override
@@ -26,9 +27,9 @@ class SignUpNicknameScreen extends ConsumerStatefulWidget {
 class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
     with AuthValidator {
   final TextEditingController nicknameController = TextEditingController();
-  late final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String availableNickname = '';
+  String verifiedNickname = '';
 
   @override
   void dispose() {
@@ -39,14 +40,30 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
 
   @override
   Widget build(BuildContext context) {
+    final signUpVerifyStudentState = ref.watch(signUpVerifyStudentProvider);
+
+    if (signUpVerifyStudentState is! SignUpVerifyStudentSuccess) {
+      return const RouteErrorScreen();
+    }
+
+    final signUpNicknameState = ref.watch(signUpNicknameProvider);
+
     ref.listen(
-      signUpProvider,
+      signUpNicknameProvider,
       (prev, next) {
-        if (!next.isLoading && next.hasError) {
+        if (next is SignUpNicknameFailure) {
+          ref.read(snackBarServiceProvider).showException(
+                context,
+                next.exception,
+              );
+        } else if (next is SignUpNicknameConfirmed) {
+          ref.read(routerServiceProvider).replace(const SignUpPasswordRoute());
+        } else if (next is SignUpNicknameVerified) {
+          verifiedNickname = next.verifiedNickname;
           ref.read(snackBarServiceProvider).show(
                 context,
-                message: next.message!,
-                type: OrbSnackBarType.error,
+                message: '사용 가능한 닉네임이에요.',
+                type: OrbSnackBarType.info,
               );
         }
       },
@@ -55,11 +72,13 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
     final submitButton = OrbButton(
       buttonText: '다음',
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).confirmNicknameFlow(
-              formKey,
-              signUpToken: widget.signUpToken,
+        if (!formKey.currentState!.validate()) {
+          return;
+        }
+
+        await ref.read(signUpNicknameProvider.notifier).confirmNickname(
+              verifiedNickname: verifiedNickname,
               currentNickname: nicknameController.text,
-              availableNickname: availableNickname,
             );
       },
     );
@@ -101,20 +120,21 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
                   enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
                   enabledForegroundColor: themeData.colorScheme.onSurface,
                   onPressed: () async {
-                    final result =
-                        await ref.read(signUpProvider.notifier).verifyNickname(
-                              formKey,
-                              nickname: nicknameController.text,
-                            );
-
-                    if (context.mounted && result) {
-                      availableNickname = nicknameController.text;
-                      ref.read(snackBarServiceProvider).show(
-                            context,
-                            message: '사용 가능한 닉네임이에요.',
-                            type: OrbSnackBarType.info,
-                          );
+                    if (!formKey.currentState!.validate()) {
+                      return;
                     }
+
+                    if (signUpNicknameState is SignUpNicknameVerified &&
+                        signUpNicknameState.verifiedNickname ==
+                            nicknameController.text) {
+                      return;
+                    }
+
+                    await ref
+                        .read(signUpNicknameProvider.notifier)
+                        .verifyNickname(
+                          nickname: nicknameController.text,
+                        );
                   },
                 ),
               ],
@@ -123,7 +143,9 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
         ),
       ),
       submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }

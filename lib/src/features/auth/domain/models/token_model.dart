@@ -1,8 +1,11 @@
-class TokenModel{
-  String accessToken;
-  String refreshToken;
+import 'package:flutter/foundation.dart';
 
-  TokenModel({
+@immutable
+final class TokenModel{
+  final String accessToken;
+  final String refreshToken;
+
+  const TokenModel({
     required this.accessToken,
     required this.refreshToken,
   });

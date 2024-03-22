@@ -1,12 +1,13 @@
 import 'package:auto_route/annotations.dart';
-import 'package:danvery/src/core/utils/auth_validator.dart';
-import 'package:danvery/src/features/auth/presentation/providers/sign_up_policy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_provider.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../core/utils/auth_validator.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpVerifyStudentScreen extends ConsumerStatefulWidget {
@@ -29,30 +30,30 @@ class _SignUpVerifyStudentScreenState
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    ref.listen(signUpProvider, (previous, next) {
-      if (!next.isLoading && next.hasError) {
-        ref.read(snackBarServiceProvider).show(
-              context,
-              type: OrbSnackBarType.error,
-              message: next.message!,
-            );
-      }
-    });
+    ref.listen(
+      signUpVerifyStudentProvider,
+      (previous, next) {
+        if (next is SignUpVerifyStudentFailure) {
+          ref.read(snackBarServiceProvider).showException(
+                context,
+                next.exception,
+              );
+        } else if (next is SignUpVerifyStudentSuccess) {
+          ref.read(routerServiceProvider).replace(const SignUpSendCodeRoute());
+        }
+      },
+    );
 
     final submitButton = OrbButton(
       onPressed: () async {
-        if (!ref.read(signUpPrivacyProvider)) {
-          ref.read(snackBarServiceProvider).show(
-                context,
-                type: OrbSnackBarType.warning,
-                message: '개인정보 이용약관에 동의가 필요해요',
-              );
+        if (!formKey.currentState!.validate()) {
           return;
         }
-        await ref.read(signUpProvider.notifier).verifyStudentFlow(
-              formKey,
+
+        await ref.read(signUpVerifyStudentProvider.notifier).verifyStudent(
               dkuStudentId: dkuStudentIdController.text,
               dkuPassword: dkuPasswordController.text,
+              isAgreePolicy: ref.read(signUpPolicyProvider),
             );
       },
       buttonText: '학생 인증하기',
@@ -97,12 +98,14 @@ class _SignUpVerifyStudentScreenState
               titleText: '개인정보 이용약관에 동의하기',
               leading: Icon(
                 Icons.check_circle,
-                color: ref.watch(signUpPrivacyProvider)
+                color: ref.watch(signUpPolicyProvider)
                     ? Colors.green
                     : Colors.grey,
               ),
               onTap: () {
-                ref.read(signUpProvider.notifier).pushToAgreePolicyScreen();
+                ref
+                    .read(routerServiceProvider)
+                    .push(const SignUpAgreePolicyRoute());
               },
             ),
           ],

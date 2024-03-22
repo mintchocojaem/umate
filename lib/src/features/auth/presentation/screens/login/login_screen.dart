@@ -1,11 +1,13 @@
 import 'package:auto_route/annotations.dart';
-import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../design_system/orb/orb.dart';
-import '../providers/login_provider.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../core/utils/auth_validator.dart';
+import '../../../../../design_system/orb/orb.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/login_state.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerStatefulWidget {
@@ -36,11 +38,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
     ref.listen(
       loginProvider,
       (prev, next) {
-        if (!next.isLoading && next.hasError) {
-          ref.read(snackBarServiceProvider).show(
+        if (next is LoginFailure) {
+          ref.read(snackBarServiceProvider).showException(
                 context,
-                message: next.message!,
-                type: OrbSnackBarType.error,
+                next.exception,
               );
         }
       },
@@ -48,8 +49,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
 
     final submitButton = OrbButton(
       onPressed: () async {
+        if (!formKey.currentState!.validate()) {
+          return;
+        }
         await ref.read(loginProvider.notifier).login(
-              formKey,
               studentId: studentIdController.text,
               password: passwordController.text,
             );
@@ -96,7 +99,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                ref.read(loginProvider.notifier).pushToSignUpScreen();
+                ref
+                    .read(routerServiceProvider)
+                    .push(const SignUpVerifyStudentRoute());
               },
               child: Text(
                 '단버리에 처음 오셨나요?',
@@ -115,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
       ),
       submitHelper: TextButton(
         onPressed: () {
-          ref.read(loginProvider.notifier).pushToLoginHelpScreen();
+          ref.read(routerServiceProvider).push(const LoginHelpRoute());
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

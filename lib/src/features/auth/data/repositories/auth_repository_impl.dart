@@ -1,15 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../domain/models/sign_up_info_model.dart';
 import '../../domain/models/token_model.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_remote_data_source.dart';
-
-final authRepositoryImplProvider =
-    Provider.autoDispose<AuthRepositoryImpl>((ref) {
-  return AuthRepositoryImpl(
-      authRemoteDataSource: ref.read(authRemoteDataSourceProvider));
-});
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;

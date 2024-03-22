@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class NoInternetScreen extends StatefulWidget{
+class NoInternetScreen extends StatefulWidget {
   const NoInternetScreen({super.key});
 
   @override
@@ -10,10 +10,10 @@ class NoInternetScreen extends StatefulWidget{
     // TODO: implement createState
     return _NoInternetScreenState();
   }
-
 }
-class _NoInternetScreenState extends State<NoInternetScreen> with SingleTickerProviderStateMixin{
 
+class _NoInternetScreenState extends State<NoInternetScreen>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
 
   @override
@@ -23,6 +23,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> with SingleTickerPr
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
+      lowerBound: 0.2,
     )..repeat(reverse: true);
   }
 
@@ -32,7 +33,6 @@ class _NoInternetScreenState extends State<NoInternetScreen> with SingleTickerPr
     _animationController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

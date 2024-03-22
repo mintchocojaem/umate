@@ -3,19 +3,19 @@ import 'package:danvery/src/core/utils/auth_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_provider.dart';
+import '../../../../../core/services/router/route_error_screen.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_complete_state.dart';
+import '../../providers/states/sign_up_nickname_state.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpPasswordScreen extends ConsumerStatefulWidget {
-  final String signUpToken;
-  final String nickname;
-
   const SignUpPasswordScreen({
     super.key,
-    required this.signUpToken,
-    required this.nickname,
   });
 
   @override
@@ -30,7 +30,6 @@ class _SignUpPasswordScreenState extends ConsumerState<SignUpPasswordScreen>
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController =
       TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -43,25 +42,36 @@ class _SignUpPasswordScreenState extends ConsumerState<SignUpPasswordScreen>
 
   @override
   Widget build(BuildContext context) {
+    final signUpVerifyStudentState = ref.watch(signUpVerifyStudentProvider);
+    final signUpNicknameState = ref.watch(signUpNicknameProvider);
+
+    if (signUpVerifyStudentState is! SignUpVerifyStudentSuccess ||
+        signUpNicknameState is! SignUpNicknameConfirmed) {
+      return const RouteErrorScreen();
+    }
+
     ref.listen(
-      signUpProvider,
+      signUpCompleteProvider,
       (previous, next) {
-        if (!next.isLoading && next.hasError) {
-          ref.read(snackBarServiceProvider).show(
+        if (next is SignUpCompleteFailure) {
+          ref.read(snackBarServiceProvider).showException(
                 context,
-                type: OrbSnackBarType.error,
-                message: next.message!,
+                next.exception,
               );
+        }else if (next is SignUpCompleteSuccess) {
+          ref.read(routerServiceProvider).replace(const SignUpCompleteRoute());
         }
       },
     );
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).completeFlow(
-              formKey,
-              signUpToken: widget.signUpToken,
-              nickname: widget.nickname,
+        if (!formKey.currentState!.validate()) {
+          return;
+        }
+        await ref.read(signUpCompleteProvider.notifier).signUpComplete(
+              signUpToken: signUpVerifyStudentState.signUpInfo.signUpToken,
+              nickname: signUpNicknameState.confirmedNickname,
               password: passwordController.text,
             );
       },
@@ -110,7 +120,9 @@ class _SignUpPasswordScreenState extends ConsumerState<SignUpPasswordScreen>
         ),
       ),
       submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }

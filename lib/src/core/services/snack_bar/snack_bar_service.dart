@@ -1,3 +1,4 @@
+import 'package:danvery/src/core/utils/app_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,17 @@ final snackBarServiceProvider = Provider<SnackBarService>(
 class SnackBarService {
 
   final List<OrbSnackBar> _snackBarQueue = [];
+
+  void showException(BuildContext context, AppException appException) {
+    show(
+      context,
+      message: appException.message,
+      type: switch(appException) {
+        AppError() => OrbSnackBarType.error,
+        AppWarning() => OrbSnackBarType.warning,
+      },
+    );
+  }
 
   void show(
     BuildContext context, {

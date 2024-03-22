@@ -2,16 +2,21 @@ import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:auto_route/annotations.dart';
-import 'package:danvery/src/features/auth/domain/models/student_model.dart';
-import 'package:danvery/src/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../design_system/orb/components/components.dart';
+import '../../../../../core/services/router/route_error_screen.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpCompleteScreen extends ConsumerStatefulWidget {
-  const SignUpCompleteScreen({super.key});
+
+  const SignUpCompleteScreen({
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -23,13 +28,11 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
   final ConfettiController confettiController =
       ConfettiController(duration: const Duration(seconds: 3));
 
-  late final StudentModel student;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    student = ref.read(signUpProvider).data!.student;
+
   }
 
   @override
@@ -67,11 +70,17 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    final signUpVerifyStudentState = ref.watch(signUpVerifyStudentProvider);
+
+    if(signUpVerifyStudentState is! SignUpVerifyStudentSuccess){
+      return const RouteErrorScreen();
+    }
+
     final ThemeData themeData = Theme.of(context);
 
     final submitButton = OrbButton(
       onPressed: () {
-        ref.read(signUpProvider.notifier).pushToLoginScreen();
+        ref.read(routerServiceProvider).replace(const LoginRoute());
       },
       buttonText: '로그인하러 가기',
     );
@@ -81,7 +90,7 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
       body: Stack(
         children: [
           Text(
-            '${student.studentName}님의\n회원가입을 진심으로 축하드려요',
+            '${signUpVerifyStudentState.signUpInfo.student.studentName}님의\n회원가입을 진심으로 축하드려요',
             style: themeData.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -149,7 +158,9 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
         ],
       ),
       submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }

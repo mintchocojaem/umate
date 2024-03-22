@@ -72,7 +72,7 @@ base class NetworkClientService {
 
             dynamic firstMessage = messages.firstOrNull;
 
-            if(firstMessage != null && firstMessage is Map<String, dynamic>){
+            if (firstMessage != null && firstMessage is Map<String, dynamic>) {
               message = firstMessage['error'];
             } else if (firstMessage is String) {
               message = firstMessage;
@@ -115,8 +115,8 @@ base class NetworkClientService {
         onReceiveProgress: onReceiveProgress,
       );
       return response;
-    } on DioException catch(error, stackTrace){
-      throw AppException(
+    } on DioException catch (error, stackTrace) {
+      throw AppError(
         message: error.message,
         stackTrace: stackTrace,
       );

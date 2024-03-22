@@ -36,28 +36,36 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
 
-  #data
+  #route
+  auto_route: ^7.8.4
+  auto_route_generator: ^7.3.2
+
+  #database
   get_storage: ^2.1.1
-  json_serializable: ^6.7.1
-  json_annotation: ^4.8.1
-  flutter_riverpod: ^2.5.1
+
+  #network
+  dio: ^5.1.1
+  connectivity_plus: ^5.0.2
+  mime_type: ^1.0.0
+  url_launcher: ^6.1.14
 
   #ui
   confetti: ^0.7.0
   carousel_slider: ^4.2.1
   shimmer: ^3.0.0
-
-  #util
   flutter_local_notifications: ^17.0.0
-  auto_route: ^7.8.4
-  auto_route_generator: ^7.3.2
-  dio: ^5.1.1
-  mime_type: ^1.0.0
-  intl: ^0.19.0
-  url_launcher: ^6.1.14
+
+  #permission
   image_picker: ^1.0.5
   file_picker: ^6.1.1
-  connectivity_plus: ^5.0.2
+
+  #util
+  intl: ^0.19.0
+  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
+  flutter_riverpod: ^2.5.1
+
+  #firebase
   firebase_core: ^2.27.0
   firebase_messaging: ^14.7.19
   firebase_analytics: ^10.8.9
@@ -82,7 +90,6 @@ dev_dependencies:
   riverpod_lint: ^2.3.10
 
   build_runner: ^2.4.6
-  # riverpod_generator: ^2.2.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

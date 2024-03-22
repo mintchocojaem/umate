@@ -1,11 +1,14 @@
-class StudentModel {
+import 'package:flutter/foundation.dart';
+
+@immutable
+final class StudentModel {
   final String studentName;
   final String studentId;
   final String major;
   final int age;
   final String gender;
 
-  StudentModel({
+  const StudentModel({
     required this.studentName,
     required this.studentId,
     required this.major,

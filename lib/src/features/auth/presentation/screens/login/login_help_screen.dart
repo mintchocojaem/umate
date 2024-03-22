@@ -2,15 +2,15 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../design_system/orb/orb.dart';
-import '../providers/login_provider.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../design_system/orb/orb.dart';
 
 @RoutePage()
 class LoginHelpScreen extends ConsumerWidget {
   const LoginHelpScreen({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData themeData = Theme.of(context);
     return OrbScaffold(
       body: Column(
@@ -29,7 +29,9 @@ class LoginHelpScreen extends ConsumerWidget {
             leading: const Icon(Icons.login_rounded),
             titleText: '회원가입을 하고 싶어요',
             onTap: () {
-              ref.read(loginProvider.notifier).replaceToSignUpScreen();
+              ref
+                  .read(routerServiceProvider)
+                  .push(const SignUpVerifyStudentRoute());
             },
             trailing: const Icon(Icons.chevron_right),
           ),

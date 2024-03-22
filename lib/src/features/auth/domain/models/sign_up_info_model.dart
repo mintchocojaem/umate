@@ -1,22 +1,14 @@
+import 'package:flutter/foundation.dart';
+
 import 'student_model.dart';
 
-class SignUpInfoModel{
+@immutable
+final class SignUpInfoModel {
   final String signUpToken;
   final StudentModel student;
 
-  SignUpInfoModel({
+  const SignUpInfoModel({
     required this.signUpToken,
     required this.student,
   });
-
-  SignUpInfoModel copyWith({
-    String? signUpToken,
-    StudentModel? student,
-  }) {
-    return SignUpInfoModel(
-      signUpToken: signUpToken ?? this.signUpToken,
-      student: student ?? this.student,
-    );
-  }
-
 }

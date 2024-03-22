@@ -2,20 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import 'async_state.dart';
+import 'app_exception.dart';
+import 'either.dart';
 
 abstract class UseCase<T, P> {
-
   @nonVirtual
-  Future<AsyncState<T>> call(P params) async {
-    final result = await AsyncState.guard(() => execute(params));
-    if (result.hasError) {
+  Future<Either<T,AppException>> call(P params) async {
+    try {
+      return Left(await execute(params));
+    } on AppException catch (error) {
       if (kDebugMode) {
-        print(
-            'AsyncState > (Error) : Error = ${result.message}, StackTrace = ${result.stackTrace}');
+        print('UseCase > message : ${error.message}, stackTrace : ${StackTrace.current}');
       }
+      return Right(
+        error,
+      );
     }
-    return result;
   }
 
   Future<T> execute(P params);

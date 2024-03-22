@@ -1,25 +1,26 @@
 import 'package:auto_route/annotations.dart';
+import 'package:danvery/src/core/services/router/router_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_policy_provider.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
 
 @RoutePage()
-class SignUpPolicyScreen extends ConsumerStatefulWidget {
-  const SignUpPolicyScreen({super.key});
+class SignUpAgreePolicyScreen extends ConsumerStatefulWidget {
+  const SignUpAgreePolicyScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _SignUpPolicyScreenState();
+    return _SignUpAgreePolicyScreenState();
   }
 }
 
-class _SignUpPolicyScreenState extends ConsumerState {
+class _SignUpAgreePolicyScreenState extends ConsumerState {
   final ScrollController scrollController = ScrollController();
 
-  bool maxScrollExtent = false;
+  final ValueNotifier<bool> isMaxScrollExtent = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -28,14 +29,10 @@ class _SignUpPolicyScreenState extends ConsumerState {
     scrollController.addListener(() {
       if (scrollController.offset >=
           scrollController.position.maxScrollExtent) {
-        setState(() {
-          maxScrollExtent = true;
-        });
+        isMaxScrollExtent.value = true;
       } else if (scrollController.offset <
           scrollController.position.maxScrollExtent) {
-        setState(() {
-          maxScrollExtent = false;
-        });
+        isMaxScrollExtent.value = false;
       }
     });
   }
@@ -51,15 +48,30 @@ class _SignUpPolicyScreenState extends ConsumerState {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final submitButton = OrbButton(
-      buttonText: maxScrollExtent ? '모두 동의하기' : '아래로 스크롤하기',
-      onPressed: () async {
-        await ref.read(signUpPrivacyProvider.notifier).agreePrivacyPolicy(
-              maxScrollExtent: maxScrollExtent,
-              scrollController: scrollController,
-            );
-      },
-    );
+    submitButton({OrbButtonRadius? orbButtonRadius}) {
+      return ValueListenableBuilder<bool>(
+        valueListenable: isMaxScrollExtent,
+        builder: (BuildContext context, bool value, Widget? child) {
+          return OrbButton(
+            buttonText: value ? '모두 동의하기' : '아래로 스크롤하기',
+            onPressed: () async {
+              if (value) {
+                ref.read(signUpPolicyProvider.notifier).update((state) => true);
+                ref.read(routerServiceProvider).pop();
+              } else {
+                await scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeInOut,
+                );
+              }
+            },
+          ).copyWith(
+            buttonRadius: orbButtonRadius,
+          );
+        },
+      );
+    }
 
     final themeData = Theme.of(context);
     return OrbScaffold(
@@ -145,15 +157,15 @@ class _SignUpPolicyScreenState extends ConsumerState {
           ),
         ],
       ),
-      submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton.copyWith(
-        buttonRadius: OrbButtonRadius.none,
+      submitButton: submitButton(),
+      submitButtonOnKeyboard: submitButton(
+        orbButtonRadius: OrbButtonRadius.none,
       ),
     );
   }
 }
 
-class AgreeTerms{
+class AgreeTerms {
   final String title;
   final String content;
 

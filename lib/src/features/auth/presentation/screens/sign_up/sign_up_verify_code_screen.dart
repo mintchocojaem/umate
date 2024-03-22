@@ -1,21 +1,22 @@
 import 'package:auto_route/annotations.dart';
-import 'package:danvery/src/core/utils/auth_validator.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/snack_bar/snack_bar_service.dart';
-import '../../../../design_system/orb/components/components.dart';
-import '../providers/sign_up_provider.dart';
+import '../../../../../core/services/router/route_error_screen.dart';
+import '../../../../../core/services/router/router_service.dart';
+import '../../../../../core/services/snack_bar/snack_bar_service.dart';
+import '../../../../../core/utils/auth_validator.dart';
+import '../../../../../design_system/orb/components/components.dart';
+import '../../../auth_dependency_injections.dart';
+import '../../providers/states/sign_up_send_code_state.dart';
+import '../../providers/states/sign_up_verify_code_state.dart';
+import '../../providers/states/sign_up_verify_student_state.dart';
 
 @RoutePage()
 class SignUpVerifyCodeScreen extends ConsumerStatefulWidget {
-  final String signUpToken;
-  final String phoneNumber;
-
   const SignUpVerifyCodeScreen({
     super.key,
-    required this.signUpToken,
-    required this.phoneNumber,
   });
 
   @override
@@ -39,24 +40,48 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final signUpVerifyStudentState = ref.watch(signUpVerifyStudentProvider);
+    final signUpSendCodeState = ref.watch(signUpSendCodeProvider);
+
+    if (signUpVerifyStudentState is! SignUpVerifyStudentSuccess ||
+        signUpSendCodeState is! SignUpSendCodeSuccess) {
+      return const RouteErrorScreen();
+    }
+
     ref.listen(
-      signUpProvider,
-      (previous, next) {
-        if (!next.isLoading && next.hasError) {
+      signUpVerifyCodeProvider,
+          (previous, next) {
+        if (next is SignUpVerifyCodeFailure) {
+          ref.read(snackBarServiceProvider).showException(
+            context,
+            next.exception,
+          );
+        } else if (next is SignUpVerifyCodeSuccess) {
+          ref.read(routerServiceProvider).replace(const SignUpNicknameRoute());
+        }
+      },
+    );
+
+    ref.listen(
+      signUpSendCodeProvider,
+          (previous, next) {
+        if (next is SignUpSendCodeSuccess) {
           ref.read(snackBarServiceProvider).show(
-                context,
-                type: OrbSnackBarType.error,
-                message: next.message!,
-              );
+            context,
+            type: OrbSnackBarType.info,
+            message: '인증번호가 재전송되었어요.',
+          );
         }
       },
     );
 
     final submitButton = OrbButton(
       onPressed: () async {
-        await ref.read(signUpProvider.notifier).verifyCodeFlow(
-              formKey,
-              signUpToken: widget.signUpToken,
+        if (!formKey.currentState!.validate()) {
+          return;
+        }
+        await ref.read(signUpVerifyCodeProvider.notifier).verifyCode(
+              signUpToken: signUpVerifyStudentState.signUpInfo.signUpToken,
               code: codeController.text,
             );
       },
@@ -101,10 +126,11 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
                   enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
                   enabledForegroundColor: themeData.colorScheme.onSurface,
                   onPressed: () async {
-                    await ref.read(signUpProvider.notifier).sendCode(
-                      signUpToken: widget.signUpToken,
-                      phoneNumber: widget.phoneNumber,
-                    );
+                    await ref.read(signUpSendCodeProvider.notifier).sendCode(
+                          signUpToken:
+                              signUpVerifyStudentState.signUpInfo.signUpToken,
+                          phoneNumber: signUpSendCodeState.phoneNumber,
+                        );
                   },
                   buttonText: '재전송',
                   buttonTextStyle: themeData.textTheme.bodyMedium
@@ -117,7 +143,9 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
         ),
       ),
       submitButton: submitButton,
-      submitButtonOnKeyboard: submitButton,
+      submitButtonOnKeyboard: submitButton.copyWith(
+        buttonRadius: OrbButtonRadius.none,
+      ),
     );
   }
 }
