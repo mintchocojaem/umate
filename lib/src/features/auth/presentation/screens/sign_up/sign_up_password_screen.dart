@@ -95,6 +95,7 @@ class _SignUpPasswordScreenState extends ConsumerState<SignUpPasswordScreen>
             OrbTextFormField(
               controller: passwordController,
               labelText: '비밀번호',
+              helperText: '영문, 숫자, 특수문자 이용 가능(8~20자)',
               textInputAction: TextInputAction.next,
               maxLength: 20,
               obscureText: true,

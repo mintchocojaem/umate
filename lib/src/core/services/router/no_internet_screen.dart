@@ -38,12 +38,12 @@ class _NoInternetScreenState extends State<NoInternetScreen>
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: themeData.colorScheme.background.withOpacity(0.01),
+      backgroundColor: Colors.black.withOpacity(0.1),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: themeData.colorScheme.surface,
+            color: Colors.grey[200],
             borderRadius: BorderRadius.circular(20),
           ),
           child: FadeTransition(

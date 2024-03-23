@@ -104,9 +104,9 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
                     controller: nicknameController,
                     labelText: '닉네임',
                     textInputAction: TextInputAction.next,
-                    helperText: "",
+                    helperText: '한글, 영문, 숫자 이용 가능 (2~16자)',
                     //reason for the height
-                    maxLength: 20,
+                    maxLength: 16,
                     validator: (value) {
                       return validateNickname(nickname: value);
                     },

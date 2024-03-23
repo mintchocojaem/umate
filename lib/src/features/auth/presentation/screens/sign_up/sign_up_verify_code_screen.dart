@@ -96,7 +96,7 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '문자로 받은\n인증번호 6자리를 입력해주세요',
+              '문자로 받은\n인증번호를 입력해주세요',
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -107,14 +107,14 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
                 Expanded(
                   child: OrbTextFormField(
                     controller: codeController,
-                    labelText: '인증번호(6자리 숫자)',
+                    labelText: '인증번호',
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.number,
                     maxLength: 6,
                     validator: (value) {
                       return validateCode(code: value);
                     },
-                    helperText: '',
+                    helperText: '6자리 숫자',
                   ),
                 ),
                 const SizedBox(width: 8),

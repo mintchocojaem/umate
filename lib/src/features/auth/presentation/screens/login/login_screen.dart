@@ -79,6 +79,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
               labelText: '학번',
               keyboardType: TextInputType.number,
               maxLength: 8,
+              textInputAction: TextInputAction.next,
               validator: (value) {
                 return validateStudentId(studentId: value);
               },
@@ -88,6 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
               controller: passwordController,
               labelText: '비밀번호',
               obscureText: true,
+              maxLength: 20,
               textInputAction: TextInputAction.done,
               validator: (value) {
                 return validatePassword(password: value);
