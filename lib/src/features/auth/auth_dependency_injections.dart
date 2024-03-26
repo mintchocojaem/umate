@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/services/network/network_client_service.dart';
+import '../../init_dependency_injections.dart';
 import 'data/data_sources/auth_remote_data_source.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'domain/use_cases/login_use_case.dart';

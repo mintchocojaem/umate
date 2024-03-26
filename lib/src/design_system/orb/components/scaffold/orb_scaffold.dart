@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/orb_theme.dart';
 import '../components.dart';
 
 class OrbScaffold extends StatelessWidget {
@@ -15,7 +16,6 @@ class OrbScaffold extends StatelessWidget {
   final bool scrollBody;
   final FloatingActionButton? floatingActionButton;
   final bool bottomPadding;
-  final Color? backgroundColor;
 
   const OrbScaffold({
     super.key,
@@ -31,19 +31,17 @@ class OrbScaffold extends StatelessWidget {
     this.scrollBody = true,
     this.floatingActionButton,
     this.bottomPadding = true,
-    this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData themeData = Theme.of(context);
+    Theme.of(context).brightness;
     return Scaffold(
       appBar: orbAppBar ?? const OrbAppBar(),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
-      backgroundColor: backgroundColor ?? themeData.colorScheme.background,
       body: SafeArea(
         bottom: bottomPadding,
         child: Stack(

@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
+
 import 'petition_post_model.dart';
 
-class PetitionBoardModel {
+@immutable
+final class PetitionBoardModel {
   final List<PetitionPostModel> content;
   final bool hasNext;
   final int totalPages;
@@ -10,7 +13,7 @@ class PetitionBoardModel {
   final bool first;
   final bool last;
 
-  PetitionBoardModel({
+  const PetitionBoardModel({
     required this.content,
     required this.hasNext,
     required this.totalPages,
