@@ -1,6 +1,15 @@
 import 'dart:async';
 
+import 'package:danvery/src/design_system/orb/theme/palette.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/orb_theme.dart';
+
+enum OrbButtonStyle {
+  primary,
+  secondary,
+  tertiary,
+}
 
 enum OrbButtonRadius {
   none,
@@ -17,33 +26,23 @@ enum OrbButtonSize {
 class OrbButton extends StatefulWidget {
   final Function() onPressed;
   final String? buttonText;
-  final Color? enabledBackgroundColor;
-  final Color? enabledForegroundColor;
-  final Color? disabledBackgroundColor;
-  final Color? disabledForegroundColor;
-  final TextStyle? buttonTextStyle;
   final bool disabled;
   final OrbButtonSize buttonSize;
   final Duration buttonCoolDown;
   final bool showCoolDownTime;
-  final Size? minimumSize;
   final OrbButtonRadius buttonRadius;
+  final OrbButtonStyle buttonStyle;
 
   const OrbButton({
     super.key,
     required this.onPressed,
-    this.enabledBackgroundColor,
-    this.enabledForegroundColor,
-    this.disabledBackgroundColor,
-    this.disabledForegroundColor,
     this.buttonText,
-    this.buttonTextStyle,
     this.disabled = false,
     this.buttonSize = OrbButtonSize.wide,
     this.buttonCoolDown = const Duration(seconds: 1),
     this.showCoolDownTime = false,
-    this.minimumSize,
     this.buttonRadius = OrbButtonRadius.normal,
+    this.buttonStyle = OrbButtonStyle.primary,
   });
 
   OrbButton copyWith({
@@ -95,7 +94,74 @@ class OrbPrimaryButtonState extends State<OrbButton> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData themeData = Theme.of(context);
+    final isLightMode = OrbTheme().getThemeMode(context) == OrbThemeMode.light;
+
+    final backgroundColor = isLightMode
+        ? switch (widget.disabled) {
+            true => LightPalette.lightGrayishBlue,
+            false => switch (widget.buttonStyle) {
+                OrbButtonStyle.primary => LightPalette.vividBlue,
+                OrbButtonStyle.secondary => LightPalette.lightSkyBlue,
+                OrbButtonStyle.tertiary => LightPalette.lightGrayishBlue,
+              },
+          }
+        : switch (widget.disabled) {
+            true => DarkPalette.eerieBlack,
+            false => switch (widget.buttonStyle) {
+                OrbButtonStyle.primary => DarkPalette.vividBlue,
+                OrbButtonStyle.secondary => DarkPalette.deepNavyBlue,
+                OrbButtonStyle.tertiary => DarkPalette.outerSpaceGray,
+              },
+          };
+    final foregroundColor = isLightMode
+        ? switch (widget.disabled) {
+            true => LightPalette.darkSlateGray,
+            false => switch (widget.buttonStyle) {
+                OrbButtonStyle.primary => LightPalette.pureWhite,
+                OrbButtonStyle.secondary => LightPalette.pureWhite,
+                OrbButtonStyle.tertiary => LightPalette.pureWhite,
+              },
+          }
+        : switch (widget.disabled) {
+            true => DarkPalette.cadetGray,
+            false => switch (widget.buttonStyle) {
+                OrbButtonStyle.primary => DarkPalette.pureWhite,
+                OrbButtonStyle.secondary => DarkPalette.pureWhite,
+                OrbButtonStyle.tertiary => DarkPalette.pureWhite,
+              },
+          };
+
+    final textStyle = switch (widget.buttonSize) {
+      OrbButtonSize.compact => OrbTextTheme.bodySmall,
+      OrbButtonSize.fit => OrbTextTheme.bodyMedium,
+      OrbButtonSize.wide => OrbTextTheme.bodyMedium,
+    };
+
+    final Size minimumSize = switch (widget.buttonSize) {
+      OrbButtonSize.compact => const Size(48, 32),
+      OrbButtonSize.fit => const Size(48, 48),
+      OrbButtonSize.wide => const Size(48, 52),
+    };
+
+    final double paddingHorizontal = switch (widget.buttonSize) {
+      OrbButtonSize.compact => 12,
+      OrbButtonSize.fit => 16,
+      OrbButtonSize.wide => 24,
+    };
+
+    final double paddingVertical = switch (widget.buttonSize) {
+      OrbButtonSize.compact => 8,
+      OrbButtonSize.fit => 10,
+      OrbButtonSize.wide => 12,
+    };
+
+    final BorderRadius borderRadius = BorderRadius.circular(
+      switch (widget.buttonRadius) {
+        OrbButtonRadius.none => 0,
+        OrbButtonRadius.small => 10,
+        OrbButtonRadius.normal => 15,
+      },
+    );
 
     final Widget button = FilledButton(
       onPressed: widget.disabled
@@ -128,53 +194,20 @@ class OrbPrimaryButtonState extends State<OrbButton> {
             },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
-          widget.disabled
-              ? widget.disabledBackgroundColor ??
-                  themeData.colorScheme.surfaceVariant
-              : widget.enabledBackgroundColor ?? themeData.colorScheme.primary,
-        ),
-        foregroundColor: MaterialStateProperty.all(
-          widget.disabled
-              ? widget.disabledForegroundColor ??
-                  themeData.colorScheme.onSurfaceVariant
-              : widget.enabledForegroundColor ??
-                  themeData.colorScheme.onPrimary,
-        ),
-        textStyle: MaterialStateProperty.all(
-          widget.buttonTextStyle ??
-              themeData.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          backgroundColor,
         ),
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(
-            horizontal: switch (widget.buttonSize) {
-              OrbButtonSize.compact => 12,
-              OrbButtonSize.fit => 16,
-              OrbButtonSize.wide => 24,
-            },
-            vertical: switch (widget.buttonSize) {
-              OrbButtonSize.compact => 8,
-              OrbButtonSize.fit => 10,
-              OrbButtonSize.wide => 12,
-            },
+            horizontal: paddingHorizontal,
+            vertical: paddingVertical,
           ),
         ),
         minimumSize: MaterialStateProperty.all(
-          widget.minimumSize ??
-              switch (widget.buttonSize) {
-                OrbButtonSize.compact => const Size(48, 32),
-                OrbButtonSize.fit => const Size(48, 40),
-                OrbButtonSize.wide => const Size(64, 48),
-              },
+          minimumSize,
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(switch (widget.buttonRadius) {
-              OrbButtonRadius.none => 0,
-              OrbButtonRadius.small => 10,
-              OrbButtonRadius.normal => 15,
-            }),
+            borderRadius: borderRadius,
           ),
         ),
       ),
@@ -183,16 +216,12 @@ class OrbPrimaryButtonState extends State<OrbButton> {
         child: Center(
           child: isLoading && !widget.showCoolDownTime
               ? SizedBox(
-                  width: themeData.textTheme.bodySmall?.fontSize,
-                  height: themeData.textTheme.bodySmall?.fontSize,
+                  width: textStyle.toTextStyle().fontSize,
+                  height: textStyle.toTextStyle().fontSize,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation(
-                      widget.disabled
-                          ? widget.disabledForegroundColor ??
-                              themeData.colorScheme.onPrimary
-                          : widget.enabledForegroundColor ??
-                              themeData.colorScheme.onPrimary,
+                      foregroundColor,
                     ),
                   ),
                 )
@@ -202,10 +231,22 @@ class OrbPrimaryButtonState extends State<OrbButton> {
                   ? Text(
                       _printDuration(coolDownTime),
                       overflow: TextOverflow.ellipsis,
+                      style: textStyle
+                          .copyWith(
+                            fontWeight: OrbFontWeight.regular,
+                            color: foregroundColor,
+                          )
+                          .toTextStyle(),
                     )
                   : Text(
                       widget.buttonText!,
                       overflow: TextOverflow.ellipsis,
+                      style: textStyle
+                          .copyWith(
+                            fontWeight: OrbFontWeight.regular,
+                            color: foregroundColor,
+                          )
+                          .toTextStyle(),
                     ),
         ),
       ),

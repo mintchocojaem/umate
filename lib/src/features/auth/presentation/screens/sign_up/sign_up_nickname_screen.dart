@@ -104,9 +104,9 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
                     controller: nicknameController,
                     labelText: '닉네임',
                     textInputAction: TextInputAction.next,
-                    helperText: '한글, 영문, 숫자 이용 가능 (2~16자)',
+                    helperText: "",
                     //reason for the height
-                    maxLength: 16,
+                    maxLength: 20,
                     validator: (value) {
                       return validateNickname(nickname: value);
                     },
@@ -117,8 +117,7 @@ class _SignUpNicknameScreenState extends ConsumerState<SignUpNicknameScreen>
                   buttonText: '중복확인',
                   buttonSize: OrbButtonSize.compact,
                   buttonRadius: OrbButtonRadius.small,
-                  enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
-                  enabledForegroundColor: themeData.colorScheme.onSurface,
+                  buttonStyle: OrbButtonStyle.tertiary,
                   onPressed: () async {
                     if (!formKey.currentState!.validate()) {
                       return;

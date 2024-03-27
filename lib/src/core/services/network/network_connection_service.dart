@@ -6,53 +6,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../router/router_service.dart';
 
-final networkConnectionServiceProvider = Provider<NetworkConnectionService>(
-  (ref) {
-    final networkService = NetworkConnectionService(
-      onNetworkConnectionFailed: () {
-        final routerService = ref.read(routerServiceProvider);
-        if (routerService.current.name != const NoInternetRoute().routeName) {
-          routerService.push(const NoInternetRoute());
-        }
-      },
-      onNetworkConnectionSuccess: () {
-        final routerService = ref.read(routerServiceProvider);
-        if (routerService.current.name == const NoInternetRoute().routeName) {
-          routerService.pop();
-        }
-      },
-    );
-    ref.onDispose(() {
-      networkService.dispose();
-    });
-    return networkService;
-  },
-);
-
-typedef OnNetworkConnectionFailed = void Function();
-
-typedef OnNetworkConnectionSuccess = void Function();
+final networkConnectionServiceProvider =
+    Provider<NetworkConnectionService>((ref) {
+  final networkService = NetworkConnectionService(
+    ref,
+  );
+  networkService.init();
+  return networkService;
+});
 
 class NetworkConnectionService {
-  final OnNetworkConnectionFailed onNetworkConnectionFailed;
-  final OnNetworkConnectionSuccess onNetworkConnectionSuccess;
+  final Ref ref;
+  final Connectivity _connectivity = Connectivity();
+  final StreamController _networkConnectionController =
+      StreamController<bool>.broadcast();
+  late final Timer _timer;
 
-  final _connectivity = Connectivity();
-  final _networkConnectionController = StreamController<bool>.broadcast();
+  NetworkConnectionService(this.ref);
 
-  bool _beforeInternetState = false;
-  bool _currentInternetState = false;
+  bool beforeInternetConnection = false;
+  bool currentInternetConnection = false;
 
-  NetworkConnectionService({
-    required this.onNetworkConnectionFailed,
-    required this.onNetworkConnectionSuccess,
-  }) {
-    _init();
-  }
+  int _count = 0;
 
-  Future<void> _init() async {
-    _beforeInternetState = await _getInternetConnection();
-    _currentInternetState = await _getInternetConnection();
+  Future<void> init() async {
+    beforeInternetConnection = await _getInternetConnection();
+    currentInternetConnection = await _getInternetConnection();
 
     Timer.periodic(const Duration(seconds: 5), (timer) async {
       final result = await _getInternetConnection();
@@ -60,37 +39,54 @@ class NetworkConnectionService {
     });
 
     _networkConnectionController.stream.listen((value) async {
-      if (_beforeInternetState != value) {
-        _beforeInternetState = _currentInternetState;
-        _currentInternetState = value;
+      if (beforeInternetConnection != value) {
+        beforeInternetConnection = currentInternetConnection;
+        currentInternetConnection = value;
 
         if (kDebugMode) {
           print(
-              'NetworkConnectionService > Internet Connection : ($_beforeInternetState) -> ($_currentInternetState)');
+              'NetworkConnectionService[$_count] > Internet Connection : ($beforeInternetConnection) -> ($currentInternetConnection)');
+          _count++;
         }
       }
 
-      if (_currentInternetState == false && _beforeInternetState == false) {
-        onNetworkConnectionFailed();
-      } else if (_currentInternetState == true &&
-          _beforeInternetState == true) {
-        onNetworkConnectionSuccess();
+      if (currentInternetConnection == false &&
+          beforeInternetConnection == false) {
+        _goToNoInternetScreen();
+      } else if (currentInternetConnection == true &&
+          beforeInternetConnection == true) {
+        _popNoInternetScreen();
       }
     });
   }
 
   void dispose() {
     _networkConnectionController.close();
+    _timer.cancel();
   }
 
   Future<bool> _getInternetConnection() async {
-    return await _connectivity.checkConnectivity().then((value) {
-      if (value == ConnectivityResult.wifi ||
-          value == ConnectivityResult.mobile) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    final connectivityResult = await _connectivity.checkConnectivity();
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _goToNoInternetScreen() {
+    final routerService = ref.read(routerServiceProvider);
+    if (routerService.current.name != const NoInternetRoute().routeName) {
+      routerService.push(const NoInternetRoute());
+    }
+  }
+
+  void _popNoInternetScreen() {
+    //여기 점검
+    final routerService = ref.read(routerServiceProvider);
+    if (routerService.current.name == const NoInternetRoute().routeName) {
+      routerService.pop();
+    }
   }
 }

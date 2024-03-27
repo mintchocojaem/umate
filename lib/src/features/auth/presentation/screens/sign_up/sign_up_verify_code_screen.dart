@@ -96,7 +96,7 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '문자로 받은\n인증번호를 입력해주세요',
+              '문자로 받은\n인증번호 6자리를 입력해주세요',
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -107,14 +107,14 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
                 Expanded(
                   child: OrbTextFormField(
                     controller: codeController,
-                    labelText: '인증번호',
+                    labelText: '인증번호(6자리 숫자)',
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.number,
                     maxLength: 6,
                     validator: (value) {
                       return validateCode(code: value);
                     },
-                    helperText: '6자리 숫자',
+                    helperText: '',
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -123,8 +123,7 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
                   buttonCoolDown: const Duration(seconds: 30),
                   buttonSize: OrbButtonSize.compact,
                   buttonRadius: OrbButtonRadius.small,
-                  enabledBackgroundColor: themeData.colorScheme.surfaceVariant,
-                  enabledForegroundColor: themeData.colorScheme.onSurface,
+                  buttonStyle: OrbButtonStyle.tertiary,
                   onPressed: () async {
                     await ref.read(signUpSendCodeProvider.notifier).sendCode(
                           signUpToken:
@@ -133,8 +132,6 @@ class _SignUpVerifyCodeScreenState extends ConsumerState<SignUpVerifyCodeScreen>
                         );
                   },
                   buttonText: '재전송',
-                  buttonTextStyle: themeData.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),

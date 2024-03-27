@@ -70,9 +70,8 @@ class OrbDialog extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    enabledBackgroundColor: theme.colorScheme.surfaceVariant,
-                    enabledForegroundColor: theme.colorScheme.onSurface,
                     buttonText: leftButtonText,
+                    buttonStyle: OrbButtonStyle.tertiary,
                   ),
                 ),
               ),
@@ -95,8 +94,7 @@ class OrbDialog extends StatelessWidget {
                       }
                     },
                     buttonText: rightButtonText,
-                    enabledBackgroundColor: theme.colorScheme.secondary,
-                    enabledForegroundColor: theme.colorScheme.onSecondary,
+                    buttonStyle: OrbButtonStyle.primary,
                   ),
                 ),
               ),

@@ -1,8 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/api_url.dart';
 import '../../utils/app_exception.dart';
+
+final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
+  final networkService = NetworkClientService();
+  return networkService;
+});
 
 enum RequestType {
   get("GET"),

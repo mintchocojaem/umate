@@ -113,7 +113,6 @@ class _SignUpSendCodeScreenState extends ConsumerState<SignUpSendCodeScreen>
               controller: phoneNumberController,
               maxLength: 11,
               labelText: '휴대폰 번호',
-              helperText: '11자리 숫자(- 없이 입력)',
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.phone,
               readOnly: false,

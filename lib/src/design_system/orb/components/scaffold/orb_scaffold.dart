@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/orb_theme.dart';
+import '../../theme/palette.dart';
 import '../components.dart';
 
 class OrbScaffold extends StatelessWidget {
@@ -36,12 +37,14 @@ class OrbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    Theme.of(context).brightness;
+    final isLightMode = OrbTheme().getThemeMode(context) == OrbThemeMode.light;
     return Scaffold(
       appBar: orbAppBar ?? const OrbAppBar(),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
+      backgroundColor:
+          isLightMode ? LightPalette.pureWhite : DarkPalette.charcoal,
       body: SafeArea(
         bottom: bottomPadding,
         child: Stack(

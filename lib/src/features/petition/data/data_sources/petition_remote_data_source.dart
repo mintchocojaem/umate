@@ -1,6 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/remote_data_source.dart';
 import '../dto/petition_board_dto.dart';
+
+final petitionRemoteDataSourceProvider =
+    Provider.autoDispose<PetitionRemoteDataSource>((ref) {
+  return PetitionRemoteDataSource(
+      networkClientService: ref.read(networkClientServiceProvider));
+});
 
 class PetitionRemoteDataSource extends RemoteDataSource {
   PetitionRemoteDataSource({required super.networkClientService});
@@ -24,7 +32,7 @@ class PetitionRemoteDataSource extends RemoteDataSource {
         'size': size,
         'sort': sort,
       },
-      fromJson: PetitionBoardDTO.fromJson,
+      fromJson: (json) => PetitionBoardDTO.fromJson(json),
     );
   }
 }

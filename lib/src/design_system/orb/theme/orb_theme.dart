@@ -1,78 +1,110 @@
-import 'package:danvery/src/design_system/orb/theme/palette.dart';
 import 'package:flutter/material.dart';
 
-class OrbTextTheme {
-  final OrbPalette _palette;
+enum OrbFontWeight {
+  light(FontWeight.w400),
+  regular(FontWeight.w500),
+  medium(FontWeight.w600),
+  bold(FontWeight.w900);
 
-  late final TextStyle headline;
-  late final TextStyle titleLarge;
-  late final TextStyle titleMedium;
-  late final TextStyle titleSmall;
-  late final TextStyle bodyLarge;
-  late final TextStyle bodyMedium;
-  late final TextStyle bodySmall;
-  late final TextStyle caption;
+  final FontWeight weight;
 
-  OrbTextTheme(this._palette) {
-    _init();
+  const OrbFontWeight(this.weight);
+}
+
+class OrbTextStyle {
+  final Color? color;
+  final double? fontSize;
+  final OrbFontWeight? fontWeight;
+
+  OrbTextStyle({
+    this.color,
+    this.fontSize,
+    this.fontWeight,
+  });
+
+  TextStyle toTextStyle() {
+    return TextStyle(
+      color: color,
+      fontSize: fontSize,
+      fontWeight: fontWeight?.weight,
+      fontFamily: 'SpoqaHanSansNeo',
+    );
   }
 
-  void _init() {
-    headline = TextStyle(
-      fontSize: 26,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w600,
-      color: _palette.title,
-    );
-    titleLarge = TextStyle(
-      fontSize: 24,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w500,
-      color: _palette.title,
-    );
-    titleMedium = TextStyle(
-      fontSize: 22,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w400,
-      color: _palette.title,
-    );
-    titleSmall = TextStyle(
-      fontSize: 20,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w400,
-      color: _palette.title,
-    );
-    bodyLarge = TextStyle(
-      fontSize: 18,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w300,
-      color: _palette.body,
-    );
-    bodyMedium = TextStyle(
-      fontSize: 16,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w300,
-      color: _palette.body,
-    );
-    bodySmall = TextStyle(
-      fontSize: 14,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w300,
-      color: _palette.body,
-    );
-    caption = TextStyle(
-      fontSize: 12,
-      fontFamily: 'SpoqaHanSansNeo',
-      fontWeight: FontWeight.w200,
-      color: _palette.hint,
+  OrbTextStyle copyWith({
+    Color? color,
+    double? fontSize,
+    OrbFontWeight? fontWeight,
+  }) {
+    return OrbTextStyle(
+      color: color ?? this.color,
+      fontSize: fontSize ?? this.fontSize,
+      fontWeight: fontWeight ?? this.fontWeight,
     );
   }
 }
 
-class OrbTheme {
+class OrbTextTheme {
+  static final headline = OrbTextStyle(
+    fontSize: 26,
+    fontWeight: OrbFontWeight.bold,
+  );
+  static final titleLarge = OrbTextStyle(
+    fontSize: 24,
+    fontWeight: OrbFontWeight.medium,
+  );
+  static final titleMedium = OrbTextStyle(
+    fontSize: 22,
+    fontWeight: OrbFontWeight.medium,
+  );
+  static final titleSmall = OrbTextStyle(
+    fontSize: 20,
+    fontWeight: OrbFontWeight.medium,
+  );
+  static final bodyLarge = OrbTextStyle(
+    fontSize: 18,
+    fontWeight: OrbFontWeight.regular,
+  );
+  static final bodyMedium = OrbTextStyle(
+    fontSize: 16,
+    fontWeight: OrbFontWeight.regular,
+  );
+  static final bodySmall = OrbTextStyle(
+    fontSize: 14,
+    fontWeight: OrbFontWeight.regular,
+  );
+  static final caption = OrbTextStyle(
+    fontSize: 12,
+    fontWeight: OrbFontWeight.light,
+  );
+}
 
-  of(context) {
-    return Theme.of(context);
+enum OrbThemeMode { light, dark, system }
+
+class OrbTheme {
+  OrbTheme._();
+
+  static final OrbTheme _instance = OrbTheme._();
+
+  factory OrbTheme() => _instance;
+
+  OrbThemeMode _themeMode = OrbThemeMode.system;
+
+  OrbTheme.setThemeMode(OrbThemeMode themeMode) {
+    _themeMode = themeMode;
   }
 
+  OrbThemeMode getThemeMode(BuildContext context) {
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    switch (_themeMode) {
+      case OrbThemeMode.light:
+        return OrbThemeMode.light;
+      case OrbThemeMode.dark:
+        return OrbThemeMode.dark;
+      case OrbThemeMode.system:
+        return brightness == Brightness.dark
+            ? OrbThemeMode.dark
+            : OrbThemeMode.light;
+    }
+  }
 }

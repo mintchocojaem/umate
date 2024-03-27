@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/services/network/network_connection_service.dart';
+import 'core/services/theme/theme_service.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});

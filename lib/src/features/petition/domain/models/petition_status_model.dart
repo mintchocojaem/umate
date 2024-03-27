@@ -1,8 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-import '../../../../core/utils/app_exception.dart';
-
-@immutable
 sealed class PetitionStatusModel {
   final String displayName;
   final String value;
@@ -15,18 +10,15 @@ sealed class PetitionStatusModel {
   factory PetitionStatusModel.fromJson(String json) {
     switch (json) {
       case 'ACTIVE':
-        return const PetitionActive();
+        return _PetitionActive();
       case 'WAITING':
-        return const PetitionWaiting();
+        return _PetitionWaiting();
       case 'ANSWERED':
-        return const PetitionAnswered();
+        return _PetitionAnswered();
       case 'EXPIRED':
-        return const PetitionExpired();
+        return _PetitionExpired();
       default:
-        throw AppError(
-          message: 'Unknown petition status: $json',
-          stackTrace: StackTrace.current,
-        );
+        throw Exception('Unknown petition status: $json');
     }
   }
 
@@ -34,30 +26,18 @@ sealed class PetitionStatusModel {
   String toString() => displayName;
 }
 
-class PetitionActive extends PetitionStatusModel {
-  const PetitionActive({
-    super.displayName = '진행 중',
-    super.value = 'ACTIVE',
-  });
+class _PetitionActive extends PetitionStatusModel {
+  _PetitionActive() : super(displayName: '진행 중', value: 'ACTIVE');
 }
 
-class PetitionWaiting extends PetitionStatusModel {
-  const PetitionWaiting({
-    super.displayName = '대기 중',
-    super.value = 'WAITING',
-  });
+class _PetitionWaiting extends PetitionStatusModel {
+  _PetitionWaiting() : super(displayName: '대기 중', value: 'WAITING');
 }
 
-class PetitionAnswered extends PetitionStatusModel {
-  const PetitionAnswered({
-    super.displayName = '답변 완료',
-    super.value = 'ANSWERED',
-  });
+class _PetitionAnswered extends PetitionStatusModel {
+  _PetitionAnswered() : super(displayName: '답변 완료', value: 'ANSWERED');
 }
 
-class PetitionExpired extends PetitionStatusModel {
-  const PetitionExpired({
-    super.displayName = '기간 만료',
-    super.value = 'EXPIRED',
-  });
+class _PetitionExpired extends PetitionStatusModel {
+  _PetitionExpired() : super(displayName: '기간 만료', value: 'EXPIRED');
 }
