@@ -4,6 +4,7 @@ import 'package:danvery/src/design_system/orb/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/orb_theme.dart';
+import '../components.dart';
 
 enum OrbButtonStyle {
   primary,
@@ -94,8 +95,7 @@ class OrbPrimaryButtonState extends State<OrbButton> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final isLightMode = OrbTheme().getThemeMode(context) == OrbThemeMode.light;
-
+    final isLightMode = OrbTheme().isLightMode(context);
     final backgroundColor = isLightMode
         ? switch (widget.disabled) {
             true => LightPalette.lightGrayishBlue,
@@ -115,7 +115,7 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           };
     final foregroundColor = isLightMode
         ? switch (widget.disabled) {
-            true => LightPalette.darkSlateGray,
+            true => LightPalette.slateGray,
             false => switch (widget.buttonStyle) {
                 OrbButtonStyle.primary => LightPalette.pureWhite,
                 OrbButtonStyle.secondary => LightPalette.pureWhite,
@@ -132,9 +132,9 @@ class OrbPrimaryButtonState extends State<OrbButton> {
           };
 
     final textStyle = switch (widget.buttonSize) {
-      OrbButtonSize.compact => OrbTextTheme.bodySmall,
-      OrbButtonSize.fit => OrbTextTheme.bodyMedium,
-      OrbButtonSize.wide => OrbTextTheme.bodyMedium,
+      OrbButtonSize.compact => OrbTextTheme.bodySmall(),
+      OrbButtonSize.fit => OrbTextTheme.bodyMedium(),
+      OrbButtonSize.wide => OrbTextTheme.bodyMedium(),
     };
 
     final Size minimumSize = switch (widget.buttonSize) {
@@ -216,8 +216,8 @@ class OrbPrimaryButtonState extends State<OrbButton> {
         child: Center(
           child: isLoading && !widget.showCoolDownTime
               ? SizedBox(
-                  width: textStyle.toTextStyle().fontSize,
-                  height: textStyle.toTextStyle().fontSize,
+                  width: textStyle.fontSize,
+                  height: textStyle.fontSize,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation(
@@ -228,25 +228,17 @@ class OrbPrimaryButtonState extends State<OrbButton> {
               : widget.buttonText != null &&
                       widget.showCoolDownTime &&
                       coolDownTime != Duration.zero
-                  ? Text(
+                  ? OrbText(
                       _printDuration(coolDownTime),
                       overflow: TextOverflow.ellipsis,
-                      style: textStyle
-                          .copyWith(
-                            fontWeight: OrbFontWeight.regular,
-                            color: foregroundColor,
-                          )
-                          .toTextStyle(),
+                      colorType: OrbTextColorType.title,
+                      textTheme: textStyle,
                     )
-                  : Text(
+                  : OrbText(
                       widget.buttonText!,
                       overflow: TextOverflow.ellipsis,
-                      style: textStyle
-                          .copyWith(
-                            fontWeight: OrbFontWeight.regular,
-                            color: foregroundColor,
-                          )
-                          .toTextStyle(),
+                      colorType: OrbTextColorType.disabled,
+                      textTheme: textStyle,
                     ),
         ),
       ),

@@ -11,72 +11,42 @@ enum OrbFontWeight {
   const OrbFontWeight(this.weight);
 }
 
-class OrbTextStyle {
+class OrbTextTheme {
+  final OrbFontWeight fontWeight;
+  final double fontSize;
   final Color? color;
-  final double? fontSize;
-  final OrbFontWeight? fontWeight;
+  final String fontFamily = 'SpoqaHanSansNeo';
 
-  OrbTextStyle({
+  const OrbTextTheme._({
+    required this.fontWeight,
+    required this.fontSize,
     this.color,
-    this.fontSize,
-    this.fontWeight,
   });
 
-  TextStyle toTextStyle() {
-    return TextStyle(
-      color: color,
-      fontSize: fontSize,
-      fontWeight: fontWeight?.weight,
-      fontFamily: 'SpoqaHanSansNeo',
-    );
-  }
+  factory OrbTextTheme.headline() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.bold, fontSize: 26, color: null);
 
-  OrbTextStyle copyWith({
-    Color? color,
-    double? fontSize,
-    OrbFontWeight? fontWeight,
-  }) {
-    return OrbTextStyle(
-      color: color ?? this.color,
-      fontSize: fontSize ?? this.fontSize,
-      fontWeight: fontWeight ?? this.fontWeight,
-    );
-  }
-}
+  factory OrbTextTheme.titleLarge() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.bold, fontSize: 24, color: null);
 
-class OrbTextTheme {
-  static final headline = OrbTextStyle(
-    fontSize: 26,
-    fontWeight: OrbFontWeight.bold,
-  );
-  static final titleLarge = OrbTextStyle(
-    fontSize: 24,
-    fontWeight: OrbFontWeight.medium,
-  );
-  static final titleMedium = OrbTextStyle(
-    fontSize: 22,
-    fontWeight: OrbFontWeight.medium,
-  );
-  static final titleSmall = OrbTextStyle(
-    fontSize: 20,
-    fontWeight: OrbFontWeight.medium,
-  );
-  static final bodyLarge = OrbTextStyle(
-    fontSize: 18,
-    fontWeight: OrbFontWeight.regular,
-  );
-  static final bodyMedium = OrbTextStyle(
-    fontSize: 16,
-    fontWeight: OrbFontWeight.regular,
-  );
-  static final bodySmall = OrbTextStyle(
-    fontSize: 14,
-    fontWeight: OrbFontWeight.regular,
-  );
-  static final caption = OrbTextStyle(
-    fontSize: 12,
-    fontWeight: OrbFontWeight.light,
-  );
+  factory OrbTextTheme.titleMedium() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.bold, fontSize: 22, color: null);
+
+  factory OrbTextTheme.titleSmall() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.medium, fontSize: 20, color: null);
+
+  factory OrbTextTheme.bodyLarge() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.regular, fontSize: 18, color: null);
+
+  factory OrbTextTheme.bodyMedium() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.regular, fontSize: 16, color: null);
+
+  factory OrbTextTheme.bodySmall() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.regular, fontSize: 14, color: null);
+
+  factory OrbTextTheme.caption() => const OrbTextTheme._(
+      fontWeight: OrbFontWeight.light, fontSize: 12, color: null);
+
 }
 
 enum OrbThemeMode { light, dark, system }
@@ -106,5 +76,13 @@ class OrbTheme {
             ? OrbThemeMode.dark
             : OrbThemeMode.light;
     }
+  }
+
+  bool isDarkMode(BuildContext context) {
+    return getThemeMode(context) == OrbThemeMode.dark;
+  }
+
+  bool isLightMode(BuildContext context) {
+    return getThemeMode(context) == OrbThemeMode.light;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
+import '../../../design_system/orb/theme/theme.dart';
+
 @RoutePage()
 class NoInternetScreen extends StatefulWidget {
   const NoInternetScreen({super.key});
@@ -36,14 +38,16 @@ class _NoInternetScreenState extends State<NoInternetScreen>
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
+    final isLightMode = OrbTheme().getThemeMode(context) == OrbThemeMode.light;
     return Scaffold(
-      backgroundColor: themeData.colorScheme.background.withOpacity(0.01),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: themeData.colorScheme.surface,
+            color: isLightMode
+                ? LightPalette.lightGrayishBlue
+                : DarkPalette.eerieBlack,
             borderRadius: BorderRadius.circular(20),
           ),
           child: FadeTransition(
@@ -51,7 +55,8 @@ class _NoInternetScreenState extends State<NoInternetScreen>
             child: Icon(
               Icons.wifi_off,
               size: 48,
-              color: themeData.colorScheme.error,
+              color:
+                  isLightMode ? LightPalette.brightRed : DarkPalette.brightRed,
             ),
           ),
         ),

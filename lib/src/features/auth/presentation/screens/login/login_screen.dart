@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,7 +7,9 @@ import '../../../../../core/services/router/router_service.dart';
 import '../../../../../core/services/snack_bar/snack_bar_service.dart';
 import '../../../../../core/utils/auth_validator.dart';
 import '../../../../../design_system/orb/orb.dart';
+import '../../../../../design_system/orb/theme/orb_theme.dart';
 import '../../../auth_dependency_injections.dart';
+import '../../../domain/models/token_model.dart';
 import '../../providers/states/login_state.dart';
 
 @RoutePage()
@@ -71,9 +74,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with AuthValidator {
           children: [
             Text(
               '로그인을 하기 위해\n학번과 비밀번호를 입력해주세요',
-              style: themeData.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              //colorType: OrbTextColorType.title,
+
             ),
             const SizedBox(height: 16),
             OrbTextFormField(

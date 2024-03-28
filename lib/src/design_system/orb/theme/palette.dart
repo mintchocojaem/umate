@@ -7,10 +7,10 @@ sealed class LightPalette {
   static const Color palePink = Color(0xFFFDEEEE); // sub error
   static const Color brightRed = Color(0xFFDE5257); // error
   static const Color pureWhite = Color(0xFFFFFFFF); // surface, dialog background, bottom sheet
-  static const Color lightGrayishBlue = Color(0xFFF3F4F6); // background, dialog surface
-  //static const Color coolGrey = Color(0xFFD2D6DA); // disabled button, general icons
+  static const Color lightGrayishBlue = Color(0xFFF3F4F6); // background, dialog surface, disabled button
+  //static const Color coolGrey = Color(0xFFD2D6DA); // general icons
   static const Color steelGray = Color(0xFFB2B8C0); // bottom icon, post icon, appbar icon
-  static const Color slateGray = Color(0xFF8D969F); // post hint, snack bar
+  static const Color slateGray = Color(0xFF8D969F); // post hint(x), snack bar, disabled button text
   static const Color darkSlateGray = Color(0xFF636E7E); // on snackBar
   static const Color deeperSlateGray = Color(0xFF505866); // post body, tonal button
   static const Color darkestSlateGray = Color(0xFF363D4C); // post subtitle
@@ -27,7 +27,7 @@ sealed class DarkPalette {
   static const Color silverSand = Color(0xFFE4E3E6); // post subtitle
   static const Color lightSlateGray = Color(0xFFC2C1C6); // post body
   static const Color steelGray = Color(0xFFB2B8C0); // post icon
-  static const Color cadetGray = Color(0xFF7E7F87); // post hint
+  static const Color cadetGray = Color(0xFF7E7F87); // disabled button text
   static const Color darkerSteelGray = Color(0xFF62626c); // bottom icon, appbar icon
   //static const Color onyxGray = Color(0xFF4D4D59); // general icon -> darkSteelGray
   static const Color gunmetalGray = Color(0xFF3C3C46); // snack bar

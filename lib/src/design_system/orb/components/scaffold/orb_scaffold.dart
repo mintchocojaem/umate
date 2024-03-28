@@ -37,7 +37,7 @@ class OrbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final isLightMode = OrbTheme().getThemeMode(context) == OrbThemeMode.light;
+    final isLightMode = OrbTheme().isLightMode(context);
     return Scaffold(
       appBar: orbAppBar ?? const OrbAppBar(),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,

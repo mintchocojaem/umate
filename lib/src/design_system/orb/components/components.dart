@@ -17,6 +17,9 @@ export 'tile/orb_card_tile.dart';
 //scaffold
 export 'scaffold/orb_scaffold.dart';
 
+//text
+export 'text/orb_text.dart';
+
 //textField
 export 'text_field/orb_text_field.dart';
 
