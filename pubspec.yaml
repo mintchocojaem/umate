@@ -1,5 +1,5 @@
-name: danvery
-description: Dankook Every.
+name: umate
+description: University Mate
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.8+9
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,33 +32,51 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  dio: ^5.0.1
-  intl: ^0.18.0
-  get: ^4.6.5
+  cupertino_icons: ^1.0.5
+
+  #route
+  go_router: ^14.0.1
+
+  #database
   get_storage: ^2.1.1
-  image_picker: ^0.8.7+1
-  url_launcher: ^6.1.10
-  flutter_switch: ^0.3.2
-  flutter_local_notifications: ^14.0.0+1
-  sms_autofill: ^2.3.0
-  permission_handler: ^10.2.0
-  pin_code_fields: ^7.4.0
-  animations: ^2.0.7
-  path_provider: ^2.0.14
-  fl_chart: ^0.62.0
+
+  #network
+  dio: ^5.1.1
+  internet_connection_checker: ^1.0.0+1
   mime_type: ^1.0.0
-  package_info_plus: ^3.1.2
-  device_info_plus: ^8.2.2
-  store_redirect: ^2.0.1
-  flutter_email_sender: ^5.2.0
-  firebase_core: ^2.7.0
-  firebase_messaging: ^14.2.5
-  firebase_analytics: ^10.1.5
-  firebase_crashlytics: ^3.2.0
+  url_launcher: ^6.1.14
+
+  #ui
+  confetti: ^0.7.0
+  carousel_slider: ^4.2.1
+  shimmer: ^3.0.0
+  flutter_local_notifications: ^17.0.0
+
+  #permission
+  image_picker: ^1.1.1
+  file_picker: ^8.0.0+1
+
+  #util
+  intl: ^0.19.0
+  gallery_saver: ^2.3.1
+  json_serializable: ^6.7.1
+  json_annotation: ^4.9.0
+  flutter_riverpod: ^2.5.1
+  http_parser: ^4.0.2
+
+  #firebase
+  firebase_core: ^2.27.0
+  firebase_messaging: ^14.7.19
+  firebase_analytics: ^10.8.9
+  firebase_crashlytics: ^3.4.18
+  firebase_performance: ^0.9.4+5
+
+  #orb:
+  #  git:
+  #    url: git@github.com:chocojaem/orb.git
+  #    ref: main
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +87,10 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
+  custom_lint:
+  riverpod_lint: ^2.3.10
+  build_runner: ^2.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -113,28 +134,18 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/icons/bottom_navigation_bar/selected/
-    - assets/icons/bottom_navigation_bar/unselected/
-    - assets/icons/main_icon_list/
-    - assets/icons/bus_list/
-    - assets/icons/user/
-    - assets/icons/splash/
-    - assets/icons/danvery/
-    - assets/icons/post/
-    - assets/icons/login/
     - assets/icons/
+    - assets/images/
   fonts:
-    - family: NotoSansKR
+    - family: SpoqaHanSansNeo
       fonts:
-        - asset: assets/fonts/NotoSansKR-Thin.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Thin.otf
           weight: 100
-        - asset: assets/fonts/NotoSansKR-Light.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
           weight: 300
-        - asset: assets/fonts/NotoSansKR-Regular.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
           weight: 400
-        - asset: assets/fonts/NotoSansKR-Medium.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
           weight: 500
-        - asset: assets/fonts/NotoSansKR-Bold.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
           weight: 700
-        - asset: assets/fonts/NotoSansKR-Black.otf
-          weight: 900
