@@ -1,36 +1,46 @@
+import 'package:dio/dio.dart';
+
 import '../../../../core/utils/use_case.dart';
-import '../models/petition_board_model.dart';
+import '../models/board.dart';
+import '../models/petition_post.dart';
+import '../models/petition_status.dart';
+import '../models/post_sort.dart';
 import '../repositories/petition_repository.dart';
 
 class GetPetitionBoardParams {
+  final CancelToken? cancelToken;
   final String? keyword;
-  final String? status;
-  final int? bodySize;
+  final PetitionStatus status;
   final int? page;
-  final int? size;
+  final List<PostSort>? sort;
 
   GetPetitionBoardParams({
+    this.cancelToken,
     this.keyword,
-    this.status,
-    this.bodySize,
+    required this.status,
     this.page,
-    this.size,
+    this.sort,
   });
 }
 
-class GetPetitionBoardUseCase extends UseCase<PetitionBoardModel, GetPetitionBoardParams>{
+class GetPetitionBoardUseCase
+    extends UseCase<Board<PetitionPost>, GetPetitionBoardParams> {
   final PetitionRepository petitionRepository;
 
-  GetPetitionBoardUseCase({required this.petitionRepository});
+  GetPetitionBoardUseCase({
+    required this.petitionRepository,
+  });
 
   @override
-  Future<PetitionBoardModel> execute(GetPetitionBoardParams params) async {
+  Future<Board<PetitionPost>> execute(GetPetitionBoardParams params) async {
     return await petitionRepository.getPetitionBoard(
+      cancelToken: params.cancelToken,
       keyword: params.keyword,
       status: params.status,
-      bodySize: params.bodySize,
+      bodySize: 100,
       page: params.page,
-      size: params.size,
+      size: 10,
+      sort: params.sort,
     );
   }
 }

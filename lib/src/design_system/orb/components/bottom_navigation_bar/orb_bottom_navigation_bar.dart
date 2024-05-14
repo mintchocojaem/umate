@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/orb_theme.dart';
+
 typedef OnIndexChanged = void Function(int index);
 
-class OrbBottomNavigationBar extends StatelessWidget {
+class OrbBottomNavigationBarItem {
+  final Widget icon;
+  final String label;
 
-  final List<BottomNavigationBarItem> items;
+  const OrbBottomNavigationBarItem({
+    required this.icon,
+    required this.label,
+  });
+
+  BottomNavigationBarItem toBottomNavigationBarItem() {
+    return BottomNavigationBarItem(
+      icon: icon,
+      label: label,
+    );
+  }
+}
+
+class OrbBottomNavigationBar extends StatelessWidget {
+  final List<OrbBottomNavigationBarItem> items;
   final OnIndexChanged? onIndexChanged;
   final int? currentIndex;
 
@@ -16,8 +34,9 @@ class OrbBottomNavigationBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+  build(BuildContext context) {
+    final theme = OrbTheme.of(context);
+    final currentPalette = theme.getCurrentPalette(context);
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -26,7 +45,7 @@ class OrbBottomNavigationBar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.onSurface,
+            color: theme.bottomNavigationBarTheme.borderColor,
             spreadRadius: 0,
             blurRadius: 1,
           ),
@@ -39,23 +58,27 @@ class OrbBottomNavigationBar extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
+            color: theme.bottomNavigationBarTheme.backgroundColor,
             boxShadow: [
               BoxShadow(
-                color: theme.colorScheme.onSurface.withOpacity(0.1),
+                color: theme.bottomNavigationBarTheme.borderColor,
                 blurRadius: 10,
               ),
             ],
           ),
           child: BottomNavigationBar(
-            backgroundColor: theme.colorScheme.surface,
+            backgroundColor: theme
+                .bottomNavigationBarTheme.backgroundColor,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
-            onTap: (value) => onIndexChanged?.call(value),
             currentIndex: currentIndex ?? 0,
-            items: items,
-            selectedItemColor: theme.colorScheme.primary,
+            selectedItemColor: currentPalette.primary,
+            unselectedItemColor: currentPalette.surface,
+            onTap: (value) {
+              onIndexChanged?.call(value);
+            },
+            items: items.map((e) => e.toBottomNavigationBarItem()).toList(),
           ),
         ),
       ),

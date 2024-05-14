@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../button/orb_button.dart';
-
+import '../../orb.dart';
 
 class OrbDialog extends StatelessWidget {
-
   final String title;
   final Widget content;
   final String? rightButtonText;
   final String? leftButtonText;
+  final Color?  rightButtonColor;
+  final Color?  leftButtonColor;
   final Future<bool> Function() onRightButtonPressed;
   final Future<bool> Function() onLeftButtonPressed;
 
@@ -18,6 +18,8 @@ class OrbDialog extends StatelessWidget {
     required this.content,
     this.rightButtonText,
     this.leftButtonText,
+    this.rightButtonColor,
+    this.leftButtonColor,
     required this.onRightButtonPressed,
     required this.onLeftButtonPressed,
   });
@@ -35,20 +37,17 @@ class OrbDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final ThemeData theme = Theme.of(context);
-
     bool disableButtonAction = false;
 
+    final theme = OrbTheme.of(context);
+    final currentPalette = theme.getCurrentPalette(context);
     return AlertDialog(
-      surfaceTintColor: theme.colorScheme.surface,
-      backgroundColor: theme.colorScheme.surface,
+      surfaceTintColor: theme.dialogTheme.backgroundColor,
+      backgroundColor: theme.dialogTheme.backgroundColor,
       insetPadding: const EdgeInsets.all(32),
       title: Text(
         title,
-        style: theme.textTheme.titleSmall?.copyWith(
-          color: theme.colorScheme.onSurface,
-          fontWeight: FontWeight.w600,
-        ),
+        style: theme.textTheme.titleMedium,
       ),
       content: content,
       actions: [
@@ -60,7 +59,8 @@ class OrbDialog extends StatelessWidget {
                 flex: 1,
                 child: SizedBox(
                   width: double.infinity,
-                  child: OrbButton(
+                  child: OrbFilledButton(
+                    backgroundColor: leftButtonColor ?? currentPalette.surface,
                     onPressed: () async {
                       if (disableButtonAction) return;
                       disableButtonAction = true;
@@ -70,20 +70,20 @@ class OrbDialog extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    buttonText: leftButtonText,
-                    buttonStyle: OrbButtonStyle.tertiary,
+                    text: leftButtonText!,
                   ),
                 ),
               ),
             SizedBox(
-                width:
-                    rightButtonText != null && leftButtonText != null ? 16 : 0),
+              width: rightButtonText != null && leftButtonText != null ? 16 : 0,
+            ),
             if (rightButtonText != null)
               Flexible(
                 flex: 1,
                 child: SizedBox(
                   width: double.infinity,
-                  child: OrbButton(
+                  child: OrbFilledButton(
+                    backgroundColor: rightButtonColor,
                     onPressed: () async {
                       if (disableButtonAction) return;
                       disableButtonAction = true;
@@ -93,8 +93,7 @@ class OrbDialog extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    buttonText: rightButtonText,
-                    buttonStyle: OrbButtonStyle.primary,
+                    text: rightButtonText!,
                   ),
                 ),
               ),

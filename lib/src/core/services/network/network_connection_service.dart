@@ -1,92 +1,73 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../router/router_service.dart';
 
 final networkConnectionServiceProvider =
     Provider<NetworkConnectionService>((ref) {
   final networkService = NetworkConnectionService(
-    ref,
+    onDisconnected: () {
+      final routerService = ref.read(routerServiceProvider);
+      final currentRoute = routerService
+          .routerDelegate.currentConfiguration.lastOrNull?.matchedLocation;
+      if (currentRoute != null &&
+          !currentRoute.contains(AppRoute.noInternet.path)) {
+        routerService.pushNamed(AppRoute.noInternet.name, closeKeyboard: false);
+      }
+    },
+    onConnected: () {
+      final routerService = ref.read(routerServiceProvider);
+      final currentRoute = routerService
+          .routerDelegate.currentConfiguration.lastOrNull?.matchedLocation;
+      if (currentRoute != null &&
+          currentRoute.contains(AppRoute.noInternet.path)) {
+        routerService.pop(closeKeyboard: false);
+      }
+    },
   );
   networkService.init();
+  ref.onDispose(() {
+    networkService.dispose();
+  });
   return networkService;
 });
 
 class NetworkConnectionService {
-  final Ref ref;
-  final Connectivity _connectivity = Connectivity();
-  final StreamController _networkConnectionController =
-      StreamController<bool>.broadcast();
-  late final Timer _timer;
+  late final StreamSubscription<InternetConnectionStatus> subscription;
 
-  NetworkConnectionService(this.ref);
+  final void Function() onConnected;
+  final void Function() onDisconnected;
 
-  bool beforeInternetConnection = false;
-  bool currentInternetConnection = false;
-
-  int _count = 0;
-
-  Future<void> init() async {
-    beforeInternetConnection = await _getInternetConnection();
-    currentInternetConnection = await _getInternetConnection();
-
-    Timer.periodic(const Duration(seconds: 5), (timer) async {
-      final result = await _getInternetConnection();
-      _networkConnectionController.add(result);
-    });
-
-    _networkConnectionController.stream.listen((value) async {
-      if (beforeInternetConnection != value) {
-        beforeInternetConnection = currentInternetConnection;
-        currentInternetConnection = value;
-
-        if (kDebugMode) {
-          print(
-              'NetworkConnectionService[$_count] > Internet Connection : ($beforeInternetConnection) -> ($currentInternetConnection)');
-          _count++;
-        }
+  NetworkConnectionService({
+    required this.onConnected,
+    required this.onDisconnected,
+  }) {
+    subscription = InternetConnectionChecker().onStatusChange.listen((status) {
+      if (kDebugMode) {
+        print('NetworkConnectionService > State : $status');
       }
-
-      if (currentInternetConnection == false &&
-          beforeInternetConnection == false) {
-        _goToNoInternetScreen();
-      } else if (currentInternetConnection == true &&
-          beforeInternetConnection == true) {
-        _popNoInternetScreen();
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          onConnected();
+          break;
+        case InternetConnectionStatus.disconnected:
+          onDisconnected();
+          break;
       }
     });
+  }
+
+  void init() {
+    InternetConnectionChecker.createInstance(
+      checkTimeout: const Duration(seconds: 5),
+      checkInterval: const Duration(seconds: 5),
+    );
   }
 
   void dispose() {
-    _networkConnectionController.close();
-    _timer.cancel();
-  }
-
-  Future<bool> _getInternetConnection() async {
-    final connectivityResult = await _connectivity.checkConnectivity();
-    if (connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void _goToNoInternetScreen() {
-    final routerService = ref.read(routerServiceProvider);
-    if (routerService.current.name != const NoInternetRoute().routeName) {
-      routerService.push(const NoInternetRoute());
-    }
-  }
-
-  void _popNoInternetScreen() {
-    //여기 점검
-    final routerService = ref.read(routerServiceProvider);
-    if (routerService.current.name == const NoInternetRoute().routeName) {
-      routerService.pop();
-    }
+    subscription.cancel();
   }
 }

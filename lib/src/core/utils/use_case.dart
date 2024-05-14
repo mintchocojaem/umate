@@ -7,12 +7,12 @@ import 'either.dart';
 
 abstract class UseCase<T, P> {
   @nonVirtual
-  Future<Either<T,AppException>> call(P params) async {
+  Future<Either<T, AppException>> call(P params) async {
     try {
       return Left(await execute(params));
     } on AppException catch (error) {
       if (kDebugMode) {
-        print('UseCase > message : ${error.message}, stackTrace : ${StackTrace.current}');
+        print('UseCase > message: ${error.message}, stackTrace: ${error.stackTrace}');
       }
       return Right(
         error,

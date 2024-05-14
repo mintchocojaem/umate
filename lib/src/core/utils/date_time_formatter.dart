@@ -2,17 +2,24 @@ import 'package:intl/intl.dart';
 
 mixin DateTimeFormatter {
 
-  static String dateFormatCompact(String dateTime) {
+  String dateFormatToRemaining(String dateTime) {
     final date = DateTime.parse(dateTime);
-    return DateFormat('yy.MM.dd').format(date);
+    final now = DateTime.now();
+    final difference = date.difference(now).inDays;
+    return difference > 0 ? 'D-$difference' : 'D-Day';
   }
 
-  static String dateFormatRelative(String dateTime) {
+  String dateFormatToCompact(String dateTime) {
+    final date = DateTime.parse(dateTime);
+    return DateFormat('yyyy.MM.dd').format(date);
+  }
+
+  String dateFormatToRelative(String dateTime) {
     final date = DateTime.parse(dateTime);
     final now = DateTime.now();
     final difference = now.difference(date);
     if (difference.inDays > 0) {
-      return DateFormat('MM.dd').format(date);
+      return DateFormat('yyyy.MM.dd').format(date);
     } else if (difference.inHours > 0) {
       return '${difference.inHours}시간 전';
     } else if (difference.inMinutes > 0) {

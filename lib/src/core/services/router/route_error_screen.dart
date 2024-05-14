@@ -1,14 +1,14 @@
-import 'package:auto_route/annotations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
 class RouteErrorScreen extends StatefulWidget {
   final String errorMessage;
   final String reasonMessage;
 
-  const RouteErrorScreen(
-      {super.key, this.errorMessage = 'Route Error', this.reasonMessage = '해당 페이지로 접근할 수 없어요.'});
+  const RouteErrorScreen({
+    super.key,
+    this.errorMessage = 'Route Error',
+    this.reasonMessage = '해당 페이지로 접근할 수 없어요.',
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -18,7 +18,6 @@ class RouteErrorScreen extends StatefulWidget {
 
 class _RouteErrorScreenState extends State<RouteErrorScreen>
     with SingleTickerProviderStateMixin {
-
   late final AnimationController _animationController;
 
   @override

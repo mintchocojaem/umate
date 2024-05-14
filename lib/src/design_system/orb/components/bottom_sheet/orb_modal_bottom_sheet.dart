@@ -1,83 +1,98 @@
 import 'package:flutter/material.dart';
 
+import '../../orb.dart';
+
+Future<void> showOrbModalBottomSheet(BuildContext context, Widget child) async {
+  await OrbModalBottomSheet._show(context, child);
+}
+
 class OrbModalBottomSheet extends StatelessWidget {
+  final Widget? child;
+  final Widget? leading;
+  final Widget? trailing;
+  final double? height;
+  final bool showDragHandle;
+  final String? titleText;
+  final bool centerTitle;
+
   const OrbModalBottomSheet({
     super.key,
     this.child,
-    this.topAction,
+    this.leading,
+    this.trailing,
     this.height,
-    this.showTopDragHolder = true,
+    this.showDragHandle = true,
     this.titleText,
+    this.centerTitle = false,
   });
 
-  final Widget? child;
-  final Widget? topAction;
-  final double? height;
-  final bool showTopDragHolder;
-  final String? titleText;
-
-  Future<void> show(context) async {
+  static Future<void> _show(BuildContext context, Widget child) async {
+    final theme = OrbTheme.of(context);
     await showModalBottomSheet(
       context: context,
-      builder: (context) => OrbModalBottomSheet(
-        showTopDragHolder: showTopDragHolder,
-        titleText: titleText,
-        topAction: topAction,
-        height: height,
-        child: child,
-      ),
+      showDragHandle: true,
+      backgroundColor: theme.bottomSheetTheme.backgroundColor,
+      isScrollControlled: true,
+      elevation: 0,
+      builder: (_) {
+        return child;
+      },
     );
+  }
+
+  Future<void> show(BuildContext context) async {
+    await _show(context, this);
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: height ?? MediaQuery.of(context).size.height * 0.6,
-      decoration: BoxDecoration(
-        color: themeData.colorScheme.background,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
+    final theme = OrbTheme.of(context);
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: 16,
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            showTopDragHolder ? Container(
-              height: 4,
-              width: 56,
-              margin: const EdgeInsets.only(top: 16),
-              decoration: BoxDecoration(
-                color: themeData.colorScheme.onSurface.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ) : const SizedBox(),
-            titleText != null ? Column(
+            Stack(
+              alignment: Alignment.center,
               children: [
-                const SizedBox(
-                  height: 24,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    titleText!,
-                    style: themeData.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                leading != null
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: leading!,
+                      )
+                    : const SizedBox(),
+                titleText != null
+                    ? Align(
+                        alignment: centerTitle || leading != null
+                            ? Alignment.center
+                            : Alignment.centerLeft,
+                        child: Text(
+                          titleText!,
+                          style: theme.textTheme.titleMedium,
+                        ),
+                      )
+                    : const SizedBox(),
+                if (trailing != null)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: trailing!,
                   ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
               ],
-            ) : const SizedBox(),
-            if (topAction != null) topAction!,
-            Expanded(
-              child: child ?? const SizedBox(),
             ),
+            if (leading != null || titleText != null || trailing != null)
+              const SizedBox(height: 16),
+            if (child != null) child!,
           ],
         ),
       ),

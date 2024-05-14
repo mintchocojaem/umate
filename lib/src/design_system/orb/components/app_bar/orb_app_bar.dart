@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../orb.dart';
+
 class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final String title;
   final Widget? trailing;
   final bool centerTitle;
-  final bool showLoadingIndicator;
   final Color? backgroundColor;
+  final bool isLoading;
+  final Color? titleColor;
 
   const OrbAppBar({
     super.key,
@@ -15,25 +18,39 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.trailing,
     this.centerTitle = false,
-    this.showLoadingIndicator = false,
+    this.isLoading = false,
     this.backgroundColor,
+    this.titleColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
+    final theme = OrbTheme.of(context);
     return AppBar(
-      automaticallyImplyLeading: true,
-      backgroundColor: backgroundColor ?? Colors.transparent,
+      backgroundColor: backgroundColor ?? theme.appbarTheme.backgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
-      leading: leading,
+      leading: leading ??
+          (ModalRoute.of(context)?.canPop ?? false
+              ? IconButton(
+                  icon: OrbIcon(
+                    Icons.arrow_back_ios,
+                    color: theme.appbarTheme.iconColor,
+                  ),
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    await Future.delayed(const Duration(milliseconds: 100));
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                )
+              : null),
       centerTitle: centerTitle,
-      title: Text(
+      title: OrbText(
         title,
-        style: themeData.textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        type: OrbTextType.titleMedium,
+        color: titleColor,
       ),
       actions: [
         Padding(
@@ -41,16 +58,16 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: trailing ?? const SizedBox(),
         ),
       ],
-      bottom: showLoadingIndicator
+      bottom: isLoading
           ? PreferredSize(
               preferredSize: const Size.fromHeight(2),
               child: Shimmer.fromColors(
-                baseColor: themeData.colorScheme.surface,
-                highlightColor: themeData.colorScheme.primary,
+                baseColor: theme.appbarTheme.loadingBarBaseColor,
+                highlightColor: theme.appbarTheme.loadingBarHighlightColor,
                 child: LinearProgressIndicator(
                   minHeight: 2,
                   value: 1,
-                  color:  themeData.colorScheme.primary,
+                  color: theme.appbarTheme.loadingBarBaseColor,
                 ),
               ),
             )

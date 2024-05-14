@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
 
-import 'orb_container.dart';
+import '../../orb.dart';
 
-class OrbBoardContainer extends StatelessWidget implements OrbContainer {
-  @override
+class OrbBoardContainer extends StatelessWidget {
   final Widget? title;
-  final String? titleText;
-  @override
   final Widget? info;
-  final String? infoText;
   final Color? infoColor;
-  @override
   final Widget? child;
-  @override
   final Decoration? decoration;
-  @override
   final Widget? trailing;
-  @override
   final VoidCallback? onTap;
+  final BorderRadius? borderRadius;
+  final Color? backgroundColor;
 
-  const OrbBoardContainer(
-      {super.key,
-      this.title,
-      this.titleText,
-      this.info,
-      this.infoText,
-      this.infoColor,
-      this.decoration,
-      this.trailing,
-      this.child,
-      this.onTap});
+  const OrbBoardContainer({
+    super.key,
+    this.title,
+    this.info,
+    this.infoColor,
+    this.decoration,
+    this.trailing,
+    this.child,
+    this.onTap,
+    this.borderRadius,
+    this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData themeData = Theme.of(context);
+    final theme = OrbTheme.of(context);
     return AnimatedSize(
-      key: key,
       alignment: Alignment.topCenter,
       duration: const Duration(milliseconds: 500),
       curve: Curves.fastOutSlowIn,
@@ -46,8 +40,9 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
         decoration: decoration != null
             ? decoration!
             : BoxDecoration(
-                color: themeData.colorScheme.surface,
-                borderRadius: BorderRadius.circular(15),
+                color: backgroundColor ??
+                    theme.boardContainerTheme.backgroundColor,
+                borderRadius: borderRadius ?? BorderRadius.circular(15),
               ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,25 +52,10 @@ class OrbBoardContainer extends StatelessWidget implements OrbContainer {
               child: Row(
                 children: [
                   if (title != null) title!,
-                  if (titleText != null)
-                    Text(
-                      titleText!,
-                      style: themeData.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
                   SizedBox(
-                    width: (info != null) || (infoText != null) ? 8 : 0,
+                    width: (info != null) ? 8 : 0,
                   ),
                   if (info != null) info!,
-                  if (infoText != null)
-                    Text(
-                      infoText!,
-                      style: themeData.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: infoColor ?? themeData.colorScheme.primary,
-                      ),
-                    ),
                   const Spacer(),
                   if (trailing != null) trailing!,
                 ],

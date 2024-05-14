@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../orb.dart';
+
 class OrbShimmerContent extends StatelessWidget {
   final double contentWidth;
   final double contentHeight;
@@ -20,12 +22,12 @@ class OrbShimmerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final ThemeData themeData = Theme.of(context);
+    final theme = OrbTheme.of(context);
     return Padding(
       padding: padding ?? const EdgeInsets.all(16),
       child: Shimmer.fromColors(
-        baseColor: themeData.colorScheme.surfaceVariant,
-        highlightColor: themeData.colorScheme.surface,
+        baseColor: theme.shimmerTheme.baseColor,
+        highlightColor: theme.shimmerTheme.highlightColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,7 +35,7 @@ class OrbShimmerContent extends StatelessWidget {
               width: contentWidth,
               height: contentHeight,
               decoration: BoxDecoration(
-                color: themeData.colorScheme.onSurface,
+                color: theme.shimmerTheme.highlightColor,
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
@@ -48,7 +50,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: double.infinity,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: themeData.colorScheme.onSurface,
+                      color: theme.shimmerTheme.highlightColor,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -59,7 +61,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: double.infinity,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: themeData.colorScheme.onSurface,
+                      color: theme.shimmerTheme.highlightColor,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -70,7 +72,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: themeData.colorScheme.onSurface,
+                      color: theme.shimmerTheme.highlightColor,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),

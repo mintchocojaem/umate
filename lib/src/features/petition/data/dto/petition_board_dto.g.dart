@@ -12,10 +12,10 @@ PetitionBoardDTO _$PetitionBoardDTOFromJson(Map<String, dynamic> json) =>
           .map((e) => PetitionPostDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasNext: json['hasNext'] as bool,
-      totalPages: json['totalPages'] as int,
-      totalElements: json['totalElements'] as int,
-      page: json['page'] as int,
-      size: json['size'] as int,
+      page: (json['page'] as num).toInt(),
+      size: (json['size'] as num).toInt(),
+      totalElements: (json['totalElements'] as num).toInt(),
+      totalPages: (json['totalPages'] as num).toInt(),
       first: json['first'] as bool,
       last: json['last'] as bool,
     );

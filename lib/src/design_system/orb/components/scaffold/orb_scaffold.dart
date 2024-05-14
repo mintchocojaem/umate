@@ -1,95 +1,85 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/orb_theme.dart';
-import '../../theme/palette.dart';
-import '../components.dart';
+import '../../orb.dart';
 
 class OrbScaffold extends StatelessWidget {
-  final OrbAppBar? orbAppBar;
-  final Widget? body;
+  final OrbAppBar? appBar;
+  final Widget body;
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
-  final Widget? submitButton;
-  final Widget? submitButtonOnKeyboard;
-  final Widget? submitHelper;
-  final ScrollController? scrollController;
-  final bool shrinkWrap;
-  final bool scrollBody;
   final FloatingActionButton? floatingActionButton;
-  final bool bottomPadding;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final EdgeInsets padding;
+  final bool disableSafeAreaBottom;
+  final Color? backgroundColor;
+  final bool extendBodyBehindAppBar;
+  final bool extendBodyBehindTitle;
+  final String? title;
 
   const OrbScaffold({
     super.key,
-    this.orbAppBar = const OrbAppBar(),
-    this.body,
+    this.appBar,
+    required this.body,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = false,
-    this.submitButton,
-    this.submitButtonOnKeyboard,
-    this.submitHelper,
-    this.scrollController,
-    this.shrinkWrap = false,
-    this.scrollBody = true,
     this.floatingActionButton,
-    this.bottomPadding = true,
+    this.disableSafeAreaBottom = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16),
+    this.floatingActionButtonLocation,
+    this.backgroundColor,
+    this.extendBodyBehindAppBar = false,
+    this.extendBodyBehindTitle = false,
+    this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final isLightMode = OrbTheme().isLightMode(context);
+    final theme = OrbTheme.of(context);
     return Scaffold(
-      appBar: orbAppBar ?? const OrbAppBar(),
+      appBar: appBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
-      backgroundColor:
-          isLightMode ? LightPalette.pureWhite : DarkPalette.charcoal,
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      backgroundColor: backgroundColor ?? theme.scaffoldTheme.backgroundColor,
       body: SafeArea(
-        bottom: bottomPadding,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: scrollBody
-                        ? SingleChildScrollView(
-                            controller: scrollController,
-                            child: shrinkWrap
-                                ? body
-                                : IntrinsicHeight(
-                                    child: body,
-                                  ),
-                          )
-                        : body,
-                  ),
-                ),
-                if (submitButton != null)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        submitButton!,
-                        submitHelper ?? const SizedBox(),
-                      ],
+        top: !extendBodyBehindAppBar,
+        bottom: !disableSafeAreaBottom,
+        child: Padding(
+          padding: padding,
+          child: extendBodyBehindTitle
+              ? Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (title != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: OrbText(
+                          title!,
+                          type: OrbTextType.titleMedium,
+                        ),
+                      ),
+                    body,
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (title != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: OrbText(
+                          title!,
+                          type: OrbTextType.titleMedium,
+                        ),
+                      ),
+                    Expanded(
+                      child: body,
                     ),
-                  ),
-              ],
-            ),
-            if (MediaQuery.of(context).viewInsets.bottom > 0 &&
-                submitButtonOnKeyboard != null)
-              Positioned(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 0,
-                right: 0,
-                child: submitButtonOnKeyboard!,
-              ),
-          ],
+                  ],
+                ),
         ),
       ),
     );

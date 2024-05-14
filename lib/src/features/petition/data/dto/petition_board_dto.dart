@@ -1,42 +1,35 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../../core/utils/data_mapper.dart';
-import '../../domain/models/petition_board_model.dart';
+import '../../domain/models/board.dart';
+import '../../domain/models/petition_post.dart';
+import 'board _dto.dart';
 import 'petition_post_dto.dart';
 
 part 'petition_board_dto.g.dart';
 
 @JsonSerializable()
-class PetitionBoardDTO extends DataMapper<PetitionBoardModel>{
-
-  final List<PetitionPostDTO> content;
-  final bool hasNext;
-  final int totalPages;
-  final int totalElements;
-  final int page;
-  final int size;
-  final bool first;
-  final bool last;
+class PetitionBoardDTO extends BoardDTO<PetitionPostDTO> {
 
   PetitionBoardDTO({
-    required this.content,
-    required this.hasNext,
-    required this.totalPages,
-    required this.totalElements,
-    required this.page,
-    required this.size,
-    required this.first,
-    required this.last,
+    required super.content,
+    required super.hasNext,
+    required super.page,
+    required super.size,
+    required super.totalElements,
+    required super.totalPages,
+    required super.first,
+    required super.last,
   });
 
-  factory PetitionBoardDTO.fromJson(Map<String, dynamic> json) => _$PetitionBoardDTOFromJson(json);
+  factory PetitionBoardDTO.fromJson(Map<String, dynamic> json) =>
+      _$PetitionBoardDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$PetitionBoardDTOToJson(this);
 
   @override
-  PetitionBoardModel mapToModel() {
-    return PetitionBoardModel(
+  Board<PetitionPost> mapToModel() {
+    // TODO: implement mapToModel
+    return Board(
       content: content.map((e) => e.mapToModel()).toList(),
       hasNext: hasNext,
       totalPages: totalPages,
@@ -47,5 +40,4 @@ class PetitionBoardDTO extends DataMapper<PetitionBoardModel>{
       last: last,
     );
   }
-
 }

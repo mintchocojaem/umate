@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 @immutable
-sealed class AppException{
+abstract class AppException {
   final String message;
   final StackTrace stackTrace;
 
@@ -12,21 +12,21 @@ sealed class AppException{
 }
 
 final class AppError extends AppException {
-  @override
-  toString() => 'AppException: message = $message, stackTrace = $stackTrace';
-
   const AppError({
     final String? message,
     required super.stackTrace,
   }) : super(message: message ?? '알 수 없는 오류가 발생했어요.');
+
+  @override
+  toString() => 'AppError > message : $message, stackTrace : $stackTrace';
 }
 
 final class AppWarning extends AppException {
-  @override
-  toString() => 'AppWarning: message = $message, stackTrace = $stackTrace';
-
   const AppWarning({
     final String? message,
     required super.stackTrace,
   }) : super(message: message ?? '알 수 없는 경고가 발생했어요.');
+
+  @override
+  toString() => 'AppWarning > message : $message, stackTrace : $stackTrace';
 }

@@ -1,40 +1,78 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../design_system/orb/components/bottom_navigation_bar/orb_bottom_navigation_bar.dart';
+import '../../../design_system/orb/orb.dart';
+import '../../../features/petition/presentation/screens/coalition_board_screen.dart';
+import '../../../features/petition/presentation/screens/notice_board_screen.dart';
+import '../../../features/petition/presentation/screens/petition_board_screen.dart';
+import 'router_service.dart';
 
-@RoutePage()
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final StatefulNavigationShell navigationShell;
+
+  const MainScreen({
+    super.key,
+    required this.navigationShell,
+  });
+
+  void _goBranch(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
-      homeIndex: 0,
-      physics: const NeverScrollableScrollPhysics(),
-      routes: const [
-        //HomeRoute(),
-        //PetitionBoardRoute(),
-      ],
-      builder: (context, child, animation) {
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: OrbBottomNavigationBar(
-            currentIndex: context.tabsRouter.activeIndex,
-            onIndexChanged: (index) {
-              context.tabsRouter.setActiveIndex(index);
-            },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment), label: "게시판"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.space_dashboard), label: "시간표"),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "내 정보"),
-            ],
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: OrbBottomNavigationBar(
+        currentIndex: navigationShell.currentIndex,
+        onIndexChanged: (index) {
+          if (index != navigationShell.currentIndex) {
+            _goBranch(index);
+          } else {
+            //print path
+            final currentPath = GoRouter.of(context)
+                .routerDelegate
+                .currentConfiguration
+                .fullPath;
+            if (currentPath.contains(AppRoute.noticeBoard.path)) {
+              scrollUpNoticeBoard();
+            } else if (currentPath.contains(AppRoute.coalitionBoard.path)) {
+              scrollUpCoalitionBoard();
+            } else if (currentPath.contains(AppRoute.petitionBoard.path)) {
+              scrollUpPetitionBoard();
+            }
+          }
+        },
+        items: const [
+          OrbBottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage("assets/icons/bottom_nav_home.png"),
+            ),
+            label: "홈",
           ),
-        );
-      },
+          OrbBottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage("assets/icons/bottom_nav_board.png"),
+            ),
+            label: "게시판",
+          ),
+          OrbBottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage("assets/icons/bottom_nav_timetable.png"),
+            ),
+            label: "시간표",
+          ),
+          OrbBottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage("assets/icons/bottom_nav_profile.png"),
+            ),
+            label: "내 정보",
+          ),
+        ],
+      ),
     );
   }
 }

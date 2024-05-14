@@ -1,19 +1,17 @@
-import 'package:danvery/src/features/petition/domain/models/petition_status_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../../core/utils/data_mapper.dart';
-import '../../domain/models/petition_post_model.dart';
+import '../../domain/models/petition_post.dart';
+import '../../domain/models/petition_status.dart';
+import 'post_dto.dart';
+import 'post_file_dto.dart';
+import 'post_image_dto.dart';
 
 part 'petition_post_dto.g.dart';
 
 @JsonSerializable()
-class PetitionPostDTO extends DataMapper<PetitionPostModel> {
-  final int id;
-  final String title;
-  final String author;
-  final String body;
+class PetitionPostDTO extends PostDTO{
+
   final String? answer;
-  final String createdAt;
   //files
   //images
   final String status;
@@ -21,23 +19,25 @@ class PetitionPostDTO extends DataMapper<PetitionPostModel> {
   final int agreeCount;
   //statistics
   final bool agree;
-  final bool mine;
-  final bool blinded;
 
   PetitionPostDTO({
-    required this.id,
-    required this.title,
-    required this.author,
-    required this.body,
-    required this.answer,
-    required this.createdAt,
+    required super.id,
+    required super.title,
+    required super.author,
+    required super.body,
+    required super.createdAt,
+    super.files,
+    super.images,
+    required super.views,
+    required super.mine,
+    required super.blinded,
+    this.answer,
     required this.status,
     required this.expiresAt,
-    required this.agreeCount,
-    required this.agree,
-    required this.mine,
-    required this.blinded,
+    this.agreeCount = 0,
+    this.agree = false,
   });
+
 
   factory PetitionPostDTO.fromJson(Map<String, dynamic> json) =>
       _$PetitionPostDTOFromJson(json);
@@ -45,20 +45,23 @@ class PetitionPostDTO extends DataMapper<PetitionPostModel> {
   Map<String, dynamic> toJson() => _$PetitionPostDTOToJson(this);
 
   @override
-  PetitionPostModel mapToModel() {
-    return PetitionPostModel(
+  PetitionPost mapToModel() {
+    return PetitionPost(
       id: id,
       title: title,
       author: author,
       body: body,
+      views: views,
+      mine: mine,
+      blinded: blinded,
       answer: answer,
       createdAt: createdAt,
-      status: PetitionStatusModel.fromJson(status),
+      files: files.map((e) => e.mapToModel()).toList(),
+      images: images.map((e) => e.mapToModel()).toList(),
+      status: PetitionStatus.fromValue(status),
       expiresAt: expiresAt,
       agreeCount: agreeCount,
       agree: agree,
-      mine: mine,
-      blinded: blinded,
     );
   }
 }
