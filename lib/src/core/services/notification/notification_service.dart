@@ -24,20 +24,19 @@ class NotificationService {
     importance: Importance.high,
   );
 
-  //singleton
+  NotificationService._internal();
+
   static final NotificationService _instance = NotificationService._internal();
 
   factory NotificationService() {
     return _instance;
   }
 
-  NotificationService._internal();
-
-  init() async {
-    await plugin
+  static init() async {
+    await _instance.plugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+        ?.createNotificationChannel(_instance.channel);
 
     // iOS foreground notification 권한
     await FirebaseMessaging.instance
@@ -57,7 +56,7 @@ class NotificationService {
       sound: true,
     );
     // 토큰 요청
-    await getToken();
+    await _instance.getToken();
   }
 
   Future<void> getToken() async {
@@ -68,7 +67,7 @@ class NotificationService {
 
     if (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.web) {
       token = await messaging.getToken(
-        vapidKey: _vapidKey,
+        vapidKey: _instance._vapidKey,
       );
     } else {
       token = await messaging.getToken();
@@ -93,36 +92,19 @@ class NotificationService {
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null && !kIsWeb) {
       // 웹이 아니면서 안드로이드이고, 알림이 있는경우
-      plugin.show(
+      _instance.plugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
+            _instance.channel.id,
+            _instance.channel.name,
+            channelDescription: _instance.channel.description,
             icon: '@drawable/ic_notification',
           ),
         ),
       );
     }
-  }
-}
-
-@pragma('vm:entry-point')
-Future<void> onBackgroundMessage(RemoteMessage message) async {
-// If you're going to use other Firebase services in the background, such as Firestore,
-// make sure you call `initializeApp` before using other Firebase services.
-  if (kDebugMode) {
-    print("Handling a background message: ${message.messageId}");
-    NotificationService().showLocalNotification(message);
-  }
-}
-
-void onMessage(RemoteMessage message) {
-  if (kDebugMode) {
-    print("Handling a foreground message: ${message.messageId}");
-    NotificationService().showLocalNotification(message);
   }
 }

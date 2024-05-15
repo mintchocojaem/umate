@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,6 +22,7 @@ import '../../../features/user/presentation/screens/sign_up/sign_up_complete_scr
 import '../../../features/user/presentation/screens/sign_up/sign_up_screen.dart';
 import '../../../features/user/presentation/screens/sign_up/verify_student_screen.dart';
 import '../../../features/user/user_dependency_injections.dart';
+import '../../../init_dependency_injections.dart';
 import 'board_screen.dart';
 import '../../../features/petition/presentation/screens/petition_post_screen.dart';
 import '../../../features/petition/presentation/screens/post_search_screen.dart';
@@ -40,9 +42,17 @@ final routerServiceProvider = Provider<RouterService>(
     return RouterService(
       redirect: (context, state) async {
         if (!state.uri.path.contains(AppRoute.noInternet.path) &&
-            !state.uri.path.contains(AppRoute.login.path) &&
-            ref.read(loginProvider) is! LoginSuccessState) {
-          await ref.read(loginProvider.notifier).autoLogin();
+            !state.uri.path.contains(AppRoute.login.path)) {
+          final storageService = ref.read(storageServiceProvider);
+
+          if (ref.read(loginProvider) is! LoginSuccessState &&
+              storageService.read('token') != null) {
+            await ref.read(loginProvider.notifier).autoLogin();
+            //remove flash screen
+            FlutterNativeSplash.remove();
+          }else{
+            FlutterNativeSplash.remove();
+          }
 
           if (ref.read(loginProvider) is LoginSuccessState) {
             return state.uri.path;
