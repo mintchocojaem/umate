@@ -9,11 +9,12 @@ class OrbDivider extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Divider(
       height: 1,
       thickness: 1,
-      color: theme.dividerTheme.color,
+      color: palette.outline,
     );
   }
 

@@ -1,21 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/api_url.dart';
 import '../../utils/app_exception.dart';
 
-final class AppNetworkError extends AppException {
-  final DioExceptionType type;
-
-  const AppNetworkError({
-    required this.type,
-    final String? message,
-    required super.stackTrace,
-  }) : super(message: message ?? '서버 연결 중 오류가 발생했어요.');
-
-  @override
-  toString() =>
-      'AppNetworkError > message : $message, stackTrace : $stackTrace';
-}
+final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
+  return NetworkClientService(
+    onRequest: (options) async {
+      await Future.delayed(const Duration(milliseconds: 1000));
+    },
+    onResponse: (response) async {},
+    onError: (exception) async {},
+  );
+});
 
 enum RequestType {
   get("GET"),
@@ -42,8 +39,6 @@ base class NetworkClientService {
   }
 
   final Dio _dio = Dio();
-
-  Dio get dio => _dio;
 
   void _initialize() {
     _dio.options = BaseOptions(

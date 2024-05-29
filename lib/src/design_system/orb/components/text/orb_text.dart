@@ -35,7 +35,7 @@ class OrbText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = OrbTheme.of(context).textTheme;
+    final textTheme = OrbThemeData.of(context).textTheme;
     return Text(
       text,
       style: switch (type) {

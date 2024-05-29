@@ -99,20 +99,20 @@ final class OrbDefaultLightTextTheme extends OrbDefaultTextTheme {
 
   @override
   get titleMedium =>
-      super.titleMedium.copyWith(color: Colors.grey[900]);
+      super.titleMedium.copyWith(color: Colors.black);
 
   @override
   get titleSmall =>
-      super.titleSmall.copyWith(color: Colors.grey[800]);
+      super.titleSmall.copyWith(color: Colors.black);
 
   @override
   get bodyLarge =>
-      super.bodyLarge.copyWith(color: Colors.grey[700]);
+      super.bodyLarge.copyWith(color: Colors.grey[900]);
 
   @override
   get bodyMedium =>
-      super.bodyMedium.copyWith(color: Colors.grey[600]);
+      super.bodyMedium.copyWith(color: Colors.grey[800]);
 
   @override
-  get bodySmall => super.bodySmall.copyWith(color: Colors.grey[500]);
+  get bodySmall => super.bodySmall.copyWith(color: Colors.grey[700]);
 }

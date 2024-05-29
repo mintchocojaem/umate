@@ -50,7 +50,8 @@ class _OrbSearchBarState extends State<OrbSearchBar> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Row(
       children: [
         Expanded(
@@ -58,12 +59,12 @@ class _OrbSearchBarState extends State<OrbSearchBar> {
             focusNode: widget.focusNode,
             controller: keywordController,
             textInputAction: TextInputAction.search,
-            style: widget.textStyle ?? theme.textTheme.bodyMedium,
+            style: widget.textStyle ?? themeData.textTheme.bodyMedium,
             decoration: InputDecoration(
               hintText: '검색',
-              hintStyle: widget.textStyle ?? theme.textTheme.bodyMedium,
+              hintStyle: widget.textStyle ?? themeData.textTheme.bodyMedium,
               filled: true,
-              fillColor: theme.searchBarTheme.backgroundColor,
+              fillColor: palette.surface,
               prefixIcon: const OrbIcon(
                 Icons.search_rounded,
               ),

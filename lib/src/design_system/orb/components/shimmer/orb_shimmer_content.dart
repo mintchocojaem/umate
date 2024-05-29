@@ -22,12 +22,13 @@ class OrbShimmerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Padding(
       padding: padding ?? const EdgeInsets.all(16),
       child: Shimmer.fromColors(
-        baseColor: theme.shimmerTheme.baseColor,
-        highlightColor: theme.shimmerTheme.highlightColor,
+        baseColor: palette.outline,
+        highlightColor: palette.surface,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,7 +36,7 @@ class OrbShimmerContent extends StatelessWidget {
               width: contentWidth,
               height: contentHeight,
               decoration: BoxDecoration(
-                color: theme.shimmerTheme.highlightColor,
+                color: palette.outline,
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
@@ -50,7 +51,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: double.infinity,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: theme.shimmerTheme.highlightColor,
+                      color: palette.surface,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -61,7 +62,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: double.infinity,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: theme.shimmerTheme.highlightColor,
+                      color: palette.surface,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -72,7 +73,7 @@ class OrbShimmerContent extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: subContentHeight,
                     decoration: BoxDecoration(
-                      color: theme.shimmerTheme.highlightColor,
+                      color: palette.surface,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),

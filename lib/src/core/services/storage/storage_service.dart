@@ -1,5 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
+
+final storageServiceProvider = Provider<StorageService>(
+      (ref) {
+    return StorageService();
+  },
+);
 
 class StorageService {
   final GetStorage _box = GetStorage();

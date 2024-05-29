@@ -59,9 +59,7 @@ class _BoardScreenState extends ConsumerState<BoardScreen>
             Icons.search,
           ),
           onPressed: () {
-            ref.read(routerServiceProvider).pushNamed(
-                  AppRoute.postSearch.name,
-                );
+
           },
         ),
       ),

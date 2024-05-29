@@ -54,8 +54,6 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
   bool isPressed = false;
   late Timer timer;
 
-  bool disabled = false;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -82,13 +80,13 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
 
     final textStyle = switch (widget.buttonTextType) {
-      OrbButtonTextType.large => theme.textTheme.bodyLarge,
-      OrbButtonTextType.medium => theme.textTheme.bodyMedium,
-      OrbButtonTextType.small => theme.textTheme.bodySmall,
+      OrbButtonTextType.large => themeData.textTheme.bodyLarge,
+      OrbButtonTextType.medium => themeData.textTheme.bodyMedium,
+      OrbButtonTextType.small => themeData.textTheme.bodySmall,
     };
 
     final minimumSize = switch (widget.buttonSize) {
@@ -123,17 +121,17 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
     //background
     final backgroundColor = switch (widget.buttonType) {
       OrbButtonType.primary =>
-        widget.backgroundColor ?? theme.filledButtonTheme.backgroundColor,
+        widget.backgroundColor ?? palette.primary,
       OrbButtonType.secondary =>
-        widget.backgroundColor ?? currentPalette.secondary,
+        widget.backgroundColor ?? palette.secondary,
     };
 
     //foreground
     final foregroundColor = switch (widget.buttonType) {
       OrbButtonType.primary =>
-        widget.foregroundColor ?? theme.filledButtonTheme.foregroundColor,
+        widget.foregroundColor ?? palette.onPrimary,
       OrbButtonType.secondary =>
-        widget.foregroundColor ?? currentPalette.onSecondary,
+        widget.foregroundColor ?? palette.onSecondary,
     };
 
     final button = FilledButton(
@@ -176,23 +174,24 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
               }
             },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
+        splashFactory: NoSplash.splashFactory,
+        backgroundColor: WidgetStateProperty.all(
           widget.disabled
-              ? theme.filledButtonTheme.disabledBackgroundColor
+              ? palette.outline
               : backgroundColor,
         ),
-        foregroundColor: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(
           widget.disabled
-              ? theme.filledButtonTheme.disabledForegroundColor
+              ? palette.surfaceDim
               : foregroundColor,
         ),
-        minimumSize: MaterialStateProperty.all(
+        minimumSize: WidgetStateProperty.all(
           minimumSize,
         ),
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           padding,
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: borderRadius,
           ),
@@ -208,7 +207,7 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation(
-                      theme.filledButtonTheme.foregroundColor,
+                      palette.onPrimary,
                     ),
                   ),
                 )
@@ -218,7 +217,7 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
                       overflow: TextOverflow.ellipsis,
                       style: textStyle.copyWith(
                         color: widget.disabled
-                            ? theme.filledButtonTheme.disabledForegroundColor
+                            ? palette.surfaceDim
                             : foregroundColor,
                         fontWeight: OrbFontWeight.medium.weight,
                         height: 1.0,
@@ -229,7 +228,7 @@ class OrbFilledButtonState extends State<OrbFilledButton> {
                       overflow: TextOverflow.ellipsis,
                       style: textStyle.copyWith(
                         color: widget.disabled
-                            ? theme.filledButtonTheme.disabledForegroundColor
+                            ? palette.surfaceDim
                             : foregroundColor,
                         fontWeight: OrbFontWeight.medium.weight,
                         height: 1.0,

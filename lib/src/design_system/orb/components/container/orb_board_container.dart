@@ -29,7 +29,8 @@ class OrbBoardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return AnimatedSize(
       alignment: Alignment.topCenter,
       duration: const Duration(milliseconds: 500),
@@ -40,8 +41,7 @@ class OrbBoardContainer extends StatelessWidget {
         decoration: decoration != null
             ? decoration!
             : BoxDecoration(
-                color: backgroundColor ??
-                    theme.boardContainerTheme.backgroundColor,
+                color: backgroundColor ?? palette.surface,
                 borderRadius: borderRadius ?? BorderRadius.circular(15),
               ),
         child: Column(

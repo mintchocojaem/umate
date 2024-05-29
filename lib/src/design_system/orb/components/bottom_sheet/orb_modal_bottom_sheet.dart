@@ -27,11 +27,11 @@ class OrbModalBottomSheet extends StatelessWidget {
   });
 
   static Future<void> _show(BuildContext context, Widget child) async {
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
     await showModalBottomSheet(
       context: context,
       showDragHandle: true,
-      backgroundColor: theme.bottomSheetTheme.backgroundColor,
+      backgroundColor: themeData.palette.background,
       isScrollControlled: true,
       elevation: 0,
       builder: (_) {
@@ -46,7 +46,7 @@ class OrbModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
+    final theme = OrbThemeData.of(context);
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.only(

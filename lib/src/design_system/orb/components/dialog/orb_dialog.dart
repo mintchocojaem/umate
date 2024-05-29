@@ -39,15 +39,15 @@ class OrbDialog extends StatelessWidget {
 
     bool disableButtonAction = false;
 
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return AlertDialog(
-      surfaceTintColor: theme.dialogTheme.backgroundColor,
-      backgroundColor: theme.dialogTheme.backgroundColor,
+      surfaceTintColor: palette.surface,
+      backgroundColor: palette.surface,
       insetPadding: const EdgeInsets.all(32),
       title: Text(
         title,
-        style: theme.textTheme.titleMedium,
+        style: themeData.textTheme.titleMedium,
       ),
       content: content,
       actions: [
@@ -60,7 +60,7 @@ class OrbDialog extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: OrbFilledButton(
-                    backgroundColor: leftButtonColor ?? currentPalette.surface,
+                    backgroundColor: leftButtonColor ?? palette.surface,
                     onPressed: () async {
                       if (disableButtonAction) return;
                       disableButtonAction = true;

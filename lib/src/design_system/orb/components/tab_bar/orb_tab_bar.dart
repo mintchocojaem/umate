@@ -17,15 +17,16 @@ class OrbTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return DefaultTabController(
       length: tabs.length,
       child: TabBar(
         tabs: tabs,
         controller: controller,
         indicatorWeight: 3,
-        indicatorColor: theme.tabBarTheme.indicatorColor,
-        labelColor: theme.tabBarTheme.indicatorColor,
+        indicatorColor: palette.primary,
+        labelColor: palette.primary,
         onTap: onTabChange,
       ),
     );

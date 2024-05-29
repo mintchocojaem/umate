@@ -23,8 +23,8 @@ class OrbIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Icon(
       icon,
       size: switch (size) {
@@ -33,7 +33,7 @@ class OrbIcon extends StatelessWidget {
         OrbIconSize.medium => 32,
         OrbIconSize.large => 40,
       },
-      color: color ?? currentPalette.surface,
+      color: color ?? palette.surface,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -29,4 +30,18 @@ final class AppWarning extends AppException {
 
   @override
   toString() => 'AppWarning > message : $message, stackTrace : $stackTrace';
+}
+
+final class AppNetworkError extends AppException {
+  final DioExceptionType type;
+
+  const AppNetworkError({
+    required this.type,
+    final String? message,
+    required super.stackTrace,
+  }) : super(message: message ?? '서버 연결 중 오류가 발생했어요.');
+
+  @override
+  toString() =>
+      'AppNetworkError > message : $message, stackTrace : $stackTrace';
 }

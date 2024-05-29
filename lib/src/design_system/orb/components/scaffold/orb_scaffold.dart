@@ -35,7 +35,8 @@ class OrbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Scaffold(
       appBar: appBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -43,7 +44,7 @@ class OrbScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
-      backgroundColor: backgroundColor ?? theme.scaffoldTheme.backgroundColor,
+      backgroundColor: backgroundColor ?? palette.background,
       body: SafeArea(
         top: !extendBodyBehindAppBar,
         bottom: !disableSafeAreaBottom,

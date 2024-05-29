@@ -25,9 +25,10 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return AppBar(
-      backgroundColor: backgroundColor ?? theme.appbarTheme.backgroundColor,
+      backgroundColor: backgroundColor ?? palette.background,
       elevation: 0,
       scrolledUnderElevation: 0,
       leading: leading ??
@@ -35,7 +36,6 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? IconButton(
                   icon: OrbIcon(
                     Icons.arrow_back_ios,
-                    color: theme.appbarTheme.iconColor,
                   ),
                   onPressed: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
@@ -62,12 +62,12 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? PreferredSize(
               preferredSize: const Size.fromHeight(2),
               child: Shimmer.fromColors(
-                baseColor: theme.appbarTheme.loadingBarBaseColor,
-                highlightColor: theme.appbarTheme.loadingBarHighlightColor,
+                baseColor: palette.onPrimary,
+                highlightColor: palette.primary,
                 child: LinearProgressIndicator(
                   minHeight: 2,
                   value: 1,
-                  color: theme.appbarTheme.loadingBarBaseColor,
+                  color: palette.primary,
                 ),
               ),
             )

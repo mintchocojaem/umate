@@ -22,15 +22,16 @@ class OrbTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return InkWell(
-      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
       onTap: onTap,
       child: Container(
         padding: padding ?? const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: backgroundColor ?? theme.tileTheme.backgroundColor,
+          color: backgroundColor ?? palette.background,
         ),
         child: Row(
           children: [

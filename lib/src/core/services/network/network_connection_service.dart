@@ -10,22 +10,10 @@ final networkConnectionServiceProvider =
     Provider<NetworkConnectionService>((ref) {
   final networkService = NetworkConnectionService(
     onDisconnected: () {
-      final routerService = ref.read(routerServiceProvider);
-      final currentRoute = routerService
-          .routerDelegate.currentConfiguration.lastOrNull?.matchedLocation;
-      if (currentRoute != null &&
-          !currentRoute.contains(AppRoute.noInternet.path)) {
-        routerService.pushNamed(AppRoute.noInternet.name, closeKeyboard: false);
-      }
+
     },
     onConnected: () {
-      final routerService = ref.read(routerServiceProvider);
-      final currentRoute = routerService
-          .routerDelegate.currentConfiguration.lastOrNull?.matchedLocation;
-      if (currentRoute != null &&
-          currentRoute.contains(AppRoute.noInternet.path)) {
-        routerService.pop(closeKeyboard: false);
-      }
+
     },
   );
   networkService.init();

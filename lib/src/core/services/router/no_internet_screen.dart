@@ -36,21 +36,21 @@ class _NoInternetScreenState extends State<NoInternetScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final theme = OrbThemeData.of(context);
+    final palette = theme.palette;
     return Center(
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: currentPalette.surfaceBright,
+          color: palette.surfaceBright,
         ),
         child: FadeTransition(
           opacity: _animationController,
           child: OrbIcon(
             Icons.wifi_off,
             size: OrbIconSize.large,
-            color: currentPalette.error,
+            color: palette.error,
           ),
         ),
       ),

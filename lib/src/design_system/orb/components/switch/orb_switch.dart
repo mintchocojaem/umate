@@ -17,11 +17,11 @@ class OrbSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return CupertinoSwitch(
       value: value,
-      activeColor: currentPalette.primary,
+      activeColor: palette.primary,
       onChanged: onChanged,
     );
   }

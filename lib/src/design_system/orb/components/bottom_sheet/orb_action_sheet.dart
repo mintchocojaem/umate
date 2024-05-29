@@ -36,8 +36,8 @@ class OrbActionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
@@ -53,7 +53,7 @@ class OrbActionSheet extends StatelessWidget {
               child: OrbText(
                 item.title,
                 type: OrbTextType.bodyLarge,
-                color: item.color ?? currentPalette.error,
+                color: item.color ?? palette.error,
               ),
             ),
         ],
@@ -68,7 +68,7 @@ class OrbActionSheet extends StatelessWidget {
             child: OrbText(
               "닫기",
               type: OrbTextType.bodyLarge,
-              color: currentPalette.primary,
+              color: palette.primary,
             ),
           ),
         ),

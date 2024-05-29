@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,8 +10,6 @@ import '../../../../firebase_options.dart';
 /// 앱이 terminated 상태일 때 알림을 수신할 수 있는건 OS에서 처리하기 때문(파이어베이스 웹에서 작성하는 FCM으론 가능하지만, json으로 직접 쏴줄땐 따로 payload 설정 필요)
 
 class NotificationService {
-  final String _vapidKey =
-      "BP1Mx7KFHnzqA_OqWv-HSbd5Q8NDeib7non7xXsK3e6VU7ZhxMdl36eKx3glRgA9_mVTrSWGSGdxn9jjYDE2ziE";
 
   final FlutterLocalNotificationsPlugin local =
       FlutterLocalNotificationsPlugin();
@@ -72,13 +71,13 @@ class NotificationService {
     final messaging = FirebaseMessaging.instance;
 
     if (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.web) {
-      token = await messaging.getToken(vapidKey: _vapidKey);
+      //token = await messaging.getToken(vapidKey: _vapidKey);
     } else {
       token = await messaging.getToken();
     }
 
     if (kDebugMode) {
-      print('Firebase Token = $token');
+      print('FCM Token = $token');
     }
   }
 
@@ -112,6 +111,7 @@ class NotificationService {
           showLocalNotification(message);
         }
       });
+      FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
     });
 
   }
@@ -151,5 +151,17 @@ class NotificationService {
         ),
       );
     }
+  }
+}
+
+@pragma('vm:entry-point')
+Future<void> _onBackgroundMessage(RemoteMessage message) async {
+// If you're going to use other Firebase services in the background, such as Firestore,
+// make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  if (kDebugMode) {
+    print("Handling a background message: ${message.messageId}");
   }
 }

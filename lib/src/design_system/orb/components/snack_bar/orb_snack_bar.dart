@@ -34,29 +34,36 @@ class OrbSnackBar extends SnackBar {
   @override
   // TODO: implement content
   Widget get content {
-    return Row(
-      children: [
-        Icon(
-          Icons.info,
-          color: switch (type) {
-            // TODO: Handle this case.
-            OrbSnackBarType.info => Colors.blueAccent,
-            // TODO: Handle this case.
-            OrbSnackBarType.warning => Colors.amberAccent,
-            // TODO: Handle this case.
-            OrbSnackBarType.error => Colors.redAccent,
-          },
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: OrbText(
-            message,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            type: OrbTextType.bodyMedium,
-          ),
-        ),
-      ],
+    return Builder(
+      builder: (context) {
+        final themeData = OrbThemeData.of(context);
+        final palette = themeData.palette;
+        return Row(
+          children: [
+            Icon(
+              Icons.info,
+              color: switch (type) {
+                // TODO: Handle this case.
+                OrbSnackBarType.info => Colors.blueAccent,
+                // TODO: Handle this case.
+                OrbSnackBarType.warning => Colors.amberAccent,
+                // TODO: Handle this case.
+                OrbSnackBarType.error => Colors.redAccent,
+              },
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: OrbText(
+                message,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                type: OrbTextType.bodyMedium,
+                color: palette.onSurface,
+              ),
+            ),
+          ],
+        );
+      }
     );
   }
 

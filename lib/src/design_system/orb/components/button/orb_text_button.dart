@@ -18,17 +18,18 @@ class OrbTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final theme = OrbTheme.of(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return TextButton(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
-          theme.textButtonTheme.textColor,
+        foregroundColor: WidgetStateProperty.all(
+          palette.primary,
         ),
-        overlayColor: MaterialStateProperty.all(Colors.transparent),
-        padding: MaterialStateProperty.all(
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        padding: WidgetStateProperty.all(
           const EdgeInsets.all(0),
         ),
-        minimumSize: MaterialStateProperty.all(
+        minimumSize: WidgetStateProperty.all(
           const Size(0, 0),
         ),
       ),

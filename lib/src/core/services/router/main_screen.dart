@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../design_system/orb/orb.dart';
-import '../../../features/petition/presentation/screens/coalition_board_screen.dart';
-import '../../../features/petition/presentation/screens/notice_board_screen.dart';
-import '../../../features/petition/presentation/screens/petition_board_screen.dart';
 import 'router_service.dart';
 
 class MainScreen extends StatelessWidget {
@@ -33,17 +30,6 @@ class MainScreen extends StatelessWidget {
             _goBranch(index);
           } else {
             //print path
-            final currentPath = GoRouter.of(context)
-                .routerDelegate
-                .currentConfiguration
-                .fullPath;
-            if (currentPath.contains(AppRoute.noticeBoard.path)) {
-              scrollUpNoticeBoard();
-            } else if (currentPath.contains(AppRoute.coalitionBoard.path)) {
-              scrollUpCoalitionBoard();
-            } else if (currentPath.contains(AppRoute.petitionBoard.path)) {
-              scrollUpPetitionBoard();
-            }
           }
         },
         items: const [

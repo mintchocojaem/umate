@@ -71,21 +71,21 @@ class _OrbTextFieldState extends State<OrbTextField> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final theme = OrbTheme.of(context);
-    final currentPalette = theme.getCurrentPalette(context);
+    final themeData = OrbThemeData.of(context);
+    final palette = themeData.palette;
     return TextFormField(
       controller: widget.controller,
       onChanged: widget.onChanged,
       obscureText: _obscureText,
       onTap: widget.onTap,
       style: switch (widget.style) {
-        OrbTextType.titleLarge => theme.textTheme.titleLarge,
-        OrbTextType.titleMedium => theme.textTheme.titleMedium,
-        OrbTextType.titleSmall => theme.textTheme.titleSmall,
-        OrbTextType.bodyLarge => theme.textTheme.bodyLarge,
-        OrbTextType.bodyMedium => theme.textTheme.bodyMedium,
-        OrbTextType.bodySmall => theme.textTheme.bodySmall,
-        _ => theme.textTheme.bodyMedium,
+        OrbTextType.titleLarge => themeData.textTheme.titleLarge,
+        OrbTextType.titleMedium => themeData.textTheme.titleMedium,
+        OrbTextType.titleSmall => themeData.textTheme.titleSmall,
+        OrbTextType.bodyLarge => themeData.textTheme.bodyLarge,
+        OrbTextType.bodyMedium => themeData.textTheme.bodyMedium,
+        OrbTextType.bodySmall => themeData.textTheme.bodySmall,
+        _ => themeData.textTheme.bodyMedium,
       },
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
@@ -96,7 +96,7 @@ class _OrbTextFieldState extends State<OrbTextField> {
       maxLength: widget.maxLength,
       validator: widget.validator,
       maxLines: widget.maxLines,
-      cursorColor: theme.textFieldTheme.suffixIconColor,
+      cursorColor: palette.primary,
       focusNode: widget.focusNode,
       onFieldSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
@@ -104,45 +104,45 @@ class _OrbTextFieldState extends State<OrbTextField> {
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintText: widget.hintText,
         helperText: widget.helperText,
-        helperStyle: theme.textTheme.bodySmall,
+        helperStyle: themeData.textTheme.bodySmall,
         hintMaxLines: 10,
         hintStyle: switch (widget.style) {
-          OrbTextType.titleLarge => theme.textTheme.titleLarge,
-          OrbTextType.titleMedium => theme.textTheme.titleMedium,
-          OrbTextType.titleSmall => theme.textTheme.titleSmall,
-          OrbTextType.bodyLarge => theme.textTheme.bodyLarge,
-          OrbTextType.bodyMedium => theme.textTheme.bodyMedium,
-          OrbTextType.bodySmall => theme.textTheme.bodySmall,
-          _ => theme.textTheme.bodyMedium,
+          OrbTextType.titleLarge => themeData.textTheme.titleLarge,
+          OrbTextType.titleMedium => themeData.textTheme.titleMedium,
+          OrbTextType.titleSmall => themeData.textTheme.titleSmall,
+          OrbTextType.bodyLarge => themeData.textTheme.bodyLarge,
+          OrbTextType.bodyMedium => themeData.textTheme.bodyMedium,
+          OrbTextType.bodySmall => themeData.textTheme.bodySmall,
+          _ => themeData.textTheme.bodyMedium,
         },
-        errorStyle: theme.textTheme.bodySmall.copyWith(
-          color: currentPalette.error,
+        errorStyle: themeData.textTheme.bodySmall.copyWith(
+          color: palette.error,
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(
-            color: currentPalette.error,
+            color: palette.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(
-            color: currentPalette.error,
+            color: palette.error,
           ),
         ),
         contentPadding: const EdgeInsets.all(16),
         filled: true,
-        fillColor: widget.fillColor ?? theme.textFieldTheme.fillColor,
+        fillColor: widget.fillColor ?? palette.surfaceBright,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(
-            color: widget.boarderColor ?? theme.textFieldTheme.boarderColor,
+            color: widget.boarderColor ?? palette.surfaceBright,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(
-            color: widget.boarderColor ?? theme.textFieldTheme.boarderColor,
+            color: widget.boarderColor ?? palette.surfaceBright,
           ),
         ),
         suffixIconConstraints: const BoxConstraints(
@@ -151,12 +151,11 @@ class _OrbTextFieldState extends State<OrbTextField> {
         ),
         suffixIcon: widget.obscureText
             ? InkWell(
-                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: OrbIcon(
                     _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: theme.textFieldTheme.suffixIconColor,
                   ),
                 ),
                 onTap: () {
