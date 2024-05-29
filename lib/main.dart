@@ -18,7 +18,6 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(
-    name: 'umate-ad270',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -26,7 +25,6 @@ void main() async {
   await NotificationService.init();
 
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
-  FirebaseMessaging.onMessage.listen(onMessage);
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -49,15 +47,10 @@ void main() async {
 Future<void> onBackgroundMessage(RemoteMessage message) async {
 // If you're going to use other Firebase services in the background, such as Firestore,
 // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   if (kDebugMode) {
     print("Handling a background message: ${message.messageId}");
-    NotificationService().showLocalNotification(message);
-  }
-}
-
-void onMessage(RemoteMessage message) {
-  if (kDebugMode) {
-    print("Handling a foreground message: ${message.messageId}");
-    NotificationService().showLocalNotification(message);
   }
 }

@@ -12,15 +12,11 @@ class NotificationService {
   final String _vapidKey =
       "BP1Mx7KFHnzqA_OqWv-HSbd5Q8NDeib7non7xXsK3e6VU7ZhxMdl36eKx3glRgA9_mVTrSWGSGdxn9jjYDE2ziE";
 
-  bool isInitialized = false;
-
-  final FlutterLocalNotificationsPlugin plugin =
+  final FlutterLocalNotificationsPlugin local =
       FlutterLocalNotificationsPlugin();
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
     'umate_notification_channel_id', // id
     'Umate', // title
-    description: 'umate_notification_channel', // description
-    // description
     importance: Importance.high,
   );
 
@@ -33,19 +29,23 @@ class NotificationService {
   }
 
   static init() async {
-    await _instance.plugin
+    await _instance.local
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(_instance.channel);
 
-    // iOS foreground notification 권한
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    // 알림 권한 요청
+    await _instance.requestPermission();
 
+    // 토큰 요청
+    await _instance.getToken();
+
+    // 알림 설정
+    await _instance.setup();
+  }
+
+  Future<void> requestPermission() async {
+    // iOS 권한 요청
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
@@ -55,8 +55,14 @@ class NotificationService {
       provisional: false,
       sound: true,
     );
-    // 토큰 요청
-    await _instance.getToken();
+
+    // iOS foreground notification 권한
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   Future<void> getToken() async {
@@ -66,9 +72,7 @@ class NotificationService {
     final messaging = FirebaseMessaging.instance;
 
     if (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.web) {
-      token = await messaging.getToken(
-        vapidKey: _instance._vapidKey,
-      );
+      token = await messaging.getToken(vapidKey: _vapidKey);
     } else {
       token = await messaging.getToken();
     }
@@ -86,13 +90,49 @@ class NotificationService {
     });
   }
 
+  Future<void> setup() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    //listen after 1 second
+    Future.delayed(const Duration(seconds: 1), () {
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        if (message.notification != null) {
+          showLocalNotification(message);
+        }
+      });
+    });
+
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['type'] == 'chat') {
+      /*
+      Navigator.pushNamed(context, '/chat',
+        arguments: ChatArguments(message),
+      );
+       */
+    }
+  }
+
   ///로컬 알림 보이기
   void showLocalNotification(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null && !kIsWeb) {
       // 웹이 아니면서 안드로이드이고, 알림이 있는경우
-      _instance.plugin.show(
+      _instance.local.show(
         notification.hashCode,
         notification.title,
         notification.body,
@@ -102,6 +142,11 @@ class NotificationService {
             _instance.channel.name,
             channelDescription: _instance.channel.description,
             icon: '@drawable/ic_notification',
+          ),
+          iOS: const DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
           ),
         ),
       );

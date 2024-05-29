@@ -80,6 +80,9 @@ class _FindStudentIdScreenState extends ConsumerState<FindStudentIdScreen>
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.done,
                 maxLength: 11,
+                onChanged: (value) {
+                  setState(() {});
+                },
                 validator: (value) {
                   return validatePhoneNumber(phoneNumber: value);
                 },
@@ -88,7 +91,8 @@ class _FindStudentIdScreenState extends ConsumerState<FindStudentIdScreen>
                 height: 16,
               ),
               OrbFilledButton(
-                text: '전송하기',
+                text: '아이디 전송하기',
+                disabled: phoneNumberController.text.length != 11,
                 onPressed: () async {
                   if (!formKey.currentState!.validate()) {
                     return;

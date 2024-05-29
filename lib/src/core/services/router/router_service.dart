@@ -50,7 +50,7 @@ final routerServiceProvider = Provider<RouterService>(
             await ref.read(loginProvider.notifier).autoLogin();
             //remove flash screen
             FlutterNativeSplash.remove();
-          }else{
+          } else {
             FlutterNativeSplash.remove();
           }
 
