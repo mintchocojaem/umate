@@ -39,6 +39,10 @@ export 'dialog/orb_dialog.dart';
 //icon
 export 'icon/orb_icon.dart';
 
+//indicator
+export 'indicator/orb_circular_progress_indicator.dart';
+export 'indicator/orb_refresh_indicator.dart';
+
 //snackBar
 export 'snack_bar/orb_snack_bar.dart';
 

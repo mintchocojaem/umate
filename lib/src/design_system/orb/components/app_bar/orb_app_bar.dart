@@ -12,6 +12,8 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isLoading;
   final Color? titleColor;
 
+  final Function()? onAutoImplyLeadingPressed;
+
   const OrbAppBar({
     super.key,
     this.title = "",
@@ -21,6 +23,7 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.isLoading = false,
     this.backgroundColor,
     this.titleColor,
+    this.onAutoImplyLeadingPressed,
   });
 
   @override
@@ -28,22 +31,20 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
     final themeData = OrbThemeData.of(context);
     final palette = themeData.palette;
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: backgroundColor ?? palette.background,
       elevation: 0,
       scrolledUnderElevation: 0,
       leading: leading ??
-          (ModalRoute.of(context)?.canPop ?? false
+          (Navigator.of(context).canPop()
               ? IconButton(
-                  icon: OrbIcon(
+                  icon: const OrbIcon(
                     Icons.arrow_back_ios,
                   ),
-                  onPressed: () async {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    await Future.delayed(const Duration(milliseconds: 100));
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
+                  onPressed: onAutoImplyLeadingPressed ??
+                      () {
+                        Navigator.of(context).pop();
+                      },
                 )
               : null),
       centerTitle: centerTitle,

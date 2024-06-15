@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../design_system/orb/orb.dart';
-import 'router_service.dart';
 
 class MainScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;

@@ -1,32 +1,31 @@
-sealed class Either<L, R> {
+sealed class Either<S, F> {
   const Either();
 
-  bool get isLeft => this is Left<L, R>;
+  bool get isFailure => this is Failure<S, F>;
 
-  bool get isRight => this is Right<L, R>;
+  bool get isSuccess => this is Success<S, F>;
 
-  L get left => (this as Left<L, R>).value;
+  F get failure => (this as Failure<S, F>).value;
 
-  R get right => (this as Right<L, R>).value;
+  S get success => (this as Success<S, F>).value;
 
-  T fold<T>(T Function(L l) onLeft, T Function(R r) onRight) {
-    if (this is Left<L, R>) {
-      return onLeft((this as Left<L, R>).value);
+  T fold<T>(T Function(S s) onSuccess, T Function(F f) onFailure) {
+    if (this is Success<S, F>) {
+      return onSuccess((this as Success<S, F>).value);
     } else {
-      return onRight((this as Right<L, R>).value);
+      return onFailure((this as Failure<S, F>).value);
     }
   }
-
 }
 
-class Left<L, R> extends Either<L, R> {
-  final L value;
+class Success<S, F> extends Either<S, F> {
+  final S value;
 
-  const Left(this.value);
+  const Success(this.value);
 }
 
-class Right<L, R> extends Either<L, R> {
-  final R value;
+class Failure<S, F> extends Either<S, F> {
+  final F value;
 
-  const Right(this.value);
+  const Failure(this.value);
 }

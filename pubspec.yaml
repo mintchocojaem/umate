@@ -66,6 +66,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   http_parser: ^4.0.2
   flutter_native_splash: ^2.4.0
+  equatable: ^2.0.5
 
   #firebase
   firebase_core: ^2.32.0

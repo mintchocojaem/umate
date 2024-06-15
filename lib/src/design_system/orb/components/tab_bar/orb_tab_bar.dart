@@ -28,6 +28,7 @@ class OrbTabBar extends StatelessWidget {
         indicatorColor: palette.primary,
         labelColor: palette.primary,
         onTap: onTabChange,
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
       ),
     );
   }

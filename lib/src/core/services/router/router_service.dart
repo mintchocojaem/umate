@@ -1,16 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/board/presentation/screen/petition_board_screen.dart';
-import '../../../features/user/presentation/screen/login_screen.dart';
-import 'board_screen.dart';
+import '../../../features/board/presentation/screens/coalition_board_screen.dart';
+import '../../../features/board/presentation/screens/notice_board_screen.dart';
+import '../../../features/board/presentation/screens/petition_board_screen.dart';
+import '../../../features/dash_board/presentation/screens/home_screen.dart';
+import '../../../features/user/presentation/providers/login_token_provider.dart';
+import '../../../features/user/presentation/screens/login_screen.dart';
+import '../../../features/board/presentation/screens/board_screen.dart';
 
+import '../../../features/user/presentation/screens/sign_up_agree_policy_screen.dart';
+import '../../../features/user/presentation/screens/sign_up_complete_screen.dart';
+import '../../../features/user/presentation/screens/sign_up_screen.dart';
+import '../../../features/user/presentation/screens/sign_up_verify_student_screen.dart';
 import 'main_screen.dart';
-import 'no_internet_screen.dart';
 import 'route_error_screen.dart';
 
 enum AppRoute {
@@ -18,7 +24,7 @@ enum AppRoute {
   login,
   findStudentId,
   findPassword,
-  verifyStudent,
+  signUpVerifyStudent,
   signUpAgreePolicy,
   signUp,
   signUpComplete,
@@ -40,20 +46,145 @@ enum AppRoute {
 
 final routerServiceProvider = Provider<RouterService>(
   (ref) {
-    return RouterService(
-      redirect: (context, state) async {
-        return null;
+    final loginNotifier = ValueNotifier(ref.read(loginTokenProvider).value);
+    ref.listen(
+      loginTokenProvider,
+      (_, next) {
+        loginNotifier.value = next.value;
       },
+    );
+    ref.onDispose(() {
+      loginNotifier.dispose();
+    });
+    return RouterService(
+      navigator: GoRouter(
+        initialLocation: '/home',
+        debugLogDiagnostics: true,
+        refreshListenable: loginNotifier,
+        redirect: (context, state) async {
+          final loginToken = ref.read(loginTokenProvider).value;
+          if (loginToken == null &&
+              !(state.uri.path.contains('login') ||
+                  state.uri.path.contains('sign_up'))) {
+            return '/login';
+          }
+          return null;
+        },
+        errorBuilder: (context, state) {
+          return const RouteErrorScreen();
+        },
+        routes: [
+          GoRoute(
+            path: '/login',
+            name: AppRoute.login.name,
+            builder: (context, state) {
+              return const LoginScreen();
+            },
+          ),
+          GoRoute(
+            path: '/sign_up',
+            name: AppRoute.signUp.name,
+            builder: (context, state) {
+              return const SignUpScreen();
+            },
+            routes: [
+              GoRoute(
+                path: 'verify_student',
+                name: AppRoute.signUpVerifyStudent.name,
+                builder: (context, state) {
+                  return const SignUpVerifyStudentScreen();
+                },
+              ),
+              GoRoute(
+                path: 'agree_policy',
+                name: AppRoute.signUpAgreePolicy.name,
+                builder: (context, state) {
+                  return const SignUpAgreePolicyScreen();
+                },
+              ),
+              GoRoute(
+                path: 'complete',
+                name: AppRoute.signUpComplete.name,
+                builder: (context, state) {
+                  return SignUpCompleteScreen(
+                    userPassword: state.extra as String,
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellRoute.indexedStack(
+            builder: (context, state, navigationShell) {
+              return MainScreen(
+                navigationShell: navigationShell,
+              );
+            },
+            branches: [
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: '/home',
+                    name: AppRoute.home.name,
+                    builder: (context, state) => const HomeScreen(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  StatefulShellRoute.indexedStack(
+                    builder: (context, state, navigationShell) {
+                      return BoardScreen(
+                        navigationShell: navigationShell,
+                      );
+                    },
+                    branches: [
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/board/notice',
+                            name: AppRoute.noticeBoard.name,
+                            builder: (context, state) =>
+                                const NoticeBoardScreen(),
+                          ),
+                        ],
+                      ),
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/board/coalition',
+                            name: AppRoute.coalitionBoard.name,
+                            builder: (context, state) =>
+                                const CoalitionBoardScreen(),
+                          ),
+                        ],
+                      ),
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/board/petition',
+                            name: AppRoute.petitionBoard.name,
+                            builder: (context, state) =>
+                                const PetitionBoardScreen(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   },
 );
 
 class RouterService {
-  final FutureOr<String?> Function(BuildContext context, GoRouterState state)?
-      redirect;
+  final GoRouter navigator;
 
   RouterService({
-    this.redirect,
+    required this.navigator,
   });
 
   Future<Object?> pushNamed(
@@ -62,6 +193,7 @@ class RouterService {
     Map<String, String>? queryParameters,
     Object? extra,
   }) async {
+    await _hideKeyboard();
     return await navigator.pushNamed(
       name,
       pathParameters: pathParameters ?? {},
@@ -76,6 +208,7 @@ class RouterService {
     Map<String, String>? queryParameters,
     Object? extra,
   }) async {
+    await _hideKeyboard();
     return await navigator.pushReplacementNamed(
       name,
       pathParameters: pathParameters ?? {},
@@ -84,12 +217,13 @@ class RouterService {
     );
   }
 
-  void goNamed(
+  Future<void> goNamed(
     String name, {
     Map<String, String>? pathParameters,
     Map<String, String>? queryParameters,
     Object? extra,
-  }) {
+  }) async {
+    await _hideKeyboard();
     return navigator.goNamed(
       name,
       pathParameters: pathParameters ?? {},
@@ -98,61 +232,19 @@ class RouterService {
     );
   }
 
-  void pop(dynamic result) {
+  Future<void> pop<T extends Object?>([T? result]) async {
+    await _hideKeyboard();
     return navigator.pop(result);
   }
 
-  final GoRouter navigator = GoRouter(
-    initialLocation: '/board/petition',
-    debugLogDiagnostics: true,
-    redirect: (context, state) async {
-      return null;
-    },
-    errorBuilder: (context, state) {
-      return const RouteErrorScreen();
-    },
-    routes: [
-      GoRoute(
-        path: '/login',
-        pageBuilder: (context, state) {
-          return MaterialPage(
-            key: state.pageKey,
-            child: const LoginScreen(),
-          );
-        },
-      ),
-      StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return MainScreen(
-            navigationShell: navigationShell,
-          );
-        },
-        branches: [
-          StatefulShellBranch(
-            routes: [
-              StatefulShellRoute.indexedStack(
-                builder: (context, state, navigationShell) {
-                  return BoardScreen(
-                    navigationShell: navigationShell,
-                  );
-                },
-                branches: [
-                  StatefulShellBranch(
-                    routes: [
-                      GoRoute(
-                        name: AppRoute.petitionBoard.name,
-                        path: '/board/petition',
-                        builder: (context, state) =>
-                        const PetitionBoardScreen(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    ],
-  );
+  Future<void> _hideKeyboard() async {
+    final context = navigator.routerDelegate.navigatorKey.currentContext;
+    if (context == null) return;
+
+    bool keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+    if (keyboardVisible) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      await Future.delayed(const Duration(milliseconds: 200), () {});
+    }
+  }
 }

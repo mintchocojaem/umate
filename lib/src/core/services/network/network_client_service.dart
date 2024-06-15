@@ -1,16 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../features/user/presentation/providers/login_token_provider.dart';
 import '../../constants/api_url.dart';
 import '../../utils/app_exception.dart';
 
 final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
   return NetworkClientService(
     onRequest: (options) async {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      final loginToken = ref.read(loginTokenProvider).value;
+
+      if (loginToken != null) {
+        options.headers['Authorization'] = 'Bearer ${loginToken.accessToken}';
+      }
+      await Future.delayed(const Duration(milliseconds: 500));
     },
     onResponse: (response) async {},
-    onError: (exception) async {},
+    onError: (exception) async {
+      // Token Invalid
+      if (exception.response?.statusCode == 500) {
+        ref.read(loginTokenProvider.notifier).logout();
+      }
+    },
   );
 });
 
@@ -54,19 +65,15 @@ base class NetworkClientService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (requestOptions, handler) async {
-          if (kDebugMode) {
-            print(
-                'NetworkClientService > (Request) : url = ${requestOptions.uri}, headers = ${requestOptions.headers}, data = ${requestOptions.data}');
-          }
           await onRequest(requestOptions);
+          debugPrint(
+              'NetworkClientService > (Request) : url = ${requestOptions.uri}, headers = ${requestOptions.headers}, data = ${requestOptions.data}');
           handler.next(requestOptions);
         },
         onResponse: (response, handler) async {
-          if (kDebugMode) {
-            print(
-                'NetworkClientService > (Response) : data = ${response.data}');
-            await onResponse(response);
-          }
+          await onResponse(response);
+          debugPrint(
+              'NetworkClientService > (Response) : data = ${response.data}');
           handler.next(response);
         },
         onError: (exception, handler) async {
