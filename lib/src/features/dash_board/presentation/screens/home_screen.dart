@@ -5,8 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../../domain/models/home_board.dart';
-import '../view_models/home_board_view_model.dart';
+import '../providers/home_board_provider.dart';
 import '../widgets/carousel_indicator.dart';
 import '../widgets/web_banner.dart';
 
@@ -18,18 +17,20 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      homeBoardViewModelProvider,
+      homeBoardProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
+          final error = next.error;
+          if (error is! AppException) return;
           context.showSnackBar(
-            message: (next.error as AppException).message,
+            message: error.message,
             type: OrbSnackBarType.error,
           );
         }
       },
     );
 
-    final homeBoard = ref.watch(homeBoardViewModelProvider);
+    final homeBoard = ref.watch(homeBoardProvider);
 
     ValueNotifier<int> currentBannerIndex = ValueNotifier<int>(0);
     return OrbScaffold(
@@ -88,14 +89,14 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
                 );
               },
               loading: () => Container(
-                width: double.infinity,
-                height: 256,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width,
                 color: context.palette.outline,
               ),
               error: (error, stackTrace) {
                 return Container(
-                  width: double.infinity,
-                  height: 256,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width,
                   color: context.palette.outline,
                   child: OrbIcon(
                     Icons.image_not_supported,

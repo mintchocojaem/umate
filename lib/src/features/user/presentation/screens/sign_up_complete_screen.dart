@@ -29,12 +29,6 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
       ConfettiController(duration: const Duration(seconds: 3));
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   void dispose() {
     // TODO: implement dispose
     confettiController.dispose();

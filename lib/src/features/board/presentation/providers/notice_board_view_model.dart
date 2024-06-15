@@ -19,78 +19,65 @@ class NoticeBoardViewModel extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
   @override
   FutureOr<Board<NoticePost>> build() {
     // TODO: implement build
-    fetch();
-    return future;
+    return _fetch();
   }
 
-  Future<void> fetch() async {
-
+  Future<Board<NoticePost>> _fetch() async {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 
-    state = const AsyncLoading();
-    final result = await ref.read(getNoticeBoardProvider)(
-      GetNoticeBoardParams(
-        cancelToken: _cancelToken,
+    final result = ref.read(
+      getNoticeBoardProvider(
+        GetNoticeBoardParams(
+          cancelToken: _cancelToken,
+        ),
       ),
     );
 
-    /*
-    result.fold(
-      (success) {
-        state = AsyncData(success);
-      },
-      (failure) {
-        if (!(failure is AppNetworkError &&
-            failure.type == DioExceptionType.cancel)) {
-          state = AsyncError(
-            failure.message,
-            failure.stackTrace,
-          );
-        }
-      },
-    );
+    return result;
+  }
 
-     */
+  Future<void> fetch() async {
+    state = await AsyncValue.guard(() => _fetch());
   }
 
   Future<void> fetchMore({
     required int page,
   }) async {
-
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 
-    final result = await ref.read(getNoticeBoardProvider)(
-      GetNoticeBoardParams(
-        cancelToken: _cancelToken,
-        page: page,
+    final result = await AsyncValue.guard(
+      () => ref.read(
+        getNoticeBoardProvider(
+          GetNoticeBoardParams(
+            cancelToken: _cancelToken,
+          ),
+        ),
       ),
     );
 
-    /*
-    result.fold(
-      (success) {
+    result.when(
+      data: (data) {
         state = AsyncData(
-          success.copyWith(
+          data.copyWith(
             content: [
               ...state.requireValue.content,
-              ...success.content,
+              ...data.content,
             ],
           ),
         );
       },
-      (failure) {
-        if (!(failure is AppNetworkError &&
-            failure.type == DioExceptionType.cancel)) {
+      loading: () => state = const AsyncLoading(),
+      error: (error, stackTrace) {
+        if (!(error is AppNetworkError &&
+            error.type == DioExceptionType.cancel)) {
           state = AsyncError(
-            failure.message,
-            failure.stackTrace,
+            error,
+            stackTrace,
           );
         }
       },
     );
-
-     */
   }
 }

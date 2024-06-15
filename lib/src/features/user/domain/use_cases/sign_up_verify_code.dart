@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/auth_remote_repository.dart';
 
-final signUpVerifyCodeProvider = Provider.autoDispose<SignUpVerifyCode>(
-  (ref) => SignUpVerifyCode(
+final signUpVerifyCodeProvider = Provider.autoDispose.family<Future<bool>, SignUpVerifyCodeParams>(
+  (ref, params) => SignUpVerifyCode(
     authRepository: ref.watch(authRemoteRepositoryProvider),
-  ),
+  )(params),
 );
 
 class SignUpVerifyCodeParams extends UseCaseParams {

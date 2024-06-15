@@ -6,10 +6,11 @@ import '../../data/repositories/notice_repository.dart';
 import '../models/board.dart';
 import '../models/notice_post.dart';
 
-final getNoticeBoardProvider = Provider.autoDispose<GetNoticeBoard>(
-  (ref) => GetNoticeBoard(
+final getNoticeBoardProvider = Provider.autoDispose
+    .family<Future<Board<NoticePost>>, GetNoticeBoardParams>(
+  (ref, params) => GetNoticeBoard(
     repository: ref.watch(noticeRepositoryProvider),
-  ),
+  )(params),
 );
 
 class GetNoticeBoardParams extends UseCaseParams {

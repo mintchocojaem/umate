@@ -9,6 +9,8 @@ import '../../../features/board/presentation/screens/notice_board_screen.dart';
 import '../../../features/board/presentation/screens/petition_board_screen.dart';
 import '../../../features/dash_board/presentation/screens/home_screen.dart';
 import '../../../features/user/presentation/providers/login_token_provider.dart';
+import '../../../features/user/presentation/screens/find_user_id_screen.dart';
+import '../../../features/user/presentation/screens/find_user_password_screen.dart';
 import '../../../features/user/presentation/screens/login_screen.dart';
 import '../../../features/board/presentation/screens/board_screen.dart';
 
@@ -22,7 +24,7 @@ import 'route_error_screen.dart';
 enum AppRoute {
   noInternet,
   login,
-  findStudentId,
+  findUserId,
   findPassword,
   signUpVerifyStudent,
   signUpAgreePolicy,
@@ -80,6 +82,22 @@ final routerServiceProvider = Provider<RouterService>(
             builder: (context, state) {
               return const LoginScreen();
             },
+            routes: [
+              GoRoute(
+                path: 'find/id',
+                name: AppRoute.findUserId.name,
+                builder: (context, state) {
+                  return const FindUserIdScreen();
+                },
+              ),
+              GoRoute(
+                path: 'find/password',
+                name: AppRoute.findPassword.name,
+                builder: (context, state) {
+                  return const FindUserPasswordScreen();
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/sign_up',

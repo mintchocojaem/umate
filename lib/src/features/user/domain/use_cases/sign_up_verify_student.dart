@@ -5,10 +5,11 @@ import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/auth_remote_repository.dart';
 import '../models/sign_up_info.dart';
 
-final signUpVerifyStudentProvider = Provider.autoDispose<SignUpVerifyStudent>(
-  (ref) => SignUpVerifyStudent(
+final signUpVerifyStudentProvider =
+    Provider.autoDispose.family<Future<SignUpInfo>, SignUpVerifyStudentParams>(
+  (ref, params) => SignUpVerifyStudent(
     authRepository: ref.watch(authRemoteRepositoryProvider),
-  ),
+  )(params),
 );
 
 class SignUpVerifyStudentParams extends UseCaseParams {

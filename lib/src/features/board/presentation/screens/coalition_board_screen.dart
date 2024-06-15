@@ -4,7 +4,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../domain/models/coalition_type.dart';
-import '../view_models/coalition_board_view_model.dart';
+import '../providers/coalition_board_provider.dart';
 
 import '../widgets/category_bar.dart';
 import '../widgets/board_tab.dart';
@@ -21,7 +21,7 @@ class CoalitionBoardScreen extends ConsumerStatefulWidget {
 
 class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
     with DateTimeFormatter {
-  late final ScrollController _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
   final List<CoalitionType> categoryList = [
     CoalitionType.food,
@@ -29,13 +29,6 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
     CoalitionType.culture,
     CoalitionType.etc,
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController = ScrollController();
-  }
 
   @override
   void dispose() {
@@ -47,7 +40,7 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final coalitionBoard = ref.watch(coalitionBoardViewModelProvider);
+    final coalitionBoard = ref.watch(coalitionBoardProvider);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -98,10 +91,10 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
       body: BoardTab(
         board: coalitionBoard,
         onFetch: () async {
-          await ref.read(coalitionBoardViewModelProvider.notifier).fetch();
+          await ref.read(coalitionBoardProvider.notifier).fetch();
         },
         onFetchMore: (currentPage) async {
-          await ref.read(coalitionBoardViewModelProvider.notifier).fetchMore(
+          await ref.read(coalitionBoardProvider.notifier).fetchMore(
                 page: currentPage,
               );
         },

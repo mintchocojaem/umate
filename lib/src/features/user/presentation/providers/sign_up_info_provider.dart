@@ -22,29 +22,18 @@ class SignUpInfoNotifier extends AutoDisposeAsyncNotifier<SignUpInfo?> {
     required String dkuPassword,
     required bool isAgreePolicy,
   }) async {
-    state = const AsyncLoading();
 
-    final result = await ref.read(signUpVerifyStudentProvider)(
-      SignUpVerifyStudentParams(
-        dkuStudentId: dkuStudentId,
-        dkuPassword: dkuPassword,
-        isAgreePolicy: isAgreePolicy,
+    state = await AsyncValue.guard(
+      () => ref.read(
+        signUpVerifyStudentProvider(
+          SignUpVerifyStudentParams(
+            dkuStudentId: dkuStudentId,
+            dkuPassword: dkuPassword,
+            isAgreePolicy: isAgreePolicy,
+          ),
+        ),
       ),
     );
-
-    /*
-    result.fold(
-      (success) {
-        state = AsyncData(success);
-      },
-      (failure) {
-        state = AsyncError(
-          failure,
-          StackTrace.current,
-        );
-      },
-    );
-
-     */
   }
+
 }

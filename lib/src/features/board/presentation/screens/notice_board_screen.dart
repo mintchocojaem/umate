@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
-import '../view_models/notice_board_view_model.dart';
+import '../providers/notice_board_view_model.dart';
 import '../widgets/board_tab.dart';
 
 class NoticeBoardScreen extends ConsumerStatefulWidget {
@@ -17,14 +17,7 @@ class NoticeBoardScreen extends ConsumerStatefulWidget {
 
 class _NoticeBoardScreenState extends ConsumerState<NoticeBoardScreen>
     with DateTimeFormatter {
-  late final ScrollController _scrollController;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController = ScrollController();
-  }
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {

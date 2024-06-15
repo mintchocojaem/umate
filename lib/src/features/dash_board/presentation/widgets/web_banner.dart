@@ -20,54 +20,61 @@ class WebBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      carouselController: _carouselController,
-      items: urls.map((e) {
-        return InkWell(
-          onTap: onTap(urls.indexOf(e)),
-          child: Image.network(
-            e,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              }
-              return Center(
-                child: OrbCircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) {
-              return OrbIcon(
-                Icons.image_not_supported,
-                size: OrbIconSize.large,
-                color: context.palette.error,
-              );
-            },
-          ),
-        );
-      }).toList(),
-      options: CarouselOptions(
-        aspectRatio: 1 / 1,
-        clipBehavior: Clip.hardEdge,
-        enlargeFactor: 0,
-        viewportFraction: 1,
-        initialPage: 0,
-        enableInfiniteScroll: true,
-        reverse: false,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 5),
-        autoPlayAnimationDuration: const Duration(seconds: 1),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: true,
-        scrollDirection: Axis.horizontal,
-        onPageChanged: (index, reason) {
-          onPageChanged(index);
-        },
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width,
+      color: context.palette.outline,
+      child: CarouselSlider(
+        carouselController: _carouselController,
+        items: urls.map(
+          (e) {
+            return InkWell(
+              onTap: onTap(urls.indexOf(e)),
+              child: Image.network(
+                e,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: OrbCircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return OrbIcon(
+                    Icons.image_not_supported,
+                    size: OrbIconSize.large,
+                    color: context.palette.error,
+                  );
+                },
+              ),
+            );
+          },
+        ).toList(),
+        options: CarouselOptions(
+          aspectRatio: 1 / 1,
+          clipBehavior: Clip.hardEdge,
+          enlargeFactor: 0,
+          viewportFraction: 1,
+          initialPage: 0,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 5),
+          autoPlayAnimationDuration: const Duration(seconds: 1),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enlargeCenterPage: true,
+          scrollDirection: Axis.horizontal,
+          onPageChanged: (index, reason) {
+            onPageChanged(index);
+          },
+        ),
       ),
     );
   }

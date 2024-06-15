@@ -43,8 +43,10 @@ class _SignUpVerifyStudentScreenState
       signUpInfoProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
+          final error = next.error;
+          if (error is! AppException) return;
           context.showSnackBar(
-            message: (next.error as AppException).message,
+            message: error.message,
             type: OrbSnackBarType.error,
           );
         } else if (next.value != null) {
@@ -117,15 +119,15 @@ class _SignUpVerifyStudentScreenState
                               isAgreePolicy: true,
                             );
 
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                        }
+                        if (!context.mounted) return;
+
+                        Navigator.pop(context);
                       },
-                      onTapCollectUserInfo: () async {
+                      onTapCollectUserInfo: () {
                         ref.read(routerServiceProvider).pushReplacementNamed(
                             AppRoute.signUpAgreePolicy.name);
                       },
-                      onTapThirdParty: () async {
+                      onTapThirdParty: () {
                         ref
                             .read(routerServiceProvider)
                             .pushNamed(AppRoute.signUpAgreePolicy.name);

@@ -4,10 +4,11 @@ import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/auth_remote_repository.dart';
 
-final signUpSendCodeProvider = Provider.autoDispose<SignUpSendCode>(
-  (ref) => SignUpSendCode(
+final signUpSendCodeProvider =
+    Provider.autoDispose.family<Future<bool>, SignUpSendCodeParams>(
+  (ref, params) => SignUpSendCode(
     authRepository: ref.watch(authRemoteRepositoryProvider),
-  ),
+  )(params),
 );
 
 class SignUpSendCodeParams extends UseCaseParams {

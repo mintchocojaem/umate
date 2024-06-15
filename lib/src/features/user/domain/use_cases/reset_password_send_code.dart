@@ -1,5 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/auth_remote_repository.dart';
+
+final sendPasswordResetCodeProvider =
+    Provider.autoDispose.family<Future<String>, SendPasswordResetCodeParams>(
+  (ref, params) => SendPasswordResetCode(
+    authRemoteRepository: ref.watch(authRemoteRepositoryProvider),
+  )(params),
+);
 
 class SendPasswordResetCodeParams extends UseCaseParams {
   final String phoneNumber;
@@ -13,11 +22,11 @@ class SendPasswordResetCodeParams extends UseCaseParams {
   List<Object?> get props => [phoneNumber];
 }
 
-class SendPasswordResetCodeUseCase
+class SendPasswordResetCode
     extends UseCase<String, SendPasswordResetCodeParams> {
   final AuthRemoteRepository authRemoteRepository;
 
-  SendPasswordResetCodeUseCase({
+  SendPasswordResetCode({
     required this.authRemoteRepository,
   });
 

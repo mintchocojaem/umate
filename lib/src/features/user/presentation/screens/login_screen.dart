@@ -18,18 +18,9 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  late final TextEditingController studentIdController;
-  late final TextEditingController passwordController;
-  late final GlobalKey<FormState> formKey;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    studentIdController = TextEditingController();
-    passwordController = TextEditingController();
-    formKey = GlobalKey<FormState>();
-  }
+  final TextEditingController studentIdController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -45,8 +36,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       loginTokenProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
+          final error = next.error;
+          if (error is! AppException) return;
           context.showSnackBar(
-            message: (next.error as AppException).message,
+            message: error.message,
             type: OrbSnackBarType.error,
           );
         } else if (next.value != null) {
@@ -116,7 +109,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   OrbTextButton(
                     text: '아이디 찾기',
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(routerServiceProvider)
+                          .pushNamed(AppRoute.findUserId.name);
+                    },
                   ),
                   const SizedBox(width: 8),
                   const OrbText(
@@ -125,7 +122,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(width: 8),
                   OrbTextButton(
                     text: '비밀번호 찾기',
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(routerServiceProvider)
+                          .pushNamed(AppRoute.findPassword.name);
+                    },
                   ),
                   const SizedBox(width: 8),
                   const OrbText(

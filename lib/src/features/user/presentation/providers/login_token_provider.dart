@@ -33,7 +33,6 @@ class LoginTokenNotifier extends AsyncNotifier<LoginToken?> {
         ReissueLoginTokenParams(refreshToken: savedToken.refreshToken),
       ),
     );
-
     return result;
   }
 

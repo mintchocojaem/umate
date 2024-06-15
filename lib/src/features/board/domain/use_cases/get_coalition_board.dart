@@ -7,10 +7,11 @@ import '../models/board.dart';
 import '../models/coalition_post.dart';
 import '../models/coalition_type.dart';
 
-final getCoalitionBoardProvider = Provider.autoDispose<GetCoalitionBoard>(
-  (ref) => GetCoalitionBoard(
+final getCoalitionBoardProvider = Provider.autoDispose
+    .family<Future<Board<CoalitionPost>>, GetCoalitionBoardParams>(
+  (ref, params) => GetCoalitionBoard(
     repository: ref.watch(coalitionRepositoryProvider),
-  ),
+  )(params),
 );
 
 class GetCoalitionBoardParams extends UseCaseParams {

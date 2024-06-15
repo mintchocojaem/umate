@@ -5,12 +5,15 @@ import '../../data/repositories/auth_remote_repository.dart';
 import 'sign_up_verify_code.dart';
 import 'verify_nickname.dart';
 
-final signUpProvider = Provider.autoDispose(
-  (ref) => SignUpUseCase(
-    authRepository: ref.watch(authRemoteRepositoryProvider),
-    signUpVerifyCode: ref.watch(signUpVerifyCodeProvider),
-    verifyNickname: ref.watch(verifyNicknameProvider),
-  ),
+final signUpProvider = Provider.autoDispose.family<Future<bool>, SignUpParams>(
+  (ref, params) {
+    final authRepository = ref.watch(authRemoteRepositoryProvider);
+    return SignUpUseCase(
+      authRepository: authRepository,
+      verifyNickname: VerifyNickname(authRepository: authRepository),
+      signUpVerifyCode: SignUpVerifyCode(authRepository: authRepository),
+    )(params);
+  },
 );
 
 class SignUpParams extends UseCaseParams {
@@ -38,37 +41,26 @@ class SignUpUseCase extends UseCase<bool, SignUpParams> {
 
   SignUpUseCase({
     required this.authRepository,
-    required this.signUpVerifyCode,
     required this.verifyNickname,
+    required this.signUpVerifyCode,
   });
 
   @override
   Future<bool> call(SignUpParams params) async {
     // TODO: implement call
-    final isNicknameVerified = await verifyNickname(
+
+    await verifyNickname(
       VerifyNicknameParams(
         nickname: params.nickname,
       ),
     );
 
-    /*
-
-    if (isNicknameVerified.isFailure) {
-      throw isNicknameVerified.failure;
-    }
-
-    final isSignUpCodeVerified = await signUpVerifyCode(
+    await signUpVerifyCode(
       SignUpVerifyCodeParams(
         signUpToken: params.signUpToken,
         code: params.code,
       ),
     );
-
-    if (isSignUpCodeVerified.isFailure) {
-      throw isSignUpCodeVerified.failure;
-    }
-
-     */
 
     return await authRepository.signUp(
       signUpToken: params.signUpToken,
@@ -76,5 +68,4 @@ class SignUpUseCase extends UseCase<bool, SignUpParams> {
       password: params.password,
     );
   }
-
 }

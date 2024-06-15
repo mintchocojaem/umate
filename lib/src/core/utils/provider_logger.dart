@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:umate/src/core/utils/app_exception.dart';
 
 class ProviderLogger extends ProviderObserver {
   @override
@@ -39,9 +38,7 @@ class ProviderLogger extends ProviderObserver {
     StackTrace stackTrace,
     ProviderContainer container,
   ) {
-    if (error is! AppException) {
-      debugPrint(
-          'Provider > ${provider.runtimeType} threw $error at $stackTrace');
-    }
+    debugPrint(
+        'Provider > ${provider.runtimeType} threw $error at $stackTrace');
   }
 }

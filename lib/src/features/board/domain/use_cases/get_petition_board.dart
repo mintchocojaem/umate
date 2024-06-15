@@ -7,10 +7,11 @@ import '../models/board.dart';
 import '../models/petition_post.dart';
 import '../models/petition_status.dart';
 
-final getPetitionBoardProvider = Provider.autoDispose<GetPetitionBoard>(
-  (ref) => GetPetitionBoard(
+final getPetitionBoardProvider = Provider.autoDispose
+    .family<Future<Board<PetitionPost>>, GetPetitionBoardParams>(
+  (ref, params) => GetPetitionBoard(
     repository: ref.watch(petitionRepositoryProvider),
-  ),
+  )(params),
 );
 
 class GetPetitionBoardParams extends UseCaseParams {
@@ -29,7 +30,8 @@ class GetPetitionBoardParams extends UseCaseParams {
   List<Object?> get props => [status, cancelToken, page];
 }
 
-class GetPetitionBoard extends UseCase<Board<PetitionPost>, GetPetitionBoardParams> {
+class GetPetitionBoard
+    extends UseCase<Board<PetitionPost>, GetPetitionBoardParams> {
   final PetitionRepository repository;
 
   GetPetitionBoard({required this.repository});

@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/auth_remote_repository.dart';
 
-final verifyNicknameProvider = Provider.autoDispose<VerifyNickname>(
-  (ref) => VerifyNickname(
+final verifyNicknameProvider =
+    Provider.autoDispose.family<Future<bool>, VerifyNicknameParams>(
+  (ref, params) => VerifyNickname(
     authRepository: ref.watch(authRemoteRepositoryProvider),
-  ),
+  )(params),
 );
 
 class VerifyNicknameParams extends UseCaseParams {

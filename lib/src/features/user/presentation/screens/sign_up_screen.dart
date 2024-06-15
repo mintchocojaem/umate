@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/services/router/router_service.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/auth_validator.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/use_cases/sign_up.dart';
@@ -182,29 +183,35 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen>
                         buttonTextType: OrbButtonTextType.small,
                         buttonRadius: OrbButtonRadius.small,
                         onPressed: () async {
-                          final result = await ref.read(signUpSendCodeProvider)(
-                            SignUpSendCodeParams(
-                              signUpToken: signUpInfo.signupToken,
-                              phoneNumber: phoneNumberController.text,
+                          final result = await AsyncValue.guard(
+                            () => ref.read(
+                              signUpSendCodeProvider(
+                                SignUpSendCodeParams(
+                                  signUpToken: signUpInfo.signupToken,
+                                  phoneNumber: phoneNumberController.text,
+                                ),
+                              ),
                             ),
                           );
-                          /*
-                          result.fold(
-                            (success) {
+
+                          if (!context.mounted) return;
+
+                          result.when(
+                            data: (_) {
                               context.showSnackBar(
                                 message: '인증번호가 전송되었어요.',
                                 type: OrbSnackBarType.info,
                               );
                             },
-                            (failure) {
+                            loading: () => null,
+                            error: (error, stackTrace) {
+                              if (error is! AppException) return;
                               context.showSnackBar(
-                                message: failure.message,
+                                message: error.message,
                                 type: OrbSnackBarType.error,
                               );
                             },
                           );
-
-                           */
                         },
                         text: '인증번호 전송',
                       ),
@@ -221,31 +228,37 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen>
                         return;
                       }
 
-                      final result = await ref.read(signUpProvider)(
-                        SignUpParams(
-                          signUpToken: signUpInfo.signupToken,
-                          nickname: nicknameController.text,
-                          password: passwordController.text,
-                          code: codeController.text,
+                      final result = await AsyncValue.guard(
+                        () => ref.read(
+                          signUpProvider(
+                            SignUpParams(
+                              signUpToken: signUpInfo.signupToken,
+                              nickname: nicknameController.text,
+                              password: passwordController.text,
+                              code: codeController.text,
+                            ),
+                          ),
                         ),
                       );
-                      /*
-                      result.fold(
-                        (success) {
+
+                      if (!context.mounted) return;
+
+                      result.when(
+                        data: (_) {
                           ref.read(routerServiceProvider).pushReplacementNamed(
                                 AppRoute.signUpComplete.name,
                                 extra: passwordController.text,
                               );
                         },
-                        (failure) {
+                        loading: () => null,
+                        error: (error, stackTrace) {
+                          if (error is! AppException) return;
                           context.showSnackBar(
-                            message: failure.message,
+                            message: error.message,
                             type: OrbSnackBarType.error,
                           );
                         },
                       );
-
-                       */
                     },
                   ),
                   const SizedBox(

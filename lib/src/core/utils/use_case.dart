@@ -1,10 +1,6 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-
-import 'app_exception.dart';
-import 'either.dart';
 
 abstract class UseCase<T, P extends UseCaseParams> {
   Future<T> call(P params);
