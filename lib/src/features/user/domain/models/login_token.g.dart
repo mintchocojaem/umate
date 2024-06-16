@@ -11,7 +11,8 @@ LoginToken _$LoginTokenFromJson(Map<String, dynamic> json) => LoginToken(
       refreshToken: json['refreshToken'] as String,
     );
 
-Map<String, dynamic> _$LoginTokenToJson(LoginToken instance) => <String, dynamic>{
+Map<String, dynamic> _$LoginTokenToJson(LoginToken instance) =>
+    <String, dynamic>{
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
     };

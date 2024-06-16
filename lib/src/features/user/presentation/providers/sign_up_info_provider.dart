@@ -20,20 +20,16 @@ class SignUpInfoNotifier extends AutoDisposeAsyncNotifier<SignUpInfo?> {
   Future<void> verifyStudent({
     required String dkuStudentId,
     required String dkuPassword,
-    required bool isAgreePolicy,
   }) async {
-
     state = await AsyncValue.guard(
       () => ref.read(
         signUpVerifyStudentProvider(
           SignUpVerifyStudentParams(
             dkuStudentId: dkuStudentId,
             dkuPassword: dkuPassword,
-            isAgreePolicy: isAgreePolicy,
           ),
         ),
       ),
     );
   }
-
 }

@@ -41,7 +41,7 @@ class LoginTokenNotifier extends AsyncNotifier<LoginToken?> {
     required String password,
   }) async {
     state = await AsyncValue.guard(
-      () async => await ref.read(
+      () => ref.read(
         loginProvider(
           LoginParams(
             studentId: studentId,

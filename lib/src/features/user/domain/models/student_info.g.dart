@@ -14,7 +14,8 @@ StudentInfo _$StudentInfoFromJson(Map<String, dynamic> json) => StudentInfo(
       gender: json['gender'] as String,
     );
 
-Map<String, dynamic> _$StudentInfoToJson(StudentInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$StudentInfoToJson(StudentInfo instance) =>
+    <String, dynamic>{
       'studentName': instance.studentName,
       'studentId': instance.studentId,
       'major': instance.major,

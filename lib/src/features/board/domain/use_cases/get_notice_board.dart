@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
-import '../../data/repositories/notice_repository.dart';
+import '../../data/repositories/notice_remote_repository.dart';
 import '../models/board.dart';
 import '../models/notice_post.dart';
 
 final getNoticeBoardProvider = Provider.autoDispose
     .family<Future<Board<NoticePost>>, GetNoticeBoardParams>(
   (ref, params) => GetNoticeBoard(
-    repository: ref.watch(noticeRepositoryProvider),
+    repository: ref.watch(noticeRemoteRepositoryProvider),
   )(params),
 );
 
@@ -28,7 +28,7 @@ class GetNoticeBoardParams extends UseCaseParams {
 }
 
 class GetNoticeBoard extends UseCase<Board<NoticePost>, GetNoticeBoardParams> {
-  final NoticeRepository repository;
+  final NoticeRemoteRepository repository;
 
   GetNoticeBoard({required this.repository});
 

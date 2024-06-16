@@ -67,7 +67,7 @@ class PetitionBoardNotifier
       ),
     );
 
-    result.when(
+    result.whenOrNull(
       data: (data) {
         state = AsyncData(
           data.copyWith(
@@ -78,7 +78,6 @@ class PetitionBoardNotifier
           ),
         );
       },
-      loading: () => state = const AsyncLoading(),
       error: (error, stackTrace) {
         if (!(error is AppNetworkError &&
             error.type == DioExceptionType.cancel)) {

@@ -8,12 +8,12 @@ import '../../domain/models/board.dart';
 import '../../domain/models/notice_post.dart';
 import '../../domain/use_cases/get_notice_board.dart';
 
-final noticeBoardViewModelProvider =
-    AsyncNotifierProvider.autoDispose<NoticeBoardViewModel, Board<NoticePost>>(
-  () => NoticeBoardViewModel(),
+final noticeBoardProvider =
+    AsyncNotifierProvider.autoDispose<NoticeBoardNotifier, Board<NoticePost>>(
+  () => NoticeBoardNotifier(),
 );
 
-class NoticeBoardViewModel extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
+class NoticeBoardNotifier extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
   CancelToken? _cancelToken;
 
   @override
@@ -56,8 +56,7 @@ class NoticeBoardViewModel extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
         ),
       ),
     );
-
-    result.when(
+    result.whenOrNull(
       data: (data) {
         state = AsyncData(
           data.copyWith(
@@ -68,7 +67,6 @@ class NoticeBoardViewModel extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
           ),
         );
       },
-      loading: () => state = const AsyncLoading(),
       error: (error, stackTrace) {
         if (!(error is AppNetworkError &&
             error.type == DioExceptionType.cancel)) {

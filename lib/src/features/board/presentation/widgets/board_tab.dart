@@ -42,6 +42,8 @@ class BoardTab<P extends Post> extends ConsumerWidget with DateTimeFormatter {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: board.when(
+          skipLoadingOnReload: false,
+          skipLoadingOnRefresh: false,
           data: (data) => data.content.isEmpty
               ? Center(
                   child: Column(

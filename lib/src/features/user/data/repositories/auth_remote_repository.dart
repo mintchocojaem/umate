@@ -6,7 +6,7 @@ import '../../domain/models/sign_up_info.dart';
 import '../../domain/models/login_token.dart';
 
 final authRemoteRepositoryProvider = Provider.autoDispose<AuthRemoteRepository>(
-      (ref) => AuthRemoteRepository(
+  (ref) => AuthRemoteRepository(
     networkClientService: ref.watch(networkClientServiceProvider),
   ),
 );
@@ -170,4 +170,18 @@ class AuthRemoteRepository extends RemoteRepository {
     return response.statusCode == 200;
   }
 
+  Future<bool> refreshStudent({
+    required String dkuStudentId,
+    required String dkuPassword,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/user/dku/refresh',
+      method: RequestType.post,
+      data: {
+        'dkuStudentId': dkuStudentId,
+        'dkuPassword': dkuPassword,
+      },
+    );
+    return result.statusCode == 200;
+  }
 }

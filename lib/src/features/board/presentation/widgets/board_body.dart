@@ -44,7 +44,7 @@ class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
       },
       child: OrbRefreshIndicator(
         onRefresh: () async {
-          onFetch();
+          return onFetch();
         },
         child: ListView.builder(
           clipBehavior: Clip.none,

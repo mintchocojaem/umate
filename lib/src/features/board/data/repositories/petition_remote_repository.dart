@@ -4,19 +4,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/board.dart';
-import '../../domain/models/notice_post.dart';
+import '../../domain/models/petition_post.dart';
 
-final noticeRepositoryProvider = Provider.autoDispose<NoticeRepository>(
-  (ref) => NoticeRepository(
+final petitionRemoteRepositoryProvider =
+    Provider.autoDispose<PetitionRemoteRepository>(
+  (ref) => PetitionRemoteRepository(
     networkClientService: ref.watch(networkClientServiceProvider),
   ),
 );
 
-class NoticeRepository extends RemoteRepository {
-  NoticeRepository({required super.networkClientService});
+class PetitionRemoteRepository extends RemoteRepository {
+  PetitionRemoteRepository({required super.networkClientService});
 
-  Future<Board<NoticePost>> getNoticeBoard({
+  Future<Board<PetitionPost>> getPetitionBoard({
     CancelToken? cancelToken,
+    required String status,
     String? keyword,
     int? bodySize,
     int? page,
@@ -24,10 +26,11 @@ class NoticeRepository extends RemoteRepository {
     List<String>? sort,
   }) async {
     final result = await networkClientService.request(
-      path: '/post/notice',
+      path: '/post/petition',
       method: RequestType.get,
       queryParameters: {
         'keyword': keyword,
+        'status': status,
         'bodySize': bodySize,
         'page': page,
         'size': size,
@@ -37,7 +40,7 @@ class NoticeRepository extends RemoteRepository {
     );
     return Board.fromJson(
       result.data,
-      (data) => NoticePost.fromJson(data as Map<String, dynamic>),
+      (data) => PetitionPost.fromJson(data as Map<String, dynamic>),
     );
   }
 }

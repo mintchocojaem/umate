@@ -42,8 +42,8 @@ class OrbDialog extends StatelessWidget {
     final themeData = OrbThemeData.of(context);
     final palette = themeData.palette;
     return AlertDialog(
-      surfaceTintColor: palette.surface,
-      backgroundColor: palette.surface,
+      surfaceTintColor: palette.surfaceBright,
+      backgroundColor: palette.surfaceBright,
       insetPadding: const EdgeInsets.all(32),
       title: Text(
         title,
@@ -60,6 +60,7 @@ class OrbDialog extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: OrbFilledButton(
+                    buttonSize: OrbButtonSize.fit,
                     backgroundColor: leftButtonColor ?? palette.surface,
                     onPressed: () async {
                       if (disableButtonAction) return;
@@ -83,6 +84,7 @@ class OrbDialog extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: OrbFilledButton(
+                    buttonSize: OrbButtonSize.fit,
                     backgroundColor: rightButtonColor,
                     onPressed: () async {
                       if (disableButtonAction) return;

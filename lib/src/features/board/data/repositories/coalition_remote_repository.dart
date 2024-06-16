@@ -4,20 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/board.dart';
-import '../../domain/models/petition_post.dart';
+import '../../domain/models/coalition_post.dart';
 
-final petitionRepositoryProvider = Provider.autoDispose<PetitionRepository>(
-  (ref) => PetitionRepository(
+final coalitionRemoteRepositoryProvider = Provider.autoDispose<CoalitionRemoteRepository>(
+  (ref) => CoalitionRemoteRepository(
     networkClientService: ref.watch(networkClientServiceProvider),
   ),
 );
 
-class PetitionRepository extends RemoteRepository {
-  PetitionRepository({required super.networkClientService});
+class CoalitionRemoteRepository extends RemoteRepository {
+  CoalitionRemoteRepository({required super.networkClientService});
 
-  Future<Board<PetitionPost>> getPetitionBoard({
+  Future<Board<CoalitionPost>> getCoalitionBoard({
     CancelToken? cancelToken,
-    required String status,
+    String? coalitionType,
     String? keyword,
     int? bodySize,
     int? page,
@@ -25,11 +25,11 @@ class PetitionRepository extends RemoteRepository {
     List<String>? sort,
   }) async {
     final result = await networkClientService.request(
-      path: '/post/petition',
+      path: '/post/coalition',
       method: RequestType.get,
       queryParameters: {
+        'coalitionType': coalitionType,
         'keyword': keyword,
-        'status': status,
         'bodySize': bodySize,
         'page': page,
         'size': size,
@@ -39,7 +39,7 @@ class PetitionRepository extends RemoteRepository {
     );
     return Board.fromJson(
       result.data,
-      (data) => PetitionPost.fromJson(data as Map<String, dynamic>),
+      (data) => CoalitionPost.fromJson(data as Map<String, dynamic>),
     );
   }
 }

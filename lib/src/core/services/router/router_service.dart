@@ -8,12 +8,17 @@ import '../../../features/board/presentation/screens/coalition_board_screen.dart
 import '../../../features/board/presentation/screens/notice_board_screen.dart';
 import '../../../features/board/presentation/screens/petition_board_screen.dart';
 import '../../../features/dash_board/presentation/screens/home_screen.dart';
+import '../../../features/timetable/presentation/screens/add_schedule_screen.dart';
+import '../../../features/timetable/presentation/screens/schedule_detail_screen.dart';
+import '../../../features/timetable/presentation/screens/add_lecture_screen.dart';
+import '../../../features/timetable/presentation/screens/timetable_screen.dart';
 import '../../../features/user/presentation/providers/login_token_provider.dart';
 import '../../../features/user/presentation/screens/find_user_id_screen.dart';
 import '../../../features/user/presentation/screens/find_user_password_screen.dart';
 import '../../../features/user/presentation/screens/login_screen.dart';
 import '../../../features/board/presentation/screens/board_screen.dart';
 
+import '../../../features/user/presentation/screens/refresh_verify_student_screen.dart';
 import '../../../features/user/presentation/screens/sign_up_agree_policy_screen.dart';
 import '../../../features/user/presentation/screens/sign_up_complete_screen.dart';
 import '../../../features/user/presentation/screens/sign_up_screen.dart';
@@ -30,6 +35,7 @@ enum AppRoute {
   signUpAgreePolicy,
   signUp,
   signUpComplete,
+  refreshVerifyStudent,
   home,
   noticeBoard,
   coalitionBoard,
@@ -41,9 +47,9 @@ enum AppRoute {
   petitionPost,
   petitionWrite,
   searchPost,
-  searchLecture,
-  scheduleInfo,
+  addLecture,
   addSchedule,
+  scheduleDetail,
 }
 
 final routerServiceProvider = Provider<RouterService>(
@@ -83,6 +89,13 @@ final routerServiceProvider = Provider<RouterService>(
               return const LoginScreen();
             },
             routes: [
+              GoRoute(
+                path: 'refresh/verify/student',
+                name: AppRoute.refreshVerifyStudent.name,
+                builder: (context, state) {
+                  return const RefreshVerifyStudentScreen();
+                },
+              ),
               GoRoute(
                 path: 'find/id',
                 name: AppRoute.findUserId.name,
@@ -185,6 +198,41 @@ final routerServiceProvider = Provider<RouterService>(
                                 const PetitionBoardScreen(),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: '/timetable',
+                    name: AppRoute.timetable.name,
+                    builder: (context, state) => const TimetableScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'add/lecture',
+                        name: AppRoute.addLecture.name,
+                        builder: (context, state) {
+                          return const AddLectureScreen();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'add/schedule',
+                        name: AppRoute.addSchedule.name,
+                        builder: (context, state) {
+                          return const AddScheduleScreen();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'schedule/:id',
+                        name: AppRoute.scheduleDetail.name,
+                        builder: (context, state) {
+                          final id = state.pathParameters['id']!;
+                          return ScheduleDetailScreen(
+                            id: int.parse(id),
+                          );
+                        },
                       ),
                     ],
                   ),

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
-import '../../data/repositories/petition_repository.dart';
+import '../../data/repositories/petition_remote_repository.dart';
 import '../models/board.dart';
 import '../models/petition_post.dart';
 import '../models/petition_status.dart';
@@ -10,7 +10,7 @@ import '../models/petition_status.dart';
 final getPetitionBoardProvider = Provider.autoDispose
     .family<Future<Board<PetitionPost>>, GetPetitionBoardParams>(
   (ref, params) => GetPetitionBoard(
-    repository: ref.watch(petitionRepositoryProvider),
+    repository: ref.watch(petitionRemoteRepositoryProvider),
   )(params),
 );
 
@@ -32,7 +32,7 @@ class GetPetitionBoardParams extends UseCaseParams {
 
 class GetPetitionBoard
     extends UseCase<Board<PetitionPost>, GetPetitionBoardParams> {
-  final PetitionRepository repository;
+  final PetitionRemoteRepository repository;
 
   GetPetitionBoard({required this.repository});
 

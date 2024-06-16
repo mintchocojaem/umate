@@ -107,13 +107,27 @@ class _OrbTextFieldState extends State<OrbTextField> {
         helperStyle: themeData.textTheme.bodySmall,
         hintMaxLines: 10,
         hintStyle: switch (widget.style) {
-          OrbTextType.titleLarge => themeData.textTheme.titleLarge,
-          OrbTextType.titleMedium => themeData.textTheme.titleMedium,
-          OrbTextType.titleSmall => themeData.textTheme.titleSmall,
-          OrbTextType.bodyLarge => themeData.textTheme.bodyLarge,
-          OrbTextType.bodyMedium => themeData.textTheme.bodyMedium,
-          OrbTextType.bodySmall => themeData.textTheme.bodySmall,
-          _ => themeData.textTheme.bodyMedium,
+          OrbTextType.titleLarge => themeData.textTheme.titleLarge.copyWith(
+              color: palette.surfaceDim,
+            ),
+          OrbTextType.titleMedium => themeData.textTheme.titleMedium.copyWith(
+            color: palette.surfaceDim,
+          ),
+          OrbTextType.titleSmall => themeData.textTheme.titleSmall.copyWith(
+            color: palette.surfaceDim,
+          ),
+          OrbTextType.bodyLarge => themeData.textTheme.bodyLarge.copyWith(
+            color: palette.surfaceDim,
+          ),
+          OrbTextType.bodyMedium => themeData.textTheme.bodyMedium.copyWith(
+            color: palette.surfaceDim,
+          ),
+          OrbTextType.bodySmall => themeData.textTheme.bodySmall.copyWith(
+            color: palette.surfaceDim,
+          ),
+          _ => themeData.textTheme.bodyMedium.copyWith(
+            color: palette.surfaceDim,
+          ),
         },
         errorStyle: themeData.textTheme.bodySmall.copyWith(
           color: palette.error,

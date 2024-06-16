@@ -4,22 +4,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../features/user/presentation/providers/login_token_provider.dart';
 import '../../constants/api_url.dart';
 import '../../utils/app_exception.dart';
+import '../router/router_service.dart';
 
 final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
   return NetworkClientService(
     onRequest: (options) async {
+      await Future.delayed(const Duration(milliseconds: 100));
       final loginToken = ref.read(loginTokenProvider).value;
 
       if (loginToken != null) {
         options.headers['Authorization'] = 'Bearer ${loginToken.accessToken}';
       }
-      await Future.delayed(const Duration(milliseconds: 500));
     },
-    onResponse: (response) async {},
+    onResponse: (response) async {
+      await Future.delayed(const Duration(milliseconds: 100));
+    },
     onError: (exception) async {
-      // Token Invalid
+      await Future.delayed(const Duration(milliseconds: 100));
       if (exception.response?.statusCode == 500) {
+        // Token Invalid
         ref.read(loginTokenProvider.notifier).logout();
+      } else if (exception.response?.statusCode == 600) {
+        //Student Not Verified
+        ref
+            .read(routerServiceProvider)
+            .pushNamed(AppRoute.refreshVerifyStudent.name);
       }
     },
   );
@@ -80,10 +89,8 @@ base class NetworkClientService {
           await onError(exception);
 
           if (exception.type == DioExceptionType.cancel) {
-            if (kDebugMode) {
-              print(
-                  'NetworkClientService > (Canceled) : ${exception.requestOptions.uri}');
-            }
+            debugPrint(
+                'NetworkClientService > (Canceled) : ${exception.requestOptions.uri}');
           } else {
             final List<dynamic>? messages = exception.response?.data['message'];
 
@@ -103,10 +110,8 @@ base class NetworkClientService {
 
             final int statusCode = exception.response?.statusCode ?? 500;
 
-            if (kDebugMode) {
-              print(
-                  'NetworkClientService > (Error) : code = $statusCode, message = $messages');
-            }
+            debugPrint(
+                'NetworkClientService > (Error) : code = $statusCode, message = $messages');
           }
           handler.next(exception);
         },

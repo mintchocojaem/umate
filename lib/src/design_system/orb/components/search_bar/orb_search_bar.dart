@@ -60,11 +60,13 @@ class _OrbSearchBarState extends State<OrbSearchBar> {
             controller: keywordController,
             textInputAction: TextInputAction.search,
             style: widget.textStyle ?? themeData.textTheme.bodyMedium,
+            cursorColor: palette.primary,
+            cursorErrorColor: palette.error,
             decoration: InputDecoration(
               hintText: '검색',
               hintStyle: widget.textStyle ?? themeData.textTheme.bodyMedium,
               filled: true,
-              fillColor: palette.surface,
+              fillColor: palette.surfaceBright,
               prefixIcon: const OrbIcon(
                 Icons.search_rounded,
               ),

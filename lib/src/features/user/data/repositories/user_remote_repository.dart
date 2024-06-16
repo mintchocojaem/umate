@@ -4,14 +4,14 @@ import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/user_info.dart';
 
-final userRepositoryProvider = Provider.autoDispose<UserRepository>(
-  (ref) => UserRepository(
+final userRemoteRepositoryProvider = Provider.autoDispose<UserRemoteRepository>(
+  (ref) => UserRemoteRepository(
     networkClientService: ref.watch(networkClientServiceProvider),
   ),
 );
 
-class UserRepository extends RemoteRepository {
-  UserRepository({
+class UserRemoteRepository extends RemoteRepository {
+  UserRemoteRepository({
     required super.networkClientService,
   });
 

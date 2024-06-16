@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
-import '../../data/repositories/coalition_repository.dart';
+import '../../data/repositories/coalition_remote_repository.dart';
 import '../models/board.dart';
 import '../models/coalition_post.dart';
 import '../models/coalition_type.dart';
@@ -10,7 +10,7 @@ import '../models/coalition_type.dart';
 final getCoalitionBoardProvider = Provider.autoDispose
     .family<Future<Board<CoalitionPost>>, GetCoalitionBoardParams>(
   (ref, params) => GetCoalitionBoard(
-    repository: ref.watch(coalitionRepositoryProvider),
+    repository: ref.watch(coalitionRemoteRepositoryProvider),
   )(params),
 );
 
@@ -32,7 +32,7 @@ class GetCoalitionBoardParams extends UseCaseParams {
 
 class GetCoalitionBoard
     extends UseCase<Board<CoalitionPost>, GetCoalitionBoardParams> {
-  final CoalitionRepository repository;
+  final CoalitionRemoteRepository repository;
 
   GetCoalitionBoard({required this.repository});
 
