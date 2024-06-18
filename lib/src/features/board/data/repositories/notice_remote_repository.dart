@@ -41,4 +41,16 @@ class NoticeRemoteRepository extends RemoteRepository {
       (data) => NoticePost.fromJson(data as Map<String, dynamic>),
     );
   }
+
+  Future<NoticePost> getNoticePost({
+    CancelToken? cancelToken,
+    int? id,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/post/notice/$id',
+      method: RequestType.get,
+      cancelToken: cancelToken,
+    );
+    return NoticePost.fromJson(result.data);
+  }
 }

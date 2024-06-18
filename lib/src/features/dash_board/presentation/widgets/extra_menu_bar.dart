@@ -4,45 +4,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../design_system/orb/orb.dart';
 
-class BottomMenuBar extends StatelessWidget {
-  const BottomMenuBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return const Row(
-      children: [
-        HomeExtraMenu(
-          title: '도서관',
-          content: '열람실 자리',
-          imagePath: 'assets/icons/books.png',
-          url:
-          'https://libseat.dankook.ac.kr/mobile/PA/roomList.php?campus=J',
-        ),
-        HomeExtraMenu(
-          title: '학식',
-          content: '오늘의 메뉴',
-          imagePath: 'assets/icons/school_meal.png',
-          url: 'https://www.dankook.ac.kr/web/kor/-556',
-        ),
-        HomeExtraMenu(
-          title: '학사일정',
-          content: '곧 있을 행사',
-          imagePath: 'assets/icons/school_schedule.png',
-          url: 'https://www.dankook.ac.kr/web/kor/-2014-',
-        ),
-      ],
-    );
-  }
-}
-
-class HomeExtraMenu extends StatelessWidget {
+class ExtraMenu extends StatelessWidget {
   final String title;
   final String content;
   final String imagePath;
   final String url;
 
-  const HomeExtraMenu({
+  const ExtraMenu({
     super.key,
     required this.title,
     required this.content,
@@ -54,7 +22,7 @@ class HomeExtraMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () async {
           if (!await launchUrl(Uri.parse(url))) {
             /*

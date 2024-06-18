@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../providers/notice_board_provider.dart';
 import '../widgets/board_tab.dart';
@@ -42,7 +43,14 @@ class _NoticeBoardScreenState extends ConsumerState<NoticeBoardScreen>
             );
       },
       postTagItems: (post) => [],
-      onTapPost: (int index) {},
+      onTapPost: (post) {
+        ref.read(routerServiceProvider).pushNamed(
+          AppRoute.noticePost.name,
+          pathParameters: {
+            'id': post.id.toString(),
+          },
+        );
+      },
     );
   }
 }

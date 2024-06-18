@@ -81,15 +81,13 @@ class _FindUserIdScreenState extends ConsumerState<FindUserIdScreen>
                     data: (_) {
                       context.showSnackBar(
                         message: '아이디가 전송되었습니다.',
-                        type: OrbSnackBarType.info,
                       );
                     },
                     loading: () => null,
                     error: (error, stackTrace) {
                       if (error is! AppException) return;
-                      context.showSnackBar(
-                        message: error.message,
-                        type: OrbSnackBarType.error,
+                      context.showErrorSnackBar(
+                        error: error,
                       );
                     },
                   );

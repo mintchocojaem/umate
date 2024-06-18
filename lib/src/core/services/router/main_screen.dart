@@ -42,7 +42,13 @@ class MainScreen extends StatelessWidget {
             icon: ImageIcon(
               AssetImage("assets/icons/bottom_nav_board.png"),
             ),
-            label: "게시판",
+            label: "총학생회",
+          ),
+          OrbBottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage("assets/icons/bottom_nav_with_dku.png"),
+            ),
+            label: "with단국",
           ),
           OrbBottomNavigationBarItem(
             icon: ImageIcon(

@@ -64,19 +64,19 @@ class OrbBottomNavigationBar extends StatelessWidget {
               children: items
                   .map(
                     (e) => Expanded(
-                      child: InkWell(
-                        onTap: () {
+                      child: IconButton(
+                        style: ButtonStyle(
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                        ),
+                        icon: e.icon,
+                        color: currentIndex == items.indexOf(e)
+                            ? palette.primary
+                            : palette.surface,
+                        onPressed: () {
                           onIndexChanged?.call(items.indexOf(e));
                         },
-                        child: IconButton(
-                          icon: e.icon,
-                          color: currentIndex == items.indexOf(e)
-                              ? palette.primary
-                              : palette.surface,
-                          onPressed: () {
-                            onIndexChanged?.call(items.indexOf(e));
-                          },
-                        ),
                       ),
                     ),
                   )

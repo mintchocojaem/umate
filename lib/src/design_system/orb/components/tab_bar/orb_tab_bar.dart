@@ -24,7 +24,8 @@ class OrbTabBar extends StatelessWidget {
       child: TabBar(
         tabs: tabs,
         controller: controller,
-        indicatorWeight: 3,
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
         indicatorColor: palette.primary,
         labelColor: palette.primary,
         onTap: onTabChange,

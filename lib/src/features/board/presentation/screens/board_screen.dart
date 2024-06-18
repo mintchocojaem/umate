@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../design_system/orb/orb.dart';
 
 class BoardScreen extends ConsumerStatefulWidget {
@@ -58,7 +59,9 @@ class _BoardScreenState extends ConsumerState<BoardScreen>
             Icons.search,
           ),
           onPressed: () {
-
+            ref.read(routerServiceProvider).pushNamed(
+              AppRoute.searchBoard.name,
+            );
           },
         ),
       ),

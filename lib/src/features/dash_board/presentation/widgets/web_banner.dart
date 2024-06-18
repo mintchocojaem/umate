@@ -22,7 +22,7 @@ class WebBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width * (9 / 16),
       color: context.palette.outline,
       child: CarouselSlider(
         carouselController: _carouselController,

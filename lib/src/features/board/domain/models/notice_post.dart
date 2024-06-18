@@ -14,11 +14,11 @@ class NoticePost extends Post {
     required super.author,
     required super.body,
     required super.createdAt,
-    required super.files,
-    required super.images,
-    required super.views,
-    required super.mine,
-    required super.blinded,
+    super.files,
+    super.images,
+    super.views,
+    super.mine,
+    super.blinded,
   });
 
   factory NoticePost.fromJson(Map<String, dynamic> json) =>

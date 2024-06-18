@@ -10,20 +10,23 @@ PetitionPost _$PetitionPostFromJson(Map<String, dynamic> json) => PetitionPost(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String,
+      body: json['body'] as String? ?? '',
       createdAt: json['createdAt'] as String,
-      files: (json['files'] as List<dynamic>)
-          .map((e) => PostFile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      images: (json['images'] as List<dynamic>)
-          .map((e) => PostImage.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      files: (json['files'] as List<dynamic>?)
+              ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => PostImage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
-      blinded: json['blinded'] as bool,
+      blinded: json['blinded'] as bool? ?? false,
       answer: json['answer'] as String?,
-      status: $enumDecode(_$PetitionStatusEnumMap, json['status']),
-      expiresAt: json['expiresAt'] as String,
+      status: $enumDecodeNullable(_$PetitionStatusEnumMap, json['status']) ??
+          PetitionStatus.active,
+      expiresAt: json['expiresAt'] as String? ?? '',
       agreeCount: (json['agreeCount'] as num?)?.toInt() ?? 0,
       agree: json['agree'] as bool? ?? false,
     );

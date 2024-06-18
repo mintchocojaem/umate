@@ -19,12 +19,13 @@ class CoalitionPost extends Post {
     required super.author,
     required super.body,
     required super.createdAt,
-    required super.files,
-    required super.images,
-    required super.views,
-    required super.mine,
-    required super.blinded,
-    required this.type,
+    super.files,
+    super.images,
+    super.views,
+    super.mine,
+    super.blinded,
+    //나중에 search에서 넘겨주게 되면 required 쓰면 됨
+    this.type = CoalitionType.food,
   });
 
   factory CoalitionPost.fromJson(Map<String, dynamic> json) =>

@@ -22,6 +22,8 @@ void main() async {
   await StorageService.init();
   await NotificationService.init();
 
+ await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,

@@ -59,15 +59,13 @@ class _RefreshVerifyStudentScreenState
             ref.read(loginTokenProvider.notifier).logout();
             context.showSnackBar(
               message: '학생 인증이 갱신되었습니다. 다시 로그인해주세요.',
-              type: OrbSnackBarType.info,
             );
           },
           loading: () {},
           error: (error, _) {
             if (error is! AppException) return;
-            context.showSnackBar(
-              message: error.message,
-              type: OrbSnackBarType.error,
+            context.showErrorSnackBar(
+              error: error,
             );
           },
         );

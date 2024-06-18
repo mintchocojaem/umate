@@ -3,27 +3,21 @@ import 'package:flutter/material.dart';
 import '../../orb.dart';
 
 class OrbBoardContainer extends StatelessWidget {
-  final Widget? title;
-  final Widget? info;
-  final Color? infoColor;
-  final Widget? child;
-  final Decoration? decoration;
+  final String title;
+  final Widget? leading;
   final Widget? trailing;
-  final VoidCallback? onTap;
-  final BorderRadius? borderRadius;
-  final Color? backgroundColor;
+  final Widget? child;
+  final Function()? onTap;
+  final bool isHorizontalScrollable;
 
   const OrbBoardContainer({
     super.key,
-    this.title,
-    this.info,
-    this.infoColor,
-    this.decoration,
+    required this.title,
+    this.leading,
     this.trailing,
     this.child,
     this.onTap,
-    this.borderRadius,
-    this.backgroundColor,
+    this.isHorizontalScrollable = false,
   });
 
   @override
@@ -37,35 +31,40 @@ class OrbBoardContainer extends StatelessWidget {
       curve: Curves.fastOutSlowIn,
       reverseDuration: const Duration(milliseconds: 500),
       child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: decoration != null
-            ? decoration!
-            : BoxDecoration(
-                color: backgroundColor ?? palette.surface,
-                borderRadius: borderRadius ?? BorderRadius.circular(15),
-              ),
+        color: palette.background,
+        padding: const EdgeInsets.symmetric(
+          vertical: 16,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: onTap,
-              child: Row(
-                children: [
-                  if (title != null) title!,
-                  SizedBox(
-                    width: (info != null) ? 8 : 0,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      leading ?? const SizedBox(),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      OrbText(
+                        title,
+                        type: OrbTextType.titleSmall,
+                      ),
+                      const Spacer(),
+                      trailing ?? const SizedBox(),
+                    ],
                   ),
-                  if (info != null) info!,
-                  const Spacer(),
-                  if (trailing != null) trailing!,
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isHorizontalScrollable ? 0 : 16,
+                  ),
+                  child: child ?? const SizedBox(),
+                ),
+              ],
             ),
-            if (child != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: child!,
-              ),
           ],
         ),
       ),

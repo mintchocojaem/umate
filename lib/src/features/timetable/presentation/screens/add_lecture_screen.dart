@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/schedule.dart';
 import '../../domain/models/schedule_type.dart';
 import '../providers/search_lecture_provider.dart';
+import '../providers/timetable_provider.dart';
 import '../widgets/lecture_info_card.dart';
 import '../widgets/lecture_info_preview_card.dart';
 import '../widgets/schedule_color_picker.dart';
@@ -51,26 +53,21 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
           if (error is! AppException) return;
-          if (error is AppWarning) {
-            context.showSnackBar(
-              message: error.message,
-              type: OrbSnackBarType.warning,
-            );
-          } else {
-            context.showSnackBar(
-              message: error.message,
-              type: OrbSnackBarType.error,
-            );
-          }
+          context.showErrorSnackBar(
+            error: error,
+          );
         }
       },
     );
 
     return OrbScaffold(
       disableSafeAreaBottom: true,
-      appBar: const OrbAppBar(
+      appBar: OrbAppBar(
         title: '수업 추가',
         centerTitle: true,
+        onAutoImplyLeadingPressed: () {
+          ref.read(routerServiceProvider).pop();
+        },
       ),
       body: Column(
         children: [
@@ -156,9 +153,9 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
                                 if (!context.mounted) return;
                                 context.showSnackBar(
                                   message: '일정이 추가되었습니다.',
-                                  type: OrbSnackBarType.info,
                                 );
-                                Navigator.pop(context);
+                                ref.invalidate(timetableProvider);
+                                ref.read(routerServiceProvider).pop();
                               }
                             },
                           );

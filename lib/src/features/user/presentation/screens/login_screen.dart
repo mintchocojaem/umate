@@ -38,9 +38,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
           if (error is! AppException) return;
-          context.showSnackBar(
-            message: error.message,
-            type: OrbSnackBarType.error,
+          context.showErrorSnackBar(
+            error: error,
           );
         } else if (next.value != null) {
           ref.read(routerServiceProvider).pushNamed(AppRoute.home.name);

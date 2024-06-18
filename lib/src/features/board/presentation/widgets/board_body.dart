@@ -5,7 +5,7 @@ class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
   final List<PostTagItem> Function(P data) postTagItems;
   final Future<void> Function() onFetch;
   final Future<void> Function(int currentPage) onFetchMore;
-  final Function(int index) onTapPost;
+  final Function(P data) onTapPost;
 
   BoardBody({
     super.key,
@@ -46,67 +46,20 @@ class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
         onRefresh: () async {
           return onFetch();
         },
-        child: ListView.builder(
-          clipBehavior: Clip.none,
-          shrinkWrap: true,
-          itemCount: (board.content.length + 1),
-          itemBuilder: (context, index) {
-            if (index == board.content.length && board.hasNext) {
-              return const OrbShimmerContent();
-            } else if (index == board.content.length) {
-              return const SizedBox();
-            }
-
-            final postPreviewCard = PostPreviewCard(
-              title: board.content[index].title,
-              content: board.content[index].body,
-              author: board.content[index].author,
-              duration: dateFormatToRelative(board.content[index].createdAt),
-              tags: postTagItems(board.content[index]),
-              imageUrl: board.content[index].images.firstOrNull?.thumbnailUrl,
-              onTap: () {
-                onTapPost(index);
-              },
-            );
-
-            if (index == 0) {
-              return Column(
-                children: [
-                  Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          OrbText(
-                            "전체 ${board.totalElements}",
-                            type: OrbTextType.bodyMedium,
-                          ),
-                          DropdownButton(
-                            value: sortList.first,
-                            items: [
-                              for (final sort in sortList)
-                                DropdownMenuItem(
-                                  value: sort,
-                                  child: OrbText(
-                                    sort.type.displayName,
-                                    type: OrbTextType.bodyMedium,
-                                  ),
-                                ),
-                            ],
-                            onChanged: (value) {},
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                  ),
-                  postPreviewCard,
-                ],
-              );
-            }
-            return postPreviewCard;
-          },
+        child: BoardList(
+          board: board,
+          sortList: sortList,
+          postItems: (index) => PostPreviewCard.image(
+            title: board.content[index].title,
+            content: board.content[index].body,
+            author: board.content[index].author,
+            duration: dateFormatToRelative(board.content[index].createdAt),
+            tags: postTagItems(board.content[index]),
+            imageUrl: board.content[index].images.firstOrNull?.thumbnailUrl,
+            onTap: () {
+              onTapPost(board.content[index]);
+            },
+          ),
         ),
       ),
     );

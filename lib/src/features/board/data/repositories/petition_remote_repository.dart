@@ -43,4 +43,28 @@ class PetitionRemoteRepository extends RemoteRepository {
       (data) => PetitionPost.fromJson(data as Map<String, dynamic>),
     );
   }
+
+  Future<PetitionPost> getPetitionPost({
+    CancelToken? cancelToken,
+    int? id,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/post/petition/$id',
+      method: RequestType.get,
+      cancelToken: cancelToken,
+    );
+    return PetitionPost.fromJson(result.data);
+  }
+
+  Future<bool> agreePetition({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/post/petition/agree/$id',
+      method: RequestType.post,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
 }

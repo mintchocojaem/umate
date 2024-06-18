@@ -9,6 +9,7 @@ import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/board.dart';
 import '../../domain/models/post.dart';
 import '../../domain/models/post_sort.dart';
+import 'board_list.dart';
 import 'post_preview_card.dart';
 
 part 'board_body.dart';
@@ -18,7 +19,7 @@ class BoardTab<P extends Post> extends ConsumerWidget with DateTimeFormatter {
   final List<PostTagItem> Function(P data) postTagItems;
   final Future<void> Function() onFetch;
   final Future<void> Function(int currentPage) onFetchMore;
-  final Function(int index) onTapPost;
+  final Function(P data) onTapPost;
 
   BoardTab({
     super.key,

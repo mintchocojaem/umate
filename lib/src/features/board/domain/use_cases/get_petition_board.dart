@@ -44,6 +44,7 @@ class GetPetitionBoard
       status: params.status.value,
       page: params.page,
       size: 10,
+      bodySize: 200,
     );
   }
 }

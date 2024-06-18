@@ -44,6 +44,7 @@ class GetCoalitionBoard
       coalitionType: params.type.value,
       page: params.page,
       size: 10,
+      bodySize: 200,
     );
   }
 }

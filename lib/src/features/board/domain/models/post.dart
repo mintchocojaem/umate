@@ -17,12 +17,12 @@ abstract class Post {
     required this.id,
     required this.title,
     required this.author,
-    required this.body,
+    this.body = '',
     required this.createdAt,
-    required this.files,
-    required this.images,
+    this.files = const [],
+    this.images = const [],
     this.views = 0,
     this.mine = false,
-    required this.blinded,
+    this.blinded = false,
   });
 }

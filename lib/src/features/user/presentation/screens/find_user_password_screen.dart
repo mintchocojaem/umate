@@ -159,15 +159,13 @@ class _FindUserPasswordScreenState extends ConsumerState<FindUserPasswordScreen>
                           passwordToken = data;
                           context.showSnackBar(
                             message: '인증번호가 전송되었습니다.',
-                            type: OrbSnackBarType.info,
                           );
                         },
                         loading: () => null,
                         error: (error, stackTrace) {
                           if (error is! AppException) return;
-                          context.showSnackBar(
-                            message: error.message,
-                            type: OrbSnackBarType.error,
+                          context.showErrorSnackBar(
+                            error: error,
                           );
                         },
                       );
@@ -190,7 +188,6 @@ class _FindUserPasswordScreenState extends ConsumerState<FindUserPasswordScreen>
                   if (passwordToken == null) {
                     context.showSnackBar(
                       message: '인증번호를 전송해주세요.',
-                      type: OrbSnackBarType.error,
                     );
                     return;
                   }
@@ -211,16 +208,14 @@ class _FindUserPasswordScreenState extends ConsumerState<FindUserPasswordScreen>
                     data: (data) {
                       context.showSnackBar(
                         message: '비밀번호가 변경되었습니다.',
-                        type: OrbSnackBarType.info,
                       );
                       ref.read(routerServiceProvider).pop();
                     },
                     loading: () => null,
                     error: (error, stackTrace) {
                       if (error is! AppException) return;
-                      context.showSnackBar(
-                        message: error.message,
-                        type: OrbSnackBarType.error,
+                      context.showErrorSnackBar(
+                        error: error,
                       );
                     },
                   );

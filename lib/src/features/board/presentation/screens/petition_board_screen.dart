@@ -126,7 +126,14 @@ class _PetitionBoardScreenState extends ConsumerState<PetitionBoardScreen>
               title: "참여 ${post.agreeCount}명",
             ),
           ],
-          onTapPost: (int index) {},
+          onTapPost: (post) {
+            ref.read(routerServiceProvider).pushNamed(
+              AppRoute.petitionPost.name,
+              pathParameters: {
+                'id': post.id.toString(),
+              },
+            );
+          },
         ),
       ),
     );

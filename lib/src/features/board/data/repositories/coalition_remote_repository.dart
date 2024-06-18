@@ -6,10 +6,12 @@ import '../../../../core/utils/repository.dart';
 import '../../domain/models/board.dart';
 import '../../domain/models/coalition_post.dart';
 
-final coalitionRemoteRepositoryProvider = Provider.autoDispose<CoalitionRemoteRepository>(
-  (ref) => CoalitionRemoteRepository(
-    networkClientService: ref.watch(networkClientServiceProvider),
-  ),
+final coalitionRemoteRepositoryProvider = Provider.autoDispose<
+    CoalitionRemoteRepository>(
+      (ref) =>
+      CoalitionRemoteRepository(
+        networkClientService: ref.watch(networkClientServiceProvider),
+      ),
 );
 
 class CoalitionRemoteRepository extends RemoteRepository {
@@ -39,7 +41,19 @@ class CoalitionRemoteRepository extends RemoteRepository {
     );
     return Board.fromJson(
       result.data,
-      (data) => CoalitionPost.fromJson(data as Map<String, dynamic>),
+          (data) => CoalitionPost.fromJson(data as Map<String, dynamic>),
     );
+  }
+
+  Future<CoalitionPost> getNoticePost({
+    CancelToken? cancelToken,
+    int? id,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/post/coalition/$id',
+      method: RequestType.get,
+      cancelToken: cancelToken,
+    );
+    return CoalitionPost.fromJson(result.data);
   }
 }

@@ -11,18 +11,22 @@ CoalitionPost _$CoalitionPostFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String,
+      body: json['body'] as String? ?? '',
       createdAt: json['createdAt'] as String,
-      files: (json['files'] as List<dynamic>)
-          .map((e) => PostFile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      images: (json['images'] as List<dynamic>)
-          .map((e) => PostImage.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      files: (json['files'] as List<dynamic>?)
+              ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => PostImage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
-      blinded: json['blinded'] as bool,
-      type: $enumDecode(_$CoalitionTypeEnumMap, json['coalitionType']),
+      blinded: json['blinded'] as bool? ?? false,
+      type:
+          $enumDecodeNullable(_$CoalitionTypeEnumMap, json['coalitionType']) ??
+              CoalitionType.food,
     );
 
 Map<String, dynamic> _$CoalitionPostToJson(CoalitionPost instance) =>

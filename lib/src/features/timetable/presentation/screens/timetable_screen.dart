@@ -14,23 +14,17 @@ class TimetableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //이거 일정 추가하는 부분이랑 provider 분리해서 써야함. 지금은 하나로 되어 있어서
+    //쓰낵바 띄우면 canpop 오류 나서 뒤로가기 표시됨
     ref.listen(
       timetableProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
           if (error is! AppException) return;
-          if (error is AppWarning) {
-            context.showSnackBar(
-              message: error.message,
-              type: OrbSnackBarType.warning,
-            );
-          } else {
-            context.showSnackBar(
-              message: error.message,
-              type: OrbSnackBarType.error,
-            );
-          }
+          context.showErrorSnackBar(
+            error: error,
+          );
         }
       },
     );
@@ -42,45 +36,47 @@ class TimetableScreen extends ConsumerWidget {
       appBar: OrbAppBar(
         title: '시간표',
         isLoading: timetable.isLoading,
-        trailing: timetable.when(
-          data: (data) => Row(
-            children: [
-              IconButton(
-                icon: const OrbIcon(Icons.add),
-                onPressed: () {
-                  ScheduleAddSheet(
-                    onAddLecture: () async {
-                      ref.read(routerServiceProvider).pop();
-                      await ref.read(routerServiceProvider).pushNamed(
-                        AppRoute.addLecture.name,
-                        queryParameters: {
-                          'startHour': data.startHour.toString(),
-                          'endHour': (data.endHour - 1).toString(),
+        trailing: timetable.hasValue
+            ? Row(
+                children: [
+                  IconButton(
+                    icon: const OrbIcon(Icons.add),
+                    onPressed: () {
+                      ScheduleAddSheet(
+                        onAddLecture: () async {
+                          ref.read(routerServiceProvider).pop();
+                          await ref.read(routerServiceProvider).pushNamed(
+                            AppRoute.addLecture.name,
+                            queryParameters: {
+                              'startHour':
+                                  timetable.requireValue.startHour.toString(),
+                              'endHour': (timetable.requireValue.endHour - 1)
+                                  .toString(),
+                            },
+                          );
                         },
-                      );
-                    },
-                    onAddSchedule: () async {
-                      ref.read(routerServiceProvider).pop();
-                      await ref.read(routerServiceProvider).pushNamed(
-                        AppRoute.addSchedule.name,
-                        queryParameters: {
-                          'startHour': data.startHour.toString(),
-                          'endHour': (data.endHour - 1).toString(),
-                          'weekdays': data.weekdays.toString(),
+                        onAddSchedule: () async {
+                          ref.read(routerServiceProvider).pop();
+                          await ref.read(routerServiceProvider).pushNamed(
+                            AppRoute.addSchedule.name,
+                            queryParameters: {
+                              'startHour':
+                                  timetable.requireValue.startHour.toString(),
+                              'endHour': (timetable.requireValue.endHour - 1)
+                                  .toString(),
+                              'weekdays':
+                                  timetable.requireValue.weekdays.toString(),
+                            },
+                          );
                         },
-                      );
+                      ).show(context);
                     },
-                  ).show(context);
-                },
-              ),
-            ],
-          ),
-          loading: () => null,
-          error: (error, _) => null,
-        ),
+                  ),
+                ],
+              )
+            : null,
       ),
       body: timetable.when(
-        skipError: true,
         data: (data) {
           return ScheduleTable(
             schedules: data.schedules,

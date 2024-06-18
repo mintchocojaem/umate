@@ -39,6 +39,7 @@ class GetNoticeBoard extends UseCase<Board<NoticePost>, GetNoticeBoardParams> {
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,
+      bodySize: 200,
     );
   }
 }

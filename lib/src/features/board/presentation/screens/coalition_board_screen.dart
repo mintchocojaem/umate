@@ -99,7 +99,7 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
               );
         },
         postTagItems: (post) => [],
-        onTapPost: (int index) {},
+        onTapPost: (post){},
       ),
     );
   }

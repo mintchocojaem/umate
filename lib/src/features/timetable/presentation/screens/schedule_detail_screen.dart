@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/services/router/router_service.dart';
+import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/schedule.dart';
 import '../../domain/models/schedule_time.dart';
 import '../../domain/models/schedule_type.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/models/week_days.dart';
+import '../../domain/use_caces/delete_schedule.dart';
+import '../../domain/use_caces/update_schedule.dart';
 import '../providers/timetable_provider.dart';
 import '../widgets/schedule_color_picker.dart';
 import '../widgets/schedule_time_picker.dart';
@@ -74,8 +77,8 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    lectureTimes.sort((a, b) => b.day.index.compareTo(a.day.index));
     lectureTimes.sort((a, b) => a.start.isBefore(b.start) ? -1 : 1);
+    lectureTimes.sort((a, b) => a.day.index.compareTo(b.day.index));
 
     return OrbScaffold(
       appBar: OrbAppBar(
@@ -87,27 +90,42 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
             color: context.palette.surfaceDim,
           ),
           onPressed: () async {
-            final result =
-                await ref.read(timetableProvider.notifier).updateSchedule(
-                      newSchedule: Schedule(
-                        id: schedule.id,
-                        name: titleController.text,
-                        professor: professorController.text,
-                        type: schedule.type,
-                        memo: memoController.text,
-                        color: selectedColor,
-                        times: lectureTimes,
-                      ),
-                    );
+            final result = await AsyncValue.guard(
+              () => ref.read(
+                updateScheduleProvider(
+                  UpdateScheduleParams(
+                    newSchedule: Schedule(
+                      id: schedule.id,
+                      name: titleController.text,
+                      professor: professorController.text,
+                      type: schedule.type,
+                      memo: memoController.text,
+                      color: selectedColor,
+                      times: lectureTimes,
+                    ),
+                    timetable: timetable,
+                  ),
+                ),
+              ),
+            );
 
             if (!context.mounted) return;
-            if (result) {
-              context.showSnackBar(
-                message: '일정이 수정되었습니다.',
-                type: OrbSnackBarType.info,
-              );
-              ref.read(routerServiceProvider).pop();
-            }
+
+            result.whenOrNull(
+              data: (_) {
+                context.showSnackBar(
+                  message: '일정이 수정되었습니다.',
+                );
+                ref.read(routerServiceProvider).pop();
+                ref.invalidate(timetableProvider);
+              },
+              error: (error, stackTrace) {
+                if (error is! AppException) return;
+                context.showErrorSnackBar(
+                  error: error,
+                );
+              },
+            );
           },
         ),
       ),
@@ -125,18 +143,32 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
               return true;
             },
             onRightButtonPressed: () async {
-              final result =
-                  await ref.read(timetableProvider.notifier).deleteSchedule(
-                        schedule: schedule,
-                      );
-              if (!context.mounted) return false;
-              if (result) {
-                context.showSnackBar(
-                  message: '일정이 삭제되었습니다.',
-                  type: OrbSnackBarType.info,
-                );
-                ref.read(routerServiceProvider).pop();
-              }
+              final result = await AsyncValue.guard(
+                () => ref.read(
+                  deleteScheduleProvider(
+                    DeleteScheduleParams(
+                        schedule: schedule, timetable: timetable),
+                  ),
+                ),
+              );
+
+              if (!context.mounted) return true;
+
+              result.whenOrNull(
+                data: (_) {
+                  context.showSnackBar(
+                    message: '일정이 삭제되었습니다.',
+                  );
+                  ref.invalidate(timetableProvider);
+                  ref.read(routerServiceProvider).pop();
+                },
+                error: (error, stackTrace) {
+                  if (error is! AppException) return;
+                  context.showErrorSnackBar(
+                    error: error,
+                  );
+                },
+              );
               return true;
             },
           ).show(context);

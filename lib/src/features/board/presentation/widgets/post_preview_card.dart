@@ -13,27 +13,40 @@ class PostTagItem {
 
 class PostPreviewCard extends StatelessWidget {
   final String title;
-  final String content;
   final String author;
   final String duration;
+  final String content;
   final List<PostTagItem> tags;
   final VoidCallback? onTap;
   final String? imageUrl;
+  final bool _showImage;
 
   const PostPreviewCard({
     super.key,
     required this.title,
-    required this.content,
     required this.author,
     required this.duration,
+    required this.content,
+    this.tags = const [],
+    this.onTap,
+  })  : imageUrl = null,
+        _showImage = false;
+
+  const PostPreviewCard.image({
+    super.key,
+    required this.title,
+    required this.author,
+    required this.duration,
+    required this.content,
     this.tags = const [],
     this.onTap,
     this.imageUrl,
-  });
+  }) : _showImage = true;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -74,12 +87,15 @@ class PostPreviewCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 4, right: 16, bottom: 4),
+              const SizedBox(
+                height: 4,
+              ),
+              SizedBox(
+                height: 72,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -89,64 +105,67 @@ class PostPreviewCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             type: OrbTextType.bodyLarge,
                           ),
-                          SizedBox(
-                            height: 64,
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: OrbText(
-                                content,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                type: OrbTextType.bodyMedium,
-                                fontWeight: OrbFontWeight.light,
-                              ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: OrbText(
+                              content,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              type: OrbTextType.bodyMedium,
+                              fontWeight: OrbFontWeight.light,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  if (imageUrl != null)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        imageUrl!,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          } else {
-                            return Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            );
-                          }
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          );
-                        },
+                    if (_showImage && imageUrl != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            imageUrl!,
+                            fit: BoxFit.cover,
+                            width: 72,
+                            height: 72,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Container(
+                                  width: 72,
+                                  height: 72,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                );
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: 72,
+                                height: 72,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
               Row(
                 children: [
                   for (int i = 0; i < tags.length; i++)
                     Container(
-                      margin: const EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8, top: 8),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,

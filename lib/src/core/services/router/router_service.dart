@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../features/board/presentation/screens/bear_eats_board_screen.dart';
 import '../../../features/board/presentation/screens/coalition_board_screen.dart';
+import '../../../features/board/presentation/screens/eating_alone_board_screen.dart';
 import '../../../features/board/presentation/screens/notice_board_screen.dart';
+import '../../../features/board/presentation/screens/notice_post_screen.dart';
 import '../../../features/board/presentation/screens/petition_board_screen.dart';
+import '../../../features/board/presentation/screens/petition_post_screen.dart';
+import '../../../features/board/presentation/screens/search_board_screen.dart';
+import '../../../features/board/presentation/screens/study_board_screen.dart';
+import '../../../features/board/presentation/screens/trade_board_screen.dart';
+import '../../../features/board/presentation/screens/with_dankook_screen.dart';
 import '../../../features/dash_board/presentation/screens/home_screen.dart';
 import '../../../features/timetable/presentation/screens/add_schedule_screen.dart';
 import '../../../features/timetable/presentation/screens/schedule_detail_screen.dart';
@@ -18,6 +26,7 @@ import '../../../features/user/presentation/screens/find_user_password_screen.da
 import '../../../features/user/presentation/screens/login_screen.dart';
 import '../../../features/board/presentation/screens/board_screen.dart';
 
+import '../../../features/user/presentation/screens/profile_screen.dart';
 import '../../../features/user/presentation/screens/refresh_verify_student_screen.dart';
 import '../../../features/user/presentation/screens/sign_up_agree_policy_screen.dart';
 import '../../../features/user/presentation/screens/sign_up_complete_screen.dart';
@@ -46,14 +55,21 @@ enum AppRoute {
   coalitionPost,
   petitionPost,
   petitionWrite,
-  searchPost,
+  searchBoard,
   addLecture,
   addSchedule,
   scheduleDetail,
+  withDankook,
+  eatingAloneBoard,
+  studyBoard,
+  tradeBoard,
+  bearEatsBoard,
 }
 
 final routerServiceProvider = Provider<RouterService>(
   (ref) {
+    final GlobalKey<NavigatorState> rootNavigatorKey =
+        GlobalKey<NavigatorState>();
     final loginNotifier = ValueNotifier(ref.read(loginTokenProvider).value);
     ref.listen(
       loginTokenProvider,
@@ -67,6 +83,7 @@ final routerServiceProvider = Provider<RouterService>(
     return RouterService(
       navigator: GoRouter(
         initialLocation: '/home',
+        navigatorKey: rootNavigatorKey,
         debugLogDiagnostics: true,
         refreshListenable: loginNotifier,
         redirect: (context, state) async {
@@ -176,6 +193,19 @@ final routerServiceProvider = Provider<RouterService>(
                             name: AppRoute.noticeBoard.name,
                             builder: (context, state) =>
                                 const NoticeBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.noticePost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return NoticePostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -196,6 +226,72 @@ final routerServiceProvider = Provider<RouterService>(
                             name: AppRoute.petitionBoard.name,
                             builder: (context, state) =>
                                 const PetitionBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.petitionPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return PetitionPostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  StatefulShellRoute.indexedStack(
+                    builder: (context, state, navigationShell) {
+                      return WithDankookScreen(
+                        navigationShell: navigationShell,
+                      );
+                    },
+                    branches: [
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/with_dankook/eating_alone',
+                            name: AppRoute.eatingAloneBoard.name,
+                            builder: (context, state) =>
+                                const EatingAloneBoardScreen(),
+                          ),
+                        ],
+                      ),
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/with_dankook/study',
+                            name: AppRoute.studyBoard.name,
+                            builder: (context, state) =>
+                                const StudyBoardScreen(),
+                          ),
+                        ],
+                      ),
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/with_dankook/trade',
+                            name: AppRoute.tradeBoard.name,
+                            builder: (context, state) =>
+                                const TradeBoardScreen(),
+                          ),
+                        ],
+                      ),
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/with_dankook/bear_eats',
+                            name: AppRoute.bearEatsBoard.name,
+                            builder: (context, state) =>
+                                const BearEatsBoardScreen(),
                           ),
                         ],
                       ),
@@ -238,7 +334,25 @@ final routerServiceProvider = Provider<RouterService>(
                   ),
                 ],
               ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: '/profile',
+                    name: AppRoute.profile.name,
+                    builder: (context, state) {
+                      return const ProfileScreen();
+                    },
+                  ),
+                ],
+              ),
             ],
+          ),
+          GoRoute(
+            path: '/board/search',
+            name: AppRoute.searchBoard.name,
+            builder: (context, state) {
+              return const SearchBoardScreen();
+            },
           ),
         ],
       ),

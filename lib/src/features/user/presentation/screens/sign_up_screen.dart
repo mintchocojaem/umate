@@ -200,15 +200,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen>
                             data: (_) {
                               context.showSnackBar(
                                 message: '인증번호가 전송되었어요.',
-                                type: OrbSnackBarType.info,
                               );
                             },
                             loading: () => null,
                             error: (error, stackTrace) {
                               if (error is! AppException) return;
-                              context.showSnackBar(
-                                message: error.message,
-                                type: OrbSnackBarType.error,
+                              context.showErrorSnackBar(
+                                error: error,
                               );
                             },
                           );
@@ -253,9 +251,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen>
                         loading: () => null,
                         error: (error, stackTrace) {
                           if (error is! AppException) return;
-                          context.showSnackBar(
-                            message: error.message,
-                            type: OrbSnackBarType.error,
+                          context.showErrorSnackBar(
+                            error: error,
                           );
                         },
                       );

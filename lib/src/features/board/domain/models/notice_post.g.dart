@@ -10,17 +10,19 @@ NoticePost _$NoticePostFromJson(Map<String, dynamic> json) => NoticePost(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String,
+      body: json['body'] as String? ?? '',
       createdAt: json['createdAt'] as String,
-      files: (json['files'] as List<dynamic>)
-          .map((e) => PostFile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      images: (json['images'] as List<dynamic>)
-          .map((e) => PostImage.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      files: (json['files'] as List<dynamic>?)
+              ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => PostImage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
-      blinded: json['blinded'] as bool,
+      blinded: json['blinded'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$NoticePostToJson(NoticePost instance) =>

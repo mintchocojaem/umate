@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/services/router/router_service.dart';
+import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/time_format.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/schedule.dart';
@@ -12,6 +13,7 @@ import '../../domain/models/schedule_time.dart';
 import '../../domain/models/schedule_type.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/models/week_days.dart';
+import '../../domain/use_caces/add_schedule.dart';
 import '../providers/timetable_provider.dart';
 import '../widgets/schedule_color_picker.dart';
 import '../widgets/schedule_time_picker.dart';
@@ -31,8 +33,6 @@ class AddScheduleScreen extends ConsumerStatefulWidget {
 
 class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
   final nameController = TextEditingController();
-  final professorController = TextEditingController();
-  final placeController = TextEditingController();
   final memoController = TextEditingController();
 
   final lectureTimes = <ScheduleTime>[];
@@ -58,7 +58,6 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
           hour: timetable.startHour + 1,
           minute: 0,
         ),
-        place: '',
       ),
     );
   }
@@ -67,7 +66,6 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
   void dispose() {
     // TODO: implement dispose
     nameController.dispose();
-    placeController.dispose();
     memoController.dispose();
     super.dispose();
   }
@@ -76,35 +74,55 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
+    lectureTimes.sort((a, b) => a.start.isBefore(b.start) ? -1 : 1);
+    lectureTimes.sort((a, b) => a.day.index.compareTo(b.day.index));
+
     return OrbScaffold(
       resizeToAvoidBottomInset: true,
       appBar: OrbAppBar(
         title: '일정 정보',
         centerTitle: true,
+        onAutoImplyLeadingPressed: () {
+          ref.read(routerServiceProvider).pop();
+        },
         trailing: IconButton(
           icon: const OrbIcon(
             Icons.check_rounded,
           ),
           onPressed: () async {
-            final result =
-                await ref.read(timetableProvider.notifier).addSchedule(
-                      schedule: Schedule(
-                        name: nameController.text,
-                        professor: professorController.text,
-                        type: ScheduleType.schedule,
-                        memo: memoController.text,
-                        color: selectedColor,
-                        times: lectureTimes,
-                      ),
-                    );
+            final result = await AsyncValue.guard(
+              () => ref.read(
+                addScheduleProvider(
+                  AddScheduleParams(
+                    schedule: Schedule(
+                      name: nameController.text,
+                      type: ScheduleType.schedule,
+                      memo: memoController.text,
+                      color: selectedColor,
+                      times: lectureTimes,
+                    ),
+                    timetable: timetable,
+                  ),
+                ),
+              ),
+            );
 
-            if (result) {
-              context.showSnackBar(
-                message: '일정이 추가되었습니다.',
-                type: OrbSnackBarType.info,
-              );
-              ref.read(routerServiceProvider).pop();
-            }
+            if (!context.mounted) return;
+
+            result.whenOrNull(
+              data: (_) {
+                context.showSnackBar(
+                  message: '일정이 추가되었습니다.',
+                );
+                ref.read(routerServiceProvider).pop();
+              },
+              error: (error, stackTrace) {
+                if (error is! AppException) return;
+                context.showErrorSnackBar(
+                  error: error,
+                );
+              },
+            );
           },
         ),
       ),
@@ -114,7 +132,7 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
             const SizedBox(height: 16),
             OrbTextField(
               controller: nameController,
-              hintText: '수업명',
+              hintText: '일정명',
             ),
             const SizedBox(height: 16),
             AnimatedSize(
@@ -174,15 +192,6 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
                 ],
               ),
             ),
-            placeController.text.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: OrbTextField(
-                      controller: placeController,
-                      hintText: '장소',
-                    ),
-                  )
-                : const SizedBox(),
             const SizedBox(height: 8),
             OrbTextField(
               controller: memoController,
