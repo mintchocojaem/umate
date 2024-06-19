@@ -15,7 +15,7 @@ final bearEatsRemoteRepositoryProvider = Provider.autoDispose(
 class BearEatsRemoteRepository extends RemoteRepository {
   BearEatsRemoteRepository({required super.networkClientService});
 
-  Future<Board<BearEatsPost>> getBearEatsBoard({
+  Future<Board<BearEatsPost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,

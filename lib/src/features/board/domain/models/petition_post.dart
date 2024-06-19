@@ -39,4 +39,5 @@ class PetitionPost extends Post {
       _$PetitionPostFromJson(json);
 
   Map<String, dynamic> toJson() => _$PetitionPostToJson(this);
+
 }

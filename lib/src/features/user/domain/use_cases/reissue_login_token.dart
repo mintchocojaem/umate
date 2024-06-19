@@ -7,7 +7,7 @@ import '../models/login_token.dart';
 
 final reissueLoginTokenProvider =
     Provider.autoDispose.family<Future<LoginToken>, ReissueLoginTokenParams>(
-  (ref, params) async => await ReissueLoginToken(
+  (ref, params) => ReissueLoginToken(
     authRemoteRepository: ref.watch(authRemoteRepositoryProvider),
     authLocalRepository: ref.watch(authLocalRepositoryProvider),
   )(params),

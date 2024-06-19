@@ -16,7 +16,7 @@ final noticeRemoteRepositoryProvider =
 class NoticeRemoteRepository extends RemoteRepository {
   NoticeRemoteRepository({required super.networkClientService});
 
-  Future<Board<NoticePost>> getNoticeBoard({
+  Future<Board<NoticePost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,
@@ -42,7 +42,7 @@ class NoticeRemoteRepository extends RemoteRepository {
     );
   }
 
-  Future<NoticePost> getNoticePost({
+  Future<NoticePost> getPost({
     CancelToken? cancelToken,
     int? id,
   }) async {

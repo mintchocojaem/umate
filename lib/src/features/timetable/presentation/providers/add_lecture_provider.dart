@@ -1,21 +1,24 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/features/timetable/domain/use_caces/get_all_lecture_info.dart';
 
 import '../../domain/models/lecture_info.dart';
 import '../../domain/models/schedule.dart';
-import '../../domain/use_caces/add_schedule.dart';
+import '../../domain/models/schedule_time.dart';
+import '../../domain/models/schedule_type.dart';
+import '../../domain/use_caces/check_schedule_available.dart';
+import '../../domain/use_caces/edit_timetable.dart';
 import 'timetable_provider.dart';
 
-final searchLectureProvider = AsyncNotifierProvider.autoDispose<
-    SearchLectureNotifier, List<LectureInfo>?>(
-  () => SearchLectureNotifier(),
+final addLectureProvider =
+    AsyncNotifierProvider.autoDispose<AddLectureNotifier, List<LectureInfo>?>(
+  () => AddLectureNotifier(),
 );
 
-class SearchLectureNotifier
-    extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
+class AddLectureNotifier extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
   CancelToken? _cancelToken;
 
   @override
@@ -56,25 +59,46 @@ class SearchLectureNotifier
       },
       error: (error, stackTrace) {
         state = const AsyncData(<LectureInfo>[]);
-
       },
     );
   }
 
   Future<bool> addLecture({
-    required Schedule schedule,
+    required String name,
+    String? professor,
+    required List<ScheduleTime> times,
+    String? memo,
+    required Color color,
   }) async {
-    final timetable = ref.read(timetableProvider);
-    final result = await AsyncValue.guard(
-          () => ref.read(
-        addScheduleProvider(
-          AddScheduleParams(
-            schedule: schedule,
-            timetable: timetable.requireValue,
+    final newLecture = Schedule(
+      name: name,
+      type: ScheduleType.lecture,
+      professor: professor ?? '',
+      times: times,
+      memo: memo ?? '',
+      color: color,
+    );
+
+    final timetable = ref.read(timetableProvider).requireValue;
+    final result = await AsyncValue.guard(() {
+      ref.read(
+        checkScheduleAvailableProvider(
+          CheckScheduleAvailableParams(
+            timetable: timetable,
+            newSchedule: newLecture,
           ),
         ),
-      ),
-    );
+      );
+
+      return ref.read(
+        editTimetableProvider(
+          EditTimetableParams(
+            id: timetable.id,
+            schedules: timetable.schedules..add(newLecture),
+          ),
+        ),
+      );
+    });
 
     result.whenOrNull(
       data: (data) {

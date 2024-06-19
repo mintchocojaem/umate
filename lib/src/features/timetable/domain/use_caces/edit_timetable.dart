@@ -5,9 +5,9 @@ import '../../data/repositories/timetable_remote_repository.dart';
 import '../models/schedule.dart';
 
 final editTimetableProvider =
-Provider.autoDispose.family<Future<bool>, EditTimetableParams>(
-      (ref, params) => EditTimetable(
-    timetableRemoteRepository: ref.read(timetableRemoteRepositoryProvider),
+    Provider.autoDispose.family<Future<bool>, EditTimetableParams>(
+  (ref, params) => EditTimetable(
+    timetableRemoteRepository: ref.watch(timetableRemoteRepositoryProvider),
   )(params),
 );
 

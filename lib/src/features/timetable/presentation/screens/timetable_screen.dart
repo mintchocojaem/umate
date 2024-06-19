@@ -14,8 +14,7 @@ class TimetableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //이거 일정 추가하는 부분이랑 provider 분리해서 써야함. 지금은 하나로 되어 있어서
-    //쓰낵바 띄우면 canpop 오류 나서 뒤로가기 표시됨
+
     ref.listen(
       timetableProvider,
       (_, next) {

@@ -36,7 +36,7 @@ class GetBearEatsBoard
   @override
   Future<Board<BearEatsPost>> call(GetBearEatsBoardParams params) {
     // TODO: implement call
-    return bearEatsRemoteRepository.getBearEatsBoard(
+    return bearEatsRemoteRepository.getBoard(
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,

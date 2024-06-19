@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 
 import '../providers/bear_eats_board_provider.dart';
@@ -33,21 +35,36 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
     // TODO: implement build
     final bearEatsBoard = ref.watch(bearEatsBoardProvider);
 
-    return BoardTab(
-      board: bearEatsBoard,
-      onFetch: () async {
-        //await ref.read(noticeBoardProvider.notifier).fetch();
-      },
-      onFetchMore: (currentPage) async {},
-      postTagItems: (post) => [
-        PostTagItem(
-          title: '${post.recruitedCount}명 모집',
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () {},
+        backgroundColor: context.palette.surfaceDim,
+        child: Icon(
+          Icons.edit,
+          color: context.palette.onSecondary,
         ),
-        PostTagItem(
-          title: post.deliveryPlace,
-        ),
-      ],
-      onTapPost: (post){},
+      ),
+      body: BoardTab(
+        board: bearEatsBoard,
+        onFetch: () async {
+          await ref.read(bearEatsBoardProvider.notifier).fetch();
+        },
+        onFetchMore: (currentPage) async {
+          await ref.read(bearEatsBoardProvider.notifier).fetchMore(
+                page: currentPage,
+              );
+        },
+        postTagItems: (post) => [
+          PostTagItem(
+            title: '${post.recruitedCount}명 모집',
+          ),
+          PostTagItem(
+            title: post.deliveryPlace,
+          ),
+        ],
+        onTapPost: (post) {},
+      ),
     );
   }
 }

@@ -39,7 +39,7 @@ class GetCoalitionBoard
   @override
   Future<Board<CoalitionPost>> call(GetCoalitionBoardParams params) {
     // TODO: implement call
-    return repository.getCoalitionBoard(
+    return repository.getBoard(
       cancelToken: params.cancelToken,
       coalitionType: params.type.value,
       page: params.page,

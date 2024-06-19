@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../features/board/presentation/screens/bear_eats_board_screen.dart';
 import '../../../features/board/presentation/screens/coalition_board_screen.dart';
+import '../../../features/board/presentation/screens/coalition_post_screen.dart';
 import '../../../features/board/presentation/screens/eating_alone_board_screen.dart';
+import '../../../features/board/presentation/screens/eating_alone_post_screen.dart';
 import '../../../features/board/presentation/screens/notice_board_screen.dart';
 import '../../../features/board/presentation/screens/notice_post_screen.dart';
 import '../../../features/board/presentation/screens/petition_board_screen.dart';
@@ -15,6 +17,8 @@ import '../../../features/board/presentation/screens/search_board_screen.dart';
 import '../../../features/board/presentation/screens/study_board_screen.dart';
 import '../../../features/board/presentation/screens/trade_board_screen.dart';
 import '../../../features/board/presentation/screens/with_dankook_screen.dart';
+import '../../../features/board/presentation/screens/write_eating_alone_screen.dart';
+import '../../../features/board/presentation/screens/write_petition_screen.dart';
 import '../../../features/dash_board/presentation/screens/home_screen.dart';
 import '../../../features/timetable/presentation/screens/add_schedule_screen.dart';
 import '../../../features/timetable/presentation/screens/schedule_detail_screen.dart';
@@ -54,13 +58,15 @@ enum AppRoute {
   noticePost,
   coalitionPost,
   petitionPost,
-  petitionWrite,
+  writePetition,
   searchBoard,
   addLecture,
   addSchedule,
   scheduleDetail,
   withDankook,
   eatingAloneBoard,
+  eatingAlonePost,
+  writeEatingAlone,
   studyBoard,
   tradeBoard,
   bearEatsBoard,
@@ -216,6 +222,19 @@ final routerServiceProvider = Provider<RouterService>(
                             name: AppRoute.coalitionBoard.name,
                             builder: (context, state) =>
                                 const CoalitionBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.coalitionPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return CoalitionPostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -262,6 +281,27 @@ final routerServiceProvider = Provider<RouterService>(
                             name: AppRoute.eatingAloneBoard.name,
                             builder: (context, state) =>
                                 const EatingAloneBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.eatingAlonePost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return EatingAlonePostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                              GoRoute(
+                                path: 'write',
+                                name: AppRoute.writeEatingAlone.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  return const WriteEatingAloneScreen();
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -352,6 +392,13 @@ final routerServiceProvider = Provider<RouterService>(
             name: AppRoute.searchBoard.name,
             builder: (context, state) {
               return const SearchBoardScreen();
+            },
+          ),
+          GoRoute(
+            path: '/board/write',
+            name: AppRoute.writePetition.name,
+            builder: (context, state) {
+              return const WritePetitionScreen();
             },
           ),
         ],

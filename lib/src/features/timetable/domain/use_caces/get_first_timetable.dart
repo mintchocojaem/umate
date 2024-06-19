@@ -7,32 +7,26 @@ import 'get_all_timetable.dart';
 
 final getFirstTimetableProvider =
     Provider.autoDispose.family<Future<Timetable>, NoParams>(
-  (ref, params) {
-    final timetableRemoteRepository =
-        ref.watch(timetableRemoteRepositoryProvider);
+  (ref, params) async {
     return GetFirstTimetable(
-      timetableRemoteRepository: timetableRemoteRepository,
-      getAllTimetable: GetAllTimetable(
-        timetableRemoteRepository: timetableRemoteRepository,
-      ),
+      timetableRemoteRepository: ref.watch(timetableRemoteRepositoryProvider),
+      timetables: await ref.read(getAllTimetableProvider(const NoParams())),
     )(params);
   },
 );
 
 class GetFirstTimetable extends UseCase<Timetable, NoParams> {
   final TimetableRemoteRepository timetableRemoteRepository;
-  final GetAllTimetable getAllTimetable;
+  final List<Timetable> timetables;
 
   GetFirstTimetable({
     required this.timetableRemoteRepository,
-    required this.getAllTimetable,
+    required this.timetables,
   });
 
   @override
   Future<Timetable> call(NoParams params) async {
     // TODO: implement call
-    final timetables = await getAllTimetable(const NoParams());
-
     int? newTimetableId;
 
     if (timetables.isEmpty) {

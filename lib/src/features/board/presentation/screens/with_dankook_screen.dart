@@ -47,12 +47,6 @@ class _WithDankookState extends ConsumerState<WithDankookScreen>
       padding: EdgeInsets.zero,
       appBar: OrbAppBar(
         title: "With 단국",
-        trailing: IconButton(
-          icon: const OrbIcon(
-            Icons.search,
-          ),
-          onPressed: () {},
-        ),
       ),
       body: Column(
         children: [

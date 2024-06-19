@@ -15,7 +15,7 @@ final studyRemoteRepositoryProvider = Provider.autoDispose(
 class StudyRemoteRepository extends RemoteRepository {
   StudyRemoteRepository({required super.networkClientService});
 
-  Future<Board<StudyPost>> getStudyBoard({
+  Future<Board<StudyPost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,

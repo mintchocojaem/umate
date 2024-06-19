@@ -8,7 +8,7 @@ import '../models/lecture_info.dart';
 final getAllLectureInfoProvider = Provider.autoDispose
     .family<Future<List<LectureInfo>>, GetAllLectureInfoParams>(
   (ref, params) => GetAllLectureInfo(
-    timetableRemoteRepository: ref.read(timetableRemoteRepositoryProvider),
+    timetableRemoteRepository: ref.watch(timetableRemoteRepositoryProvider),
   )(params),
 );
 

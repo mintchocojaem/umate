@@ -48,7 +48,7 @@ class _PetitionBoardScreenState extends ConsumerState<PetitionBoardScreen>
         shape: const CircleBorder(),
         onPressed: () {
           ref.read(routerServiceProvider).pushNamed(
-                AppRoute.petitionWrite.name,
+                AppRoute.writePetition.name,
               );
         },
         backgroundColor: context.palette.surfaceDim,

@@ -8,12 +8,10 @@ import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/time_format.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../../domain/models/schedule.dart';
 import '../../domain/models/schedule_time.dart';
-import '../../domain/models/schedule_type.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/models/week_days.dart';
-import '../../domain/use_caces/add_schedule.dart';
+import '../providers/add_schedule_provider.dart';
 import '../providers/timetable_provider.dart';
 import '../widgets/schedule_color_picker.dart';
 import '../widgets/schedule_time_picker.dart';
@@ -77,6 +75,19 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
     lectureTimes.sort((a, b) => a.start.isBefore(b.start) ? -1 : 1);
     lectureTimes.sort((a, b) => a.day.index.compareTo(b.day.index));
 
+    ref.listen(
+      addScheduleProvider,
+      (_, next) {
+        if (!next.isLoading && next.hasError) {
+          final error = next.error;
+          if (error is! AppException) return;
+          context.showErrorSnackBar(
+            error: error,
+          );
+        }
+      },
+    );
+
     return OrbScaffold(
       resizeToAvoidBottomInset: true,
       appBar: OrbAppBar(
@@ -90,39 +101,22 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
             Icons.check_rounded,
           ),
           onPressed: () async {
-            final result = await AsyncValue.guard(
-              () => ref.read(
-                addScheduleProvider(
-                  AddScheduleParams(
-                    schedule: Schedule(
+            final result =
+                await ref.read(addScheduleProvider.notifier).addSchedule(
                       name: nameController.text,
-                      type: ScheduleType.schedule,
                       memo: memoController.text,
                       color: selectedColor,
                       times: lectureTimes,
-                    ),
-                    timetable: timetable,
-                  ),
-                ),
-              ),
-            );
+                    );
 
             if (!context.mounted) return;
 
-            result.whenOrNull(
-              data: (_) {
-                context.showSnackBar(
-                  message: '일정이 추가되었습니다.',
-                );
-                ref.read(routerServiceProvider).pop();
-              },
-              error: (error, stackTrace) {
-                if (error is! AppException) return;
-                context.showErrorSnackBar(
-                  error: error,
-                );
-              },
-            );
+            if (result) {
+              context.showSnackBar(
+                message: '일정이 추가되었습니다.',
+              );
+              ref.read(routerServiceProvider).pop();
+            }
           },
         ),
       ),

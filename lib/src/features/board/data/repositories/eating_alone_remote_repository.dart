@@ -15,7 +15,7 @@ final eatingAloneRemoteRepositoryProvider = Provider.autoDispose(
 class EatingAloneRemoteRepository extends RemoteRepository {
   EatingAloneRemoteRepository({required super.networkClientService});
 
-  Future<Board<EatingAlonePost>> getEatingAloneLBoard({
+  Future<Board<EatingAlonePost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,
@@ -39,5 +39,17 @@ class EatingAloneRemoteRepository extends RemoteRepository {
       result.data,
       (data) => EatingAlonePost.fromJson(data as Map<String, dynamic>),
     );
+  }
+
+  Future<EatingAlonePost> getPost({
+    CancelToken? cancelToken,
+    int? id,
+  }) async {
+    final result = await networkClientService.request(
+      path: '/with-dankook/eating-alone/$id',
+      method: RequestType.get,
+      cancelToken: cancelToken,
+    );
+    return EatingAlonePost.fromJson(result.data);
   }
 }

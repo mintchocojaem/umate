@@ -37,7 +37,7 @@ class GetStudyBoard extends UseCase<Board<StudyPost>, GetStudyBoardParams> {
   @override
   Future<Board<StudyPost>> call(GetStudyBoardParams params) {
     // TODO: implement call
-    return studyRemoteRepository.getStudyBoard(
+    return studyRemoteRepository.getBoard(
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,

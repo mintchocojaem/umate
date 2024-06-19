@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../domain/models/coalition_type.dart';
 import '../providers/coalition_board_provider.dart';
@@ -99,7 +100,14 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
               );
         },
         postTagItems: (post) => [],
-        onTapPost: (post){},
+        onTapPost: (post) {
+          ref.read(routerServiceProvider).pushNamed(
+            AppRoute.coalitionPost.name,
+            pathParameters: {
+              'id': post.id.toString(),
+            },
+          );
+        },
       ),
     );
   }

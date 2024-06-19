@@ -123,23 +123,18 @@ class TodaySchedule extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      OrbText(
-                                        schedule.title,
-                                        type: OrbTextType.bodyMedium,
-                                        fontWeight: OrbFontWeight.medium,
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      OrbText(
-                                        schedule.place ?? "",
-                                        type: OrbTextType.bodySmall,
-                                        color: context.palette.secondary,
-                                        fontWeight: OrbFontWeight.medium,
-                                      ),
-                                    ],
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.5,
+                                    ),
+                                    child: OrbText(
+                                      schedule.title,
+                                      type: OrbTextType.bodyMedium,
+                                      fontWeight: OrbFontWeight.medium,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 8,

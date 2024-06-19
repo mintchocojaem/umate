@@ -36,7 +36,7 @@ class GetEatingAloneBoard
   @override
   Future<Board<EatingAlonePost>> call(GetEatingAloneBoardParams params) {
     // TODO: implement call
-    return eatingAloneRemoteRepository.getEatingAloneLBoard(
+    return eatingAloneRemoteRepository.getBoard(
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,

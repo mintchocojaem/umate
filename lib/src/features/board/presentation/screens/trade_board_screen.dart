@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 
@@ -33,21 +34,36 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
     // TODO: implement build
     final tradeBoard = ref.watch(tradeBoardProvider);
 
-    return BoardTab(
-      board: tradeBoard,
-      onFetch: () async {
-        //await ref.read(noticeBoardProvider.notifier).fetch();
-      },
-      onFetchMore: (currentPage) async {},
-      postTagItems: (post) => [
-        PostTagItem(
-          title: post.status,
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () {},
+        backgroundColor: context.palette.surfaceDim,
+        child: Icon(
+          Icons.edit,
+          color: context.palette.onSecondary,
         ),
-        PostTagItem(
-          title: post.tradePlace,
-        ),
-      ],
-      onTapPost: (post){},
+      ),
+      body: BoardTab(
+        board: tradeBoard,
+        onFetch: () async {
+          ref.read(tradeBoardProvider.notifier).fetch();
+        },
+        onFetchMore: (currentPage) async {
+          ref.read(tradeBoardProvider.notifier).fetchMore(
+                page: currentPage,
+              );
+        },
+        postTagItems: (post) => [
+          PostTagItem(
+            title: post.status,
+          ),
+          PostTagItem(
+            title: post.tradePlace,
+          ),
+        ],
+        onTapPost: (post) {},
+      ),
     );
   }
 }

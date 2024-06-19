@@ -7,10 +7,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../../domain/models/schedule.dart';
-import '../../domain/models/schedule_type.dart';
-import '../providers/search_lecture_provider.dart';
-import '../providers/timetable_provider.dart';
+import '../providers/add_lecture_provider.dart';
 import '../widgets/lecture_info_card.dart';
 import '../widgets/lecture_info_preview_card.dart';
 import '../widgets/schedule_color_picker.dart';
@@ -45,10 +42,10 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final searchLecture = ref.watch(searchLectureProvider);
+    final searchLecture = ref.watch(addLectureProvider);
 
     ref.listen(
-      searchLectureProvider,
+      addLectureProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -76,14 +73,14 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
             textController: keywordController,
             onTextChange: (query) {
               onSearch.value = false;
-              ref.read(searchLectureProvider.notifier).search(
+              ref.read(addLectureProvider.notifier).search(
                     keyword: query,
                     isTyping: true,
                   );
             },
             onSearch: (query) {
               onSearch.value = true;
-              ref.read(searchLectureProvider.notifier).search(
+              ref.read(addLectureProvider.notifier).search(
                     keyword: query,
                   );
             },
@@ -126,7 +123,7 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
                               onPressed: () {
                                 onSearch.value = true;
                                 keywordController.text = data[index].name;
-                                ref.read(searchLectureProvider.notifier).search(
+                                ref.read(addLectureProvider.notifier).search(
                                       keyword: data[index].name,
                                     );
                               },
@@ -136,25 +133,22 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
                             lectureInfo: data[index],
                             onPressedAdd: () async {
                               final result = await ref
-                                  .read(searchLectureProvider.notifier)
+                                  .read(addLectureProvider.notifier)
                                   .addLecture(
-                                    schedule: Schedule(
-                                      name: data[index].name,
-                                      type: ScheduleType.lecture,
-                                      professor: data[index].professor,
-                                      memo: '',
-                                      color: ScheduleColorPicker.colors[Random()
-                                          .nextInt(ScheduleColorPicker
-                                              .colors.length)],
-                                      times: data[index].times,
-                                    ),
+                                    name: data[index].name,
+                                    professor: data[index].professor,
+                                    color: ScheduleColorPicker.colors[Random()
+                                        .nextInt(
+                                            ScheduleColorPicker.colors.length)],
+                                    times: data[index].times,
                                   );
+
+                              if (!context.mounted) return;
+
                               if (result) {
-                                if (!context.mounted) return;
                                 context.showSnackBar(
                                   message: '일정이 추가되었습니다.',
                                 );
-                                ref.invalidate(timetableProvider);
                                 ref.read(routerServiceProvider).pop();
                               }
                             },

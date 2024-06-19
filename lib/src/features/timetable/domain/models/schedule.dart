@@ -32,6 +32,25 @@ class Schedule {
       _$ScheduleFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScheduleToJson(this);
+
+  Schedule copyWith({
+    String? name,
+    String? professor,
+    String? memo,
+    ScheduleType? type,
+    Color? color,
+    List<ScheduleTime>? times,
+  }) {
+    return Schedule(
+      id: id,
+      name: name ?? this.name,
+      professor: professor ?? this.professor,
+      memo: memo ?? this.memo,
+      type: type ?? this.type,
+      color: color ?? this.color,
+      times: times ?? this.times,
+    );
+  }
 }
 
 Color _parseColorFromJson(String color) => Color(int.parse(color));

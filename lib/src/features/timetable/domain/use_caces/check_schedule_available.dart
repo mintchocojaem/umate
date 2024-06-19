@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/features/timetable/domain/models/timetable.dart';
 
 import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/use_case.dart';
@@ -10,22 +11,17 @@ final checkScheduleAvailableProvider =
 );
 
 class CheckScheduleAvailableParams extends UseCaseParams {
-  final int tableStartHour;
-  final int tableEndHour;
+  final Timetable timetable;
   final Schedule newSchedule;
-  final List<Schedule> schedules;
 
   const CheckScheduleAvailableParams({
-    required this.tableStartHour,
-    required this.tableEndHour,
+    required this.timetable,
     required this.newSchedule,
-    required this.schedules,
   });
 
   @override
   // TODO: implement props
-  List<Object?> get props =>
-      [tableStartHour, tableEndHour, newSchedule, schedules];
+  List<Object?> get props => [timetable, newSchedule];
 }
 
 class CheckScheduleAvailable
@@ -47,8 +43,8 @@ class CheckScheduleAvailable
 
     //check if the schedule time is within the table time
     for (final i in params.newSchedule.times) {
-      if (i.start.hour < params.tableStartHour ||
-          i.end.hour > params.tableEndHour) {
+      if (i.start.hour < params.timetable.startHour ||
+          i.end.hour > params.timetable.endHour) {
         throw AppWarning(
           message: '일정이 시간표 시간을 벗어나요.',
           stackTrace: StackTrace.current,
@@ -78,9 +74,9 @@ class CheckScheduleAvailable
         }
       }
 
-      params.schedules
+      params.timetable.schedules
           .removeWhere((element) => element.id == params.newSchedule.id);
-      for (final i in params.schedules) {
+      for (final i in params.timetable.schedules) {
         //check if the schedule time is overlapped with other schedules
         for (final j in i.times) {
           for (final k in params.newSchedule.times) {

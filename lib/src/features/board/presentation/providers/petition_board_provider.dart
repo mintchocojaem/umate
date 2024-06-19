@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/app_exception.dart';
 import '../../domain/models/board.dart';
 import '../../domain/models/petition_post.dart';
 import '../../domain/models/petition_status.dart';
+import '../../domain/models/post_sort.dart';
 import '../../domain/use_cases/get_petition_board.dart';
+import '../../domain/use_cases/write_petition_post.dart';
 
 final petitionStatusProvider = StateProvider.autoDispose<PetitionStatus>((ref) {
   return PetitionStatus.active;
@@ -38,6 +39,11 @@ class PetitionBoardNotifier
         GetPetitionBoardParams(
           cancelToken: _cancelToken,
           status: ref.read(petitionStatusProvider),
+          sort: [
+            PostSort(
+              type: PostSortType.createdAt,
+            ),
+          ],
         ),
       ),
     );
@@ -79,14 +85,45 @@ class PetitionBoardNotifier
         );
       },
       error: (error, stackTrace) {
-        if (!(error is AppNetworkError &&
-            error.type == DioExceptionType.cancel)) {
-          state = AsyncError(
-            error,
-            stackTrace,
-          );
-        }
+        state = AsyncError(
+          error,
+          stackTrace,
+        );
       },
     );
+  }
+
+  Future<bool> writePetition({
+    required String title,
+    required String body,
+    required List<String> images,
+    required List<String> files,
+  }) async {
+    final result = await AsyncValue.guard(
+      () => ref.read(
+        writePetitionPostProvider(
+          WritePetitionPostParams(
+            title: title,
+            body: body,
+            images: images,
+            files: files,
+          ),
+        ),
+      ),
+    );
+
+    result.whenOrNull(
+      data: (data) {
+        fetch();
+      },
+      error: (error, stackTrace) {
+        state = AsyncError(
+          error,
+          stackTrace,
+        );
+      },
+    );
+
+    return result.hasValue;
   }
 }

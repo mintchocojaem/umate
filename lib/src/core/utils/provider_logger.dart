@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'app_exception.dart';
+
 class ProviderLogger extends ProviderObserver {
   @override
   void didAddProvider(
@@ -38,7 +40,8 @@ class ProviderLogger extends ProviderObserver {
     StackTrace stackTrace,
     ProviderContainer container,
   ) {
+    final errorString = error is AppException ? error.message : error.toString();
     debugPrint(
-        'Provider > ${provider.runtimeType} threw $error at $stackTrace');
+        'Provider > ${provider.runtimeType} threw an error: $errorString');
   }
 }

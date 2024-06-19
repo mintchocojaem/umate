@@ -35,7 +35,7 @@ class GetTradeBoard extends UseCase<Board<TradePost>, GetTradeBoardParams> {
   @override
   Future<Board<TradePost>> call(GetTradeBoardParams params) {
     // TODO: implement call
-    return tradeRemoteRepository.getTradeBoard(
+    return tradeRemoteRepository.getBoard(
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,

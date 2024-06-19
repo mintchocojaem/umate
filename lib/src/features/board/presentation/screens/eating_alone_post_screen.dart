@@ -5,15 +5,14 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../../domain/models/petition_status.dart';
 import '../../domain/models/post_report_type.dart';
-import '../providers/petition_post_provider.dart';
+import '../providers/eating_alone_post_provider.dart';
 import '../widgets/image_slider.dart';
 
-class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
+class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
   final int id;
 
-  const PetitionPostScreen({
+  const EatingAlonePostScreen({
     super.key,
     required this.id,
   });
@@ -22,7 +21,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    ref.listen(petitionPostProvider(id), (pref, next) {
+    ref.listen(eatingAlonePostProvider(id), (pref, next) {
       if (!next.isLoading && next.hasError) {
         final error = next.error;
         if (error is! AppException) return;
@@ -32,10 +31,10 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(petitionPostProvider(id));
+    final petitionPost = ref.watch(eatingAlonePostProvider(id));
     return OrbScaffold(
       appBar: const OrbAppBar(
-        title: '청원게시글',
+        title: '단혼밥 게시글',
         centerTitle: true,
       ),
       body: petitionPost.when(
@@ -72,7 +71,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                             flex: 1,
                             fit: FlexFit.tight,
                             child: OrbText(
-                              "청원자",
+                              "작성자",
                             ),
                           ),
                           Flexible(
@@ -93,7 +92,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                             flex: 1,
                             fit: FlexFit.tight,
                             child: OrbText(
-                              "청원기간",
+                              "모집일",
                             ),
                           ),
                           Flexible(
@@ -115,7 +114,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                             flex: 1,
                             fit: FlexFit.tight,
                             child: OrbText(
-                              "청원상태",
+                              "모집상태",
                             ),
                           ),
                           Flexible(
@@ -125,17 +124,17 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 OrbText(
-                                  "${data.status.korean}(${(data.agreeCount / 50 * 100).round()}%)",
+                                  "모집 중(${data.recruitedCount} 명 모집됨)",
                                 ),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 LinearProgressIndicator(
-                                  value: data.agreeCount / 50,
+                                  value: 0 / data.recruitedCount,
                                   minHeight: 8,
                                   borderRadius: BorderRadius.circular(15),
                                   backgroundColor:
-                                      context.palette.surfaceBright,
+                                  context.palette.surfaceBright,
                                   color: context.palette.secondary,
                                 ),
                               ],
@@ -152,16 +151,16 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                       ),
                       data.images.isNotEmpty
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: ImageSlider(
-                                imagePaths:
-                                    data.images.map((e) => e.url).toList(),
-                                selectedIndicatorColor:
-                                    context.palette.surfaceBright,
-                                unselectedIndicatorColor:
-                                    context.palette.surface,
-                              ),
-                            )
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: ImageSlider(
+                          imagePaths:
+                          data.images.map((e) => e.url).toList(),
+                          selectedIndicatorColor:
+                          context.palette.surfaceBright,
+                          unselectedIndicatorColor:
+                          context.palette.surface,
+                        ),
+                      )
                           : const SizedBox(),
                       ConstrainedBox(
                         constraints: const BoxConstraints(
@@ -243,52 +242,12 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              const OrbText(
-                                "참여인원",
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              OrbText(
-                                "${data.agreeCount}명",
-                                color: context.palette.primary,
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                       const SizedBox(
                         height: 16,
                       ),
                       const OrbDivider(),
-                      if (data.answer != null)
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                          ),
-                          constraints: const BoxConstraints(
-                            minHeight: 100,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const OrbText(
-                                "총학생회 답변",
-                                type: OrbTextType.bodyLarge,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              OrbText(
-                                data.answer ?? "",
-                                type: OrbTextType.bodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
                       const SizedBox(
                         height: 64,
                       ),
@@ -298,32 +257,9 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
               ),
               const SizedBox(height: 8),
               OrbFilledButton(
-                disabled: data.agree || data.status != PetitionStatus.active,
-                text: data.agree ? "이미 동의하신 청원이에요" : "청원 동의하기",
+                text: "참여하기",
                 onPressed: () {
-                  OrbDialog(
-                    title: "청원 동의",
-                    content: const OrbText(
-                        "정말 해당 청원에 동의 하시겠어요?\n(동의 후에는 취소할 수 없어요.)"),
-                    rightButtonText: "동의하기",
-                    onRightButtonPressed: () async {
-                      final result = await ref
-                          .read(petitionPostProvider(id).notifier)
-                          .agreePetitionPost(id: id);
 
-                      if (!context.mounted) return true;
-                      if (result) {
-                        context.showSnackBar(
-                          message: "청원에 동의하였습니다.",
-                        );
-                      }
-                      return true;
-                    },
-                    leftButtonText: "닫기",
-                    onLeftButtonPressed: () async {
-                      return true;
-                    },
-                  ).show(context);
                 },
               ),
             ],

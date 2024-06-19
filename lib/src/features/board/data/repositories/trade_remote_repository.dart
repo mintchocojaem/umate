@@ -15,7 +15,7 @@ final tradeRemoteRepositoryProvider = Provider.autoDispose(
 class TradeRemoteRepository extends RemoteRepository {
   TradeRemoteRepository({required super.networkClientService});
 
-  Future<Board<TradePost>> getTradeBoard({
+  Future<Board<TradePost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,

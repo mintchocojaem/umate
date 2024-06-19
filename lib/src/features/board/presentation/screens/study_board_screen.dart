@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 
 import '../providers/study_board_provider.dart';
@@ -33,21 +35,37 @@ class _StudyBoardScreenState extends ConsumerState<StudyBoardScreen>
     // TODO: implement build
     final studyBoard = ref.watch(studyBoardProvider);
 
-    return BoardTab(
-      board: studyBoard,
-      onFetch: () async {
-        //await ref.read(noticeBoardProvider.notifier).fetch();
-      },
-      onFetchMore: (currentPage) async {},
-      postTagItems: (post) => [
-        PostTagItem(
-          title: "${post.recruitedCount}명 모집",
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () {},
+        backgroundColor: context.palette.surfaceDim,
+        child: Icon(
+          Icons.edit,
+          color: context.palette.onSecondary,
         ),
-        if(post.tag != null) PostTagItem(
-          title: "${post.tag}",
-        ),
-      ],
-      onTapPost: (post){},
+      ),
+      body: BoardTab(
+        board: studyBoard,
+        onFetch: () async {
+          ref.read(studyBoardProvider.notifier).fetch();
+        },
+        onFetchMore: (currentPage) async {
+          ref.read(studyBoardProvider.notifier).fetchMore(
+                page: currentPage,
+              );
+        },
+        postTagItems: (post) => [
+          PostTagItem(
+            title: "${post.recruitedCount}명 모집",
+          ),
+          if (post.tag != null)
+            PostTagItem(
+              title: "${post.tag}",
+            ),
+        ],
+        onTapPost: (post) {},
+      ),
     );
   }
 }

@@ -35,7 +35,7 @@ class GetNoticeBoard extends UseCase<Board<NoticePost>, GetNoticeBoardParams> {
   @override
   Future<Board<NoticePost>> call(GetNoticeBoardParams params) {
     // TODO: implement call
-    return repository.getNoticeBoard(
+    return repository.getBoard(
       cancelToken: params.cancelToken,
       page: params.page,
       size: 10,

@@ -38,7 +38,7 @@ class GetNoticePost extends UseCase<NoticePost, GetNoticePostParams> {
   @override
   Future<NoticePost> call(GetNoticePostParams params) async {
 // TODO: implement call
-    return await noticeRemoteRepository.getNoticePost(
+    return await noticeRemoteRepository.getPost(
       cancelToken: params.cancelToken,
       id: params.id,
     );

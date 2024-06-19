@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/app_exception.dart';
 import '../../domain/models/board.dart';
 import '../../domain/models/notice_post.dart';
 import '../../domain/use_cases/get_notice_board.dart';
@@ -68,13 +67,10 @@ class NoticeBoardNotifier extends AutoDisposeAsyncNotifier<Board<NoticePost>> {
         );
       },
       error: (error, stackTrace) {
-        if (!(error is AppNetworkError &&
-            error.type == DioExceptionType.cancel)) {
-          state = AsyncError(
-            error,
-            stackTrace,
-          );
-        }
+        state = AsyncError(
+          error,
+          stackTrace,
+        );
       },
     );
   }

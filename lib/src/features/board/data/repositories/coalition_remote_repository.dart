@@ -17,7 +17,7 @@ final coalitionRemoteRepositoryProvider = Provider.autoDispose<
 class CoalitionRemoteRepository extends RemoteRepository {
   CoalitionRemoteRepository({required super.networkClientService});
 
-  Future<Board<CoalitionPost>> getCoalitionBoard({
+  Future<Board<CoalitionPost>> getBoard({
     CancelToken? cancelToken,
     String? coalitionType,
     String? keyword,
@@ -45,7 +45,7 @@ class CoalitionRemoteRepository extends RemoteRepository {
     );
   }
 
-  Future<CoalitionPost> getNoticePost({
+  Future<CoalitionPost> getPost({
     CancelToken? cancelToken,
     int? id,
   }) async {

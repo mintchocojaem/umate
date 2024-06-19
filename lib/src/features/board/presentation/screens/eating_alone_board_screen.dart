@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 
@@ -33,18 +34,33 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
     // TODO: implement build
     final eatingAloneBoard = ref.watch(eatingAloneBoardProvider);
 
-    return BoardTab(
-      board: eatingAloneBoard,
-      onFetch: () async {
-        //await ref.read(noticeBoardProvider.notifier).fetch();
-      },
-      onFetchMore: (currentPage) async {},
-      postTagItems: (post) => [
-        PostTagItem(
-          title: "${post.recruitedCount}명 모집",
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () {},
+        backgroundColor: context.palette.surfaceDim,
+        child: Icon(
+          Icons.edit,
+          color: context.palette.onSecondary,
         ),
-      ],
-      onTapPost: (post){},
+      ),
+      body: BoardTab(
+        board: eatingAloneBoard,
+        onFetch: () async {
+          await ref.read(eatingAloneBoardProvider.notifier).fetch();
+        },
+        onFetchMore: (currentPage) async {
+          await ref
+              .read(eatingAloneBoardProvider.notifier)
+              .fetchMore(page: currentPage);
+        },
+        postTagItems: (post) => [
+          PostTagItem(
+            title: "${post.recruitedCount}명 모집",
+          ),
+        ],
+        onTapPost: (post) {},
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import '../../data/repositories/petition_remote_repository.dart';
 import '../models/board.dart';
 import '../models/petition_post.dart';
 import '../models/petition_status.dart';
+import '../models/post_sort.dart';
 
 final getPetitionBoardProvider = Provider.autoDispose
     .family<Future<Board<PetitionPost>>, GetPetitionBoardParams>(
@@ -18,11 +19,13 @@ class GetPetitionBoardParams extends UseCaseParams {
   final PetitionStatus status;
   final CancelToken? cancelToken;
   final int? page;
+  final List<PostSort>? sort;
 
   const GetPetitionBoardParams({
     required this.status,
     this.cancelToken,
     this.page,
+    this.sort,
   });
 
   @override
@@ -39,12 +42,13 @@ class GetPetitionBoard
   @override
   Future<Board<PetitionPost>> call(GetPetitionBoardParams params) {
     // TODO: implement call
-    return repository.getPetitionBoard(
+    return repository.getBoard(
       cancelToken: params.cancelToken,
       status: params.status.value,
       page: params.page,
       size: 10,
       bodySize: 200,
+      sort: params.sort?.map((e) => e.toString()).toList(),
     );
   }
 }

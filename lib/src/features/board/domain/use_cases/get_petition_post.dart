@@ -38,7 +38,7 @@ class GetPetitionPost extends UseCase<PetitionPost, GetPetitionPostParams> {
   @override
   Future<PetitionPost> call(GetPetitionPostParams params) async {
 // TODO: implement call
-    return await petitionRemoteRepository.getPetitionPost(
+    return await petitionRemoteRepository.getPost(
       cancelToken: params.cancelToken,
       id: params.id,
     );
