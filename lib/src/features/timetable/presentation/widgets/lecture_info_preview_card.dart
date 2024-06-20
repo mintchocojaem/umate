@@ -19,16 +19,11 @@ class LectureInfoPreviewCard extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OrbText(
-              title,
-              type: OrbTextType.bodyMedium,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+        child: OrbText(
+          title,
+          type: OrbTextType.bodyMedium,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );
