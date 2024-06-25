@@ -6,12 +6,12 @@ import '../../../../core/utils/use_case.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/use_caces/get_first_timetable.dart';
 
-final timetableProvider =
-    AsyncNotifierProvider.autoDispose<TimetableNotifier, Timetable>(
-  () => TimetableNotifier(),
+final timetableViewModelProvider =
+    AsyncNotifierProvider.autoDispose<TimetableViewModel, Timetable>(
+  () => TimetableViewModel(),
 );
 
-class TimetableNotifier extends AutoDisposeAsyncNotifier<Timetable> {
+class TimetableViewModel extends AutoDisposeAsyncNotifier<Timetable> {
   @override
   FutureOr<Timetable> build() {
     // TODO: implement build

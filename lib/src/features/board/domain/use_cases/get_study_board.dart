@@ -2,10 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
-import '../../data/repositories/eating_alone_remote_repository.dart';
 import '../../data/repositories/study_remote_repository.dart';
 import '../models/board.dart';
-import '../models/eating_alone_post.dart';
 import '../models/study_post.dart';
 
 final getStudyBoardProvider =

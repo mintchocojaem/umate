@@ -24,7 +24,7 @@ import '../../../features/timetable/presentation/screens/add_schedule_screen.dar
 import '../../../features/timetable/presentation/screens/schedule_detail_screen.dart';
 import '../../../features/timetable/presentation/screens/add_lecture_screen.dart';
 import '../../../features/timetable/presentation/screens/timetable_screen.dart';
-import '../../../features/user/presentation/providers/login_token_provider.dart';
+import '../../../features/user/presentation/view_models/login_view_model.dart';
 import '../../../features/user/presentation/screens/find_user_id_screen.dart';
 import '../../../features/user/presentation/screens/find_user_password_screen.dart';
 import '../../../features/user/presentation/screens/login_screen.dart';
@@ -76,9 +76,9 @@ final routerServiceProvider = Provider<RouterService>(
   (ref) {
     final GlobalKey<NavigatorState> rootNavigatorKey =
         GlobalKey<NavigatorState>();
-    final loginNotifier = ValueNotifier(ref.read(loginTokenProvider).value);
+    final loginNotifier = ValueNotifier(ref.read(loginViewModelProvider).value);
     ref.listen(
-      loginTokenProvider,
+      loginViewModelProvider,
       (_, next) {
         loginNotifier.value = next.value;
       },
@@ -93,7 +93,7 @@ final routerServiceProvider = Provider<RouterService>(
         debugLogDiagnostics: true,
         refreshListenable: loginNotifier,
         redirect: (context, state) async {
-          final loginToken = ref.read(loginTokenProvider).value;
+          final loginToken = ref.read(loginViewModelProvider).value;
           if (loginToken == null &&
               !(state.uri.path.contains('login') ||
                   state.uri.path.contains('sign_up'))) {

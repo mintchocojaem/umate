@@ -11,8 +11,8 @@ import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/schedule_time.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/models/week_days.dart';
-import '../providers/add_schedule_provider.dart';
-import '../providers/timetable_provider.dart';
+import '../view_models/add_schedule_view_model.dart';
+import '../view_models/timetable_view_model.dart';
 import '../widgets/schedule_color_picker.dart';
 import '../widgets/schedule_time_picker.dart';
 import '../widgets/schedule_time_sheet.dart';
@@ -44,7 +44,7 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    timetable = ref.read(timetableProvider).requireValue;
+    timetable = ref.read(timetableViewModelProvider).requireValue;
     lectureTimes.add(
       ScheduleTime(
         day: WeekDays.monday,
@@ -76,7 +76,7 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
     lectureTimes.sort((a, b) => a.day.index.compareTo(b.day.index));
 
     ref.listen(
-      addScheduleProvider,
+      addScheduleViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -101,13 +101,14 @@ class _AddScheduleScreenState extends ConsumerState<AddScheduleScreen> {
             Icons.check_rounded,
           ),
           onPressed: () async {
-            final result =
-                await ref.read(addScheduleProvider.notifier).addSchedule(
-                      name: nameController.text,
-                      memo: memoController.text,
-                      color: selectedColor,
-                      times: lectureTimes,
-                    );
+            final result = await ref
+                .read(addScheduleViewModelProvider.notifier)
+                .addSchedule(
+                  name: nameController.text,
+                  memo: memoController.text,
+                  color: selectedColor,
+                  times: lectureTimes,
+                );
 
             if (!context.mounted) return;
 

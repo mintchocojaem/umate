@@ -7,12 +7,12 @@ import '../../domain/models/user_info.dart';
 import '../../domain/use_cases/delete_user.dart';
 import '../../domain/use_cases/get_user_info.dart';
 
-final userInfoProvider =
-    AsyncNotifierProvider.autoDispose<UserInfoNotifier, UserInfo>(
-  () => UserInfoNotifier(),
+final userViewModelProvider =
+    AsyncNotifierProvider.autoDispose<UserViewModel, UserInfo>(
+  () => UserViewModel(),
 );
 
-class UserInfoNotifier extends AutoDisposeAsyncNotifier<UserInfo> {
+class UserViewModel extends AutoDisposeAsyncNotifier<UserInfo> {
   @override
   FutureOr<UserInfo> build() {
     // TODO: implement build

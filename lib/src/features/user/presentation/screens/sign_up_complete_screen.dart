@@ -7,8 +7,8 @@ import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/services/router/router_service.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/login_token_provider.dart';
-import '../providers/sign_up_info_provider.dart';
+import '../view_models/login_view_model.dart';
+import '../view_models/sign_up_view_model.dart';
 
 class SignUpCompleteScreen extends ConsumerStatefulWidget {
   final String userPassword;
@@ -64,7 +64,7 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final signUpInfo = ref.watch(signUpInfoProvider);
+    final signUpInfo = ref.watch(signUpViewModelProvider);
 
     return OrbScaffold(
       appBar: OrbAppBar(
@@ -189,7 +189,7 @@ class _SignUpCompleteScreenState extends ConsumerState<SignUpCompleteScreen> {
               OrbFilledButton(
                 text: '시작하기',
                 onPressed: () async {
-                  await ref.read(loginTokenProvider.notifier).login(
+                  await ref.read(loginViewModelProvider.notifier).login(
                         studentId: signUpInfo.studentInfo.studentId,
                         password: widget.userPassword,
                       );

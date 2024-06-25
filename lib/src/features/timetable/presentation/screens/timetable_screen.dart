@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/timetable_provider.dart';
+import '../view_models/timetable_view_model.dart';
 import '../widgets/schedule_table.dart';
 import '../widgets/shedule_add_sheet.dart';
 
@@ -14,9 +14,8 @@ class TimetableScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     ref.listen(
-      timetableProvider,
+      timetableViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -28,7 +27,7 @@ class TimetableScreen extends ConsumerWidget {
       },
     );
 
-    final timetable = ref.watch(timetableProvider);
+    final timetable = ref.watch(timetableViewModelProvider);
 
     return OrbScaffold(
       padding: EdgeInsets.zero,
@@ -120,7 +119,7 @@ class TimetableScreen extends ConsumerWidget {
                   buttonTextType: OrbButtonTextType.small,
                   buttonType: OrbButtonType.secondary,
                   onPressed: () async {
-                    await ref.read(timetableProvider.notifier).fetch();
+                    await ref.read(timetableViewModelProvider.notifier).fetch();
                   },
                 ),
               ],

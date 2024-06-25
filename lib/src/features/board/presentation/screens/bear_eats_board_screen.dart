@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 
-import '../providers/bear_eats_board_provider.dart';
+import '../view_models/bear_eats_board_view_model.dart';
 import '../widgets/board_tab.dart';
 import '../widgets/post_preview_card.dart';
 
@@ -33,7 +33,7 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final bearEatsBoard = ref.watch(bearEatsBoardProvider);
+    final bearEatsBoard = ref.watch(bearEatsBoardViewModelProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -48,10 +48,10 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
       body: BoardTab(
         board: bearEatsBoard,
         onFetch: () async {
-          await ref.read(bearEatsBoardProvider.notifier).fetch();
+          await ref.read(bearEatsBoardViewModelProvider.notifier).fetch();
         },
         onFetchMore: (currentPage) async {
-          await ref.read(bearEatsBoardProvider.notifier).fetchMore(
+          await ref.read(bearEatsBoardViewModelProvider.notifier).fetchMore(
                 page: currentPage,
               );
         },

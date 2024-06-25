@@ -10,7 +10,7 @@ import '../../../timetable/domain/models/week_days.dart';
 import '../widgets/board_card.dart';
 import '../widgets/extra_menu_bar.dart';
 import '../widgets/today_schedule.dart';
-import '../providers/home_board_provider.dart';
+import '../view_models/home_board_view_model.dart';
 import '../widgets/carousel_indicator.dart';
 import '../widgets/web_banner.dart';
 
@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      homeBoardProvider,
+      homeBoardViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -34,7 +34,7 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
       },
     );
 
-    final homeBoard = ref.watch(homeBoardProvider);
+    final homeBoard = ref.watch(homeBoardViewModelProvider);
 
     ValueNotifier<int> currentBannerIndex = ValueNotifier<int>(0);
     return OrbScaffold(

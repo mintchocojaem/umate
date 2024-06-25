@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/use_case.dart';
 import '../../data/repositories/eating_alone_remote_repository.dart';
-import '../../data/repositories/notice_remote_repository.dart';
 import '../models/eating_alone_post.dart';
-import '../models/notice_post.dart';
 
 final getEatingAlonePostProvider = Provider.autoDispose
     .family<Future<EatingAlonePost>, GetEatingAlonePostParams>(

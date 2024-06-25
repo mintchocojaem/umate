@@ -4,7 +4,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 
-import '../providers/eating_alone_board_provider.dart';
+import '../view_models/eating_alone_board_view_model.dart';
 import '../widgets/board_tab.dart';
 import '../widgets/post_preview_card.dart';
 
@@ -32,7 +32,7 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final eatingAloneBoard = ref.watch(eatingAloneBoardProvider);
+    final eatingAloneBoard = ref.watch(eatingAloneBoardViewModelProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -47,11 +47,11 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
       body: BoardTab(
         board: eatingAloneBoard,
         onFetch: () async {
-          await ref.read(eatingAloneBoardProvider.notifier).fetch();
+          await ref.read(eatingAloneBoardViewModelProvider.notifier).fetch();
         },
         onFetchMore: (currentPage) async {
           await ref
-              .read(eatingAloneBoardProvider.notifier)
+              .read(eatingAloneBoardViewModelProvider.notifier)
               .fetchMore(page: currentPage);
         },
         postTagItems: (post) => [

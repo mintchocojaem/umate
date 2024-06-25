@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/search_board_provider.dart';
+import '../view_models/search_board_view_model.dart';
 import '../widgets/search_board_list.dart';
 
 class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
@@ -13,7 +13,7 @@ class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchPost = ref.watch(searchBoardProvider);
+    final searchPost = ref.watch(searchBoardViewModelProvider);
 
     return OrbScaffold(
       appBar: const OrbAppBar(
@@ -32,7 +32,7 @@ class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
             child: OrbSearchBar(
               onSearch: (query) {
                 ref
-                    .read(searchBoardProvider.notifier)
+                    .read(searchBoardViewModelProvider.notifier)
                     .search(keyword: query);
               },
               onTextChange: (query) {},
@@ -59,19 +59,16 @@ class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
                           ref.read(routerServiceProvider).pushNamed(
                             AppRoute.noticePost.name,
                             pathParameters: {
-                              'id': data.notices.content[index].id
-                                  .toString(),
+                              'id': data.notices.content[index].id.toString(),
                             },
                           );
                         },
                         items: [
-                          for (final notice
-                          in data.notices.content)
+                          for (final notice in data.notices.content)
                             SearchBoardItem(
                               title: notice.title,
                               author: notice.author,
-                              createdAt:
-                              dateFormatToRelative(notice.createdAt),
+                              createdAt: dateFormatToRelative(notice.createdAt),
                               body: notice.body,
                             ),
                         ],
@@ -86,20 +83,18 @@ class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
                           ref.read(routerServiceProvider).pushNamed(
                             AppRoute.coalitionPost.name,
                             pathParameters: {
-                              'id': data.coalitions
-                                  .content[index].id
-                                  .toString(),
+                              'id':
+                                  data.coalitions.content[index].id.toString(),
                             },
                           );
                         },
                         items: [
-                          for (final coalition
-                          in data.coalitions.content)
+                          for (final coalition in data.coalitions.content)
                             SearchBoardItem(
                               title: coalition.title,
                               author: coalition.author,
-                              createdAt: dateFormatToRelative(
-                                  coalition.createdAt),
+                              createdAt:
+                                  dateFormatToRelative(coalition.createdAt),
                               body: coalition.body,
                             ),
                         ],
@@ -114,20 +109,17 @@ class SearchBoardScreen extends ConsumerWidget with DateTimeFormatter {
                           ref.read(routerServiceProvider).pushNamed(
                             AppRoute.petitionPost.name,
                             pathParameters: {
-                              'id': data.petitions
-                                  .content[index].id
-                                  .toString(),
+                              'id': data.petitions.content[index].id.toString(),
                             },
                           );
                         },
                         items: [
-                          for (final petition
-                          in data.petitions.content)
+                          for (final petition in data.petitions.content)
                             SearchBoardItem(
                               title: petition.title,
                               author: petition.author,
-                              createdAt: dateFormatToRelative(
-                                  petition.createdAt),
+                              createdAt:
+                                  dateFormatToRelative(petition.createdAt),
                               body: petition.body,
                             ),
                         ],

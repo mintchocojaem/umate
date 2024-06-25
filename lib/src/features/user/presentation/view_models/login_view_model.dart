@@ -7,12 +7,12 @@ import '../../data/repositories/auth_local_repository.dart';
 import '../../domain/models/login_token.dart';
 import '../../domain/use_cases/reissue_login_token.dart';
 
-final loginTokenProvider =
-    AsyncNotifierProvider<LoginTokenNotifier, LoginToken?>(
-  () => LoginTokenNotifier(),
+final loginViewModelProvider =
+    AsyncNotifierProvider<LoginViewModel, LoginToken?>(
+  () => LoginViewModel(),
 );
 
-class LoginTokenNotifier extends AsyncNotifier<LoginToken?> {
+class LoginViewModel extends AsyncNotifier<LoginToken?> {
   @override
   FutureOr<LoginToken?> build() {
     // TODO: implement build

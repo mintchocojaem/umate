@@ -6,7 +6,7 @@ import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/auth_validator.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/sign_up_info_provider.dart';
+import '../view_models/sign_up_view_model.dart';
 import 'verify_student_screen.dart';
 
 class SignUpVerifyStudentScreen extends ConsumerStatefulWidget {
@@ -40,7 +40,7 @@ class _SignUpVerifyStudentScreenState
     // TODO: implement build
 
     ref.listen(
-      signUpInfoProvider,
+      signUpViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -60,7 +60,7 @@ class _SignUpVerifyStudentScreenState
       dkuStudentIdController: dkuStudentIdController,
       dkuPasswordController: dkuPasswordController,
       onAgreePolicy: () async {
-        await ref.read(signUpInfoProvider.notifier).verifyStudent(
+        await ref.read(signUpViewModelProvider.notifier).verifyStudent(
               dkuStudentId: dkuStudentIdController.text,
               dkuPassword: dkuPasswordController.text,
             );

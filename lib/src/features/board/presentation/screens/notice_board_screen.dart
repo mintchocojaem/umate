@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
-import '../providers/notice_board_provider.dart';
+import '../view_models/notice_board_view_model.dart';
 import '../widgets/board_tab.dart';
 
 class NoticeBoardScreen extends ConsumerStatefulWidget {
@@ -30,15 +30,15 @@ class _NoticeBoardScreenState extends ConsumerState<NoticeBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final noticeBoard = ref.watch(noticeBoardProvider);
+    final noticeBoard = ref.watch(noticeBoardViewModelProvider);
 
     return BoardTab(
       board: noticeBoard,
       onFetch: () async {
-        await ref.read(noticeBoardProvider.notifier).fetch();
+        await ref.read(noticeBoardViewModelProvider.notifier).fetch();
       },
       onFetchMore: (currentPage) async {
-        await ref.read(noticeBoardProvider.notifier).fetchMore(
+        await ref.read(noticeBoardViewModelProvider.notifier).fetchMore(
               page: currentPage,
             );
       },

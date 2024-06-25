@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../domain/models/petition_status.dart';
-import '../providers/petition_board_provider.dart';
+import '../view_models/petition_board_view_model.dart';
 import '../widgets/category_bar.dart';
 import '../widgets/post_preview_card.dart';
 import '../widgets/board_tab.dart';
@@ -41,7 +41,7 @@ class _PetitionBoardScreenState extends ConsumerState<PetitionBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final petitionBoard = ref.watch(petitionBoardProvider);
+    final petitionBoard = ref.watch(petitionBoardViewModelProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -106,10 +106,10 @@ class _PetitionBoardScreenState extends ConsumerState<PetitionBoardScreen>
         body: BoardTab(
           board: petitionBoard,
           onFetch: () async {
-            await ref.read(petitionBoardProvider.notifier).fetch();
+            await ref.read(petitionBoardViewModelProvider.notifier).fetch();
           },
           onFetchMore: (currentPage) async {
-            await ref.read(petitionBoardProvider.notifier).fetchMore(
+            await ref.read(petitionBoardViewModelProvider.notifier).fetchMore(
                   page: currentPage,
                 );
           },

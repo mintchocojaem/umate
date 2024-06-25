@@ -11,14 +11,14 @@ import '../../domain/models/schedule_time.dart';
 import '../../domain/models/schedule_type.dart';
 import '../../domain/use_caces/check_schedule_available.dart';
 import '../../domain/use_caces/edit_timetable.dart';
-import 'timetable_provider.dart';
+import 'timetable_view_model.dart';
 
-final addLectureProvider =
-    AsyncNotifierProvider.autoDispose<AddLectureNotifier, List<LectureInfo>?>(
-  () => AddLectureNotifier(),
+final addLectureViewModelProvider =
+    AsyncNotifierProvider.autoDispose<AddLectureViewModel, List<LectureInfo>?>(
+  () => AddLectureViewModel(),
 );
 
-class AddLectureNotifier extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
+class AddLectureViewModel extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
   CancelToken? _cancelToken;
 
   @override
@@ -79,7 +79,7 @@ class AddLectureNotifier extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
       color: color,
     );
 
-    final timetable = ref.read(timetableProvider).requireValue;
+    final timetable = ref.read(timetableViewModelProvider).requireValue;
     final result = await AsyncValue.guard(() {
       ref.read(
         checkScheduleAvailableProvider(
@@ -102,7 +102,7 @@ class AddLectureNotifier extends AutoDisposeAsyncNotifier<List<LectureInfo>?> {
 
     result.whenOrNull(
       data: (data) {
-        ref.invalidate(timetableProvider);
+        ref.invalidate(timetableViewModelProvider);
       },
       error: (error, stackTrace) {
         state = AsyncValue.error(error, stackTrace);

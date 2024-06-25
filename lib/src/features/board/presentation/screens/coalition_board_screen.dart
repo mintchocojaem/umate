@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../domain/models/coalition_type.dart';
-import '../providers/coalition_board_provider.dart';
+import '../view_models/coalition_board_view_model.dart';
 
 import '../widgets/category_bar.dart';
 import '../widgets/board_tab.dart';
@@ -41,7 +41,7 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final coalitionBoard = ref.watch(coalitionBoardProvider);
+    final coalitionBoard = ref.watch(coalitionBoardViewModelProvider);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -92,10 +92,10 @@ class _CoalitionBoardScreenState extends ConsumerState<CoalitionBoardScreen>
       body: BoardTab(
         board: coalitionBoard,
         onFetch: () async {
-          await ref.read(coalitionBoardProvider.notifier).fetch();
+          await ref.read(coalitionBoardViewModelProvider.notifier).fetch();
         },
         onFetchMore: (currentPage) async {
-          await ref.read(coalitionBoardProvider.notifier).fetchMore(
+          await ref.read(coalitionBoardViewModelProvider.notifier).fetchMore(
                 page: currentPage,
               );
         },

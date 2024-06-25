@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/notice_post.dart';
 import '../../domain/use_cases/get_notice_post.dart';
 
-final noticePostProvider = AsyncNotifierProvider.autoDispose
-    .family<NoticePostNotifier, NoticePost, int>(
-  () => NoticePostNotifier(),
+final noticePostViewModelProvider = AsyncNotifierProvider.autoDispose
+    .family<NoticePostViewModel, NoticePost, int>(
+  () => NoticePostViewModel(),
 );
 
-class NoticePostNotifier
+class NoticePostViewModel
     extends AutoDisposeFamilyAsyncNotifier<NoticePost, int> {
   @override
   FutureOr<NoticePost> build(int arg) {

@@ -6,7 +6,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/services/router/router_service.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/petition_board_provider.dart';
+import '../view_models/petition_board_view_model.dart';
 
 class WritePetitionScreen extends ConsumerStatefulWidget {
   const WritePetitionScreen({
@@ -68,7 +68,7 @@ class _WritePetitionScreen extends ConsumerState<WritePetitionScreen> {
               buttonRadius: OrbButtonRadius.small,
               onPressed: () async {
                 final result = await ref
-                    .read(petitionBoardProvider.notifier)
+                    .read(petitionBoardViewModelProvider.notifier)
                     .writePetition(
                   title: _titleController.text,
                   body: _bodyController.text,

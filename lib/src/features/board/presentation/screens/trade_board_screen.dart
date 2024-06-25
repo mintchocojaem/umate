@@ -4,7 +4,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 
-import '../providers/trade_board_provider.dart';
+import '../view_models/trade_board_view_model.dart';
 import '../widgets/board_tab.dart';
 import '../widgets/post_preview_card.dart';
 
@@ -32,7 +32,7 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final tradeBoard = ref.watch(tradeBoardProvider);
+    final tradeBoard = ref.watch(tradeBoardViewModelProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -47,10 +47,10 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
       body: BoardTab(
         board: tradeBoard,
         onFetch: () async {
-          ref.read(tradeBoardProvider.notifier).fetch();
+          ref.read(tradeBoardViewModelProvider.notifier).fetch();
         },
         onFetchMore: (currentPage) async {
-          ref.read(tradeBoardProvider.notifier).fetchMore(
+          ref.read(tradeBoardViewModelProvider.notifier).fetchMore(
                 page: currentPage,
               );
         },

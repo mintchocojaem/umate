@@ -8,7 +8,7 @@ import '../../../../core/utils/auth_validator.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/use_cases/sign_up.dart';
 import '../../domain/use_cases/sign_up_send_code.dart';
-import '../providers/sign_up_info_provider.dart';
+import '../view_models/sign_up_view_model.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({
@@ -60,7 +60,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen>
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final signUpInfo = ref.watch(signUpInfoProvider);
+    final signUpInfo = ref.watch(signUpViewModelProvider);
 
     return OrbScaffold(
       appBar: OrbAppBar(

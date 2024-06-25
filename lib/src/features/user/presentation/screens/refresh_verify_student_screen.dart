@@ -5,7 +5,7 @@ import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/auth_validator.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/use_cases/refresh_verify_student.dart';
-import '../providers/login_token_provider.dart';
+import '../view_models/login_view_model.dart';
 import 'verify_student_screen.dart';
 
 class RefreshVerifyStudentScreen extends ConsumerStatefulWidget {
@@ -56,7 +56,7 @@ class _RefreshVerifyStudentScreenState
 
         result.when(
           data: (data) {
-            ref.read(loginTokenProvider.notifier).logout();
+            ref.read(loginViewModelProvider.notifier).logout();
             context.showSnackBar(
               message: '학생 인증이 갱신되었습니다. 다시 로그인해주세요.',
             );

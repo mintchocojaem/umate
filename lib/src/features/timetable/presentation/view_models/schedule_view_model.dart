@@ -7,14 +7,14 @@ import '../../domain/models/schedule.dart';
 import '../../domain/models/schedule_time.dart';
 import '../../domain/use_caces/check_schedule_available.dart';
 import '../../domain/use_caces/edit_timetable.dart';
-import 'timetable_provider.dart';
+import 'timetable_view_model.dart';
 
-final scheduleProvider =
-    AsyncNotifierProvider.autoDispose.family<ScheduleNotifier, Schedule, int>(
-  () => ScheduleNotifier(),
+final scheduleViewModelProvider =
+    AsyncNotifierProvider.autoDispose.family<ScheduleViewModel, Schedule, int>(
+  () => ScheduleViewModel(),
 );
 
-class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
+class ScheduleViewModel extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
   @override
   FutureOr<Schedule> build(int arg) {
     // TODO: implement build
@@ -22,7 +22,7 @@ class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
   }
 
   Future<Schedule> _fetch() async {
-    final timetable = ref.read(timetableProvider).requireValue;
+    final timetable = ref.read(timetableViewModelProvider).requireValue;
     return timetable.schedules.firstWhere((element) => element.id == arg);
   }
 
@@ -33,7 +33,7 @@ class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
     List<ScheduleTime>? times,
     Color? color,
   }) async {
-    final timetable = ref.read(timetableProvider).requireValue;
+    final timetable = ref.read(timetableViewModelProvider).requireValue;
     final schedule =
         timetable.schedules.firstWhere((element) => element.id == arg);
 
@@ -69,7 +69,7 @@ class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
 
     result.whenOrNull(
       data: (_) {
-        ref.invalidate(timetableProvider);
+        ref.invalidate(timetableViewModelProvider);
       },
       error: (error, stackTrace) {
         state = AsyncError(
@@ -83,7 +83,7 @@ class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
   }
 
   Future<bool> deleteSchedule() async {
-    final timetable = ref.read(timetableProvider).requireValue;
+    final timetable = ref.read(timetableViewModelProvider).requireValue;
     final result = await AsyncValue.guard(
       () => ref.read(
         editTimetableProvider(
@@ -98,7 +98,7 @@ class ScheduleNotifier extends AutoDisposeFamilyAsyncNotifier<Schedule, int> {
 
     result.whenOrNull(
       data: (_) {
-        ref.invalidate(timetableProvider);
+        ref.invalidate(timetableViewModelProvider);
       },
       error: (error, stackTrace) {
         state = AsyncError(

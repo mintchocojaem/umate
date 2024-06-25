@@ -7,7 +7,7 @@ import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/petition_status.dart';
 import '../../domain/models/post_report_type.dart';
-import '../providers/petition_post_provider.dart';
+import '../view_models/petition_post_view_model.dart';
 import '../widgets/image_slider.dart';
 
 class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
@@ -22,7 +22,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    ref.listen(petitionPostProvider(id), (pref, next) {
+    ref.listen(petitionPostViewModelProvider(id), (pref, next) {
       if (!next.isLoading && next.hasError) {
         final error = next.error;
         if (error is! AppException) return;
@@ -32,7 +32,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(petitionPostProvider(id));
+    final petitionPost = ref.watch(petitionPostViewModelProvider(id));
     return OrbScaffold(
       appBar: const OrbAppBar(
         title: '청원게시글',
@@ -308,7 +308,7 @@ class PetitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                     rightButtonText: "동의하기",
                     onRightButtonPressed: () async {
                       final result = await ref
-                          .read(petitionPostProvider(id).notifier)
+                          .read(petitionPostViewModelProvider(id).notifier)
                           .agreePetitionPost(id: id);
 
                       if (!context.mounted) return true;

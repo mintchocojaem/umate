@@ -6,7 +6,7 @@ import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../domain/models/post_report_type.dart';
-import '../providers/eating_alone_post_provider.dart';
+import '../view_models/eating_alone_post_view_model.dart';
 import '../widgets/image_slider.dart';
 
 class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
@@ -21,7 +21,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    ref.listen(eatingAlonePostProvider(id), (pref, next) {
+    ref.listen(eatingAlonePostViewModelProvider(id), (pref, next) {
       if (!next.isLoading && next.hasError) {
         final error = next.error;
         if (error is! AppException) return;
@@ -31,7 +31,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(eatingAlonePostProvider(id));
+    final petitionPost = ref.watch(eatingAlonePostViewModelProvider(id));
     return OrbScaffold(
       appBar: const OrbAppBar(
         title: '단혼밥 게시글',
@@ -134,7 +134,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                                   minHeight: 8,
                                   borderRadius: BorderRadius.circular(15),
                                   backgroundColor:
-                                  context.palette.surfaceBright,
+                                      context.palette.surfaceBright,
                                   color: context.palette.secondary,
                                 ),
                               ],
@@ -151,16 +151,16 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       ),
                       data.images.isNotEmpty
                           ? Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: ImageSlider(
-                          imagePaths:
-                          data.images.map((e) => e.url).toList(),
-                          selectedIndicatorColor:
-                          context.palette.surfaceBright,
-                          unselectedIndicatorColor:
-                          context.palette.surface,
-                        ),
-                      )
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ImageSlider(
+                                imagePaths:
+                                    data.images.map((e) => e.url).toList(),
+                                selectedIndicatorColor:
+                                    context.palette.surfaceBright,
+                                unselectedIndicatorColor:
+                                    context.palette.surface,
+                              ),
+                            )
                           : const SizedBox(),
                       ConstrainedBox(
                         constraints: const BoxConstraints(
@@ -258,9 +258,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
               const SizedBox(height: 8),
               OrbFilledButton(
                 text: "참여하기",
-                onPressed: () {
-
-                },
+                onPressed: () {},
               ),
             ],
           );

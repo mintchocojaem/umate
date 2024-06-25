@@ -4,8 +4,8 @@ import 'package:umate/src/core/utils/app_exception.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../design_system/orb/orb.dart';
-import '../providers/login_token_provider.dart';
-import '../providers/user_info_provider.dart';
+import '../view_models/login_view_model.dart';
+import '../view_models/user_view_model.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -21,7 +21,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      userInfoProvider,
+      userViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -33,7 +33,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       },
     );
 
-    final userInfo = ref.watch(userInfoProvider);
+    final userInfo = ref.watch(userViewModelProvider);
 
     return OrbScaffold(
       appBar: OrbAppBar(
@@ -179,7 +179,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 rightButtonText: '로그아웃',
                 rightButtonColor: context.palette.error,
                 onRightButtonPressed: () async {
-                  ref.read(loginTokenProvider.notifier).logout();
+                  ref.read(loginViewModelProvider.notifier).logout();
                   return true;
                 },
                 onLeftButtonPressed: () async {
@@ -205,7 +205,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 rightButtonText: '탈퇴하기',
                 rightButtonColor: context.palette.error,
                 onRightButtonPressed: () async {
-                  await ref.read(userInfoProvider.notifier).deleteUser();
+                  await ref.read(userViewModelProvider.notifier).deleteUser();
                   return true;
                 },
                 onLeftButtonPressed: () async {

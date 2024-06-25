@@ -7,7 +7,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/add_lecture_provider.dart';
+import '../view_models/add_lecture_view_model.dart';
 import '../widgets/lecture_info_card.dart';
 import '../widgets/lecture_info_preview_card.dart';
 import '../widgets/schedule_color_picker.dart';
@@ -42,10 +42,10 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final searchLecture = ref.watch(addLectureProvider);
+    final searchLecture = ref.watch(addLectureViewModelProvider);
 
     ref.listen(
-      addLectureProvider,
+      addLectureViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -73,14 +73,14 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
             textController: keywordController,
             onTextChange: (query) {
               onSearch.value = false;
-              ref.read(addLectureProvider.notifier).search(
+              ref.read(addLectureViewModelProvider.notifier).search(
                     keyword: query,
                     isTyping: true,
                   );
             },
             onSearch: (query) {
               onSearch.value = true;
-              ref.read(addLectureProvider.notifier).search(
+              ref.read(addLectureViewModelProvider.notifier).search(
                     keyword: query,
                   );
             },
@@ -123,7 +123,9 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
                               onPressed: () {
                                 onSearch.value = true;
                                 keywordController.text = data[index].name;
-                                ref.read(addLectureProvider.notifier).search(
+                                ref
+                                    .read(addLectureViewModelProvider.notifier)
+                                    .search(
                                       keyword: data[index].name,
                                     );
                               },
@@ -133,7 +135,7 @@ class _SearchLectureScreenState extends ConsumerState<AddLectureScreen> {
                             lectureInfo: data[index],
                             onPressedAdd: () async {
                               final result = await ref
-                                  .read(addLectureProvider.notifier)
+                                  .read(addLectureViewModelProvider.notifier)
                                   .addLecture(
                                     name: data[index].name,
                                     professor: data[index].professor,

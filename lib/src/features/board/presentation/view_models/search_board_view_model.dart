@@ -6,12 +6,12 @@ import 'package:umate/src/features/board/domain/use_cases/search_all_post.dart';
 
 import '../../domain/models/search_result.dart';
 
-final searchBoardProvider =
-    AsyncNotifierProvider.autoDispose<SearchBoardNotifier, SearchResult?>(
-  () => SearchBoardNotifier(),
+final searchBoardViewModelProvider =
+    AsyncNotifierProvider.autoDispose<SearchBoardViewModel, SearchResult?>(
+  () => SearchBoardViewModel(),
 );
 
-class SearchBoardNotifier extends AutoDisposeAsyncNotifier<SearchResult?> {
+class SearchBoardViewModel extends AutoDisposeAsyncNotifier<SearchResult?> {
   CancelToken? _cancelToken;
 
   @override
@@ -23,7 +23,6 @@ class SearchBoardNotifier extends AutoDisposeAsyncNotifier<SearchResult?> {
   Future<void> search({
     required String keyword,
   }) async {
-
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 

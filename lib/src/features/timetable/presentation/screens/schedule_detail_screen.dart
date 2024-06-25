@@ -10,8 +10,8 @@ import '../../domain/models/schedule_time.dart';
 import '../../domain/models/schedule_type.dart';
 import '../../domain/models/timetable.dart';
 import '../../domain/models/week_days.dart';
-import '../providers/schedule_provider.dart';
-import '../providers/timetable_provider.dart';
+import '../view_models/schedule_view_model.dart';
+import '../view_models/timetable_view_model.dart';
 import '../widgets/schedule_color_picker.dart';
 import '../widgets/schedule_time_picker.dart';
 import '../widgets/schedule_time_sheet.dart';
@@ -48,7 +48,7 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    timetable = ref.read(timetableProvider).requireValue;
+    timetable = ref.read(timetableViewModelProvider).requireValue;
     schedule =
         timetable.schedules.firstWhere((element) => element.id == widget.id);
     titleController.text = schedule.name;
@@ -80,7 +80,7 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
     lectureTimes.sort((a, b) => a.day.index.compareTo(b.day.index));
 
     ref.listen(
-      scheduleProvider(widget.id),
+      scheduleViewModelProvider(widget.id),
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -103,7 +103,7 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
           ),
           onPressed: () async {
             final result = await ref
-                .read(scheduleProvider(widget.id).notifier)
+                .read(scheduleViewModelProvider(widget.id).notifier)
                 .updateSchedule(
                   name: titleController.text,
                   professor: professorController.text,
@@ -138,7 +138,7 @@ class _ScheduleDetailScreenState extends ConsumerState<ScheduleDetailScreen> {
             },
             onRightButtonPressed: () async {
               final result = await ref
-                  .read(scheduleProvider(widget.id).notifier)
+                  .read(scheduleViewModelProvider(widget.id).notifier)
                   .deleteSchedule();
 
               if (!context.mounted) return true;

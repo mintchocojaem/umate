@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/sign_up_info.dart';
 import '../../domain/use_cases/sign_up_verify_student.dart';
 
-final signUpInfoProvider =
-    AsyncNotifierProvider.autoDispose<SignUpInfoNotifier, SignUpInfo?>(
-  () => SignUpInfoNotifier(),
+final signUpViewModelProvider =
+    AsyncNotifierProvider.autoDispose<SignUpViewModel, SignUpInfo?>(
+  () => SignUpViewModel(),
 );
 
-class SignUpInfoNotifier extends AutoDisposeAsyncNotifier<SignUpInfo?> {
+class SignUpViewModel extends AutoDisposeAsyncNotifier<SignUpInfo?> {
   @override
   FutureOr<SignUpInfo?> build() {
     // TODO: implement build

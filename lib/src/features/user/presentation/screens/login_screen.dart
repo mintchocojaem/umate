@@ -5,7 +5,7 @@ import 'package:umate/src/core/utils/extensions.dart';
 import '../../../../core/services/router/router_service.dart';
 import '../../../../core/utils/app_exception.dart';
 import '../../../../design_system/orb/orb.dart';
-import '../providers/login_token_provider.dart';
+import '../view_models/login_view_model.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -33,7 +33,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      loginTokenProvider,
+      loginViewModelProvider,
       (_, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
@@ -94,7 +94,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     return;
                   }
 
-                  await ref.read(loginTokenProvider.notifier).login(
+                  await ref.read(loginViewModelProvider.notifier).login(
                         studentId: studentIdController.text,
                         password: passwordController.text,
                       );

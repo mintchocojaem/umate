@@ -6,12 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/home_board.dart';
 import '../../domain/use_caces/get_home_board.dart';
 
-final homeBoardProvider =
-    AsyncNotifierProvider.autoDispose<HomeBoardNotifier, HomeBoard>(
-  () => HomeBoardNotifier(),
+final homeBoardViewModelProvider =
+    AsyncNotifierProvider.autoDispose<HomeBoardViewModel, HomeBoard>(
+  () => HomeBoardViewModel(),
 );
 
-class HomeBoardNotifier extends AutoDisposeAsyncNotifier<HomeBoard> {
+class HomeBoardViewModel extends AutoDisposeAsyncNotifier<HomeBoard> {
   CancelToken? _cancelToken;
 
   @override
