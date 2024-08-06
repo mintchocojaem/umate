@@ -4,38 +4,38 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/board/presentation/screens/bear_eats_board_screen.dart';
-import '../../../features/board/presentation/screens/coalition_board_screen.dart';
-import '../../../features/board/presentation/screens/coalition_post_screen.dart';
-import '../../../features/board/presentation/screens/eating_alone_board_screen.dart';
-import '../../../features/board/presentation/screens/eating_alone_post_screen.dart';
-import '../../../features/board/presentation/screens/notice_board_screen.dart';
-import '../../../features/board/presentation/screens/notice_post_screen.dart';
-import '../../../features/board/presentation/screens/petition_board_screen.dart';
-import '../../../features/board/presentation/screens/petition_post_screen.dart';
-import '../../../features/board/presentation/screens/search_board_screen.dart';
-import '../../../features/board/presentation/screens/study_board_screen.dart';
-import '../../../features/board/presentation/screens/trade_board_screen.dart';
-import '../../../features/board/presentation/screens/with_dankook_screen.dart';
-import '../../../features/board/presentation/screens/write_eating_alone_screen.dart';
-import '../../../features/board/presentation/screens/write_petition_screen.dart';
-import '../../../features/dash_board/presentation/screens/home_screen.dart';
-import '../../../features/timetable/presentation/screens/add_schedule_screen.dart';
-import '../../../features/timetable/presentation/screens/schedule_detail_screen.dart';
-import '../../../features/timetable/presentation/screens/add_lecture_screen.dart';
-import '../../../features/timetable/presentation/screens/timetable_screen.dart';
-import '../../../features/user/presentation/view_models/login_view_model.dart';
-import '../../../features/user/presentation/screens/find_user_id_screen.dart';
-import '../../../features/user/presentation/screens/find_user_password_screen.dart';
-import '../../../features/user/presentation/screens/login_screen.dart';
-import '../../../features/board/presentation/screens/board_screen.dart';
+import '../../../features/board/presentation/views/student_council/coalition/coalition_board_screen.dart';
+import '../../../features/board/presentation/views/student_council/coalition/coalition_post_screen.dart';
+import '../../../features/board/presentation/views/student_council/notice/notice_board_screen.dart';
+import '../../../features/board/presentation/views/student_council/notice/notice_post_screen.dart';
+import '../../../features/board/presentation/views/student_council/petition/petition_board_screen.dart';
+import '../../../features/board/presentation/views/student_council/petition/petition_post_screen.dart';
+import '../../../features/board/presentation/views/student_council/petition/add_petition_post_screen.dart';
+import '../../../features/board/presentation/views/student_council/search/search_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/bear_eats/bear_eats_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/eating_alone/add_eating_alone_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/study/study_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/trade/trade_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/with_dankook_screen.dart';
+import '../../../features/dash_board/presentation/views/home_screen.dart';
+import '../../../features/timetable/presentation/views/add_schedule_screen.dart';
+import '../../../features/timetable/presentation/views/schedule_screen.dart';
+import '../../../features/timetable/presentation/views/add_lecture_screen.dart';
+import '../../../features/timetable/presentation/views/timetable_screen.dart';
+import '../../../features/user/presentation/find/views/find_user_id_screen.dart';
+import '../../../features/user/presentation/find/views/find_user_password_screen.dart';
+import '../../../features/user/presentation/login/providers/login_token_provider.dart';
+import '../../../features/user/presentation/login/views/login_screen.dart';
+import '../../../features/board/presentation/views/student_council/student_council_screen.dart';
 
-import '../../../features/user/presentation/screens/profile_screen.dart';
-import '../../../features/user/presentation/screens/refresh_verify_student_screen.dart';
-import '../../../features/user/presentation/screens/sign_up_agree_policy_screen.dart';
-import '../../../features/user/presentation/screens/sign_up_complete_screen.dart';
-import '../../../features/user/presentation/screens/sign_up_screen.dart';
-import '../../../features/user/presentation/screens/sign_up_verify_student_screen.dart';
+import '../../../features/user/presentation/profile/views/profile_screen.dart';
+import '../../../features/user/presentation/verify_student/views/refresh_verify_student_screen.dart';
+import '../../../features/user/presentation/sign_up/views/sign_up_agree_policy_screen.dart';
+import '../../../features/user/presentation/sign_up/views/sign_up_complete_screen.dart';
+import '../../../features/user/presentation/sign_up/views/sign_up_screen.dart';
+import '../../../features/user/presentation/sign_up/views/sign_up_verify_student_screen.dart';
 import 'main_screen.dart';
 import 'route_error_screen.dart';
 
@@ -76,9 +76,10 @@ final routerServiceProvider = Provider<RouterService>(
   (ref) {
     final GlobalKey<NavigatorState> rootNavigatorKey =
         GlobalKey<NavigatorState>();
-    final loginNotifier = ValueNotifier(ref.read(loginViewModelProvider).value);
+    final loginNotifier =
+        ValueNotifier(ref.read(loginTokenNotifierProvider).value);
     ref.listen(
-      loginViewModelProvider,
+      loginTokenNotifierProvider,
       (_, next) {
         loginNotifier.value = next.value;
       },
@@ -93,7 +94,7 @@ final routerServiceProvider = Provider<RouterService>(
         debugLogDiagnostics: true,
         refreshListenable: loginNotifier,
         redirect: (context, state) async {
-          final loginToken = ref.read(loginViewModelProvider).value;
+          final loginToken = ref.read(loginTokenNotifierProvider).value;
           if (loginToken == null &&
               !(state.uri.path.contains('login') ||
                   state.uri.path.contains('sign_up'))) {
@@ -187,7 +188,7 @@ final routerServiceProvider = Provider<RouterService>(
                 routes: [
                   StatefulShellRoute.indexedStack(
                     builder: (context, state, navigationShell) {
-                      return BoardScreen(
+                      return StudentCouncilScreen(
                         navigationShell: navigationShell,
                       );
                     },
@@ -298,7 +299,7 @@ final routerServiceProvider = Provider<RouterService>(
                                 name: AppRoute.writeEatingAlone.name,
                                 parentNavigatorKey: rootNavigatorKey,
                                 builder: (context, state) {
-                                  return const WriteEatingAloneScreen();
+                                  return const WriteEatingAlonePostScreen();
                                 },
                               ),
                             ],
@@ -365,7 +366,7 @@ final routerServiceProvider = Provider<RouterService>(
                         name: AppRoute.scheduleDetail.name,
                         builder: (context, state) {
                           final id = state.pathParameters['id']!;
-                          return ScheduleDetailScreen(
+                          return ScheduleScreen(
                             id: int.parse(id),
                           );
                         },
@@ -398,7 +399,7 @@ final routerServiceProvider = Provider<RouterService>(
             path: '/board/write',
             name: AppRoute.writePetition.name,
             builder: (context, state) {
-              return const WritePetitionScreen();
+              return const AddPetitionPostScreen();
             },
           ),
         ],

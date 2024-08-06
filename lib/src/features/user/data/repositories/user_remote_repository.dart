@@ -1,34 +1,36 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/user_info.dart';
 
-final userRemoteRepositoryProvider = Provider.autoDispose<UserRemoteRepository>(
-  (ref) => UserRemoteRepository(
-    networkClientService: ref.watch(networkClientServiceProvider),
-  ),
-);
+part 'user_remote_repository.g.dart';
+
+@riverpod
+UserRemoteRepository userRemoteRepository(UserRemoteRepositoryRef ref) {
+  return UserRemoteRepository(
+    client: ref.watch(networkClientServiceProvider),
+  );
+}
 
 class UserRemoteRepository extends RemoteRepository {
   UserRemoteRepository({
-    required super.networkClientService,
+    required super.client,
   });
 
   Future<UserInfo> getUserInfo() async {
-    final response = await networkClientService.request(
-        path: '/user',
-        method: RequestType.get,
+    final response = await client.request(
+      path: '/user',
+      method: RequestType.get,
     );
     return UserInfo.fromJson(response.data);
   }
 
   Future<bool> deleteUser() async {
-    final response = await networkClientService.request(
-        path: '/user',
-        method: RequestType.delete,
+    final response = await client.request(
+      path: '/user',
+      method: RequestType.delete,
     );
     return response.statusCode == 200;
   }
-
 }

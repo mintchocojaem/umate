@@ -8,17 +8,17 @@ import '../../domain/models/home_board.dart';
 final dashBoardRemoteRepositoryProvider =
     Provider.autoDispose<DashBoardRemoteRepository>(
   (ref) => DashBoardRemoteRepository(
-    networkClientService: ref.watch(networkClientServiceProvider),
+    client: ref.watch(networkClientServiceProvider),
   ),
 );
 
 class DashBoardRemoteRepository extends RemoteRepository {
-  DashBoardRemoteRepository({required super.networkClientService});
+  DashBoardRemoteRepository({required super.client});
 
   Future<HomeBoard> getHomeBoard({
     CancelToken? cancelToken,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/main',
       method: RequestType.get,
       cancelToken: cancelToken,

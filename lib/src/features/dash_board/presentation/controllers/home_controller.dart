@@ -4,14 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/models/home_board.dart';
-import '../../domain/use_caces/get_home_board.dart';
+import '../../domain/use_cases/home_use_cases.dart';
 
-final homeBoardViewModelProvider =
-    AsyncNotifierProvider.autoDispose<HomeBoardViewModel, HomeBoard>(
-  () => HomeBoardViewModel(),
+final homeControllerProvider =
+    AsyncNotifierProvider.autoDispose<HomeController, HomeBoard>(
+  () => HomeController(),
 );
 
-class HomeBoardViewModel extends AutoDisposeAsyncNotifier<HomeBoard> {
+class HomeController extends AutoDisposeAsyncNotifier<HomeBoard> {
   CancelToken? _cancelToken;
 
   @override
@@ -28,13 +28,9 @@ class HomeBoardViewModel extends AutoDisposeAsyncNotifier<HomeBoard> {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 
-    final result = await ref.read(
-      getHomeBoardProvider(
-        GetHomeBoardParams(
+    final result = await ref.read(homeUseCasesProvider).getHome(
           cancelToken: _cancelToken,
-        ),
-      ),
-    );
+        );
 
     return result;
   }

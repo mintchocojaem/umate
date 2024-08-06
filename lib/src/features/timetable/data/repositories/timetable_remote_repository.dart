@@ -10,15 +10,15 @@ import '../../domain/models/timetable.dart';
 final timetableRemoteRepositoryProvider =
     Provider.autoDispose<TimetableRemoteRepository>(
   (ref) => TimetableRemoteRepository(
-    networkClientService: ref.watch(networkClientServiceProvider),
+    client: ref.watch(networkClientServiceProvider),
   ),
 );
 
 class TimetableRemoteRepository extends RemoteRepository {
-  TimetableRemoteRepository({required super.networkClientService});
+  TimetableRemoteRepository({required super.client});
 
   Future<List<Timetable>> getAllTimetable() async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/timetable',
       method: RequestType.get,
     );
@@ -28,7 +28,7 @@ class TimetableRemoteRepository extends RemoteRepository {
   Future<Timetable> getTimetable({
     required int id,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/timetable/$id',
       method: RequestType.get,
     );
@@ -41,7 +41,7 @@ class TimetableRemoteRepository extends RemoteRepository {
     int? page,
     int? size,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/timetable/lecture',
       method: RequestType.get,
       cancelToken: cancelToken,
@@ -59,7 +59,7 @@ class TimetableRemoteRepository extends RemoteRepository {
   Future<int> addTimeTable({
     required String name,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/timetable',
       method: RequestType.post,
       data: {
@@ -72,13 +72,13 @@ class TimetableRemoteRepository extends RemoteRepository {
 
   Future<bool> editTimeTable({
     required int id,
-    required List<Schedule> lectures,
+    required List<Schedule> schedules,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/timetable/$id',
       method: RequestType.patch,
       data: {
-        'lectures': lectures,
+        'lectures': schedules,
       },
     );
     return result.statusCode == 200;

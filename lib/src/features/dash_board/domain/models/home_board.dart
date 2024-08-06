@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../board/domain/models/petition_post.dart';
+import '../../../board/domain/models/student_council/petition_post.dart';
 import '../../../timetable/domain/models/schedule.dart';
 import 'home_carousel.dart';
 

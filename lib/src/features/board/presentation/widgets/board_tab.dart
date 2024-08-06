@@ -14,36 +14,30 @@ import 'post_preview_card.dart';
 
 part 'board_body.dart';
 
-class BoardTab<P extends Post> extends ConsumerWidget with DateTimeFormatter {
+class BoardTab<P extends Post> extends StatelessWidget with DateTimeFormatter {
   final AsyncValue<Board<P>> board;
   final List<PostTagItem> Function(P data) postTagItems;
+  final Future<void> Function() onRefresh;
   final Future<void> Function() onFetch;
-  final Future<void> Function(int currentPage) onFetchMore;
   final Function(P data) onTapPost;
 
   BoardTab({
     super.key,
     required this.board,
     required this.postTagItems,
+    required this.onRefresh,
     required this.onFetch,
-    required this.onFetchMore,
     required this.onTapPost,
   });
 
-  final List<PostSort> sortList = [
-    PostSort(type: PostSortType.createdAt, order: PostSortOrder.desc),
-    PostSort(type: PostSortType.viewCount, order: PostSortOrder.desc),
-  ];
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
       color: context.palette.surfaceBright,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: board.when(
-          skipLoadingOnReload: false,
           skipLoadingOnRefresh: false,
           data: (data) => data.content.isEmpty
               ? Center(
@@ -62,7 +56,7 @@ class BoardTab<P extends Post> extends ConsumerWidget with DateTimeFormatter {
                         buttonTextType: OrbButtonTextType.small,
                         buttonType: OrbButtonType.secondary,
                         onPressed: () async {
-                          await onFetch();
+                          await onRefresh();
                         },
                       ),
                     ],
@@ -71,8 +65,8 @@ class BoardTab<P extends Post> extends ConsumerWidget with DateTimeFormatter {
               : BoardBody(
                   board: data,
                   postTagItems: postTagItems,
+                  onRefresh: onRefresh,
                   onFetch: onFetch,
-                  onFetchMore: onFetchMore,
                   onTapPost: onTapPost,
                 ),
           loading: () => ListView.builder(

@@ -23,14 +23,8 @@ class _CategoryBarState extends State<CategoryBar> {
   int selectedIndex = 0;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    selectedIndex = widget.currentIndex;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    selectedIndex = widget.currentIndex;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,

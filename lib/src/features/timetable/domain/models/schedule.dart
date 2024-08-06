@@ -21,12 +21,14 @@ class Schedule {
   Schedule({
     int? id,
     required this.name,
-    this.professor = '',
+    String? professor,
     required this.type,
-    required this.memo,
+    String? memo,
     required this.color,
     required this.times,
-  }) : id = id ?? UniqueKey().hashCode;
+  })  : id = id ?? UniqueKey().hashCode,
+        memo = memo ?? '',
+        professor = professor ?? '';
 
   factory Schedule.fromJson(Map<String, dynamic> json) =>
       _$ScheduleFromJson(json);

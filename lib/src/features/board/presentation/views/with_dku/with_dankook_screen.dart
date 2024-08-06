@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../design_system/orb/orb.dart';
+import '../../../../../design_system/orb/orb.dart';
 
 class WithDankookScreen extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -15,11 +14,11 @@ class WithDankookScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _WithDankookState();
+    return _WithDankookScreenState();
   }
 }
 
-class _WithDankookState extends State<WithDankookScreen>
+class _WithDankookScreenState extends State<WithDankookScreen>
     with SingleTickerProviderStateMixin {
   late final TabController tabController;
 

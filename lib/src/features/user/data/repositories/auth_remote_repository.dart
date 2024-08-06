@@ -1,26 +1,29 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/sign_up_info.dart';
 import '../../domain/models/login_token.dart';
 
-final authRemoteRepositoryProvider = Provider.autoDispose<AuthRemoteRepository>(
-  (ref) => AuthRemoteRepository(
-    networkClientService: ref.watch(networkClientServiceProvider),
-  ),
-);
+part 'auth_remote_repository.g.dart';
+
+@riverpod
+AuthRemoteRepository authRemoteRepository(AuthRemoteRepositoryRef ref) {
+  return AuthRemoteRepository(
+    client: ref.watch(networkClientServiceProvider),
+  );
+}
 
 class AuthRemoteRepository extends RemoteRepository {
   AuthRemoteRepository({
-    required super.networkClientService,
+    required super.client,
   });
 
   Future<LoginToken> login({
     required String studentId,
     required String password,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/login',
       method: RequestType.post,
       data: {
@@ -34,7 +37,7 @@ class AuthRemoteRepository extends RemoteRepository {
   Future<LoginToken> reissueToken({
     required String refreshToken,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/reissue',
       method: RequestType.post,
       data: {
@@ -48,7 +51,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/dku/verify',
       method: RequestType.post,
       data: {
@@ -63,7 +66,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String signUpToken,
     required String phoneNumber,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/sms/$signUpToken',
       method: RequestType.post,
       data: {
@@ -77,7 +80,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String signUpToken,
     required String code,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/sms/verify/$signUpToken',
       method: RequestType.post,
       data: {
@@ -92,7 +95,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String nickname,
     required String password,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/$signUpToken',
       method: RequestType.post,
       data: {
@@ -106,7 +109,7 @@ class AuthRemoteRepository extends RemoteRepository {
   Future<bool> sendStudentId({
     required String phoneNumber,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/find/id',
       method: RequestType.post,
       data: {
@@ -119,7 +122,7 @@ class AuthRemoteRepository extends RemoteRepository {
   Future<String> sendPasswordResetCode({
     required String phoneNumber,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/find/pwd',
       method: RequestType.post,
       data: {
@@ -133,7 +136,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String token,
     required String code,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/find/pwd/verify',
       method: RequestType.post,
       data: {
@@ -148,7 +151,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String token,
     required String password,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/find/pwd/reset',
       method: RequestType.patch,
       data: {
@@ -162,7 +165,7 @@ class AuthRemoteRepository extends RemoteRepository {
   Future<bool> verifyNickname({
     required String nickname,
   }) async {
-    final response = await networkClientService.request(
+    final response = await client.request(
       path: '/user/valid?nickname=$nickname',
       method: RequestType.get,
     );
@@ -174,7 +177,7 @@ class AuthRemoteRepository extends RemoteRepository {
     required String dkuStudentId,
     required String dkuPassword,
   }) async {
-    final result = await networkClientService.request(
+    final result = await client.request(
       path: '/user/dku/refresh',
       method: RequestType.post,
       data: {

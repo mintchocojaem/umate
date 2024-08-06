@@ -18,7 +18,7 @@ class PostSort {
   final PostSortType type;
   final PostSortOrder order;
 
-  PostSort({
+  const PostSort({
     required this.type,
     this.order = PostSortOrder.desc,
   });

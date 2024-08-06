@@ -1,28 +1,28 @@
 part of 'board_tab.dart';
 
-class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
+class BoardBody<P extends Post> extends StatelessWidget with DateTimeFormatter {
   final Board<P> board;
   final List<PostTagItem> Function(P data) postTagItems;
+  final Future<void> Function() onRefresh;
   final Future<void> Function() onFetch;
-  final Future<void> Function(int currentPage) onFetchMore;
   final Function(P data) onTapPost;
 
   BoardBody({
     super.key,
     required this.board,
     required this.postTagItems,
+    required this.onRefresh,
     required this.onFetch,
-    required this.onFetchMore,
     required this.onTapPost,
   });
 
-  final List<PostSort> sortList = [
+  final List<PostSort> sortList = const [
     PostSort(type: PostSortType.createdAt, order: PostSortOrder.desc),
     PostSort(type: PostSortType.viewCount, order: PostSortOrder.desc),
   ];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     bool isFetching = false;
 
     return NotificationListener<ScrollNotification>(
@@ -36,7 +36,7 @@ class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
         if (isEndPosition && board.hasNext) {
           if (isFetching) return true;
           isFetching = true;
-          onFetchMore(board.page + 1).whenComplete(() {
+          onFetch().whenComplete(() {
             isFetching = false;
           });
         }
@@ -44,7 +44,7 @@ class BoardBody<P extends Post> extends ConsumerWidget with DateTimeFormatter {
       },
       child: OrbRefreshIndicator(
         onRefresh: () async {
-          return onFetch();
+          return onRefresh();
         },
         child: BoardList(
           board: board,

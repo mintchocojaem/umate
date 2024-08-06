@@ -2,17 +2,17 @@ import '../services/network/network_client_service.dart';
 import '../services/storage/storage_service.dart';
 
 class RemoteRepository {
-  final NetworkClientService networkClientService;
+  final NetworkClientService client;
 
   RemoteRepository({
-    required this.networkClientService,
+    required this.client,
   });
 }
 
 class LocalRepository {
-  final StorageService storageService;
+  final StorageService storage;
 
   LocalRepository({
-    required this.storageService,
+    required this.storage,
   });
 }

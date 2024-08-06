@@ -8,9 +8,9 @@ part of 'schedule.dart';
 
 Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule(
       name: json['name'] as String,
-      professor: json['professor'] as String? ?? '',
+      professor: json['professor'] as String?,
       type: $enumDecode(_$ScheduleTypeEnumMap, json['type']),
-      memo: json['memo'] as String,
+      memo: json['memo'] as String?,
       color: _parseColorFromJson(json['color'] as String),
       times: (json['times'] as List<dynamic>)
           .map((e) => ScheduleTime.fromJson(e as Map<String, dynamic>))

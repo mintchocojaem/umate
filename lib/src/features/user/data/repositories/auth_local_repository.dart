@@ -1,39 +1,47 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/services/storage/storage_service.dart';
 import '../../../../core/utils/repository.dart';
 import '../../domain/models/login_token.dart';
 
-final authLocalRepositoryProvider = Provider.autoDispose<AuthLocalRepository>(
-  (ref) => AuthLocalRepository(
-    storageService: ref.watch(storageServiceProvider),
-  ),
-);
+part 'auth_local_repository.g.dart';
+
+@riverpod
+AuthLocalRepository authLocalRepository(AuthLocalRepositoryRef ref) {
+  return AuthLocalRepository(
+    storage: ref.watch(storageServiceProvider),
+  );
+}
 
 class AuthLocalRepository extends LocalRepository {
   AuthLocalRepository({
-    required super.storageService,
+    required super.storage,
   });
 
   void saveLoginToken({
     required LoginToken token,
   }) {
     final jsonString = jsonEncode(token.toJson());
-    storageService.write(
+    storage.write(
       'loginToken',
       jsonString,
     );
   }
 
   LoginToken? getLoginToken() {
-    final jsonString = storageService.read('loginToken');
+    final jsonString = storage.read('loginToken');
     final json = jsonString != null ? jsonDecode(jsonString) : null;
     return json != null ? LoginToken.fromJson(json) : null;
   }
 
+  String? getRefreshToken() {
+    final loginToken = getLoginToken();
+    return loginToken?.refreshToken;
+  }
+
   void deleteLoginToken() {
-    storageService.remove('loginToken');
+    storage.remove('loginToken');
   }
 }
