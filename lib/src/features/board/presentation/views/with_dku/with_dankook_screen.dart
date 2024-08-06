@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../design_system/orb/orb.dart';
 
-class WithDankookScreen extends ConsumerStatefulWidget {
+class WithDankookScreen extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const WithDankookScreen({
@@ -13,13 +13,13 @@ class WithDankookScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
+  State<StatefulWidget> createState() {
     // TODO: implement createState
     return _WithDankookState();
   }
 }
 
-class _WithDankookState extends ConsumerState<WithDankookScreen>
+class _WithDankookState extends State<WithDankookScreen>
     with SingleTickerProviderStateMixin {
   late final TabController tabController;
 

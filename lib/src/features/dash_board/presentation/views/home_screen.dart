@@ -7,10 +7,10 @@ import '../../../../core/utils/app_exception.dart';
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../../design_system/orb/orb.dart';
 import '../../../timetable/domain/models/week_days.dart';
+import '../view_models/home_board_view_model.dart';
 import '../widgets/board_card.dart';
 import '../widgets/extra_menu_bar.dart';
 import '../widgets/today_schedule.dart';
-import '../view_models/home_board_view_model.dart';
 import '../widgets/carousel_indicator.dart';
 import '../widgets/web_banner.dart';
 
@@ -37,6 +37,7 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
     final homeBoard = ref.watch(homeBoardViewModelProvider);
 
     ValueNotifier<int> currentBannerIndex = ValueNotifier<int>(0);
+
     return OrbScaffold(
       backgroundColor: context.palette.surfaceBright,
       appBar: OrbAppBar(
