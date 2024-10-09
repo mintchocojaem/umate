@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../design_system/orb/orb.dart';
@@ -16,7 +16,8 @@ class WebBanner extends StatelessWidget {
     required this.onPageChanged,
   });
 
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {

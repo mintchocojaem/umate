@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../../core/utils/app_exception.dart';
 import '../../../../../../design_system/orb/orb.dart';
+import '../../../controllers/with_dku/eating_alone/add_eating_alone_post_controller.dart';
 
-class WriteEatingAlonePostScreen extends ConsumerStatefulWidget {
-  const WriteEatingAlonePostScreen({
+class AddEatingAlonePostScreen extends ConsumerStatefulWidget {
+  const AddEatingAlonePostScreen({
     super.key,
   });
 
   @override
-  createState() => _WriteEatingAlonePostScreen();
+  createState() => _AddEatingAlonePostScreen();
 }
 
-class _WriteEatingAlonePostScreen
-    extends ConsumerState<WriteEatingAlonePostScreen> {
+class _AddEatingAlonePostScreen
+    extends ConsumerState<AddEatingAlonePostScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
-
-  List<XFile> image = [];
-  FilePickerResult? file;
 
   @override
   void initState() {
@@ -47,35 +44,55 @@ class _WriteEatingAlonePostScreen
 
   @override
   Widget build(BuildContext context) {
-    return OrbScaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: OrbAppBar(
-        title: ' 작성',
-        centerTitle: true,
-        trailing: Wrap(
-          children: [
-            OrbFilledButton(
-              text: '작성',
-              disabled:
-                  _titleController.text.isEmpty || _bodyController.text.isEmpty,
-              buttonType: OrbButtonType.primary,
-              buttonSize: OrbButtonSize.compact,
-              buttonTextType: OrbButtonTextType.medium,
-              buttonRadius: OrbButtonRadius.small,
-              onPressed: () async {},
-            ),
-          ],
+    return Consumer(builder: (context, ref, child) {
+      ref.listen(addEatingAlonePostControllerProvider, (pref, next) {
+        if (!next.isLoading && next.hasError) {
+          final error = next.error;
+          if (error is! AppException) return;
+          context.showErrorSnackBar(
+            error: error,
+          );
+        }
+      });
+
+      return OrbScaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: OrbAppBar(
+          title: ' 작성',
+          centerTitle: true,
+          trailing: Wrap(
+            children: [
+              OrbFilledButton(
+                text: '작성',
+                disabled: _titleController.text.isEmpty ||
+                    _bodyController.text.isEmpty,
+                buttonType: OrbButtonType.primary,
+                buttonSize: OrbButtonSize.compact,
+                buttonTextType: OrbButtonTextType.medium,
+                buttonRadius: OrbButtonRadius.small,
+                onPressed: () async {
+                  final result = await ref
+                      .read(addEatingAlonePostControllerProvider.notifier)
+                      .addPost(
+                        title: _titleController.text,
+                        body: _bodyController.text,
+                      );
+
+                  if (result && context.mounted) {
+                    Navigator.of(context).pop();
+                    context.showSnackBar(
+                      message: '게시글이 작성되었습니다.',
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      padding: EdgeInsets.zero,
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     OrbTextField(
@@ -92,50 +109,6 @@ class _WriteEatingAlonePostScreen
                       boarderColor: context.palette.background,
                     ),
                     const OrbDivider(),
-                    image.isNotEmpty
-                        ? Column(
-                            children: [
-                              for (final img in image)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.asset(
-                                          img.path,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 8,
-                                        right: 8,
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: IconButton(
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            icon: const OrbIcon(
-                                              Icons.close_rounded,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                image.remove(img);
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                            ],
-                          )
-                        : const SizedBox(),
                     OrbTextField(
                       controller: _bodyController,
                       focusNode: _bodyFocusNode,
@@ -154,134 +127,17 @@ class _WriteEatingAlonePostScreen
                 ),
               ),
             ),
-          ),
-          Column(
-            children: [
-              file != null
-                  ? Container(
-                      color: context.palette.surfaceBright,
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 16),
-                              child: Row(
-                                children: [
-                                  const OrbIcon(
-                                    Icons.attachment_rounded,
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Expanded(
-                                    child: OrbText(
-                                      file!.files.first.name,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                visualDensity: VisualDensity.compact,
-                                icon: const OrbIcon(
-                                  Icons.close_rounded,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    file = null;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : const SizedBox(),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: OrbIcon(
-                        Icons.photo,
-                        color: context.palette.secondary,
-                      ),
-                      onPressed: () async {
-                        //hide keyboard
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        final imagePicker = ImagePicker();
-                        final pickedImage = await imagePicker
-                            .pickImage(source: ImageSource.gallery)
-                            .onError((error, stackTrace) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const OrbSnackBar(
-                              message: '갤러리를 열 수 없어요.\n(설정에서 권한을 확인해주세요)',
-                              type: OrbSnackBarType.error,
-                            ),
-                          );
-                          return null;
-                        });
-                        if (pickedImage != null) {
-                          setState(() {
-                            image.add(pickedImage);
-                          });
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    IconButton(
-                      icon: OrbIcon(
-                        Icons.attachment_rounded,
-                        color: context.palette.secondary,
-                      ),
-                      onPressed: () async {
-                        //hide keyboard
-                        FocusManager.instance.primaryFocus?.unfocus();
-
-                        final pickedFile = await FilePicker.platform.pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: [
-                            'pdf',
-                            'doc',
-                            'docx',
-                            'ppt',
-                            'pptx',
-                          ],
-                        );
-                        if (pickedFile != null) {
-                          setState(() {
-                            file = pickedFile;
-                          });
-                        }
-                      },
-                    ),
-                    const Spacer(),
-                    Text(
-                      "${_bodyController.text.length}/1000",
-                    ),
-                  ],
-                ),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OrbText(
+                "${_bodyController.text.length}/1000",
               ),
-            ],
-          ),
-        ],
-      ),
-    );
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      );
+    });
   }
 }

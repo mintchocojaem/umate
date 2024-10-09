@@ -1,7 +1,7 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../../../core/services/router/router_service.dart';
@@ -68,8 +68,8 @@ class _AddPetitionPostScreen extends ConsumerState<AddPetitionPostScreen> {
               buttonRadius: OrbButtonRadius.small,
               onPressed: () async {
                 final result = await ref
-                    .read(addpetitionPostControllerProvider.notifier)
-                    .writePetition(
+                    .read(addPetitionPostControllerProvider.notifier)
+                    .addPost(
                   title: _titleController.text,
                   body: _bodyController.text,
                   images: image.map((e) => e.path).toList(),
@@ -82,7 +82,7 @@ class _AddPetitionPostScreen extends ConsumerState<AddPetitionPostScreen> {
                   ref.read(routerServiceProvider).pop();
                   if (!context.mounted) return;
                   context.showSnackBar(
-                    message: '청원이 작성되었습니다.',
+                    message: '게시글이 작성되었습니다.',
                   );
                 }
               },

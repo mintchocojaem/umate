@@ -157,7 +157,7 @@ class AuthUseCases {
     );
   }
 
-  Future<bool> refeshExistingStudent({
+  Future<bool> refreshExistingStudent({
     required String dkuStudentId,
     required String dkuPassword,
   }) async {

@@ -11,7 +11,7 @@ class PostImage extends PostFile {
   PostImage({
     required super.id,
     required super.url,
-    required super.name,
+    required super.originalName,
     required super.mimeType,
     required this.thumbnailUrl,
   });

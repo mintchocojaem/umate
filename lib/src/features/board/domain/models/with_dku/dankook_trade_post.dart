@@ -4,15 +4,15 @@ import '../post.dart';
 import '../post_file.dart';
 import '../post_image.dart';
 
-part 'trade_post.g.dart';
+part 'dankook_trade_post.g.dart';
 
 @JsonSerializable()
-class TradePost extends Post {
+class DankookTradePost extends Post {
   final int price;
   final String tradePlace;
   final String status;
 
-  TradePost({
+  DankookTradePost({
     required super.id,
     required super.title,
     required super.author,
@@ -28,8 +28,8 @@ class TradePost extends Post {
     required this.status,
   });
 
-  factory TradePost.fromJson(Map<String, dynamic> json) =>
-      _$TradePostFromJson(json);
+  factory DankookTradePost.fromJson(Map<String, dynamic> json) =>
+      _$DankookTradePostFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TradePostToJson(this);
+  Map<String, dynamic> toJson() => _$DankookTradePostToJson(this);
 }

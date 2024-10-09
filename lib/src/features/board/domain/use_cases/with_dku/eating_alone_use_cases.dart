@@ -7,8 +7,7 @@ import '../../models/post_sort.dart';
 import '../../models/with_dku/eating_alone_post.dart';
 import '../board_use_cases.dart';
 
-final eatingAloneUseCasesProvider =
-    Provider.autoDispose<EatingAloneUseCases>(
+final eatingAloneUseCasesProvider = Provider.autoDispose<EatingAloneUseCases>(
   (ref) => EatingAloneUseCases(
     eatingAloneRemoteRepository: ref.watch(eatingAloneRemoteRepositoryProvider),
   ),
@@ -40,6 +39,51 @@ class EatingAloneUseCases extends BoardUseCases {
   @override
   Future<EatingAlonePost> getPost({CancelToken? cancelToken, required int id}) {
     // TODO: implement getPost
-    throw UnimplementedError();
+    return eatingAloneRemoteRepository.getPost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String body,
+  }) async {
+    return eatingAloneRemoteRepository.addPost(
+      cancelToken: cancelToken,
+      title: title,
+      body: body,
+    );
+  }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return eatingAloneRemoteRepository.deletePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> joinPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return eatingAloneRemoteRepository.joinPost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return eatingAloneRemoteRepository.closePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
   }
 }

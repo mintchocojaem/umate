@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:umate/src/core/services/router/router_service.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../../../core/utils/app_exception.dart';
@@ -10,10 +9,10 @@ import '../../../../domain/models/post_report_type.dart';
 import '../../../controllers/post_controller.dart';
 import '../../../widgets/image_slider.dart';
 
-class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
+class DantudyPostScreen extends ConsumerWidget with DateTimeFormatter {
   final int id;
 
-  const EatingAlonePostScreen({
+  const DantudyPostScreen({
     super.key,
     required this.id,
   });
@@ -22,7 +21,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    ref.listen(eatingAlonePostControllerProvider(id), (pref, next) {
+    ref.listen(dantudyPostControllerProvider(id), (pref, next) {
       if (!next.isLoading && next.hasError) {
         final error = next.error;
         if (error is! AppException) return;
@@ -32,15 +31,13 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(eatingAlonePostControllerProvider(id));
+    final petitionPost = ref.watch(dantudyPostControllerProvider(id));
     return OrbScaffold(
-      appBar: OrbAppBar(
-        title: '단혼밥 게시글',
+      appBar: const OrbAppBar(
+        title: '단터디 게시글',
         centerTitle: true,
       ),
       body: petitionPost.when(
-        skipError: true,
-        skipLoadingOnRefresh: true,
         data: (data) {
           return Column(
             children: [
@@ -69,7 +66,6 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                         height: 16,
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Flexible(
                             flex: 1,
@@ -82,9 +78,7 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                             flex: 4,
                             fit: FlexFit.tight,
                             child: OrbText(
-                              '${data.author}\n${data.gender} / ${data.major}',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                              data.author,
                             ),
                           ),
                         ],
@@ -169,75 +163,6 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       const SizedBox(
                         height: 16,
                       ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.palette.surfaceBright,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            OrbText(
-                              '모집 현황 (${data.recruitedUsers.length}명)',
-                              type: OrbTextType.bodyLarge,
-                              fontWeight: OrbFontWeight.medium,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            if (data.recruitedUsers.isEmpty)
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
-                                  ),
-                                  child: OrbText(
-                                    "아직 모집된 사람이 없습니다.",
-                                    type: OrbTextType.bodyMedium,
-                                  ),
-                                ),
-                              ),
-                            for (var i = 0; i < data.recruitedUsers.length; i++)
-                              Column(
-                                children: [
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: OrbText(
-                                          "(${i + 1}) ${data.recruitedUsers[i].majorName}",
-                                          type: OrbTextType.bodyMedium,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: OrbText(
-                                          data.recruitedUsers[i].nickname,
-                                          type: OrbTextType.bodyMedium,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  OrbDivider(),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -306,52 +231,6 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                               ],
                             ),
                           ),
-                          if (data.mine)
-                            GestureDetector(
-                              onTap: () {
-                                OrbDialog(
-                                  title: "게시글 삭제",
-                                  content: const OrbText(
-                                    "정말 해당 게시글을 삭제하시겠어요?",
-                                  ),
-                                  rightButtonText: "삭제하기",
-                                  rightButtonColor: context.palette.error,
-                                  onRightButtonPressed: () async {
-                                    final result = await ref
-                                        .read(eatingAlonePostControllerProvider(
-                                                id)
-                                            .notifier)
-                                        .deletePost();
-                                    if (result && context.mounted) {
-                                      context.showSnackBar(
-                                        message: "게시글을 삭제하였습니다.",
-                                      );
-                                      ref.read(routerServiceProvider).pop();
-                                    }
-                                    return true;
-                                  },
-                                  leftButtonText: "취소",
-                                  onLeftButtonPressed: () async {
-                                    return true;
-                                  },
-                                ).show(context);
-                              },
-                              child: Row(
-                                children: [
-                                  OrbIcon(
-                                    Icons.delete,
-                                    color: context.palette.error,
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  OrbText(
-                                    "삭제하기",
-                                    color: context.palette.error,
-                                  ),
-                                ],
-                              ),
-                            ),
                         ],
                       ),
                       const SizedBox(
@@ -366,37 +245,10 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                 ),
               ),
               const SizedBox(height: 8),
-              data.mine
-                  ? OrbFilledButton(
-                      text: "모집 마감하기",
-                      backgroundColor: context.palette.error,
-                      onPressed: () async {
-                        final result = await ref
-                            .read(
-                                eatingAlonePostControllerProvider(id).notifier)
-                            .closePost();
-                        if (result && context.mounted) {
-                          context.showSnackBar(
-                            message: "게시글 모집을 마감하였습니다.",
-                          );
-                          ref.read(routerServiceProvider).pop();
-                        }
-                      },
-                    )
-                  : OrbFilledButton(
-                      text: "참여하기",
-                      onPressed: () async {
-                        final result = await ref
-                            .read(
-                                eatingAlonePostControllerProvider(id).notifier)
-                            .joinPost();
-                        if (result && context.mounted) {
-                          context.showSnackBar(
-                            message: "해당 게시글에 참여하였습니다.",
-                          );
-                        }
-                      },
-                    ),
+              OrbFilledButton(
+                text: "참여하기",
+                onPressed: () {},
+              ),
             ],
           );
         },

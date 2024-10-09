@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/services/router/router_service.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../../../core/utils/date_time_formatter.dart';
-
 import '../../../controllers/board_controller.dart';
 import '../../../widgets/board_tab.dart';
 import '../../../widgets/post_preview_card.dart';
@@ -36,8 +36,13 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "write_eating_alone",
         shape: const CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          ref
+              .read(routerServiceProvider)
+              .pushNamed(AppRoute.addEatingAlonePost.name);
+        },
         backgroundColor: context.palette.surfaceDim,
         child: Icon(
           Icons.edit,
@@ -57,7 +62,14 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
             title: "${post.recruitedCount}명 모집",
           ),
         ],
-        onTapPost: (post) {},
+        onTapPost: (post) {
+          ref.read(routerServiceProvider).pushNamed(
+            AppRoute.eatingAlonePost.name,
+            pathParameters: {
+              'id': post.id.toString(),
+            },
+          );
+        },
       ),
     );
   }

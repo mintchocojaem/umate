@@ -10,7 +10,6 @@ import '../../../../firebase_options.dart';
 /// 앱이 terminated 상태일 때 알림을 수신할 수 있는건 OS에서 처리하기 때문(파이어베이스 웹에서 작성하는 FCM으론 가능하지만, json으로 직접 쏴줄땐 따로 payload 설정 필요)
 
 class NotificationService {
-
   final FlutterLocalNotificationsPlugin local =
       FlutterLocalNotificationsPlugin();
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
@@ -65,19 +64,15 @@ class NotificationService {
   }
 
   Future<void> getToken() async {
-    // use the registration token to send messages to users from your trusted server environment
-    String? token;
-
-    final messaging = FirebaseMessaging.instance;
-
-    if (DefaultFirebaseOptions.currentPlatform == DefaultFirebaseOptions.web) {
-      //token = await messaging.getToken(vapidKey: _vapidKey);
-    } else {
-      token = await messaging.getToken();
-    }
-
-    if (kDebugMode) {
-      print('FCM Token = $token');
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (kDebugMode) {
+        print('FCM Token = $token');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching FCM token: $e');
+      }
     }
   }
 
@@ -113,7 +108,6 @@ class NotificationService {
       });
       FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
     });
-
   }
 
   void _handleMessage(RemoteMessage message) {

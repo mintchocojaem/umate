@@ -7,9 +7,29 @@ import '../post_image.dart';
 part 'eating_alone_post.g.dart';
 
 @JsonSerializable()
-class EatingAlonePost extends Post {
+class RecruitedUserInfo {
+  final int id;
+  final String nickname;
+  final String majorName;
 
+  RecruitedUserInfo({
+    required this.id,
+    required this.nickname,
+    required this.majorName,
+  });
+
+  factory RecruitedUserInfo.fromJson(Map<String, dynamic> json) =>
+      _$RecruitedUserInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RecruitedUserInfoToJson(this);
+}
+
+@JsonSerializable()
+class EatingAlonePost extends Post {
   final int recruitedCount;
+  final String gender;
+  final String major;
+  final List<RecruitedUserInfo> recruitedUsers;
 
   EatingAlonePost({
     required super.id,
@@ -23,6 +43,9 @@ class EatingAlonePost extends Post {
     super.mine,
     super.blinded,
     this.recruitedCount = 0,
+    this.gender = '알 수 없음',
+    this.major = '알 수 없음',
+    this.recruitedUsers = const [],
   });
 
   factory EatingAlonePost.fromJson(Map<String, dynamic> json) =>

@@ -2,17 +2,16 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/features/board/presentation/controllers/board_controller.dart';
 
-import '../../../../domain/models/student_council/petition_status.dart';
-import '../../../../domain/use_cases/student_council/petition_use_cases.dart';
-import 'petition_category_controller.dart';
+import '../../../../domain/use_cases/with_dku/eating_alone_use_cases.dart';
 
-final addPetitionPostControllerProvider =
-    AsyncNotifierProvider.autoDispose<AddPetitionPostController, void>(
-  () => AddPetitionPostController(),
+final addEatingAlonePostControllerProvider =
+    AsyncNotifierProvider.autoDispose<AddEatingAlonePostController, void>(
+  () => AddEatingAlonePostController(),
 );
 
-class AddPetitionPostController extends AutoDisposeAsyncNotifier<void> {
+class AddEatingAlonePostController extends AutoDisposeAsyncNotifier<void> {
   CancelToken? _cancelToken;
 
   @override
@@ -26,26 +25,20 @@ class AddPetitionPostController extends AutoDisposeAsyncNotifier<void> {
   Future<bool> addPost({
     required String title,
     required String body,
-    required List<String> images,
-    required List<String> files,
   }) async {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 
     final result = await AsyncValue.guard(
-      () => ref.read(petitionUseCasesProvider).addPost(
+      () => ref.read(eatingAloneUseCasesProvider).addPost(
             title: title,
             body: body,
-            images: images,
-            files: files,
           ),
     );
 
     result.whenOrNull(
       data: (data) {
-        ref
-            .read(petitionCategoryControllerProvider.notifier)
-            .change(type: PetitionStatus.active);
+        ref.invalidate(eatingAloneBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncError(

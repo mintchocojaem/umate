@@ -1,16 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'study_post.dart';
+part of 'dankook_trade_post.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StudyPost _$StudyPostFromJson(Map<String, dynamic> json) => StudyPost(
+DankookTradePost _$DankookTradePostFromJson(Map<String, dynamic> json) =>
+    DankookTradePost(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String? ?? '',
+      body: json['body'] as String,
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>?)
               ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))
@@ -23,11 +24,13 @@ StudyPost _$StudyPostFromJson(Map<String, dynamic> json) => StudyPost(
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
-      recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
-      tag: json['tag'] as String?,
+      price: (json['price'] as num).toInt(),
+      tradePlace: json['tradePlace'] as String,
+      status: json['status'] as String,
     );
 
-Map<String, dynamic> _$StudyPostToJson(StudyPost instance) => <String, dynamic>{
+Map<String, dynamic> _$DankookTradePostToJson(DankookTradePost instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'author': instance.author,
@@ -38,6 +41,7 @@ Map<String, dynamic> _$StudyPostToJson(StudyPost instance) => <String, dynamic>{
       'views': instance.views,
       'mine': instance.mine,
       'blinded': instance.blinded,
-      'tag': instance.tag,
-      'recruitedCount': instance.recruitedCount,
+      'price': instance.price,
+      'tradePlace': instance.tradePlace,
+      'status': instance.status,
     };

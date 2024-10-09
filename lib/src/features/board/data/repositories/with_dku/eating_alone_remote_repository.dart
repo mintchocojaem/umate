@@ -52,4 +52,57 @@ class EatingAloneRemoteRepository extends RemoteRepository {
     );
     return EatingAlonePost.fromJson(result.data);
   }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String body,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/eating-alone',
+      method: RequestType.post,
+      data: {
+        'title': title,
+        'body': body,
+      },
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/eating-alone/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> joinPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/eating-alone/$id/enter',
+      method: RequestType.post,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/eating-alone/$id',
+      method: RequestType.patch,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
 }

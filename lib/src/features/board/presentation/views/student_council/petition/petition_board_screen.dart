@@ -7,9 +7,9 @@ import '../../../../../../core/utils/date_time_formatter.dart';
 import '../../../../domain/models/student_council/petition_status.dart';
 import '../../../controllers/board_controller.dart';
 import '../../../controllers/student_council/petition/petition_category_controller.dart';
+import '../../../widgets/board_tab.dart';
 import '../../../widgets/category_bar.dart';
 import '../../../widgets/post_preview_card.dart';
-import '../../../widgets/board_tab.dart';
 
 part 'petition_category_bar.dart';
 
@@ -52,7 +52,7 @@ class _PetitionBoardScreenState extends ConsumerState<PetitionBoardScreen>
         shape: const CircleBorder(),
         onPressed: () {
           ref.read(routerServiceProvider).pushNamed(
-                AppRoute.writePetition.name,
+                AppRoute.addPetitionPost.name,
               );
         },
         backgroundColor: context.palette.surfaceDim,

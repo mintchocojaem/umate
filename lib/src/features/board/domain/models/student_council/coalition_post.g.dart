@@ -11,7 +11,7 @@ CoalitionPost _$CoalitionPostFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String? ?? '',
+      body: json['body'] as String,
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>?)
               ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))

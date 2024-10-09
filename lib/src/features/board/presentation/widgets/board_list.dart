@@ -23,7 +23,6 @@ class BoardList<P extends Post> extends StatelessWidget with DateTimeFormatter {
     // TODO: implement build
     return ListView.builder(
       clipBehavior: Clip.none,
-      shrinkWrap: true,
       itemCount: (board.content.length + 1),
       itemBuilder: (context, index) {
         if (index == board.content.length && board.hasNext) {
@@ -36,6 +35,7 @@ class BoardList<P extends Post> extends StatelessWidget with DateTimeFormatter {
             children: [
               Column(
                 children: [
+                  /*
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
@@ -65,6 +65,8 @@ class BoardList<P extends Post> extends StatelessWidget with DateTimeFormatter {
                       ],
                     ),
                   ),
+                   */
+                  SizedBox(height: 16),
                 ],
               ),
               postItems(index),

@@ -59,13 +59,13 @@ class PetitionUseCases extends BoardUseCases<PetitionPost> {
     );
   }
 
-  Future<int> writePost({
+  Future<int> addPost({
     required String title,
     required String body,
     required List<String> images,
     required List<String> files,
   }) {
-    return petitionRemoteRepository.writePost(
+    return petitionRemoteRepository.addPost(
       title: title,
       body: body,
       images: images,

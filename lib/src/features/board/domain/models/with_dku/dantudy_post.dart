@@ -4,15 +4,14 @@ import '../post.dart';
 import '../post_file.dart';
 import '../post_image.dart';
 
-part 'study_post.g.dart';
+part 'dantudy_post.g.dart';
 
 @JsonSerializable()
-class StudyPost extends Post {
-
+class DantudyPost extends Post {
   final String? tag;
   final int recruitedCount;
 
-  StudyPost({
+  DantudyPost({
     required super.id,
     required super.title,
     required super.author,
@@ -27,8 +26,8 @@ class StudyPost extends Post {
     this.tag,
   });
 
-  factory StudyPost.fromJson(Map<String, dynamic> json) =>
-      _$StudyPostFromJson(json);
+  factory DantudyPost.fromJson(Map<String, dynamic> json) =>
+      _$DantudyPostFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StudyPostToJson(this);
+  Map<String, dynamic> toJson() => _$DantudyPostToJson(this);
 }

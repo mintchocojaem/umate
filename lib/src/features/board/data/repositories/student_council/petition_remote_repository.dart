@@ -70,7 +70,7 @@ class PetitionRemoteRepository extends RemoteRepository {
     return result.statusCode == 200;
   }
 
-  Future<int> writePost({
+  Future<int> addPost({
     CancelToken? cancelToken,
     required String title,
     required String body,

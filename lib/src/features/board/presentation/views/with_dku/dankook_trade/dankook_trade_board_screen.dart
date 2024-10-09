@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../../core/services/router/router_service.dart';
 import '../../../../../../core/utils/date_time_formatter.dart';
-
 import '../../../controllers/board_controller.dart';
 import '../../../widgets/board_tab.dart';
 import '../../../widgets/post_preview_card.dart';
 
-class TradeBoardScreen extends ConsumerStatefulWidget {
-  const TradeBoardScreen({super.key});
+class DankookTradeBoardScreen extends ConsumerStatefulWidget {
+  const DankookTradeBoardScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _TradeBoardScreenState();
+    return _DankookTradeBoardScreenState();
   }
 }
 
-class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
-    with DateTimeFormatter {
+class _DankookTradeBoardScreenState
+    extends ConsumerState<DankookTradeBoardScreen> with DateTimeFormatter {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -32,10 +32,11 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final tradeBoard = ref.watch(tradeBoardControllerProvider);
+    final tradeBoard = ref.watch(dankookTradeBoardControllerProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "write_trade",
         shape: const CircleBorder(),
         onPressed: () {},
         backgroundColor: context.palette.surfaceDim,
@@ -47,10 +48,10 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
       body: BoardTab(
         board: tradeBoard,
         onRefresh: () async {
-          ref.read(tradeBoardControllerProvider.notifier).refresh();
+          ref.read(dankookTradeBoardControllerProvider.notifier).refresh();
         },
         onFetch: () async {
-          ref.read(tradeBoardControllerProvider.notifier).fetch();
+          ref.read(dankookTradeBoardControllerProvider.notifier).fetch();
         },
         postTagItems: (post) => [
           PostTagItem(
@@ -60,7 +61,14 @@ class _TradeBoardScreenState extends ConsumerState<TradeBoardScreen>
             title: post.tradePlace,
           ),
         ],
-        onTapPost: (post) {},
+        onTapPost: (post) {
+          ref.read(routerServiceProvider).pushNamed(
+            AppRoute.dankookTradePost.name,
+            pathParameters: {
+              'id': post.id.toString(),
+            },
+          );
+        },
       ),
     );
   }

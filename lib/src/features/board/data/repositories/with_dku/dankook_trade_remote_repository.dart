@@ -4,18 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/services/network/network_client_service.dart';
 import '../../../../../core/utils/repository.dart';
 import '../../../domain/models/board.dart';
-import '../../../domain/models/with_dku/trade_post.dart';
+import '../../../domain/models/with_dku/dankook_trade_post.dart';
 
-final tradeRemoteRepositoryProvider = Provider.autoDispose(
-  (ref) => TradeRemoteRepository(
+final dankookTradeRemoteRepositoryProvider = Provider.autoDispose(
+  (ref) => DankookTradeRemoteRepository(
     client: ref.watch(networkClientServiceProvider),
   ),
 );
 
-class TradeRemoteRepository extends RemoteRepository {
-  TradeRemoteRepository({required super.client});
+class DankookTradeRemoteRepository extends RemoteRepository {
+  DankookTradeRemoteRepository({required super.client});
 
-  Future<Board<TradePost>> getBoard({
+  Future<Board<DankookTradePost>> getBoard({
     CancelToken? cancelToken,
     String? keyword,
     int? bodySize,
@@ -37,7 +37,20 @@ class TradeRemoteRepository extends RemoteRepository {
     );
     return Board.fromJson(
       result.data,
-      (data) => TradePost.fromJson(data as Map<String, dynamic>),
+      (data) => DankookTradePost.fromJson(data as Map<String, dynamic>),
     );
+  }
+
+  Future<DankookTradePost> getPost({
+    CancelToken? cancelToken,
+    int? id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/trade/$id',
+      method: RequestType.get,
+      cancelToken: cancelToken,
+    );
+
+    return DankookTradePost.fromJson(result.data);
   }
 }

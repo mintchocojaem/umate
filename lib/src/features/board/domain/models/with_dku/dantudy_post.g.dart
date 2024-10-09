@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trade_post.dart';
+part of 'dantudy_post.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TradePost _$TradePostFromJson(Map<String, dynamic> json) => TradePost(
+DantudyPost _$DantudyPostFromJson(Map<String, dynamic> json) => DantudyPost(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
-      body: json['body'] as String? ?? '',
+      body: json['body'] as String,
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>?)
               ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))
@@ -23,12 +23,12 @@ TradePost _$TradePostFromJson(Map<String, dynamic> json) => TradePost(
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
-      price: (json['price'] as num).toInt(),
-      tradePlace: json['tradePlace'] as String,
-      status: json['status'] as String,
+      recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
+      tag: json['tag'] as String?,
     );
 
-Map<String, dynamic> _$TradePostToJson(TradePost instance) => <String, dynamic>{
+Map<String, dynamic> _$DantudyPostToJson(DantudyPost instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'author': instance.author,
@@ -39,7 +39,6 @@ Map<String, dynamic> _$TradePostToJson(TradePost instance) => <String, dynamic>{
       'views': instance.views,
       'mine': instance.mine,
       'blinded': instance.blinded,
-      'price': instance.price,
-      'tradePlace': instance.tradePlace,
-      'status': instance.status,
+      'tag': instance.tag,
+      'recruitedCount': instance.recruitedCount,
     };

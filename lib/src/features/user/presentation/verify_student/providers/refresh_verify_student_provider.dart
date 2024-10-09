@@ -19,7 +19,7 @@ class RefreshVerifyStudentNotifier extends _$RefreshVerifyStudentNotifier {
   }) async {
     state = await AsyncValue.guard(
       () async {
-        return await ref.read(authUseCasesProvider).refeshExistingStudent(
+        return await ref.read(authUseCasesProvider).refreshExistingStudent(
               dkuStudentId: dkuStudentId,
               dkuPassword: dkuPassword,
             );

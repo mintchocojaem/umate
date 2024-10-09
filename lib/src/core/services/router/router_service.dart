@@ -1,41 +1,44 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../features/board/presentation/views/student_council/coalition/coalition_board_screen.dart';
 import '../../../features/board/presentation/views/student_council/coalition/coalition_post_screen.dart';
 import '../../../features/board/presentation/views/student_council/notice/notice_board_screen.dart';
 import '../../../features/board/presentation/views/student_council/notice/notice_post_screen.dart';
+import '../../../features/board/presentation/views/student_council/petition/add_petition_post_screen.dart';
 import '../../../features/board/presentation/views/student_council/petition/petition_board_screen.dart';
 import '../../../features/board/presentation/views/student_council/petition/petition_post_screen.dart';
-import '../../../features/board/presentation/views/student_council/petition/add_petition_post_screen.dart';
 import '../../../features/board/presentation/views/student_council/search/search_board_screen.dart';
+import '../../../features/board/presentation/views/student_council/student_council_screen.dart';
 import '../../../features/board/presentation/views/with_dku/bear_eats/bear_eats_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/bear_eats/bear_eats_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dankook_trade/dankook_trade_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dankook_trade/dankook_trade_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dantudy/add_dantudy_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dantudy/dantudy_board_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dantudy/dantudy_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/eating_alone/add_eating_alone_post_screen.dart';
 import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_board_screen.dart';
 import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_post_screen.dart';
-import '../../../features/board/presentation/views/with_dku/eating_alone/add_eating_alone_post_screen.dart';
-import '../../../features/board/presentation/views/with_dku/study/study_board_screen.dart';
-import '../../../features/board/presentation/views/with_dku/trade/trade_board_screen.dart';
 import '../../../features/board/presentation/views/with_dku/with_dankook_screen.dart';
 import '../../../features/dash_board/presentation/views/home_screen.dart';
+import '../../../features/timetable/presentation/views/add_lecture_screen.dart';
 import '../../../features/timetable/presentation/views/add_schedule_screen.dart';
 import '../../../features/timetable/presentation/views/schedule_screen.dart';
-import '../../../features/timetable/presentation/views/add_lecture_screen.dart';
 import '../../../features/timetable/presentation/views/timetable_screen.dart';
 import '../../../features/user/presentation/find/views/find_user_id_screen.dart';
 import '../../../features/user/presentation/find/views/find_user_password_screen.dart';
 import '../../../features/user/presentation/login/providers/login_token_provider.dart';
 import '../../../features/user/presentation/login/views/login_screen.dart';
-import '../../../features/board/presentation/views/student_council/student_council_screen.dart';
-
 import '../../../features/user/presentation/profile/views/profile_screen.dart';
-import '../../../features/user/presentation/verify_student/views/refresh_verify_student_screen.dart';
 import '../../../features/user/presentation/sign_up/views/sign_up_agree_policy_screen.dart';
 import '../../../features/user/presentation/sign_up/views/sign_up_complete_screen.dart';
 import '../../../features/user/presentation/sign_up/views/sign_up_screen.dart';
 import '../../../features/user/presentation/sign_up/views/sign_up_verify_student_screen.dart';
+import '../../../features/user/presentation/verify_student/views/refresh_verify_student_screen.dart';
 import 'main_screen.dart';
 import 'route_error_screen.dart';
 
@@ -58,7 +61,7 @@ enum AppRoute {
   noticePost,
   coalitionPost,
   petitionPost,
-  writePetition,
+  addPetitionPost,
   searchBoard,
   addLecture,
   addSchedule,
@@ -66,10 +69,14 @@ enum AppRoute {
   withDankook,
   eatingAloneBoard,
   eatingAlonePost,
-  writeEatingAlone,
-  studyBoard,
-  tradeBoard,
+  addEatingAlonePost,
+  dantudyBoard,
+  dantudyPost,
+  addDantudyPost,
+  dankookTradeBoard,
+  dankookTradePost,
   bearEatsBoard,
+  bearEatsPost,
 }
 
 final routerServiceProvider = Provider<RouterService>(
@@ -295,11 +302,11 @@ final routerServiceProvider = Provider<RouterService>(
                                 },
                               ),
                               GoRoute(
-                                path: 'write',
-                                name: AppRoute.writeEatingAlone.name,
+                                path: 'add',
+                                name: AppRoute.addEatingAlonePost.name,
                                 parentNavigatorKey: rootNavigatorKey,
                                 builder: (context, state) {
-                                  return const WriteEatingAlonePostScreen();
+                                  return const AddEatingAlonePostScreen();
                                 },
                               ),
                             ],
@@ -309,20 +316,54 @@ final routerServiceProvider = Provider<RouterService>(
                       StatefulShellBranch(
                         routes: [
                           GoRoute(
-                            path: '/with_dankook/study',
-                            name: AppRoute.studyBoard.name,
+                            path: '/with_dankook/dantudy',
+                            name: AppRoute.dantudyBoard.name,
                             builder: (context, state) =>
-                                const StudyBoardScreen(),
+                                const DantudyBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.dantudyPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return DantudyPostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                              GoRoute(
+                                path: 'add',
+                                name: AppRoute.addDantudyPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  return const AddDantudyPostScreen();
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
                       StatefulShellBranch(
                         routes: [
                           GoRoute(
-                            path: '/with_dankook/trade',
-                            name: AppRoute.tradeBoard.name,
+                            path: '/with_dankook/dankook_trade',
+                            name: AppRoute.dankookTradeBoard.name,
                             builder: (context, state) =>
-                                const TradeBoardScreen(),
+                                const DankookTradeBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.dankookTradePost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return DankookTradePostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -333,6 +374,19 @@ final routerServiceProvider = Provider<RouterService>(
                             name: AppRoute.bearEatsBoard.name,
                             builder: (context, state) =>
                                 const BearEatsBoardScreen(),
+                            routes: [
+                              GoRoute(
+                                path: 'post:id',
+                                name: AppRoute.bearEatsPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  final id = state.pathParameters['id']!;
+                                  return BearEatsPostScreen(
+                                    id: int.parse(id),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -396,8 +450,8 @@ final routerServiceProvider = Provider<RouterService>(
             },
           ),
           GoRoute(
-            path: '/board/write',
-            name: AppRoute.writePetition.name,
+            path: '/board/add',
+            name: AppRoute.addPetitionPost.name,
             builder: (context, state) {
               return const AddPetitionPostScreen();
             },

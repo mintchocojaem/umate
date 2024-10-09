@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/services/router/router_service.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
 import '../../../../../core/utils/app_exception.dart';
@@ -48,7 +49,6 @@ class _FindUserPasswordScreenState extends ConsumerState<FindUserPasswordScreen>
 
   @override
   Widget build(BuildContext context) {
-    
     ref.listen(
       resetUserPasswordNotifierProvider,
       (_, next) {
@@ -71,6 +71,7 @@ class _FindUserPasswordScreenState extends ConsumerState<FindUserPasswordScreen>
               context.showSnackBar(
                 message: '비밀번호가 변경되었습니다.',
               );
+              ref.read(routerServiceProvider).goNamed(AppRoute.login.name);
               break;
             default:
               break;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../core/services/router/router_service.dart';
 import '../../../../../core/utils/app_exception.dart';
 import '../../../../../core/utils/auth_validator.dart';
 import '../../../../../design_system/orb/orb.dart';
@@ -46,6 +47,7 @@ class _FindUserIdScreenState extends ConsumerState<FindUserIdScreen>
           context.showSnackBar(
             message: '아이디가 전송되었습니다.',
           );
+          ref.read(routerServiceProvider).goNamed(AppRoute.login.name);
         }
       },
     );

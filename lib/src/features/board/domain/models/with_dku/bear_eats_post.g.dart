@@ -9,7 +9,7 @@ part of 'bear_eats_post.dart';
 BearEatsPost _$BearEatsPostFromJson(Map<String, dynamic> json) => BearEatsPost(
       id: (json['id'] as num).toInt(),
       author: json['author'] as String,
-      body: json['body'] as String? ?? '',
+      body: json['body'] as String,
       createdAt: json['createdAt'] as String,
       files: (json['files'] as List<dynamic>?)
               ?.map((e) => PostFile.fromJson(e as Map<String, dynamic>))

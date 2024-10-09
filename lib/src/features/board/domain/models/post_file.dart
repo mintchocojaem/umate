@@ -1,19 +1,18 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_file.g.dart';
 
 @JsonSerializable()
-class PostFile{
+class PostFile {
   final int id;
   final String url;
-  final String name;
+  final String originalName;
   final String mimeType;
 
   PostFile({
     required this.id,
     required this.url,
-    this.name = 'unknown_file',
+    this.originalName = 'unknown_file',
     required this.mimeType,
   });
 

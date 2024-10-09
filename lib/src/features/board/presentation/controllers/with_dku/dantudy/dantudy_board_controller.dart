@@ -1,13 +1,13 @@
 part of '../../board_controller.dart';
 
-final studyBoardControllerProvider =
-    AsyncNotifierProvider.autoDispose<StudyBoardController, Board<StudyPost>>(
-  () => StudyBoardController(),
+final dantudyBoardControllerProvider = AsyncNotifierProvider.autoDispose<
+    DantudyBoardController, Board<DantudyPost>>(
+  () => DantudyBoardController(),
 );
 
-class StudyBoardController extends BoardController<StudyPost> {
+class DantudyBoardController extends BoardController<DantudyPost> {
   @override
-  Future<Board<StudyPost>> _fetch({
+  Future<Board<DantudyPost>> _fetch({
     CancelToken? cancelToken,
     required int page,
   }) {

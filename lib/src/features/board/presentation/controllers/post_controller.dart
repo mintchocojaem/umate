@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:dio/dio.dart';
@@ -8,26 +7,32 @@ import '../../domain/models/post.dart';
 import '../../domain/models/student_council/coalition_post.dart';
 import '../../domain/models/student_council/notice_post.dart';
 import '../../domain/models/student_council/petition_post.dart';
+import '../../domain/models/with_dku/bear_eats_post.dart';
+import '../../domain/models/with_dku/dankook_trade_post.dart';
+import '../../domain/models/with_dku/dantudy_post.dart';
 import '../../domain/models/with_dku/eating_alone_post.dart';
 import '../../domain/use_cases/student_council/coalition_use_cases.dart';
 import '../../domain/use_cases/student_council/notice_use_cases.dart';
 import '../../domain/use_cases/student_council/petition_use_cases.dart';
+import '../../domain/use_cases/with_dku/bear_eats_use_cases.dart';
+import '../../domain/use_cases/with_dku/dankook_trade_use_cases.dart';
+import '../../domain/use_cases/with_dku/dantudy_use_cases.dart';
 import '../../domain/use_cases/with_dku/eating_alone_use_cases.dart';
 import 'board_controller.dart';
 
-part 'student_council/notice/notice_post_controller.dart';
 part 'student_council/coalition/coalition_post_controller.dart';
+part 'student_council/notice/notice_post_controller.dart';
 part 'student_council/petition/petition_post_controller.dart';
+part 'with_dku/bear_eats/bear_eats_post_controller.dart';
+part 'with_dku/dankook_trade/dankook_trade_post_controller.dart';
+part 'with_dku/dantudy/dantudy_post_controller.dart';
 part 'with_dku/eating_alone/eating_alone_post_controller.dart';
 
 abstract class PostController<P extends Post>
     extends AutoDisposeFamilyAsyncNotifier<P, int> {
   CancelToken? _cancelToken;
 
-  Future<P> _fetch({
-    CancelToken? cancelToken,
-    required int id
-  });
+  Future<P> _fetch({CancelToken? cancelToken, required int id});
 
   @override
   FutureOr<P> build(int arg) {

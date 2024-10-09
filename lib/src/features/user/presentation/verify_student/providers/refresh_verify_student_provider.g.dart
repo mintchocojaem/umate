@@ -7,7 +7,7 @@ part of 'refresh_verify_student_provider.dart';
 // **************************************************************************
 
 String _$refreshVerifyStudentNotifierHash() =>
-    r'bf29fb28c3ca8f7b60ed2d9c7548aced4cdda391';
+    r'9e9e76780c808028f4eb76e3bf47fb319c23d7c8';
 
 /// See also [RefreshVerifyStudentNotifier].
 @ProviderFor(RefreshVerifyStudentNotifier)
