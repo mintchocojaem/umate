@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:umate/src/core/utils/app_exception.dart';
 import 'package:umate/src/core/utils/extensions.dart';
+import 'package:umate/src/features/board/presentation/controllers/with_dku/bear_eats/add_bear_eats_post_controller.dart';
 
+import '../../../../../../core/utils/app_exception.dart';
 import '../../../../../../design_system/orb/orb.dart';
-import '../../../controllers/with_dku/dantudy/add_dantudy_post_controller.dart';
 
-class AddDantudyPostScreen extends ConsumerStatefulWidget {
-  const AddDantudyPostScreen({
+class AddBearEatsPostScreen extends ConsumerStatefulWidget {
+  const AddBearEatsPostScreen({
     super.key,
   });
 
   @override
-  createState() => _AddDantudyPostScreen();
+  createState() => _AddBearEatsPostScreen();
 }
 
-class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
+class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
-  late final TextEditingController _minStudentIdController;
-  late final TextEditingController _tagController;
-  late final TextEditingController _studyTimeController;
+  late final TextEditingController _restaurantController;
+  late final TextEditingController _deliveryPlaceController;
+  late final TextEditingController _deliveryTimeController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
@@ -31,9 +31,9 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
     super.initState();
     _titleController = TextEditingController();
     _bodyController = TextEditingController();
-    _minStudentIdController = TextEditingController();
-    _tagController = TextEditingController();
-    _studyTimeController = TextEditingController();
+    _restaurantController = TextEditingController();
+    _deliveryPlaceController = TextEditingController();
+    _deliveryTimeController = TextEditingController();
   }
 
   @override
@@ -41,9 +41,9 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
     // TODO: implement dispose
     _titleController.dispose();
     _bodyController.dispose();
-    _minStudentIdController.dispose();
-    _tagController.dispose();
-    _studyTimeController.dispose();
+    _restaurantController.dispose();
+    _deliveryPlaceController.dispose();
+    _deliveryTimeController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
@@ -53,7 +53,7 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      ref.listen(addDantudyPostControllerProvider, (pref, next) {
+      ref.listen(addBearEatsPostControllerProvider, (prev, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
           if (error is! AppException) return;
@@ -74,53 +74,35 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                 text: '작성',
                 disabled: _titleController.text.isEmpty ||
                     _bodyController.text.isEmpty ||
-                    _minStudentIdController.text.length < 2 ||
-                    _tagController.text.isEmpty ||
-                    _studyTimeController.text.isEmpty,
+                    _restaurantController.text.isEmpty ||
+                    _deliveryPlaceController.text.isEmpty ||
+                    _deliveryTimeController.text.isEmpty,
                 buttonType: OrbButtonType.primary,
                 buttonSize: OrbButtonSize.compact,
                 buttonTextType: OrbButtonTextType.medium,
                 buttonRadius: OrbButtonRadius.small,
                 onPressed: () async {
-                  if (!_minStudentIdController.text
-                      .contains(RegExp(r'^\d{2}$'))) {
+                  //deliveryTime regex yyyy-MM-dd HH:mm
+                  if (!RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$')
+                      .hasMatch(_deliveryTimeController.text)) {
                     context.showErrorSnackBar(
                       error: AppWarning(
-                        message: '학번은 2자리인 숫자로 입력해주세요.',
+                        message: '주문 시간은 yyyy-MM-dd HH:mm 형식으로 입력해주세요.',
                         stackTrace: StackTrace.current,
                       ),
                     );
                     return;
                   }
-
-                  if (!_studyTimeController.text.contains(
-                      RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}~\d{2}:\d{2}$'))) {
-                    context.showErrorSnackBar(
-                      error: AppWarning(
-                        message:
-                            '스터디 시간은 "YYYY-MM-DD HH:MM~HH:MM" 형식으로 입력해주세요.',
-                        stackTrace: StackTrace.current,
-                      ),
-                    );
-                    return;
-                  }
-
-                  final date = _studyTimeController.text.split(' ')[0];
-                  final time = _studyTimeController.text.split(' ')[1];
-                  final startTime = '$date ${time.split('~')[0]}';
-                  final endTime = '$date ${time.split('~')[1]}';
 
                   final result = await ref
-                      .read(addDantudyPostControllerProvider.notifier)
+                      .read(addBearEatsPostControllerProvider.notifier)
                       .addPost(
                         title: _titleController.text,
                         body: _bodyController.text,
-                        minStudentId: int.parse(_minStudentIdController.text),
-                        tag: _tagController.text,
-                        startTime: startTime,
-                        endTime: endTime,
+                        restaurant: _restaurantController.text,
+                        deliveryPlace: _deliveryPlaceController.text,
+                        deliveryTime: _deliveryTimeController.text,
                       );
-
                   if (result && context.mounted) {
                     Navigator.of(context).pop();
                     context.showSnackBar(
@@ -183,45 +165,17 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 SizedBox(
                                   width: 56,
                                   child: OrbText(
-                                    '최소학번',
+                                    '음식점',
                                     fontWeight: OrbFontWeight.medium,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: OrbTextField(
-                                    controller: _minStudentIdController,
+                                    controller: _restaurantController,
                                     style: OrbTextType.bodyMedium,
-                                    hintText: '최소학번을 입력해주세요 (ex. 19)',
-                                    maxLength: 2,
-                                    maxLines: 1,
-                                    onChanged: (value) {
-                                      setState(() {});
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    fillColor: Colors.transparent,
-                                    boarderColor: Colors.transparent,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 56,
-                                  child: OrbText(
-                                    '태그',
-                                    fontWeight: OrbFontWeight.medium,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: OrbTextField(
-                                    controller: _tagController,
-                                    style: OrbTextType.bodyMedium,
-                                    hintText: '태그를 입력해주세요 (ex. 프로그래밍)',
-                                    maxLength: 20,
+                                    hintText: '음식점 이름을 입력해주세요(ex: 홍길동 치킨집)',
+                                    maxLength: 10,
                                     maxLines: 1,
                                     onChanged: (value) {
                                       setState(() {});
@@ -238,18 +192,45 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 SizedBox(
                                   width: 56,
                                   child: OrbText(
-                                    '스터디 시간',
+                                    '배달 장소',
                                     fontWeight: OrbFontWeight.medium,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: OrbTextField(
-                                    controller: _studyTimeController,
+                                    controller: _deliveryPlaceController,
+                                    style: OrbTextType.bodyMedium,
+                                    hintText: '배달 장소를 입력해주세요(ex. 단국대 정문)',
+                                    maxLength: 50,
+                                    maxLines: 1,
+                                    onChanged: (value) {
+                                      setState(() {});
+                                    },
+                                    textInputAction: TextInputAction.next,
+                                    fillColor: Colors.transparent,
+                                    boarderColor: Colors.transparent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 56,
+                                  child: OrbText(
+                                    '주문 시간',
+                                    fontWeight: OrbFontWeight.medium,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: OrbTextField(
+                                    controller: _deliveryTimeController,
                                     style: OrbTextType.bodyMedium,
                                     hintText:
-                                        '스터디 시간을 입력해주세요 (ex. 2023-01-01 14:00~16:00)',
-                                    maxLength: 30,
+                                        '주문 시간을 입력해주세요(ex. 2024-10-13 18:00)',
+                                    maxLength: 50,
                                     maxLines: 1,
                                     onChanged: (value) {
                                       setState(() {});
@@ -269,14 +250,23 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: OrbText(
-                "${_bodyController.text.length}/1000",
-              ),
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      Text(
+                        "${_bodyController.text.length}/1000",
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
           ],
         ),
       );

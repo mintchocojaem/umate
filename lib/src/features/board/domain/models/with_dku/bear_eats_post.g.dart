@@ -8,6 +8,7 @@ part of 'bear_eats_post.dart';
 
 BearEatsPost _$BearEatsPostFromJson(Map<String, dynamic> json) => BearEatsPost(
       id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
       author: json['author'] as String,
       body: json['body'] as String,
       createdAt: json['createdAt'] as String,
@@ -25,12 +26,21 @@ BearEatsPost _$BearEatsPostFromJson(Map<String, dynamic> json) => BearEatsPost(
       restaurant: json['restaurant'] as String,
       deliveryPlace: json['deliveryPlace'] as String,
       deliveryTime: json['deliveryTime'] as String,
+      recruitedUsers: (json['recruitedUsers'] as List<dynamic>?)
+              ?.map(
+                  (e) => RecruitedUserInfo.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       recruitedCount: (json['recruitedCount'] as num).toInt(),
+      applied: json['applied'] as bool? ?? false,
+      gender: json['gender'] as String? ?? '알 수 없음',
+      major: json['major'] as String? ?? '알 수 없음',
     );
 
 Map<String, dynamic> _$BearEatsPostToJson(BearEatsPost instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'title': instance.title,
       'author': instance.author,
       'body': instance.body,
       'createdAt': instance.createdAt,
@@ -42,5 +52,9 @@ Map<String, dynamic> _$BearEatsPostToJson(BearEatsPost instance) =>
       'restaurant': instance.restaurant,
       'deliveryPlace': instance.deliveryPlace,
       'deliveryTime': instance.deliveryTime,
+      'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),
       'recruitedCount': instance.recruitedCount,
+      'applied': instance.applied,
+      'gender': instance.gender,
+      'major': instance.major,
     };

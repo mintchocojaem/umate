@@ -78,4 +78,40 @@ class DantudyRemoteRepository extends RemoteRepository {
     );
     return result.statusCode == 200;
   }
+
+  Future<bool> enterPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/study/$id/enter',
+      method: RequestType.post,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/study/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/study/$id',
+      method: RequestType.patch,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
 }

@@ -25,4 +25,8 @@ abstract class BoardUseCases<P extends Post> {
     required int id,
   });
 
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  });
 }

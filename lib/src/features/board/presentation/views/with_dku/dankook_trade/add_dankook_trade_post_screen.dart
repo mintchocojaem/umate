@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:umate/src/core/utils/app_exception.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../../core/utils/app_exception.dart';
 import '../../../../../../design_system/orb/orb.dart';
-import '../../../controllers/with_dku/dantudy/add_dantudy_post_controller.dart';
+import '../../../controllers/with_dku/dankook_trade/add_dankook_trade_post_controller.dart';
 
-class AddDantudyPostScreen extends ConsumerStatefulWidget {
-  const AddDantudyPostScreen({
+class AddDankookTradePostScreen extends ConsumerStatefulWidget {
+  const AddDankookTradePostScreen({
     super.key,
   });
 
   @override
-  createState() => _AddDantudyPostScreen();
+  createState() => _AddDankookTradePostScreen();
 }
 
-class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
+class _AddDankookTradePostScreen
+    extends ConsumerState<AddDankookTradePostScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
-  late final TextEditingController _minStudentIdController;
-  late final TextEditingController _tagController;
-  late final TextEditingController _studyTimeController;
+  late final TextEditingController _priceController;
+  late final TextEditingController _tradePlaceController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
+
+  List<XFile> image = [];
 
   @override
   void initState() {
@@ -31,9 +34,8 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
     super.initState();
     _titleController = TextEditingController();
     _bodyController = TextEditingController();
-    _minStudentIdController = TextEditingController();
-    _tagController = TextEditingController();
-    _studyTimeController = TextEditingController();
+    _priceController = TextEditingController();
+    _tradePlaceController = TextEditingController();
   }
 
   @override
@@ -41,9 +43,8 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
     // TODO: implement dispose
     _titleController.dispose();
     _bodyController.dispose();
-    _minStudentIdController.dispose();
-    _tagController.dispose();
-    _studyTimeController.dispose();
+    _priceController.dispose();
+    _tradePlaceController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
@@ -53,7 +54,7 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      ref.listen(addDantudyPostControllerProvider, (pref, next) {
+      ref.listen(addDankookTradePostControllerProvider, (pref, next) {
         if (!next.isLoading && next.hasError) {
           final error = next.error;
           if (error is! AppException) return;
@@ -73,54 +74,21 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
               OrbFilledButton(
                 text: '작성',
                 disabled: _titleController.text.isEmpty ||
-                    _bodyController.text.isEmpty ||
-                    _minStudentIdController.text.length < 2 ||
-                    _tagController.text.isEmpty ||
-                    _studyTimeController.text.isEmpty,
+                    _bodyController.text.isEmpty,
                 buttonType: OrbButtonType.primary,
                 buttonSize: OrbButtonSize.compact,
                 buttonTextType: OrbButtonTextType.medium,
                 buttonRadius: OrbButtonRadius.small,
                 onPressed: () async {
-                  if (!_minStudentIdController.text
-                      .contains(RegExp(r'^\d{2}$'))) {
-                    context.showErrorSnackBar(
-                      error: AppWarning(
-                        message: '학번은 2자리인 숫자로 입력해주세요.',
-                        stackTrace: StackTrace.current,
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (!_studyTimeController.text.contains(
-                      RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}~\d{2}:\d{2}$'))) {
-                    context.showErrorSnackBar(
-                      error: AppWarning(
-                        message:
-                            '스터디 시간은 "YYYY-MM-DD HH:MM~HH:MM" 형식으로 입력해주세요.',
-                        stackTrace: StackTrace.current,
-                      ),
-                    );
-                    return;
-                  }
-
-                  final date = _studyTimeController.text.split(' ')[0];
-                  final time = _studyTimeController.text.split(' ')[1];
-                  final startTime = '$date ${time.split('~')[0]}';
-                  final endTime = '$date ${time.split('~')[1]}';
-
                   final result = await ref
-                      .read(addDantudyPostControllerProvider.notifier)
+                      .read(addDankookTradePostControllerProvider.notifier)
                       .addPost(
                         title: _titleController.text,
                         body: _bodyController.text,
-                        minStudentId: int.parse(_minStudentIdController.text),
-                        tag: _tagController.text,
-                        startTime: startTime,
-                        endTime: endTime,
+                        price: _priceController.text,
+                        tradePlace: _tradePlaceController.text,
+                        images: image.map((e) => e.path).toList(),
                       );
-
                   if (result && context.mounted) {
                     Navigator.of(context).pop();
                     context.showSnackBar(
@@ -166,6 +134,50 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                       fillColor: context.palette.background,
                       boarderColor: context.palette.background,
                     ),
+                    image.isNotEmpty
+                        ? Column(
+                            children: [
+                              for (final img in image)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.asset(
+                                          img.path,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 8,
+                                        right: 8,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: IconButton(
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            icon: const OrbIcon(
+                                              Icons.close_rounded,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                image.remove(img);
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                            ],
+                          )
+                        : const SizedBox(),
                     const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
@@ -183,17 +195,17 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 SizedBox(
                                   width: 56,
                                   child: OrbText(
-                                    '최소학번',
+                                    '가격',
                                     fontWeight: OrbFontWeight.medium,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: OrbTextField(
-                                    controller: _minStudentIdController,
+                                    controller: _priceController,
                                     style: OrbTextType.bodyMedium,
-                                    hintText: '최소학번을 입력해주세요 (ex. 19)',
-                                    maxLength: 2,
+                                    hintText: '가격을 입력해주세요 (ex. 10000)',
+                                    maxLength: 10,
                                     maxLines: 1,
                                     onChanged: (value) {
                                       setState(() {});
@@ -211,45 +223,17 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 SizedBox(
                                   width: 56,
                                   child: OrbText(
-                                    '태그',
+                                    '거래 장소',
                                     fontWeight: OrbFontWeight.medium,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: OrbTextField(
-                                    controller: _tagController,
+                                    controller: _tradePlaceController,
                                     style: OrbTextType.bodyMedium,
-                                    hintText: '태그를 입력해주세요 (ex. 프로그래밍)',
-                                    maxLength: 20,
-                                    maxLines: 1,
-                                    onChanged: (value) {
-                                      setState(() {});
-                                    },
-                                    textInputAction: TextInputAction.next,
-                                    fillColor: Colors.transparent,
-                                    boarderColor: Colors.transparent,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 56,
-                                  child: OrbText(
-                                    '스터디 시간',
-                                    fontWeight: OrbFontWeight.medium,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: OrbTextField(
-                                    controller: _studyTimeController,
-                                    style: OrbTextType.bodyMedium,
-                                    hintText:
-                                        '스터디 시간을 입력해주세요 (ex. 2023-01-01 14:00~16:00)',
-                                    maxLength: 30,
+                                    hintText: '거래 장소를 입력해주세요(ex. 단국대 정문)',
+                                    maxLength: 50,
                                     maxLines: 1,
                                     onChanged: (value) {
                                       setState(() {});
@@ -269,14 +253,51 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: OrbText(
-                "${_bodyController.text.length}/1000",
-              ),
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: OrbIcon(
+                          Icons.photo,
+                          color: context.palette.secondary,
+                        ),
+                        onPressed: () async {
+                          //hide keyboard
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          final imagePicker = ImagePicker();
+                          final pickedImage = await imagePicker
+                              .pickImage(source: ImageSource.gallery)
+                              .onError((error, stackTrace) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const OrbSnackBar(
+                                message: '갤러리를 열 수 없어요.\n(설정에서 권한을 확인해주세요)',
+                                type: OrbSnackBarType.error,
+                              ),
+                            );
+                            return null;
+                          });
+                          if (pickedImage != null) {
+                            setState(() {
+                              image.add(pickedImage);
+                            });
+                          }
+                        },
+                      ),
+                      const Spacer(),
+                      Text(
+                        "${_bodyController.text.length}/1000",
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
           ],
         ),
       );

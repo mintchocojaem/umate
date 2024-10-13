@@ -13,8 +13,10 @@ import '../../../features/board/presentation/views/student_council/petition/peti
 import '../../../features/board/presentation/views/student_council/petition/petition_post_screen.dart';
 import '../../../features/board/presentation/views/student_council/search/search_board_screen.dart';
 import '../../../features/board/presentation/views/student_council/student_council_screen.dart';
+import '../../../features/board/presentation/views/with_dku/bear_eats/add_bear_eats_post_screen.dart';
 import '../../../features/board/presentation/views/with_dku/bear_eats/bear_eats_board_screen.dart';
 import '../../../features/board/presentation/views/with_dku/bear_eats/bear_eats_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/dankook_trade/add_dankook_trade_post_screen.dart';
 import '../../../features/board/presentation/views/with_dku/dankook_trade/dankook_trade_board_screen.dart';
 import '../../../features/board/presentation/views/with_dku/dankook_trade/dankook_trade_post_screen.dart';
 import '../../../features/board/presentation/views/with_dku/dantudy/add_dantudy_post_screen.dart';
@@ -75,8 +77,10 @@ enum AppRoute {
   addDantudyPost,
   dankookTradeBoard,
   dankookTradePost,
+  addDankookTradePost,
   bearEatsBoard,
   bearEatsPost,
+  addBearEatsPost,
 }
 
 final routerServiceProvider = Provider<RouterService>(
@@ -363,6 +367,14 @@ final routerServiceProvider = Provider<RouterService>(
                                   );
                                 },
                               ),
+                              GoRoute(
+                                path: 'add',
+                                name: AppRoute.addDankookTradePost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  return const AddDankookTradePostScreen();
+                                },
+                              ),
                             ],
                           ),
                         ],
@@ -384,6 +396,14 @@ final routerServiceProvider = Provider<RouterService>(
                                   return BearEatsPostScreen(
                                     id: int.parse(id),
                                   );
+                                },
+                              ),
+                              GoRoute(
+                                path: 'add',
+                                name: AppRoute.addBearEatsPost.name,
+                                parentNavigatorKey: rootNavigatorKey,
+                                builder: (context, state) {
+                                  return const AddBearEatsPostScreen();
                                 },
                               ),
                             ],

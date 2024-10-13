@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime_type/mime_type.dart';
 
 import '../../../../../core/services/network/network_client_service.dart';
 import '../../../../../core/utils/repository.dart';
@@ -52,5 +54,65 @@ class DankookTradeRemoteRepository extends RemoteRepository {
     );
 
     return DankookTradePost.fromJson(result.data);
+  }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String price,
+    required String body,
+    required String tradePlace,
+    required List<String> images,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/trade',
+      method: RequestType.post,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: FormData.fromMap({
+        'title': title,
+        'body': body,
+        'price': price,
+        'tradePlace': tradePlace,
+        if (images.isNotEmpty)
+          'images': images
+              .map(
+                (e) => MultipartFile.fromFileSync(
+                  e,
+                  filename: e.split('/').last,
+                  contentType:
+                      MediaType.parse(mime(e) ?? 'application/octet-stream'),
+                ),
+              )
+              .toList(),
+      }),
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/trade/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/trade/$id',
+      method: RequestType.patch,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
   }
 }

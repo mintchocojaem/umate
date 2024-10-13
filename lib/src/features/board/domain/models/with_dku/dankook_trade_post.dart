@@ -11,6 +11,8 @@ class DankookTradePost extends Post {
   final int price;
   final String tradePlace;
   final String status;
+  final String gender;
+  final String major;
 
   DankookTradePost({
     required super.id,
@@ -26,6 +28,8 @@ class DankookTradePost extends Post {
     required this.price,
     required this.tradePlace,
     required this.status,
+    this.gender = '알 수 없음',
+    this.major = '알 수 없음',
   });
 
   factory DankookTradePost.fromJson(Map<String, dynamic> json) =>

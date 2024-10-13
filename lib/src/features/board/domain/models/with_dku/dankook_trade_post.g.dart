@@ -27,6 +27,8 @@ DankookTradePost _$DankookTradePostFromJson(Map<String, dynamic> json) =>
       price: (json['price'] as num).toInt(),
       tradePlace: json['tradePlace'] as String,
       status: json['status'] as String,
+      gender: json['gender'] as String? ?? '알 수 없음',
+      major: json['major'] as String? ?? '알 수 없음',
     );
 
 Map<String, dynamic> _$DankookTradePostToJson(DankookTradePost instance) =>
@@ -44,4 +46,6 @@ Map<String, dynamic> _$DankookTradePostToJson(DankookTradePost instance) =>
       'price': instance.price,
       'tradePlace': instance.tradePlace,
       'status': instance.status,
+      'gender': instance.gender,
+      'major': instance.major,
     };

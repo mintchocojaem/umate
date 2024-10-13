@@ -6,20 +6,6 @@ part of 'eating_alone_post.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RecruitedUserInfo _$RecruitedUserInfoFromJson(Map<String, dynamic> json) =>
-    RecruitedUserInfo(
-      id: (json['id'] as num).toInt(),
-      nickname: json['nickname'] as String,
-      majorName: json['majorName'] as String,
-    );
-
-Map<String, dynamic> _$RecruitedUserInfoToJson(RecruitedUserInfo instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'nickname': instance.nickname,
-      'majorName': instance.majorName,
-    };
-
 EatingAlonePost _$EatingAlonePostFromJson(Map<String, dynamic> json) =>
     EatingAlonePost(
       id: (json['id'] as num).toInt(),
@@ -38,7 +24,6 @@ EatingAlonePost _$EatingAlonePostFromJson(Map<String, dynamic> json) =>
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
-      recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
       recruitedUsers: (json['recruitedUsers'] as List<dynamic>?)
@@ -46,6 +31,8 @@ EatingAlonePost _$EatingAlonePostFromJson(Map<String, dynamic> json) =>
                   (e) => RecruitedUserInfo.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
+      applied: json['applied'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$EatingAlonePostToJson(EatingAlonePost instance) =>
@@ -60,8 +47,9 @@ Map<String, dynamic> _$EatingAlonePostToJson(EatingAlonePost instance) =>
       'views': instance.views,
       'mine': instance.mine,
       'blinded': instance.blinded,
-      'recruitedCount': instance.recruitedCount,
       'gender': instance.gender,
       'major': instance.major,
       'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),
+      'recruitedCount': instance.recruitedCount,
+      'applied': instance.applied,
     };

@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:umate/src/features/board/domain/models/board.dart';
-
 import 'package:umate/src/features/board/domain/models/post_sort.dart';
 
 import '../../../data/repositories/student_council/notice_remote_repository.dart';
@@ -45,6 +43,17 @@ class NoticeUseCases extends BoardUseCases {
   }) {
     // TODO: implement getPost
     return noticeRemoteRepository.getPost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  @override
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) {
+    return noticeRemoteRepository.deletePost(
       cancelToken: cancelToken,
       id: id,
     );

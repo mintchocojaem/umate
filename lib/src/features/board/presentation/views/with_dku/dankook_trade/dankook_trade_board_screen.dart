@@ -38,7 +38,11 @@ class _DankookTradeBoardScreenState
       floatingActionButton: FloatingActionButton(
         heroTag: "write_trade",
         shape: const CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          ref.read(routerServiceProvider).pushNamed(
+                AppRoute.addDankookTradePost.name,
+              );
+        },
         backgroundColor: context.palette.surfaceDim,
         child: Icon(
           Icons.edit,

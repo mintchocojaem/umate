@@ -55,4 +55,17 @@ class CoalitionRemoteRepository extends RemoteRepository {
     );
     return CoalitionPost.fromJson(result.data);
   }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/post/coalition/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+
+    return result.statusCode == 200;
+  }
 }

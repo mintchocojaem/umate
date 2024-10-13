@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../../core/services/router/router_service.dart';
 import '../../../../../../core/utils/app_exception.dart';
 import '../../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../../design_system/orb/orb.dart';
@@ -93,6 +94,62 @@ class CoalitionPostScreen extends ConsumerWidget with DateTimeFormatter {
                       type: OrbTextType.bodyLarge,
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      data.mine
+                          ? GestureDetector(
+                              onTap: () {
+                                OrbDialog(
+                                  title: "게시글 삭제",
+                                  content: const OrbText(
+                                    "정말 해당 게시글을 삭제하시겠어요?",
+                                  ),
+                                  rightButtonText: "삭제하기",
+                                  rightButtonColor: context.palette.error,
+                                  onRightButtonPressed: () async {
+                                    final result = await ref
+                                        .read(
+                                            coalitionPostControllerProvider(id)
+                                                .notifier)
+                                        .deletePost();
+                                    if (result && context.mounted) {
+                                      context.showSnackBar(
+                                        message: "게시글을 삭제하였습니다.",
+                                      );
+                                      ref.read(routerServiceProvider).pop();
+                                    }
+                                    return true;
+                                  },
+                                  leftButtonText: "취소",
+                                  onLeftButtonPressed: () async {
+                                    return true;
+                                  },
+                                ).show(context);
+                              },
+                              child: Row(
+                                children: [
+                                  OrbIcon(
+                                    Icons.delete,
+                                    color: context.palette.error,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  OrbText(
+                                    "삭제하기",
+                                    color: context.palette.error,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const OrbDivider(),
                   const SizedBox(
                     height: 64,
                   ),

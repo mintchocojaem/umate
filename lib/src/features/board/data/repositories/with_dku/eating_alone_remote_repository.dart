@@ -82,7 +82,7 @@ class EatingAloneRemoteRepository extends RemoteRepository {
     return result.statusCode == 200;
   }
 
-  Future<bool> joinPost({
+  Future<bool> enterPost({
     CancelToken? cancelToken,
     required int id,
   }) async {

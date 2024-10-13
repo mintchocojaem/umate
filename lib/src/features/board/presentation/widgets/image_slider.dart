@@ -75,7 +75,7 @@ class _ImageSliderState extends State<ImageSlider> {
                             child: CircularProgressIndicator(
                               value: loadingProgress.expectedTotalBytes != null
                                   ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
+                                      loadingProgress.expectedTotalBytes!
                                   : null,
                               color: Colors.grey,
                             ),
@@ -98,38 +98,38 @@ class _ImageSliderState extends State<ImageSlider> {
         ),
         widget.imagePaths.length > 1
             ? Positioned.fill(
-          bottom: 8,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: IntrinsicWidth(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    widget.imagePaths.length,
-                        (index) => Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: index == _currentImageIndex
-                            ? widget.selectedIndicatorColor
-                            : widget.unselectedIndicatorColor,
+                bottom: 8,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: IntrinsicWidth(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          widget.imagePaths.length,
+                          (index) => Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: index == _currentImageIndex
+                                  ? widget.selectedIndicatorColor
+                                  : widget.unselectedIndicatorColor,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        )
+              )
             : const SizedBox(),
       ],
     );

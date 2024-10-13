@@ -16,4 +16,26 @@ class NoticePostController extends PostController<NoticePost> {
           id: id,
         );
   }
+
+  Future<bool> deletePost() async {
+    final result = await AsyncValue.guard(
+      () => ref.read(noticeUseCasesProvider).deletePost(
+            id: arg,
+          ),
+    );
+
+    result.whenOrNull(
+      data: (data) {
+        ref.read(noticeBoardControllerProvider.notifier).refresh();
+      },
+      error: (error, stackTrace) {
+        state = AsyncValue.error(
+          error,
+          stackTrace,
+        );
+      },
+    );
+
+    return result.hasValue;
+  }
 }

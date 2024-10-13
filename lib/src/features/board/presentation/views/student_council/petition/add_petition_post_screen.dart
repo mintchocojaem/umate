@@ -51,7 +51,7 @@ class _AddPetitionPostScreen extends ConsumerState<AddPetitionPostScreen> {
     return OrbScaffold(
       resizeToAvoidBottomInset: true,
       appBar: OrbAppBar(
-        title: '청원 작성',
+        title: '게시글 작성',
         centerTitle: true,
         onAutoImplyLeadingPressed: () {
           ref.read(routerServiceProvider).pop();
@@ -250,6 +250,7 @@ class _AddPetitionPostScreen extends ConsumerState<AddPetitionPostScreen> {
                         final pickedImage = await imagePicker
                             .pickImage(source: ImageSource.gallery)
                             .onError((error, stackTrace) {
+                          if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const OrbSnackBar(
                               message: '갤러리를 열 수 없어요.\n(설정에서 권한을 확인해주세요)',

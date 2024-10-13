@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
+import '../../../../../../core/services/router/router_service.dart';
 import '../../../../../../core/utils/app_exception.dart';
 import '../../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../../design_system/orb/orb.dart';
@@ -31,13 +32,15 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(dankookTradePostControllerProvider(id));
+    final post = ref.watch(dankookTradePostControllerProvider(id));
     return OrbScaffold(
       appBar: const OrbAppBar(
-        title: '단터디 게시글',
+        title: '단국거래 게시글',
         centerTitle: true,
       ),
-      body: petitionPost.when(
+      body: post.when(
+        skipLoadingOnRefresh: true,
+        skipError: true,
         data: (data) {
           return Column(
             children: [
@@ -67,18 +70,20 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
                       ),
                       Row(
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            fit: FlexFit.tight,
+                          const SizedBox(
+                            width: 64,
                             child: OrbText(
                               "작성자",
                             ),
                           ),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           Flexible(
-                            flex: 4,
-                            fit: FlexFit.tight,
                             child: OrbText(
-                              data.author,
+                              '${data.author}(${data.gender} / ${data.major})',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -88,18 +93,81 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
                       ),
                       Row(
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            fit: FlexFit.tight,
+                          const SizedBox(
+                            width: 64,
                             child: OrbText(
-                              "모집일",
+                              "작성일",
                             ),
                           ),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           Flexible(
-                            flex: 4,
-                            fit: FlexFit.tight,
                             child: OrbText(
                               dateFormatToRelative(data.createdAt),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 64,
+                            child: OrbText(
+                              "가격",
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: OrbText(
+                              "${data.price}원",
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 64,
+                            child: OrbText(
+                              "판매 상태",
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: OrbText(
+                              data.status,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 64,
+                            child: OrbText(
+                              "거래 장소",
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: OrbText(
+                              data.tradePlace,
                             ),
                           ),
                         ],
@@ -137,73 +205,123 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
                         height: 16,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              OrbActionSheet(
-                                items: [
-                                  SheetItem(
-                                    title: PostReportType.profanity.name,
+                          data.mine
+                              ? GestureDetector(
+                                  onTap: () {
+                                    OrbDialog(
+                                      title: "게시글 삭제",
+                                      content: const OrbText(
+                                        "정말 해당 게시글을 삭제하시겠어요?",
+                                      ),
+                                      rightButtonText: "삭제하기",
+                                      rightButtonColor: context.palette.error,
+                                      onRightButtonPressed: () async {
+                                        final result = await ref
+                                            .read(
+                                                dankookTradePostControllerProvider(
+                                                        id)
+                                                    .notifier)
+                                            .deletePost();
+                                        if (result && context.mounted) {
+                                          context.showSnackBar(
+                                            message: "게시글을 삭제하였습니다.",
+                                          );
+                                          ref.read(routerServiceProvider).pop();
+                                        }
+                                        return true;
+                                      },
+                                      leftButtonText: "취소",
+                                      onLeftButtonPressed: () async {
+                                        return true;
+                                      },
+                                    ).show(context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      OrbIcon(
+                                        Icons.delete,
+                                        color: context.palette.error,
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      OrbText(
+                                        "삭제하기",
+                                        color: context.palette.error,
+                                      ),
+                                    ],
                                   ),
-                                  SheetItem(
-                                    title: PostReportType.fishing.name,
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    OrbActionSheet(
+                                      items: [
+                                        SheetItem(
+                                          title: PostReportType.profanity.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.fishing.name,
+                                        ),
+                                        SheetItem(
+                                          title:
+                                              PostReportType.advertisement.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.politics.name,
+                                        ),
+                                        SheetItem(
+                                          title:
+                                              PostReportType.pornography.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.fraud.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType
+                                              .inappropriateContent.name,
+                                        ),
+                                      ],
+                                      onSelected: (index) {
+                                        OrbDialog(
+                                          title: "청원 신고",
+                                          content: const OrbText(
+                                            "정말 해당 청원을 신고하시겠어요?\n\n(허위 신고 시 제재가 가해질 수 있습니다.)",
+                                          ),
+                                          rightButtonText: "신고하기",
+                                          rightButtonColor:
+                                              context.palette.error,
+                                          onRightButtonPressed: () async {
+                                            //
+                                            if (!context.mounted) return true;
+                                            return true;
+                                          },
+                                          leftButtonText: "취소",
+                                          onLeftButtonPressed: () async {
+                                            return true;
+                                          },
+                                        ).show(context);
+                                      },
+                                    ).show(context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/icons/report.png",
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      OrbText(
+                                        "신고하기",
+                                        color: context.palette.error,
+                                      ),
+                                    ],
                                   ),
-                                  SheetItem(
-                                    title: PostReportType.advertisement.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.politics.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.pornography.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.fraud.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType
-                                        .inappropriateContent.name,
-                                  ),
-                                ],
-                                onSelected: (index) {
-                                  OrbDialog(
-                                    title: "청원 신고",
-                                    content: const OrbText(
-                                      "정말 해당 청원을 신고하시겠어요?\n\n(허위 신고 시 제재가 가해질 수 있습니다.)",
-                                    ),
-                                    rightButtonText: "신고하기",
-                                    rightButtonColor: context.palette.error,
-                                    onRightButtonPressed: () async {
-                                      //
-                                      if (!context.mounted) return true;
-                                      return true;
-                                    },
-                                    leftButtonText: "취소",
-                                    onLeftButtonPressed: () async {
-                                      return true;
-                                    },
-                                  ).show(context);
-                                },
-                              ).show(context);
-                            },
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  "assets/icons/report.png",
-                                  width: 24,
-                                  height: 24,
                                 ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                OrbText(
-                                  "신고하기",
-                                  color: context.palette.error,
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                       const SizedBox(
@@ -218,10 +336,27 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
                 ),
               ),
               const SizedBox(height: 8),
-              OrbFilledButton(
-                text: "참여하기",
-                onPressed: () {},
-              ),
+              data.mine
+                  ? OrbFilledButton(
+                      text: "판매 마감하기",
+                      backgroundColor: context.palette.error,
+                      onPressed: () async {
+                        final result = await ref
+                            .read(
+                                dankookTradePostControllerProvider(id).notifier)
+                            .closePost();
+                        if (result && context.mounted) {
+                          context.showSnackBar(
+                            message: "게시글이 판매 마감 처리되었습니다.",
+                          );
+                          ref.read(routerServiceProvider).pop();
+                        }
+                      },
+                    )
+                  : OrbFilledButton(
+                      text: "채팅하기",
+                      onPressed: () {},
+                    ),
             ],
           );
         },

@@ -51,6 +51,17 @@ class PetitionUseCases extends BoardUseCases<PetitionPost> {
     );
   }
 
+  @override
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) {
+    return petitionRemoteRepository.deletePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
   Future<bool> agreePost({
     required int id,
   }) {

@@ -44,4 +44,53 @@ class BearEatsUseCases extends BoardUseCases {
       id: id,
     );
   }
+
+  @override
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) {
+    return bearEatsRemoteRepository.deletePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String restaurant,
+    required String deliveryPlace,
+    required String deliveryTime,
+    required String body,
+  }) async {
+    return bearEatsRemoteRepository.addPost(
+      cancelToken: cancelToken,
+      title: title,
+      restaurant: restaurant,
+      deliveryPlace: deliveryPlace,
+      deliveryTime: deliveryTime,
+      body: body,
+    );
+  }
+
+  Future<bool> enterPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return bearEatsRemoteRepository.enterPost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return bearEatsRemoteRepository.closePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
 }

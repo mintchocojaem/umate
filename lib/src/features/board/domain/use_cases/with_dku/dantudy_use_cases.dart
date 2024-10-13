@@ -46,6 +46,7 @@ class DantudyUseCases extends BoardUseCases {
   }
 
   Future<bool> addPost({
+    CancelToken? cancelToken,
     required String title,
     required String body,
     required int minStudentId,
@@ -60,6 +61,34 @@ class DantudyUseCases extends BoardUseCases {
       tag: tag,
       startTime: startTime.toString(),
       endTime: endTime.toString(),
+    );
+  }
+
+  @override
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return dantudyRemoteRepository.deletePost(
+      id: id,
+    );
+  }
+
+  Future<bool> enterPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return dantudyRemoteRepository.enterPost(
+      id: id,
+    );
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return dantudyRemoteRepository.closePost(
+      id: id,
     );
   }
 }

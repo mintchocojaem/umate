@@ -24,7 +24,17 @@ DantudyPost _$DantudyPostFromJson(Map<String, dynamic> json) => DantudyPost(
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
       recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
-      tag: json['tag'] as String?,
+      gender: json['gender'] as String? ?? '알 수 없음',
+      major: json['major'] as String? ?? '알 수 없음',
+      recruitedUsers: (json['recruitedUsers'] as List<dynamic>?)
+              ?.map(
+                  (e) => RecruitedUserInfo.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      tag: json['tag'] as String? ?? '',
+      startTime: json['startTime'] as String? ?? '',
+      endTime: json['endTime'] as String? ?? '',
+      applied: json['applied'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$DantudyPostToJson(DantudyPost instance) =>
@@ -40,5 +50,11 @@ Map<String, dynamic> _$DantudyPostToJson(DantudyPost instance) =>
       'mine': instance.mine,
       'blinded': instance.blinded,
       'tag': instance.tag,
+      'gender': instance.gender,
+      'major': instance.major,
+      'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),
       'recruitedCount': instance.recruitedCount,
+      'startTime': instance.startTime,
+      'endTime': instance.endTime,
+      'applied': instance.applied,
     };

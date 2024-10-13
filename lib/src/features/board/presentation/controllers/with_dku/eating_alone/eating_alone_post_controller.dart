@@ -37,9 +37,9 @@ class EatingAlonePostController extends PostController<EatingAlonePost> {
     }
   }
 
-  Future<bool> joinPost() async {
+  Future<bool> enterPost() async {
     final result = await AsyncValue.guard(
-        () async => ref.read(eatingAloneUseCasesProvider).joinPost(id: arg));
+        () async => ref.read(eatingAloneUseCasesProvider).enterPost(id: arg));
 
     result.whenOrNull(
       data: (data) {

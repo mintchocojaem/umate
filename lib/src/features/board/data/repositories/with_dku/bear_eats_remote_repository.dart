@@ -52,4 +52,63 @@ class BearEatsRemoteRepository extends RemoteRepository {
     );
     return BearEatsPost.fromJson(result.data);
   }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/bear-eats/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String restaurant,
+    required String deliveryPlace,
+    required String deliveryTime,
+    required String body,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/bear-eats',
+      method: RequestType.post,
+      data: {
+        'title': title,
+        'restaurant': restaurant,
+        'deliveryPlace': deliveryPlace,
+        'deliveryTime': deliveryTime,
+        'body': body,
+      },
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> enterPost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/bear-eats/$id/enter',
+      method: RequestType.post,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/bear-eats/$id/',
+      method: RequestType.patch,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
 }

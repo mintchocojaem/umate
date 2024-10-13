@@ -38,7 +38,11 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
       floatingActionButton: FloatingActionButton(
         heroTag: "write_bear_eats",
         shape: const CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          ref.read(routerServiceProvider).pushNamed(
+                AppRoute.addBearEatsPost.name,
+              );
+        },
         backgroundColor: context.palette.surfaceDim,
         child: Icon(
           Icons.edit,
@@ -56,6 +60,9 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
         postTagItems: (post) => [
           PostTagItem(
             title: '${post.recruitedCount}명 모집',
+          ),
+          PostTagItem(
+            title: post.restaurant,
           ),
           PostTagItem(
             title: post.deliveryPlace,

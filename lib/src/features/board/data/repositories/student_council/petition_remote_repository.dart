@@ -113,4 +113,16 @@ class PetitionRemoteRepository extends RemoteRepository {
     );
     return result.data['id'];
   }
+
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    final result = await client.request(
+      path: '/post/petition/$id',
+      method: RequestType.delete,
+      cancelToken: cancelToken,
+    );
+    return result.statusCode == 200;
+  }
 }

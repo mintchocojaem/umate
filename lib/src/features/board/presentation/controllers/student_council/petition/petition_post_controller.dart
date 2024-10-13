@@ -17,18 +17,38 @@ class PetitionPostController extends PostController<PetitionPost> {
         );
   }
 
-  Future<bool> agreePost({
-    required int id,
-  }) async {
+  Future<bool> agreePost() async {
     final result = await AsyncValue.guard(
       () => ref.read(petitionUseCasesProvider).agreePost(
-            id: id,
+            id: arg,
           ),
     );
 
     result.whenOrNull(
       data: (data) {
         ref.invalidateSelf();
+        ref.read(petitionBoardControllerProvider.notifier).refresh();
+      },
+      error: (error, stackTrace) {
+        state = AsyncValue.error(
+          error,
+          stackTrace,
+        );
+      },
+    );
+
+    return result.hasValue;
+  }
+
+  Future<bool> deletePost() async {
+    final result = await AsyncValue.guard(
+      () => ref.read(petitionUseCasesProvider).deletePost(
+            id: arg,
+          ),
+    );
+
+    result.whenOrNull(
+      data: (data) {
         ref.read(petitionBoardControllerProvider.notifier).refresh();
       },
       error: (error, stackTrace) {

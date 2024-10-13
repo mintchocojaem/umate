@@ -6,7 +6,6 @@ final coalitionPostControllerProvider = AsyncNotifierProvider.autoDispose
 );
 
 class CoalitionPostController extends PostController<CoalitionPost> {
-
   @override
   Future<CoalitionPost> _fetch({
     CancelToken? cancelToken,
@@ -17,5 +16,27 @@ class CoalitionPostController extends PostController<CoalitionPost> {
           id: id,
         );
     return result;
+  }
+
+  Future<bool> deletePost() async {
+    final result = await AsyncValue.guard(
+      () => ref.read(coalitionUseCasesProvider).deletePost(
+            id: arg,
+          ),
+    );
+
+    result.whenOrNull(
+      data: (data) {
+        ref.read(coalitionBoardControllerProvider.notifier).refresh();
+      },
+      error: (error, stackTrace) {
+        state = AsyncValue.error(
+          error,
+          stackTrace,
+        );
+      },
+    );
+
+    return result.hasValue;
   }
 }

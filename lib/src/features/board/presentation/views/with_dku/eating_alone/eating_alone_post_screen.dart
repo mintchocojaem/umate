@@ -32,13 +32,13 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
       }
     });
 
-    final petitionPost = ref.watch(eatingAlonePostControllerProvider(id));
+    final post = ref.watch(eatingAlonePostControllerProvider(id));
     return OrbScaffold(
       appBar: OrbAppBar(
         title: '단혼밥 게시글',
         centerTitle: true,
       ),
-      body: petitionPost.when(
+      body: post.when(
         skipError: true,
         skipLoadingOnRefresh: true,
         data: (data) {
@@ -71,18 +71,18 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            fit: FlexFit.tight,
+                          const SizedBox(
+                            width: 64,
                             child: OrbText(
                               "작성자",
                             ),
                           ),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           Flexible(
-                            flex: 4,
-                            fit: FlexFit.tight,
                             child: OrbText(
-                              '${data.author}\n${data.gender} / ${data.major}',
+                              '${data.author}(${data.gender} / ${data.major})',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -94,16 +94,16 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       ),
                       Row(
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            fit: FlexFit.tight,
+                          const SizedBox(
+                            width: 64,
                             child: OrbText(
-                              "모집일",
+                              "작성일",
                             ),
                           ),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           Flexible(
-                            flex: 4,
-                            fit: FlexFit.tight,
                             child: OrbText(
                               dateFormatToRelative(data.createdAt),
                             ),
@@ -116,21 +116,21 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            fit: FlexFit.tight,
+                          const SizedBox(
+                            width: 64,
                             child: OrbText(
                               "모집상태",
                             ),
                           ),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           Flexible(
-                            flex: 4,
-                            fit: FlexFit.tight,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 OrbText(
-                                  "모집 중(${data.recruitedCount} 명 모집됨)",
+                                  "${data.recruitedCount} 명 모집됨",
                                 ),
                               ],
                             ),
@@ -202,24 +202,39 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                             for (var i = 0; i < data.recruitedUsers.length; i++)
                               Column(
                                 children: [
-                                  Flex(
-                                    direction: Axis.horizontal,
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: OrbText(
-                                          "(${i + 1}) ${data.recruitedUsers[i].majorName}",
-                                          type: OrbTextType.bodyMedium,
+                                      CircleAvatar(
+                                        radius: 16,
+                                        backgroundColor:
+                                            context.palette.background,
+                                        child: OrbIcon(
+                                          Icons.person,
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: OrbText(
-                                          data.recruitedUsers[i].nickname,
-                                          type: OrbTextType.bodyMedium,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          OrbText(
+                                            data.recruitedUsers[i].nickname,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            type: OrbTextType.bodyMedium,
+                                            fontWeight: OrbFontWeight.medium,
+                                          ),
+                                          OrbText(
+                                            data.recruitedUsers[i].majorName,
+                                            type: OrbTextType.bodySmall,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -239,119 +254,123 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                         height: 16,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              OrbActionSheet(
-                                items: [
-                                  SheetItem(
-                                    title: PostReportType.profanity.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.fishing.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.advertisement.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.politics.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.pornography.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType.fraud.name,
-                                  ),
-                                  SheetItem(
-                                    title: PostReportType
-                                        .inappropriateContent.name,
-                                  ),
-                                ],
-                                onSelected: (index) {
-                                  OrbDialog(
-                                    title: "청원 신고",
-                                    content: const OrbText(
-                                      "정말 해당 청원을 신고하시겠어요?\n\n(허위 신고 시 제재가 가해질 수 있습니다.)",
-                                    ),
-                                    rightButtonText: "신고하기",
-                                    rightButtonColor: context.palette.error,
-                                    onRightButtonPressed: () async {
-                                      //
-                                      if (!context.mounted) return true;
-                                      return true;
-                                    },
-                                    leftButtonText: "취소",
-                                    onLeftButtonPressed: () async {
-                                      return true;
-                                    },
-                                  ).show(context);
-                                },
-                              ).show(context);
-                            },
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  "assets/icons/report.png",
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                OrbText(
-                                  "신고하기",
-                                  color: context.palette.error,
-                                ),
-                              ],
-                            ),
-                          ),
-                          if (data.mine)
-                            GestureDetector(
-                              onTap: () {
-                                OrbDialog(
-                                  title: "게시글 삭제",
-                                  content: const OrbText(
-                                    "정말 해당 게시글을 삭제하시겠어요?",
-                                  ),
-                                  rightButtonText: "삭제하기",
-                                  rightButtonColor: context.palette.error,
-                                  onRightButtonPressed: () async {
-                                    final result = await ref
-                                        .read(eatingAlonePostControllerProvider(
-                                                id)
-                                            .notifier)
-                                        .deletePost();
-                                    if (result && context.mounted) {
-                                      context.showSnackBar(
-                                        message: "게시글을 삭제하였습니다.",
-                                      );
-                                      ref.read(routerServiceProvider).pop();
-                                    }
-                                    return true;
+                          data.mine
+                              ? GestureDetector(
+                                  onTap: () {
+                                    OrbDialog(
+                                      title: "게시글 삭제",
+                                      content: const OrbText(
+                                        "정말 해당 게시글을 삭제하시겠어요?",
+                                      ),
+                                      rightButtonText: "삭제하기",
+                                      rightButtonColor: context.palette.error,
+                                      onRightButtonPressed: () async {
+                                        final result = await ref
+                                            .read(
+                                                eatingAlonePostControllerProvider(
+                                                        id)
+                                                    .notifier)
+                                            .deletePost();
+                                        if (result && context.mounted) {
+                                          context.showSnackBar(
+                                            message: "게시글을 삭제하였습니다.",
+                                          );
+                                          ref.read(routerServiceProvider).pop();
+                                        }
+                                        return true;
+                                      },
+                                      leftButtonText: "취소",
+                                      onLeftButtonPressed: () async {
+                                        return true;
+                                      },
+                                    ).show(context);
                                   },
-                                  leftButtonText: "취소",
-                                  onLeftButtonPressed: () async {
-                                    return true;
+                                  child: Row(
+                                    children: [
+                                      OrbIcon(
+                                        Icons.delete,
+                                        color: context.palette.error,
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      OrbText(
+                                        "삭제하기",
+                                        color: context.palette.error,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    OrbActionSheet(
+                                      items: [
+                                        SheetItem(
+                                          title: PostReportType.profanity.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.fishing.name,
+                                        ),
+                                        SheetItem(
+                                          title:
+                                              PostReportType.advertisement.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.politics.name,
+                                        ),
+                                        SheetItem(
+                                          title:
+                                              PostReportType.pornography.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType.fraud.name,
+                                        ),
+                                        SheetItem(
+                                          title: PostReportType
+                                              .inappropriateContent.name,
+                                        ),
+                                      ],
+                                      onSelected: (index) {
+                                        OrbDialog(
+                                          title: "청원 신고",
+                                          content: const OrbText(
+                                            "정말 해당 청원을 신고하시겠어요?\n\n(허위 신고 시 제재가 가해질 수 있습니다.)",
+                                          ),
+                                          rightButtonText: "신고하기",
+                                          rightButtonColor:
+                                              context.palette.error,
+                                          onRightButtonPressed: () async {
+                                            //
+                                            if (!context.mounted) return true;
+                                            return true;
+                                          },
+                                          leftButtonText: "취소",
+                                          onLeftButtonPressed: () async {
+                                            return true;
+                                          },
+                                        ).show(context);
+                                      },
+                                    ).show(context);
                                   },
-                                ).show(context);
-                              },
-                              child: Row(
-                                children: [
-                                  OrbIcon(
-                                    Icons.delete,
-                                    color: context.palette.error,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/icons/report.png",
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      OrbText(
+                                        "신고하기",
+                                        color: context.palette.error,
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  OrbText(
-                                    "삭제하기",
-                                    color: context.palette.error,
-                                  ),
-                                ],
-                              ),
-                            ),
+                                ),
                         ],
                       ),
                       const SizedBox(
@@ -384,12 +403,13 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       },
                     )
                   : OrbFilledButton(
-                      text: "참여하기",
+                      text: data.applied ? "참여 신청 완료" : "참여하기",
+                      disabled: data.applied,
                       onPressed: () async {
                         final result = await ref
                             .read(
                                 eatingAlonePostControllerProvider(id).notifier)
-                            .joinPost();
+                            .enterPost();
                         if (result && context.mounted) {
                           context.showSnackBar(
                             message: "해당 게시글에 참여하였습니다.",

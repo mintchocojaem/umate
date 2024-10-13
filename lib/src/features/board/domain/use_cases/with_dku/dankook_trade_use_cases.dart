@@ -46,4 +46,43 @@ class DankookTradeUseCases extends BoardUseCases {
       id: id,
     );
   }
+
+  Future<bool> addPost({
+    CancelToken? cancelToken,
+    required String title,
+    required String price,
+    required String body,
+    required String tradePlace,
+    required List<String> images,
+  }) async {
+    return await dankookTradeRemoteRepository.addPost(
+      cancelToken: cancelToken,
+      title: title,
+      price: price,
+      body: body,
+      tradePlace: tradePlace,
+      images: images,
+    );
+  }
+
+  @override
+  Future<bool> deletePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return await dankookTradeRemoteRepository.deletePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
+
+  Future<bool> closePost({
+    CancelToken? cancelToken,
+    required int id,
+  }) async {
+    return await dankookTradeRemoteRepository.closePost(
+      cancelToken: cancelToken,
+      id: id,
+    );
+  }
 }

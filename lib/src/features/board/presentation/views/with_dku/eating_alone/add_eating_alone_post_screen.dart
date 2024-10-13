@@ -58,7 +58,7 @@ class _AddEatingAlonePostScreen
       return OrbScaffold(
         resizeToAvoidBottomInset: true,
         appBar: OrbAppBar(
-          title: ' 작성',
+          title: '게시글 작성',
           centerTitle: true,
           trailing: Wrap(
             children: [

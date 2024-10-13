@@ -67,11 +67,11 @@ class EatingAloneUseCases extends BoardUseCases {
     );
   }
 
-  Future<bool> joinPost({
+  Future<bool> enterPost({
     CancelToken? cancelToken,
     required int id,
   }) async {
-    return eatingAloneRemoteRepository.joinPost(
+    return eatingAloneRemoteRepository.enterPost(
       cancelToken: cancelToken,
       id: id,
     );
