@@ -29,6 +29,7 @@ part 'with_dku/bear_eats/bear_eats_board_controller.dart';
 part 'with_dku/dankook_trade/dankook_trade_board_controller.dart';
 part 'with_dku/dantudy/dantudy_board_controller.dart';
 part 'with_dku/eating_alone/eating_alone_board_controller.dart';
+part 'with_dku/eating_alone/user_eating_alone_applied_board_controller.dart';
 
 abstract class BoardController<P extends Post>
     extends AutoDisposeAsyncNotifier<Board<P>> {

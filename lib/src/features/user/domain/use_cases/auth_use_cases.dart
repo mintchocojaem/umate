@@ -40,9 +40,11 @@ class AuthUseCases {
   }
 
   Future<LoginToken> reissueToken({
+    required String accessToken,
     required String refreshToken,
   }) async {
     return await authRemoteRepository.reissueToken(
+      accessToken: accessToken,
       refreshToken: refreshToken,
     );
   }
@@ -54,6 +56,7 @@ class AuthUseCases {
     }
     try {
       final loginToken = await reissueToken(
+        accessToken: savedToken.accessToken,
         refreshToken: savedToken.refreshToken,
       );
 

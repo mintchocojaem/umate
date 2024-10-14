@@ -57,6 +57,7 @@ class EatingAloneUseCases extends BoardUseCases {
     );
   }
 
+  @override
   Future<bool> deletePost({
     CancelToken? cancelToken,
     required int id,
@@ -84,6 +85,24 @@ class EatingAloneUseCases extends BoardUseCases {
     return eatingAloneRemoteRepository.closePost(
       cancelToken: cancelToken,
       id: id,
+    );
+  }
+
+  Future<Board<EatingAlonePost>> getUserAppliedBoard({
+    CancelToken? cancelToken,
+    String? keyword,
+    int? bodySize,
+    int? page,
+    int? size,
+    List<String>? sort,
+  }) async {
+    return eatingAloneRemoteRepository.getUserAppliedBoard(
+      cancelToken: cancelToken,
+      keyword: keyword,
+      bodySize: bodySize,
+      page: page,
+      size: size,
+      sort: sort,
     );
   }
 }

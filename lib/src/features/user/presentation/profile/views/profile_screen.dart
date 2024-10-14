@@ -43,6 +43,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       padding: EdgeInsets.zero,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             color: context.palette.primary,
@@ -102,6 +103,41 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ),
           /*
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: OrbText(
+              'With 단국',
+              type: OrbTextType.bodyMedium,
+              fontWeight: OrbFontWeight.medium,
+              color: context.palette.surfaceDim,
+            ),
+          ),
+          ListTile(
+            title: const OrbText(
+              '내가 쓴 글',
+              type: OrbTextType.bodyLarge,
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            title: const OrbText(
+              '내가 참여한 글',
+              type: OrbTextType.bodyLarge,
+            ),
+            onTap: () {
+              ref.read(routerServiceProvider).pushNamed(
+                    AppRoute.userEatingAloneAppliedBoard.name,
+                  );
+            },
+          ),
+          Container(
+            height: 16,
+            color: context.palette.surfaceBright,
+          ),
+
           ListTile(
             title: const OrbText(
               '내 정보 수정',
@@ -162,6 +198,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             color: currentPalette.surfaceBright,
           ),
            */
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: OrbText(
+              '앱 설정',
+              type: OrbTextType.bodyMedium,
+              fontWeight: OrbFontWeight.medium,
+              color: context.palette.surfaceDim,
+            ),
+          ),
           ListTile(
             splashColor: Colors.transparent,
             title: const OrbText(

@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/features/user/presentation/login/providers/login_token_provider.dart';
 
 import 'firebase_options.dart';
 import 'src/app.dart';
@@ -22,7 +23,7 @@ void main() async {
   await StorageService.init();
   await NotificationService.init();
 
- await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -31,15 +32,19 @@ void main() async {
     ],
   );
 
-  FlutterNativeSplash.remove();
-
   runApp(
     ProviderScope(
       observers: [
         ProviderLogger(),
       ],
-      child: const App(),
+      child: Consumer(
+        builder: (context, ref, child) {
+          ref.watch(loginTokenNotifierProvider.future).then((_) {
+            FlutterNativeSplash.remove();
+          });
+          return App();
+        },
+      ),
     ),
   );
-
 }

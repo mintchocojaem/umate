@@ -105,4 +105,30 @@ class EatingAloneRemoteRepository extends RemoteRepository {
     );
     return result.statusCode == 200;
   }
+
+  Future<Board<EatingAlonePost>> getUserAppliedBoard({
+    CancelToken? cancelToken,
+    String? keyword,
+    int? bodySize,
+    int? page,
+    int? size,
+    List<String>? sort,
+  }) async {
+    final result = await client.request(
+      path: '/with-dankook/eating-alone/my/possible/review',
+      method: RequestType.get,
+      queryParameters: {
+        'keyword': keyword,
+        'bodySize': bodySize,
+        'page': page,
+        'size': size,
+        'sort': sort?.map((e) => e).join('&'),
+      },
+      cancelToken: cancelToken,
+    );
+    return Board.fromJson(
+      result.data,
+      (data) => EatingAlonePost.fromJson(data as Map<String, dynamic>),
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:umate/src/features/board/presentation/views/with_dku/eating_alone/user_eating_alone_applied_board_screen.dart';
 
 import '../../../features/board/presentation/views/student_council/coalition/coalition_board_screen.dart';
 import '../../../features/board/presentation/views/student_council/coalition/coalition_post_screen.dart';
@@ -25,12 +26,14 @@ import '../../../features/board/presentation/views/with_dku/dantudy/dantudy_post
 import '../../../features/board/presentation/views/with_dku/eating_alone/add_eating_alone_post_screen.dart';
 import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_board_screen.dart';
 import '../../../features/board/presentation/views/with_dku/eating_alone/eating_alone_post_screen.dart';
+import '../../../features/board/presentation/views/with_dku/user_with_dku_applied_screen.dart';
 import '../../../features/board/presentation/views/with_dku/with_dankook_screen.dart';
 import '../../../features/dash_board/presentation/views/home_screen.dart';
 import '../../../features/timetable/presentation/views/add_lecture_screen.dart';
 import '../../../features/timetable/presentation/views/add_schedule_screen.dart';
 import '../../../features/timetable/presentation/views/schedule_screen.dart';
 import '../../../features/timetable/presentation/views/timetable_screen.dart';
+import '../../../features/user/domain/models/login_token.dart';
 import '../../../features/user/presentation/find/views/find_user_id_screen.dart';
 import '../../../features/user/presentation/find/views/find_user_password_screen.dart';
 import '../../../features/user/presentation/login/providers/login_token_provider.dart';
@@ -60,6 +63,7 @@ enum AppRoute {
   petitionBoard,
   timetable,
   profile,
+  userEatingAloneAppliedBoard,
   noticePost,
   coalitionPost,
   petitionPost,
@@ -87,12 +91,13 @@ final routerServiceProvider = Provider<RouterService>(
   (ref) {
     final GlobalKey<NavigatorState> rootNavigatorKey =
         GlobalKey<NavigatorState>();
-    final loginNotifier =
-        ValueNotifier(ref.read(loginTokenNotifierProvider).value);
+    final loginNotifier = ValueNotifier<LoginToken?>(null);
     ref.listen(
       loginTokenNotifierProvider,
-      (_, next) {
-        loginNotifier.value = next.value;
+      (prev, next) {
+        if (prev != next && next.hasValue) {
+          loginNotifier.value = next.value;
+        }
       },
     );
     ref.onDispose(() {
@@ -102,11 +107,11 @@ final routerServiceProvider = Provider<RouterService>(
       navigator: GoRouter(
         initialLocation: '/home',
         navigatorKey: rootNavigatorKey,
-        debugLogDiagnostics: true,
+        debugLogDiagnostics: false,
         refreshListenable: loginNotifier,
         redirect: (context, state) async {
-          final loginToken = ref.read(loginTokenNotifierProvider).value;
-          if (loginToken == null &&
+          await ref.read(loginTokenNotifierProvider.future);
+          if (loginNotifier.value == null &&
               !(state.uri.path.contains('login') ||
                   state.uri.path.contains('sign_up'))) {
             return '/login';
@@ -457,6 +462,25 @@ final routerServiceProvider = Provider<RouterService>(
                     builder: (context, state) {
                       return const ProfileScreen();
                     },
+                  ),
+                  StatefulShellRoute.indexedStack(
+                    builder: (context, state, navigationShell) {
+                      return UserWithDankookAppliedScreen(
+                        navigationShell: navigationShell,
+                      );
+                    },
+                    branches: [
+                      StatefulShellBranch(
+                        routes: [
+                          GoRoute(
+                            path: '/with_dankook/applied/eating_alone',
+                            name: AppRoute.userEatingAloneAppliedBoard.name,
+                            builder: (context, state) =>
+                                const UserEatingAloneAppliedBoardScreen(),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

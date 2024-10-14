@@ -2,8 +2,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/services/network/network_client_service.dart';
 import '../../../../core/utils/repository.dart';
-import '../../domain/models/sign_up_info.dart';
 import '../../domain/models/login_token.dart';
+import '../../domain/models/sign_up_info.dart';
 
 part 'auth_remote_repository.g.dart';
 
@@ -35,11 +35,15 @@ class AuthRemoteRepository extends RemoteRepository {
   }
 
   Future<LoginToken> reissueToken({
+    required String accessToken,
     required String refreshToken,
   }) async {
     final response = await client.request(
       path: '/user/reissue',
       method: RequestType.post,
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
       data: {
         'refreshToken': refreshToken,
       },

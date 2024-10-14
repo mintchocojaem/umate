@@ -23,7 +23,7 @@ class EatingAlonePostController extends PostController<EatingAlonePost> {
 
     result.whenOrNull(
       data: (data) {
-        ref.invalidate(eatingAloneBoardControllerProvider);
+        ref.invalidate(userEatingAloneAppliedBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncValue.error(error, stackTrace);
@@ -44,7 +44,7 @@ class EatingAlonePostController extends PostController<EatingAlonePost> {
     result.whenOrNull(
       data: (data) {
         ref.invalidateSelf();
-        ref.invalidate(eatingAloneBoardControllerProvider);
+        ref.invalidate(userEatingAloneAppliedBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncValue.error(error, stackTrace);
@@ -64,7 +64,7 @@ class EatingAlonePostController extends PostController<EatingAlonePost> {
 
     result.whenOrNull(
       data: (data) {
-        ref.invalidate(eatingAloneBoardControllerProvider);
+        ref.invalidate(userEatingAloneAppliedBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncValue.error(error, stackTrace);

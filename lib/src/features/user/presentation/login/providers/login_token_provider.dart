@@ -12,7 +12,12 @@ class LoginTokenNotifier extends _$LoginTokenNotifier {
   @override
   FutureOr<LoginToken?> build() {
     // TODO: implement build
-    return null;
+    return autoLogin();
+  }
+
+  Future<LoginToken?> autoLogin() async {
+    state = AsyncValue.loading();
+    return ref.read(authUseCasesProvider).autoLogin();
   }
 
   Future<void> login({

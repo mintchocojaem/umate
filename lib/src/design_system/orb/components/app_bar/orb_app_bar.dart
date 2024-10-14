@@ -50,7 +50,7 @@ class OrbAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       title: OrbText(
         title,
-        type: OrbTextType.titleMedium,
+        type: OrbTextType.titleSmall,
         color: titleColor,
       ),
       actions: [

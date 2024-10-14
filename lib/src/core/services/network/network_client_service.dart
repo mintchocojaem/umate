@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../features/user/presentation/login/providers/login_token_provider.dart';
 import '../../constants/api_url.dart';
 import '../../utils/app_exception.dart';
@@ -9,7 +10,7 @@ import '../router/router_service.dart';
 final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
   return NetworkClientService(
     onRequest: (options) async {
-      await Future.delayed(const Duration(milliseconds: 100));
+      //await Future.delayed(const Duration(milliseconds: 100));
       final loginToken = ref.read(loginTokenNotifierProvider).value;
 
       if (loginToken != null) {

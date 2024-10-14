@@ -38,7 +38,7 @@ class AddEatingAlonePostController extends AutoDisposeAsyncNotifier<void> {
 
     result.whenOrNull(
       data: (data) {
-        ref.invalidate(eatingAloneBoardControllerProvider);
+        ref.invalidate(userEatingAloneAppliedBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncError(
