@@ -69,7 +69,7 @@ class DantudyRemoteRepository extends RemoteRepository {
       method: RequestType.post,
       data: {
         'title': title,
-        'content': body,
+        'body': body,
         'minStudentId': minStudentId,
         'kakaoOpenChatLink': kakaoOpenChatLink,
         'tag': tag,
