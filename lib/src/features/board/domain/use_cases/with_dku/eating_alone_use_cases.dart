@@ -49,11 +49,13 @@ class EatingAloneUseCases extends BoardUseCases {
     CancelToken? cancelToken,
     required String title,
     required String body,
+    required String kakaoOpenChatLink,
   }) async {
     return eatingAloneRemoteRepository.addPost(
       cancelToken: cancelToken,
       title: title,
       body: body,
+      kakaoOpenChatLink: kakaoOpenChatLink,
     );
   }
 

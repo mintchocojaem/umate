@@ -9,9 +9,9 @@ import '../../../../design_system/orb/orb.dart';
 import '../../../timetable/domain/models/week_days.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/board_card.dart';
+import '../widgets/carousel_indicator.dart';
 import '../widgets/extra_menu_bar.dart';
 import '../widgets/today_schedule.dart';
-import '../widgets/carousel_indicator.dart';
 import '../widgets/web_banner.dart';
 
 class HomeScreen extends ConsumerWidget with DateTimeFormatter {
@@ -163,35 +163,41 @@ class HomeScreen extends ConsumerWidget with DateTimeFormatter {
                             ),
                           ),
                         )
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Row(
-                              children: [
-                                ...List.generate(
-                                  data.petitions.length > 5
-                                      ? 5
-                                      : data.petitions.length,
-                                  (index) => BoardCard(
-                                    info: "BEST ${index + 1}",
-                                    title: data.petitions[index].title,
-                                    createdAt: dateFormatToRelative(
-                                      data.petitions[index].createdAt,
+                      : SizedBox(
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...List.generate(
+                                    data.petitions.length > 5
+                                        ? 5
+                                        : data.petitions.length,
+                                    (index) => BoardCard(
+                                      info: "BEST ${index + 1}",
+                                      title: data.petitions[index].title,
+                                      createdAt: dateFormatToRelative(
+                                        data.petitions[index].createdAt,
+                                      ),
+                                      viewCount: data.petitions[index].views,
+                                      onTap: () {
+                                        ref
+                                            .read(routerServiceProvider)
+                                            .pushNamed(
+                                          AppRoute.petitionPost.name,
+                                          pathParameters: {
+                                            "id": data.petitions[index].id
+                                                .toString(),
+                                          },
+                                        );
+                                      },
                                     ),
-                                    viewCount: data.petitions[index].views,
-                                    onTap: () {
-                                      ref.read(routerServiceProvider).pushNamed(
-                                        AppRoute.petitionPost.name,
-                                        pathParameters: {
-                                          "id": data.petitions[index].id
-                                              .toString(),
-                                        },
-                                      );
-                                    },
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );

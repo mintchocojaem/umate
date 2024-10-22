@@ -253,6 +253,37 @@ class EatingAlonePostScreen extends ConsumerWidget with DateTimeFormatter {
                       const SizedBox(
                         height: 16,
                       ),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: context.palette.surfaceBright,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            OrbText(
+                              '오픈채팅방 링크',
+                              type: OrbTextType.bodyLarge,
+                              fontWeight: OrbFontWeight.medium,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            OrbText(
+                              data.kakaoOpenChatLink.isEmpty
+                                  ? '채팅방 링크가 존재하지 않습니다'
+                                  : data.kakaoOpenChatLink,
+                              type: OrbTextType.bodyMedium,
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

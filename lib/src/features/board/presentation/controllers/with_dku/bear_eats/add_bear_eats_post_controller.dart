@@ -24,6 +24,7 @@ class AddBearEatsPostController extends AutoDisposeAsyncNotifier<void> {
   Future<bool> addPost({
     CancelToken? cancelToken,
     required String title,
+    required String kakaoOpenChatLink,
     required String restaurant,
     required String deliveryPlace,
     required String deliveryTime,
@@ -36,6 +37,7 @@ class AddBearEatsPostController extends AutoDisposeAsyncNotifier<void> {
       () => ref.read(bearEatsUseCasesProvider).addPost(
             cancelToken: _cancelToken,
             title: title,
+            kakaoOpenChatLink: kakaoOpenChatLink,
             restaurant: restaurant,
             deliveryPlace: deliveryPlace,
             deliveryTime: deliveryTime,

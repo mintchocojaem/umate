@@ -93,17 +93,14 @@ base class NetworkClientService {
             debugPrint(
                 'NetworkClientService > (Canceled) : ${exception.requestOptions.uri}');
           } else {
-            final List<dynamic>? messages = exception.response?.data['message'];
-
             String message = '서버 연결 중 오류가 발생했어요.';
 
-            dynamic firstMessage = messages?.firstOrNull;
-
-            if (firstMessage != null && firstMessage is Map<String, dynamic>) {
+            try {
+              final List<dynamic>? messages =
+                  exception.response?.data['message'];
+              dynamic firstMessage = messages?.firstOrNull;
               message = firstMessage['error'];
-            } else if (firstMessage is String) {
-              message = firstMessage;
-            }
+            } catch (_) {}
 
             exception = exception.copyWith(
               message: message,
@@ -112,7 +109,7 @@ base class NetworkClientService {
             final int statusCode = exception.response?.statusCode ?? 500;
 
             debugPrint(
-                'NetworkClientService > (Error) : code = $statusCode, message = $messages');
+                'NetworkClientService > (Error) : code = $statusCode, message = $message');
           }
           handler.next(exception);
         },

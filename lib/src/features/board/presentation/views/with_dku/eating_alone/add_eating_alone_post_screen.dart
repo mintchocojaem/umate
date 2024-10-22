@@ -19,6 +19,7 @@ class _AddEatingAlonePostScreen
     extends ConsumerState<AddEatingAlonePostScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
+  late final TextEditingController _openChatLinkController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
@@ -29,6 +30,7 @@ class _AddEatingAlonePostScreen
     super.initState();
     _titleController = TextEditingController();
     _bodyController = TextEditingController();
+    _openChatLinkController = TextEditingController();
   }
 
   @override
@@ -36,6 +38,7 @@ class _AddEatingAlonePostScreen
     // TODO: implement dispose
     _titleController.dispose();
     _bodyController.dispose();
+    _openChatLinkController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
@@ -71,11 +74,20 @@ class _AddEatingAlonePostScreen
                 buttonTextType: OrbButtonTextType.medium,
                 buttonRadius: OrbButtonRadius.small,
                 onPressed: () async {
+                  if (!_openChatLinkController.text
+                      .contains('https://open.kakao.com/o/')) {
+                    context.showSnackBar(
+                      message: '올바른 오픈채팅 링크를 입력해주세요.',
+                    );
+                    return;
+                  }
+
                   final result = await ref
                       .read(addEatingAlonePostControllerProvider.notifier)
                       .addPost(
                         title: _titleController.text,
                         body: _bodyController.text,
+                        kakaoOpenChatLink: _openChatLinkController.text,
                       );
 
                   if (result && context.mounted) {
@@ -122,6 +134,50 @@ class _AddEatingAlonePostScreen
                       },
                       fillColor: context.palette.background,
                       boarderColor: context.palette.background,
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: context.palette.surfaceBright,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 56,
+                                  child: OrbText(
+                                    '오픈채팅 링크',
+                                    fontWeight: OrbFontWeight.medium,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: OrbTextField(
+                                    controller: _openChatLinkController,
+                                    style: OrbTextType.bodyMedium,
+                                    hintText:
+                                        '카카오톡을 통해 오픈채팅방을 생성 후 링크를 입력해주세요.',
+                                    maxLength: 40,
+                                    maxLines: 2,
+                                    onChanged: (value) {
+                                      setState(() {});
+                                    },
+                                    textInputAction: TextInputAction.next,
+                                    fillColor: Colors.transparent,
+                                    boarderColor: Colors.transparent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

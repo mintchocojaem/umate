@@ -68,6 +68,7 @@ class BearEatsRemoteRepository extends RemoteRepository {
   Future<bool> addPost({
     CancelToken? cancelToken,
     required String title,
+    required String kakaoOpenChatLink,
     required String restaurant,
     required String deliveryPlace,
     required String deliveryTime,
@@ -78,6 +79,7 @@ class BearEatsRemoteRepository extends RemoteRepository {
       method: RequestType.post,
       data: {
         'title': title,
+        'kakaoOpenChatLink': kakaoOpenChatLink,
         'restaurant': restaurant,
         'deliveryPlace': deliveryPlace,
         'deliveryTime': deliveryTime,

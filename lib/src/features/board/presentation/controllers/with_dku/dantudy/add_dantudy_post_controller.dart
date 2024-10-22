@@ -25,6 +25,7 @@ class AddDantudyPostController extends AutoDisposeAsyncNotifier<void> {
   Future<bool> addPost({
     required String title,
     required String body,
+    required String kakoOpenChatLink,
     required int minStudentId,
     required String tag,
     required String startTime,
@@ -37,6 +38,7 @@ class AddDantudyPostController extends AutoDisposeAsyncNotifier<void> {
       () => ref.read(dantudyUseCasesProvider).addPost(
             title: title,
             body: body,
+            kakaoOpenChatLink: kakoOpenChatLink,
             minStudentId: minStudentId,
             tag: tag,
             startTime: startTime,

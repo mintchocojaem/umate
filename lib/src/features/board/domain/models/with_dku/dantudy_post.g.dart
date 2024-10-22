@@ -23,6 +23,7 @@ DantudyPost _$DantudyPostFromJson(Map<String, dynamic> json) => DantudyPost(
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
+      kakaoOpenChatLink: json['kakaoOpenChatLink'] as String? ?? '',
       recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
@@ -32,8 +33,7 @@ DantudyPost _$DantudyPostFromJson(Map<String, dynamic> json) => DantudyPost(
               .toList() ??
           const [],
       tag: json['tag'] as String? ?? '',
-      startTime: json['startTime'] as String? ?? '',
-      endTime: json['endTime'] as String? ?? '',
+      studyDate: json['studyDate'] as String? ?? '',
       applied: json['applied'] as bool? ?? false,
     );
 
@@ -49,12 +49,12 @@ Map<String, dynamic> _$DantudyPostToJson(DantudyPost instance) =>
       'views': instance.views,
       'mine': instance.mine,
       'blinded': instance.blinded,
+      'kakaoOpenChatLink': instance.kakaoOpenChatLink,
       'tag': instance.tag,
       'gender': instance.gender,
       'major': instance.major,
       'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),
       'recruitedCount': instance.recruitedCount,
-      'startTime': instance.startTime,
-      'endTime': instance.endTime,
+      'studyDate': instance.studyDate,
       'applied': instance.applied,
     };

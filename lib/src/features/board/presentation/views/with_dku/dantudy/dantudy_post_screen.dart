@@ -42,10 +42,6 @@ class DantudyPostScreen extends ConsumerWidget with DateTimeFormatter {
         skipError: true,
         skipLoadingOnRefresh: true,
         data: (data) {
-          final studyStartTime = data.startTime.split(" ");
-          final studyEndTime = data.endTime.split(" ");
-          final studyTime =
-              "${studyStartTime[0]} ${studyStartTime[1].substring(0, 5)} ~ ${studyEndTime[1].substring(0, 5)}";
           return Column(
             children: [
               Expanded(
@@ -173,7 +169,7 @@ class DantudyPostScreen extends ConsumerWidget with DateTimeFormatter {
                           ),
                           Flexible(
                             child: OrbText(
-                              studyTime,
+                              data.studyDate,
                             ),
                           ),
                         ],
@@ -288,6 +284,37 @@ class DantudyPostScreen extends ConsumerWidget with DateTimeFormatter {
                                   ),
                                 ],
                               ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: context.palette.surfaceBright,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            OrbText(
+                              '오픈채팅방 링크',
+                              type: OrbTextType.bodyLarge,
+                              fontWeight: OrbFontWeight.medium,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            OrbText(
+                              data.kakaoOpenChatLink.isEmpty
+                                  ? '채팅방 링크가 존재하지 않습니다'
+                                  : data.kakaoOpenChatLink,
+                              type: OrbTextType.bodyMedium,
+                              maxLines: 1,
+                            ),
                           ],
                         ),
                       ),

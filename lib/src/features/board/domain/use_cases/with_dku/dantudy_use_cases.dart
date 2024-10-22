@@ -49,6 +49,7 @@ class DantudyUseCases extends BoardUseCases {
     CancelToken? cancelToken,
     required String title,
     required String body,
+    required String kakaoOpenChatLink,
     required int minStudentId,
     required String tag,
     required String startTime,
@@ -57,6 +58,7 @@ class DantudyUseCases extends BoardUseCases {
     return dantudyRemoteRepository.addPost(
       title: title,
       body: body,
+      kakaoOpenChatLink: kakaoOpenChatLink,
       minStudentId: minStudentId,
       tag: tag,
       startTime: startTime.toString(),

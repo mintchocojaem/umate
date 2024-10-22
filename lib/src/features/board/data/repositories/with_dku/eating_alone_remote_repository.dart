@@ -57,6 +57,7 @@ class EatingAloneRemoteRepository extends RemoteRepository {
     CancelToken? cancelToken,
     required String title,
     required String body,
+    required String kakaoOpenChatLink,
   }) async {
     final result = await client.request(
       path: '/with-dankook/eating-alone',
@@ -64,6 +65,7 @@ class EatingAloneRemoteRepository extends RemoteRepository {
       data: {
         'title': title,
         'body': body,
+        'kakaoOpenChatLink': kakaoOpenChatLink,
       },
       cancelToken: cancelToken,
     );

@@ -24,6 +24,7 @@ EatingAlonePost _$EatingAlonePostFromJson(Map<String, dynamic> json) =>
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
+      kakaoOpenChatLink: json['kakaoOpenChatLink'] as String? ?? '',
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
       recruitedUsers: (json['recruitedUsers'] as List<dynamic>?)
@@ -47,6 +48,7 @@ Map<String, dynamic> _$EatingAlonePostToJson(EatingAlonePost instance) =>
       'views': instance.views,
       'mine': instance.mine,
       'blinded': instance.blinded,
+      'kakaoOpenChatLink': instance.kakaoOpenChatLink,
       'gender': instance.gender,
       'major': instance.major,
       'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),

@@ -59,6 +59,7 @@ class BearEatsUseCases extends BoardUseCases {
   Future<bool> addPost({
     CancelToken? cancelToken,
     required String title,
+    required String kakaoOpenChatLink,
     required String restaurant,
     required String deliveryPlace,
     required String deliveryTime,
@@ -67,6 +68,7 @@ class BearEatsUseCases extends BoardUseCases {
     return bearEatsRemoteRepository.addPost(
       cancelToken: cancelToken,
       title: title,
+      kakaoOpenChatLink: kakaoOpenChatLink,
       restaurant: restaurant,
       deliveryPlace: deliveryPlace,
       deliveryTime: deliveryTime,

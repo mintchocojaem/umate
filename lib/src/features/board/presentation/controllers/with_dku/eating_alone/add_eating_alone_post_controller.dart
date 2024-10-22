@@ -25,6 +25,7 @@ class AddEatingAlonePostController extends AutoDisposeAsyncNotifier<void> {
   Future<bool> addPost({
     required String title,
     required String body,
+    required String kakaoOpenChatLink,
   }) async {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
@@ -33,12 +34,13 @@ class AddEatingAlonePostController extends AutoDisposeAsyncNotifier<void> {
       () => ref.read(eatingAloneUseCasesProvider).addPost(
             title: title,
             body: body,
+            kakaoOpenChatLink: kakaoOpenChatLink,
           ),
     );
 
     result.whenOrNull(
       data: (data) {
-        ref.invalidate(userEatingAloneAppliedBoardControllerProvider);
+        ref.invalidate(eatingAloneBoardControllerProvider);
       },
       error: (error, stackTrace) {
         state = AsyncError(

@@ -9,6 +9,7 @@ part 'eating_alone_post.g.dart';
 
 @JsonSerializable()
 class EatingAlonePost extends Post {
+  final String kakaoOpenChatLink;
   final String gender;
   final String major;
   final List<RecruitedUserInfo> recruitedUsers;
@@ -26,6 +27,7 @@ class EatingAlonePost extends Post {
     super.views,
     super.mine,
     super.blinded,
+    this.kakaoOpenChatLink = '',
     this.gender = '알 수 없음',
     this.major = '알 수 없음',
     this.recruitedUsers = const [],

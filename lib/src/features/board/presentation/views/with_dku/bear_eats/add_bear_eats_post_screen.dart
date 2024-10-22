@@ -21,6 +21,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
   late final TextEditingController _restaurantController;
   late final TextEditingController _deliveryPlaceController;
   late final TextEditingController _deliveryTimeController;
+  late final TextEditingController _openChatLinkController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
@@ -34,6 +35,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
     _restaurantController = TextEditingController();
     _deliveryPlaceController = TextEditingController();
     _deliveryTimeController = TextEditingController();
+    _openChatLinkController = TextEditingController();
   }
 
   @override
@@ -44,6 +46,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
     _restaurantController.dispose();
     _deliveryPlaceController.dispose();
     _deliveryTimeController.dispose();
+    _openChatLinkController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
@@ -82,14 +85,18 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                 buttonTextType: OrbButtonTextType.medium,
                 buttonRadius: OrbButtonRadius.small,
                 onPressed: () async {
-                  //deliveryTime regex yyyy-MM-dd HH:mm
+                  if (!_openChatLinkController.text
+                      .contains('https://open.kakao.com/o/')) {
+                    context.showSnackBar(
+                      message: '올바른 오픈채팅 링크를 입력해주세요.',
+                    );
+                    return;
+                  }
+
                   if (!RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$')
                       .hasMatch(_deliveryTimeController.text)) {
-                    context.showErrorSnackBar(
-                      error: AppWarning(
-                        message: '주문 시간은 yyyy-MM-dd HH:mm 형식으로 입력해주세요.',
-                        stackTrace: StackTrace.current,
-                      ),
+                    context.showSnackBar(
+                      message: '주문 시간은 yyyy-MM-dd HH:mm 형식으로 입력해주세요.',
                     );
                     return;
                   }
@@ -99,6 +106,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                       .addPost(
                         title: _titleController.text,
                         body: _bodyController.text,
+                        kakaoOpenChatLink: '',
                         restaurant: _restaurantController.text,
                         deliveryPlace: _deliveryPlaceController.text,
                         deliveryTime: _deliveryTimeController.text,
@@ -236,6 +244,34 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                                       setState(() {});
                                     },
                                     textInputAction: TextInputAction.done,
+                                    fillColor: Colors.transparent,
+                                    boarderColor: Colors.transparent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 56,
+                                  child: OrbText(
+                                    '오픈채팅 링크',
+                                    fontWeight: OrbFontWeight.medium,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: OrbTextField(
+                                    controller: _openChatLinkController,
+                                    style: OrbTextType.bodyMedium,
+                                    hintText:
+                                        '카카오톡을 통해 오픈채팅방을 생성 후 링크를 입력해주세요.',
+                                    maxLength: 40,
+                                    maxLines: 2,
+                                    onChanged: (value) {
+                                      setState(() {});
+                                    },
+                                    textInputAction: TextInputAction.next,
                                     fillColor: Colors.transparent,
                                     boarderColor: Colors.transparent,
                                   ),

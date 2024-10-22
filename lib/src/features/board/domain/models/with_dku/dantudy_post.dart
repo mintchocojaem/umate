@@ -9,13 +9,13 @@ part 'dantudy_post.g.dart';
 
 @JsonSerializable()
 class DantudyPost extends Post {
+  final String kakaoOpenChatLink;
   final String tag;
   final String gender;
   final String major;
   final List<RecruitedUserInfo> recruitedUsers;
   final int recruitedCount;
-  final String startTime;
-  final String endTime;
+  final String studyDate;
   final bool applied;
 
   DantudyPost({
@@ -29,13 +29,13 @@ class DantudyPost extends Post {
     super.views,
     super.mine,
     super.blinded,
+    this.kakaoOpenChatLink = '',
     this.recruitedCount = 0,
     this.gender = '알 수 없음',
     this.major = '알 수 없음',
     this.recruitedUsers = const [],
     this.tag = '',
-    this.startTime = '',
-    this.endTime = '',
+    this.studyDate = '',
     this.applied = false,
   });
 

@@ -9,6 +9,7 @@ part 'bear_eats_post.g.dart';
 
 @JsonSerializable()
 class BearEatsPost extends Post {
+  final String kakaoOpenChatLink;
   final String restaurant;
   final String deliveryPlace;
   final String deliveryTime;
@@ -29,6 +30,7 @@ class BearEatsPost extends Post {
     super.views,
     super.mine,
     super.blinded,
+    this.kakaoOpenChatLink = '',
     required this.restaurant,
     required this.deliveryPlace,
     required this.deliveryTime,
