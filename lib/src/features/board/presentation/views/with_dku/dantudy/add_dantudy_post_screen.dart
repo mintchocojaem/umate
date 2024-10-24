@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:umate/src/core/utils/app_exception.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 
@@ -20,40 +21,76 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
   late final TextEditingController _bodyController;
   late final TextEditingController _minStudentIdController;
   late final TextEditingController _tagController;
-  late final TextEditingController _startTimeController;
-  late final TextEditingController _endTimeController;
   late final TextEditingController _openChatLinkController;
+  String startTime = '';
+  String endTime = '';
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _titleController = TextEditingController();
     _bodyController = TextEditingController();
     _minStudentIdController = TextEditingController();
     _tagController = TextEditingController();
-    _startTimeController = TextEditingController();
-    _endTimeController = TextEditingController();
     _openChatLinkController = TextEditingController();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _titleController.dispose();
     _bodyController.dispose();
     _minStudentIdController.dispose();
     _tagController.dispose();
-    _startTimeController.dispose();
-    _endTimeController.dispose();
     _openChatLinkController.dispose();
-
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDateTime({
+    required BuildContext context,
+    required bool isStartTime,
+  }) async {
+    final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365),
+      ),
+    );
+
+    if (selectedDate != null && context.mounted) {
+      final TimeOfDay? selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (selectedTime != null) {
+        final DateTime fullDateTime = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+
+        // 날짜와 시간을 원하는 형식으로 포맷팅
+        final String formattedDateTime =
+            DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
+
+        setState(() {
+          if (isStartTime) {
+            startTime = formattedDateTime;
+          } else {
+            endTime = formattedDateTime;
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -93,7 +130,7 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                     return;
                   }
 
-                  if (!_startTimeController.text
+                  if (!startTime
                       .contains(RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$'))) {
                     context.showSnackBar(
                       message: '올바른 시작 시간을 입력해주세요.(ex. 2023-01-01 14:00)',
@@ -101,7 +138,7 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                     return;
                   }
 
-                  if (!_endTimeController.text
+                  if (!endTime
                       .contains(RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$'))) {
                     context.showSnackBar(
                       message: '올바른 종료 시간을 입력해주세요.(ex. 2023-01-01 16:00)',
@@ -125,8 +162,8 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                         minStudentId: int.parse(_minStudentIdController.text),
                         tag: _tagController.text,
                         kakoOpenChatLink: _openChatLinkController.text,
-                        startTime: _startTimeController.text,
-                        endTime: _endTimeController.text,
+                        startTime: startTime,
+                        endTime: endTime,
                       );
 
                   if (result && context.mounted) {
@@ -252,19 +289,34 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
-                                  child: OrbTextField(
-                                    controller: _startTimeController,
-                                    style: OrbTextType.bodyMedium,
-                                    hintText:
-                                        '스터디 시작 시간을 입력해주세요 (ex. 2023-01-01 14:00)',
-                                    maxLength: 30,
-                                    maxLines: 1,
-                                    onChanged: (value) {
-                                      setState(() {});
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await _selectDateTime(
+                                        context: context,
+                                        isStartTime: true,
+                                      );
                                     },
-                                    textInputAction: TextInputAction.done,
-                                    fillColor: Colors.transparent,
-                                    boarderColor: Colors.transparent,
+                                    child: OrbTextField(
+                                      readOnly: true,
+                                      style: OrbTextType.bodyMedium,
+                                      hintText:
+                                          '스터디 시작 시간을 입력해주세요 (ex. 2023-01-01 14:00)',
+                                      maxLength: 30,
+                                      maxLines: 1,
+                                      onChanged: (value) {
+                                        setState(() {});
+                                      },
+                                      onTap: () async {
+                                        await _selectDateTime(
+                                          context: context,
+                                          isStartTime: true,
+                                        );
+                                      },
+                                      fillColor: Colors.transparent,
+                                      boarderColor: Colors.transparent,
+                                      controller: TextEditingController(
+                                          text: startTime),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -280,19 +332,34 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
-                                  child: OrbTextField(
-                                    controller: _endTimeController,
-                                    style: OrbTextType.bodyMedium,
-                                    hintText:
-                                        '스터디 종료 시간을 입력해주세요 (ex. 2023-01-01 16:00)',
-                                    maxLength: 30,
-                                    maxLines: 1,
-                                    onChanged: (value) {
-                                      setState(() {});
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await _selectDateTime(
+                                        context: context,
+                                        isStartTime: false,
+                                      );
                                     },
-                                    textInputAction: TextInputAction.done,
-                                    fillColor: Colors.transparent,
-                                    boarderColor: Colors.transparent,
+                                    child: OrbTextField(
+                                      style: OrbTextType.bodyMedium,
+                                      hintText:
+                                          '스터디 종료 시간을 입력해주세요 (ex. 2023-01-01 16:00)',
+                                      maxLength: 30,
+                                      maxLines: 1,
+                                      onChanged: (value) {
+                                        setState(() {});
+                                      },
+                                      onTap: () async {
+                                        await _selectDateTime(
+                                          context: context,
+                                          isStartTime: false,
+                                        );
+                                      },
+                                      fillColor: Colors.transparent,
+                                      boarderColor: Colors.transparent,
+                                      readOnly: true,
+                                      controller:
+                                          TextEditingController(text: endTime),
+                                    ),
                                   ),
                                 ),
                               ],

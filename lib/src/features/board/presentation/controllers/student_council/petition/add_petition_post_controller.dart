@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../user/domain/use_cases/auth_use_cases.dart';
 import '../../../../domain/models/student_council/petition_status.dart';
 import '../../../../domain/use_cases/student_council/petition_use_cases.dart';
 import 'petition_category_controller.dart';
@@ -16,11 +17,12 @@ class AddPetitionPostController extends AutoDisposeAsyncNotifier<void> {
   CancelToken? _cancelToken;
 
   @override
-  FutureOr<void> build() {
+  Future<void> build() async {
+    await ref.read(authUseCasesProvider).checkValidUser();
     ref.onDispose(() {
       _cancelToken?.cancel();
     });
-    return null;
+    return;
   }
 
   Future<bool> addPost({

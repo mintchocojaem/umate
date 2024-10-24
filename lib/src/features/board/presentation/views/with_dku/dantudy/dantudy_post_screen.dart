@@ -310,7 +310,7 @@ class DantudyPostScreen extends ConsumerWidget with DateTimeFormatter {
                             ),
                             OrbText(
                               data.kakaoOpenChatLink.isEmpty
-                                  ? '채팅방 링크가 존재하지 않습니다'
+                                  ? '게시글 마감 후 공개됩니다'
                                   : data.kakaoOpenChatLink,
                               type: OrbTextType.bodyMedium,
                               maxLines: 1,

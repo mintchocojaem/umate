@@ -4,16 +4,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../domain/models/user_info.dart';
 import '../../../domain/use_cases/user_use_cases.dart';
+import '../../login/providers/login_token_provider.dart';
 
 part 'user_info_provider.g.dart';
 
 @riverpod
 class UserInfoNotifier extends _$UserInfoNotifier {
-
-   Future<UserInfo> _fetch() {
+  Future<UserInfo> _fetch() {
     return ref.read(userUseCasesProvider).getUserInfo();
   }
-  
+
   @override
   FutureOr<UserInfo> build() {
     // TODO: implement build
@@ -30,6 +30,9 @@ class UserInfoNotifier extends _$UserInfoNotifier {
     );
 
     result.whenOrNull(
+      data: (_) {
+        ref.read(loginTokenNotifierProvider.notifier).logout();
+      },
       error: (error, stackTrace) {
         state = AsyncValue.error(error, stackTrace);
       },

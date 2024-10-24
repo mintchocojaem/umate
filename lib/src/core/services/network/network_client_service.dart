@@ -27,6 +27,7 @@ final networkClientServiceProvider = Provider<NetworkClientService>((ref) {
         ref.read(loginTokenNotifierProvider.notifier).logout();
       } else if (exception.response?.statusCode == 600) {
         //Student Not Verified
+        ref.read(routerServiceProvider).pop();
         ref
             .read(routerServiceProvider)
             .pushNamed(AppRoute.refreshVerifyStudent.name);
@@ -94,12 +95,12 @@ base class NetworkClientService {
                 'NetworkClientService > (Canceled) : ${exception.requestOptions.uri}');
           } else {
             String message = '서버 연결 중 오류가 발생했어요.';
-
             try {
-              final List<dynamic>? messages =
-                  exception.response?.data['message'];
-              dynamic firstMessage = messages?.firstOrNull;
-              message = firstMessage['error'];
+              final newMessage =
+                  exception.response?.data['message'][0].toString();
+              if (newMessage != null) {
+                message = newMessage;
+              }
             } catch (_) {}
 
             exception = exception.copyWith(

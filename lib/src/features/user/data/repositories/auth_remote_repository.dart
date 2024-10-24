@@ -34,6 +34,14 @@ class AuthRemoteRepository extends RemoteRepository {
     return LoginToken.fromJson(response.data);
   }
 
+  Future<bool> checkValidUser() async {
+    final response = await client.request(
+      path: '/user/dku/check',
+      method: RequestType.get,
+    );
+    return response.statusCode == 200;
+  }
+
   Future<LoginToken> reissueToken({
     required String accessToken,
     required String refreshToken,

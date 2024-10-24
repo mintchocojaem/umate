@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:umate/src/core/utils/extensions.dart';
 import 'package:umate/src/features/board/presentation/controllers/with_dku/bear_eats/add_bear_eats_post_controller.dart';
 
@@ -20,8 +21,8 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
   late final TextEditingController _bodyController;
   late final TextEditingController _restaurantController;
   late final TextEditingController _deliveryPlaceController;
-  late final TextEditingController _deliveryTimeController;
   late final TextEditingController _openChatLinkController;
+  String deliveryTime = '';
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
@@ -34,7 +35,6 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
     _bodyController = TextEditingController();
     _restaurantController = TextEditingController();
     _deliveryPlaceController = TextEditingController();
-    _deliveryTimeController = TextEditingController();
     _openChatLinkController = TextEditingController();
   }
 
@@ -45,12 +45,50 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
     _bodyController.dispose();
     _restaurantController.dispose();
     _deliveryPlaceController.dispose();
-    _deliveryTimeController.dispose();
     _openChatLinkController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDateTime({
+    required BuildContext context,
+    required bool isStartTime,
+  }) async {
+    final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365),
+      ),
+    );
+
+    if (selectedDate != null && context.mounted) {
+      final TimeOfDay? selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (selectedTime != null) {
+        final DateTime fullDateTime = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+
+        // 날짜와 시간을 원하는 형식으로 포맷팅
+        final String formattedDateTime =
+            DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
+
+        setState(() {
+          deliveryTime = formattedDateTime;
+        });
+      }
+    }
   }
 
   @override
@@ -79,7 +117,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                     _bodyController.text.isEmpty ||
                     _restaurantController.text.isEmpty ||
                     _deliveryPlaceController.text.isEmpty ||
-                    _deliveryTimeController.text.isEmpty,
+                    deliveryTime.isEmpty,
                 buttonType: OrbButtonType.primary,
                 buttonSize: OrbButtonSize.compact,
                 buttonTextType: OrbButtonTextType.medium,
@@ -94,7 +132,7 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                   }
 
                   if (!RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$')
-                      .hasMatch(_deliveryTimeController.text)) {
+                      .hasMatch(deliveryTime)) {
                     context.showSnackBar(
                       message: '주문 시간은 yyyy-MM-dd HH:mm 형식으로 입력해주세요.',
                     );
@@ -104,13 +142,12 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                   final result = await ref
                       .read(addBearEatsPostControllerProvider.notifier)
                       .addPost(
-                        title: _titleController.text,
-                        body: _bodyController.text,
-                        kakaoOpenChatLink: '',
-                        restaurant: _restaurantController.text,
-                        deliveryPlace: _deliveryPlaceController.text,
-                        deliveryTime: _deliveryTimeController.text,
-                      );
+                          title: _titleController.text,
+                          body: _bodyController.text,
+                          kakaoOpenChatLink: '',
+                          restaurant: _restaurantController.text,
+                          deliveryPlace: _deliveryPlaceController.text,
+                          deliveryTime: deliveryTime);
                   if (result && context.mounted) {
                     Navigator.of(context).pop();
                     context.showSnackBar(
@@ -234,7 +271,10 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: OrbTextField(
-                                    controller: _deliveryTimeController,
+                                    readOnly: true,
+                                    controller: TextEditingController(
+                                      text: deliveryTime,
+                                    ),
                                     style: OrbTextType.bodyMedium,
                                     hintText:
                                         '주문 시간을 입력해주세요(ex. 2024-10-13 18:00)',
@@ -243,7 +283,12 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
                                     onChanged: (value) {
                                       setState(() {});
                                     },
-                                    textInputAction: TextInputAction.done,
+                                    onTap: () async {
+                                      await _selectDateTime(
+                                        context: context,
+                                        isStartTime: true,
+                                      );
+                                    },
                                     fillColor: Colors.transparent,
                                     boarderColor: Colors.transparent,
                                   ),

@@ -39,6 +39,10 @@ class AuthUseCases {
     return loginToken;
   }
 
+  Future<bool> checkValidUser() async {
+    return await authRemoteRepository.checkValidUser();
+  }
+
   Future<LoginToken> reissueToken({
     required String accessToken,
     required String refreshToken,

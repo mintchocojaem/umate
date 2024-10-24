@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/features/board/domain/use_cases/with_dku/bear_eats_use_cases.dart';
 import 'package:umate/src/features/board/presentation/controllers/board_controller.dart';
 
+import '../../../../../user/domain/use_cases/auth_use_cases.dart';
+
 final addBearEatsPostControllerProvider =
     AsyncNotifierProvider.autoDispose<AddBearEatsPostController, void>(
   () => AddBearEatsPostController(),
@@ -14,11 +16,12 @@ class AddBearEatsPostController extends AutoDisposeAsyncNotifier<void> {
   CancelToken? _cancelToken;
 
   @override
-  FutureOr<void> build() {
+  Future<void> build() async {
+    await ref.read(authUseCasesProvider).checkValidUser();
     ref.onDispose(() {
       _cancelToken?.cancel();
     });
-    return null;
+    return;
   }
 
   Future<bool> addPost({
