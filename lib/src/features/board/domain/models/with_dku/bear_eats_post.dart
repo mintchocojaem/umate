@@ -18,6 +18,7 @@ class BearEatsPost extends Post {
   final bool applied;
   final String gender;
   final String major;
+  final String status;
 
   BearEatsPost({
     required super.id,
@@ -39,6 +40,7 @@ class BearEatsPost extends Post {
     this.applied = false,
     this.gender = '알 수 없음',
     this.major = '알 수 없음',
+    required this.status,
   });
 
   factory BearEatsPost.fromJson(Map<String, dynamic> json) =>

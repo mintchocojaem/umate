@@ -34,6 +34,7 @@ EatingAlonePost _$EatingAlonePostFromJson(Map<String, dynamic> json) =>
           const [],
       recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
       applied: json['applied'] as bool? ?? false,
+      status: json['status'] as String,
     );
 
 Map<String, dynamic> _$EatingAlonePostToJson(EatingAlonePost instance) =>
@@ -54,4 +55,5 @@ Map<String, dynamic> _$EatingAlonePostToJson(EatingAlonePost instance) =>
       'recruitedUsers': instance.recruitedUsers.map((e) => e.toJson()).toList(),
       'recruitedCount': instance.recruitedCount,
       'applied': instance.applied,
+      'status': instance.status,
     };

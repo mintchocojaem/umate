@@ -29,6 +29,7 @@ DankookTradePost _$DankookTradePostFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String,
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
+      kakaoOpenChatLink: json['kakaoOpenChatLink'] as String? ?? '',
     );
 
 Map<String, dynamic> _$DankookTradePostToJson(DankookTradePost instance) =>
@@ -48,4 +49,5 @@ Map<String, dynamic> _$DankookTradePostToJson(DankookTradePost instance) =>
       'status': instance.status,
       'gender': instance.gender,
       'major': instance.major,
+      'kakaoOpenChatLink': instance.kakaoOpenChatLink,
     };

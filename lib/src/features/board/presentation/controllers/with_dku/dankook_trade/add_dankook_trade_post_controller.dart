@@ -30,6 +30,7 @@ class AddDankookTradePostController extends AutoDisposeAsyncNotifier<void> {
     required String price,
     required String body,
     required String tradePlace,
+    required String kakaoOpenChatLink,
     required List<String> images,
   }) async {
     _cancelToken?.cancel();
@@ -41,6 +42,7 @@ class AddDankookTradePostController extends AutoDisposeAsyncNotifier<void> {
             body: body,
             price: price,
             tradePlace: tradePlace,
+            kakaoOpenChatLink: kakaoOpenChatLink,
             images: images,
           ),
     );

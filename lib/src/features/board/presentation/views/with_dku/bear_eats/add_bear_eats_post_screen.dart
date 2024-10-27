@@ -56,19 +56,28 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
     required BuildContext context,
     required bool isStartTime,
   }) async {
+    final DateTime now = DateTime.now();
     final DateTime? selectedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        const Duration(days: 365),
-      ),
+      initialDate: now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
     );
 
     if (selectedDate != null && context.mounted) {
+      final TimeOfDay initialTime = (selectedDate.day == now.day)
+          ? TimeOfDay(hour: now.hour, minute: now.minute)
+          : TimeOfDay(hour: 0, minute: 0);
+
       final TimeOfDay? selectedTime = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initialTime,
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context),
+            child: child!,
+          );
+        },
       );
 
       if (selectedTime != null) {
@@ -80,12 +89,24 @@ class _AddBearEatsPostScreen extends ConsumerState<AddBearEatsPostScreen> {
           selectedTime.minute,
         );
 
-        // 날짜와 시간을 원하는 형식으로 포맷팅
+        if (selectedDate.day == now.day &&
+            (selectedTime.hour < now.hour ||
+                (selectedTime.hour == now.hour &&
+                    selectedTime.minute < now.minute))) {
+          if (!context.mounted) return;
+          context.showSnackBar(
+            message: '현재 시간 이후로만 선택할 수 있습니다.',
+          );
+          return;
+        }
+
         final String formattedDateTime =
             DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
 
         setState(() {
-          deliveryTime = formattedDateTime;
+          if (isStartTime) {
+            deliveryTime = formattedDateTime;
+          }
         });
       }
     }

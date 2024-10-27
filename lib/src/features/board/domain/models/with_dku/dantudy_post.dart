@@ -14,9 +14,11 @@ class DantudyPost extends Post {
   final String gender;
   final String major;
   final List<RecruitedUserInfo> recruitedUsers;
+  final int minStudentId;
   final int recruitedCount;
   final String studyDate;
   final bool applied;
+  final String status;
 
   DantudyPost({
     required super.id,
@@ -29,14 +31,16 @@ class DantudyPost extends Post {
     super.views,
     super.mine,
     super.blinded,
-    this.kakaoOpenChatLink = '',
+    this.kakaoOpenChatLink = '알 수 없음',
     this.recruitedCount = 0,
     this.gender = '알 수 없음',
     this.major = '알 수 없음',
     this.recruitedUsers = const [],
-    this.tag = '',
-    this.studyDate = '',
+    this.minStudentId = 0,
+    this.tag = '없음',
+    this.studyDate = '알 수 없음',
     this.applied = false,
+    required this.status,
   });
 
   factory DantudyPost.fromJson(Map<String, dynamic> json) =>

@@ -59,12 +59,14 @@ class _DantudyBoardScreenState extends ConsumerState<DantudyBoardScreen>
         },
         postTagItems: (post) => [
           PostTagItem(
+            title: post.status,
+          ),
+          PostTagItem(
             title: "${post.recruitedCount}명 모집",
           ),
-          if (post.tag != null)
-            PostTagItem(
-              title: "${post.tag}",
-            ),
+          PostTagItem(
+            title: post.tag,
+          ),
         ],
         onTapPost: (post) {
           ref.read(routerServiceProvider).pushNamed(

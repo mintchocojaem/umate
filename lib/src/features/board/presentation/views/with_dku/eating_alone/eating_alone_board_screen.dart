@@ -59,6 +59,9 @@ class _EatingAloneBoardScreenState extends ConsumerState<EatingAloneBoardScreen>
         },
         postTagItems: (post) => [
           PostTagItem(
+            title: post.status,
+          ),
+          PostTagItem(
             title: "${post.recruitedCount}명 모집",
           ),
         ],

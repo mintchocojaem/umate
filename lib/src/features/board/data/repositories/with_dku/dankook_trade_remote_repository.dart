@@ -63,6 +63,7 @@ class DankookTradeRemoteRepository extends RemoteRepository {
     required String body,
     required String tradePlace,
     required List<String> images,
+    required String kakaoOpenChatLink,
   }) async {
     final result = await client.request(
       path: '/with-dankook/trade',
@@ -75,6 +76,7 @@ class DankookTradeRemoteRepository extends RemoteRepository {
         'body': body,
         'price': price,
         'tradePlace': tradePlace,
+        'kakaoOpenChatLink': kakaoOpenChatLink,
         if (images.isNotEmpty)
           'images': images
               .map(

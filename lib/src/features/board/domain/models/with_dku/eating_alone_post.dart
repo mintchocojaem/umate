@@ -15,6 +15,7 @@ class EatingAlonePost extends Post {
   final List<RecruitedUserInfo> recruitedUsers;
   final int recruitedCount;
   final bool applied;
+  final String status;
 
   EatingAlonePost({
     required super.id,
@@ -33,6 +34,7 @@ class EatingAlonePost extends Post {
     this.recruitedUsers = const [],
     this.recruitedCount = 0,
     this.applied = false,
+    required this.status,
   });
 
   factory EatingAlonePost.fromJson(Map<String, dynamic> json) =>

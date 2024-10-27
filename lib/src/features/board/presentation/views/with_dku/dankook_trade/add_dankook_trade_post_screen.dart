@@ -22,6 +22,7 @@ class _AddDankookTradePostScreen
   late final TextEditingController _bodyController;
   late final TextEditingController _priceController;
   late final TextEditingController _tradePlaceController;
+  late final TextEditingController _openChatLinkController;
 
   final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _bodyFocusNode = FocusNode();
@@ -36,6 +37,7 @@ class _AddDankookTradePostScreen
     _bodyController = TextEditingController();
     _priceController = TextEditingController();
     _tradePlaceController = TextEditingController();
+    _openChatLinkController = TextEditingController();
   }
 
   @override
@@ -45,6 +47,7 @@ class _AddDankookTradePostScreen
     _bodyController.dispose();
     _priceController.dispose();
     _tradePlaceController.dispose();
+    _openChatLinkController.dispose();
 
     _titleFocusNode.dispose();
     _bodyFocusNode.dispose();
@@ -80,6 +83,14 @@ class _AddDankookTradePostScreen
                 buttonTextType: OrbButtonTextType.medium,
                 buttonRadius: OrbButtonRadius.small,
                 onPressed: () async {
+                  if (!_openChatLinkController.text
+                      .contains('https://open.kakao.com/o/')) {
+                    context.showSnackBar(
+                      message: '올바른 오픈채팅 링크를 입력해주세요.',
+                    );
+                    return;
+                  }
+
                   final result = await ref
                       .read(addDankookTradePostControllerProvider.notifier)
                       .addPost(
@@ -87,6 +98,7 @@ class _AddDankookTradePostScreen
                         body: _bodyController.text,
                         price: _priceController.text,
                         tradePlace: _tradePlaceController.text,
+                        kakaoOpenChatLink: _openChatLinkController.text,
                         images: image.map((e) => e.path).toList(),
                       );
                   if (result && context.mounted) {
@@ -239,6 +251,34 @@ class _AddDankookTradePostScreen
                                       setState(() {});
                                     },
                                     textInputAction: TextInputAction.done,
+                                    fillColor: Colors.transparent,
+                                    boarderColor: Colors.transparent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 56,
+                                  child: OrbText(
+                                    '오픈채팅 링크',
+                                    fontWeight: OrbFontWeight.medium,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: OrbTextField(
+                                    controller: _openChatLinkController,
+                                    style: OrbTextType.bodyMedium,
+                                    hintText:
+                                        '카카오톡을 통해 오픈채팅방을 생성 후 링크를 입력해주세요.',
+                                    maxLength: 40,
+                                    maxLines: 2,
+                                    onChanged: (value) {
+                                      setState(() {});
+                                    },
+                                    textInputAction: TextInputAction.next,
                                     fillColor: Colors.transparent,
                                     boarderColor: Colors.transparent,
                                   ),

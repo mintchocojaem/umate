@@ -36,6 +36,7 @@ BearEatsPost _$BearEatsPostFromJson(Map<String, dynamic> json) => BearEatsPost(
       applied: json['applied'] as bool? ?? false,
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
+      status: json['status'] as String,
     );
 
 Map<String, dynamic> _$BearEatsPostToJson(BearEatsPost instance) =>
@@ -59,4 +60,5 @@ Map<String, dynamic> _$BearEatsPostToJson(BearEatsPost instance) =>
       'applied': instance.applied,
       'gender': instance.gender,
       'major': instance.major,
+      'status': instance.status,
     };

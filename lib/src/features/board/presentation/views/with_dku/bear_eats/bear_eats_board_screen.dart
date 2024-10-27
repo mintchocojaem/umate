@@ -59,13 +59,13 @@ class _BearEatsBoardScreenState extends ConsumerState<BearEatsBoardScreen>
         },
         postTagItems: (post) => [
           PostTagItem(
+            title: post.status,
+          ),
+          PostTagItem(
             title: '${post.recruitedCount}명 모집',
           ),
           PostTagItem(
-            title: post.restaurant,
-          ),
-          PostTagItem(
-            title: post.deliveryPlace,
+            title: post.deliveryTime,
           ),
         ],
         onTapPost: (post) {

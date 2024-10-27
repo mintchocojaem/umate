@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/services/router/router_service.dart';
 import '../../../../../../core/utils/app_exception.dart';
@@ -338,7 +339,8 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
               const SizedBox(height: 8),
               data.mine
                   ? OrbFilledButton(
-                      text: "판매 마감하기",
+                      text: data.status == "판매중" ? "판매 마감하기" : "판매가 마감되었습니다.",
+                      disabled: data.status != "판매중",
                       backgroundColor: context.palette.error,
                       onPressed: () async {
                         final result = await ref
@@ -354,8 +356,14 @@ class DankookTradePostScreen extends ConsumerWidget with DateTimeFormatter {
                       },
                     )
                   : OrbFilledButton(
-                      text: "채팅하기",
-                      onPressed: () {},
+                      text: data.status == "판매중" ? "채팅하기" : "판매가 마감되었습니다.",
+                      disabled: data.status != "판매중" ||
+                          data.kakaoOpenChatLink.isEmpty,
+                      onPressed: () {
+                        if (data.kakaoOpenChatLink.isNotEmpty) {
+                          launchUrlString(data.kakaoOpenChatLink);
+                        }
+                      },
                     ),
             ],
           );

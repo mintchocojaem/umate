@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:umate/src/core/utils/extensions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/services/router/router_service.dart';
 import '../../../../../../core/utils/app_exception.dart';
@@ -333,12 +334,22 @@ class BearEatsPostScreen extends ConsumerWidget with DateTimeFormatter {
                             const SizedBox(
                               height: 8,
                             ),
-                            OrbText(
-                              data.kakaoOpenChatLink.isEmpty
-                                  ? '게시글 마감 후 공개됩니다'
-                                  : data.kakaoOpenChatLink,
-                              type: OrbTextType.bodyMedium,
-                              maxLines: 1,
+                            InkWell(
+                              child: OrbText(
+                                data.kakaoOpenChatLink.isEmpty
+                                    ? '게시글 마감 후 공개됩니다.'
+                                    : data.kakaoOpenChatLink,
+                                type: OrbTextType.bodyMedium,
+                                color: data.kakaoOpenChatLink.isEmpty
+                                    ? null
+                                    : context.palette.primary,
+                                maxLines: 1,
+                              ),
+                              onTap: () {
+                                if (data.kakaoOpenChatLink.isNotEmpty) {
+                                  launchUrlString(data.kakaoOpenChatLink);
+                                }
+                              },
                             ),
                           ],
                         ),

@@ -53,6 +53,7 @@ class DankookTradeUseCases extends BoardUseCases {
     required String price,
     required String body,
     required String tradePlace,
+    required String kakaoOpenChatLink,
     required List<String> images,
   }) async {
     return await dankookTradeRemoteRepository.addPost(
@@ -61,6 +62,7 @@ class DankookTradeUseCases extends BoardUseCases {
       price: price,
       body: body,
       tradePlace: tradePlace,
+      kakaoOpenChatLink: kakaoOpenChatLink,
       images: images,
     );
   }

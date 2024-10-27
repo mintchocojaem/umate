@@ -161,31 +161,34 @@ class PostPreviewCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  for (int i = 0; i < tags.length; i++)
-                    Container(
-                      margin: const EdgeInsets.only(right: 8, top: 8),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: i == 0 ? context.palette.secondary : null,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: context.palette.secondary,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (int i = 0; i < tags.length; i++)
+                      Container(
+                        margin: const EdgeInsets.only(right: 8, top: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: i == 0 ? context.palette.secondary : null,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: context.palette.secondary,
+                          ),
+                        ),
+                        child: OrbText(
+                          tags[i].title,
+                          type: OrbTextType.bodySmall,
+                          color: i == 0
+                              ? context.palette.onSecondary
+                              : context.palette.secondary,
                         ),
                       ),
-                      child: OrbText(
-                        tags[i].title,
-                        type: OrbTextType.bodySmall,
-                        color: i == 0
-                            ? context.palette.onSecondary
-                            : context.palette.secondary,
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
