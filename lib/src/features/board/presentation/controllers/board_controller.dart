@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:umate/src/core/utils/app_exception.dart';
 
 import '../../domain/models/board.dart';
 import '../../domain/models/post.dart';
@@ -78,10 +79,15 @@ abstract class BoardController<P extends Post>
         _page++;
       },
       error: (error, stackTrace) {
-        state = AsyncError(
-          error,
-          stackTrace,
-        );
+        if (error is! AppNetworkError) {
+          return;
+        }
+        if (error.type != DioExceptionType.cancel) {
+          state = AsyncError(
+            error,
+            stackTrace,
+          );
+        }
       },
     );
   }

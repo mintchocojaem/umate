@@ -31,7 +31,7 @@ class DantudyPost extends Post {
     super.views,
     super.mine,
     super.blinded,
-    this.kakaoOpenChatLink = '알 수 없음',
+    this.kakaoOpenChatLink = '',
     this.recruitedCount = 0,
     this.gender = '알 수 없음',
     this.major = '알 수 없음',

@@ -491,7 +491,8 @@ class BearEatsPostScreen extends ConsumerWidget with DateTimeFormatter {
               const SizedBox(height: 8),
               data.mine
                   ? OrbFilledButton(
-                      text: "모집 마감하기",
+                      text: data.status == "모집중" ? "모집 마감하기" : "모집이 마감되었습니다",
+                      disabled: data.status != "모집중",
                       backgroundColor: context.palette.error,
                       onPressed: () async {
                         final result = await ref

@@ -165,6 +165,13 @@ class _AddDantudyPostScreen extends ConsumerState<AddDantudyPostScreen> {
                     return;
                   }
 
+                  if (_tagController.text.isEmpty) {
+                    context.showSnackBar(
+                      message: '태그를 입력해주세요.',
+                    );
+                    return;
+                  }
+
                   if (!_openChatLinkController.text
                       .contains('https://open.kakao.com/o/')) {
                     context.showSnackBar(

@@ -23,7 +23,7 @@ DantudyPost _$DantudyPostFromJson(Map<String, dynamic> json) => DantudyPost(
       views: (json['views'] as num?)?.toInt() ?? 0,
       mine: json['mine'] as bool? ?? false,
       blinded: json['blinded'] as bool? ?? false,
-      kakaoOpenChatLink: json['kakaoOpenChatLink'] as String? ?? '알 수 없음',
+      kakaoOpenChatLink: json['kakaoOpenChatLink'] as String? ?? '',
       recruitedCount: (json['recruitedCount'] as num?)?.toInt() ?? 0,
       gender: json['gender'] as String? ?? '알 수 없음',
       major: json['major'] as String? ?? '알 수 없음',
