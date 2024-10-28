@@ -24,7 +24,7 @@ class EatingAloneRemoteRepository extends RemoteRepository {
     List<String>? sort,
   }) async {
     final result = await client.request(
-      path: '/with-dankook/eating-alones',
+      path: '/with-dankook/eating-alone',
       method: RequestType.get,
       queryParameters: {
         'keyword': keyword,

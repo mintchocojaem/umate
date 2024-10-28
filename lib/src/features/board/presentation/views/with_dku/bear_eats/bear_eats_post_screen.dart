@@ -507,8 +507,12 @@ class BearEatsPostScreen extends ConsumerWidget with DateTimeFormatter {
                       },
                     )
                   : OrbFilledButton(
-                      text: data.applied ? "참여 신청 완료" : "참여하기",
-                      disabled: data.applied,
+                      text: data.applied
+                          ? "참여 신청 완료"
+                          : data.status == "모집중"
+                              ? "참여 신청하기"
+                              : "모집이 마감되었습니다",
+                      disabled: data.applied || data.status != "모집중",
                       onPressed: () async {
                         final result = await ref
                             .read(bearEatsPostControllerProvider(id).notifier)
