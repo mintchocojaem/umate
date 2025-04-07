@@ -26,8 +26,7 @@ U Mate는 총학생회와 협업하여 총학생회의 공지사항과 이벤트
 단국대 주요 버스 도착 예정 정보 제공
 
 <img width="1024" alt="store_banner_1" src="https://github.com/user-attachments/assets/d7fe76b7-719b-42f8-90b2-98843e71422c" />
-
-<img width="1318" alt="스크린샷 2025-04-07 오후 2 37 21" src="https://github.com/user-attachments/assets/5f8213f0-9186-4a6a-af1f-e03a055fc3d7" />
+<img width="1142" alt="스크린샷 2025-04-07 오후 2 43 21" src="https://github.com/user-attachments/assets/e09289fa-b960-4c05-ba88-3ba50ddec5de" />
 
 ## Figma
 <img width="810" alt="스크린샷 2025-04-07 오후 2 40 15" src="https://github.com/user-attachments/assets/2bdaeea5-081d-41dd-bdb7-c4eca1c87fc5" />
